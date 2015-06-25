@@ -10,13 +10,24 @@ lpp::Script::Script(const std::string& script_name)
 
 lpp::Script::~Script()
 {
-	lua_close(l_state);
+	if(l_state)
+		lua_close(l_state);
+}
+
+bool lpp::Script::errors() const
+{
+	return error_que_.size() > 0;
+}
+
+void lpp::Script::register_error(const std::string& err_msg)
+{
+	error_que_.push_back(err_msg);
 }
 
 /*
  * lpp::Exception definition:
  */
-std::string lpp::Exception::what()
+const std::string& lpp::Exception::what() const
 {
 	return message_;
 }
