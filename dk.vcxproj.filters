@@ -18,13 +18,16 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LppScript.cpp">
+    <ClCompile Include="lppscript\LppScript.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LppScript.hpp">
+    <ClInclude Include="lppscript\LppScript.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="scripts\test.lua" />
   </ItemGroup>
 </Project>
