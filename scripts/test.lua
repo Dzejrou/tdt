@@ -1,3 +1,5 @@
+show_msg("This is actually from Lua!")
+
 programmer = {
 	name = "Dzejrou",
 	age = 23,

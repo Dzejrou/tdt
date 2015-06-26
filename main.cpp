@@ -5,11 +5,20 @@
 
 #include "LppScript/LppScript.hpp"
 
+int show_msg(lpp::Script::state L)
+{
+	std::string s = lua_tostring(L, -1);
+	MessageBoxA(nullptr, s.c_str(), "Message from Lua:", 0);
+	return 0;
+}
+
 INT WINAPI WinMain(HINSTANCE hinst, HINSTANCE hprev, LPSTR cmd, int cmd_show)
 {
 	try
 	{
-		lpp::Script script{"scripts/test.lua"};
+		lpp::Script script{};
+		script.register_function("show_msg", show_msg);
+		script.load("scripts/test.lua");
 		std::string name = script.get<std::string>("programmer.name");
 		MessageBoxA(nullptr, name.c_str(), "Name:", 0);
 

@@ -9,12 +9,16 @@ namespace lpp
 class Script
 {
 	public:
+		using state = lua_State*;
+
 		Script();
 		Script(const std::string&);
 		Script(Script&&);
 		~Script() { if(L) lua_close(L); }
 
 		void excecute(const std::string&);
+		void register_function(const std::string&, lua_CFunction);
+		void load(const std::string&);
 
 		template<typename T>
 		T get(const std::string& name)
@@ -74,7 +78,7 @@ class Script
 			throw Exception("[Error][Lua] Trying to push an argument of an invalid type.");
 		}
 
-		lua_State* L;
+		state L;
 };
 
 class Exception
@@ -111,6 +115,24 @@ inline int Script::get_<int>(const std::string& name)
 		throw Exception("[Error][Lua] Cannot retrieve a variable because of type mismatch: " + name);
 }
 
+template<>
+inline double Script::get_<double>(const std::string& name)
+{
+	if(lua_isnumber(L, -1))
+		return lua_tonumber(L, -1);
+	else
+		throw Exception("[Error][Lua] Cannot retrieve a variable because of type mismatch: " + name);
+}
+
+template<>
+inline bool Script::get_<bool>(const std::string& name)
+{
+	if(lua_isboolean(L, -1))
+		return lua_toboolean(L, -1);
+	else
+		throw Exception("[Error][Lua] Cannot retrieve a variable because of type mismatch: " + name);
+}
+
 
 
 /**
@@ -135,5 +157,10 @@ inline void Script::push_arg<char*>(char* arg)
 	lua_pushstring(L, arg);
 }
 
+template<>
+inline void Script::push_arg<bool>(bool arg)
+{
+	lua_pushboolean(L, arg);
+}
 
 } // Namespace lpp.

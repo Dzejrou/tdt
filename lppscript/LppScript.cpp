@@ -29,6 +29,18 @@ void lpp::Script::excecute(const std::string& command)
 		throw Exception("[Error][Lua] Cannot execute a command in a Lua script: " + command);
 }
 
+void lpp::Script::register_function(const std::string& name, lua_CFunction fn)
+{
+	lua_pushcfunction(L, fn);
+	lua_setglobal(L, name.c_str());
+}
+
+void lpp::Script::load(const std::string& fname)
+{
+	if(luaL_dofile(L, fname.c_str()))
+		throw Exception("[Error][Lua] Cannot load script: " + fname);
+}
+
 std::string lpp::Script::get_field_to_stack(const std::string& name)
 {
 	std::istringstream iss(name);
