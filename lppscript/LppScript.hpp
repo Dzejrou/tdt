@@ -6,6 +6,10 @@
 namespace lpp
 {
 
+/**
+ * Class representing a Lua script, allows to register C++ functions, load variables, call functions,
+ * execute strings containing Lua code and other functionalities.
+ */
 class Script
 {
 	public:
@@ -16,7 +20,7 @@ class Script
 		Script(Script&&);
 		~Script() { if(L) lua_close(L); }
 
-		void excecute(const std::string&);
+		void execute(const std::string&);
 		void register_function(const std::string&, lua_CFunction);
 		void load(const std::string&);
 
@@ -49,6 +53,11 @@ class Script
 			return get_<Result>();
 		}
 
+		template<typename T>
+		void register_value(const std::string& name, T val)
+		{
+			execute(name + " = " + std::to_string(val));
+		}
 	private:
 		std::string get_field_to_stack(const std::string& name);
 		
@@ -81,6 +90,9 @@ class Script
 		state L;
 };
 
+/**
+ * Exception class used to throw exception from the Script class.
+ */
 class Exception
 {
 	public:
@@ -128,7 +140,7 @@ template<>
 inline bool Script::get_<bool>(const std::string& name)
 {
 	if(lua_isboolean(L, -1))
-		return lua_toboolean(L, -1);
+		return (bool)lua_toboolean(L, -1);
 	else
 		throw Exception("[Error][Lua] Cannot retrieve a variable because of type mismatch: " + name);
 }
@@ -152,15 +164,34 @@ inline void Script::push_arg<double>(double arg)
 }
 
 template<>
-inline void Script::push_arg<char*>(char* arg)
+inline void Script::push_arg<const std::string&>(const std::string& arg)
 {
-	lua_pushstring(L, arg);
+	lua_pushstring(L, arg.c_str());
 }
 
 template<>
 inline void Script::push_arg<bool>(bool arg)
 {
 	lua_pushboolean(L, arg);
+}
+
+
+
+/**
+ * Specializations for the method lpp::Script::register_value, for std::string it avoids calling
+ * the std::to_string function and stores bools manually (std::to_strings converts it to 0 or 1,
+ * which would cause lpp::Script::get throw, because Lua would interpret it as an integer).
+ */
+template<>
+inline void Script::register_value<const std::string&>(const std::string& name, const std::string& val)
+{
+	execute(name + " = '" + val + "'");
+}
+
+template<>
+inline void Script::register_value<bool>(const std::string& name, bool val)
+{
+	execute(name + " = " + (val ? "true" : "false"));
 }
 
 } // Namespace lpp.

@@ -23,7 +23,7 @@ lpp::Script::Script(Script&& other)
 	other.L = nullptr;
 }
 
-void lpp::Script::excecute(const std::string& command)
+void lpp::Script::execute(const std::string& command)
 {
 	if(luaL_dostring(L, command.c_str()))
 		throw Exception("[Error][Lua] Cannot execute a command in a Lua script: " + command);
@@ -31,8 +31,7 @@ void lpp::Script::excecute(const std::string& command)
 
 void lpp::Script::register_function(const std::string& name, lua_CFunction fn)
 {
-	lua_pushcfunction(L, fn);
-	lua_setglobal(L, name.c_str());
+	lua_register(L, name.c_str(), fn);
 }
 
 void lpp::Script::load(const std::string& fname)
