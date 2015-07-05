@@ -32,7 +32,6 @@ int main(int argc, char** argv)
 	try
 	{
         lua_test();
-		
 	}
 	catch(const Ogre::Exception& ex)
 	{
@@ -59,6 +58,12 @@ int main(int argc, char** argv)
 	return 0;
 }
 
+/**
+ * Brief: Prints a message to the screen, either in a message box (win) or to the
+ *        command line.
+ * Param: The message to be printed.
+ * Param: The title of the message (top bar of the message box, start of the console output).
+ */
 void print_msg(const std::string& msg, const std::string& title = "NULL")
 {
 #ifdef WIN32
@@ -68,26 +73,34 @@ void print_msg(const std::string& msg, const std::string& title = "NULL")
 #endif
 }
 
+/**
+ * Brief: Set of tests designet to make sure all of the aspects of the lpp::Script class
+ *        are working properly.
+ */
 void lua_test()
 {
     lpp::Script& script = lpp::Script::get_singleton();
     script.register_function("show_msg", show_msg);
     script.load("scripts/test.lua");
+
     std::string name = script.get<std::string>("programmer.name");
     print_msg(name, "Name:");
 
     int age = script.get<int>("programmer.age");
-    print_msg(std::to_string(age).c_str(), "Age:");
+    print_msg(std::to_string(age), "Age:");
+
+    std::string course = script.get<std::string>("course");
+    print_msg(course);
 
     script.execute("programmer.project = 'dungeon keeper'");
     std::string project = script.get<std::string>("programmer.project");
-    print_msg(project.c_str(), "Project:");
+    print_msg(project, "Project:");
 
     int res = script.call<int, int, int, int, int>("sum", 1, 2, 3, 4);
-    print_msg(std::to_string(res).c_str(), "Result of sum:");
+    print_msg(std::to_string(res), "Result of sum:");
 
     std::string univ = script.get<std::string>("programmer.history.university");
-    print_msg(univ.c_str(), "University:");
+    print_msg(univ, "University:");
 
     script.register_value<bool>("lol", true);
     bool lol = script.get<bool>("lol");

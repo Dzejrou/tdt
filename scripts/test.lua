@@ -12,6 +12,7 @@ get_block_id = function(x, y)
 	return board[x][y]
 end
 
+course = "Bachelor's thesis."
 programmer = {
 	name = "Dzejrou",
 	age = 23,

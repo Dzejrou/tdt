@@ -5,7 +5,7 @@ class Entity;
 
 class GraphicsComponent
 {
-    private:
+    public:
         virtual ~GraphicsComponent() {}
         virtual void update(Entity&) = 0;
 };
