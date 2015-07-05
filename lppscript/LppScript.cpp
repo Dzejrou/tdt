@@ -2,18 +2,16 @@
 #include <sstream>
 
 /**
+ * Static member (singleton) initialization.
+ */
+std::unique_ptr<lpp::Script> lpp::Script::script_{nullptr};
+
+/**
  * lpp::Script definitions:
  */
 lpp::Script::Script()
 {
 	L = luaL_newstate();
-	luaL_openlibs(L);
-}
-lpp::Script::Script(const std::string& fname)
-{
-	L = luaL_newstate();
-	if(luaL_dofile(L, fname.c_str()))
-		throw Exception("Error loading a script: " + fname);
 	luaL_openlibs(L);
 }
 
@@ -56,6 +54,20 @@ std::string lpp::Script::get_field_to_stack(const std::string& name)
 		lua_remove(L, -2);
 	}
 	return tmp; // Last field name.
+}
+
+lpp::Script& lpp::Script::get_singleton()
+{
+    if(!script_)
+        script_.reset(new Script());
+    return *script_;
+}
+
+lpp::Script* lpp::Script::get_singleton_ptr()
+{
+    if(!script_)
+        script_.reset(new Script());
+    return script_.get();
 }
 
 /**

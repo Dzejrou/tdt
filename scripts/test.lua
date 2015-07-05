@@ -1,5 +1,17 @@
 show_msg("This is actually from Lua!")
 
+board = {
+	{0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0},
+	{0, 0, 2, 0, 0},
+	{0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0}
+}
+
+get_block_id = function(x, y)
+	return board[x][y]
+end
+
 programmer = {
 	name = "Dzejrou",
 	age = 23,

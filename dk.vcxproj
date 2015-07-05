@@ -23,6 +23,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="components\Component.hpp" />
+    <ClInclude Include="Entity.hpp" />
     <ClInclude Include="lppscript\LppScript.hpp" />
   </ItemGroup>
   <ItemGroup>

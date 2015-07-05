@@ -2,6 +2,7 @@
 
 #include <lua.hpp>
 #include <string>
+#include <memory>
 
 namespace lpp
 {
@@ -15,8 +16,6 @@ class Script
 	public:
 		using state = lua_State*;
 
-		Script();
-		Script(const std::string&);
 		Script(Script&&);
 		~Script() { if(L) lua_close(L); }
 
@@ -58,8 +57,14 @@ class Script
 		{
 			execute(name + " = " + std::to_string(val));
 		}
+
+        static Script& get_singleton();
+        static Script* get_singleton_ptr();
 	private:
+        Script();
 		std::string get_field_to_stack(const std::string& name);
+
+        static std::unique_ptr<Script> script_;
 		
 		template<typename T>
 		T get_(const std::string& name = "unknown")
@@ -145,6 +150,12 @@ inline bool Script::get_<bool>(const std::string& name)
 		throw Exception("[Error][Lua] Cannot retrieve a variable because of type mismatch: " + name);
 }
 
+template<>
+inline void Script::get_<void>(const std::string& name)
+{
+    // Note: Cannot make a partial specialization for the lpp::Script::call method, this dummy specialization
+    //       will ensure that when a Lua function does not return, the lpp::Script::call won't throw.
+}
 
 
 /**
@@ -193,5 +204,7 @@ inline void Script::register_value<bool>(const std::string& name, bool val)
 {
 	execute(name + " = " + (val ? "true" : "false"));
 }
+
+
 
 } // Namespace lpp.
