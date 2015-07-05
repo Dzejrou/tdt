@@ -8,7 +8,7 @@
 class Entity
 {
     public:
-        Entity(InputComponent*, PhysicsComponent*, GraphicsComponent*, int, int, int);
+        Entity(float, float, float, InputComponent*, PhysicsComponent*, GraphicsComponent*);
         ~Entity() { /* DUMMY BODY */ }
         void update();
 

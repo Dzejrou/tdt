@@ -1,6 +1,9 @@
 #pragma once
 
+#include <Ogre.h>
+
 #include <chrono>
+#include <memory>
 
 enum class GAME_STATE
 {
@@ -10,7 +13,7 @@ enum class GAME_STATE
 class Game
 {
     using clock = std::chrono::high_resolution_clock;
-    using frame = std::chrono::duration<std::chrono::nanoseconds, std::ratio<1, 60>>;
+    using frame = std::chrono::duration<long long, std::ratio<1, 60>>;
     using point = std::chrono::time_point<clock>;
 
     public:
@@ -23,4 +26,6 @@ class Game
         void render();
     private:
         GAME_STATE state_;
+
+        std::unique_ptr<Ogre::Root> root_;
 };

@@ -1,7 +1,7 @@
 #include "Entity.hpp"
 
-Entity::Entity(InputComponent* in, PhysicsComponent* ph, GraphicsComponent* gr,
-               int x, int y, int z)
+Entity::Entity(float x, float y, float z,
+               InputComponent* in, PhysicsComponent* ph, GraphicsComponent* gr)
     : input_{in}, physics_{ph}, graphics_{gr},
       x_{x}, y_{y}, z_{z}
 { /* DUMMY BODY */ }

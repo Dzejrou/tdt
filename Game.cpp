@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 Game::Game()
-    : state_{GAME_STATE::RUNNING}
+    : state_{GAME_STATE::RUNNING}, root_{new Ogre::Root()}
 { /* DUMMY BODY */ }
 
 void Game::run()
@@ -19,5 +19,7 @@ void Game::run()
         {
             // do the game stuff
         }
+
+        last_time = curr_time;
     }
 }

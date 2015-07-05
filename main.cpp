@@ -10,6 +10,7 @@
 #endif
 
 #include "LppScript/LppScript.hpp"
+#include "Game.hpp"
 
 void print_msg(const std::string&, const std::string&);
 
@@ -31,6 +32,7 @@ int main(int argc, char** argv)
 {
 	try
 	{
+        Game game{};
         lua_test();
 	}
 	catch(const Ogre::Exception& ex)
@@ -69,12 +71,12 @@ void print_msg(const std::string& msg, const std::string& title = "NULL")
 #ifdef WIN32
     MessageBoxA(nullptr, msg.c_str(), title.c_str(), 0);
 #else
-    std::cout << "[" << title << "]" << msg << std::endl;
+    std::cout << "[" << title << "] " << msg << std::endl;
 #endif
 }
 
 /**
- * Brief: Set of tests designet to make sure all of the aspects of the lpp::Script class
+ * Brief: Set of tests designed to make sure all of the aspects of the lpp::Script class
  *        are working properly.
  */
 void lua_test()
