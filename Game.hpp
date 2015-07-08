@@ -1,13 +1,14 @@
 #pragma once
 
 #include <Ogre.h>
+#include <OIS.h>
 
 #include <memory>
 #include <vector>
 
 #include "Entity.hpp"
 
-class Game : public Ogre::FrameListener
+class Game : public Ogre::FrameListener, public OIS::KeyListener, public OIS::MouseListener
 {
     public:
         Game();
@@ -18,9 +19,15 @@ class Game : public Ogre::FrameListener
         void update(Ogre::Real);
 
         bool frameRenderingQueued(const Ogre::FrameEvent&) override;
+        bool keyPressed(const OIS::KeyEvent&) override;
+        bool keyReleased(const OIS::KeyEvent&) override;
+        bool mouseMoved(const OIS::MouseEvent&) override;
+        bool mousePressed(const OIS::MouseEvent&, OIS::MouseButtonID) override;
+        bool mouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID) override;
 
     private:
         void ogre_init();
+        void ois_init();
 
         Ogre::SceneNode* test_node;
 
@@ -30,6 +37,10 @@ class Game : public Ogre::FrameListener
         Ogre::Camera* main_cam_;
         Ogre::Viewport* main_view_;
         Ogre::Light* main_light_;
+
+        OIS::InputManager* input_;
+        OIS::Keyboard* keyboard_;
+        OIS::Mouse* mouse_;
 
         std::vector<Entity> entities_;
 };
