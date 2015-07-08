@@ -1,11 +1,12 @@
 #include "Game.hpp"
 
 Game::Game()
-    : root_{nullptr}, window_{nullptr},
+    : state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
       scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
       main_view_{nullptr}
 {
     ogre_init();
+    ois_init();
 }
 
 void Game::run()
@@ -20,8 +21,10 @@ void Game::run()
 
 void Game::update(Ogre::Real delta)
 {
-    test_node->rotate(Ogre::Vector3(0, 0, 1), Ogre::Radian(0.001));
-
+    if(test_dir == 1)
+        test_node->rotate(Ogre::Vector3(0, 0, 1), Ogre::Radian(0.001));
+    else if(test_dir == 2)
+        test_node->rotate(Ogre::Vector3(0, 0, 1), Ogre::Radian(-0.001));
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
@@ -29,7 +32,58 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
     if(window_->isClosed())
         return false; // Will end the game.
 
+    keyboard_->capture();
+    mouse_->capture();
+
     update(event.timeSinceLastFrame);
+
+    // TODO:
+    // Research hypothesis - processor will assume false on conditionals.
+    if(state_ == GAME_STATE::ENDED)
+        return false;
+    else
+        return true;
+}
+
+bool Game::keyPressed(const OIS::KeyEvent& event)
+{
+    switch(event.key)
+    {
+        case OIS::KC_ESCAPE:
+            state_ = GAME_STATE::ENDED;
+            return false;
+        case OIS::KC_A:
+            test_dir = 1;
+            break;
+        case OIS::KC_D:
+            test_dir = 2;
+            break;
+    }
+
+    return true;
+}
+
+bool Game::keyReleased(const OIS::KeyEvent& event)
+{
+    if(event.key == OIS::KC_A || event.key == OIS::KC_D)
+        test_dir = 0;
+    return true;
+}
+
+bool Game::mouseMoved(const OIS::MouseEvent& event)
+{
+    //test_node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Radian(0.001));
+
+    return true;
+}
+
+bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
+{
+    return true;
+}
+
+bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
+{
     return true;
 }
 
@@ -88,4 +142,23 @@ void Game::ogre_init()
     main_light_->setPosition(20, 80, 50);
 
     root_->addFrameListener(this);
+}
+
+void Game::ois_init()
+{
+    OIS::ParamList pl;
+    std::size_t whnd = 0;
+    std::string whnd_str;
+
+    window_->getCustomAttribute("WINDOW", &whnd);
+    whnd_str = std::to_string(whnd);
+    pl.insert(std::make_pair(std::string("WINDOW"), whnd_str));
+
+    input_ = OIS::InputManager::createInputSystem(pl);
+
+    keyboard_ = static_cast<OIS::Keyboard*>(input_->createInputObject(OIS::OISKeyboard, true));
+    mouse_ = static_cast<OIS::Mouse*>(input_->createInputObject(OIS::OISMouse, true));
+
+    keyboard_->setEventCallback(this);
+    mouse_->setEventCallback(this);
 }

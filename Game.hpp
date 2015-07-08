@@ -8,6 +8,11 @@
 
 #include "Entity.hpp"
 
+enum class GAME_STATE
+{
+    RUNNING, ENDED
+};
+
 class Game : public Ogre::FrameListener, public OIS::KeyListener, public OIS::MouseListener
 {
     public:
@@ -29,6 +34,9 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener, public OIS::Mo
         void ogre_init();
         void ois_init();
 
+        GAME_STATE state_;
+
+        int test_dir{0};
         Ogre::SceneNode* test_node;
 
         std::unique_ptr<Ogre::Root> root_;
