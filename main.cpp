@@ -38,9 +38,10 @@ int main(int argc, char** argv)
 {
 	try
 	{
-        //Game game{};
+        Game game{};
+        game.run();
         //lua_test();
-        ogre_test();
+        //ogre_test();
 	}
 	catch(const Ogre::Exception& ex)
 	{
@@ -165,8 +166,8 @@ void ogre_test()
     cam->setPosition(0, 0, 80);
     cam->setNearClipDistance(5);
     auto view = window->addViewport(cam);
-    cam->setAspectRatio(Ogre::Real{view->getActualWidth()} /
-                        Ogre::Real{view->getActualHeight()});
+    cam->setAspectRatio(Ogre::Real(view->getActualWidth()) /
+                        Ogre::Real(view->getActualHeight()));
 
     auto light = scene->createLight("MainLight");
     //auto node = scene->createSceneNode();

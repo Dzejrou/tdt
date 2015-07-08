@@ -1,38 +1,37 @@
 #include "Game.hpp"
 
 Game::Game()
-    : state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
-      scene_mgr_{nullptr}, main_cam_{nullptr}
+    : root_{nullptr}, window_{nullptr},
+      scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
+      main_view_{nullptr}
 {
     ogre_init();
 }
 
-
-
 void Game::run()
 {
-    point last_time = clock::now();
-    point curr_time{};
-    frame frame_time{};
+    scene_mgr_->setAmbientLight(Ogre::ColourValue(.5, .5, .5));
+    auto ogre = scene_mgr_->createEntity("ogrehead.mesh");
+    test_node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
+    test_node->attachObject(ogre);
 
-    while(state_ != GAME_STATE::ENDED)
-    {
-        curr_time = clock::now();
-        auto delta_time = std::chrono::duration_cast<std::chrono::nanoseconds>(curr_time - last_time);
-
-        while(delta_time >= frame_time)
-        {
-            // do the game stuff
-
-            root_->renderOneFrame();
-            //delta_time -= frame_time;
-        }
-
-        last_time = curr_time;
-    }
+    root_->startRendering();
 }
 
+void Game::update(Ogre::Real delta)
+{
+    test_node->rotate(Ogre::Vector3(0, 0, 1), Ogre::Radian(0.001));
 
+}
+
+bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
+{
+    if(window_->isClosed())
+        return false; // Will end the game.
+
+    update(event.timeSinceLastFrame);
+    return true;
+}
 
 void Game::ogre_init()
 {
@@ -66,8 +65,7 @@ void Game::ogre_init()
 
     if(!(root_->restoreConfig() || root_->showConfigDialog()))
     {   // Configuration read failed, end the game.
-        state_ = GAME_STATE::ENDED;
-        return;
+        throw std::exception{"[Error] Failed to create or load config file."};
     }
     else
         root_->initialise(false);
@@ -84,8 +82,10 @@ void Game::ogre_init()
     main_cam_->setPosition(0, 0, 80);
     main_cam_->setNearClipDistance(5);
     main_view_ = window_->addViewport(main_cam_);
-    main_cam_->setAspectRatio(Ogre::Real{main_view_->getActualWidth()} /
-                              Ogre::Real{main_view_->getActualHeight()});
+    main_cam_->setAspectRatio(Ogre::Real(main_view_->getActualWidth()) /
+                              Ogre::Real(main_view_->getActualHeight()));
     main_light_ = scene_mgr_->createLight("MainLight");
     main_light_->setPosition(20, 80, 50);
+
+    root_->addFrameListener(this);
 }

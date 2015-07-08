@@ -4,16 +4,26 @@
 #include <tuple>
 #include <exception>
 
+#include <Ogre.h>
+
 #include "components/Component.hpp"
+
+enum class ENTITY_STATE
+{
+    Normal
+};
 
 class Entity
 {
+    using coords = std::tuple<Ogre::Real, Ogre::Real, Ogre::Real>;
     public:
-        Entity(float, float, float, InputComponent*, PhysicsComponent*, GraphicsComponent*);
+        Entity(std::vector<Entity>&, Ogre::Real, Ogre::Real, Ogre::Real,
+               InputComponent*, PhysicsComponent*, GraphicsComponent*);
         ~Entity() { /* DUMMY BODY */ }
-        void update();
+        void update(Ogre::Real);
 
-        std::tuple<float, float, float> get_position();
+        coords get_position() const;
+        void set_position(const coords&);
 
         template<typename T>
         T* get_component()
@@ -26,12 +36,22 @@ class Entity
         { // Will have specializations.
             throw std::exception{"[Error] Trying to set a component without method specializaton."};
         }
+
+        Ogre::SceneNode& get_node();
+        std::vector<Entity>& get_entity_list();
+
+        const ENTITY_STATE& get_state() const;
+        void set_state(ENTITY_STATE);
+
     private:
         std::unique_ptr<InputComponent> input_;
         std::unique_ptr<PhysicsComponent> physics_;
         std::unique_ptr<GraphicsComponent> graphics_;
 
-        float x_, y_, z_;
+        Ogre::Real x_, y_, z_;
+        Ogre::SceneNode* node_;
+        ENTITY_STATE state_;
+        std::vector<Entity>& entities_;
 };
 
 

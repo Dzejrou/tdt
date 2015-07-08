@@ -2,32 +2,27 @@
 
 #include <Ogre.h>
 
-#include <chrono>
 #include <memory>
+#include <vector>
 
-enum class GAME_STATE
+#include "Entity.hpp"
+
+class Game : public Ogre::FrameListener
 {
-    RUNNING, ENDED
-};
-
-class Game : public Ogre::WindowEventListener
-{
-    using clock = std::chrono::high_resolution_clock;
-    using frame = std::chrono::duration<long long, std::ratio<1, 60>>;
-    using point = std::chrono::time_point<clock>;
-
     public:
         Game();
-        ~Game() {}
+        ~Game() { /* DUMMY BODY */ }
 
         void run();
         void process();
-        void update();
-        void render();
+        void update(Ogre::Real);
+
+        bool frameRenderingQueued(const Ogre::FrameEvent&) override;
+
     private:
         void ogre_init();
 
-        GAME_STATE state_;
+        Ogre::SceneNode* test_node;
 
         std::unique_ptr<Ogre::Root> root_;
         Ogre::SceneManager* scene_mgr_;
@@ -35,4 +30,6 @@ class Game : public Ogre::WindowEventListener
         Ogre::Camera* main_cam_;
         Ogre::Viewport* main_view_;
         Ogre::Light* main_light_;
+
+        std::vector<Entity> entities_;
 };
