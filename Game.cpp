@@ -3,7 +3,8 @@
 Game::Game()
     : state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
       scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
-      main_view_{nullptr}
+      main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
+      entities_{}
 {
     ogre_init();
     ois_init();

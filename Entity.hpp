@@ -19,6 +19,7 @@ class Entity
     public:
         Entity(std::vector<Entity>&, Ogre::Real, Ogre::Real, Ogre::Real,
                InputComponent*, PhysicsComponent*, GraphicsComponent*);
+        Entity(const Entity&);
         ~Entity() { /* DUMMY BODY */ }
         void update(Ogre::Real);
 

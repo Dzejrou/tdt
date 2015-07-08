@@ -20,9 +20,9 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener, public OIS::Mo
         ~Game() { /* DUMMY BODY */ }
 
         void run();
-        void process();
         void update(Ogre::Real);
 
+        // Inherited methods (callbacks):
         bool frameRenderingQueued(const Ogre::FrameEvent&) override;
         bool keyPressed(const OIS::KeyEvent&) override;
         bool keyReleased(const OIS::KeyEvent&) override;
@@ -36,9 +36,6 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener, public OIS::Mo
 
         GAME_STATE state_;
 
-        int test_dir{0};
-        Ogre::SceneNode* test_node;
-
         std::unique_ptr<Ogre::Root> root_;
         Ogre::SceneManager* scene_mgr_;
         Ogre::RenderWindow* window_;
@@ -51,4 +48,8 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener, public OIS::Mo
         OIS::Mouse* mouse_;
 
         std::vector<Entity> entities_;
+
+        // Testing stuff.
+        int test_dir{0};
+        Ogre::SceneNode* test_node{nullptr};
 };

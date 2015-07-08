@@ -7,6 +7,12 @@ Entity::Entity(std::vector<Entity>& ent, Ogre::Real x, Ogre::Real y, Ogre::Real 
       entities_{ent}
 { /* DUMMY BODY */ }
 
+Entity::Entity(const Entity& other)
+    : entities_{other.entities_} // TODO: Complete the copy constructor.
+{
+    // ...
+}
+
 void Entity::update(Ogre::Real delta)
 {
     input_->update(*this, delta);
