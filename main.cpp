@@ -1,7 +1,12 @@
 #include <Ogre.h>
+
 #include <memory>
 #include <exception>
 #include <string>
+
+// For sleep.
+#include <thread>
+#include <chrono>
 
 #ifdef WIN32
 #include "windows.h"
@@ -16,6 +21,7 @@ void print_msg(const std::string&, const std::string&);
 
 // Tests:
 void lua_test();
+void ogre_test();
 
 int show_msg(lpp::Script::state L)
 {
@@ -32,8 +38,9 @@ int main(int argc, char** argv)
 {
 	try
 	{
-        Game game{};
-        lua_test();
+        //Game game{};
+        //lua_test();
+        ogre_test();
 	}
 	catch(const Ogre::Exception& ex)
 	{
@@ -112,4 +119,78 @@ void lua_test()
     print_msg(std::to_string(id), "Block ID at [3,3]:");
 
     script.call<void, const std::string&>("show_msg", "This is from a C++ function registered in Lua called from C++!");
+}
+
+void ogre_test()
+{
+    Ogre::String plugs = "plugins_d.cfg";
+    Ogre::String res = "resources_d.cfg";
+
+    Ogre::Root* root = new Ogre::Root(plugs);
+
+    Ogre::ConfigFile cf;
+    cf.load(res);
+
+    // Load resource settings.
+    Ogre::String name, loc_type;
+    auto selit = cf.getSectionIterator();
+    while(selit.hasMoreElements())
+    {
+        Ogre::ConfigFile::SettingsMultiMap* settings = selit.getNext();
+        for(auto& x : *settings)
+        {
+            loc_type = x.first; 
+            name = x.second;
+            //print_msg(name, loc_type);
+            Ogre::ResourceGroupManager::getSingleton().addResourceLocation(name, loc_type);
+        }
+    }
+
+    if(!(root->restoreConfig() || root->showConfigDialog()))
+    {
+        print_msg("Config dialog failed.", "Ogre error:");
+        return;
+    }
+    else
+        root->initialise(false);
+
+    auto window = root->createRenderWindow("Test.", 800, 600, false);
+    window->setVisible(true);
+
+    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+
+    auto scene = root->createSceneManager(Ogre::ST_GENERIC);
+    auto cam = scene->createCamera("MainCam");
+    cam->lookAt(0, 0, -300);
+    cam->setPosition(0, 0, 80);
+    cam->setNearClipDistance(5);
+    auto view = window->addViewport(cam);
+    cam->setAspectRatio(Ogre::Real{view->getActualWidth()} /
+                        Ogre::Real{view->getActualHeight()});
+
+    auto light = scene->createLight("MainLight");
+    //auto node = scene->createSceneNode();
+    //node->attachObject(light);
+    light->setPosition(20, 80, 50);
+    //light->setDirection(Ogre::Vector3{0, 0, -300});
+    
+    //Ogre::ResourceGroupManager::getSingletonPtr()->addResourceLocation("resources/meshes","FileSystem","TestMeshes");
+    Ogre::Entity* sphere = scene->createEntity("ogrehead.mesh");
+    auto node2 = scene->getRootSceneNode()->createChildSceneNode();
+    node2->attachObject(sphere);
+
+    scene->setAmbientLight(Ogre::ColourValue(.5, .5, .5));
+    view->setBackgroundColour(Ogre::ColourValue::Blue);
+
+    /*
+    Ogre::Plane plane{Ogre::Vector3::UNIT_Y, 0};
+    Ogre::v1::MeshManager::getSingleton().createPlane(
+        "ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+        plane, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+    scene->setSkyPlane(true, plane, "Ogre");
+    */
+ 
+    root->renderOneFrame();
+    std::this_thread::sleep_for(std::chrono::seconds{5});
+    //root->startRendering();
 }
