@@ -2,7 +2,6 @@
 
 #include <Ogre.h>
 
-
 // Forward declaration.
 class Entity;
 

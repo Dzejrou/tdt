@@ -13,24 +13,29 @@ enum class GAME_STATE
     RUNNING, ENDED
 };
 
-class Game : public Ogre::FrameListener, public OIS::KeyListener, public OIS::MouseListener
+class Game : public Ogre::FrameListener, public OIS::KeyListener,
+             public OIS::MouseListener, public Ogre::WindowEventListener
 {
     public:
         Game();
-        ~Game() { /* DUMMY BODY */ }
+        ~Game();
 
         void run();
         void update(Ogre::Real);
 
-        // Inherited methods (callbacks):
+    protected:
+        // Inherited methods (callbacks).
         bool frameRenderingQueued(const Ogre::FrameEvent&) override;
         bool keyPressed(const OIS::KeyEvent&) override;
         bool keyReleased(const OIS::KeyEvent&) override;
         bool mouseMoved(const OIS::MouseEvent&) override;
         bool mousePressed(const OIS::MouseEvent&, OIS::MouseButtonID) override;
         bool mouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID) override;
+        void windowResized(Ogre::RenderWindow* rw) override;
+        void windowClosed(Ogre::RenderWindow* rw) override;
 
     private:
+        // Init methods.
         void ogre_init();
         void ois_init();
         void level_init();

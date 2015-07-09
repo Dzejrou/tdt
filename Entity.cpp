@@ -3,8 +3,8 @@
 Entity::Entity(std::vector<Entity>& ent, Ogre::Real x, Ogre::Real y, Ogre::Real z,
                InputComponent* in, PhysicsComponent* ph, GraphicsComponent* gr)
     : input_{in}, physics_{ph}, graphics_{gr},
-      x_{x}, y_{y}, z_{z}, node_{nullptr}, state_{ENTITY_STATE::Normal},
-      entities_{ent}
+      x_{x}, y_{y}, z_{z}, node_{nullptr}, entity_{nullptr},
+      state_{ENTITY_STATE::Normal}, entities_{ent}
 { /* DUMMY BODY */ }
 
 Entity::Entity(const Entity& other)
@@ -48,4 +48,9 @@ const ENTITY_STATE& Entity::get_state() const
 void Entity::set_state(ENTITY_STATE s)
 {
     state_ = s;
+}
+
+const Ogre::AxisAlignedBox & Entity::get_bounding_box()
+{
+    return entity_->getBoundingBox();
 }

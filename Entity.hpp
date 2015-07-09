@@ -6,7 +6,7 @@
 
 #include <Ogre.h>
 
-#include "components/Component.hpp"
+#include "components/Components.hpp"
 
 enum class ENTITY_STATE
 {
@@ -21,8 +21,8 @@ class Entity
                InputComponent*, PhysicsComponent*, GraphicsComponent*);
         Entity(const Entity&);
         ~Entity() { /* DUMMY BODY */ }
-        void update(Ogre::Real);
 
+        void update(Ogre::Real);
         coords get_position() const;
         void set_position(const coords&);
 
@@ -44,6 +44,7 @@ class Entity
         const ENTITY_STATE& get_state() const;
         void set_state(ENTITY_STATE);
 
+        const Ogre::AxisAlignedBox& get_bounding_box();
     private:
         std::unique_ptr<InputComponent> input_;
         std::unique_ptr<PhysicsComponent> physics_;
@@ -51,9 +52,26 @@ class Entity
 
         Ogre::Real x_, y_, z_;
         Ogre::SceneNode* node_;
+        Ogre::Entity* entity_;
         ENTITY_STATE state_;
         std::vector<Entity>& entities_;
 };
+
+/**
+ * Structs used for entity creation in the entity factory.
+ */
+namespace EntityType
+{
+    struct EntityTest
+    {
+        using InputComponent = EntityTestInputComponent;
+        using PhysicsComponent = EntityTestPhysicsComponent;
+        using GraphicsComponent = EntityTestGraphicsComponent;
+    };
+
+    struct WallBlock{};
+    struct Troll{};
+}
 
 
 

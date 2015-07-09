@@ -11,13 +11,19 @@ Game::Game()
     level_init();
 }
 
+Game::~Game()
+{
+    Ogre::WindowEventUtilities::removeWindowEventListener(window_, this);
+    windowClosed(window_);
+}
+
 void Game::run()
 {
     scene_mgr_->setAmbientLight(Ogre::ColourValue(.5, .5, .5));
     auto ogre = scene_mgr_->createEntity("ogrehead.mesh");
     test_node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
     test_node->attachObject(ogre);
-    test_node->setPosition(Ogre::Vector3(0, 30, -30));
+    test_node->setPosition(Ogre::Vector3(0, 30, 0));
     //test_node->setVisible(false);
 
     root_->startRendering();
@@ -29,33 +35,34 @@ void Game::update(Ogre::Real delta)
     switch(test_dir)
     {
         case 0:
-            dir = Ogre::Vector3{0, 0, 0};
             break;
         case 1:
-            dir.x = -1;
+            main_cam_->moveRelative(main_cam_->getDirection().perpendicular() * Ogre::Vector3(-1, -1, -1));
             break;
         case 2:
-            dir.x = 1;
+            main_cam_->moveRelative(main_cam_->getDirection().perpendicular());
             break;
         case 3:
-            dir.z = -1;
+            main_cam_->moveRelative(main_cam_->getDirection() * Ogre::Vector3(-1, -1, -1));
+            //main_cam_->moveRelative(main_cam_->getDirection() * Ogre::Vector3(-1, -1, -1));
             break;
         case 4:
-            dir.z = 1;
+            main_cam_->moveRelative(main_cam_->getDirection());
+            //main_cam_->moveRelative(main_cam_->getDirection());
             break;
         case 5:
             dir.y = 1;
+            main_cam_->moveRelative(dir);
             break;
         case 6:
             dir.y = -1;
+            main_cam_->moveRelative(dir);
             break;
     }
     if(keyboard_->isKeyDown(OIS::KC_LSHIFT))
     {
         test_node->setPosition(test_node->getPosition() + dir);
     }
-    else
-        main_cam_->setPosition(main_cam_->getPosition() + dir);
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
@@ -116,11 +123,10 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 {
     if(event.state.buttonDown(OIS::MB_Left))
     {
-        main_cam_->yaw(Ogre::Degree(.13 * event.state.X.rel));
-        main_cam_->pitch(Ogre::Degree(.13 * event.state.Y.rel));
+        main_cam_->moveRelative(Ogre::Vector3(event.state.X.rel, 0, event.state.Y.rel));
     }
     else if(event.state.buttonDown(OIS::MB_Right))
-    {
+    { // Still camera movement.
         main_cam_->yaw(Ogre::Degree(-.13 * event.state.X.rel));
         main_cam_->pitch(Ogre::Degree(-.13 * event.state.Y.rel));
     }
@@ -136,6 +142,37 @@ bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 {
     return true;
+}
+
+void Game::windowResized(Ogre::RenderWindow * window)
+{
+    if(window != window_)
+        return; // For the possibility of more windows.
+
+    std::size_t width, height, depth;
+    int left, top;
+    window->getMetrics(width, height, depth, left, top);
+
+    // This synchronizes the mouse with the new window size.
+    auto& mouse_state = mouse_->getMouseState();
+    mouse_state.width = width;
+    mouse_state.height = height;
+}
+
+void Game::windowClosed(Ogre::RenderWindow * window)
+{
+    if(window != window_)
+        return; // For the possibility of more windows.
+
+    if(input_)
+    { // OIS cleanup.
+        input_->destroyInputObject(mouse_);
+        input_->destroyInputObject(keyboard_);
+        OIS::InputManager::destroyInputSystem(input_);
+        mouse_ = nullptr;
+        keyboard_ = nullptr;
+        input_ = nullptr;
+    }
 }
 
 void Game::ogre_init()
@@ -183,9 +220,8 @@ void Game::ogre_init()
     // TODO: Research different types of scene managers!
     scene_mgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
     main_cam_ = scene_mgr_->createCamera("MainCam");
-    //main_cam_->lookAt(0, 0, -300);
     main_cam_->lookAt(0,0,0);
-    main_cam_->setPosition(0, 45, 45);
+    main_cam_->setPosition(0, 75, 75);
     main_cam_->setNearClipDistance(5);
     main_view_ = window_->addViewport(main_cam_);
     main_cam_->setAspectRatio(Ogre::Real(main_view_->getActualWidth()) /
@@ -193,6 +229,7 @@ void Game::ogre_init()
     main_light_ = scene_mgr_->createLight("MainLight");
     main_light_->setPosition(20, 80, 50);
 
+    Ogre::WindowEventUtilities::addWindowEventListener(window_, this);
     root_->addFrameListener(this);
 }
 
