@@ -33,6 +33,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener, public OIS::Mo
     private:
         void ogre_init();
         void ois_init();
+        void level_init();
 
         GAME_STATE state_;
 

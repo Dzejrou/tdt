@@ -8,6 +8,7 @@ Game::Game()
 {
     ogre_init();
     ois_init();
+    level_init();
 }
 
 void Game::run()
@@ -16,16 +17,40 @@ void Game::run()
     auto ogre = scene_mgr_->createEntity("ogrehead.mesh");
     test_node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
     test_node->attachObject(ogre);
+    test_node->setPosition(Ogre::Vector3(0, 30, -30));
+    //test_node->setVisible(false);
 
     root_->startRendering();
 }
 
 void Game::update(Ogre::Real delta)
 {
-    if(test_dir == 1)
-        test_node->rotate(Ogre::Vector3(0, 0, 1), Ogre::Radian(0.001));
-    else if(test_dir == 2)
-        test_node->rotate(Ogre::Vector3(0, 0, 1), Ogre::Radian(-0.001));
+    Ogre::Vector3 dir{0, 0, 0};
+    switch(test_dir)
+    {
+        case 0:
+            dir = Ogre::Vector3{0, 0, 0};
+            break;
+        case 1:
+            dir.x = -1;
+            break;
+        case 2:
+            dir.x = 1;
+            break;
+        case 3:
+            dir.z = -1;
+            break;
+        case 4:
+            dir.z = 1;
+            break;
+        case 5:
+            dir.y = 1;
+            break;
+        case 6:
+            dir.y = -1;
+            break;
+    }
+    main_cam_->setPosition(main_cam_->getPosition() + dir);
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
@@ -59,6 +84,18 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
         case OIS::KC_D:
             test_dir = 2;
             break;
+        case OIS::KC_W:
+            test_dir = 3;
+            break;
+        case OIS::KC_S:
+            test_dir = 4;
+            break;
+        case OIS::KC_Q:
+            test_dir = 5;
+            break;
+        case OIS::KC_E:
+            test_dir = 6;
+            break;
     }
 
     return true;
@@ -66,8 +103,7 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 
 bool Game::keyReleased(const OIS::KeyEvent& event)
 {
-    if(event.key == OIS::KC_A || event.key == OIS::KC_D)
-        test_dir = 0;
+    test_dir = 0;
     return true;
 }
 
@@ -142,8 +178,9 @@ void Game::ogre_init()
     // TODO: Research different types of scene managers!
     scene_mgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
     main_cam_ = scene_mgr_->createCamera("MainCam");
-    main_cam_->lookAt(0, 0, -300);
-    main_cam_->setPosition(0, 0, 80);
+    //main_cam_->lookAt(0, 0, -300);
+    main_cam_->lookAt(0,0,0);
+    main_cam_->setPosition(0, 45, 45);
     main_cam_->setNearClipDistance(5);
     main_view_ = window_->addViewport(main_cam_);
     main_cam_->setAspectRatio(Ogre::Real(main_view_->getActualWidth()) /
@@ -171,4 +208,19 @@ void Game::ois_init()
 
     keyboard_->setEventCallback(this);
     mouse_->setEventCallback(this);
+}
+
+void Game::level_init()
+{
+    // Create floor.
+    Ogre::Plane ground{Ogre::Vector3::UNIT_Y, 0};
+    Ogre::MeshManager::getSingleton().createPlane(
+        "ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+        ground, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z
+        );
+    Ogre::Entity* ground_entity = scene_mgr_->createEntity("ground");
+    ground_entity->setCastShadows(false);
+    scene_mgr_->getRootSceneNode()->createChildSceneNode()->attachObject(ground_entity);
+    ground_entity->setMaterialName("rocky_ground");
+    ground_entity->setCastShadows(false);
 }
