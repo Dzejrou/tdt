@@ -50,7 +50,12 @@ void Game::update(Ogre::Real delta)
             dir.y = -1;
             break;
     }
-    main_cam_->setPosition(main_cam_->getPosition() + dir);
+    if(keyboard_->isKeyDown(OIS::KC_LSHIFT))
+    {
+        test_node->setPosition(test_node->getPosition() + dir);
+    }
+    else
+        main_cam_->setPosition(main_cam_->getPosition() + dir);
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
