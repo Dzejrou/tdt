@@ -15,7 +15,6 @@ enum class ENTITY_STATE
 
 class Entity
 {
-    using coords = std::tuple<Ogre::Real, Ogre::Real, Ogre::Real>;
     public:
         Entity(std::vector<Entity>&, Ogre::Real, Ogre::Real, Ogre::Real,
                InputComponent*, PhysicsComponent*, GraphicsComponent*);
@@ -23,8 +22,6 @@ class Entity
         ~Entity() { /* DUMMY BODY */ }
 
         void update(Ogre::Real);
-        coords get_position() const;
-        void set_position(const coords&);
 
         template<typename T>
         T* get_component()
@@ -38,7 +35,6 @@ class Entity
             throw std::exception{"[Error] Trying to set a component without method specializaton."};
         }
 
-        Ogre::SceneNode& get_node();
         std::vector<Entity>& get_entity_list();
 
         const ENTITY_STATE& get_state() const;
@@ -50,9 +46,6 @@ class Entity
         std::unique_ptr<PhysicsComponent> physics_;
         std::unique_ptr<GraphicsComponent> graphics_;
 
-        Ogre::Real x_, y_, z_;
-        Ogre::SceneNode* node_;
-        Ogre::Entity* entity_;
         ENTITY_STATE state_;
         std::vector<Entity>& entities_;
 };

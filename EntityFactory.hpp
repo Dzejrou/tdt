@@ -10,7 +10,7 @@ class EntityFactory
     { // TODO: change default spawn point when possible.
         return new Entity{
             ents, x, y, z,
-            new T::InputComponent, new T::PhysicsComponent, new T::GraphicsComponent
+            new T::InputComponent(), new T::PhysicsComponent(), new T::GraphicsComponent()
         }
     }
 };
