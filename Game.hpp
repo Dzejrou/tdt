@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "Entity.hpp"
+#include "EntityFactory.hpp"
 
 enum class GAME_STATE
 {
@@ -53,9 +54,10 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
         OIS::Keyboard* keyboard_;
         OIS::Mouse* mouse_;
 
-        std::vector<Entity> entities_;
+        std::vector<std::unique_ptr<Entity>> entities_;
+        std::unique_ptr<EntityFactory> factory_;
 
         // Testing stuff.
-        int test_dir{0};
+        Ogre::Vector3 camera_dir_;
         Ogre::SceneNode* test_node{nullptr};
 };

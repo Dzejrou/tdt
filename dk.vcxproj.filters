@@ -33,6 +33,9 @@
     <ClCompile Include="components\BaseComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EntityFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lppscript\LppScript.hpp">
@@ -59,5 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\test.lua" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

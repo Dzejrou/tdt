@@ -21,8 +21,11 @@ class PhysicsComponent
         virtual void update(Entity&, Ogre::Real) = 0;
         Ogre::Vector3 get_position() const;
         void set_position(const Ogre::Vector3&);
+        bool has_moved() const;
+        void set_moved(bool);
     protected:
-        Ogre::Vector3 position_;
+        Ogre::Vector3 position_{0, 0, 0};
+        bool moved_{false};
 };
 
 class GraphicsComponent
@@ -30,7 +33,7 @@ class GraphicsComponent
     public:
         virtual ~GraphicsComponent() {}
         virtual void update(Entity&, Ogre::Real) = 0;
-        virtual void init(Ogre::SceneManager*) = 0;
+        const Ogre::AxisAlignedBox& get_bounding_box() const;
     protected:
         Ogre::SceneNode* node_;
         Ogre::Entity* entity_;

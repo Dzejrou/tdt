@@ -6,18 +6,20 @@
 
 class EntityTestInputComponent : public InputComponent
 {
-    void update(Entity&, Ogre::Real) override;
+    public:
+        void update(Entity&, Ogre::Real) override;
 };
 
 class EntityTestPhysicsComponent : public PhysicsComponent
 {
-    void update(Entity&, Ogre::Real) override;
+    public:
+        void update(Entity&, Ogre::Real) override;
 };
 
 class EntityTestGraphicsComponent : public GraphicsComponent
 {
-    EntityTestGraphicsComponent();
-    ~EntityTestGraphicsComponent() {}
-    void update(Entity&, Ogre::Real) override;
-    void init(Ogre::SceneManager*) override;
+    public:
+        EntityTestGraphicsComponent(Ogre::SceneManager&);
+        ~EntityTestGraphicsComponent() {}
+        void update(Entity&, Ogre::Real) override;
 };

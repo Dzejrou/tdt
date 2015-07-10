@@ -22,6 +22,7 @@
     <ClCompile Include="components\BaseComponent.cpp" />
     <ClCompile Include="components\EntityTestComponents.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="lppscript\LppScript.cpp" />
     <ClCompile Include="main.cpp" />
@@ -36,6 +37,7 @@
     <ClInclude Include="lppscript\LppScript.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="scripts\test.lua" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

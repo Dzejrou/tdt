@@ -6,6 +6,7 @@
 
 #include <Ogre.h>
 
+#include "components/BaseComponent.hpp"
 #include "components/Components.hpp"
 
 enum class ENTITY_STATE
@@ -16,9 +17,12 @@ enum class ENTITY_STATE
 class Entity
 {
     public:
-        Entity(std::vector<Entity>&, Ogre::Real, Ogre::Real, Ogre::Real,
+        Entity(std::vector<std::unique_ptr<Entity>>&, Ogre::Real, Ogre::Real, Ogre::Real,
                InputComponent*, PhysicsComponent*, GraphicsComponent*);
-        Entity(const Entity&);
+        Entity(const Entity&) = delete;
+        Entity& operator=(const Entity&) = delete;
+        Entity(Entity&&) = default;
+        Entity& operator=(Entity&&) = default;
         ~Entity() { /* DUMMY BODY */ }
 
         void update(Ogre::Real);
@@ -35,19 +39,17 @@ class Entity
             throw std::exception{"[Error] Trying to set a component without method specializaton."};
         }
 
-        std::vector<Entity>& get_entity_list();
+        std::vector<std::unique_ptr<Entity>>& get_entity_list();
 
         const ENTITY_STATE& get_state() const;
         void set_state(ENTITY_STATE);
-
-        const Ogre::AxisAlignedBox& get_bounding_box();
     private:
         std::unique_ptr<InputComponent> input_;
         std::unique_ptr<PhysicsComponent> physics_;
         std::unique_ptr<GraphicsComponent> graphics_;
 
         ENTITY_STATE state_;
-        std::vector<Entity>& entities_;
+        std::vector<std::unique_ptr<Entity>>& entities_;
 };
 
 /**

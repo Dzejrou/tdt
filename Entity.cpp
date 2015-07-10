@@ -1,18 +1,11 @@
 #include "Entity.hpp"
 
-Entity::Entity(std::vector<Entity>& ent, Ogre::Real x, Ogre::Real y, Ogre::Real z,
+Entity::Entity(std::vector<std::unique_ptr<Entity>>& ent, Ogre::Real x, Ogre::Real y, Ogre::Real z,
                InputComponent* in, PhysicsComponent* ph, GraphicsComponent* gr)
     : input_{in}, physics_{ph}, graphics_{gr},
-      node_{nullptr}, entity_{nullptr},
       state_{ENTITY_STATE::Normal}, entities_{ent}
 {
-    physics_->set_position(std::make_tuple(x, y, z));
-}
-
-Entity::Entity(const Entity& other)
-    : entities_{other.entities_} // TODO: Complete the copy constructor.
-{
-    // ...
+    physics_->set_position(Ogre::Vector3{x, y, z});
 }
 
 void Entity::update(Ogre::Real delta)
@@ -22,7 +15,7 @@ void Entity::update(Ogre::Real delta)
     graphics_->update(*this, delta);
 }
 
-std::vector<Entity>& Entity::get_entity_list()
+std::vector<std::unique_ptr<Entity>>& Entity::get_entity_list()
 {
     return entities_;
 }
@@ -35,9 +28,4 @@ const ENTITY_STATE& Entity::get_state() const
 void Entity::set_state(ENTITY_STATE s)
 {
     state_ = s;
-}
-
-const Ogre::AxisAlignedBox & Entity::get_bounding_box()
-{
-    return entity_->getBoundingBox();
 }

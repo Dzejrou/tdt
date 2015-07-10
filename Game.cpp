@@ -4,11 +4,12 @@ Game::Game()
     : state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
       scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
       main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
-      entities_{}
+      factory_{nullptr}, entities_(), camera_dir_{0, 0, 0}
 {
     ogre_init();
     ois_init();
     level_init();
+    factory_.reset(new EntityFactory{entities_, scene_mgr_});
 }
 
 Game::~Game()
@@ -23,46 +24,28 @@ void Game::run()
     auto ogre = scene_mgr_->createEntity("ogrehead.mesh");
     test_node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
     test_node->attachObject(ogre);
-    test_node->setPosition(Ogre::Vector3(0, 30, 0));
+    test_node->setPosition(Ogre::Vector3(0, 30, 100));
     //test_node->setVisible(false);
+
+    entities_.emplace_back(factory_->create_entity<EntityType::EntityTest>(0, 30, 0));
+    entities_.back()->get_component<PhysicsComponent>()->set_position(Ogre::Vector3{0, 100, 0});
 
     root_->startRendering();
 }
 
 void Game::update(Ogre::Real delta)
 {
-    Ogre::Vector3 dir{0, 0, 0};
-    switch(test_dir)
-    {
-        case 0:
-            break;
-        case 1:
-            main_cam_->moveRelative(main_cam_->getDirection().perpendicular() * Ogre::Vector3(-1, -1, -1));
-            break;
-        case 2:
-            main_cam_->moveRelative(main_cam_->getDirection().perpendicular());
-            break;
-        case 3:
-            main_cam_->moveRelative(main_cam_->getDirection() * Ogre::Vector3(-1, -1, -1));
-            //main_cam_->moveRelative(main_cam_->getDirection() * Ogre::Vector3(-1, -1, -1));
-            break;
-        case 4:
-            main_cam_->moveRelative(main_cam_->getDirection());
-            //main_cam_->moveRelative(main_cam_->getDirection());
-            break;
-        case 5:
-            dir.y = 1;
-            main_cam_->moveRelative(dir);
-            break;
-        case 6:
-            dir.y = -1;
-            main_cam_->moveRelative(dir);
-            break;
-    }
     if(keyboard_->isKeyDown(OIS::KC_LSHIFT))
     {
-        test_node->setPosition(test_node->getPosition() + dir);
+        test_node->setPosition(test_node->getPosition() + camera_dir_);
     }
+    else
+    {
+        main_cam_->moveRelative(camera_dir_);
+    }
+
+    for(auto& entity : entities_)
+        entity->update(delta);
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
@@ -91,22 +74,22 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
             state_ = GAME_STATE::ENDED;
             return false;
         case OIS::KC_A:
-            test_dir = 1;
+            camera_dir_.x -= 1;
             break;
         case OIS::KC_D:
-            test_dir = 2;
+            camera_dir_.x += 1;
             break;
         case OIS::KC_W:
-            test_dir = 3;
+            camera_dir_.z -= 1;
             break;
         case OIS::KC_S:
-            test_dir = 4;
+            camera_dir_.z += 1;
             break;
-        case OIS::KC_Q:
-            test_dir = 5;
+        case OIS::KC_SPACE:
+            camera_dir_.y += 1;
             break;
-        case OIS::KC_E:
-            test_dir = 6;
+        case OIS::KC_LCONTROL:
+            camera_dir_.y -= 1;
             break;
     }
 
@@ -115,7 +98,27 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 
 bool Game::keyReleased(const OIS::KeyEvent& event)
 {
-    test_dir = 0;
+    switch(event.key)
+    {
+        case OIS::KC_A:
+            camera_dir_.x += 1;
+            break;
+        case OIS::KC_D:
+            camera_dir_.x -= 1;
+            break;
+        case OIS::KC_W:
+            camera_dir_.z += 1;
+            break;
+        case OIS::KC_S:
+            camera_dir_.z -= 1;
+            break;
+        case OIS::KC_SPACE:
+            camera_dir_.y -= 1;
+            break;
+        case OIS::KC_LCONTROL:
+            camera_dir_.y += 1;
+            break;
+    }
     return true;
 }
 
@@ -123,12 +126,13 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 {
     if(event.state.buttonDown(OIS::MB_Left))
     {
-        main_cam_->moveRelative(Ogre::Vector3(event.state.X.rel, 0, event.state.Y.rel));
-    }
-    else if(event.state.buttonDown(OIS::MB_Right))
-    { // Still camera movement.
         main_cam_->yaw(Ogre::Degree(-.13 * event.state.X.rel));
         main_cam_->pitch(Ogre::Degree(-.13 * event.state.Y.rel));
+    }
+    else if(event.state.buttonDown(OIS::MB_Right))
+    {
+        main_cam_->yaw(Ogre::Degree(.13 * event.state.X.rel));
+        main_cam_->pitch(Ogre::Degree(.13 * event.state.Y.rel));
     }
 
     return true;
@@ -146,6 +150,7 @@ bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 
 void Game::windowResized(Ogre::RenderWindow * window)
 {
+    // TODO: Ask about the necessity of this.
     if(window != window_)
         return; // For the possibility of more windows.
 
