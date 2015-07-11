@@ -76,7 +76,7 @@ class Script
 
 		static Script& get_singleton();
 		static Script* get_singleton_ptr();
-		private:
+	private:
 		Script();
 		std::string get_field_to_stack(const std::string&, bool = false);
 
@@ -116,10 +116,10 @@ class Script
 	 */
 class Exception
 {
-		public:
+	public:
 		Exception(const std::string& msg) : msg_{msg} {};
 		const char* what() const;
-		private:
+	private:
 		std::string msg_;
 };
 
