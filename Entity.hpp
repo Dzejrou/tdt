@@ -11,47 +11,47 @@
 
 enum class ENTITY_STATE
 {
-    Normal
+	Normal
 };
 
 class Entity
 {
-    public:
-        Entity(std::string, std::vector<std::unique_ptr<Entity>>&, Ogre::Real, Ogre::Real, Ogre::Real,
-               InputComponent*, PhysicsComponent*, GraphicsComponent*);
-        Entity(const Entity&) = delete;
-        Entity& operator=(const Entity&) = delete;
-        Entity(Entity&&) = default;
-        Entity& operator=(Entity&&) = default;
-        ~Entity() { /* DUMMY BODY */ }
+	public:
+		Entity(std::string, std::vector<std::unique_ptr<Entity>>&, Ogre::Real, Ogre::Real, Ogre::Real,
+			   InputComponent*, PhysicsComponent*, GraphicsComponent*);
+		Entity(const Entity&) = delete;
+		Entity& operator=(const Entity&) = delete;
+		Entity(Entity&&) = default;
+		Entity& operator=(Entity&&) = default;
+		~Entity() { /* DUMMY BODY */ }
 
-        void update(Ogre::Real);
+		void update(Ogre::Real);
 
-        template<typename T>
-        T* get_component()
-        { // Will have specializations.
-            throw std::exception{"[Error] Trying to get a component without method specializaton."};
-        }
+		template<typename T>
+		T* get_component()
+		{ // Will have specializations.
+			throw std::exception{"[Error] Trying to get a component without method specializaton."};
+		}
 
-        template<typename T>
-        void set_component(T*)
-        { // Will have specializations.
-            throw std::exception{"[Error] Trying to set a component without method specializaton."};
-        }
+		template<typename T>
+		void set_component(T*)
+		{ // Will have specializations.
+			throw std::exception{"[Error] Trying to set a component without method specializaton."};
+		}
 
-        std::vector<std::unique_ptr<Entity>>& get_entity_list();
+		std::vector<std::unique_ptr<Entity>>& get_entity_list();
 
-        const ENTITY_STATE& get_state() const;
-        void set_state(ENTITY_STATE);
-        const std::string get_id() const { return id_; }
-    private:
-        std::unique_ptr<InputComponent> input_;
-        std::unique_ptr<PhysicsComponent> physics_;
-        std::unique_ptr<GraphicsComponent> graphics_;
+		const ENTITY_STATE& get_state() const;
+		void set_state(ENTITY_STATE);
+		const std::string get_id() const { return id_; }
+	private:
+		std::unique_ptr<InputComponent> input_;
+		std::unique_ptr<PhysicsComponent> physics_;
+		std::unique_ptr<GraphicsComponent> graphics_;
 
-        ENTITY_STATE state_;
-        std::vector<std::unique_ptr<Entity>>& entities_;
-        std::string id_;
+		ENTITY_STATE state_;
+		std::vector<std::unique_ptr<Entity>>& entities_;
+		std::string id_;
 };
 
 /**
@@ -59,15 +59,15 @@ class Entity
  */
 namespace EntityType
 {
-    struct EntityTest
-    {
-        using InputComponent = EntityTestInputComponent;
-        using PhysicsComponent = EntityTestPhysicsComponent;
-        using GraphicsComponent = EntityTestGraphicsComponent;
-    };
+	struct EntityTest
+	{
+		using InputComponent = EntityTestInputComponent;
+		using PhysicsComponent = EntityTestPhysicsComponent;
+		using GraphicsComponent = EntityTestGraphicsComponent;
+	};
 
-    struct WallBlock{};
-    struct Troll{};
+	struct WallBlock {};
+	struct Troll {};
 }
 
 
@@ -79,19 +79,19 @@ namespace EntityType
 template<>
 inline InputComponent* Entity::get_component<InputComponent>()
 {
-    return input_.get();
+	return input_.get();
 }
 
 template<>
 inline PhysicsComponent* Entity::get_component<PhysicsComponent>()
 {
-    return physics_.get();
+	return physics_.get();
 }
 
 template<>
 inline GraphicsComponent* Entity::get_component<GraphicsComponent>()
 {
-    return graphics_.get();
+	return graphics_.get();
 }
 
 
@@ -103,17 +103,17 @@ inline GraphicsComponent* Entity::get_component<GraphicsComponent>()
 template<>
 inline void Entity::set_component<InputComponent>(InputComponent* comp)
 {
-    input_.reset(comp);
+	input_.reset(comp);
 }
 
 template<>
 inline void Entity::set_component<PhysicsComponent>(PhysicsComponent* comp)
 {
-    physics_.reset(comp);
+	physics_.reset(comp);
 }
 
 template<>
 inline void Entity::set_component<GraphicsComponent>(GraphicsComponent* comp)
 {
-    graphics_.reset(comp);
+	graphics_.reset(comp);
 }

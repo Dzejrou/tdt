@@ -37,33 +37,33 @@ class Script
 
 			if(lua_isnil(L, -1))
 				throw Exception("[Error][Lua] Variable " + name + "is not defined or nil.");
-		
+
 			return get_<T>(sub_name);
 		}
 
 		template<typename Result, typename... Args>
 		Result call(const std::string& fname, Args... as, bool pass_self = false)
 		{ // TODO: Call functions in tables!
-            std::string fname2{fname};
-            int self{0}; // Extra self arg.
+			std::string fname2{fname};
+			int self{0}; // Extra self arg.
 
-            if(fname2.find('.') != std::string::npos)
-            {
-                fname2 = get_field_to_stack(fname, pass_self);
-                if(pass_self) // Method.
-                    self = 1;
-                else
-                    lua_remove(L, -1); // Remove parent table.
-            }
-            else
-                lua_getglobal(L, fname2.c_str());
+			if(fname2.find('.') != std::string::npos)
+			{
+				fname2 = get_field_to_stack(fname, pass_self);
+				if(pass_self) // Method.
+					self = 1;
+				else
+					lua_remove(L, -1); // Remove parent table.
+			}
+			else
+				lua_getglobal(L, fname2.c_str());
 
 			int arg_count = push_args<Args...>(as...);
-            lua_type(L, -(arg_count));
+			lua_type(L, -(arg_count));
 
 			if(lua_pcall(L, arg_count + self, 1, 0))
 				throw Exception("[Error][Lua] Error while calling a Lua function: " + fname + "\n("
-                                + lua_tostring(L, -1) + ").");
+								+ lua_tostring(L, -1) + ").");
 
 			return get_<Result>();
 		}
@@ -74,14 +74,14 @@ class Script
 			execute(name + " = " + std::to_string(val));
 		}
 
-        static Script& get_singleton();
-        static Script* get_singleton_ptr();
-	private:
-        Script();
+		static Script& get_singleton();
+		static Script* get_singleton_ptr();
+		private:
+		Script();
 		std::string get_field_to_stack(const std::string&, bool = false);
 
-        static std::unique_ptr<Script> script_;
-		
+		static std::unique_ptr<Script> script_;
+
 		template<typename T>
 		T get_(const std::string& name = "unknown")
 		{ // Will have specializations.
@@ -111,22 +111,22 @@ class Script
 		state L;
 };
 
-/**
- * Exception class used to throw exception from the Script class.
- */
+	/**
+	 * Exception class used to throw exception from the Script class.
+	 */
 class Exception
 {
-	public:
+		public:
 		Exception(const std::string& msg) : msg_{msg} {};
 		const char* what() const;
-	private:
+		private:
 		std::string msg_;
 };
 
 
 
 /**
- * Specializations for the method lpp::Script::get_ used to 
+ * Specializations for the method lpp::Script::get_ used to
  * extract values form the Lua stack.
  */
 template<>
@@ -169,9 +169,10 @@ inline bool Script::get_<bool>(const std::string& name)
 template<>
 inline void Script::get_<void>(const std::string& name)
 {
-    // Note: Cannot make a partial specialization for the lpp::Script::call method, this dummy specialization
-    //       will ensure that when a Lua function does not return, the lpp::Script::call won't throw.
+	// Note: Cannot make a partial specialization for the lpp::Script::call method, this dummy specialization
+	//       will ensure that when a Lua function does not return, the lpp::Script::call won't throw.
 }
+
 
 
 /**

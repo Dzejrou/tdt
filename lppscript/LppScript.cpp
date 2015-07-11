@@ -51,29 +51,29 @@ std::string lpp::Script::get_field_to_stack(const std::string& name, bool pass_s
 	{ // Sub fields.
 		lua_pushstring(L, tmp.c_str());
 		lua_gettable(L, -2);
-        if(lua_isfunction(L, -1) && pass_self) // Method.
-        {
-            lua_pushvalue(L, -2); // Leave the last table on top as self.
-            return tmp;
-        }
-        else
-		    lua_remove(L, -2);
+		if(lua_isfunction(L, -1) && pass_self) // Method.
+		{
+			lua_pushvalue(L, -2); // Leave the last table on top as self.
+			return tmp;
+		}
+		else
+			lua_remove(L, -2);
 	}
 	return tmp; // Last field name.
 }
 
 lpp::Script& lpp::Script::get_singleton()
 {
-    if(!script_)
-        script_.reset(new Script());
-    return *script_;
+	if(!script_)
+		script_.reset(new Script());
+	return *script_;
 }
 
 lpp::Script* lpp::Script::get_singleton_ptr()
 {
-    if(!script_)
-        script_.reset(new Script());
-    return script_.get();
+	if(!script_)
+		script_.reset(new Script());
+	return script_.get();
 }
 
 /**
