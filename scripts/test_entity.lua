@@ -14,7 +14,7 @@ function test_entity:new(o)
 end
 
 function test_entity.update(self, delta)
-	-- show_msg("update, x = " .. self.x .. ", y =" .. self.y .. ", z = " .. self.x)
+	-- show_msg("update, x = " .. self.x .. ", y = " .. self.y .. ", z = " .. self.x)
 	if self.dir == 0 then
 		self.x = self.x + delta * 60
 	elseif self.dir == 1 then

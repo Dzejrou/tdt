@@ -51,7 +51,7 @@ std::string lpp::Script::get_field_to_stack(const std::string& name, bool pass_s
 	{ // Sub fields.
 		lua_pushstring(L, tmp.c_str());
 		lua_gettable(L, -2);
-        if(lua_isfunction(L, -1) && pass_self)
+        if(lua_isfunction(L, -1) && pass_self) // Method.
         {
             lua_pushvalue(L, -2); // Leave the last table on top as self.
             return tmp;

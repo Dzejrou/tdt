@@ -21,7 +21,6 @@ EntityTestPhysicsComponent::EntityTestPhysicsComponent(std::string id)
 void EntityTestPhysicsComponent::update(Entity& entity , Ogre::Real delta)
 {
     // Update the new position.
-    //throw std::exception(std::string(name_ + ".x").c_str());
     float x = script_.get<float>(name_ + ".x");
     float y = script_.get<float>(name_ + ".y");
     float z = script_.get<float>(name_ + ".z");
