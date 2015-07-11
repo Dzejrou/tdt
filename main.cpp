@@ -22,7 +22,7 @@ void ogre_test();
 int show_msg(lpp::Script::state L)
 {
 	std::string s = lua_tostring(L, -1);
-    print_msg(s, "Message from Lua:");
+	print_msg(s, "Message from Lua:");
 	return 0;
 }
 
