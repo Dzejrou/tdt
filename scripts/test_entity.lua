@@ -3,7 +3,7 @@ test_entity = {
 	y = 0.0,
 	z = 0.0,
 	dir = 0,
-	lenght = 0
+	length = 0
 }
 
 function test_entity:new(o)
@@ -13,20 +13,21 @@ function test_entity:new(o)
 	return o
 end
 
-function test_entity:update(delta)
-	if dir == 0 then
-		x = x + delta * 0.001
-	elseif dir == 1 then
-		z = z + delta * 0.001	
-	elseif dir == 2 then
-		x = x - delta * 0.001
-	elseif dir == 3 then
-		z = z - delta * 0.001
+function test_entity.update(self, delta)
+	-- show_msg("update, x = " .. self.x .. ", y =" .. self.y .. ", z = " .. self.x)
+	if self.dir == 0 then
+		self.x = self.x + delta * 60
+	elseif self.dir == 1 then
+		self.z = self.z + delta * 60
+	elseif self.dir == 2 then
+		self.x = self.x - delta * 60
+	elseif self.dir == 3 then
+		self.z = self.z - delta * 60
 	end
 
-	length = length + 1
-	if length == 1000 then
-		dir = (dir + 1) % 4
-		length = 0
+	self.length = self.length + 1
+	if self.length == 1000 then
+		self.dir = (self.dir + 1) % 4
+		self.length = 0
 	end
 end
