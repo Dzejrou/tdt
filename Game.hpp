@@ -8,6 +8,7 @@
 
 #include "Entity.hpp"
 #include "EntityFactory.hpp"
+#include "lppscript/LppScript.hpp"
 
 enum class GAME_STATE
 {
@@ -40,6 +41,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
         void ogre_init();
         void ois_init();
         void level_init();
+        void lua_init();
 
         GAME_STATE state_;
 

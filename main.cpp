@@ -38,6 +38,7 @@ int main(int argc, char** argv)
 {
 	try
 	{
+        lua_test();
         Game game{};
         game.run();
         //lua_test();
@@ -92,6 +93,7 @@ void lua_test()
     lpp::Script& script = lpp::Script::get_singleton();
     script.register_function("show_msg", show_msg);
     script.load("scripts/test.lua");
+    return; // this is a break for the show_msg function
 
     std::string name = script.get<std::string>("programmer.name");
     print_msg(name, "Name:");

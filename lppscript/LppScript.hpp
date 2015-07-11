@@ -43,8 +43,9 @@ class Script
 
 		template<typename Result, typename... Args>
 		Result call(const std::string& fname, Args&&... as)
-		{
-			lua_getglobal(L, fname.c_str());
+		{ // TODO: Call functions in tables!
+            lua_getglobal(L, fname.c_str());
+
 			int arg_count = push_args<Args...>(std::forward<Args>(as)...);
 			if(lua_pcall(L, arg_count, 1, 0))
 				throw Exception("[Error][Lua] Error while calling a Lua function: " + fname);
@@ -62,7 +63,7 @@ class Script
         static Script* get_singleton_ptr();
 	private:
         Script();
-		std::string get_field_to_stack(const std::string& name);
+		std::string get_field_to_stack(const std::string&);
 
         static std::unique_ptr<Script> script_;
 		
@@ -133,7 +134,7 @@ inline int Script::get_<int>(const std::string& name)
 }
 
 template<>
-inline double Script::get_<double>(const std::string& name)
+inline float Script::get_<float>(const std::string& name)
 {
 	if(lua_isnumber(L, -1))
 		return lua_tonumber(L, -1);
@@ -169,7 +170,7 @@ inline void Script::push_arg<int>(int arg)
 }
 
 template<>
-inline void Script::push_arg<double>(double arg)
+inline void Script::push_arg<float>(float arg)
 {
 	lua_pushnumber(L, arg);
 }

@@ -63,5 +63,6 @@
   <ItemGroup>
     <None Include="scripts\test.lua" />
     <None Include="ClassDiagram.cd" />
+    <None Include="scripts\test_entity.lua" />
   </ItemGroup>
 </Project>

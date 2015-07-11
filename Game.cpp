@@ -9,6 +9,7 @@ Game::Game()
     ogre_init();
     ois_init();
     level_init();
+    lua_init();
     factory_.reset(new EntityFactory{entities_, scene_mgr_});
 }
 
@@ -28,7 +29,6 @@ void Game::run()
     //test_node->setVisible(false);
 
     entities_.emplace_back(factory_->create_entity<EntityType::EntityTest>(0, 30, 0));
-    entities_.back()->get_component<PhysicsComponent>()->set_position(Ogre::Vector3{0, 100, 0});
 
     root_->startRendering();
 }
@@ -270,4 +270,9 @@ void Game::level_init()
     scene_mgr_->getRootSceneNode()->createChildSceneNode()->attachObject(ground_entity);
     ground_entity->setMaterialName("rocky_ground");
     ground_entity->setCastShadows(false);
+}
+
+void Game::lua_init()
+{
+    lpp::Script::get_singleton().load("scripts/test_entity.lua");
 }

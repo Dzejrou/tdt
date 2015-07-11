@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <tuple>
+#include <string>
 #include <exception>
 
 #include <Ogre.h>
@@ -17,7 +17,7 @@ enum class ENTITY_STATE
 class Entity
 {
     public:
-        Entity(std::vector<std::unique_ptr<Entity>>&, Ogre::Real, Ogre::Real, Ogre::Real,
+        Entity(std::string, std::vector<std::unique_ptr<Entity>>&, Ogre::Real, Ogre::Real, Ogre::Real,
                InputComponent*, PhysicsComponent*, GraphicsComponent*);
         Entity(const Entity&) = delete;
         Entity& operator=(const Entity&) = delete;
@@ -43,6 +43,7 @@ class Entity
 
         const ENTITY_STATE& get_state() const;
         void set_state(ENTITY_STATE);
+        const std::string get_id() const { return id_; }
     private:
         std::unique_ptr<InputComponent> input_;
         std::unique_ptr<PhysicsComponent> physics_;
@@ -50,6 +51,7 @@ class Entity
 
         ENTITY_STATE state_;
         std::vector<std::unique_ptr<Entity>>& entities_;
+        std::string id_;
 };
 
 /**

@@ -1,9 +1,10 @@
 #include "Entity.hpp"
 
-Entity::Entity(std::vector<std::unique_ptr<Entity>>& ent, Ogre::Real x, Ogre::Real y, Ogre::Real z,
+Entity::Entity(std::string id, std::vector<std::unique_ptr<Entity>>& ent,
+               Ogre::Real x, Ogre::Real y, Ogre::Real z,
                InputComponent* in, PhysicsComponent* ph, GraphicsComponent* gr)
     : input_{in}, physics_{ph}, graphics_{gr},
-      state_{ENTITY_STATE::Normal}, entities_{ent}
+      state_{ENTITY_STATE::Normal}, entities_{ent}, id_{id}
 {
     physics_->set_position(Ogre::Vector3{x, y, z});
 }

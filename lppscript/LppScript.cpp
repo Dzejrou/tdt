@@ -51,6 +51,8 @@ std::string lpp::Script::get_field_to_stack(const std::string& name)
 	{ // Sub fields.
 		lua_pushstring(L, tmp.c_str());
 		lua_gettable(L, -2);
+        if(lua_isfunction(L, -1))
+            return tmp; // Leave the last table on stack.
 		lua_remove(L, -2);
 	}
 	return tmp; // Last field name.
