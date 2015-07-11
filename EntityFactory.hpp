@@ -11,12 +11,14 @@ class EntityFactory
         template<typename T>
         Entity* create_entity(Ogre::Real x = 0, Ogre::Real y = 0, Ogre::Real z = 0)
         { // TODO: change default spawn point when possible.
-            return new Entity{
+            Entity* tmp = new Entity{
                 std::to_string(id_counter_), entities_, x, y, z,
                 new T::InputComponent{std::to_string(id_counter_)},
-                new T::PhysicsComponent{std::to_string(id_counter_++)},
+                new T::PhysicsComponent{std::to_string(id_counter_)},
                 new T::GraphicsComponent{scene_mgr_}
             };
+            ++id_counter_;
+            return tmp;
         }
 
     public:

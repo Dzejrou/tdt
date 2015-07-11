@@ -42,13 +42,28 @@ class Script
 		}
 
 		template<typename Result, typename... Args>
-		Result call(const std::string& fname, Args&&... as)
+		Result call(const std::string& fname, Args... as, bool pass_self = false)
 		{ // TODO: Call functions in tables!
-            lua_getglobal(L, fname.c_str());
+            std::string fname2{fname};
+            int self{0}; // Extra self arg.
 
-			int arg_count = push_args<Args...>(std::forward<Args>(as)...);
-			if(lua_pcall(L, arg_count, 1, 0))
-				throw Exception("[Error][Lua] Error while calling a Lua function: " + fname);
+            if(fname2.find('.') != std::string::npos)
+            {
+                fname2 = get_field_to_stack(fname, pass_self);
+                if(pass_self) // Method.
+                    self = 1;
+                else
+                    lua_remove(L, -1); // Remove parent table.
+            }
+            else
+                lua_getglobal(L, fname2.c_str());
+
+			int arg_count = push_args<Args...>(as...);
+            lua_type(L, -(arg_count));
+
+			if(lua_pcall(L, arg_count + self, 1, 0))
+				throw Exception("[Error][Lua] Error while calling a Lua function: " + fname + "\n("
+                                + lua_tostring(L, -1) + ").");
 
 			return get_<Result>();
 		}
@@ -63,7 +78,7 @@ class Script
         static Script* get_singleton_ptr();
 	private:
         Script();
-		std::string get_field_to_stack(const std::string&);
+		std::string get_field_to_stack(const std::string&, bool = false);
 
         static std::unique_ptr<Script> script_;
 		
@@ -74,10 +89,10 @@ class Script
 		}
 
 		template<typename Arg, typename... Args>
-		int push_args(Arg a, Args&&... as)
+		int push_args(Arg a, Args... as)
 		{
 			push_arg<Arg>(a);
-			return push_args(std::forward<Args>(as)...) + 1;
+			return push_args(as...) + 1;
 		}
 
 		template<typename Arg>

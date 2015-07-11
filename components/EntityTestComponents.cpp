@@ -4,13 +4,12 @@
 EntityTestInputComponent::EntityTestInputComponent(std::string id)
     : name_{"entity_" + id}, script_{lpp::Script::get_singleton()}
 { // TODO: Move entity name to entity, maybe also the script reference.
-    script_.execute(name_ + " = test_entity:new()");
+    script_.execute(name_ + " = test_entity:new{x = 0.0, y = 100.0, z = -60.0}");
 }
 
 void EntityTestInputComponent::update(Entity& entity, Ogre::Real delta)
 {
-    //script_.execute(name_ + ":update( " + std::to_string(delta));
-    //script_.execute("for k,v in pairs(_G) do show_msg(k .. ' == ' .. tostring(v)) end");
+    script_.call<void, Ogre::Real>(name_ + ".update", delta, true);
 }
 
 EntityTestPhysicsComponent::EntityTestPhysicsComponent(std::string id)
@@ -21,8 +20,8 @@ EntityTestPhysicsComponent::EntityTestPhysicsComponent(std::string id)
 
 void EntityTestPhysicsComponent::update(Entity& entity , Ogre::Real delta)
 {
-    /*
     // Update the new position.
+    //throw std::exception(std::string(name_ + ".x").c_str());
     float x = script_.get<float>(name_ + ".x");
     float y = script_.get<float>(name_ + ".y");
     float z = script_.get<float>(name_ + ".z");
@@ -32,7 +31,7 @@ void EntityTestPhysicsComponent::update(Entity& entity , Ogre::Real delta)
     {
         entity.get_component<PhysicsComponent>()->set_position(tmp_vec);
         entity.get_component<PhysicsComponent>()->set_moved(true);
-    } */
+    }
 }
 
 EntityTestGraphicsComponent::EntityTestGraphicsComponent(Ogre::SceneManager& scene)

@@ -1,4 +1,4 @@
-show_msg("This is actually from Lua!")
+-- show_msg("This is actually from Lua!")
 
 board = {
 	{0, 0, 0, 0, 0},
