@@ -4,10 +4,6 @@
 #include <exception>
 #include <string>
 
-// For sleep.
-#include <thread>
-#include <chrono>
-
 #ifdef WIN32
 #include "windows.h"
 #else
@@ -38,7 +34,7 @@ int main(int argc, char** argv)
 {
 	try
 	{
-        lua_test();
+        lpp::Script::get_singleton().register_function("show_msg", show_msg);
         Game game{};
         game.run();
         //lua_test();
@@ -91,9 +87,7 @@ void print_msg(const std::string& msg, const std::string& title = "NULL")
 void lua_test()
 {
     lpp::Script& script = lpp::Script::get_singleton();
-    script.register_function("show_msg", show_msg);
     script.load("scripts/test.lua");
-    return; // this is a break for the show_msg function
 
     std::string name = script.get<std::string>("programmer.name");
     print_msg(name, "Name:");
@@ -193,7 +187,5 @@ void ogre_test()
     scene->setSkyPlane(true, plane, "Ogre");
     */
  
-    root->renderOneFrame();
-    std::this_thread::sleep_for(std::chrono::seconds{5});
-    //root->startRendering();
+    root->startRendering();
 }
