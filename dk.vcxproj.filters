@@ -59,9 +59,17 @@
     <ClInclude Include="EntityFactory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Components.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scripts\System.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\test.lua" />
     <None Include="scripts\test_entity.lua" />
+    <None Include="scripts\ogre.lua" />
+    <None Include="scripts\type.lua" />
   </ItemGroup>
 </Project>

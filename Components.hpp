@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <bitset>
 
 // Temporary:
 enum class EntityState {};
@@ -66,4 +67,5 @@ struct TaskComponent : public Component
 	std::size_t curr_tast_progress;
 	std::size_t curr_task_length;
 	TaskType curr_task_type;
+	std::bitset<32> possible_tasks;
 };

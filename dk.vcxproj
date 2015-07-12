@@ -28,6 +28,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components.hpp" />
     <ClInclude Include="components\BaseComponent.hpp" />
     <ClInclude Include="components\Components.hpp" />
     <ClInclude Include="components\EntityTestComponents.hpp" />
@@ -35,10 +36,13 @@
     <ClInclude Include="EntityFactory.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="lppscript\LppScript.hpp" />
+    <ClInclude Include="scripts\System.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="scripts\ogre.lua" />
     <None Include="scripts\test.lua" />
     <None Include="scripts\test_entity.lua" />
+    <None Include="scripts\type.lua" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D88489E-16AD-492B-BEF7-FE61AEACA92B}</ProjectGuid>
