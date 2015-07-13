@@ -62,6 +62,12 @@ std::string lpp::Script::get_field_to_stack(const std::string& name, bool pass_s
 	return tmp; // Last field name.
 }
 
+void lpp::Script::clear_stack()
+{
+	int n = lua_gettop(L);
+	lua_pop(L, n);
+}
+
 lpp::Script& lpp::Script::get_singleton()
 {
 	if(!script_)

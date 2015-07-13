@@ -10,7 +10,8 @@ ogre = {
 	HealthComponent = {
 		max_hp = 1000,
 		curr_hp = 1000,
-		regen = 1
+		regen = 1,
+		alive = true
 	},
 
 	AIComponent = {

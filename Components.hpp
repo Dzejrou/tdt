@@ -34,6 +34,7 @@ struct HealthComponent : public Component
 	std::size_t curr_hp;
 	std::size_t max_hp;
 	std::size_t regen;
+	bool alive;
 };
 
 struct AIComponent : public Component

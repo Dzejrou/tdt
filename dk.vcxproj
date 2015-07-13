@@ -23,6 +23,7 @@
     <ClCompile Include="components\EntityTestComponents.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
+    <ClCompile Include="EntitySystem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="lppscript\LppScript.cpp" />
     <ClCompile Include="main.cpp" />
@@ -34,6 +35,7 @@
     <ClInclude Include="components\EntityTestComponents.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="EntityFactory.hpp" />
+    <ClInclude Include="EntitySystem.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="lppscript\LppScript.hpp" />
     <ClInclude Include="scripts\System.hpp" />

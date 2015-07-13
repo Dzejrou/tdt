@@ -70,8 +70,41 @@ class Script
 
 		template<typename T>
 		void register_value(const std::string& name, T val)
+		{ // Deprecated?
+			set(name, val)
+		}
+
+		template<typename T>
+		void set(const std::string& name, T val)
 		{
 			execute(name + " = " + std::to_string(val));
+		}
+
+		template<typename T>
+		std::vector<T> get_vector(const std::string& name)
+		{
+			if(!L)
+					throw Exception("[Error][Lua] Lua state is null.");
+
+			std::vector<T> tmp{};
+			std::string sub_name{name};
+			if(name.find(".") != std::string::npos)
+				sub_name = get_field_to_stack(name);
+			else
+				lua_getglobal(L, name.c_str());
+
+			if(lua_isnil(L, -1))
+				return std::vector<T>{};
+
+			lua_pushnil(L);
+			while(lua_next(L, -2))
+			{
+				tmp.push_back(get_<T>());
+				lua_pop(L, 1);
+			}
+
+			clear_stack();
+			return tmp;
 		}
 
 		static Script& get_singleton();
@@ -79,6 +112,7 @@ class Script
 	private:
 		Script();
 		std::string get_field_to_stack(const std::string&, bool = false);
+		void clear_stack();
 
 		static std::unique_ptr<Script> script_;
 

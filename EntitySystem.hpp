@@ -9,6 +9,7 @@
 
 class EntitySystem
 {
+#define COMP_COUNT 8
 	public:
 		EntitySystem();
 
@@ -22,6 +23,18 @@ class EntitySystem
 		 * Param: Name of the Lua table containing the entity blueprint.
 		 */
 		std::size_t create_entity(std::string);
+
+		/**
+		 * Brief: Removes an entity from the system, thus killing/destroying it.
+		 * Param: ID of the entity.
+		 */
+		void destroy_entity(std::size_t);
+
+		/**
+		 * Breif: Returns const reference to the component list, so that it can
+		 *        be used to iterate over all entities.
+		 */
+		const std::map<std::size_t, std::bitset<COMP_COUNT>>& get_component_list() const;
 		
 		/**
 		 * Brief: Recursive method testing if an entity has all of the components
@@ -103,7 +116,7 @@ class EntitySystem
 		}
 
 		// Contains bitsets describing component availability.
-		std::map<std::size_t, std::bitset<8>> components_;
+		std::map<std::size_t, std::bitset<COMP_COUNT>> components_;
 
 		// Contain components specified by the entity ID.
 		std::map<std::size_t, PhysicsComponent> physics_;
@@ -166,5 +179,43 @@ std::map<std::size_t, EventComponent>& EntitySystem::get_component_container<Eve
 template<>
 void EntitySystem::load_component<PhysicsComponent>(std::size_t id, std::string table_name)
 {
+	lpp::Script& script = lpp::Script::get_singleton();
 
 }
+
+template<>
+void EntitySystem::load_component<HealthComponent>(std::size_t id, std::string table_name)
+{
+
+}
+
+template<>
+void EntitySystem::load_component<AIComponent>(std::size_t id, std::string table_name)
+{
+
+}
+
+template<>
+void EntitySystem::load_component<GraphicsComponent>(std::size_t id, std::string table_name)
+{
+
+}
+
+template<>
+void EntitySystem::load_component<MovementComponent>(std::size_t id, std::string table_name)
+{
+
+}
+
+template<>
+void EntitySystem::load_component<CombatComponent>(std::size_t id, std::string table_name)
+{
+
+}
+
+template<>
+void EntitySystem::load_component<EventComponent>(std::size_t id, std::string table_name)
+{
+
+}
+

@@ -25,4 +25,23 @@ std::size_t EntitySystem::get_new_id() const
 std::size_t EntitySystem::create_entity(std::string table_name)
 {
 	std::size_t id = get_new_id();
+	std::vector<int> comps = lpp::Script::get_singleton().get_vector<int>(table_name + ".components");
+
+	for(const auto& x : comps)
+	{
+		switch(x)
+		{
+			
+		}
+	}
+}
+
+void EntitySystem::destroy_entity(std::size_t id)
+{
+	// TODO:
+}
+
+const std::map<std::size_t, std::bitset<COMP_COUNT>>& EntitySystem::get_component_list() const
+{
+	return components_;
 }
