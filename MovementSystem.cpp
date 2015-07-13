@@ -51,6 +51,7 @@ bool MovementSystem::can_move_to(std::size_t id, Ogre::Vector3 pos)
 				return false;
 			}
 		}
+
 		// Reverts the change, because of possible checks without actual movement.
 		phys_comp.node.setPosition(phys_comp.position);
 		return true;
@@ -77,6 +78,16 @@ bool MovementSystem::move(std::size_t id, Ogre::Vector3 dir_vector)
 		else
 			return false;
 		return true;
+	}
+}
+
+void MovementSystem::move_to(std::size_t id, Ogre::Vector3 pos)
+{
+	if(is_valid(id))
+	{
+		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
+		phys_comp.position = pos;
+		phys_comp.node.setPosition(pos);
 	}
 }
 

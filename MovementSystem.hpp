@@ -19,6 +19,7 @@ class MovementSystem : public System
 		bool is_solid(std::size_t) const;
 		bool can_move_to(std::size_t, Ogre::Vector3);
 		bool move(std::size_t, Ogre::Vector3);
+		void move_to(std::size_t, Ogre::Vector3);
 		const Ogre::AxisAlignedBox& get_bounds(std::size_t) const;
 	private:
 		EntitySystem& entities_;

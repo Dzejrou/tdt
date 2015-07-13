@@ -4,7 +4,8 @@ ogre = {
 	PhysicsComponent = {
 		x = 0,
 		y = 0,
-		z = 0
+		z = 0,
+		solid = true
 	},
 
 	HealthComponent = {
@@ -31,9 +32,7 @@ ogre = {
 		mov_y = 0,
 		mov_z = 0,
 
-		speed_x = 0,
-		speed_y = 0,
-		speed_z = 0,
+		speed = 10,
 
 		moving = false
 	},
