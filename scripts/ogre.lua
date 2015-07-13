@@ -41,9 +41,9 @@ ogre = {
 		max_dmg = 150
 	},
 
-	TaskComponent = {
-		progress = 0,
-		curr_task_length = 0,
-		curr_task_type = 0
+	EventComponent = {
+		curr_event_progress = 0,
+		curr_event_length = 0,
+		curr_event_type = 0
 	}
 }
