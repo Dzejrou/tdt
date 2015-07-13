@@ -15,7 +15,7 @@ class Event {};
 
 struct Component
 {
-	static constexpr int type = -1;
+	// TODO: Is this necessary?
 };
 
 struct PhysicsComponent : public Component

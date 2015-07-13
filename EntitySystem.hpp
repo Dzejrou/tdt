@@ -2,15 +2,26 @@
 
 #include <map>
 #include <exception>
+#include <string>
 
 #include "Components.hpp"
+#include "lppscript\LppScript.hpp"
 
 class EntitySystem
 {
 	public:
 		EntitySystem();
 
+		/**
+		 * Brief: Returns first available entity id.
+		 */
 		std::size_t get_new_id() const;
+
+		/**
+		 * Brief: Creates a new entity from a blueprint.
+		 * Param: Name of the Lua table containing the entity blueprint.
+		 */
+		std::size_t create_entity(std::string);
 		
 		/**
 		 * Brief: Recursive method testing if an entity has all of the components
@@ -50,6 +61,12 @@ class EntitySystem
 									 + "type " + COMP::type + " from entity #" + std::to_string(id)};
 		}
 
+		/**
+		 * Brief: Changes a component (type specified by template argument) of and entity or assigns a new
+		 *		  component it that entity didn't have it.
+		 * Param: ID of the entity.
+		 * Param: Component to be assigned.
+		 */
 		template<typename COMP>
 		void set_component(std::size_t id, COMP comp)
 		{
@@ -63,14 +80,32 @@ class EntitySystem
 			}
 		}
 	private:
+		/**
+		 * Brief: Returns the map associated with the component specified by the template argument.
+		 */
 		template<typename COMP>
 		std::map<std::size_t, COMP>& get_component_container()
 		{ // Will have specializations.
-			throw std::exception{"[Error][EntitySystem] Trying to access component container of a non-existent entity."};
+			throw std::exception{"[Error][EntitySystem] Trying to access container of a non-existent component: "
+								 + std::to_string(COMP::type)};
 		}
 
+		/**
+		 * Brief: Loads a component from a Lua script.
+		 * Param: ID of the entity.
+		 * Param: Name of the table containing the component.
+		 */
+		template<typename COMP>
+		void load_component(std::size_t id, std::string table_name)
+		{ // Will have specializations.
+			throw std::exception{"[Error][EntitySystem] Trying to load a non-existent component: "
+								 + std::to_string(COMP::type)};
+		}
+
+		// Contains bitsets describing component availability.
 		std::map<std::size_t, std::bitset<8>> components_;
 
+		// Contain components specified by the entity ID.
 		std::map<std::size_t, PhysicsComponent> physics_;
 		std::map<std::size_t, HealthComponent> health_;
 		std::map<std::size_t, AIComponent> ai_;
@@ -123,4 +158,13 @@ template<>
 std::map<std::size_t, EventComponent>& EntitySystem::get_component_container<EventComponent>()
 {
 	return event_;
+}
+
+/**
+ * Specializations of the EntitySystem::load_component method.
+ */
+template<>
+void EntitySystem::load_component<PhysicsComponent>(std::size_t id, std::string table_name)
+{
+
 }

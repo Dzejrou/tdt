@@ -1,4 +1,6 @@
 ogre = {
+	components = {0, 1, 2, 3, 4, 5, 6},
+
 	PhysicsComponent = {
 		x = 0,
 		y = 0,
