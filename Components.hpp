@@ -25,6 +25,7 @@ struct PhysicsComponent : public Component
 	Ogre::SceneNode& node;
 	Ogre::Entity& entity;
 	Ogre::Vector3 position;
+	bool solid;
 };
 
 struct HealthComponent : public Component
@@ -60,7 +61,7 @@ struct MovementComponent : public Component
 	static constexpr int type = 4;
 
 	Ogre::Vector3 movement_vector;
-	Ogre::Vector3 speed_modifier;
+	Ogre::Real speed_modifier;
 	bool moving;
 };
 

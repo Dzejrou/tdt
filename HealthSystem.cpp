@@ -15,7 +15,7 @@ void HealthSystem::update(Ogre::Real)
 	else
 		++regen_timer_;
 
-	const auto& ents = entities_.get_component_list();
+	auto& ents = entities_.get_component_list();
 	for(auto it = ents.cbegin(); it != ents.cend(); ++it)
 	{
 		if(!entities_.get_component<HealthComponent>(it->first).alive)
