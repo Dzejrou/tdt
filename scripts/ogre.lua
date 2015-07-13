@@ -12,8 +12,7 @@ ogre = {
 	},
 
 	AIComponent = {
-		script_name = "ogre.lua",
-		state = 0,
+		script_name = "ogre",
 		faction = 0
 	},
 
@@ -36,5 +35,17 @@ ogre = {
 		curr_event_progress = 0,
 		curr_event_length = 0,
 		curr_event_type = 0
-	}
+	},
+
+	init = function()
+		-- TODO:
+	end,
+
+	update = function()
+		-- TODO:
+	end,
+
+	finnish = function()
+		-- TODO:
+	end
 }

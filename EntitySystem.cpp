@@ -44,12 +44,7 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 				int max = script.get<int>(table_name + ".max_hp");
 				int reg = script.get<int>(table_name + ".regen");
 				int def = script.get<int>(table_name + ".defense");
-				health_.emplace(std::make_pair(id, HealthComponent{
-					// Note: static cast used to avoid signed -> unsigned warning.
-					static_cast<std::size_t>(max),
-					static_cast<std::size_t>(reg),
-					static_cast<std::size_t>(def)
-				}));
+				health_.emplace(std::make_pair(id, HealthComponent{max, reg, def}));
 				break;
 			case AIComponent::type:
 				break;
