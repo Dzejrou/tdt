@@ -11,7 +11,8 @@ ogre = {
 		max_hp = 1000,
 		curr_hp = 1000,
 		regen = 1,
-		alive = true
+		alive = true,
+		defense = 8
 	},
 
 	AIComponent = {
