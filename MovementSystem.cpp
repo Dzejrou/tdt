@@ -39,7 +39,7 @@ bool MovementSystem::can_move_to(std::size_t id, Ogre::Vector3 pos)
 	{
 		auto& ents = entities_.get_component_list();
 		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
-		phys_comp.node.setPosition(pos); // Old position backed up in phys_comp.position.
+		phys_comp.node->setPosition(pos); // Old position backed up in phys_comp.position.
 		auto& bounds = get_bounds(id); // TODO: Does the box update when position changes?
 
 		for(auto it = ents.cbegin(); it != ents.cend(); ++it)
@@ -47,13 +47,13 @@ bool MovementSystem::can_move_to(std::size_t id, Ogre::Vector3 pos)
 			if(is_valid(it->first) && is_solid(it->first) &&
 			   bounds.intersects(get_bounds(it->first)))
 			{
-				phys_comp.node.setPosition(phys_comp.position);
+				phys_comp.node->setPosition(phys_comp.position);
 				return false;
 			}
 		}
 
 		// Reverts the change, because of possible checks without actual movement.
-		phys_comp.node.setPosition(phys_comp.position);
+		phys_comp.node->setPosition(phys_comp.position);
 		return true;
 	}
 }
@@ -73,7 +73,7 @@ bool MovementSystem::move(std::size_t id, Ogre::Vector3 dir_vector)
 		if(can_move_to(id, new_pos))
 		{
 			phys_comp.position = new_pos;
-			phys_comp.node.setPosition(new_pos);
+			phys_comp.node->setPosition(new_pos);
 		}
 		else
 			return false;
@@ -87,14 +87,14 @@ void MovementSystem::move_to(std::size_t id, Ogre::Vector3 pos)
 	{
 		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
 		phys_comp.position = pos;
-		phys_comp.node.setPosition(pos);
+		phys_comp.node->setPosition(pos);
 	}
 }
 
 const Ogre::AxisAlignedBox& MovementSystem::get_bounds(std::size_t id) const
 {
 	if(is_valid(id))
-		return entities_.get_component<PhysicsComponent>(id).entity.getBoundingBox();
+		return entities_.get_component<PhysicsComponent>(id).entity->getBoundingBox();
 	else
 		throw std::exception{"[Error][MovementSystem] Trying to get bounding box of entity #"
 							 + std::to_string(id) + " which does not have PhysicsComponent."};

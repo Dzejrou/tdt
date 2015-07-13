@@ -180,7 +180,11 @@ template<>
 void EntitySystem::load_component<PhysicsComponent>(std::size_t id, std::string table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
-
+	float x = script.get<float>(table_name + ".x");
+	float y = script.get<float>(table_name + ".y");
+	float z = script.get<float>(table_name + ".z");
+	bool solid = script.get<bool>(table_name + ".solid");
+	physics_.emplace();
 }
 
 template<>

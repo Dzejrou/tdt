@@ -2,17 +2,12 @@ ogre = {
 	components = {0, 1, 2, 3, 4, 5, 6},
 
 	PhysicsComponent = {
-		x = 0,
-		y = 0,
-		z = 0,
 		solid = true
 	},
 
 	HealthComponent = {
 		max_hp = 1000,
-		curr_hp = 1000,
 		regen = 1,
-		alive = true,
 		defense = 8
 	},
 
@@ -28,18 +23,11 @@ ogre = {
 	},
 
 	MovementComponent = {
-		mov_x = 0,
-		mov_y = 0,
-		mov_z = 0,
-
 		speed = 10,
-
-		moving = false
 	},
 
 	CombatComponent = {
 		range = 15,
-
 		min_dmg = 50,
 		max_dmg = 150
 	},
