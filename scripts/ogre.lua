@@ -1,5 +1,15 @@
+-- Testing Ogre entity.
 ogre = {
-	components = {0, 1, 2, 3, 4, 5, 6},
+	components = {
+		-- type enums contained in core_utils.lua
+		type.component.physics,
+		type.component.health,
+		type.component.ai,
+		type.component.graphics,
+		type.component.movement,
+		type.component.combat,
+		type.component.event
+	},
 
 	PhysicsComponent = {
 		solid = true
@@ -12,7 +22,7 @@ ogre = {
 	},
 
 	AIComponent = {
-		script_name = "ogre",
+		blueprint = "ogre",
 		faction = 0
 	},
 
@@ -22,13 +32,15 @@ ogre = {
 	},
 
 	MovementComponent = {
-		speed = 10,
+		speed_modifier = 10,
 	},
 
 	CombatComponent = {
 		range = 15,
 		min_dmg = 50,
-		max_dmg = 150
+		max_dmg = 150,
+		atk_1 = 1,
+		atk_2 = 0
 	},
 
 	EventComponent = {
@@ -37,15 +49,15 @@ ogre = {
 		curr_event_type = 0
 	},
 
-	init = function()
+	init = function(id)
 		-- TODO:
 	end,
 
-	update = function()
+	update = function(id)
 		-- TODO:
 	end,
 
-	finnish = function()
+	finnish = function(id)
 		-- TODO:
 	end
 }

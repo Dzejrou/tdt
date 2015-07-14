@@ -8,8 +8,9 @@
 
 // Temporary:
 enum class EntityState { NORMAL };
-enum class Faction {};
+enum class Faction { FRIENDLY, ENEMY, NEUTRAL };
 enum class EventType {};
+enum class AttackType { NONE, MELEE };
 class Attack {};
 class Event {};
 
@@ -52,10 +53,10 @@ struct AIComponent : public Component
 	static constexpr int type = 2;
 
 	AIComponent(std::string s, int f)
-		: script_name{s}, state{EntityState::NORMAL}, faction((Faction)f)
+		: blueprint{s}, state{EntityState::NORMAL}, faction((Faction)f)
 	{ /* DUMMY BODY */ }
 
-	std::string script_name;
+	std::string blueprint;
 	EntityState state;
 	Faction faction;
 };
@@ -76,8 +77,8 @@ struct MovementComponent : public Component
 {
 	static constexpr int type = 4;
 
-	MovementComponent()
-		: movement_vector{0, 0, 0}, speed_modifier{0},
+	MovementComponent(std::size_t speed)
+		: movement_vector{0, 0, 0}, speed_modifier{speed},
 		  moving{false}
 	{ /* DUMMY BODY */ }
 
@@ -90,17 +91,19 @@ struct CombatComponent : public Component
 {
 	static constexpr int type = 5;
 
-	CombatComponent(std::size_t r, std::size_t mi, std::size_t ma)
-		: range{r}, min_dmg{mi}, max_dmg{ma}
+	CombatComponent(std::size_t r, std::size_t mi, std::size_t ma, int a1 = 0, int a2 = 0)
+		: range{r}, min_dmg{mi}, max_dmg{ma}, atk_1((AttackType)a1), atk_2((AttackType)a2)
 	{ /* DUMMY BODY */ }
 
 	std::size_t range;
 	std::size_t min_dmg;
 	std::size_t max_dmg;
+	AttackType atk_1;
+	AttackType atk_2;
 };
 
 struct EventComponent : public Component
-{
+{ // TODO: 
 	static constexpr int type = 6;
 
 	EventComponent()

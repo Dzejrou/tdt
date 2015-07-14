@@ -35,6 +35,9 @@ bool MovementSystem::is_solid(std::size_t id) const
 
 bool MovementSystem::can_move_to(std::size_t id, Ogre::Vector3 pos)
 {
+	if(!entities_.has_component<GraphicsComponent>(id))
+		return true; // Invisible objects will be able to move anywhere.
+
 	if(is_valid(id) && entities_.get_component<PhysicsComponent>(id).solid)
 	{
 		auto& ents = entities_.get_component_list();
@@ -73,6 +76,8 @@ bool MovementSystem::move(std::size_t id, Ogre::Vector3 dir_vector)
 		if(can_move_to(id, new_pos))
 		{
 			phys_comp.position = new_pos;
+
+			if(phys_comp.node)
 			phys_comp.node->setPosition(new_pos);
 		}
 		else
@@ -87,15 +92,17 @@ void MovementSystem::move_to(std::size_t id, Ogre::Vector3 pos)
 	{
 		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
 		phys_comp.position = pos;
-		phys_comp.node->setPosition(pos);
+
+		if(phys_comp.node)
+			phys_comp.node->setPosition(pos);
 	}
 }
 
 const Ogre::AxisAlignedBox& MovementSystem::get_bounds(std::size_t id) const
 {
-	if(is_valid(id))
+	if(is_valid(id) && entities_.get_component<PhysicsComponent>(id).entity)
 		return entities_.get_component<PhysicsComponent>(id).entity->getBoundingBox();
 	else
 		throw std::exception{"[Error][MovementSystem] Trying to get bounding box of entity #"
-							 + std::to_string(id) + " which does not have PhysicsComponent."};
+							 + std::to_string(id) + " which does not have PhysicsComponent or an entity."};
 }

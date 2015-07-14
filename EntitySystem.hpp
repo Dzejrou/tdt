@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Ogre.h>
 #include <map>
 #include <exception>
 #include <string>
@@ -11,7 +12,16 @@ class EntitySystem
 {
 #define COMP_COUNT 8
 	public:
-		EntitySystem();
+		/**
+		 * Brief: Constructor.
+		 * Param: Reference to the game's scene manager used to create nodes and entities.
+		 */
+		EntitySystem(Ogre::SceneManager&);
+
+		/**
+		 * Brief: Destructor.
+		 */
+		~EntitySystem() { /* DUMMY BODY */ }
 
 		/**
 		 * Brief: Returns first available entity id.
@@ -126,6 +136,9 @@ class EntitySystem
 		std::map<std::size_t, MovementComponent> movement_;
 		std::map<std::size_t, CombatComponent> combat_;
 		std::map<std::size_t, EventComponent> event_;
+
+		// To create nodes and entities.
+		Ogre::SceneManager& scene_;
 };
 
 /**
@@ -180,46 +193,62 @@ template<>
 void EntitySystem::load_component<PhysicsComponent>(std::size_t id, std::string table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
-	float x = script.get<float>(table_name + ".x");
-	float y = script.get<float>(table_name + ".y");
-	float z = script.get<float>(table_name + ".z");
-	bool solid = script.get<bool>(table_name + ".solid");
-	physics_.emplace();
+	bool solid = script.get<bool>(table_name + ".PhysicsComponent.solid");
+	physics_.emplace(std::make_pair(id, PhysicsComponent{solid}));
 }
 
 template<>
 void EntitySystem::load_component<HealthComponent>(std::size_t id, std::string table_name)
 {
-
+	lpp::Script& script = lpp::Script::get_singleton();
+	int max = script.get<int>(table_name + ".HealthComponent.max_hp");
+	int reg = script.get<int>(table_name + ".HealthComponent.regen");
+	int def = script.get<int>(table_name + ".HealthComponent.defense");
+	health_.emplace(std::make_pair(id, HealthComponent{max, reg, def}));
 }
 
 template<>
 void EntitySystem::load_component<AIComponent>(std::size_t id, std::string table_name)
 {
-
+	lpp::Script& script = lpp::Script::get_singleton();
+	std::string blueprint = script.get<std::string>(table_name + ".AIComponent.blueprint");
+	int faction = script.get<int>(table_name + ".AIComponent.faction");
+	ai_.emplace(std::make_pair(id, AIComponent{blueprint, faction}));
 }
 
 template<>
 void EntitySystem::load_component<GraphicsComponent>(std::size_t id, std::string table_name)
 {
-
+	lpp::Script& script = lpp::Script::get_singleton();
+	std::string mesh = script.get<std::string>(table_name + ".GraphicsComponent.mesh");
+	std::string mat = script.get<std::string>(table_name + ".GraphicsComponent.material");
+	graphics_.emplace(std::make_pair(id, GraphicsComponent{mesh, mat}));
 }
 
 template<>
 void EntitySystem::load_component<MovementComponent>(std::size_t id, std::string table_name)
 {
-
+	lpp::Script& script = lpp::Script::get_singleton();
+	int speed = script.get<int>(table_name + ".MovementComponent.speed_modifier");
+	movement_.emplace(std::make_pair(id, MovementComponent{speed}));
 }
 
 template<>
 void EntitySystem::load_component<CombatComponent>(std::size_t id, std::string table_name)
 {
-
+	lpp::Script& script = lpp::Script::get_singleton();
+	int range = script.get<int>(table_name + "CombatComponent.range");
+	int min = script.get<int>(table_name + "CombatComponent.min_dmg");
+	int max = script.get<int>(table_name + "CombatComponent.max_dmg");
+	int a1 = script.get<int>(table_name + "CombatComponent.atk_1");
+	int a2 = script.get<int>(table_name + "CombatComponent.atk_2");
+	combat_.emplace(std::make_pair(id, CombatComponent{range, min, max, a1, a2}));
 }
 
 template<>
 void EntitySystem::load_component<EventComponent>(std::size_t id, std::string table_name)
 {
-
+	lpp::Script& script = lpp::Script::get_singleton();
+	event_.emplace(std::make_pair(id, EventComponent{}));
 }
 

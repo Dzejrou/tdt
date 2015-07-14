@@ -1,9 +1,8 @@
 #include "EntitySystem.hpp"
 
-EntitySystem::EntitySystem()
-{
-
-}
+EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
+	: scene_{mgr}
+{ /* DUMMY BODY */ }
 
 std::size_t EntitySystem::get_new_id() const
 {
@@ -33,29 +32,40 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 
 	for(const auto& x : comps)
 	{
-		bits.set(x);
+		bits.set(x); // Duplicate components will just overwrite, no need for error checking.
 		switch(x)
 		{
 			case PhysicsComponent::type:
-				bool solid = script.get<bool>(table_name + ".solid");
-				physics_.emplace(std::make_pair(id, PhysicsComponent{solid}));
+				load_component<PhysicsComponent>(id, table_name);
 				break;
 			case HealthComponent::type:
-				int max = script.get<int>(table_name + ".max_hp");
-				int reg = script.get<int>(table_name + ".regen");
-				int def = script.get<int>(table_name + ".defense");
-				health_.emplace(std::make_pair(id, HealthComponent{max, reg, def}));
+				load_component<HealthComponent>(id, table_name);
 				break;
 			case AIComponent::type:
+				load_component<AIComponent>(id, table_name);
 				break;
 			case GraphicsComponent::type:
+				load_component<GraphicsComponent>(id, table_name);
 				break;
 			case MovementComponent::type:
+				load_component<MovementComponent>(id, table_name);
 				break;
 			case CombatComponent::type:
+				load_component<CombatComponent>(id, table_name);
 				break;
 			case EventComponent::type:
-				break;
+				load_component<EventComponent>(id, table_name);
+		}
+
+		if(has_components<PhysicsComponent, GraphicsComponent>(id))
+		{ // Init node and entity.
+			auto& phys_comp = get_component<PhysicsComponent>(id);
+			auto& graph_comp = get_component<GraphicsComponent>(id);
+
+			phys_comp.node = scene_.getRootSceneNode()->createChildSceneNode();
+			phys_comp.entity = scene_.createEntity(graph_comp.mesh);
+			phys_comp.entity->setMaterialName(graph_comp.material); // TODO: Necessary?
+			phys_comp.node->attachObject(phys_comp.entity);
 		}
 	}
 }
