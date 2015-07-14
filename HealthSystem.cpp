@@ -27,12 +27,12 @@ void HealthSystem::update(Ogre::Real)
 	}
 }
 
-bool HealthSystem::is_valid(std::size_t id)
+bool HealthSystem::is_valid(std::size_t id) const
 {
 	return entities_.has_component<HealthComponent>(id);
 }
 
-std::size_t HealthSystem::get_health(std::size_t id)
+std::size_t HealthSystem::get_health(std::size_t id) const
 {
 	if(is_valid(id))
 		return entities_.get_component<HealthComponent>(id).curr_hp;
@@ -93,7 +93,7 @@ void HealthSystem::buff(std::size_t id, std::size_t val)
 	}
 }
 
-std::size_t HealthSystem::get_defense(std::size_t id)
+std::size_t HealthSystem::get_defense(std::size_t id) const
 {
 	if(is_valid(id))
 		return entities_.get_component<HealthComponent>(id).defense;

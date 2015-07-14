@@ -4,13 +4,20 @@ Game::Game()
 	: state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
-	  factory_{nullptr}, entities_(), camera_dir_{0, 0, 0}
+	  camera_dir_{0, 0, 0}
 {
 	ogre_init();
 	ois_init();
 	level_init();
 	lua_init();
-	factory_.reset(new EntityFactory{entities_, scene_mgr_});
+
+	entity_system_.reset(new EntitySystem(*scene_mgr_));
+	health_system_.reset(new HealthSystem(*entity_system_));
+	movement_system_.reset(new MovementSystem(*entity_system_));
+
+	systems_.emplace_back(health_system_.get());
+	systems_.emplace_back(movement_system_.get());
+
 }
 
 Game::~Game()
@@ -28,8 +35,6 @@ void Game::run()
 	test_node->setPosition(Ogre::Vector3(0, 30, 100));
 	//test_node->setVisible(false);
 
-	entities_.emplace_back(factory_->create_entity<EntityType::EntityTest>(0, 30, 0));
-
 	root_->startRendering();
 }
 
@@ -44,8 +49,6 @@ void Game::update(Ogre::Real delta)
 		main_cam_->moveRelative(camera_dir_);
 	}
 
-	for(auto& entity : entities_)
-		entity->update(delta);
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
@@ -275,4 +278,8 @@ void Game::level_init()
 void Game::lua_init()
 {
 	lpp::Script::get_singleton().load("scripts/test_entity.lua");
+	
+	lpp::Script& script = lpp::Script::get_singleton();
+	script.load("scripts/core_utils.lua");
+	script.load("scripts/ogre.lua");
 }

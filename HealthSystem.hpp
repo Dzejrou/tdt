@@ -13,14 +13,14 @@ class HealthSystem : public System
 		~HealthSystem() {}
 
 		void update(Ogre::Real);
-		bool is_valid(std::size_t);
-		std::size_t get_health(std::size_t);
+		bool is_valid(std::size_t) const;
+		std::size_t get_health(std::size_t) const;
 		void add_health(std::size_t, std::size_t);
 		void sub_health(std::size_t, std::size_t, bool = false);
 		void heal(std::size_t);
 		void buff(std::size_t, std::size_t);
 
-		std::size_t get_defense(std::size_t);
+		std::size_t get_defense(std::size_t) const;
 		void add_defense(std::size_t, std::size_t);
 		void sub_defense(std::size_t, std::size_t);
 	public:

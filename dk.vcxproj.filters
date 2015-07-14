@@ -21,19 +21,7 @@
     <ClCompile Include="lppscript\LppScript.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="components\EntityTestComponents.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="components\BaseComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EntitySystem.cpp">
@@ -50,22 +38,7 @@
     <ClInclude Include="lppscript\LppScript.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Game.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="components\EntityTestComponents.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="components\Components.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="components\BaseComponent.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityFactory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Components.hpp">

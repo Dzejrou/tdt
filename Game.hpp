@@ -6,8 +6,9 @@
 #include <memory>
 #include <vector>
 
-#include "Entity.hpp"
-#include "EntityFactory.hpp"
+#include "EntitySystem.hpp"
+#include "HealthSystem.hpp"
+#include "MovementSystem.hpp"
 #include "lppscript/LppScript.hpp"
 
 enum class GAME_STATE
@@ -53,11 +54,14 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		OIS::InputManager* input_;
 		OIS::Keyboard* keyboard_;
 		OIS::Mouse* mouse_;
+		Ogre::Vector3 camera_dir_;
 
-		std::vector<std::unique_ptr<Entity>> entities_;
-		std::unique_ptr<EntityFactory> factory_;
+		std::unique_ptr<EntitySystem> entity_system_;
+		std::unique_ptr<HealthSystem> health_system_;
+		std::unique_ptr<MovementSystem> movement_system_;
+
+		std::vector<System*> systems_;
 
 		// Testing stuff.
-		Ogre::Vector3 camera_dir_;
 		Ogre::SceneNode* test_node{nullptr};
 };
