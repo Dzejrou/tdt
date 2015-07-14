@@ -126,13 +126,13 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 {
 	if(event.state.buttonDown(OIS::MB_Left))
 	{
-		main_cam_->yaw(Ogre::Degree(-.13 * event.state.X.rel));
-		main_cam_->pitch(Ogre::Degree(-.13 * event.state.Y.rel));
+		main_cam_->yaw(Ogre::Degree(-.13f * event.state.X.rel));
+		main_cam_->pitch(Ogre::Degree(-.13f * event.state.Y.rel));
 	}
 	else if(event.state.buttonDown(OIS::MB_Right))
 	{
-		main_cam_->yaw(Ogre::Degree(.13 * event.state.X.rel));
-		main_cam_->pitch(Ogre::Degree(.13 * event.state.Y.rel));
+		main_cam_->yaw(Ogre::Degree(.13f * event.state.X.rel));
+		main_cam_->pitch(Ogre::Degree(.13f * event.state.Y.rel));
 	}
 
 	return true;

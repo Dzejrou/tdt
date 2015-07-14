@@ -48,7 +48,7 @@
     <None Include="scripts\ogre.lua" />
     <None Include="scripts\test.lua" />
     <None Include="scripts\test_entity.lua" />
-    <None Include="scripts\type.lua" />
+    <None Include="scripts\core_utils.lua" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D88489E-16AD-492B-BEF7-FE61AEACA92B}</ProjectGuid>

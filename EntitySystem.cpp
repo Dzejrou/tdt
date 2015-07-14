@@ -57,7 +57,7 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 				load_component<EventComponent>(id, table_name);
 		}
 
-		if(has_components<PhysicsComponent, GraphicsComponent>(id))
+		if(has_component<PhysicsComponent>(id) && has_component<GraphicsComponent>(id))
 		{ // Init node and entity.
 			auto& phys_comp = get_component<PhysicsComponent>(id);
 			auto& graph_comp = get_component<GraphicsComponent>(id);
@@ -68,6 +68,8 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 			phys_comp.node->attachObject(phys_comp.entity);
 		}
 	}
+
+	return id;
 }
 
 void EntitySystem::destroy_entity(std::size_t id)

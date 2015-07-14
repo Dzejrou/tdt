@@ -3,6 +3,7 @@
 #include <lua.hpp>
 #include <string>
 #include <memory>
+#include <vector>
 
 namespace lpp
 {
@@ -149,7 +150,7 @@ class Script
 	 * Exception class used to throw exception from the Script class.
 	 */
 class Exception
-{
+{ // TODO: Add print stack, lua error etc.
 	public:
 		Exception(const std::string& msg) : msg_{msg} {};
 		const char* what() const;
@@ -186,7 +187,7 @@ template<>
 inline float Script::get_<float>(const std::string& name)
 {
 	if(lua_isnumber(L, -1))
-		return lua_tonumber(L, -1);
+		return (float)lua_tonumber(L, -1);
 	else
 		throw Exception("[Error][Lua] Cannot retrieve a variable because of type mismatch: " + name);
 }
@@ -195,7 +196,7 @@ template<>
 inline bool Script::get_<bool>(const std::string& name)
 {
 	if(lua_isboolean(L, -1))
-		return (bool)lua_toboolean(L, -1);
+		return lua_toboolean(L, -1) == 1; // Small hack, lua_toboolean returns 0 or 1 (since it's a C API).
 	else
 		throw Exception("[Error][Lua] Cannot retrieve a variable because of type mismatch: " + name);
 }

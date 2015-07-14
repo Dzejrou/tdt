@@ -2,7 +2,7 @@
 
 #include <Ogre.h>
 #include <map>
-#include <exception>
+#include <stdexcept>
 #include <string>
 
 #include "Components.hpp"
@@ -47,26 +47,16 @@ class EntitySystem
 		const std::map<std::size_t, std::bitset<COMP_COUNT>>& get_component_list() const;
 		
 		/**
-		 * Brief: Recursive method testing if an entity has all of the components
-		 *        passed as template arguments.
-		 * Param: ID of the entity being checked.
-		 */
-		template<typename COMP, typename... COMPS>
-		bool has_components(std::size_t id)
-		{
-			return has_component<COMP>(id) &&
-				   has_components<COMPS...>(id);
-		}
-
-		/**
 		 * Brief: Tests whether a given entity has a component specialized by the
 		 *	      template argument.
 		 * Param: ID of the entity being checked.
+		 * Note: VS2015RC does not let me use variadic templates with recursion to check multiple
+		 *       components for some reason, investigate!
 		 */
 		template<typename COMP>
 		bool has_component(std::size_t id) const
 		{
-			return components_[id].test(COMP::type);
+			return components_.find(id)->second.test(COMP::type);
 		}
 
 		/**
@@ -80,8 +70,7 @@ class EntitySystem
 			if(it != get_component_container<COMP>().end())
 				return it->second;
 			else
-				throw std::exception{"[Error][EntitySystem] Trying to retrieve a non-existing component of "
-									 + "type " + COMP::type + " from entity #" + std::to_string(id)};
+				throw std::runtime_error("[Error][EntitySystem] Trying to retrieve a non-existing component.");
 		}
 
 		/**
@@ -109,8 +98,8 @@ class EntitySystem
 		template<typename COMP>
 		std::map<std::size_t, COMP>& get_component_container()
 		{ // Will have specializations.
-			throw std::exception{"[Error][EntitySystem] Trying to access container of a non-existent component: "
-								 + std::to_string(COMP::type)};
+			throw std::runtime_error("[Error][EntitySystem] Trying to access container of a non-existent component: "
+								     + std::to_string(COMP::type));
 		}
 
 		/**
@@ -121,8 +110,8 @@ class EntitySystem
 		template<typename COMP>
 		void load_component(std::size_t id, std::string table_name)
 		{ // Will have specializations.
-			throw std::exception{"[Error][EntitySystem] Trying to load a non-existent component: "
-								 + std::to_string(COMP::type)};
+			throw std::runtime_error("[Error][EntitySystem] Trying to load a non-existent component: "
+								     + std::to_string(COMP::type));
 		}
 
 		// Contains bitsets describing component availability.
@@ -145,43 +134,43 @@ class EntitySystem
  * Specializations of the EntitySystem::get_component_container method.
  */
 template<>
-std::map<std::size_t, PhysicsComponent>& EntitySystem::get_component_container<PhysicsComponent>()
+inline std::map<std::size_t, PhysicsComponent>& EntitySystem::get_component_container<PhysicsComponent>()
 {
 	return physics_;
 }
 
 template<>
-std::map<std::size_t, HealthComponent>& EntitySystem::get_component_container<HealthComponent>()
+inline std::map<std::size_t, HealthComponent>& EntitySystem::get_component_container<HealthComponent>()
 {
 	return health_;
 }
 
 template<>
-std::map<std::size_t, AIComponent>& EntitySystem::get_component_container<AIComponent>()
+inline std::map<std::size_t, AIComponent>& EntitySystem::get_component_container<AIComponent>()
 {
 	return ai_;
 }
 
 template<>
-std::map<std::size_t, GraphicsComponent>& EntitySystem::get_component_container<GraphicsComponent>()
+inline std::map<std::size_t, GraphicsComponent>& EntitySystem::get_component_container<GraphicsComponent>()
 {
 	return graphics_;
 }
 
 template<>
-std::map<std::size_t, MovementComponent>& EntitySystem::get_component_container<MovementComponent>()
+inline std::map<std::size_t, MovementComponent>& EntitySystem::get_component_container<MovementComponent>()
 {
 	return movement_;
 }
 
 template<>
-std::map<std::size_t, CombatComponent>& EntitySystem::get_component_container<CombatComponent>()
+inline std::map<std::size_t, CombatComponent>& EntitySystem::get_component_container<CombatComponent>()
 {
 	return combat_;
 }
 
 template<>
-std::map<std::size_t, EventComponent>& EntitySystem::get_component_container<EventComponent>()
+inline std::map<std::size_t, EventComponent>& EntitySystem::get_component_container<EventComponent>()
 {
 	return event_;
 }
@@ -190,7 +179,7 @@ std::map<std::size_t, EventComponent>& EntitySystem::get_component_container<Eve
  * Specializations of the EntitySystem::load_component method.
  */
 template<>
-void EntitySystem::load_component<PhysicsComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<PhysicsComponent>(std::size_t id, std::string table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	bool solid = script.get<bool>(table_name + ".PhysicsComponent.solid");
@@ -198,17 +187,17 @@ void EntitySystem::load_component<PhysicsComponent>(std::size_t id, std::string 
 }
 
 template<>
-void EntitySystem::load_component<HealthComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<HealthComponent>(std::size_t id, std::string table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	int max = script.get<int>(table_name + ".HealthComponent.max_hp");
 	int reg = script.get<int>(table_name + ".HealthComponent.regen");
 	int def = script.get<int>(table_name + ".HealthComponent.defense");
-	health_.emplace(std::make_pair(id, HealthComponent{max, reg, def}));
+	health_.emplace(std::make_pair(id, HealthComponent(max, reg, def)));
 }
 
 template<>
-void EntitySystem::load_component<AIComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<AIComponent>(std::size_t id, std::string table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string blueprint = script.get<std::string>(table_name + ".AIComponent.blueprint");
@@ -217,7 +206,7 @@ void EntitySystem::load_component<AIComponent>(std::size_t id, std::string table
 }
 
 template<>
-void EntitySystem::load_component<GraphicsComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, std::string table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string mesh = script.get<std::string>(table_name + ".GraphicsComponent.mesh");
@@ -226,15 +215,15 @@ void EntitySystem::load_component<GraphicsComponent>(std::size_t id, std::string
 }
 
 template<>
-void EntitySystem::load_component<MovementComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<MovementComponent>(std::size_t id, std::string table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
-	int speed = script.get<int>(table_name + ".MovementComponent.speed_modifier");
+	float speed = script.get<float>(table_name + ".MovementComponent.speed_modifier");
 	movement_.emplace(std::make_pair(id, MovementComponent{speed}));
 }
 
 template<>
-void EntitySystem::load_component<CombatComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<CombatComponent>(std::size_t id, std::string table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	int range = script.get<int>(table_name + "CombatComponent.range");
@@ -242,13 +231,12 @@ void EntitySystem::load_component<CombatComponent>(std::size_t id, std::string t
 	int max = script.get<int>(table_name + "CombatComponent.max_dmg");
 	int a1 = script.get<int>(table_name + "CombatComponent.atk_1");
 	int a2 = script.get<int>(table_name + "CombatComponent.atk_2");
-	combat_.emplace(std::make_pair(id, CombatComponent{range, min, max, a1, a2}));
+	combat_.emplace(std::make_pair(id, CombatComponent(range, min, max, a1, a2)));
 }
 
 template<>
-void EntitySystem::load_component<EventComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<EventComponent>(std::size_t id, std::string table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	event_.emplace(std::make_pair(id, EventComponent{}));
 }
-

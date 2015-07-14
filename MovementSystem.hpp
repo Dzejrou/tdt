@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Ogre.h>
-#include <exception>
+#include <stdexcept>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"

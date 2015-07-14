@@ -36,6 +36,15 @@
     <ClCompile Include="EntityFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EntitySystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lppscript\LppScript.hpp">
@@ -62,7 +71,16 @@
     <ClInclude Include="Components.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scripts\System.hpp">
+    <ClInclude Include="EntitySystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="System.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -70,6 +88,6 @@
     <None Include="scripts\test.lua" />
     <None Include="scripts\test_entity.lua" />
     <None Include="scripts\ogre.lua" />
-    <None Include="scripts\type.lua" />
+    <None Include="scripts\core_utils.lua" />
   </ItemGroup>
 </Project>

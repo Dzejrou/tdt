@@ -77,7 +77,7 @@ struct MovementComponent : public Component
 {
 	static constexpr int type = 4;
 
-	MovementComponent(std::size_t speed)
+	MovementComponent(Ogre::Real speed)
 		: movement_vector{0, 0, 0}, speed_modifier{speed},
 		  moving{false}
 	{ /* DUMMY BODY */ }
