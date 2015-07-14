@@ -35,7 +35,7 @@ void Game::run()
 	auto ogre = scene_mgr_->createEntity("ogrehead.mesh");
 	test_node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
 	test_node->attachObject(ogre);
-	test_node->setPosition(Ogre::Vector3(0, 30, 100));
+	test_node->setPosition(Ogre::Vector3(-100, 30, -100));
 	test_node->showBoundingBox(true);
 
 	root_->startRendering();
@@ -54,6 +54,10 @@ void Game::update(Ogre::Real delta)
 
 	for(auto& system : systems_)
 		system->update(delta);
+
+	// For testing purposes before AISystem implementation.
+	for(auto& id_comp : entity_system_->get_component_list())
+		lpp::Script::get_singleton().execute("ogre.update(" + std::to_string(id_comp.first) + ")");
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)

@@ -16,7 +16,7 @@ void MovementSystem::update(Ogre::Real delta)
 			phys_comp.position += mov_comp.movement_vector * mov_comp.speed_modifier;
 			phys_comp.node->setPosition(phys_comp.position);
 
-			//mov_comp.moving = false;
+			mov_comp.moving = false;
 		}
 	}
 }
@@ -121,7 +121,7 @@ void MovementSystem::move_to(std::size_t id, Ogre::Vector3 pos)
 const Ogre::AxisAlignedBox& MovementSystem::get_bounds(std::size_t id) const
 {
 	if(is_valid(id) && entities_.get_component<PhysicsComponent>(id).entity)
-		return entities_.get_component<PhysicsComponent>(id).entity->getBoundingBox();
+		return entities_.get_component<PhysicsComponent>(id).entity->getWorldBoundingBox();
 	else
 		throw std::runtime_error("[Error][MovementSystem] Trying to get bounding box of entity #"
 								 + std::to_string(id) + " which does not have PhysicsComponent or an entity.");
