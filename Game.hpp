@@ -64,4 +64,17 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 
 		// Testing stuff.
 		Ogre::SceneNode* test_node{nullptr};
+
+		/**
+		 * These methods are to be used from Lua, note that Lua can register only
+		 * static functions, so a static pointer to the instance of this game is created in
+		 * the game's constructor and used in these static functions.
+		 */
+		static Game* lua_this;
+		static int lua_create_entity(lpp::Script::state);
+		static int lua_destroy_entity(lpp::Script::state);
+
+		static int lua_move_to(lpp::Script::state);
+		static int lua_move(lpp::Script::state);
+		// TODO:
 };

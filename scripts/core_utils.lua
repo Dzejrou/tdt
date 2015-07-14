@@ -1,4 +1,4 @@
-type = {
+types = {
 	entity = {
 		none = 0,
 		ogre = 1

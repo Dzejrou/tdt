@@ -1,14 +1,14 @@
 -- Testing Ogre entity.
 ogre = {
 	components = {
-		-- type enums contained in core_utils.lua
-		type.component.physics,
-		type.component.health,
-		type.component.ai,
-		type.component.graphics,
-		type.component.movement,
-		type.component.combat,
-		type.component.event
+		-- types enums contained in core_utils.lua
+		types.component.physics,
+		types.component.health,
+		types.component.ai,
+		types.component.graphics,
+		types.component.movement,
+		types.component.combat,
+		types.component.event
 	},
 
 	PhysicsComponent = {
@@ -46,7 +46,7 @@ ogre = {
 	EventComponent = {
 		curr_event_progress = 0,
 		curr_event_length = 0,
-		curr_event_type = 0
+		curr_event_types = 0
 	},
 
 	init = function(id)
@@ -61,3 +61,8 @@ ogre = {
 		-- TODO:
 	end
 }
+
+id1 = create_entity("ogre")
+show_msg("created ogre #" .. tostring(id1))
+id2 = create_entity("ogre")
+show_msg("created ogre #" .. tostring(id2))

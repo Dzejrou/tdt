@@ -35,10 +35,11 @@ void lpp::Script::register_function(const std::string& name, lua_CFunction fn)
 void lpp::Script::load(const std::string& fname)
 {
 	if(luaL_dofile(L, fname.c_str()))
-		throw Exception("[Error][Lua] Cannot load script: " + fname);
+		throw Exception("[Error][Lua] Cannot load script: " + fname +
+						"\n[ErrMsg] " + lua_tostring(L, -1));
 }
 
-std::string lpp::Script::get_field_to_stack(const std::string& name, bool pass_self)
+std::string lpp::Script::get_field_to_stack(const std::string& name)
 {
 	std::istringstream iss(name);
 	std::string tmp;
@@ -51,13 +52,7 @@ std::string lpp::Script::get_field_to_stack(const std::string& name, bool pass_s
 	{ // Sub fields.
 		lua_pushstring(L, tmp.c_str());
 		lua_gettable(L, -2);
-		if(lua_isfunction(L, -1) && pass_self) // Method.
-		{
-			lua_pushvalue(L, -2); // Leave the last table on top as self.
-			return tmp;
-		}
-		else
-			lua_remove(L, -2);
+		lua_remove(L, -2);
 	}
 	return tmp; // Last field name.
 }

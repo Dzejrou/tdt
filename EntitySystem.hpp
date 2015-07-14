@@ -203,6 +203,9 @@ inline void EntitySystem::load_component<AIComponent>(std::size_t id, std::strin
 	std::string blueprint = script.get<std::string>(table_name + ".AIComponent.blueprint");
 	int faction = script.get<int>(table_name + ".AIComponent.faction");
 	ai_.emplace(std::make_pair(id, AIComponent{blueprint, faction}));
+
+	// Call init.
+	script.call<void, int>(blueprint + ".init", id);
 }
 
 template<>
@@ -226,11 +229,11 @@ template<>
 inline void EntitySystem::load_component<CombatComponent>(std::size_t id, std::string table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
-	int range = script.get<int>(table_name + "CombatComponent.range");
-	int min = script.get<int>(table_name + "CombatComponent.min_dmg");
-	int max = script.get<int>(table_name + "CombatComponent.max_dmg");
-	int a1 = script.get<int>(table_name + "CombatComponent.atk_1");
-	int a2 = script.get<int>(table_name + "CombatComponent.atk_2");
+	int range = script.get<int>(table_name + ".CombatComponent.range");
+	int min = script.get<int>(table_name + ".CombatComponent.min_dmg");
+	int max = script.get<int>(table_name + ".CombatComponent.max_dmg");
+	int a1 = script.get<int>(table_name + ".CombatComponent.atk_1");
+	int a2 = script.get<int>(table_name + ".CombatComponent.atk_2");
 	combat_.emplace(std::make_pair(id, CombatComponent(range, min, max, a1, a2)));
 }
 

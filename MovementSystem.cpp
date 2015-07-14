@@ -10,7 +10,14 @@ void MovementSystem::update(Ogre::Real delta)
 	for(auto it = ents.cbegin(); it != ents.cend(); ++it)
 	{ // TODO: Account for delta.
 		if(is_valid(it->first) && is_moving(it->first))
-			move(it->first, entities_.get_component<MovementComponent>(it->first).movement_vector);
+		{
+			auto& phys_comp = entities_.get_component<PhysicsComponent>(it->first);
+			auto& mov_comp = entities_.get_component<MovementComponent>(it->first);
+			phys_comp.position += mov_comp.movement_vector * mov_comp.speed_modifier;
+			phys_comp.node->setPosition(phys_comp.position);
+
+			//mov_comp.moving = false;
+		}
 	}
 }
 
@@ -41,15 +48,22 @@ bool MovementSystem::can_move_to(std::size_t id, Ogre::Vector3 pos)
 	if(!entities_.has_component<GraphicsComponent>(id))
 		return true; // Invisible objects will be able to move anywhere.
 
-	if(is_valid(id) && entities_.get_component<PhysicsComponent>(id).solid)
+	if(is_valid(id))
 	{
-		auto& ents = entities_.get_component_list();
 		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
+
+		if(!phys_comp.solid)
+			return true;
+
 		phys_comp.node->setPosition(pos); // Old position backed up in phys_comp.position.
 		auto& bounds = get_bounds(id); // TODO: Does the box update when position changes?
+		auto& ents = entities_.get_component_list();
 
 		for(auto it = ents.cbegin(); it != ents.cend(); ++it)
 		{
+			if(id == it->first)
+				continue;
+
 			if(is_valid(it->first) && is_solid(it->first) &&
 			   bounds.intersects(get_bounds(it->first)))
 			{
@@ -74,16 +88,16 @@ bool MovementSystem::move(std::size_t id, Ogre::Vector3 dir_vector)
 		auto& mov_comp = entities_.get_component<MovementComponent>(id);
 
 		auto new_pos = phys_comp.position;
-		auto dir = mov_comp.movement_vector;
-		dir *= mov_comp.speed_modifier; 
+		auto dir = dir_vector * mov_comp.speed_modifier; 
 		new_pos += dir;
 
 		if(can_move_to(id, new_pos))
 		{
-			phys_comp.position = new_pos;
+			mov_comp.movement_vector = dir_vector;
+			mov_comp.moving = true;
 
 			if(phys_comp.node)
-			phys_comp.node->setPosition(new_pos);
+				phys_comp.node->setPosition(phys_comp.position);
 
 			return true;
 		}

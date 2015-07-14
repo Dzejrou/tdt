@@ -1,7 +1,8 @@
 #include "EntitySystem.hpp"
 
 EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
-	: scene_{mgr}
+	: scene_{mgr}, components_{}, physics_{}, health_{}, ai_{},
+	  graphics_{}, movement_{}, combat_{}, event_{}
 { /* DUMMY BODY */ }
 
 std::size_t EntitySystem::get_new_id() const
@@ -10,15 +11,13 @@ std::size_t EntitySystem::get_new_id() const
 
 	for(auto it = components_.begin(); it != components_.end(); ++it)
 	{
-		if(it->first != id)
-			return id; // First unused index.
+		if(it->first != id) // First unused id.
+			break;
 		else
 			++id;
 	}
 
-	// This should never happen, std::size_t will contain any number of entities that are
-	// possible to render and update simultaneously in the game.
-	throw std::exception{"[Error][EntitySystem] No more available indexes for entities."};
+	return id;
 }
 
 std::size_t EntitySystem::create_entity(std::string table_name)
@@ -30,7 +29,7 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::vector<int> comps = script.get_vector<int>(table_name + ".components");
 
-	for(const auto& x : comps)
+	for(auto x : comps)
 	{
 		bits.set(x); // Duplicate components will just overwrite, no need for error checking.
 		switch(x)
@@ -56,17 +55,18 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 			case EventComponent::type:
 				load_component<EventComponent>(id, table_name);
 		}
+	}
 
-		if(has_component<PhysicsComponent>(id) && has_component<GraphicsComponent>(id))
-		{ // Init node and entity.
-			auto& phys_comp = get_component<PhysicsComponent>(id);
-			auto& graph_comp = get_component<GraphicsComponent>(id);
+	if(has_component<PhysicsComponent>(id) && has_component<GraphicsComponent>(id))
+	{ // Init node and entity.
+		auto& phys_comp = get_component<PhysicsComponent>(id);
+		auto& graph_comp = get_component<GraphicsComponent>(id);
 
-			phys_comp.node = scene_.getRootSceneNode()->createChildSceneNode();
-			phys_comp.entity = scene_.createEntity(graph_comp.mesh);
-			phys_comp.entity->setMaterialName(graph_comp.material); // TODO: Necessary?
-			phys_comp.node->attachObject(phys_comp.entity);
-		}
+		phys_comp.node = scene_.getRootSceneNode()->createChildSceneNode();
+		phys_comp.node->showBoundingBox(true);
+		phys_comp.entity = scene_.createEntity(graph_comp.mesh);
+		//phys_comp.entity->setMaterialName(graph_comp.material); // TODO: Necessary?
+		phys_comp.node->attachObject(phys_comp.entity);
 	}
 
 	return id;

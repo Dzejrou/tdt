@@ -1,5 +1,7 @@
 #include "Game.hpp"
 
+Game* Game::lua_this{nullptr};
+
 Game::Game()
 	: state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
@@ -9,7 +11,6 @@ Game::Game()
 	ogre_init();
 	ois_init();
 	level_init();
-	lua_init();
 
 	entity_system_.reset(new EntitySystem(*scene_mgr_));
 	health_system_.reset(new HealthSystem(*entity_system_));
@@ -18,6 +19,8 @@ Game::Game()
 	systems_.emplace_back(health_system_.get());
 	systems_.emplace_back(movement_system_.get());
 
+	lua_this = this;
+	lua_init();
 }
 
 Game::~Game()
@@ -33,7 +36,7 @@ void Game::run()
 	test_node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
 	test_node->attachObject(ogre);
 	test_node->setPosition(Ogre::Vector3(0, 30, 100));
-	//test_node->setVisible(false);
+	test_node->showBoundingBox(true);
 
 	root_->startRendering();
 }
@@ -49,6 +52,8 @@ void Game::update(Ogre::Real delta)
 		main_cam_->moveRelative(camera_dir_);
 	}
 
+	for(auto& system : systems_)
+		system->update(delta);
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
@@ -278,8 +283,58 @@ void Game::level_init()
 void Game::lua_init()
 {
 	lpp::Script::get_singleton().load("scripts/test_entity.lua");
-	
+
+	// Register all functions that will be used in Lua.
 	lpp::Script& script = lpp::Script::get_singleton();
+	script.register_function("create_entity",  Game::lua_create_entity);
+	script.register_function("destroy_entity", Game::lua_destroy_entity);
+	script.register_function("move_to", Game::lua_move_to);
+	script.register_function("move", Game::lua_move);
+
+	// Load all necessary scripts.
 	script.load("scripts/core_utils.lua");
 	script.load("scripts/ogre.lua");
+}
+
+int Game::lua_create_entity(lpp::Script::state L)
+{
+	// Retrieve the entity blueprint.
+	std::string table_name = luaL_checkstring(L, 1);
+	std::size_t id = lua_this->entity_system_->create_entity(table_name);
+
+	lua_pushinteger(L, id); // Return the new id.
+	return 1;
+}
+
+int Game::lua_destroy_entity(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_this->entity_system_->destroy_entity(id);
+
+	return 0;
+}
+
+int Game::lua_move_to(lpp::Script::state L)
+{
+	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+
+	lua_this->movement_system_->move_to(id, Ogre::Vector3{x, y, z});
+
+	return 0;
+}
+
+int Game::lua_move(lpp::Script::state L)
+{
+	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+
+	bool res = lua_this->movement_system_->move(id, Ogre::Vector3{x, y, z});
+
+	lua_pushboolean(L, res ? 1 : 0);
+	return 1;
 }
