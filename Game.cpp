@@ -575,3 +575,13 @@ int Game::lua_enemy_in_radius(lpp::Script::state L)
 	lua_pushinteger(L, res);
 	return 1;
 }
+
+int Game::lua_closest_enemy(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	std::size_t res = lua_this->ai_system_->closest_enemy(id);
+	lua_pushinteger(L, res);
+	return 1;
+	return 0;
+}

@@ -92,3 +92,8 @@ std::size_t AISystem::enemy_in_radius(std::size_t id, Ogre::Real radius) const
 
 	return id; // Return the calling ID if no close entity found.
 }
+
+std::size_t AISystem::closest_enemy(std::size_t id) const
+{
+	return enemy_in_radius(id, std::numeric_limits<Ogre::Real>::max());
+}

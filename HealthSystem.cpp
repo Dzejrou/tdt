@@ -15,15 +15,17 @@ void HealthSystem::update(Ogre::Real)
 	else
 		++regen_timer_;
 
-	auto& ents = entities_.get_component_list();
-	for(auto it = ents.cbegin(); it != ents.cend(); ++it)
+	// Can use component specific container instead of all entity IDs, since this system
+	// updates only entities that do have a HealthComponent and thus are in this container.
+	auto& ents = entities_.get_component_container<HealthComponent>();
+	for(const auto& ent : ents)
 	{
-		if(!entities_.get_component<HealthComponent>(it->first).alive)
+		if(!entities_.get_component<HealthComponent>(ent.first).alive)
 		{ // Entity died.
-			entities_.destroy_entity(it->first);
+			entities_.destroy_entity(ent.first);
 		}
 		else if(regen)
-			add_health(it->first, entities_.get_component<HealthComponent>(it->first).regen);
+			add_health(ent.first, entities_.get_component<HealthComponent>(ent.first).regen);
 	}
 }
 
