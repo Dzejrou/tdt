@@ -325,6 +325,9 @@ void Game::lua_init()
 		{"get_state", Game::lua_get_state},
 		{"get_faction", Game::lua_get_faction},
 		{"enemy_in_radius", Game::lua_enemy_in_radius},
+		{"dir_to_closest_enemy", Game::lua_dir_to_closest_enemy},
+		{"dir_to_closest_enemy_in_radius", Game::lua_dir_to_closest_enemy_in_radius},
+		{"dir_to_enemy", Game::lua_dir_to_enemy},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -433,13 +436,13 @@ int Game::lua_collide(lpp::Script::state L)
 	return 1;
 }
 
-int Game::lua_get_distance(lpp::Script::state)
+int Game::lua_get_distance(lpp::Script::state L)
 {
 	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
 	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
 
-	std::size_t res = lua_this->movement_system_->get_distance(id1, id2);
-	lua_pushinteger(L, res);
+	Ogre::Real res = lua_this->movement_system_->get_distance(id1, id2);
+	lua_pushnumber(L, res);
 	return 1;
 }
 
@@ -447,10 +450,10 @@ int Game::lua_get_position(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 
-	Ogre::Vector3 pos = lua_this->movement_system_->get_position(id);
-	lua_pushnumber(L, pos.x);
-	lua_pushnumber(L, pos.y);
-	lua_pushnumber(L, pos.z);
+	Ogre::Vector3 res = lua_this->movement_system_->get_position(id);
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	lua_pushnumber(L, res.z);
 	return 3;
 }
 
@@ -615,5 +618,39 @@ int Game::lua_closest_enemy(lpp::Script::state L)
 	std::size_t res = lua_this->ai_system_->closest_enemy(id);
 	lua_pushinteger(L, res);
 	return 1;
-	return 0;
+}
+
+int Game::lua_dir_to_closest_enemy(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	auto res = lua_this->ai_system_->dir_to_closest_enemy(id);
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	lua_pushnumber(L, res.z);
+	return 3;
+}
+
+int Game::lua_dir_to_closest_enemy_in_radius(lpp::Script::state L)
+{
+	Ogre::Real radius = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	auto res = lua_this->ai_system_->dir_to_closest_enemy(id, radius);
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	lua_pushnumber(L, res.z);
+	return 3;
+}
+
+int Game::lua_dir_to_enemy(lpp::Script::state L)
+{
+	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+
+	auto res = lua_this->ai_system_->dir_to_enemy(id1, id2);
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	lua_pushnumber(L, res.z);
+	return 3;
 }

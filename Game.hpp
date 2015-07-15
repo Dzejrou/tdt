@@ -108,4 +108,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_get_faction(lpp::Script::state);
 		static int lua_enemy_in_radius(lpp::Script::state);
 		static int lua_closest_enemy(lpp::Script::state);
+		static int lua_dir_to_closest_enemy(lpp::Script::state);
+		static int lua_dir_to_closest_enemy_in_radius(lpp::Script::state);
+		static int lua_dir_to_enemy(lpp::Script::state);
 };

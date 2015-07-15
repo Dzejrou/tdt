@@ -98,8 +98,33 @@ std::size_t AISystem::closest_enemy(std::size_t id) const
 	return enemy_in_radius(id, std::numeric_limits<Ogre::Real>::max());
 }
 
-std::size_t AISystem::dir_to_closest_enemy(std::size_t id) const
+Ogre::Vector3 AISystem::dir_to_closest_enemy(std::size_t id, Ogre::Real radius) const
 {
 	if(is_valid(id))
-		return 0;
+	{
+		std::size_t id_enemy = enemy_in_radius(id, radius);
+		if(id == id_enemy)
+			return Ogre::Vector3{0, 0, 0};
+		auto pos1 = entities_.get_component<PhysicsComponent>(id).position;
+		auto pos2 = entities_.get_component<PhysicsComponent>(id_enemy).position;
+		auto pos = pos1 - pos2;
+		pos.normalise();
+		return pos;
+	}
+	else
+		return Ogre::Vector3{0, 0, 0};
+}
+
+Ogre::Vector3 AISystem::dir_to_enemy(std::size_t id1, std::size_t id2) const
+{
+	if(is_valid(id1) && is_valid(id2))
+	{
+		auto pos1 = entities_.get_component<PhysicsComponent>(id1).position;
+		auto pos2 = entities_.get_component<PhysicsComponent>(id2).position;
+		auto pos = pos1 - pos2;
+		pos.normalise();
+		return pos;
+	}
+	else
+		return Ogre::Vector3{0, 0, 0};
 }
