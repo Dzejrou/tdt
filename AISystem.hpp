@@ -16,7 +16,7 @@ class AISystem : public System
 		bool is_friendly(std::size_t, std::size_t) const;
 		bool is_neutral(std::size_t) const;
 		bool is_inanimate(std::size_t) const;
-		const std::string& get_blueprint(std::size_t) const;
+		std::string get_blueprint(std::size_t) const;
 		EntityState get_state(std::size_t) const;
 		Faction get_faction(std::size_t) const;
 		std::size_t enemy_in_radius(std::size_t, Ogre::Real) const;

@@ -44,12 +44,12 @@ bool AISystem::is_inanimate(std::size_t id) const
 	return !is_valid(id);
 }
 
-const std::string & AISystem::get_blueprint(std::size_t id) const
+std::string AISystem::get_blueprint(std::size_t id) const
 {
 	if(is_valid(id))
 		return entities_.get_component<AIComponent>(id).blueprint;
 	else
-		return std::string{"ErrorBlueprint"};
+		return "ErrorBlueprint";
 }
 
 EntityState AISystem::get_state(std::size_t id) const
