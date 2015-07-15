@@ -7,7 +7,7 @@ MovementSystem::MovementSystem(EntitySystem& ents)
 void MovementSystem::update(Ogre::Real delta)
 {
 	auto& ents = entities_.get_component_list();
-	for(auto it = ents.cbegin(); it != ents.cend(); ++it)
+	for(auto it = ents.begin(); it != ents.end(); ++it)
 	{ // TODO: Account for delta.
 		if(is_valid(it->first) && is_moving(it->first))
 		{

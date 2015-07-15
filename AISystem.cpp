@@ -7,14 +7,21 @@ AISystem::AISystem(EntitySystem& ent)
 void AISystem::update(Ogre::Real)
 {
 	std::string blueprint{};
-	for(const auto& entity : entities_.get_component_container<AIComponent>())
+
+	// TODO: The commented version causes problems once an entity dies (in this loop), investigate!
+	// Possibility: destroying an entity removes it from AIComponent container, but the component list just
+	// sets it's components to 0, 0, 0, ... and then removes it outside the loop in cleanup().
+	// Possible solution: move component removal to cleanup too, so destroy_entity only sets the component bits
+	auto& ents = entities_.get_component_list();//entities_.get_component_container<AIComponent>();
+	for(auto it = ents.begin(); it != ents.end(); ++it)
 	{
-		if(is_valid(entity.first))
+		if(is_valid(it->first))
 		{
-			blueprint = entities_.get_component<AIComponent>(entity.first).blueprint;
-			lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".update", entity.first);
+			blueprint = entities_.get_component<AIComponent>(it->first).blueprint;
+			lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".update", it->first);
 		}
 	}
+	entities_.cleanup();
 }
 
 bool AISystem::is_valid(std::size_t id) const
@@ -75,12 +82,15 @@ std::size_t AISystem::enemy_in_radius(std::size_t id, Ogre::Real radius) const
 		radius *= radius; // Using squared distance.
 		Ogre::Real minimum_distance{std::numeric_limits<Ogre::Real>::max()};
 		std::size_t minimum_id{id};
+		std::size_t original_id{id};
 		Ogre::Real current_distance{};
 
 		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
 
 		for(const auto& ent : entities_.get_component_container<PhysicsComponent>())
 		{
+			if(ent.first == original_id)
+				continue;
 			current_distance = phys_comp.position.squaredDistance(ent.second.position);
 			if(current_distance < radius && current_distance < minimum_distance)
 			{
@@ -107,7 +117,7 @@ Ogre::Vector3 AISystem::dir_to_closest_enemy(std::size_t id, Ogre::Real radius) 
 			return Ogre::Vector3{0, 0, 0};
 		auto pos1 = entities_.get_component<PhysicsComponent>(id).position;
 		auto pos2 = entities_.get_component<PhysicsComponent>(id_enemy).position;
-		auto pos = pos1 - pos2;
+		auto pos = pos2 - pos1;
 		pos.normalise();
 		return pos;
 	}
@@ -121,7 +131,7 @@ Ogre::Vector3 AISystem::dir_to_enemy(std::size_t id1, std::size_t id2) const
 	{
 		auto pos1 = entities_.get_component<PhysicsComponent>(id1).position;
 		auto pos2 = entities_.get_component<PhysicsComponent>(id2).position;
-		auto pos = pos1 - pos2;
+		auto pos = pos2 - pos1;
 		pos.normalise();
 		return pos;
 	}
