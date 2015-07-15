@@ -84,6 +84,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_is_solid(lpp::Script::state);
 		static int lua_can_move_to(lpp::Script::state);
 		static int lua_collide(lpp::Script::state);
+		static int lua_get_distance(lpp::Script::state);
 
 		// Health system.
 		static int lua_get_health(lpp::Script::state);

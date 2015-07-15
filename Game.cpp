@@ -302,6 +302,7 @@ void Game::lua_init()
 		{"is_solid", Game::lua_is_solid},
 		{"can_move_to", Game::lua_can_move_to},
 		{"collide", Game::lua_collide},
+		{"get_distance", Game::lua_get_distance},
 
 		// Health system.
 		{"get_health", Game::lua_get_health},
@@ -426,6 +427,16 @@ int Game::lua_collide(lpp::Script::state L)
 
 	bool res = lua_this->movement_system_->collide(id1, id2);
 	lua_pushboolean(L, res);
+	return 1;
+}
+
+int Game::lua_get_distance(lpp::Script::state)
+{
+	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+
+	std::size_t res = lua_this->movement_system_->get_distance(id1, id2);
+	lua_pushinteger(L, res);
 	return 1;
 }
 

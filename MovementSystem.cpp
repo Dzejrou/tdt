@@ -137,3 +137,12 @@ bool MovementSystem::collide(std::size_t id1, std::size_t id2) const
 	else
 		return false;
 }
+
+Ogre::Real MovementSystem::get_distance(std::size_t id1, std::size_t id2) const
+{
+	if(is_valid(id1) && is_valid(id2))
+		return entities_.get_component<PhysicsComponent>(id1)
+			.position.distance(entities_.get_component<PhysicsComponent>(id2).position);
+	else
+		return std::numeric_limits<Ogre::Real>::max();
+}
