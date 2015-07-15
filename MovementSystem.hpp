@@ -25,6 +25,9 @@ class MovementSystem : public System
 		const Ogre::AxisAlignedBox& get_bounds(std::size_t) const;
 		bool collide(std::size_t, std::size_t) const;
 		Ogre::Real get_distance(std::size_t, std::size_t) const;
+		Ogre::Vector3 get_position(std::size_t) const;
+		Ogre::Real get_speed_modifier(std::size_t) const;
+		void set_speed_modifier(std::size_t, Ogre::Real);
 	private:
 		EntitySystem& entities_;
 };

@@ -303,6 +303,9 @@ void Game::lua_init()
 		{"can_move_to", Game::lua_can_move_to},
 		{"collide", Game::lua_collide},
 		{"get_distance", Game::lua_get_distance},
+		{"get_position", Game::lua_get_position},
+		{"get_speed", Game::lua_get_speed_modifier},
+		{"set_speed", Game::lua_set_speed_modifier},
 
 		// Health system.
 		{"get_health", Game::lua_get_health},
@@ -438,6 +441,35 @@ int Game::lua_get_distance(lpp::Script::state)
 	std::size_t res = lua_this->movement_system_->get_distance(id1, id2);
 	lua_pushinteger(L, res);
 	return 1;
+}
+
+int Game::lua_get_position(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	Ogre::Vector3 pos = lua_this->movement_system_->get_position(id);
+	lua_pushnumber(L, pos.x);
+	lua_pushnumber(L, pos.y);
+	lua_pushnumber(L, pos.z);
+	return 3;
+}
+
+int Game::lua_get_speed_modifier(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	Ogre::Real res = lua_this->movement_system_->get_speed_modifier(id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int Game::lua_set_speed_modifier(lpp::Script::state L)
+{
+	Ogre::Real speed = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	lua_this->movement_system_->set_speed_modifier(id, speed);
+	return 0;
 }
 
 int Game::lua_get_health(lpp::Script::state L)

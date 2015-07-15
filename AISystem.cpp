@@ -97,3 +97,9 @@ std::size_t AISystem::closest_enemy(std::size_t id) const
 {
 	return enemy_in_radius(id, std::numeric_limits<Ogre::Real>::max());
 }
+
+std::size_t AISystem::dir_to_closest_enemy(std::size_t id) const
+{
+	if(is_valid(id))
+		return 0;
+}

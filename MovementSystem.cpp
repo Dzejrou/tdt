@@ -146,3 +146,25 @@ Ogre::Real MovementSystem::get_distance(std::size_t id1, std::size_t id2) const
 	else
 		return std::numeric_limits<Ogre::Real>::max();
 }
+
+Ogre::Vector3 MovementSystem::get_position(std::size_t id) const
+{
+	if(is_valid(id))
+		return entities_.get_component<PhysicsComponent>(id).position;
+	else
+		return Ogre::Vector3{0, 0, 0};
+}
+
+Ogre::Real MovementSystem::get_speed_modifier(std::size_t id) const
+{
+	if(is_valid(id))
+		return entities_.get_component<MovementComponent>(id).speed_modifier;
+	else
+		return Ogre::Real{};
+}
+
+void MovementSystem::set_speed_modifier(std::size_t id, Ogre::Real speed)
+{
+	if(is_valid(id))
+		entities_.get_component<MovementComponent>(id).speed_modifier = speed;
+}
