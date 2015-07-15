@@ -7,7 +7,7 @@
 #include <bitset>
 
 // Temporary:
-enum class EntityState { NORMAL };
+enum class EntityState { NONE, NORMAL };
 enum class Faction { FRIENDLY, ENEMY, NEUTRAL };
 enum class EventType {};
 enum class AttackType { NONE, MELEE };

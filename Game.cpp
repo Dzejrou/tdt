@@ -282,32 +282,47 @@ void Game::level_init()
 	ground_entity->setMaterialName("rocky_ground");
 }
 
+/**
+ * 
+ */
 void Game::lua_init()
 {
 	// Register all functions that will be used in Lua.
 	lpp::Script& script = lpp::Script::get_singleton();
+	lpp::Script::regs game_funcs[] = {
+		// Entity manipulation.
+		{"create_entity", Game::lua_create_entity},
+		{"destroy_entity", Game::lua_destroy_entity},
 
-	// Entity manipulation.
-	script.register_function("create_entity",  Game::lua_create_entity);
-	script.register_function("destroy_entity", Game::lua_destroy_entity);
+		// Movement system.
+		{"move_to", Game::lua_move_to},
+		{"move", Game::lua_move},
+		{"rotate", Game::lua_rotate},
+		{"is_moving", Game::lua_is_moving},
+		{"is_solid", Game::lua_is_solid},
+		{"can_move_to", Game::lua_can_move_to},
 
-	// Movement system.
-	script.register_function("move_to", Game::lua_move_to);
-	script.register_function("move", Game::lua_move);
-	script.register_function("rotate", Game::lua_rotate);
-	script.register_function("is_moving", Game::lua_is_moving);
-	script.register_function("is_solid", Game::lua_is_solid);
-	script.register_function("can_move_to", Game::lua_can_move_to);
+		// Health system.
+		{"get_health", Game::lua_get_health},
+		{"add_health", Game::lua_add_health},
+		{"sub_health", Game::lua_sub_health},
+		{"heal", Game::lua_heal},
+		{"buff", Game::lua_buff},
+		{"get_defense", Game::lua_get_defense},
+		{"add_defense", Game::lua_add_defense},
+		{"sub_defense", Game::lua_sub_defense},
 
-	// Health system.
-	script.register_function("get_health", Game::lua_get_health);
-	script.register_function("add_health", Game::lua_add_health);
-	script.register_function("sub_health", Game::lua_sub_health);
-	script.register_function("heal", Game::lua_heal);
-	script.register_function("buff", Game::lua_buff);
-	script.register_function("get_defense", Game::lua_get_defense);
-	script.register_function("add_defense", Game::lua_add_defense);
-	script.register_function("sub_defense", Game::lua_sub_defense);
+		// AI system.
+		{"is_friendly", Game::lua_is_friendly},
+		{"is_neutral", Game::lua_is_neutral},
+		{"is_inanimate", Game::lua_is_inanimate},
+		{"get_blueprint", Game::lua_get_blueprint},
+		{"get_state", Game::lua_get_state},
+		{"get_faction", Game::lua_get_faction},
+		{nullptr, nullptr}
+	};
+	luaL_newlib(script.get_state(), game_funcs);
+	lua_setglobal(script.get_state(), "game");
 
 	// Load all necessary scripts.
 	script.load("scripts/core_utils.lua");
@@ -469,4 +484,59 @@ int Game::lua_sub_defense(lpp::Script::state L)
 
 	lua_this->health_system_->sub_defense(id, val);
 	return 0;
+}
+
+int Game::lua_is_friendly(lpp::Script::state L)
+{
+	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+
+	bool res = lua_this->ai_system_->is_friendly(id1, id2);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int Game::lua_is_neutral(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	bool res = lua_this->ai_system_->is_neutral(id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int Game::lua_is_inanimate(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	bool res = lua_this->ai_system_->is_inanimate(id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int Game::lua_get_blueprint(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	std::string res = lua_this->ai_system_->get_blueprint(id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int Game::lua_get_state(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	int res = (int)lua_this->ai_system_->get_state(id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int Game::lua_get_faction(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	int res = (int)lua_this->ai_system_->get_faction(id);
+	lua_pushinteger(L, res);
+	return 1;
 }

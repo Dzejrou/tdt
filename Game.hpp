@@ -93,4 +93,12 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_get_defense(lpp::Script::state);
 		static int lua_add_defense(lpp::Script::state);
 		static int lua_sub_defense(lpp::Script::state);
+
+		// AI system.
+		static int lua_is_friendly(lpp::Script::state);
+		static int lua_is_neutral(lpp::Script::state);
+		static int lua_is_inanimate(lpp::Script::state);
+		static int lua_get_blueprint(lpp::Script::state);
+		static int lua_get_state(lpp::Script::state);
+		static int lua_get_faction(lpp::Script::state);
 };

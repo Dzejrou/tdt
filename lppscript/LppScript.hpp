@@ -17,10 +17,12 @@ class Script
 {
 	public:
 		using state = lua_State*;
+		using regs = luaL_Reg;
 
 		Script(Script&&);
 		~Script() { if(L) lua_close(L); }
 
+		state get_state() { return L; };
 		void execute(const std::string&);
 		void register_function(const std::string&, lua_CFunction);
 		void load(const std::string&);
