@@ -7,7 +7,7 @@ AISystem::AISystem(EntitySystem& ent)
 void AISystem::update(Ogre::Real)
 {
 	std::string blueprint{};
-	for(const auto& entity : entities_.get_component_list())
+	for(const auto& entity : entities_.get_component_container<AIComponent>())
 	{
 		if(is_valid(entity.first))
 		{
