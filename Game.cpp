@@ -15,9 +15,11 @@ Game::Game()
 	entity_system_.reset(new EntitySystem(*scene_mgr_));
 	health_system_.reset(new HealthSystem(*entity_system_));
 	movement_system_.reset(new MovementSystem(*entity_system_));
+	ai_system_.reset(new AISystem(*entity_system_));
 
 	systems_.emplace_back(health_system_.get());
 	systems_.emplace_back(movement_system_.get());
+	systems_.emplace_back(ai_system_.get());
 
 	lua_this = this;
 	lua_init();
@@ -54,10 +56,6 @@ void Game::update(Ogre::Real delta)
 
 	for(auto& system : systems_)
 		system->update(delta);
-
-	// For testing purposes before AISystem implementation.
-	for(auto& id_comp : entity_system_->get_component_list())
-		lpp::Script::get_singleton().execute("ogre.update(" + std::to_string(id_comp.first) + ")");
 	entity_system_->cleanup();
 }
 
@@ -286,8 +284,6 @@ void Game::level_init()
 
 void Game::lua_init()
 {
-	lpp::Script::get_singleton().load("scripts/test_entity.lua");
-
 	// Register all functions that will be used in Lua.
 	lpp::Script& script = lpp::Script::get_singleton();
 

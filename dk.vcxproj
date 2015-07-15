@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AISystem.cpp" />
     <ClCompile Include="EntitySystem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthSystem.cpp" />
@@ -27,6 +28,7 @@
     <ClCompile Include="MovementSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AISystem.hpp" />
     <ClInclude Include="Components.hpp" />
     <ClInclude Include="EntitySystem.hpp" />
     <ClInclude Include="Game.hpp" />

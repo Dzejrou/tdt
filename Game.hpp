@@ -9,6 +9,7 @@
 #include "EntitySystem.hpp"
 #include "HealthSystem.hpp"
 #include "MovementSystem.hpp"
+#include "AISystem.hpp"
 #include "lppscript/LppScript.hpp"
 
 enum class GAME_STATE
@@ -59,6 +60,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<EntitySystem> entity_system_;
 		std::unique_ptr<HealthSystem> health_system_;
 		std::unique_ptr<MovementSystem> movement_system_;
+		std::unique_ptr<AISystem> ai_system_;
 
 		std::vector<System*> systems_;
 

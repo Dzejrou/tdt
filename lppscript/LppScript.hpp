@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <tuple>
 
 namespace lpp
 {
@@ -135,6 +136,7 @@ class Script
 			throw Exception("[Error][Lua] Trying to push an argument of an invalid type.");
 		}
 
+		// Main Lua state.
 		state L;
 };
 
