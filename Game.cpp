@@ -301,6 +301,7 @@ void Game::lua_init()
 		{"is_moving", Game::lua_is_moving},
 		{"is_solid", Game::lua_is_solid},
 		{"can_move_to", Game::lua_can_move_to},
+		{"collide", Game::lua_collide},
 
 		// Health system.
 		{"get_health", Game::lua_get_health},
@@ -319,6 +320,9 @@ void Game::lua_init()
 		{"get_blueprint", Game::lua_get_blueprint},
 		{"get_state", Game::lua_get_state},
 		{"get_faction", Game::lua_get_faction},
+		{"enemy_in_radius", Game::lua_enemy_in_radius},
+
+		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
 	};
 	luaL_newlib(script.get_state(), game_funcs);
@@ -411,6 +415,16 @@ int Game::lua_can_move_to(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
 
 	bool res = lua_this->movement_system_->can_move_to(id, Ogre::Vector3{x, y, z});
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int Game::lua_collide(lpp::Script::state L)
+{
+	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+
+	bool res = lua_this->movement_system_->collide(id1, id2);
 	lua_pushboolean(L, res);
 	return 1;
 }
@@ -537,6 +551,16 @@ int Game::lua_get_faction(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 
 	int res = (int)lua_this->ai_system_->get_faction(id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int Game::lua_enemy_in_radius(lpp::Script::state L)
+{
+	Ogre::Real radius = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	std::size_t res = lua_this->ai_system_->enemy_in_radius(id, radius);
 	lua_pushinteger(L, res);
 	return 1;
 }

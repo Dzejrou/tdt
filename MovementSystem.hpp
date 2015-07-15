@@ -22,6 +22,7 @@ class MovementSystem : public System
 		void move_to(std::size_t, Ogre::Vector3);
 		void rotate(std::size_t, Ogre::Real);
 		const Ogre::AxisAlignedBox& get_bounds(std::size_t) const;
+		bool collide(std::size_t, std::size_t) const;
 	private:
 		EntitySystem& entities_;
 };

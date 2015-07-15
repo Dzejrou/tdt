@@ -19,6 +19,7 @@ class AISystem : public System
 		const std::string& get_blueprint(std::size_t) const;
 		EntityState get_state(std::size_t) const;
 		Faction get_faction(std::size_t) const;
+		std::size_t enemy_in_radius(std::size_t, Ogre::Real) const;
 
 	private:
 		EntitySystem& entities_;

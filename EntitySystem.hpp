@@ -96,7 +96,7 @@ class EntitySystem
 				components_[id].set(COMP::type); // Notify of the presence of this new component.
 			}
 		}
-	private:
+
 		/**
 		 * Brief: Returns the map associated with the component specified by the template argument.
 		 */
@@ -106,7 +106,7 @@ class EntitySystem
 			throw std::runtime_error("[Error][EntitySystem] Trying to access container of a non-existent component: "
 								     + std::to_string(COMP::type));
 		}
-
+	private:
 		/**
 		 * Brief: Loads a component from a Lua script.
 		 * Param: ID of the entity.

@@ -56,16 +56,14 @@ bool MovementSystem::can_move_to(std::size_t id, Ogre::Vector3 pos)
 			return true;
 
 		phys_comp.node->setPosition(pos); // Old position backed up in phys_comp.position.
-		auto& bounds = get_bounds(id); // TODO: Does the box update when position changes?
-		auto& ents = entities_.get_component_list();
-
-		for(auto it = ents.cbegin(); it != ents.cend(); ++it)
+		auto& ents = entities_.get_component_container<PhysicsComponent>(); // Only need to check entities with PhysicsComponent.
+		for(const auto& ent : ents)
 		{
-			if(id == it->first)
+			if(id == ent.first)
 				continue;
 
-			if(is_valid(it->first) && is_solid(it->first) &&
-			   bounds.intersects(get_bounds(it->first)))
+			if(is_valid(ent.first) && is_solid(ent.first) &&
+			   collide(id, ent.first))
 			{
 				phys_comp.node->setPosition(phys_comp.position);
 				return false;
@@ -130,4 +128,12 @@ const Ogre::AxisAlignedBox& MovementSystem::get_bounds(std::size_t id) const
 	else
 		throw std::runtime_error("[Error][MovementSystem] Trying to get bounding box of entity #"
 								 + std::to_string(id) + " which does not have PhysicsComponent or an entity.");
+}
+
+bool MovementSystem::collide(std::size_t id1, std::size_t id2) const
+{
+	if(is_valid(id1) && is_valid(id2))
+		return get_bounds(id1).intersects(get_bounds(id2));
+	else
+		return false;
 }

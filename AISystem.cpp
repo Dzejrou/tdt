@@ -67,3 +67,28 @@ Faction AISystem::get_faction(std::size_t id) const
 	else
 		return Faction::NEUTRAL;
 }
+
+std::size_t AISystem::enemy_in_radius(std::size_t id, Ogre::Real radius) const
+{
+	if(is_valid(id) && entities_.has_component<PhysicsComponent>(id))
+	{
+		radius *= radius; // Using squared distance.
+		Ogre::Real minimum_distance{std::numeric_limits<Ogre::Real>::max()};
+		std::size_t minimum_id{id};
+		Ogre::Real current_distance{};
+
+		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
+
+		for(const auto& ent : entities_.get_component_container<PhysicsComponent>())
+		{
+			current_distance = phys_comp.position.squaredDistance(ent.second.position);
+			if(current_distance < radius && current_distance < minimum_distance)
+			{
+				minimum_distance = current_distance;
+				id = ent.first;
+			}
+		}
+	}
+
+	return id; // Return the calling ID if no close entity found.
+}
