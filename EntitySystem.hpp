@@ -29,6 +29,11 @@ class EntitySystem
 		std::size_t get_new_id() const;
 
 		/**
+		 * Brief: Removes all entities that have no components.
+		 */
+		void cleanup();
+
+		/**
 		 * Brief: Creates a new entity from a blueprint.
 		 * Param: Name of the Lua table containing the entity blueprint.
 		 */

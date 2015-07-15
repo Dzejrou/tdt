@@ -118,6 +118,11 @@ void MovementSystem::move_to(std::size_t id, Ogre::Vector3 pos)
 	}
 }
 
+void MovementSystem::rotate(std::size_t id, Ogre::Real delta)
+{
+	entities_.get_component<PhysicsComponent>(id).node->rotate(Ogre::Vector3{0, 1, 0}, Ogre::Radian{delta});
+}
+
 const Ogre::AxisAlignedBox& MovementSystem::get_bounds(std::size_t id) const
 {
 	if(is_valid(id) && entities_.get_component<PhysicsComponent>(id).entity)

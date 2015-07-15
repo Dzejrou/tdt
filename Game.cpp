@@ -58,6 +58,7 @@ void Game::update(Ogre::Real delta)
 	// For testing purposes before AISystem implementation.
 	for(auto& id_comp : entity_system_->get_component_list())
 		lpp::Script::get_singleton().execute("ogre.update(" + std::to_string(id_comp.first) + ")");
+	entity_system_->cleanup();
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
@@ -281,7 +282,6 @@ void Game::level_init()
 	ground_entity->setCastShadows(false);
 	scene_mgr_->getRootSceneNode()->createChildSceneNode()->attachObject(ground_entity);
 	ground_entity->setMaterialName("rocky_ground");
-	ground_entity->setCastShadows(false);
 }
 
 void Game::lua_init()
@@ -290,16 +290,41 @@ void Game::lua_init()
 
 	// Register all functions that will be used in Lua.
 	lpp::Script& script = lpp::Script::get_singleton();
+
+	// Entity manipulation.
 	script.register_function("create_entity",  Game::lua_create_entity);
 	script.register_function("destroy_entity", Game::lua_destroy_entity);
+
+	// Movement system.
 	script.register_function("move_to", Game::lua_move_to);
 	script.register_function("move", Game::lua_move);
+	script.register_function("rotate", Game::lua_rotate);
+	script.register_function("is_moving", Game::lua_is_moving);
+	script.register_function("is_solid", Game::lua_is_solid);
+	script.register_function("can_move_to", Game::lua_can_move_to);
+
+	// Health system.
+	script.register_function("get_health", Game::lua_get_health);
+	script.register_function("add_health", Game::lua_add_health);
+	script.register_function("sub_health", Game::lua_sub_health);
+	script.register_function("heal", Game::lua_heal);
+	script.register_function("buff", Game::lua_buff);
+	script.register_function("get_defense", Game::lua_get_defense);
+	script.register_function("add_defense", Game::lua_add_defense);
+	script.register_function("sub_defense", Game::lua_sub_defense);
 
 	// Load all necessary scripts.
 	script.load("scripts/core_utils.lua");
 	script.load("scripts/ogre.lua");
 }
 
+/**
+ * Note: Function definitions below act as an interface between C++ and Lua, they all have
+ *		 to have the signature int fname(lpp::Script::state) and return the number of results
+ *       pushed onto the Lua stack (Lua allows to return multiple results if needed).
+ * Important: These functions will have their arguments on the stack in REVERSED ORDER!
+ *            (Because, you know, it's a stack...)
+ */
 int Game::lua_create_entity(lpp::Script::state L)
 {
 	// Retrieve the entity blueprint.
@@ -314,7 +339,6 @@ int Game::lua_destroy_entity(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_this->entity_system_->destroy_entity(id);
-
 	return 0;
 }
 
@@ -326,7 +350,6 @@ int Game::lua_move_to(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
 
 	lua_this->movement_system_->move_to(id, Ogre::Vector3{x, y, z});
-
 	return 0;
 }
 
@@ -338,7 +361,116 @@ int Game::lua_move(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
 
 	bool res = lua_this->movement_system_->move(id, Ogre::Vector3{x, y, z});
-
-	lua_pushboolean(L, res ? 1 : 0);
+	lua_pushboolean(L, res);
 	return 1;
+}
+
+int Game::lua_rotate(lpp::Script::state L)
+{
+	Ogre::Real delta = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	lua_this->movement_system_->rotate(id, delta);
+	return 0;
+}
+
+int Game::lua_is_moving(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	bool res = lua_this->movement_system_->is_moving(id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int Game::lua_is_solid(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	bool res = lua_this->movement_system_->is_solid(id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int Game::lua_can_move_to(lpp::Script::state L)
+{
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -3);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+
+	bool res = lua_this->movement_system_->can_move_to(id, Ogre::Vector3{x, y, z});
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int Game::lua_get_health(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	std::size_t res = lua_this->health_system_->get_health(id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int Game::lua_add_health(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	lua_this->health_system_->add_health(id, val);
+	return 0;
+}
+
+int Game::lua_sub_health(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	lua_this->health_system_->sub_health(id, val);
+	return 0;
+}
+
+int Game::lua_heal(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	lua_this->health_system_->heal(id);
+	return 0;
+}
+
+int Game::lua_buff(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	lua_this->health_system_->buff(id, val);
+	return 0;
+}
+
+int Game::lua_get_defense(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	std::size_t res = (std::size_t)lua_this->health_system_->get_defense(id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int Game::lua_add_defense(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	lua_this->health_system_->add_defense(id, val);
+	return 0;
+}
+
+int Game::lua_sub_defense(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	lua_this->health_system_->sub_defense(id, val);
+	return 0;
 }

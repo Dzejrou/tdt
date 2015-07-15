@@ -74,7 +74,21 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_create_entity(lpp::Script::state);
 		static int lua_destroy_entity(lpp::Script::state);
 
+		// Movement system.
 		static int lua_move_to(lpp::Script::state);
 		static int lua_move(lpp::Script::state);
-		// TODO:
+		static int lua_rotate(lpp::Script::state);
+		static int lua_is_moving(lpp::Script::state);
+		static int lua_is_solid(lpp::Script::state);
+		static int lua_can_move_to(lpp::Script::state);
+
+		// Health system.
+		static int lua_get_health(lpp::Script::state);
+		static int lua_add_health(lpp::Script::state);
+		static int lua_sub_health(lpp::Script::state);
+		static int lua_heal(lpp::Script::state);
+		static int lua_buff(lpp::Script::state);
+		static int lua_get_defense(lpp::Script::state);
+		static int lua_add_defense(lpp::Script::state);
+		static int lua_sub_defense(lpp::Script::state);
 };

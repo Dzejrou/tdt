@@ -170,7 +170,16 @@ inline int Script::get_<int>(const std::string& name)
 {
 	if(lua_isinteger(L, -1))
 		// Possible loss of data, Lua has 64 bit integers.
-		return static_cast<int>(lua_tointeger(L, -1));
+		return (int)lua_tointeger(L, -1);
+	else
+		throw Exception("[Error][Lua] Cannot retrieve a variable because of type mismatch: " + name);
+}
+
+template<>
+inline std::size_t Script::get_<std::size_t>(const std::string& name)
+{
+	if(lua_isinteger(L, -1))
+		return (std::size_t)lua_tointeger(L, -1);
 	else
 		throw Exception("[Error][Lua] Cannot retrieve a variable because of type mismatch: " + name);
 }
@@ -208,6 +217,12 @@ inline void Script::get_<void>(const std::string& name)
  */
 template<>
 inline void Script::push_arg<int>(int arg)
+{
+	lua_pushinteger(L, arg);
+}
+
+template<>
+inline void Script::push_arg<std::size_t>(std::size_t arg)
 {
 	lua_pushinteger(L, arg);
 }
