@@ -16,7 +16,7 @@ class Event {};
 
 struct Component
 {
-	// TODO: Is this necessary?
+	static constexpr int count = 12;
 };
 
 struct PhysicsComponent : public Component
@@ -115,4 +115,29 @@ struct EventComponent : public Component
 	std::size_t curr_event_progress;
 	std::size_t curr_event_length;
 	std::bitset<32> possible_events;
+};
+
+struct InputComponent : public Component
+{
+	static constexpr int type = 7;
+};
+
+struct TimeComponent : public Component
+{
+	static constexpr int type = 8;
+};
+
+struct ManaComponent : public Component
+{
+	static constexpr int type = 9;
+};
+
+struct SpellComponent : public Component
+{
+	static constexpr int type = 10;
+};
+
+struct ProductionComponent : public Component
+{
+	static constexpr int type = 11;
 };

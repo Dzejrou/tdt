@@ -8,7 +8,8 @@ void AISystem::update(Ogre::Real)
 {
 	std::string blueprint{};
 
-	for(auto& ent : entities_.get_component_container<AIComponent>())
+	auto& ents = entities_.get_component_container<AIComponent>();
+	for(auto& ent : ents)
 	{
 		if(is_valid(ent.first))
 		{

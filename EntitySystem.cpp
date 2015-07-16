@@ -75,7 +75,7 @@ void EntitySystem::cleanup()
 std::size_t EntitySystem::create_entity(std::string table_name)
 {
 	std::size_t id = get_new_id();
-	entities_.emplace(std::make_pair(id, std::bitset<COMP_COUNT>{}));
+	entities_.emplace(std::make_pair(id, std::bitset<Component::count>{}));
 	auto& bits = entities_.find(id)->second; // For fast access.
 
 	lpp::Script& script = lpp::Script::get_singleton();
@@ -133,7 +133,7 @@ void EntitySystem::destroy_entity(std::size_t id)
 
 }
 
-const std::map<std::size_t, std::bitset<COMP_COUNT>>& EntitySystem::get_component_list() const
+const std::map<std::size_t, std::bitset<Component::count>>& EntitySystem::get_component_list() const
 {
 	return entities_;
 }

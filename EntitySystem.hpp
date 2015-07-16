@@ -11,7 +11,6 @@
 
 class EntitySystem
 {
-#define COMP_COUNT 8
 	public:
 		/**
 		 * Brief: Constructor.
@@ -50,7 +49,7 @@ class EntitySystem
 		 * Breif: Returns const reference to the component list, so that it can
 		 *        be used to iterate over all entities.
 		 */
-		const std::map<std::size_t, std::bitset<COMP_COUNT>>& get_component_list() const;
+		const std::map<std::size_t, std::bitset<Component::count>>& get_component_list() const;
 		
 		/**
 		 * Brief: Tests whether a given entity has a component specialized by the
@@ -125,7 +124,7 @@ class EntitySystem
 		}
 
 		// Contains bitsets describing component availability.
-		std::map<std::size_t, std::bitset<COMP_COUNT>> entities_;
+		std::map<std::size_t, std::bitset<Component::count>> entities_;
 		std::vector<std::size_t> to_be_destroyed_;
 
 		// Contain components specified by the entity ID.
