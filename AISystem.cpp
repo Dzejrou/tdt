@@ -8,12 +8,6 @@ void AISystem::update(Ogre::Real)
 {
 	std::string blueprint{};
 
-	// TODO: The commented version causes problems once an entity dies (in this loop), investigate!
-	// Possibility: destroying an entity removes it from AIComponent container, but the component list just
-	// sets it's components to 0, 0, 0, ... and then removes it outside the loop in cleanup().
-	// Possible solution: move component removal to cleanup too, so destroy_entity only sets the component bits
-	//auto& ents = entities_.get_component_list();//entities_.get_component_container<AIComponent>();
-	//for(auto it = ents.begin(); it != ents.end(); ++it)
 	for(auto& ent : entities_.get_component_container<AIComponent>())
 	{
 		if(is_valid(ent.first))

@@ -62,8 +62,8 @@ class EntitySystem
 		template<typename COMP>
 		bool has_component(std::size_t id) const
 		{
-			auto& comp = components_.find(id);
-			if(comp != components_.end())
+			auto& comp = entities_.find(id);
+			if(comp != entities_.end())
 				return comp->second.test(COMP::type);
 			else
 				return false;
@@ -98,7 +98,7 @@ class EntitySystem
 			else
 			{
 				get_component_container<COMP>().emplace(std::make_pair(id, std::move(comp)));
-				components_[id].set(COMP::type); // Notify of the presence of this new component.
+				entities_[id].set(COMP::type); // Notify of the presence of this new component.
 			}
 		}
 
@@ -125,7 +125,7 @@ class EntitySystem
 		}
 
 		// Contains bitsets describing component availability.
-		std::map<std::size_t, std::bitset<COMP_COUNT>> components_;
+		std::map<std::size_t, std::bitset<COMP_COUNT>> entities_;
 		std::vector<std::size_t> to_be_destroyed_;
 
 		// Contain components specified by the entity ID.

@@ -1,7 +1,7 @@
 #include "EntitySystem.hpp"
 
 EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
-	: scene_{mgr}, components_{}, physics_{}, health_{}, ai_{},
+	: scene_{mgr}, entities_{}, physics_{}, health_{}, ai_{},
 	  graphics_{}, movement_{}, combat_{}, event_{}, to_be_destroyed_{}
 { /* DUMMY BODY */ }
 
@@ -9,7 +9,7 @@ std::size_t EntitySystem::get_new_id() const
 {
 	std::size_t id{0};
 
-	for(auto it = components_.begin(); it != components_.end(); ++it)
+	for(auto it = entities_.begin(); it != entities_.end(); ++it)
 	{
 		if(it->first != id) // First unused id.
 			break;
@@ -24,7 +24,7 @@ void EntitySystem::cleanup()
 {
 	for(auto id : to_be_destroyed_)
 	{
-		auto& entity = components_.find(id);
+		auto& entity = entities_.find(id);
 
 		for(std::size_t i = 0; i < entity->second.size(); ++i)
 		{
@@ -67,7 +67,7 @@ void EntitySystem::cleanup()
 			
 			}
 		}
-		components_.erase(id);
+		entities_.erase(id);
 	}
 	to_be_destroyed_.clear();
 }
@@ -75,8 +75,8 @@ void EntitySystem::cleanup()
 std::size_t EntitySystem::create_entity(std::string table_name)
 {
 	std::size_t id = get_new_id();
-	components_.emplace(std::make_pair(id, std::bitset<COMP_COUNT>{}));
-	auto& bits = components_.find(id)->second; // For fast access.
+	entities_.emplace(std::make_pair(id, std::bitset<COMP_COUNT>{}));
+	auto& bits = entities_.find(id)->second; // For fast access.
 
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::vector<int> comps = script.get_vector<int>(table_name + ".components");
@@ -135,5 +135,5 @@ void EntitySystem::destroy_entity(std::size_t id)
 
 const std::map<std::size_t, std::bitset<COMP_COUNT>>& EntitySystem::get_component_list() const
 {
-	return components_;
+	return entities_;
 }
