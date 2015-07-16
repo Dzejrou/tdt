@@ -2,7 +2,7 @@
 
 EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
 	: scene_{mgr}, components_{}, physics_{}, health_{}, ai_{},
-	  graphics_{}, movement_{}, combat_{}, event_{}
+	  graphics_{}, movement_{}, combat_{}, event_{}, to_be_destroyed_{}
 { /* DUMMY BODY */ }
 
 std::size_t EntitySystem::get_new_id() const
@@ -22,14 +22,54 @@ std::size_t EntitySystem::get_new_id() const
 
 void EntitySystem::cleanup()
 {
-	auto it = components_.begin();
-	while(it != components_.end())
+	for(auto id : to_be_destroyed_)
 	{
-		if(!it->second.any())
-			it = components_.erase(it);
-		else
-			++it;
+		auto& entity = components_.find(id);
+
+		for(std::size_t i = 0; i < entity->second.size(); ++i)
+		{
+			if(!entity->second.test(i))
+				continue;
+
+			switch(i)
+			{ // Remove the entity from all component containers it's in.
+				case PhysicsComponent::type:
+				{
+					auto& phys_comp = get_component<PhysicsComponent>(id);
+					if(phys_comp.node && phys_comp.entity)
+					{
+						phys_comp.node->detachObject(phys_comp.entity);
+						if(phys_comp.node->numChildren() == 0)
+							scene_.destroySceneNode(phys_comp.node);
+						scene_.destroyEntity(phys_comp.entity);
+					}
+					physics_.erase(id);
+					break;
+				}
+				case HealthComponent::type:
+					health_.erase(id);
+					break;
+				case AIComponent::type:
+					ai_.erase(id);
+					break;
+				case GraphicsComponent::type:
+					graphics_.erase(id);
+					break;
+				case MovementComponent::type:
+					movement_.erase(id);
+					break;
+				case CombatComponent::type:
+					combat_.erase(id);
+					break;
+				case EventComponent::type:
+					event_.erase(id);
+					break;
+			
+			}
+		}
+		components_.erase(id);
 	}
+	to_be_destroyed_.clear();
 }
 
 std::size_t EntitySystem::create_entity(std::string table_name)
@@ -87,55 +127,10 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 
 void EntitySystem::destroy_entity(std::size_t id)
 {
-	auto& entity = components_.find(id);
-
 	std::string blueprint = get_component<AIComponent>(id).blueprint;
 	lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".finnish", id); // Calls the "destructor".
+	to_be_destroyed_.push_back(id);
 
-	for(std::size_t i = 0; i < entity->second.size(); ++i)
-	{
-		if(!entity->second.test(i))
-			continue;
-		else
-			entity->second.set(i, false);
-
-		switch(i)
-		{ // Remove the entity from all component containers it's in.
-			case PhysicsComponent::type:
-			{
-				auto& phys_comp = get_component<PhysicsComponent>(id);
-				if(phys_comp.node && phys_comp.entity)
-				{
-					phys_comp.node->detachObject(phys_comp.entity);
-					if(phys_comp.node->numChildren() == 0)
-						scene_.destroySceneNode(phys_comp.node);
-					scene_.destroyEntity(phys_comp.entity);
-				}
-				physics_.erase(id);
-				break;
-			}
-			case HealthComponent::type:
-				health_.erase(id);
-				break;
-			case AIComponent::type:
-				ai_.erase(id);
-				break;
-			case GraphicsComponent::type:
-				graphics_.erase(id);
-				break;
-			case MovementComponent::type:
-				movement_.erase(id);
-				break;
-			case CombatComponent::type:
-				combat_.erase(id);
-				break;
-			case EventComponent::type:
-				event_.erase(id);
-				break;
-		
-		}
-	}
-	//components_.erase(id);
 }
 
 const std::map<std::size_t, std::bitset<COMP_COUNT>>& EntitySystem::get_component_list() const

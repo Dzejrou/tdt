@@ -4,6 +4,7 @@
 #include <map>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #include "Components.hpp"
 #include "lppscript\LppScript.hpp"
@@ -61,7 +62,11 @@ class EntitySystem
 		template<typename COMP>
 		bool has_component(std::size_t id) const
 		{
-			return components_.find(id)->second.test(COMP::type);
+			auto& comp = components_.find(id);
+			if(comp != components_.end())
+				return comp->second.test(COMP::type);
+			else
+				return false;
 		}
 
 		/**
@@ -121,6 +126,7 @@ class EntitySystem
 
 		// Contains bitsets describing component availability.
 		std::map<std::size_t, std::bitset<COMP_COUNT>> components_;
+		std::vector<std::size_t> to_be_destroyed_;
 
 		// Contain components specified by the entity ID.
 		std::map<std::size_t, PhysicsComponent> physics_;

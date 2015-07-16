@@ -351,8 +351,8 @@ int Game::lua_create_entity(lpp::Script::state L)
 {
 	// Retrieve the entity blueprint.
 	std::string table_name = luaL_checkstring(L, 1);
-	std::size_t id = lua_this->entity_system_->create_entity(table_name);
 
+	std::size_t id = lua_this->entity_system_->create_entity(table_name);
 	lua_pushinteger(L, id); // Return the new id.
 	return 1;
 }
@@ -360,6 +360,7 @@ int Game::lua_create_entity(lpp::Script::state L)
 int Game::lua_destroy_entity(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
 	lua_this->entity_system_->destroy_entity(id);
 	return 0;
 }
