@@ -19,11 +19,16 @@ struct Component
 	static constexpr int count = 12;
 };
 
+/**
+ * Note: To be able to manually create components without blueprints, all components must have
+ *       either default constructors or constructors with default values for all parameters.
+ */
+
 struct PhysicsComponent : public Component
 {
 	static constexpr int type = 0;
 
-	PhysicsComponent(bool s)
+	PhysicsComponent(bool s = false)
 		: node{nullptr}, entity{nullptr}, position{0, 0, 0}, solid{s}
 	{ /* DUMMY BODY */ }
 
@@ -37,7 +42,7 @@ struct HealthComponent : public Component
 {
 	static constexpr int type = 1;
 
-	HealthComponent(std::size_t max, std::size_t reg, std::size_t def)
+	HealthComponent(std::size_t max = 0, std::size_t reg = 0, std::size_t def = 0)
 		: curr_hp{max}, max_hp{max}, regen{reg}, defense{def}, alive{true}
 	{ /* DUMMY BODY */ }
 
@@ -52,7 +57,7 @@ struct AIComponent : public Component
 {
 	static constexpr int type = 2;
 
-	AIComponent(std::string s, int f)
+	AIComponent(std::string s = "ERROR", int f = 2)
 		: blueprint{s}, state{EntityState::NORMAL}, faction((Faction)f)
 	{ /* DUMMY BODY */ }
 
@@ -65,7 +70,7 @@ struct GraphicsComponent : public Component
 {
 	static constexpr int type = 3;
 
-	GraphicsComponent(std::string me, std::string ma)
+	GraphicsComponent(std::string me = "NO MESH", std::string ma = "NO MATERIAL")
 		: mesh{me}, material{ma}
 	{ /* DUMMY BODY */ }
 
@@ -77,7 +82,7 @@ struct MovementComponent : public Component
 {
 	static constexpr int type = 4;
 
-	MovementComponent(Ogre::Real speed)
+	MovementComponent(Ogre::Real speed = 0.f)
 		: movement_vector{0, 0, 0}, speed_modifier{speed},
 		  moving{false}
 	{ /* DUMMY BODY */ }
@@ -91,8 +96,8 @@ struct CombatComponent : public Component
 {
 	static constexpr int type = 5;
 
-	CombatComponent(std::size_t r, std::size_t mi, std::size_t ma, int a1 = 0, int a2 = 0)
-		: range{r}, min_dmg{mi}, max_dmg{ma}, atk_1((AttackType)a1), atk_2((AttackType)a2)
+	CombatComponent(std::size_t r = 0, std::size_t mi = 0, std::size_t ma = 0, int a1 = 0, int a2 = 0, float a2_chance = 0.f)
+		: range{r}, min_dmg{mi}, max_dmg{ma}, atk_1((AttackType)a1), atk_2((AttackType)a2), atk2_chance{a2_chance}
 	{ /* DUMMY BODY */ }
 
 	std::size_t range;
@@ -100,6 +105,7 @@ struct CombatComponent : public Component
 	std::size_t max_dmg;
 	AttackType atk_1;
 	AttackType atk_2;
+	float atk2_chance;
 };
 
 struct EventComponent : public Component

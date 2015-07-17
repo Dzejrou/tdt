@@ -2,7 +2,8 @@
 
 EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
 	: scene_{mgr}, entities_{}, physics_{}, health_{}, ai_{},
-	  graphics_{}, movement_{}, combat_{}, event_{}, to_be_destroyed_{}
+	  graphics_{}, movement_{}, combat_{}, event_{}, to_be_destroyed_{},
+	  components_to_be_removed_{}
 { /* DUMMY BODY */ }
 
 std::size_t EntitySystem::get_new_id() const
@@ -22,6 +23,49 @@ std::size_t EntitySystem::get_new_id() const
 
 void EntitySystem::cleanup()
 {
+	// Remove components.
+	for(auto& ent : components_to_be_removed_)
+	{
+		entities_.find(ent.first)->second.set(ent.second, false);
+		switch(ent.second)
+		{
+				case PhysicsComponent::type:
+				{
+					auto& phys_comp = get_component<PhysicsComponent>(ent.first);
+					if(phys_comp.node && phys_comp.entity)
+					{
+						phys_comp.node->detachObject(phys_comp.entity);
+						if(phys_comp.node->numChildren() == 0)
+							scene_.destroySceneNode(phys_comp.node);
+						scene_.destroyEntity(phys_comp.entity);
+					}
+					physics_.erase(ent.first);
+					break;
+				}
+				case HealthComponent::type:
+					health_.erase(ent.first);
+					break;
+				case AIComponent::type:
+					ai_.erase(ent.first);
+					break;
+				case GraphicsComponent::type:
+					graphics_.erase(ent.first);
+					break;
+				case MovementComponent::type:
+					movement_.erase(ent.first);
+					break;
+				case CombatComponent::type:
+					combat_.erase(ent.first);
+					break;
+				case EventComponent::type:
+					event_.erase(ent.first);
+					break;
+			
+			}
+	}
+	components_to_be_removed_.clear();
+
+	// Remove entire entities.
 	for(auto id : to_be_destroyed_)
 	{
 		auto& entity = entities_.find(id);

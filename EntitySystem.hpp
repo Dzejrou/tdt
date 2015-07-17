@@ -29,7 +29,9 @@ class EntitySystem
 		std::size_t get_new_id() const;
 
 		/**
-		 * Brief: Removes all entities that have no components.
+		 * Brief: Removes all entities that have no components and individual components marked
+		 *        for deletion from their entities (this is used so that the Lua code does not 
+		 *        delete an entity/a component from a container while C++ iterates over it).
 		 */
 		void cleanup();
 
@@ -110,6 +112,30 @@ class EntitySystem
 			throw std::runtime_error("[Error][EntitySystem] Trying to access container of a non-existent component: "
 								     + std::to_string(COMP::type));
 		}
+
+		/**
+		 * Brief: Adds a components to the given enetity using it's default constructor (all values have
+		 *        to be set afterwards).
+		 * Param: ID of the entity.
+		 */
+		template<typename COMP>
+		void add_component(std::size_t id)
+		{
+			get_component_container<COMP>.emplace(std::make_pair(id, COMP{}));
+		}
+
+		/**
+		 * Brief: Marks a component (specified by template argument) for given entity for deletion.
+		 * Param: ID of the entity.
+		 */
+		template<typename COMP>
+		void delete_component(std::size_t id)
+		{
+			if(has_component<COMP>(id))
+				components_to_be_removed_.push_back(std::make_pair(id, COMP::type));
+			// No need to do anything when the component is non-existent, since that is the
+			// state the caller wants.
+		}
 	private:
 		/**
 		 * Brief: Loads a component from a Lua script.
@@ -126,6 +152,7 @@ class EntitySystem
 		// Contains bitsets describing component availability.
 		std::map<std::size_t, std::bitset<Component::count>> entities_;
 		std::vector<std::size_t> to_be_destroyed_;
+		std::vector<std::pair<std::size_t, int>> components_to_be_removed_;
 
 		// Contain components specified by the entity ID.
 		std::map<std::size_t, PhysicsComponent> physics_;
