@@ -20,6 +20,7 @@ struct Component
 };
 
 /**
+ * Components
  * Note: To be able to manually create components without blueprints, all components must have
  *       either default constructors or constructors with default values for all parameters.
  */
