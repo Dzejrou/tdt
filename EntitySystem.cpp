@@ -62,6 +62,8 @@ void EntitySystem::cleanup()
 					break;
 			
 			}
+		if(!entities_.find(ent.first)->second.any()) // No components remaining -> destroy it.
+			to_be_destroyed_.push_back(ent.first);
 	}
 	components_to_be_removed_.clear();
 
