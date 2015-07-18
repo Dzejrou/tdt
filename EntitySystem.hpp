@@ -118,6 +118,11 @@ class EntitySystem
 		void add_component(std::size_t id)
 		{
 			get_component_container<COMP>().emplace(std::make_pair(id, COMP{}));
+
+			// Set the flag.
+			auto it = entities_.find(id);
+			if(it != entities_.end())
+				it->second.set(COMP::type, true);
 		}
 
 		/**

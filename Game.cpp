@@ -51,7 +51,7 @@ void Game::update(Ogre::Real delta)
 	{
 		test_node->setPosition(test_node->getPosition() + camera_dir_);
 	}
-	else
+	else if(!keyboard_->isKeyDown(OIS::KC_C))
 	{
 		main_cam_->moveRelative(camera_dir_);
 	}
@@ -346,6 +346,12 @@ void Game::lua_init()
 	// Load all necessary scripts.
 	script.load("scripts/core_utils.lua");
 	script.load("scripts/ogre.lua");
+
+	// InputComponent related enums.
+	script.set("game.enum.input.key_up", OIS::KC_W);
+	script.set("game.enum.input.key_down", OIS::KC_S);
+	script.set("game.enum.input.key_left", OIS::KC_A);
+	script.set("game.enum.input.key_right", OIS::KC_D);
 }
 
 /**

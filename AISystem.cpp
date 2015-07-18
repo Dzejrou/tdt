@@ -17,7 +17,6 @@ void AISystem::update(Ogre::Real)
 			lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".update", ent.first);
 		}
 	}
-	entities_.cleanup();
 }
 
 bool AISystem::is_valid(std::size_t id) const

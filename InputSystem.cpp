@@ -3,13 +3,7 @@
 InputSystem::InputSystem(EntitySystem& ents, OIS::Keyboard& key)
 	: entities_{ents}, first_person_{false}, first_person_id_{0}, keyboard_{key},
 	KEY_UP{OIS::KC_W}, KEY_DOWN{OIS::KC_S}, KEY_LEFT{OIS::KC_A}, KEY_RIGHT{OIS::KC_D}
-{
-	lpp::Script& script = lpp::Script::get_singleton();
-	script.set("enums.input.key_up", KEY_UP);
-	script.set("enums.input.key_down", KEY_DOWN);
-	script.set("enums.input.key_left", KEY_LEFT);
-	script.set("enums.input.key_right", KEY_RIGHT);
-}
+{ /* DUMMY BODY */ }
 
 void InputSystem::update(Ogre::Real delta)
 {
@@ -50,19 +44,19 @@ void InputSystem::rebind(int key, int new_key)
 	{
 		case OIS::KC_W:
 			KEY_UP = new_key;
-			script.set("enums.input.key_up", KEY_UP);
+			script.set("game.enum.input.key_up", KEY_UP);
 			break;
 		case OIS::KC_S:
 			KEY_DOWN = new_key;
-			script.set("enums.input.key_down", KEY_DOWN);
+			script.set("game.enum.input.key_down", KEY_DOWN);
 			break;
 		case OIS::KC_A:
 			KEY_LEFT = new_key;
-			script.set("enums.input.key_left", KEY_LEFT);
+			script.set("game.enum.input.key_left", KEY_LEFT);
 			break;
 		case OIS::KC_D:
 			KEY_RIGHT = new_key;
-			script.set("enums.input.key_right", KEY_RIGHT);
+			script.set("game.enum.input.key_right", KEY_RIGHT);
 			break;
 		default:
 			break;
