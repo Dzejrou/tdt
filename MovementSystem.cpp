@@ -31,7 +31,7 @@ bool MovementSystem::is_valid(std::size_t id) const
 
 bool MovementSystem::is_moving(std::size_t id) const
 {
-	if(is_valid(id))
+	if(entities_.has_component<MovementComponent>(id))
 		return entities_.get_component<MovementComponent>(id).moving;
 	else
 		return false;
@@ -39,7 +39,7 @@ bool MovementSystem::is_moving(std::size_t id) const
 
 bool MovementSystem::is_solid(std::size_t id) const
 {
-	if(is_valid(id))
+	if(entities_.has_component<PhysicsComponent>(id))
 		return entities_.get_component<PhysicsComponent>(id).solid;
 	else
 		return false;
@@ -50,7 +50,7 @@ bool MovementSystem::can_move_to(std::size_t id, Ogre::Vector3 pos)
 	if(!entities_.has_component<GraphicsComponent>(id))
 		return true; // Invisible objects will be able to move anywhere.
 
-	if(is_valid(id))
+	if(entities_.has_component<PhysicsComponent>(id))
 	{
 		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
 		auto& graph_comp = entities_.get_component<GraphicsComponent>(id);
@@ -109,7 +109,7 @@ bool MovementSystem::move(std::size_t id, Ogre::Vector3 dir_vector)
 
 void MovementSystem::move_to(std::size_t id, Ogre::Vector3 pos)
 {
-	if(is_valid(id))
+	if(entities_.has_component<PhysicsComponent>(id))
 	{
 		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
 		phys_comp.position = pos;
@@ -145,7 +145,8 @@ bool MovementSystem::collide(std::size_t id1, std::size_t id2) const
 
 Ogre::Real MovementSystem::get_distance(std::size_t id1, std::size_t id2) const
 {
-	if(is_valid(id1) && is_valid(id2))
+	if(entities_.has_component<PhysicsComponent>(id1) &&
+	   entities_.has_component<PhysicsComponent>(id2))
 		return entities_.get_component<PhysicsComponent>(id1)
 			.position.distance(entities_.get_component<PhysicsComponent>(id2).position);
 	else
@@ -154,7 +155,7 @@ Ogre::Real MovementSystem::get_distance(std::size_t id1, std::size_t id2) const
 
 Ogre::Vector3 MovementSystem::get_position(std::size_t id) const
 {
-	if(is_valid(id))
+	if(entities_.has_component<PhysicsComponent>(id))
 		return entities_.get_component<PhysicsComponent>(id).position;
 	else
 		return Ogre::Vector3{0, 0, 0};
@@ -162,7 +163,7 @@ Ogre::Vector3 MovementSystem::get_position(std::size_t id) const
 
 Ogre::Real MovementSystem::get_speed_modifier(std::size_t id) const
 {
-	if(is_valid(id))
+	if(entities_.has_component<MovementComponent>(id))
 		return entities_.get_component<MovementComponent>(id).speed_modifier;
 	else
 		return Ogre::Real{};
@@ -170,6 +171,71 @@ Ogre::Real MovementSystem::get_speed_modifier(std::size_t id) const
 
 void MovementSystem::set_speed_modifier(std::size_t id, Ogre::Real speed)
 {
-	if(is_valid(id))
+	if(entities_.has_component<MovementComponent>(id))
 		entities_.get_component<MovementComponent>(id).speed_modifier = speed;
+}
+
+std::size_t MovementSystem::enemy_in_radius(std::size_t id, Ogre::Real radius) const
+{
+	if(entities_.has_component<PhysicsComponent>(id))
+	{
+		radius *= radius; // Using squared distance.
+		Ogre::Real minimum_distance{std::numeric_limits<Ogre::Real>::max()};
+		std::size_t minimum_id{id};
+		std::size_t original_id{id};
+		Ogre::Real current_distance{};
+
+		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
+
+		for(const auto& ent : entities_.get_component_container<PhysicsComponent>())
+		{
+			if(ent.first == original_id)
+				continue;
+			current_distance = phys_comp.position.squaredDistance(ent.second.position);
+			if(current_distance < radius && current_distance < minimum_distance)
+			{
+				minimum_distance = current_distance;
+				id = ent.first;
+			}
+		}
+	}
+
+	return id; // Return the calling ID if no close entity found.
+}
+
+std::size_t MovementSystem::closest_enemy(std::size_t id) const
+{
+	return enemy_in_radius(id, std::numeric_limits<Ogre::Real>::max());
+}
+
+Ogre::Vector3 MovementSystem::dir_to_closest_enemy(std::size_t id, Ogre::Real radius) const
+{
+	if(entities_.has_component<PhysicsComponent>(id))
+	{
+		std::size_t id_enemy = enemy_in_radius(id, radius);
+		if(id == id_enemy)
+			return Ogre::Vector3{0, 0, 0};
+		auto pos1 = entities_.get_component<PhysicsComponent>(id).position;
+		auto pos2 = entities_.get_component<PhysicsComponent>(id_enemy).position;
+		auto pos = pos2 - pos1;
+		pos.normalise();
+		return pos;
+	}
+	else
+		return Ogre::Vector3{0, 0, 0};
+}
+
+Ogre::Vector3 MovementSystem::dir_to_enemy(std::size_t id1, std::size_t id2) const
+{
+	if(entities_.has_component<PhysicsComponent>(id1) &&
+	   entities_.has_component<PhysicsComponent>(id2))
+	{
+		auto pos1 = entities_.get_component<PhysicsComponent>(id1).position;
+		auto pos2 = entities_.get_component<PhysicsComponent>(id2).position;
+		auto pos = pos2 - pos1;
+		pos.normalise();
+		return pos;
+	}
+	else
+		return Ogre::Vector3{0, 0, 0};
 }

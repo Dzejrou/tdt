@@ -28,6 +28,10 @@ class MovementSystem : public System
 		Ogre::Vector3 get_position(std::size_t) const;
 		Ogre::Real get_speed_modifier(std::size_t) const;
 		void set_speed_modifier(std::size_t, Ogre::Real);
+		std::size_t enemy_in_radius(std::size_t, Ogre::Real) const;
+		std::size_t closest_enemy(std::size_t) const;
+		Ogre::Vector3 dir_to_closest_enemy(std::size_t, Ogre::Real = std::numeric_limits<Ogre::Real>::max()) const;
+		Ogre::Vector3 dir_to_enemy(std::size_t, std::size_t) const;
 	private:
 		EntitySystem& entities_;
 };
