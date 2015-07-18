@@ -25,21 +25,19 @@ struct Component
  *       either default constructors or constructors with default values for all parameters.
  */
 
-struct PhysicsComponent : public Component
+struct PhysicsComponent
 {
 	static constexpr int type = 0;
 
 	PhysicsComponent(bool s = false)
-		: node{nullptr}, entity{nullptr}, position{0, 0, 0}, solid{s}
+		: position{0, 0, 0}, solid{s}
 	{ /* DUMMY BODY */ }
 
-	Ogre::SceneNode* node;
-	Ogre::Entity* entity;
 	Ogre::Vector3 position;
 	bool solid;
 };
 
-struct HealthComponent : public Component
+struct HealthComponent
 {
 	static constexpr int type = 1;
 
@@ -54,7 +52,7 @@ struct HealthComponent : public Component
 	bool alive;
 };
 
-struct AIComponent : public Component
+struct AIComponent
 {
 	static constexpr int type = 2;
 
@@ -67,19 +65,21 @@ struct AIComponent : public Component
 	Faction faction;
 };
 
-struct GraphicsComponent : public Component
+struct GraphicsComponent
 {
 	static constexpr int type = 3;
 
-	GraphicsComponent(std::string me = "NO MESH", std::string ma = "NO MATERIAL")
-		: mesh{me}, material{ma}
+	GraphicsComponent(std::string me = "ogrehead.mesh")
+		: mesh{me}, visible{true}, node{nullptr}, entity{nullptr}
 	{ /* DUMMY BODY */ }
 
 	std::string mesh;
-	std::string material;
+	bool visible;
+	Ogre::SceneNode* node;
+	Ogre::Entity* entity;
 };
 
-struct MovementComponent : public Component
+struct MovementComponent
 {
 	static constexpr int type = 4;
 
@@ -93,7 +93,7 @@ struct MovementComponent : public Component
 	bool moving;
 };
 
-struct CombatComponent : public Component
+struct CombatComponent
 {
 	static constexpr int type = 5;
 
@@ -109,7 +109,7 @@ struct CombatComponent : public Component
 	float atk2_chance;
 };
 
-struct EventComponent : public Component
+struct EventComponent
 { // TODO: 
 	static constexpr int type = 6;
 
@@ -125,27 +125,27 @@ struct EventComponent : public Component
 	std::bitset<32> possible_events;
 };
 
-struct InputComponent : public Component
+struct InputComponent
 {
 	static constexpr int type = 7;
 };
 
-struct TimeComponent : public Component
+struct TimeComponent
 {
 	static constexpr int type = 8;
 };
 
-struct ManaComponent : public Component
+struct ManaComponent
 {
 	static constexpr int type = 9;
 };
 
-struct SpellComponent : public Component
+struct SpellComponent
 {
 	static constexpr int type = 10;
 };
 
-struct ProductionComponent : public Component
+struct ProductionComponent
 {
 	static constexpr int type = 11;
 };

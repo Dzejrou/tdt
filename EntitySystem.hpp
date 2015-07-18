@@ -117,7 +117,7 @@ class EntitySystem
 		template<typename COMP>
 		void add_component(std::size_t id)
 		{
-			get_component_container<COMP>.emplace(std::make_pair(id, COMP{}));
+			get_component_container<COMP>().emplace(std::make_pair(id, COMP{}));
 		}
 
 		/**
@@ -168,6 +168,11 @@ class EntitySystem
 		std::map<std::size_t, MovementComponent> movement_;
 		std::map<std::size_t, CombatComponent> combat_;
 		std::map<std::size_t, EventComponent> event_;
+		std::map<std::size_t, InputComponent> input_;
+		std::map<std::size_t, TimeComponent> time_;
+		std::map<std::size_t, ManaComponent> mana_;
+		std::map<std::size_t, SpellComponent> spell_;
+		std::map<std::size_t, ProductionComponent> production_;
 
 		// To create nodes and entities.
 		Ogre::SceneManager& scene_;
@@ -218,6 +223,36 @@ inline std::map<std::size_t, EventComponent>& EntitySystem::get_component_contai
 	return event_;
 }
 
+template<>
+inline std::map<std::size_t, InputComponent>& EntitySystem::get_component_container<InputComponent>()
+{
+	return input_;
+}
+
+template<>
+inline std::map<std::size_t, TimeComponent>& EntitySystem::get_component_container<TimeComponent>()
+{
+	return time_;
+}
+
+template<>
+inline std::map<std::size_t, ManaComponent>& EntitySystem::get_component_container<ManaComponent>()
+{
+	return mana_;
+}
+
+template<>
+inline std::map<std::size_t, SpellComponent>& EntitySystem::get_component_container<SpellComponent>()
+{
+	return spell_;
+}
+
+template<>
+inline std::map<std::size_t, ProductionComponent>& EntitySystem::get_component_container<ProductionComponent>()
+{
+	return production_;
+}
+
 /**
  * Specializations of the EntitySystem::load_component method.
  */
@@ -256,8 +291,20 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, std:
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string mesh = script.get<std::string>(table_name + ".GraphicsComponent.mesh");
-	std::string mat = script.get<std::string>(table_name + ".GraphicsComponent.material");
-	graphics_.emplace(std::make_pair(id, GraphicsComponent{mesh, mat}));
+	auto res = graphics_.emplace(std::make_pair(id, GraphicsComponent{mesh}));
+
+	// Ogre init of the entity and scene node.
+	auto& comp = res.first->second;
+	comp.node = scene_.getRootSceneNode()->createChildSceneNode();
+	comp.node->showBoundingBox(true);
+	comp.entity = scene_.createEntity(comp.mesh);
+	comp.node->attachObject(comp.entity);
+
+	if(!script.get<bool>(table_name + ".GraphicsComponent.visible"))
+	{
+		comp.visible = false;
+		comp.node->setVisible(false);
+	}
 }
 
 template<>

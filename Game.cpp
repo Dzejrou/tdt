@@ -376,7 +376,7 @@ int Game::lua_add_component(lpp::Script::state L)
 	return 0;
 }
 
-int Game::lua_delete_component(lpp::Script::state)
+int Game::lua_delete_component(lpp::Script::state L)
 {
 	int comp = (int)luaL_checkinteger(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);

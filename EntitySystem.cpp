@@ -30,18 +30,8 @@ void EntitySystem::cleanup()
 		switch(ent.second)
 		{
 				case PhysicsComponent::type:
-				{
-					auto& phys_comp = get_component<PhysicsComponent>(ent.first);
-					if(phys_comp.node && phys_comp.entity)
-					{
-						phys_comp.node->detachObject(phys_comp.entity);
-						if(phys_comp.node->numChildren() == 0)
-							scene_.destroySceneNode(phys_comp.node);
-						scene_.destroyEntity(phys_comp.entity);
-					}
 					physics_.erase(ent.first);
 					break;
-				}
 				case HealthComponent::type:
 					health_.erase(ent.first);
 					break;
@@ -49,8 +39,18 @@ void EntitySystem::cleanup()
 					ai_.erase(ent.first);
 					break;
 				case GraphicsComponent::type:
+				{
+					auto& graph_comp = get_component<GraphicsComponent>(ent.first);
+					if(graph_comp.node && graph_comp.entity)
+					{
+						graph_comp.node->detachObject(graph_comp.entity);
+						if(graph_comp.node->numChildren() == 0)
+							scene_.destroySceneNode(graph_comp.node);
+						scene_.destroyEntity(graph_comp.entity);
+					}
 					graphics_.erase(ent.first);
 					break;
+				}
 				case MovementComponent::type:
 					movement_.erase(ent.first);
 					break;
@@ -80,18 +80,8 @@ void EntitySystem::cleanup()
 			switch(i)
 			{ // Remove the entity from all component containers it's in.
 				case PhysicsComponent::type:
-				{
-					auto& phys_comp = get_component<PhysicsComponent>(id);
-					if(phys_comp.node && phys_comp.entity)
-					{
-						phys_comp.node->detachObject(phys_comp.entity);
-						if(phys_comp.node->numChildren() == 0)
-							scene_.destroySceneNode(phys_comp.node);
-						scene_.destroyEntity(phys_comp.entity);
-					}
 					physics_.erase(id);
 					break;
-				}
 				case HealthComponent::type:
 					health_.erase(id);
 					break;
@@ -99,8 +89,18 @@ void EntitySystem::cleanup()
 					ai_.erase(id);
 					break;
 				case GraphicsComponent::type:
+				{
+					auto& graph_comp = get_component<GraphicsComponent>(id);
+					if(graph_comp.node && graph_comp.entity)
+					{
+						graph_comp.node->detachObject(graph_comp.entity);
+						if(graph_comp.node->numChildren() == 0)
+							scene_.destroySceneNode(graph_comp.node);
+						scene_.destroyEntity(graph_comp.entity);
+					}
 					graphics_.erase(id);
 					break;
+				}
 				case MovementComponent::type:
 					movement_.erase(id);
 					break;
@@ -154,18 +154,6 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 				load_component<EventComponent>(id, table_name);
 				break;
 		}
-	}
-
-	if(has_component<PhysicsComponent>(id) && has_component<GraphicsComponent>(id))
-	{ // Init node and entity.
-		auto& phys_comp = get_component<PhysicsComponent>(id);
-		auto& graph_comp = get_component<GraphicsComponent>(id);
-
-		phys_comp.node = scene_.getRootSceneNode()->createChildSceneNode();
-		phys_comp.node->showBoundingBox(true);
-		phys_comp.entity = scene_.createEntity(graph_comp.mesh);
-		//phys_comp.entity->setMaterialName(graph_comp.material); // TODO: Necessary?
-		phys_comp.node->attachObject(phys_comp.entity);
 	}
 
 	return id;

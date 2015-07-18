@@ -14,7 +14,9 @@ void MovementSystem::update(Ogre::Real delta)
 			auto& phys_comp = entities_.get_component<PhysicsComponent>(it->first);
 			auto& mov_comp = entities_.get_component<MovementComponent>(it->first);
 			phys_comp.position += mov_comp.movement_vector * mov_comp.speed_modifier;
-			phys_comp.node->setPosition(phys_comp.position);
+
+			if(entities_.has_component<GraphicsComponent>(it->first))
+				entities_.get_component<GraphicsComponent>(it->first).node->setPosition(phys_comp.position);
 
 			mov_comp.moving = false;
 		}
@@ -51,11 +53,12 @@ bool MovementSystem::can_move_to(std::size_t id, Ogre::Vector3 pos)
 	if(is_valid(id))
 	{
 		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
+		auto& graph_comp = entities_.get_component<GraphicsComponent>(id);
 
 		if(!phys_comp.solid)
 			return true;
 
-		phys_comp.node->setPosition(pos); // Old position backed up in phys_comp.position.
+		graph_comp.node->setPosition(pos); // Old position backed up in phys_comp.position.
 		auto& ents = entities_.get_component_container<PhysicsComponent>(); // Only need to check entities with PhysicsComponent.
 		for(const auto& ent : ents)
 		{
@@ -65,13 +68,13 @@ bool MovementSystem::can_move_to(std::size_t id, Ogre::Vector3 pos)
 			if(is_valid(ent.first) && is_solid(ent.first) &&
 			   collide(id, ent.first))
 			{
-				phys_comp.node->setPosition(phys_comp.position);
+				graph_comp.node->setPosition(phys_comp.position);
 				return false;
 			}
 		}
 
 		// Reverts the change, because of possible checks without actual movement.
-		phys_comp.node->setPosition(phys_comp.position);
+		graph_comp.node->setPosition(phys_comp.position);
 		return true;
 	}
 	else
@@ -94,8 +97,8 @@ bool MovementSystem::move(std::size_t id, Ogre::Vector3 dir_vector)
 			mov_comp.movement_vector = dir_vector;
 			mov_comp.moving = true;
 
-			if(phys_comp.node)
-				phys_comp.node->setPosition(phys_comp.position);
+			if(entities_.has_component<GraphicsComponent>(id))
+				entities_.get_component<GraphicsComponent>(id).node->setPosition(phys_comp.position);
 
 			return true;
 		}
@@ -111,28 +114,30 @@ void MovementSystem::move_to(std::size_t id, Ogre::Vector3 pos)
 		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
 		phys_comp.position = pos;
 
-		if(phys_comp.node)
-			phys_comp.node->setPosition(pos);
+		if(entities_.has_component<GraphicsComponent>(id))
+			entities_.get_component<GraphicsComponent>(id).node->setPosition(pos);
 	}
 }
 
 void MovementSystem::rotate(std::size_t id, Ogre::Real delta)
 {
-	entities_.get_component<PhysicsComponent>(id).node->rotate(Ogre::Vector3{0, 1, 0}, Ogre::Radian{delta});
+	if(entities_.has_component<GraphicsComponent>(id))
+		entities_.get_component<GraphicsComponent>(id).node->rotate(Ogre::Vector3{0, 1, 0}, Ogre::Radian{delta});
 }
 
 const Ogre::AxisAlignedBox& MovementSystem::get_bounds(std::size_t id) const
 {
-	if(is_valid(id) && entities_.get_component<PhysicsComponent>(id).entity)
-		return entities_.get_component<PhysicsComponent>(id).entity->getWorldBoundingBox();
+	if(entities_.has_component<GraphicsComponent>(id))
+		return entities_.get_component<GraphicsComponent>(id).entity->getWorldBoundingBox();
 	else
 		throw std::runtime_error("[Error][MovementSystem] Trying to get bounding box of entity #"
-								 + std::to_string(id) + " which does not have PhysicsComponent or an entity.");
+								 + std::to_string(id) + " which does not have GraphicsComponent.");
 }
 
 bool MovementSystem::collide(std::size_t id1, std::size_t id2) const
 {
-	if(is_valid(id1) && is_valid(id2))
+	if(entities_.has_component<GraphicsComponent>(id1) &&
+	   entities_.has_component<GraphicsComponent>(id2)) // Collision checking is done through Ogre.
 		return get_bounds(id1).intersects(get_bounds(id2));
 	else
 		return false;

@@ -28,7 +28,7 @@ ogre = {
 
 	GraphicsComponent = {
 		mesh = "ogrehead.mesh",
-		material = "Ogre"
+		visible = true
 	},
 
 	MovementComponent = {
