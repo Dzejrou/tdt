@@ -56,7 +56,7 @@ struct AIComponent
 {
 	static constexpr int type = 2;
 
-	AIComponent(std::string s = "ERROR", int f = 2)
+	AIComponent(const std::string& s = "ERROR", int f = 2)
 		: blueprint{s}, state{EntityState::NORMAL}, faction((Faction)f)
 	{ /* DUMMY BODY */ }
 
@@ -69,7 +69,7 @@ struct GraphicsComponent
 {
 	static constexpr int type = 3;
 
-	GraphicsComponent(std::string me = "ogrehead.mesh")
+	GraphicsComponent(const std::string& me = "ogrehead.mesh")
 		: mesh{me}, visible{true}, node{nullptr}, entity{nullptr}
 	{ /* DUMMY BODY */ }
 
@@ -128,6 +128,12 @@ struct EventComponent
 struct InputComponent
 {
 	static constexpr int type = 7;
+
+	InputComponent(const std::string& handler = "ERROR.input_handler")
+		: input_handler{handler}
+	{ /* DUMMY BODY */ }
+
+	std::string input_handler;
 };
 
 struct TimeComponent

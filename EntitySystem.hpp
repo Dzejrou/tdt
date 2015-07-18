@@ -153,7 +153,7 @@ class EntitySystem
 		 * Param: Name of the table containing the component.
 		 */
 		template<typename COMP>
-		void load_component(std::size_t id, std::string table_name);
+		void load_component(std::size_t id, const std::string& table_name);
 
 		// Contains bitsets describing component availability.
 		std::map<std::size_t, std::bitset<Component::count>> entities_;
@@ -257,7 +257,7 @@ inline std::map<std::size_t, ProductionComponent>& EntitySystem::get_component_c
  * Specializations of the EntitySystem::load_component method.
  */
 template<>
-inline void EntitySystem::load_component<PhysicsComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<PhysicsComponent>(std::size_t id, const std::string& table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	bool solid = script.get<bool>(table_name + ".PhysicsComponent.solid");
@@ -265,7 +265,7 @@ inline void EntitySystem::load_component<PhysicsComponent>(std::size_t id, std::
 }
 
 template<>
-inline void EntitySystem::load_component<HealthComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<HealthComponent>(std::size_t id, const std::string& table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	int max = script.get<int>(table_name + ".HealthComponent.max_hp");
@@ -275,7 +275,7 @@ inline void EntitySystem::load_component<HealthComponent>(std::size_t id, std::s
 }
 
 template<>
-inline void EntitySystem::load_component<AIComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<AIComponent>(std::size_t id, const std::string& table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string blueprint = script.get<std::string>(table_name + ".AIComponent.blueprint");
@@ -287,7 +287,7 @@ inline void EntitySystem::load_component<AIComponent>(std::size_t id, std::strin
 }
 
 template<>
-inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, const std::string& table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string mesh = script.get<std::string>(table_name + ".GraphicsComponent.mesh");
@@ -308,7 +308,7 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, std:
 }
 
 template<>
-inline void EntitySystem::load_component<MovementComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<MovementComponent>(std::size_t id, const std::string& table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	float speed = script.get<float>(table_name + ".MovementComponent.speed_modifier");
@@ -316,7 +316,7 @@ inline void EntitySystem::load_component<MovementComponent>(std::size_t id, std:
 }
 
 template<>
-inline void EntitySystem::load_component<CombatComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<CombatComponent>(std::size_t id, const std::string& table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	int range = script.get<int>(table_name + ".CombatComponent.range");
@@ -328,8 +328,15 @@ inline void EntitySystem::load_component<CombatComponent>(std::size_t id, std::s
 }
 
 template<>
-inline void EntitySystem::load_component<EventComponent>(std::size_t id, std::string table_name)
+inline void EntitySystem::load_component<EventComponent>(std::size_t id, const std::string& table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	event_.emplace(std::make_pair(id, EventComponent{}));
+}
+
+template<>
+inline void EntitySystem::load_component<InputComponent>(std::size_t id, const std::string& table_name)
+{
+	std::string handler = lpp::Script::get_singleton().get<std::string>(table_name + "InputComponent.input_handler");
+	input_.emplace(std::make_pair(id, InputComponent{handler}));
 }

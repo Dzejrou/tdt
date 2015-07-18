@@ -10,6 +10,7 @@
 #include "HealthSystem.hpp"
 #include "MovementSystem.hpp"
 #include "AISystem.hpp"
+#include "InputSystem.hpp"
 #include "lppscript/LppScript.hpp"
 
 enum class GAME_STATE
@@ -61,6 +62,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<HealthSystem> health_system_;
 		std::unique_ptr<MovementSystem> movement_system_;
 		std::unique_ptr<AISystem> ai_system_;
+		std::unique_ptr<InputSystem> input_system_;
 
 		std::vector<System*> systems_;
 
@@ -90,6 +92,11 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_get_position(lpp::Script::state);
 		static int lua_get_speed_modifier(lpp::Script::state);
 		static int lua_set_speed_modifier(lpp::Script::state);
+		static int lua_enemy_in_radius(lpp::Script::state);
+		static int lua_closest_enemy(lpp::Script::state);
+		static int lua_dir_to_closest_enemy(lpp::Script::state);
+		static int lua_dir_to_closest_enemy_in_radius(lpp::Script::state);
+		static int lua_dir_to_enemy(lpp::Script::state);
 
 		// Health system.
 		static int lua_get_health(lpp::Script::state);
@@ -108,9 +115,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_get_blueprint(lpp::Script::state);
 		static int lua_get_state(lpp::Script::state);
 		static int lua_get_faction(lpp::Script::state);
-		static int lua_enemy_in_radius(lpp::Script::state);
-		static int lua_closest_enemy(lpp::Script::state);
-		static int lua_dir_to_closest_enemy(lpp::Script::state);
-		static int lua_dir_to_closest_enemy_in_radius(lpp::Script::state);
-		static int lua_dir_to_enemy(lpp::Script::state);
+
+		// Input system.
+		static int lua_set_input_handler(lpp::Script::state);
 };

@@ -16,10 +16,12 @@ Game::Game()
 	health_system_.reset(new HealthSystem(*entity_system_));
 	movement_system_.reset(new MovementSystem(*entity_system_));
 	ai_system_.reset(new AISystem(*entity_system_));
+	input_system_.reset(new InputSystem(*entity_system_, *keyboard_));
 
 	systems_.emplace_back(health_system_.get());
 	systems_.emplace_back(movement_system_.get());
 	systems_.emplace_back(ai_system_.get());
+	systems_.emplace_back(input_system_.get());
 
 	lua_this = this;
 	lua_init();
@@ -309,6 +311,7 @@ void Game::lua_init()
 		{"get_speed", Game::lua_get_speed_modifier},
 		{"set_speed", Game::lua_set_speed_modifier},
 		{"enemy_in_radius", Game::lua_enemy_in_radius},
+		{"closest_enemy", Game::lua_closest_enemy},
 		{"dir_to_closest_enemy", Game::lua_dir_to_closest_enemy},
 		{"dir_to_closest_enemy_in_radius", Game::lua_dir_to_closest_enemy_in_radius},
 		{"dir_to_enemy", Game::lua_dir_to_enemy},
@@ -329,7 +332,10 @@ void Game::lua_init()
 		{"is_inanimate", Game::lua_is_inanimate},
 		{"get_blueprint", Game::lua_get_blueprint},
 		{"get_state", Game::lua_get_state},
-		{"get_faction", Game::lua_get_faction},	
+		{"get_faction", Game::lua_get_faction},
+
+		// Input system.
+		{"set_input_handler", Game::lua_set_input_handler},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -674,4 +680,13 @@ int Game::lua_get_faction(lpp::Script::state L)
 	int res = (int)lua_this->ai_system_->get_faction(id);
 	lua_pushinteger(L, res);
 	return 1;
+}
+
+int Game::lua_set_input_handler(lpp::Script::state L)
+{
+	std::string handler = luaL_checkstring(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	lua_this->input_system_->set_input_handler(id, handler);
+	return 0;
 }

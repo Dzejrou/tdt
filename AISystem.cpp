@@ -13,7 +13,7 @@ void AISystem::update(Ogre::Real)
 	{
 		if(is_valid(ent.first))
 		{
-			blueprint = entities_.get_component<AIComponent>(ent.first).blueprint;
+			blueprint = ent.second.blueprint;
 			lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".update", ent.first);
 		}
 	}
