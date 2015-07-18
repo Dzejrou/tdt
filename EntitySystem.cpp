@@ -161,10 +161,14 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 
 void EntitySystem::destroy_entity(std::size_t id)
 {
-	std::string blueprint = get_component<AIComponent>(id).blueprint;
-	lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".finnish", id); // Calls the "destructor".
-	to_be_destroyed_.push_back(id);
+	auto ai_comp = entities_.find(id);
+	if(ai_comp != entities_.end())
+	{
+		std::string blueprint = get_component<AIComponent>(id).blueprint;
+		lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".finnish", id); // Calls the "destructor".
+	}
 
+	to_be_destroyed_.push_back(id);
 }
 
 const std::map<std::size_t, std::bitset<Component::count>>& EntitySystem::get_component_list() const
