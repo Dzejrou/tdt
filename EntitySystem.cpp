@@ -183,3 +183,89 @@ const std::map<std::size_t, std::bitset<Component::count>>& EntitySystem::get_co
 {
 	return entities_;
 }
+
+void EntitySystem::add_component(std::size_t ent_id, int comp_id)
+{
+	switch(comp_id)
+	{
+		case PhysicsComponent::type:
+			add_component<PhysicsComponent>(ent_id);
+			break;
+		case HealthComponent::type:
+			add_component<HealthComponent>(ent_id);
+			break;
+		case AIComponent::type:
+			add_component<AIComponent>(ent_id);
+			break;
+		case GraphicsComponent::type:
+			add_component<GraphicsComponent>(ent_id);
+			break;
+		case MovementComponent::type:
+			add_component<MovementComponent>(ent_id);
+			break;
+		case CombatComponent::type:
+			add_component<CombatComponent>(ent_id);
+			break;
+		case EventComponent::type:
+			add_component<EventComponent>(ent_id);
+			break;
+		case InputComponent::type:
+			add_component<InputComponent>(ent_id);
+			break;
+		case TimeComponent::type:
+			add_component<TimeComponent>(ent_id);
+			break;
+		case ManaComponent::type:
+			add_component<ManaComponent>(ent_id);
+			break;
+		case SpellComponent::type:
+			add_component<SpellComponent>(ent_id);
+			break;
+		case ProductionComponent::type:
+			add_component<ProductionComponent>(ent_id);
+			break;
+	}
+}
+
+void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
+{
+	switch(comp_id)
+	{
+		case PhysicsComponent::type:
+			delete_component<PhysicsComponent>(ent_id);
+			break;
+		case HealthComponent::type:
+			delete_component<HealthComponent>(ent_id);
+			break;
+		case AIComponent::type:
+			delete_component<AIComponent>(ent_id);
+			break;
+		case GraphicsComponent::type:
+			delete_component<GraphicsComponent>(ent_id);
+			break;
+		case MovementComponent::type:
+			delete_component<MovementComponent>(ent_id);
+			break;
+		case CombatComponent::type:
+			delete_component<CombatComponent>(ent_id);
+			break;
+		case EventComponent::type:
+			delete_component<EventComponent>(ent_id);
+			break;
+		case InputComponent::type:
+			delete_component<InputComponent>(ent_id);
+			break;
+		case TimeComponent::type:
+			delete_component<TimeComponent>(ent_id);
+			break;
+		case ManaComponent::type:
+			delete_component<ManaComponent>(ent_id);
+			break;
+		case SpellComponent::type:
+			delete_component<SpellComponent>(ent_id);
+			break;
+		case ProductionComponent::type:
+			delete_component<ProductionComponent>(ent_id);
+			break;
+	}
+}

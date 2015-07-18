@@ -293,6 +293,8 @@ void Game::lua_init()
 		// Entity manipulation.
 		{"create_entity", Game::lua_create_entity},
 		{"destroy_entity", Game::lua_destroy_entity},
+		{"add_component", Game::lua_add_component},
+		{"delete_component", Game::lua_delete_component},
 
 		// Movement system.
 		{"move_to", Game::lua_move_to},
@@ -362,6 +364,24 @@ int Game::lua_destroy_entity(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 
 	lua_this->entity_system_->destroy_entity(id);
+	return 0;
+}
+
+int Game::lua_add_component(lpp::Script::state L)
+{
+	int comp = (int)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	lua_this->entity_system_->add_component(id, comp);
+	return 0;
+}
+
+int Game::lua_delete_component(lpp::Script::state)
+{
+	int comp = (int)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	lua_this->entity_system_->delete_component(id, comp);
 	return 0;
 }
 

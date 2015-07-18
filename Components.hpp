@@ -114,11 +114,12 @@ struct EventComponent : public Component
 	static constexpr int type = 6;
 
 	EventComponent()
-		: event_queue{}, curr_event_progress{},
+		: curr_event_position{0, 0, 0}, curr_event_radius{0}, curr_event_progress{},
 		  curr_event_length{}, possible_events{}
 	{ /* DUMMY BODY */ }
 
-	std::queue<Event> event_queue;
+	Ogre::Vector3 curr_event_position;
+	Ogre::Real curr_event_radius;
 	std::size_t curr_event_progress;
 	std::size_t curr_event_length;
 	std::bitset<32> possible_events;

@@ -75,6 +75,8 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static Game* lua_this;
 		static int lua_create_entity(lpp::Script::state);
 		static int lua_destroy_entity(lpp::Script::state);
+		static int lua_add_component(lpp::Script::state);
+		static int lua_delete_component(lpp::Script::state);
 
 		// Movement system.
 		static int lua_move_to(lpp::Script::state);

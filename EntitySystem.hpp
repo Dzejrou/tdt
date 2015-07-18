@@ -107,11 +107,7 @@ class EntitySystem
 		 * Brief: Returns the map associated with the component specified by the template argument.
 		 */
 		template<typename COMP>
-		std::map<std::size_t, COMP>& get_component_container()
-		{ // Will have specializations.
-			throw std::runtime_error("[Error][EntitySystem] Trying to access container of a non-existent component: "
-								     + std::to_string(COMP::type));
-		}
+		std::map<std::size_t, COMP>& get_component_container();
 
 		/**
 		 * Brief: Adds a components to the given enetity using it's default constructor (all values have
@@ -125,6 +121,13 @@ class EntitySystem
 		}
 
 		/**
+		 * Brief: Allows to add a component based on it's ID.
+		 * Param: ID of the entity.
+		 * Param: ID of the component.
+		 */
+		void add_component(std::size_t, int);
+
+		/**
 		 * Brief: Marks a component (specified by template argument) for given entity for deletion.
 		 * Param: ID of the entity.
 		 */
@@ -136,6 +139,13 @@ class EntitySystem
 			// No need to do anything when the component is non-existent, since that is the
 			// state the caller wants.
 		}
+
+		/**
+		 * Brief: Allows to delete a component based on it's ID.
+		 * Param: ID of the entity.
+		 * Param: ID of the component.
+		 */
+		void delete_component(std::size_t, int);
 	private:
 		/**
 		 * Brief: Loads a component from a Lua script.
@@ -143,11 +153,7 @@ class EntitySystem
 		 * Param: Name of the table containing the component.
 		 */
 		template<typename COMP>
-		void load_component(std::size_t id, std::string table_name)
-		{ // Will have specializations.
-			throw std::runtime_error("[Error][EntitySystem] Trying to load a non-existent component: "
-								     + std::to_string(COMP::type));
-		}
+		void load_component(std::size_t id, std::string table_name);
 
 		// Contains bitsets describing component availability.
 		std::map<std::size_t, std::bitset<Component::count>> entities_;
