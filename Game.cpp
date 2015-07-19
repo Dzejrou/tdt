@@ -324,6 +324,10 @@ void Game::lua_init()
 		{"dir_to_closest_enemy", Game::lua_dir_to_closest_enemy},
 		{"dir_to_closest_enemy_in_radius", Game::lua_dir_to_closest_enemy_in_radius},
 		{"dir_to_enemy", Game::lua_dir_to_enemy},
+		{"get_dir", Game::lua_get_dir},
+		{"get_dir_back", Game::lua_get_dir_back},
+		{"get_dir_left", Game::lua_get_dir_left},
+		{"get_dir_right", Game::lua_get_dir_right},
 
 		// Health system.
 		{"get_health", Game::lua_get_health},
@@ -565,6 +569,50 @@ int Game::lua_dir_to_enemy(lpp::Script::state L)
 	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
 
 	auto res = lua_this->movement_system_->dir_to_enemy(id1, id2);
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	lua_pushnumber(L, res.z);
+	return 3;
+}
+
+int Game::lua_get_dir(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	auto res = lua_this->movement_system_->get_dir(id);
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	lua_pushnumber(L, res.z);
+	return 3;
+}
+
+int Game::lua_get_dir_back(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	auto res = lua_this->movement_system_->get_dir_back(id);
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	lua_pushnumber(L, res.z);
+	return 3;
+}
+
+int Game::lua_get_dir_left(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	auto res = lua_this->movement_system_->get_dir_left(id);
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	lua_pushnumber(L, res.z);
+	return 3;
+}
+
+int Game::lua_get_dir_right(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	auto res = lua_this->movement_system_->get_dir_right(id);
 	lua_pushnumber(L, res.x);
 	lua_pushnumber(L, res.y);
 	lua_pushnumber(L, res.z);

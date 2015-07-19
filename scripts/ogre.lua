@@ -104,21 +104,13 @@ ogre = {
 
 ogre_handler = function(id, key)
 	if key == game.enum.input.key_up then
-		enemy = 1
+		game.move(id, game.get_dir(id))
 	elseif key == game.enum.input.key_down then
-		enemy = 2
+		game.move(id, game.get_dir_back(id))
 	elseif key == game.enum.input.key_left then
-		enemy = 3
+		game.rotate(id, 0.1)
 	elseif key == game.enum.input.key_right then
-		enemy = 4
-	else
-		enemy = -1
-		show_msg("key_code: " .. tostring(key))
-	end
-
-	if enemy ~= -1 then
-		x, y, z = game.dir_to_enemy(id, enemy)
-		game.move(id, x, y, z)
+		game.rotate(id, -0.1)
 	end
 end
 

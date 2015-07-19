@@ -32,6 +32,11 @@ class MovementSystem : public System
 		std::size_t closest_enemy(std::size_t) const;
 		Ogre::Vector3 dir_to_closest_enemy(std::size_t, Ogre::Real = std::numeric_limits<Ogre::Real>::max()) const;
 		Ogre::Vector3 dir_to_enemy(std::size_t, std::size_t) const;
+
+		Ogre::Vector3 get_dir(std::size_t) const;
+		Ogre::Vector3 get_dir_back(std::size_t) const;
+		Ogre::Vector3 get_dir_left(std::size_t) const;
+		Ogre::Vector3 get_dir_right(std::size_t) const;
 	private:
 		EntitySystem& entities_;
 };

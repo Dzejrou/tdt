@@ -235,3 +235,35 @@ Ogre::Vector3 MovementSystem::dir_to_enemy(std::size_t id1, std::size_t id2) con
 	else
 		return Ogre::Vector3{0, 0, 0};
 }
+
+Ogre::Vector3 MovementSystem::get_dir(std::size_t id) const
+{
+	if(entities_.has_component<GraphicsComponent>(id))
+		return entities_.get_component<GraphicsComponent>(id).node->getOrientation() * Ogre::Vector3::NEGATIVE_UNIT_Z;
+	else
+		return Ogre::Vector3{0, 0, 0};
+}
+
+Ogre::Vector3 MovementSystem::get_dir_back(std::size_t id) const
+{
+	if(entities_.has_component<GraphicsComponent>(id))
+		return entities_.get_component<GraphicsComponent>(id).node->getOrientation() * Ogre::Vector3::UNIT_Z;
+	else
+		return Ogre::Vector3{0, 0, 0};
+}
+
+Ogre::Vector3 MovementSystem::get_dir_left(std::size_t id) const
+{
+	if(entities_.has_component<GraphicsComponent>(id))
+		return entities_.get_component<GraphicsComponent>(id).node->getOrientation() * Ogre::Vector3::NEGATIVE_UNIT_X;
+	else
+		return Ogre::Vector3{0, 0, 0};
+}
+
+Ogre::Vector3 MovementSystem::get_dir_right(std::size_t id) const
+{
+	if(entities_.has_component<GraphicsComponent>(id))
+		return entities_.get_component<GraphicsComponent>(id).node->getOrientation() * Ogre::Vector3::UNIT_X;
+	else
+		return Ogre::Vector3{0, 0, 0};
+}
