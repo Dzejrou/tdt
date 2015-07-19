@@ -122,7 +122,7 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 {
 	std::size_t id = get_new_id();
 	entities_.emplace(std::make_pair(id, std::bitset<Component::count>{}));
-	auto& bits = entities_.find(id)->second; // For fast access.
+	auto& bits = entities_.find(id)->second;
 
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::vector<int> comps = script.get_vector<int>(table_name + ".components");

@@ -9,6 +9,10 @@
 #include "Components.hpp"
 #include "lppscript\LppScript.hpp"
 
+/**
+ * The EntitySystem class handles everything related to entities, like addition and removal of components,
+ * testing if an entity has a component or retrieval of components belonging to particular entities.
+ */
 class EntitySystem
 {
 	public:
@@ -160,12 +164,20 @@ class EntitySystem
 		template<typename COMP>
 		void load_component(std::size_t id, const std::string& table_name);
 
-		// Contains bitsets describing component availability.
+		/**
+		 * Contains bitsets describing component availability.
+		 */
 		std::map<std::size_t, std::bitset<Component::count>> entities_;
+
+		/**
+		 * Used to mark components or entire entities for removal.
+		 */
 		std::vector<std::size_t> to_be_destroyed_;
 		std::vector<std::pair<std::size_t, int>> components_to_be_removed_;
 
-		// Contain components specified by the entity ID.
+		/**
+		 * Contain components specified by the entity ID.
+		 */
 		std::map<std::size_t, PhysicsComponent> physics_;
 		std::map<std::size_t, HealthComponent> health_;
 		std::map<std::size_t, AIComponent> ai_;
@@ -179,7 +191,9 @@ class EntitySystem
 		std::map<std::size_t, SpellComponent> spell_;
 		std::map<std::size_t, ProductionComponent> production_;
 
-		// To create nodes and entities.
+		/**
+		 * Reference to the game's scene manager used to create nodes and entities.
+		 */
 		Ogre::SceneManager& scene_;
 };
 

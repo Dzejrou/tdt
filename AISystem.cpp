@@ -18,8 +18,15 @@ bool AISystem::is_valid(std::size_t id) const
 bool AISystem::is_friendly(std::size_t id1, std::size_t id2) const
 {
 	if(is_valid(id1) && is_valid(id2))
-		return entities_.get_component<AIComponent>(id1).faction ==
-		       entities_.get_component<AIComponent>(id2).faction;
+	{
+		auto& ai1 = entities_.get_component<AIComponent>(id1);
+		auto& ai2 = entities_.get_component<AIComponent>(id2);
+
+		if(ai1.faction == Faction::NEUTRAL || ai2.faction == Faction::NEUTRAL)
+			return true;
+		else
+			return ai1.faction == ai2.faction;
+	}
 	else
 		return true; // Entities withou AIComponent are buildings, walls etc.
 }
@@ -42,7 +49,7 @@ std::string AISystem::get_blueprint(std::size_t id) const
 	if(is_valid(id))
 		return entities_.get_component<AIComponent>(id).blueprint;
 	else
-		return "ErrorBlueprint";
+		return "ERROR"; // Special blueprint defined in ogre_utils.lua
 }
 
 EntityState AISystem::get_state(std::size_t id) const

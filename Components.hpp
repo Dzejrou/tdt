@@ -26,6 +26,10 @@ struct Component
  *       to back components up, they need to provide a copy constructor.
  */
 
+/**
+ * Holds info related to physical interaction of an entity with the rest
+ * of the game world.
+ */
 struct PhysicsComponent
 {
 	static constexpr int type = 0;
@@ -39,6 +43,9 @@ struct PhysicsComponent
 	bool solid;
 };
 
+/**
+ * Holds info about an entity's health and regeneration.
+ */
 struct HealthComponent
 {
 	static constexpr int type = 1;
@@ -55,6 +62,10 @@ struct HealthComponent
 	bool alive;
 };
 
+/**
+ * Holds info about the base Lua table to be called for initializing, updating and finnishing
+ * an entity as well as couple categorizing enums.
+ */
 struct AIComponent
 {
 	static constexpr int type = 2;
@@ -69,6 +80,9 @@ struct AIComponent
 	Faction faction;
 };
 
+/**
+ * Holds info related to the Ogre3D rendering library.
+ */
 struct GraphicsComponent
 {
 	static constexpr int type = 3;
@@ -86,6 +100,11 @@ struct GraphicsComponent
 	// TODO: Animation + set_animation etc. in a system.
 };
 
+/**
+ * Holds info related to movement, if an entity has this component it should also
+ * have a Physics component (containing the entity's position), otherwise the
+ * MovementSystem might not work correctly.
+ */
 struct MovementComponent
 {
 	static constexpr int type = 4;
@@ -101,6 +120,9 @@ struct MovementComponent
 	bool moving;
 };
 
+/**
+ * Holds info about an entity's attack types and damage.
+ */
 struct CombatComponent
 {
 	static constexpr int type = 5;
@@ -118,6 +140,9 @@ struct CombatComponent
 	float atk2_chance;
 };
 
+/**
+ * TODO:
+ */
 struct EventComponent
 { // TODO: 
 	static constexpr int type = 6;
@@ -135,6 +160,9 @@ struct EventComponent
 	std::bitset<32> possible_events;
 };
 
+/**
+ * Holds info related to direct player input applied to an entity.
+ */
 struct InputComponent
 {
 	static constexpr int type = 7;
@@ -147,21 +175,33 @@ struct InputComponent
 	std::string input_handler;
 };
 
+/**
+ * TODO:
+ */
 struct TimeComponent
 {
 	static constexpr int type = 8;
 };
 
+/**
+ * TODO:
+ */
 struct ManaComponent
 {
 	static constexpr int type = 9;
 };
 
+/**
+ * TODO:
+ */
 struct SpellComponent
 {
 	static constexpr int type = 10;
 };
 
+/**
+ * TODO:
+ */
 struct ProductionComponent
 {
 	static constexpr int type = 11;

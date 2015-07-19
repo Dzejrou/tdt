@@ -74,7 +74,7 @@ void InputSystem::set_first_person(bool on_off, std::size_t id)
 		}
 	}
 	else
-	{
+	{ // Restore 3rd person view.
 		cam_.setPosition(cam_position_);
 		cam_.setOrientation(cam_orientation_);
 
