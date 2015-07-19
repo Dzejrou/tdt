@@ -15,12 +15,6 @@ lpp::Script::Script()
 	luaL_openlibs(L);
 }
 
-lpp::Script::Script(Script&& other)
-{
-	L = other.L;
-	other.L = nullptr;
-}
-
 void lpp::Script::execute(const std::string& command)
 {
 	if(luaL_dostring(L, command.c_str()))
@@ -37,6 +31,19 @@ void lpp::Script::load(const std::string& fname)
 	if(luaL_dofile(L, fname.c_str()))
 		throw Exception("[Error][Lua] Cannot load script: " + fname +
 						"\n[ErrMsg] " + lua_tostring(L, -1));
+}
+
+bool lpp::Script::is_nil(const std::string& name)
+{
+	std::string name2{name};
+	if(name.find(".") != std::string::npos)
+		name2 = get_field_to_stack(name);
+	else
+		lua_getglobal(L, name2.c_str());
+
+	bool res = lua_isnil(L, -1);
+	lua_pop(L, 1);
+	return res == 1; // Lua returns C style bool (i.e. an integer).
 }
 
 std::string lpp::Script::get_field_to_stack(const std::string& name)

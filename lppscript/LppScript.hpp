@@ -19,21 +19,55 @@ class Script
 		using state = lua_State*;
 		using regs = luaL_Reg;
 
-		Script(Script&&);
+		/**
+		 * Destructor, closes the Lua virtual machine.
+		 */
 		~Script() { if(L) lua_close(L); }
 
+		/**
+		 * Brief: Returns the lua state representing the Lua virtual machine.
+		 */
 		state get_state() { return L; };
+
+		/**
+		 * Brief: Executes a given string from within Lua.
+		 * Param: String containing commands to be executed.
+		 */
 		void execute(const std::string&);
+
+		/**
+		 * Brief: Registers a C++ function which can then be used from
+		 *        within Lua.
+		 * Param: Name of the function.
+		 * Param: Function to be registered, it has to have the signature
+		 *        int fname(lua_State*) and return the number of results
+		 *        pushed onto the stack, arguments are on the stack.
+		 */
 		void register_function(const std::string&, lua_CFunction);
+
+		/**
+		 * Brief: Loads, compiles and executes a Lua script.
+		 * Param: Name of the script file.
+		 */
 		void load(const std::string&);
 
+		/**
+		 * Brief: Returns true if a given value is nil, false otherwise.
+		 * Param: Name of the variable containing the desired value.
+		 */
+		bool is_nil(const std::string&);
+
+		/**
+		 * Brief: Retrieves and returns a value from Lua.
+		 * Param: Name of the variable containing the desired value.
+		 */
 		template<typename T>
 		T get(const std::string& name)
 		{
 			if(!L)
 				throw Exception("[Error][Lua] Lua state is null.");
 
-			std::string sub_name{name};
+			std::string sub_name{name}; // Access to values within tables.
 			if(name.find(".") != std::string::npos)
 				sub_name = get_field_to_stack(name);
 			else
@@ -45,11 +79,16 @@ class Script
 			return get_<T>(sub_name);
 		}
 
+		/**
+		 * Brief: Calls a given Lua function.
+		 * Param: Name of the function.
+		 * Param: Variadic list of arguments that are passed to the function.
+		 */
 		template<typename Result, typename... Args>
 		Result call(const std::string& fname, Args... as)
-		{ // TODO: Call functions in tables!
+		{
+			// Allows to call function that are stored in tables.
 			std::string fname2{fname};
-
 			if(fname2.find('.') != std::string::npos)
 				fname2 = get_field_to_stack(fname);
 			else
@@ -64,18 +103,22 @@ class Script
 			return get_<Result>();
 		}
 
-		template<typename T>
-		void register_value(const std::string& name, T val)
-		{ // Deprecated?
-			set(name, val)
-		}
-
+		/**
+		 * Brief: Sets a given variable to a given value.
+		 * Param: Variable to be changed.
+		 * Param: Value that the variable should be changed to.
+		 */
 		template<typename T>
 		void set(const std::string& name, T val)
 		{
 			execute(name + " = " + std::to_string(val));
 		}
 
+		/**
+		 * Brief: Retrieves a Lua array table (integer indexing) in the form
+		 *        of a C++ vector.
+		 * Param: Name of the array.
+		 */
 		template<typename T>
 		std::vector<T> get_vector(const std::string& name)
 		{
@@ -103,21 +146,54 @@ class Script
 			return tmp;
 		}
 
+		/**
+		 * Brief: Returns a reference to the lpp::Script singleton.
+		 */
 		static Script& get_singleton();
+
+		/**
+		 * Brief: Returns a pointer to the lpp::Script singleton.
+		 */
 		static Script* get_singleton_ptr();
 	private:
+		/**
+		 * Constructor, kept private because of the use of the singleton pattern.
+		 */
 		Script();
+
+		/**
+		 * Brief: Gets a nested value (inside a table hierarchy) on top of the stack and
+		 *        returns the name of the final variable (without table prefixes).
+		 * Param: Full name of the variable.
+		 */
 		std::string get_field_to_stack(const std::string&);
+
+		/**
+		 * Brief: Pops everything off the stack.
+		 */
 		void clear_stack();
 
+		/**
+		 * Singleton instance.
+		 */
 		static std::unique_ptr<Script> script_;
 
+		/**
+		 * Brief: Returns the value stored on top of the stack.
+		 */
 		template<typename T>
 		T get_(const std::string& name = "unknown")
 		{ // Will have specializations.
 			throw Exception("[Error][Lua] Get method for a given type is not implemented to retrieve: " + name);
 		}
 
+		/**
+		 * Brief: Pushed a variadic list of arguments onto the stack to be passed
+		 *        as arguments to a Lua function call, returns the amount of arguments
+		 *        pushed onto the stack.
+		 * Param: First argument in the list.
+		 * Param: Tail argument list used in recursive call.
+		 */
 		template<typename Arg, typename... Args>
 		int push_args(Arg a, Args... as)
 		{
@@ -125,6 +201,10 @@ class Script
 			return push_args(as...) + 1;
 		}
 
+		/**
+		 * Brief: Bottom case of the push_args recursive call.
+		 * Param: Argument to be pushed onto the stack.
+		 */
 		template<typename Arg>
 		int push_args(Arg a)
 		{
@@ -132,13 +212,19 @@ class Script
 			return 1;
 		}
 
+		/**
+		 * Brief: Pushes a single value onto the Lua stack.
+		 * Param: Value to be pushed.
+		 */
 		template<typename Arg>
 		void push_arg(Arg a)
 		{
 			throw Exception("[Error][Lua] Trying to push an argument of an invalid type.");
 		}
 
-		// Main Lua state.
+		/**
+		 * Lua state representing the Lua virtual machine.
+		 */
 		state L;
 };
 
@@ -148,9 +234,20 @@ class Script
 class Exception
 { // TODO: Add print stack, lua error etc.
 	public:
+		/**
+		 * Constructor.
+		 * Param: Message of the exception.
+		 */
 		Exception(const std::string& msg) : msg_{msg} {};
+
+		/**
+		 * Brief: Returns the message of this exception.
+		 */
 		const char* what() const;
 	private:
+		/**
+		 * Message the exception was called with.
+		 */
 		std::string msg_;
 };
 
@@ -257,13 +354,13 @@ inline void Script::push_arg<bool>(bool arg)
  * which would cause lpp::Script::get throw, because Lua would interpret it as an integer).
  */
 template<>
-inline void Script::register_value<const std::string&>(const std::string& name, const std::string& val)
+inline void Script::set<const std::string&>(const std::string& name, const std::string& val)
 {
 	execute(name + " = '" + val + "'");
 }
 
 template<>
-inline void Script::register_value<bool>(const std::string& name, bool val)
+inline void Script::set<bool>(const std::string& name, bool val)
 {
 	execute(name + " = " + (val ? "true" : "false"));
 }

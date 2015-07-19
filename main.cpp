@@ -108,7 +108,7 @@ void lua_test()
 	std::string univ = script.get<std::string>("programmer.history.university");
 	print_msg(univ, "University:");
 
-	script.register_value<bool>("lol", true);
+	script.set<bool>("lol", true);
 	bool lol = script.get<bool>("lol");
 	print_msg(lol ? "true" : "false", "Registered value:");
 
