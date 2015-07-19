@@ -188,7 +188,8 @@ std::size_t MovementSystem::enemy_in_radius(std::size_t id, Ogre::Real radius) c
 			if(ent.first == original_id)
 				continue;
 			current_distance = phys_comp.position.squaredDistance(ent.second.position);
-			if(current_distance < radius && current_distance < minimum_distance)
+			if((current_distance < radius || radius == std::numeric_limits<Ogre::Real>::max()) &&
+			   current_distance < minimum_distance)
 			{
 				minimum_distance = current_distance;
 				id = ent.first;

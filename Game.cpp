@@ -61,13 +61,10 @@ void Game::update(Ogre::Real delta)
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
 {
-	if(window_->isClosed())
-		return false; // Will end the game.
-
 	keyboard_->capture();
 	mouse_->capture();
 
-	update(event.timeSinceLastFrame);
+	update(event.timeSinceLastFrame); // TODO: Test with timeSinceLastFrame from frameStarted method!
 
 	// TODO:
 	// Research hypothesis - processor will assume false on conditionals.
@@ -192,6 +189,8 @@ void Game::windowClosed(Ogre::RenderWindow * window)
 		keyboard_ = nullptr;
 		input_ = nullptr;
 	}
+	
+	state_ = GAME_STATE::ENDED;
 }
 
 void Game::ogre_init()

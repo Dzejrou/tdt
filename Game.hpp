@@ -22,13 +22,31 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 			 public OIS::MouseListener, public Ogre::WindowEventListener
 {
 	public:
+		/**
+		 * Constructor.
+		 */
 		Game();
+
+		/**
+		 * Destructor.
+		 */
 		~Game();
 
+		/**
+		 * Brief: Starts the game.
+		 */
 		void run();
+
+		/**
+		 * Brief: Updates the game in one frame.
+		 * Param: Time since the last frame.
+		 */
 		void update(Ogre::Real);
 	protected:
-		// Inherited methods (callbacks).
+		/**
+		 * Inherited methods (callbacks).
+		 * Handle Ogre3D and OIS related stuff.
+		 */
 		bool frameRenderingQueued(const Ogre::FrameEvent&) override;
 		bool keyPressed(const OIS::KeyEvent&) override;
 		bool keyReleased(const OIS::KeyEvent&) override;
@@ -38,14 +56,22 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		void windowResized(Ogre::RenderWindow* rw) override;
 		void windowClosed(Ogre::RenderWindow* rw) override;
 	private:
-		// Init methods.
+		/**
+		 * Init methods.
+		 */
 		void ogre_init();
 		void ois_init();
 		void level_init();
 		void lua_init();
 
+		/**
+		 * Current game state.
+		 */
 		GAME_STATE state_;
 
+		/**
+		 * Pointers to Ogre3D objects.
+		 */
 		std::unique_ptr<Ogre::Root> root_;
 		Ogre::SceneManager* scene_mgr_;
 		Ogre::RenderWindow* window_;
@@ -58,12 +84,20 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		OIS::Mouse* mouse_;
 		Ogre::Vector3 camera_dir_;
 
+		/**
+		 * Unique pointers to systems (sadly all systems require the EntitySystem, which
+		 * requires Ogre::SceneManager, so the all have to be instantiated after the ogre_init method
+		 * call and thus cannot be references).
+		 */
 		std::unique_ptr<EntitySystem> entity_system_;
 		std::unique_ptr<HealthSystem> health_system_;
 		std::unique_ptr<MovementSystem> movement_system_;
 		std::unique_ptr<AISystem> ai_system_;
 		std::unique_ptr<InputSystem> input_system_;
 
+		/**
+		 * Vector of all systems used for updating the game's logic.
+		 */
 		std::vector<System*> systems_;
 
 		/**
