@@ -369,6 +369,7 @@ int Game::lua_create_entity(lpp::Script::state L)
 {
 	// Retrieve the entity blueprint.
 	std::string table_name = luaL_checkstring(L, 1);
+	lua_pop(L, 1);
 
 	std::size_t id = lua_this->entity_system_->create_entity(table_name);
 	lua_pushinteger(L, id); // Return the new id.
@@ -378,6 +379,7 @@ int Game::lua_create_entity(lpp::Script::state L)
 int Game::lua_destroy_entity(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	lua_this->entity_system_->destroy_entity(id);
 	return 0;
@@ -387,6 +389,7 @@ int Game::lua_add_component(lpp::Script::state L)
 {
 	int comp = (int)luaL_checkinteger(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	lua_this->entity_system_->add_component(id, comp);
 	return 0;
@@ -396,6 +399,7 @@ int Game::lua_delete_component(lpp::Script::state L)
 {
 	int comp = (int)luaL_checkinteger(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	lua_this->entity_system_->delete_component(id, comp);
 	return 0;
@@ -407,6 +411,7 @@ int Game::lua_move_to(lpp::Script::state L)
 	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
 	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+	lua_pop(L, 4);
 
 	lua_this->movement_system_->move_to(id, Ogre::Vector3{x, y, z});
 	return 0;
@@ -418,6 +423,7 @@ int Game::lua_move(lpp::Script::state L)
 	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
 	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+	lua_pop(L, 4);
 
 	bool res = lua_this->movement_system_->move(id, Ogre::Vector3{x, y, z});
 	lua_pushboolean(L, res);
@@ -428,6 +434,7 @@ int Game::lua_rotate(lpp::Script::state L)
 {
 	Ogre::Real delta = (Ogre::Real)luaL_checknumber(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	lua_this->movement_system_->rotate(id, delta);
 	return 0;
@@ -436,6 +443,7 @@ int Game::lua_rotate(lpp::Script::state L)
 int Game::lua_is_moving(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	bool res = lua_this->movement_system_->is_moving(id);
 	lua_pushboolean(L, res);
@@ -445,6 +453,7 @@ int Game::lua_is_moving(lpp::Script::state L)
 int Game::lua_is_solid(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	bool res = lua_this->movement_system_->is_solid(id);
 	lua_pushboolean(L, res);
@@ -457,6 +466,7 @@ int Game::lua_can_move_to(lpp::Script::state L)
 	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
 	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -3);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+	lua_pop(L, 4);
 
 	bool res = lua_this->movement_system_->can_move_to(id, Ogre::Vector3{x, y, z});
 	lua_pushboolean(L, res);
@@ -467,6 +477,7 @@ int Game::lua_collide(lpp::Script::state L)
 {
 	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
 	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	bool res = lua_this->movement_system_->collide(id1, id2);
 	lua_pushboolean(L, res);
@@ -477,6 +488,7 @@ int Game::lua_get_distance(lpp::Script::state L)
 {
 	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
 	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	Ogre::Real res = lua_this->movement_system_->get_distance(id1, id2);
 	lua_pushnumber(L, res);
@@ -486,6 +498,7 @@ int Game::lua_get_distance(lpp::Script::state L)
 int Game::lua_get_position(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	Ogre::Vector3 res = lua_this->movement_system_->get_position(id);
 	lua_pushnumber(L, res.x);
@@ -497,6 +510,7 @@ int Game::lua_get_position(lpp::Script::state L)
 int Game::lua_get_speed_modifier(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	Ogre::Real res = lua_this->movement_system_->get_speed_modifier(id);
 	lua_pushnumber(L, res);
@@ -507,6 +521,7 @@ int Game::lua_set_speed_modifier(lpp::Script::state L)
 {
 	Ogre::Real speed = (Ogre::Real)luaL_checknumber(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	lua_this->movement_system_->set_speed_modifier(id, speed);
 	return 0;
@@ -516,6 +531,7 @@ int Game::lua_enemy_in_radius(lpp::Script::state L)
 {
 	Ogre::Real radius = (Ogre::Real)luaL_checknumber(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	std::size_t res = lua_this->movement_system_->enemy_in_radius(id, radius);
 	lua_pushinteger(L, res);
@@ -525,6 +541,7 @@ int Game::lua_enemy_in_radius(lpp::Script::state L)
 int Game::lua_closest_enemy(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	std::size_t res = lua_this->movement_system_->closest_enemy(id);
 	lua_pushinteger(L, res);
@@ -534,6 +551,7 @@ int Game::lua_closest_enemy(lpp::Script::state L)
 int Game::lua_dir_to_closest_enemy(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	auto res = lua_this->movement_system_->dir_to_closest_enemy(id);
 	lua_pushnumber(L, res.x);
@@ -546,6 +564,7 @@ int Game::lua_dir_to_closest_enemy_in_radius(lpp::Script::state L)
 {
 	Ogre::Real radius = (Ogre::Real)luaL_checknumber(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	auto res = lua_this->movement_system_->dir_to_closest_enemy(id, radius);
 	lua_pushnumber(L, res.x);
@@ -558,6 +577,7 @@ int Game::lua_dir_to_enemy(lpp::Script::state L)
 {
 	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
 	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	auto res = lua_this->movement_system_->dir_to_enemy(id1, id2);
 	lua_pushnumber(L, res.x);
@@ -569,6 +589,7 @@ int Game::lua_dir_to_enemy(lpp::Script::state L)
 int Game::lua_get_dir(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	auto res = lua_this->movement_system_->get_dir(id);
 	lua_pushnumber(L, res.x);
@@ -580,6 +601,7 @@ int Game::lua_get_dir(lpp::Script::state L)
 int Game::lua_get_dir_back(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	auto res = lua_this->movement_system_->get_dir_back(id);
 	lua_pushnumber(L, res.x);
@@ -591,6 +613,7 @@ int Game::lua_get_dir_back(lpp::Script::state L)
 int Game::lua_get_dir_left(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	auto res = lua_this->movement_system_->get_dir_left(id);
 	lua_pushnumber(L, res.x);
@@ -602,6 +625,7 @@ int Game::lua_get_dir_left(lpp::Script::state L)
 int Game::lua_get_dir_right(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	auto res = lua_this->movement_system_->get_dir_right(id);
 	lua_pushnumber(L, res.x);
@@ -613,6 +637,7 @@ int Game::lua_get_dir_right(lpp::Script::state L)
 int Game::lua_get_health(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	std::size_t res = lua_this->health_system_->get_health(id);
 	lua_pushinteger(L, res);
@@ -623,6 +648,7 @@ int Game::lua_add_health(lpp::Script::state L)
 {
 	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	lua_this->health_system_->add_health(id, val);
 	return 0;
@@ -632,6 +658,7 @@ int Game::lua_sub_health(lpp::Script::state L)
 {
 	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	lua_this->health_system_->sub_health(id, val);
 	return 0;
@@ -640,6 +667,7 @@ int Game::lua_sub_health(lpp::Script::state L)
 int Game::lua_heal(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 2);
 
 	lua_this->health_system_->heal(id);
 	return 0;
@@ -649,6 +677,7 @@ int Game::lua_buff(lpp::Script::state L)
 {
 	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	lua_this->health_system_->buff(id, val);
 	return 0;
@@ -657,6 +686,7 @@ int Game::lua_buff(lpp::Script::state L)
 int Game::lua_get_defense(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	std::size_t res = (std::size_t)lua_this->health_system_->get_defense(id);
 	lua_pushinteger(L, res);
@@ -667,6 +697,7 @@ int Game::lua_add_defense(lpp::Script::state L)
 {
 	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	lua_this->health_system_->add_defense(id, val);
 	return 0;
@@ -676,6 +707,7 @@ int Game::lua_sub_defense(lpp::Script::state L)
 {
 	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	lua_this->health_system_->sub_defense(id, val);
 	return 0;
@@ -685,6 +717,7 @@ int Game::lua_is_friendly(lpp::Script::state L)
 {
 	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
 	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	bool res = lua_this->ai_system_->is_friendly(id1, id2);
 	lua_pushboolean(L, res);
@@ -694,6 +727,7 @@ int Game::lua_is_friendly(lpp::Script::state L)
 int Game::lua_is_neutral(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	bool res = lua_this->ai_system_->is_neutral(id);
 	lua_pushboolean(L, res);
@@ -703,6 +737,7 @@ int Game::lua_is_neutral(lpp::Script::state L)
 int Game::lua_is_inanimate(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	bool res = lua_this->ai_system_->is_inanimate(id);
 	lua_pushboolean(L, res);
@@ -712,6 +747,7 @@ int Game::lua_is_inanimate(lpp::Script::state L)
 int Game::lua_get_blueprint(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	std::string res = lua_this->ai_system_->get_blueprint(id);
 	lua_pushstring(L, res.c_str());
@@ -721,6 +757,7 @@ int Game::lua_get_blueprint(lpp::Script::state L)
 int Game::lua_get_state(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	int res = (int)lua_this->ai_system_->get_state(id);
 	lua_pushinteger(L, res);
@@ -730,6 +767,7 @@ int Game::lua_get_state(lpp::Script::state L)
 int Game::lua_get_faction(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
 
 	int res = (int)lua_this->ai_system_->get_faction(id);
 	lua_pushinteger(L, res);
@@ -740,6 +778,7 @@ int Game::lua_set_input_handler(lpp::Script::state L)
 {
 	std::string handler = luaL_checkstring(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
 	lua_this->input_system_->set_input_handler(id, handler);
 	return 0;
