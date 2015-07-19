@@ -6,7 +6,7 @@
 #include "lppscript\LppScript.hpp"
 
 /**
- *
+ * System handling the AI of entities by calling their update method every frame.
  */
 class AISystem : public System
 {

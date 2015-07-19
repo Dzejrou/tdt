@@ -47,6 +47,7 @@ void Game::update(Ogre::Real delta)
 		main_cam_->moveRelative(camera_dir_);
 	}
 
+	health_system_->update_regen();
 	for(auto& ent : entity_system_->get_component_list())
 	{
 		for(auto& system : systems_)
