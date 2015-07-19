@@ -4,19 +4,10 @@ AISystem::AISystem(EntitySystem& ent)
 	: entities_{ent}
 { /* DUMMY BODY */ }
 
-void AISystem::update(Ogre::Real)
+void AISystem::update(std::size_t id, Ogre::Real)
 {
-	std::string blueprint{};
-
-	auto& ents = entities_.get_component_container<AIComponent>();
-	for(auto& ent : ents)
-	{
-		if(is_valid(ent.first))
-		{
-			blueprint = ent.second.blueprint;
-			lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".update", ent.first);
-		}
-	}
+	const std::string& blueprint  = entities_.get_component<AIComponent>(id).blueprint;
+	lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".update", id);
 }
 
 bool AISystem::is_valid(std::size_t id) const

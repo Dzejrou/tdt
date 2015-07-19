@@ -6,22 +6,20 @@ InputSystem::InputSystem(EntitySystem& ents, OIS::Keyboard& key, Ogre::Camera& c
 	  cam_{cam}, cam_position_{}, cam_orientation_{}
 { /* DUMMY BODY */ }
 
-void InputSystem::update(Ogre::Real delta)
+void InputSystem::update(std::size_t id, Ogre::Real delta)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
-	for(auto& ent : entities_.get_component_container<InputComponent>())
-	{
-		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_UP))
-			script.call<void, std::size_t, int>(ent.second.input_handler, ent.first, KEY_UP);
-		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_DOWN))
-			script.call<void, std::size_t, int>(ent.second.input_handler, ent.first, KEY_DOWN);
-		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_LEFT))
-			script.call<void, std::size_t, int>(ent.second.input_handler, ent.first, KEY_LEFT);
-		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_RIGHT))
-			script.call<void, std::size_t, int>(ent.second.input_handler, ent.first, KEY_RIGHT);
-	}
+	auto& comp = entities_.get_component<InputComponent>(id);
+	if(keyboard_.isKeyDown((OIS::KeyCode)KEY_UP))
+		script.call<void, std::size_t, int>(comp.input_handler, id, KEY_UP);
+	if(keyboard_.isKeyDown((OIS::KeyCode)KEY_DOWN))
+		script.call<void, std::size_t, int>(comp.input_handler, id, KEY_DOWN);
+	if(keyboard_.isKeyDown((OIS::KeyCode)KEY_LEFT))
+		script.call<void, std::size_t, int>(comp.input_handler, id, KEY_LEFT);
+	if(keyboard_.isKeyDown((OIS::KeyCode)KEY_RIGHT))
+		script.call<void, std::size_t, int>(comp.input_handler, id, KEY_RIGHT);
 
-	if(first_person_)
+	if(first_person_ && first_person_id_ == id)
 	{
 		auto& comp = entities_.get_component<GraphicsComponent>(first_person_id_);
 		cam_.setOrientation(comp.node->getOrientation());

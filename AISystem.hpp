@@ -11,7 +11,7 @@ class AISystem : public System
 		AISystem(EntitySystem&);
 		~AISystem() {}
 
-		void update(Ogre::Real);
+		void update(std::size_t, Ogre::Real);
 		bool is_valid(std::size_t) const;
 		bool is_friendly(std::size_t, std::size_t) const;
 		bool is_neutral(std::size_t) const;

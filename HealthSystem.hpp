@@ -12,8 +12,9 @@ class HealthSystem : public System
 		HealthSystem(EntitySystem&);
 		~HealthSystem() {}
 
-		void update(Ogre::Real);
+		void update(std::size_t, Ogre::Real);
 		bool is_valid(std::size_t) const;
+		void update_regen();
 		std::size_t get_health(std::size_t) const;
 		void add_health(std::size_t, std::size_t);
 		void sub_health(std::size_t, std::size_t, bool = false);
@@ -27,4 +28,5 @@ class HealthSystem : public System
 		EntitySystem& entities_;
 		std::size_t regen_timer_;
 		std::size_t regen_period_;
+		bool regen_;
 };

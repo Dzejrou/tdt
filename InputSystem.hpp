@@ -14,7 +14,7 @@ class InputSystem : public System
 		InputSystem(EntitySystem&, OIS::Keyboard&, Ogre::Camera&);
 		~InputSystem() {}
 
-		void update(Ogre::Real);
+		void update(std::size_t, Ogre::Real);
 		bool is_valid(std::size_t) const;
 		bool is_first_person() const;
 		void set_first_person(bool, std::size_t = 0);

@@ -4,34 +4,36 @@ HealthSystem::HealthSystem(EntitySystem& ent)
 	: entities_{ent}, regen_timer_{0}, regen_period_{1000} // TODO: Experiment with regen period!
 { /* DUMMY BODY */ }
 
-void HealthSystem::update(Ogre::Real)
+void HealthSystem::update(std::size_t id, Ogre::Real)
 {
-	bool regen{false};
-	if(regen_timer_ > regen_period_)
-	{
-		regen = true;
-		regen_timer_ = 0;
+	if(!entities_.get_component<HealthComponent>(id).alive)
+	{ // Entity died.
+		entities_.destroy_entity(id);
 	}
-	else
-		++regen_timer_;
-
-	// Can use component specific container instead of all entity IDs, since this system
-	// updates only entities that do have a HealthComponent and thus are in this container.
-	auto& ents = entities_.get_component_container<HealthComponent>();
-	for(const auto& ent : ents)
-	{
-		if(!entities_.get_component<HealthComponent>(ent.first).alive)
-		{ // Entity died.
-			entities_.destroy_entity(ent.first);
-		}
-		else if(regen)
-			add_health(ent.first, entities_.get_component<HealthComponent>(ent.first).regen);
-	}
+	else if(regen_)
+		add_health(id, entities_.get_component<HealthComponent>(id).regen);
 }
 
 bool HealthSystem::is_valid(std::size_t id) const
 {
 	return entities_.has_component<HealthComponent>(id);
+}
+
+void HealthSystem::update_regen()
+{
+	if(regen_)
+	{
+		regen_ = false;
+		return;
+	}
+
+	if(regen_timer_ > regen_period_)
+	{
+		regen_ = true;
+		regen_timer_ = 0;
+	}
+	else
+		++regen_timer_;
 }
 
 std::size_t HealthSystem::get_health(std::size_t id) const
