@@ -2,6 +2,7 @@
 
 #include <Ogre.h>
 #include <OIS.h>
+#include <stdexcept>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"
@@ -10,7 +11,7 @@
 class InputSystem : public System
 {
 	public:
-		InputSystem(EntitySystem&, OIS::Keyboard&);
+		InputSystem(EntitySystem&, OIS::Keyboard&, Ogre::Camera&);
 		~InputSystem() {}
 
 		void update(Ogre::Real);
@@ -25,4 +26,9 @@ class InputSystem : public System
 		std::size_t first_person_id_;
 		OIS::Keyboard& keyboard_;
 		int KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT; // Allow for rebinding.
+		Ogre::Camera& cam_;
+
+		// Backup of the camera info.
+		Ogre::Vector3 cam_position_;
+		Ogre::Quaternion cam_orientation_;
 };

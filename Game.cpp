@@ -16,7 +16,7 @@ Game::Game()
 	health_system_.reset(new HealthSystem(*entity_system_));
 	movement_system_.reset(new MovementSystem(*entity_system_));
 	ai_system_.reset(new AISystem(*entity_system_));
-	input_system_.reset(new InputSystem(*entity_system_, *keyboard_));
+	input_system_.reset(new InputSystem(*entity_system_, *keyboard_, *main_cam_));
 
 	systems_.emplace_back(health_system_.get());
 	systems_.emplace_back(movement_system_.get());
@@ -103,6 +103,9 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 			break;
 		case OIS::KC_LCONTROL:
 			camera_dir_.y -= 1;
+			break;
+		case OIS::KC_0:
+			input_system_->set_first_person(!input_system_->is_first_person(), 8);
 			break;
 	}
 
