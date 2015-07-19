@@ -36,22 +36,13 @@ Game::~Game()
 void Game::run()
 {
 	scene_mgr_->setAmbientLight(Ogre::ColourValue(.5, .5, .5));
-	auto ogre = scene_mgr_->createEntity("ogrehead.mesh");
-	test_node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
-	test_node->attachObject(ogre);
-	test_node->setPosition(Ogre::Vector3(-100, 30, -100));
-	test_node->showBoundingBox(true);
 
 	root_->startRendering();
 }
 
 void Game::update(Ogre::Real delta)
 {
-	if(keyboard_->isKeyDown(OIS::KC_LSHIFT))
-	{
-		test_node->setPosition(test_node->getPosition() + camera_dir_);
-	}
-	else if(!keyboard_->isKeyDown(OIS::KC_C))
+	if(!keyboard_->isKeyDown(OIS::KC_C))
 	{
 		main_cam_->moveRelative(camera_dir_);
 	}

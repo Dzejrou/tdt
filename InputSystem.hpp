@@ -3,6 +3,7 @@
 #include <Ogre.h>
 #include <OIS.h>
 #include <stdexcept>
+#include <memory>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"
@@ -31,4 +32,8 @@ class InputSystem : public System
 		// Backup of the camera info.
 		Ogre::Vector3 cam_position_;
 		Ogre::Quaternion cam_orientation_;
+		
+		// Backup of the AI component when entering first person view.
+		std::unique_ptr<AIComponent> ai_backup_;
+		bool delete_input_;
 };

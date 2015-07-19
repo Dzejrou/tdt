@@ -28,6 +28,7 @@ ogre = {
 
 	GraphicsComponent = {
 		mesh = "ogrehead.mesh",
+		material = "Ogre",
 		visible = true
 	},
 
@@ -49,13 +50,18 @@ ogre = {
 		curr_event_type = 0
 	},
 
+	InputComponent = {
+		-- Won't get loaded, but serves as a blueprint if needed.
+		input_handler = "ogre_handler"
+	},
+
 	init = function(id)
 		ogre.stats.current_amount = ogre.stats.current_amount + 1
 		ogre.stats.overall_amount = ogre.stats.overall_amount + 1
 	end,
 
 	update = function(id)
-		mov = false
+		mov = true
 		if id == 0 then
 			mov = game.move(id, 5, 0, -2)
 		elseif id == 1 then
@@ -72,19 +78,12 @@ ogre = {
 			mov = game.move(id, 0, 0, -5)
 		elseif id == 7 then
 			mov = game.move(id, 0, 0, 5)
-		elseif id == 8 then
-			x, y, z = game.dir_to_enemy(id, 7)
-			mov = game.move(id, x, y, z)
 		end
 
 		if id % 2 == 0 then
 			game.rotate(id, 0.01)
-		else
+		elseif id ~= 9 then
 			game.rotate(id, -0.01)
-		end
-
-		if not mov then
-			game.destroy_entity(id)
 		end
 	end,
 
@@ -108,9 +107,9 @@ ogre_handler = function(id, key)
 	elseif key == game.enum.input.key_down then
 		game.move(id, game.get_dir_back(id))
 	elseif key == game.enum.input.key_left then
-		game.rotate(id, 0.1)
+		game.rotate(id, 0.01)
 	elseif key == game.enum.input.key_right then
-		game.rotate(id, -0.1)
+		game.rotate(id, -0.01)
 	end
 end
 
@@ -146,7 +145,7 @@ game.move_to(id8, -200, 100, 100)
 ogre.PhysicsComponent.solid = false
 ogre.MovementComponent.speed_modifier = 0.4
 id9 = game.create_entity("ogre")
-game.move_to(id9, 300, 100, 200)
-game.delete_component(id9, game.enum.component.ai)
-game.add_component(id9, game.enum.component.input)
-game.set_input_handler(id9, "ogre_handler")
+game.move_to(id9, -100, 30, 100)
+
+id10 = game.create_entity("ogre")
+game.move_to(id10, -100, 30, -100)
