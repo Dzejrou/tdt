@@ -132,6 +132,8 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_get_dir_back(lpp::Script::state);
 		static int lua_get_dir_left(lpp::Script::state);
 		static int lua_get_dir_right(lpp::Script::state);
+		static int lua_get_angle(lpp::Script::state);
+		static int lua_get_angle_between(lpp::Script::state);
 
 		// Health system.
 		static int lua_get_health(lpp::Script::state);

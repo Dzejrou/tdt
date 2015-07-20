@@ -179,6 +179,16 @@ class MovementSystem : public System
 		 * Param: ID of the entity.
 		 */
 		Ogre::Vector3 get_dir_right(std::size_t) const;
+
+		/**
+		 * Brief: Returns the size of the angle bewteen two given vectors as Ogre::Real
+		 *        which can then be used in Ogre::Radian constructor for conversion to Radians.
+		 *        (The reason for this is that Lua does not have the notion of radians and as such
+		 *        using floating point numbers is easier.)
+		 * Param: Vector #1.
+		 * Param: Vector #2.
+		 */
+		Ogre::Real get_angle(Ogre::Vector3, Ogre::Vector3) const;
 	private:
 		/**
 		 * Reference to the game's entity system.

@@ -319,6 +319,8 @@ void Game::lua_init()
 		{"get_dir_back", Game::lua_get_dir_back},
 		{"get_dir_left", Game::lua_get_dir_left},
 		{"get_dir_right", Game::lua_get_dir_right},
+		{"get_angle", Game::lua_get_angle},
+		{"get_angle_between", Game::lua_get_angle_between},
 
 		// Health system.
 		{"get_health", Game::lua_get_health},
@@ -462,9 +464,9 @@ int Game::lua_is_solid(lpp::Script::state L)
 
 int Game::lua_can_move_to(lpp::Script::state L)
 {
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
 	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
-	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -3);
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
 	lua_pop(L, 4);
 
@@ -631,6 +633,35 @@ int Game::lua_get_dir_right(lpp::Script::state L)
 	lua_pushnumber(L, res.x);
 	lua_pushnumber(L, res.y);
 	lua_pushnumber(L, res.z);
+	return 3;
+}
+
+int Game::lua_get_angle(lpp::Script::state L)
+{
+	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+	lua_pop(L, 4);
+
+	auto dir = lua_this->movement_system_->get_dir(id);
+	auto res = lua_this->movement_system_->get_angle(dir, Ogre::Vector3{x, y, z});
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int Game::lua_get_angle_between(lpp::Script::state L)
+{
+	Ogre::Real z2 = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real y2 = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real x2 = (Ogre::Real)luaL_checknumber(L, -3);
+	Ogre::Real z1 = (Ogre::Real)luaL_checknumber(L, -4);
+	Ogre::Real y1 = (Ogre::Real)luaL_checknumber(L, -5);
+	Ogre::Real x1 = (Ogre::Real)luaL_checknumber(L, -6);
+	lua_pop(L, 6);
+
+	auto res = lua_this->movement_system_->get_angle(Ogre::Vector3{x1, y1, z1}, Ogre::Vector3{x2, y2, z2});
+	lua_pushnumber(L, res);
 	return 3;
 }
 

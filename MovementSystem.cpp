@@ -268,3 +268,8 @@ Ogre::Vector3 MovementSystem::get_dir_right(std::size_t id) const
 	else
 		return Ogre::Vector3{0, 0, 0};
 }
+
+Ogre::Real MovementSystem::get_angle(Ogre::Vector3 v1, Ogre::Vector3 v2) const
+{
+	return v1.angleBetween(v2).valueRadians();
+}
