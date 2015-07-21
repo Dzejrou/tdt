@@ -44,6 +44,12 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * Param: Time since the last frame.
 		 */
 		void update(Ogre::Real);
+
+		/**
+		 * Brief: Changes the game's state.
+		 * Param: The new state.
+		 */
+		void set_state(GAME_STATE);
 	protected:
 		/**
 		 * Inherited methods (callbacks).

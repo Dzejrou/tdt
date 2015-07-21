@@ -60,6 +60,11 @@ void Game::update(Ogre::Real delta)
 	entity_system_->cleanup();
 }
 
+void Game::set_state(GAME_STATE state)
+{
+	state_ = state;
+}
+
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
 {
 	keyboard_->capture();
@@ -380,7 +385,7 @@ void Game::lua_init()
 void Game::cegui_init()
 {
 	renderer_ = &CEGUI::OgreRenderer::bootstrapSystem(*window_);
-	CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets"); // TODO: Research group problems.
+	CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets");
 	CEGUI::Font::setDefaultResourceGroup("Fonts");
 	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
 	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
@@ -389,6 +394,16 @@ void Game::cegui_init()
 	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
 	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
 	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setImage(CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getDefaultImage());
+
+	// Button test.
+	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+	CEGUI::Window* sheet = wmgr.createWindow("DefaultWindow", "TestWindow/Sheet");
+	CEGUI::Window* quit = wmgr.createWindow("TaharezLook/Button", "TestWindow/QuitButton");
+	quit->setText("Q U I T");
+	quit->setSize(CEGUI::USize(CEGUI::UDim(0.15f, 0.f), CEGUI::UDim(0.05f, 0.f)));
+	sheet->addChild(quit);
+	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
+	quit->subscribeEvent(CEGUI::PushButton::EventClicked, [&](){ this->set_state(GAME_STATE::ENDED); });
 }
 
 CEGUI::MouseButton Game::ois_to_cegui(OIS::MouseButtonID id)
