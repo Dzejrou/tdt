@@ -6,11 +6,12 @@ Game::Game()
 	: state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
-	  camera_dir_{0, 0, 0}
+	  camera_dir_{0, 0, 0}, renderer_{nullptr}
 {
 	ogre_init();
 	ois_init();
 	level_init();
+	cegui_init();
 
 	entity_system_.reset(new EntitySystem(*scene_mgr_));
 	health_system_.reset(new HealthSystem(*entity_system_));
@@ -65,6 +66,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
 	mouse_->capture();
 
 	update(event.timeSinceLastFrame); // TODO: Test with timeSinceLastFrame from frameStarted method!
+	CEGUI::System::getSingleton().injectTimePulse(event.timeSinceLastFrame); // Update CEGUI.
 
 	// TODO:
 	// Research hypothesis - processor will assume false on conditionals.
@@ -104,6 +106,11 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 			break;
 	}
 
+	// Pass to CEGUI.
+	auto& cont = CEGUI::System::getSingleton().getDefaultGUIContext();
+	cont.injectKeyDown((CEGUI::Key::Scan)event.key);
+	cont.injectChar((CEGUI::Key::Scan)event.text);
+
 	return true;
 }
 
@@ -130,6 +137,9 @@ bool Game::keyReleased(const OIS::KeyEvent& event)
 			camera_dir_.y += 1;
 			break;
 	}
+
+	// Pass to CEGUI.
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp((CEGUI::Key::Scan)event.key);
 	return true;
 }
 
@@ -146,16 +156,25 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 		main_cam_->pitch(Ogre::Degree(.13f * event.state.Y.rel));
 	}
 
+	// Update CEGUI mouse position. TODO: Do this only if GUI is visible?
+	auto& cont = CEGUI::System::getSingleton().getDefaultGUIContext();
+	cont.injectMouseMove(event.state.X.rel, event.state.Y.rel);
+	if(event.state.Z.rel != 0) // Mouse scroll.
+		cont.injectMouseWheelChange(event.state.Z.rel / 120.f); // Note: 120.f is a magic number used by MS, might not be
+																//       cross-platform.
+
 	return true;
 }
 
 bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 {
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(ois_to_cegui(id));
 	return true;
 }
 
 bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 {
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(ois_to_cegui(id));
 	return true;
 }
 
@@ -209,16 +228,17 @@ void Game::ogre_init()
 	cf.load(res);
 
 	// Load resource settings.
-	Ogre::String name, loc_type;
+	Ogre::String name, loc_type, group;
 	auto selit = cf.getSectionIterator();
 	while(selit.hasMoreElements())
 	{
+		group = selit.peekNextKey();
 		Ogre::ConfigFile::SettingsMultiMap* settings = selit.getNext();
 		for(auto& x : *settings)
 		{
 			loc_type = x.first;
 			name = x.second;
-			Ogre::ResourceGroupManager::getSingleton().addResourceLocation(name, loc_type);
+			Ogre::ResourceGroupManager::getSingleton().addResourceLocation(name, loc_type, group);
 		}
 	}
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
@@ -284,9 +304,6 @@ void Game::level_init()
 	ground_entity->setMaterialName("rocky_ground");
 }
 
-/**
- * 
- */
 void Game::lua_init()
 {
 	// Register all functions that will be used in Lua.
@@ -358,6 +375,35 @@ void Game::lua_init()
 	script.set("game.enum.input.key_down", OIS::KC_S);
 	script.set("game.enum.input.key_left", OIS::KC_A);
 	script.set("game.enum.input.key_right", OIS::KC_D);
+}
+
+void Game::cegui_init()
+{
+	renderer_ = &CEGUI::OgreRenderer::bootstrapSystem(*window_);
+	CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets"); // TODO: Research group problems.
+	CEGUI::Font::setDefaultResourceGroup("Fonts");
+	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+	
+	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
+	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setImage(CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getDefaultImage());
+}
+
+CEGUI::MouseButton Game::ois_to_cegui(OIS::MouseButtonID id)
+{
+	switch(id)
+	{
+		case OIS::MB_Left:
+			return CEGUI::LeftButton;
+		case OIS::MB_Right:
+			return CEGUI::RightButton;
+		case OIS::MB_Middle:
+			return CEGUI::MiddleButton;
+		default:
+			return CEGUI::LeftButton;
+	}
 }
 
 /**

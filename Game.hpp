@@ -2,6 +2,8 @@
 
 #include <Ogre.h>
 #include <OIS.h>
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/Ogre/Renderer.h>
 
 #include <memory>
 #include <vector>
@@ -63,6 +65,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		void ois_init();
 		void level_init();
 		void lua_init();
+		void cegui_init();
 
 		/**
 		 * Current game state.
@@ -99,6 +102,12 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * Vector of all systems used for updating the game's logic.
 		 */
 		std::vector<System*> systems_;
+
+		/**
+		 * CEGUI related stuff.
+		 */
+		CEGUI::OgreRenderer* renderer_;
+		CEGUI::MouseButton ois_to_cegui(OIS::MouseButtonID);
 
 		/**
 		 * These methods are to be used from Lua, note that Lua can register only
