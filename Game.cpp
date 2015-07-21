@@ -6,12 +6,13 @@ Game::Game()
 	: state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
-	  camera_dir_{0, 0, 0}, renderer_{nullptr}
+	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}
 {
 	ogre_init();
 	ois_init();
 	level_init();
 	cegui_init();
+	console_.init();
 
 	entity_system_.reset(new EntitySystem(*scene_mgr_));
 	health_system_.reset(new HealthSystem(*entity_system_));
@@ -394,16 +395,6 @@ void Game::cegui_init()
 	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
 	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
 	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setImage(CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getDefaultImage());
-
-	// Button test.
-	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-	CEGUI::Window* sheet = wmgr.createWindow("DefaultWindow", "TestWindow/Sheet");
-	CEGUI::Window* quit = wmgr.createWindow("TaharezLook/Button", "TestWindow/QuitButton");
-	quit->setText("Q U I T");
-	quit->setSize(CEGUI::USize(CEGUI::UDim(0.15f, 0.f), CEGUI::UDim(0.05f, 0.f)));
-	sheet->addChild(quit);
-	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
-	quit->subscribeEvent(CEGUI::PushButton::EventClicked, [&](){ this->set_state(GAME_STATE::ENDED); });
 }
 
 CEGUI::MouseButton Game::ois_to_cegui(OIS::MouseButtonID id)

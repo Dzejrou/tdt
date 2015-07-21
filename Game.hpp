@@ -14,6 +14,7 @@
 #include "AISystem.hpp"
 #include "InputSystem.hpp"
 #include "lppscript/LppScript.hpp"
+#include "Console.hpp"
 
 enum class GAME_STATE
 {
@@ -114,6 +115,11 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 */
 		CEGUI::OgreRenderer* renderer_;
 		CEGUI::MouseButton ois_to_cegui(OIS::MouseButtonID);
+
+		/**
+		 * Ingame console.
+		 */
+		Console console_;
 
 		/**
 		 * These methods are to be used from Lua, note that Lua can register only
