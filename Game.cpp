@@ -330,6 +330,7 @@ void Game::lua_init()
 	lpp::Script& script = lpp::Script::get_singleton();
 	lpp::Script::regs game_funcs[] = {
 		// Core functions.
+		{"get_avg_fps", Game::lua_get_avg_fps},
 		{"get_fps", Game::lua_get_fps},
 		{"print", Game::lua_print},
 
@@ -380,6 +381,9 @@ void Game::lua_init()
 		{"get_blueprint", Game::lua_get_blueprint},
 		{"get_state", Game::lua_get_state},
 		{"get_faction", Game::lua_get_faction},
+		{"set_blueprint", Game::lua_set_blueprint},
+		{"set_state", Game::lua_set_state},
+		{"set_faction", Game::lua_set_faction},
 
 		// Input system.
 		{"set_input_handler", Game::lua_set_input_handler},
@@ -448,9 +452,15 @@ CEGUI::MouseButton Game::ois_to_cegui(OIS::MouseButtonID id)
  *            (Because, you know, it's a stack...)
  */
 #pragma region LUA
-int Game::lua_get_fps(lpp::Script::state L)
+int Game::lua_get_avg_fps(lpp::Script::state L)
 {
 	auto res = lua_this->window_->getAverageFPS();
+	lua_pushnumber(L, res);
+	return 1;
+}
+int Game::lua_get_fps(lpp::Script::state L)
+{
+	auto res = lua_this->window_->getLastFPS();
 	lua_pushnumber(L, res);
 	return 1;
 }
@@ -899,6 +909,36 @@ int Game::lua_get_faction(lpp::Script::state L)
 	int res = (int)lua_this->ai_system_->get_faction(id);
 	lua_pushinteger(L, res);
 	return 1;
+}
+
+int Game::lua_set_blueprint(lpp::Script::state L)
+{
+	std::string blueprint = luaL_checkstring(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->ai_system_->set_blueprint(id, blueprint);
+	return 0;
+}
+
+int Game::lua_set_state(lpp::Script::state L)
+{
+	EntityState state = (EntityState)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->ai_system_->set_state(id, state);
+	return 0;
+}
+
+int Game::lua_set_faction(lpp::Script::state L)
+{
+	Faction faction = (Faction)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->ai_system_->set_faction(id, faction);
+	return 0;
 }
 
 int Game::lua_set_input_handler(lpp::Script::state L)

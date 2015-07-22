@@ -18,7 +18,7 @@
 
 enum class GAME_STATE
 {
-	RUNNING, ENDED
+	RUNNING, ENDED, CONSOLE, PAUSED, MENU
 };
 
 class Game : public Ogre::FrameListener, public OIS::KeyListener,
@@ -114,6 +114,11 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * CEGUI related stuff.
 		 */
 		CEGUI::OgreRenderer* renderer_;
+
+		/**
+		 * Brief: Converts an OIS key code to CEGUI key code.
+		 * Param: OIS key code.
+		 */
 		CEGUI::MouseButton ois_to_cegui(OIS::MouseButtonID);
 
 		/**
@@ -129,6 +134,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static Game* lua_this;
 
 		// Core functions.
+		static int lua_get_avg_fps(lpp::Script::state);
 		static int lua_get_fps(lpp::Script::state);
 		static int lua_print(lpp::Script::state);
 
@@ -179,6 +185,9 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_get_blueprint(lpp::Script::state);
 		static int lua_get_state(lpp::Script::state);
 		static int lua_get_faction(lpp::Script::state);
+		static int lua_set_blueprint(lpp::Script::state);
+		static int lua_set_state(lpp::Script::state);
+		static int lua_set_faction(lpp::Script::state);
 
 		// Input system.
 		static int lua_set_input_handler(lpp::Script::state);

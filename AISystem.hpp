@@ -66,16 +66,37 @@ class AISystem : public System
 		std::string get_blueprint(std::size_t) const;
 
 		/**
+		 * Brief: Changes the blueprint table name of a given entity.
+		 * Param: ID of the entity.
+		 * Param: Name of the new blueprint table.
+		 */
+		void set_blueprint(std::size_t, const std::string&);
+
+		/**
 		 * Brief: Returns the state a given entity is in.
 		 * Param: ID of the entity.
 		 */
 		EntityState get_state(std::size_t) const;
 
 		/**
+		 * Brief: Changes the state of a given entity.
+		 * Param: ID of the entity.
+		 * Param: New state.
+		 */
+		void set_state(std::size_t, EntityState);
+
+		/**
 		 * Brief: Returns the faction of a given entity.
 		 * Param: ID of the entity.
 		 */
 		Faction get_faction(std::size_t) const;
+
+		/**
+		 * Brief: Changes the faction of a given entity.
+		 * Param: ID of the entity.
+		 * Param: New faction.
+		 */
+		void set_faction(std::size_t, Faction);
 
 	private:
 		/**

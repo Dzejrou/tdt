@@ -52,6 +52,12 @@ std::string AISystem::get_blueprint(std::size_t id) const
 		return "ERROR"; // Special blueprint defined in ogre_utils.lua
 }
 
+void AISystem::set_blueprint(std::size_t id, const std::string& blueprint)
+{
+	if(is_valid(id))
+		entities_.get_component<AIComponent>(id).blueprint = blueprint;
+}
+
 EntityState AISystem::get_state(std::size_t id) const
 {
 	if(is_valid(id))
@@ -60,10 +66,22 @@ EntityState AISystem::get_state(std::size_t id) const
 		return EntityState::NONE;
 }
 
+void AISystem::set_state(std::size_t id, EntityState state)
+{
+	if(is_valid(id))
+		entities_.get_component<AIComponent>(id).state = state;
+}
+
 Faction AISystem::get_faction(std::size_t id) const
 {
 	if(is_valid(id))
 		return entities_.get_component<AIComponent>(id).faction;
 	else
 		return Faction::NEUTRAL;
+}
+
+void AISystem::set_faction(std::size_t id, Faction faction)
+{
+	if(is_valid(id))
+		entities_.get_component<AIComponent>(id).faction = faction;
 }
