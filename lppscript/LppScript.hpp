@@ -74,7 +74,7 @@ class Script
 				lua_getglobal(L, name.c_str());
 
 			if(lua_isnil(L, -1))
-				throw Exception("[Error][Lua] Variable " + name + "is not defined or nil.");
+				throw Exception("[Error][Lua] Variable " + name + "is not defined or nil.", L);
 
 			return get_<T>(sub_name);
 		}
@@ -97,8 +97,7 @@ class Script
 			int arg_count = push_args<Args...>(as...);
 
 			if(lua_pcall(L, arg_count, 1, 0))
-				throw Exception("[Error][Lua] Error while calling a Lua function: " + fname + "\n("
-								+ lua_tostring(L, -1) + ").");
+				throw Exception("[Error][Lua] Error while calling a Lua function: " + fname + ".", L);
 
 			return get_<Result>();
 		}

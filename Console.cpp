@@ -46,9 +46,9 @@ void Console::execute(const CEGUI::EventArgs &)
 	catch(const lpp::Exception& ex)
 	{
 		if(ex.has_lua_state())
-			print_text(ex.what_lua(), CEGUI::Colour{1, 0.1, 0.1});
+			print_text(ex.what_lua(), CEGUI::Colour{1.f, 0.1f, 0.1f});
 		else
-			print_text(ex.what(), CEGUI::Colour{1, 0, 0});
+			print_text(ex.what(), CEGUI::Colour{1.f, 0.f, 0.f});
 	}
 	print_text(""); // Just visual delimiter.
 	curr_command_ = "";

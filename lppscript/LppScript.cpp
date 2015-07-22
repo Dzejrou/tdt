@@ -18,7 +18,7 @@ lpp::Script::Script()
 void lpp::Script::execute(const std::string& command)
 {
 	if(luaL_dostring(L, command.c_str()))
-		throw Exception("[Error][Lua] Cannot execute a command in a Lua script: " + command);
+		throw Exception("[Error][Lua] Cannot execute a command in a Lua script: " + command, L);
 }
 
 void lpp::Script::register_function(const std::string& name, lua_CFunction fn)
@@ -30,7 +30,7 @@ void lpp::Script::load(const std::string& fname)
 {
 	if(luaL_dofile(L, fname.c_str()))
 		throw Exception("[Error][Lua] Cannot load script: " + fname +
-						"\n[ErrMsg] " + lua_tostring(L, -1));
+						".", L);
 }
 
 bool lpp::Script::is_nil(const std::string& name)
