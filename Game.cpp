@@ -395,6 +395,16 @@ void Game::cegui_init()
 	CEGUI::SchemeManager::getSingleton().createFromFile("AlfiskoSkin.scheme");
 	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("AlfiskoSkin/MouseArrow");
 	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setImage(CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getDefaultImage());
+
+	// Button test.
+	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+	CEGUI::Window* sheet = wmgr.createWindow("DefaultWindow", "TestWindow/Sheet");
+	CEGUI::Window* quit = wmgr.createWindow("AlfiskoSkin/Button", "TestWindow/QuitButton");
+	quit->setText("Q U I T");
+	quit->setSize(CEGUI::USize(CEGUI::UDim(0.15f, 0.f), CEGUI::UDim(0.05f, 0.f)));
+	sheet->addChild(quit);
+	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
+	quit->subscribeEvent(CEGUI::PushButton::EventClicked, [&](){ this->set_state(GAME_STATE::ENDED); });
 }
 
 CEGUI::MouseButton Game::ois_to_cegui(OIS::MouseButtonID id)
