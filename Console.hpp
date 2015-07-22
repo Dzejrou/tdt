@@ -21,7 +21,6 @@ class Console
 
 		void handle_text(const CEGUI::EventArgs&);
 		void execute(const CEGUI::EventArgs&);
-		void handle_string(const std::string&);
 
 		void print_text(const std::string&, CEGUI::Colour = CEGUI::Colour{0xFFFFFFFF});
 	private:

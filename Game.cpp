@@ -84,6 +84,18 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
 
 bool Game::keyPressed(const OIS::KeyEvent& event)
 {
+	// Pass to CEGUI.
+	auto& cont = CEGUI::System::getSingleton().getDefaultGUIContext();
+	cont.injectKeyDown((CEGUI::Key::Scan)event.key);
+	cont.injectChar((CEGUI::Key::Scan)event.text);
+
+	if(console_.is_visible())
+	{
+		if(event.key == OIS::KC_TAB)
+			console_.set_visible(false);
+		return true;
+	}
+
 	switch(event.key)
 	{
 		case OIS::KC_ESCAPE:
@@ -110,18 +122,22 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 		case OIS::KC_0:
 			input_system_->set_first_person(!input_system_->is_first_person(), 8);
 			break;
+		case OIS::KC_TAB:
+			console_.set_visible(true);
+			break;
 	}
-
-	// Pass to CEGUI.
-	auto& cont = CEGUI::System::getSingleton().getDefaultGUIContext();
-	cont.injectKeyDown((CEGUI::Key::Scan)event.key);
-	cont.injectChar((CEGUI::Key::Scan)event.text);
 
 	return true;
 }
 
 bool Game::keyReleased(const OIS::KeyEvent& event)
 {
+	// Pass to CEGUI.
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp((CEGUI::Key::Scan)event.key);
+
+	if(console_.is_visible())
+		return true;
+
 	switch(event.key)
 	{
 		case OIS::KC_A:
@@ -144,8 +160,6 @@ bool Game::keyReleased(const OIS::KeyEvent& event)
 			break;
 	}
 
-	// Pass to CEGUI.
-	CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp((CEGUI::Key::Scan)event.key);
 	return true;
 }
 
@@ -315,6 +329,10 @@ void Game::lua_init()
 	// Register all functions that will be used in Lua.
 	lpp::Script& script = lpp::Script::get_singleton();
 	lpp::Script::regs game_funcs[] = {
+		// Core functions.
+		{"get_fps", Game::lua_get_fps},
+		{"print", Game::lua_print},
+
 		// Entity manipulation.
 		{"create_entity", Game::lua_create_entity},
 		{"destroy_entity", Game::lua_destroy_entity},
@@ -429,9 +447,25 @@ CEGUI::MouseButton Game::ois_to_cegui(OIS::MouseButtonID id)
  * Important: These functions will have their arguments on the stack in REVERSED ORDER!
  *            (Because, you know, it's a stack...)
  */
+#pragma region LUA
+int Game::lua_get_fps(lpp::Script::state L)
+{
+	auto res = lua_this->window_->getAverageFPS();
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int Game::lua_print(lpp::Script::state L)
+{
+	std::string msg = luaL_checkstring(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->console_.print_text(msg, CEGUI::Colour{1.f, 0.5f, 0.1f});
+	return 0;
+}
+
 int Game::lua_create_entity(lpp::Script::state L)
 {
-	// Retrieve the entity blueprint.
 	std::string table_name = luaL_checkstring(L, 1);
 	lua_pop(L, 1);
 
@@ -876,3 +910,4 @@ int Game::lua_set_input_handler(lpp::Script::state L)
 	lua_this->input_system_->set_input_handler(id, handler);
 	return 0;
 }
+#pragma endregion

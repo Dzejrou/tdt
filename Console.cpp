@@ -9,6 +9,7 @@ void Console::init()
 	window_ = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("console.layout");
 	if(window_)
 	{
+		window_->setVisible(false);
 		CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(window_);
 	}
 	
@@ -47,10 +48,6 @@ void Console::execute(const CEGUI::EventArgs &)
 		print_text(ex.what(), CEGUI::Colour{1, 0, 0});
 	}
 	curr_command_ = "";
-}
-
-void Console::handle_string(const std::string &)
-{
 }
 
 void Console::print_text(const std::string& msg, CEGUI::Colour col)
