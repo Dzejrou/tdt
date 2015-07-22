@@ -4,6 +4,8 @@
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
 #include <string>
 
+#include "lppscript/LppScript.hpp"
+
 /**
  *
  */
@@ -18,12 +20,11 @@ class Console
 		bool is_visible() const;
 
 		void handle_text(const CEGUI::EventArgs&);
-		void handle_key(const CEGUI::EventArgs&);
+		void execute(const CEGUI::EventArgs&);
 		void handle_string(const std::string&);
 
 		void print_text(const std::string&, CEGUI::Colour = CEGUI::Colour{0xFFFFFFFF});
 	private:
 		CEGUI::Window* window_;
-		std::string prompt_, prompt_cont_;
-		bool visible_;
+		std::string curr_command_;
 };

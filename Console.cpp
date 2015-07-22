@@ -1,7 +1,7 @@
 #include "Console.hpp"
 
 Console::Console()
-	: window_{nullptr}, prompt_{"> "}, prompt_cont_{">> "}, visible_{false}
+	: window_{nullptr}, curr_command_
 { /* DUMMY BODY */ }
 
 void Console::init()
@@ -11,29 +11,45 @@ void Console::init()
 	{
 		CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(window_);
 	}
+	
+	window_->getChild("INPUT")->subscribeEvent(CEGUI::Editbox::EventTextAccepted,
+											   CEGUI::Event::Subscriber(&Console::handle_text, this));
+	window_->getChild("EXECUTE")->subscribeEvent(CEGUI::PushButton::EventClicked,
+												 CEGUI::Event::Subscriber(&Console::execute, this));
 }
 
-void Console::set_visible(bool)
+void Console::set_visible(bool visible)
 {
+	window_->setVisible(visible);
 }
 
 bool Console::is_visible() const
 {
-	return false;
+	return window_->isVisible();
 }
 
 void Console::handle_text(const CEGUI::EventArgs &)
 {
+	std::string command = window_->getChild("INPUT")->getText().c_str();
+	curr_command_ += '\n' + command;
+	print_text(command);
+	window_->getChild("INPUT")->setText("");
 }
 
-void Console::handle_key(const CEGUI::EventArgs &)
+void Console::execute(const CEGUI::EventArgs &)
 {
+	lpp::Script::get_singleton().execute(curr_command_);
+	curr_command_ = "";
 }
 
 void Console::handle_string(const std::string &)
 {
 }
 
-void Console::print_text(const std::string &, CEGUI::Colour)
+void Console::print_text(const std::string& msg, CEGUI::Colour col)
 {
+	CEGUI::Listbox* lbox = (CEGUI::Listbox*)window_->getChild("CONSOLE_LOG");
+	CEGUI::ListboxTextItem* text = new CEGUI::ListboxTextItem(msg + "\n");
+	text->setTextColours(col);
+	lbox->addItem(text);
 }
