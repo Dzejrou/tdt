@@ -6,7 +6,7 @@ Console::Console()
 
 void Console::init()
 {
-	window_ = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("console.layout", "Layouts");
+	window_ = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("console.layout");
 	if(window_)
 	{
 		CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(window_);
