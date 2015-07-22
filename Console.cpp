@@ -1,7 +1,7 @@
 #include "Console.hpp"
 
 Console::Console()
-	: window_{nullptr}, curr_command_
+	: window_{nullptr}, curr_command_{}
 { /* DUMMY BODY */ }
 
 void Console::init()
@@ -38,7 +38,14 @@ void Console::handle_text(const CEGUI::EventArgs &)
 
 void Console::execute(const CEGUI::EventArgs &)
 {
-	lpp::Script::get_singleton().execute(curr_command_);
+	try
+	{
+		lpp::Script::get_singleton().execute(curr_command_);
+	}
+	catch(const lpp::Exception& ex)
+	{
+		print_text(ex.what(), CEGUI::Colour{1, 0, 0});
+	}
 	curr_command_ = "";
 }
 
