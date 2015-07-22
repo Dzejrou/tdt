@@ -333,6 +333,7 @@ void Game::lua_init()
 		{"get_avg_fps", Game::lua_get_avg_fps},
 		{"get_fps", Game::lua_get_fps},
 		{"print", Game::lua_print},
+		{"set_game_state", Game::lua_set_game_state},
 
 		// Entity manipulation.
 		{"create_entity", Game::lua_create_entity},
@@ -471,6 +472,14 @@ int Game::lua_print(lpp::Script::state L)
 	lua_pop(L, 1);
 
 	lua_this->console_.print_text(msg, CEGUI::Colour{1.f, 0.5f, 0.1f});
+	return 0;
+}
+
+int Game::lua_set_game_state(lpp::Script::state L)
+{
+	GAME_STATE state = (GAME_STATE)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+	lua_this->set_state(state);
 	return 0;
 }
 

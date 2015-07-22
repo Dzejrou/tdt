@@ -137,6 +137,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_get_avg_fps(lpp::Script::state);
 		static int lua_get_fps(lpp::Script::state);
 		static int lua_print(lpp::Script::state);
+		static int lua_set_game_state(lpp::Script::state);
 
 		// Entity manipulation.
 		static int lua_create_entity(lpp::Script::state);
