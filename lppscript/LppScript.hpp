@@ -238,17 +238,34 @@ class Exception
 		 * Constructor.
 		 * Param: Message of the exception.
 		 */
-		Exception(const std::string& msg) : msg_{msg} {};
+		Exception(const std::string& msg = "NO MSG", Script::state L = nullptr)
+			: msg_{msg}, L_{L}
+		{ /* DUMMY BODY */ }
 
 		/**
 		 * Brief: Returns the message of this exception.
 		 */
 		const char* what() const;
+
+		/**
+		 * Brief: Returns the Lua error message if possible.
+		 */
+		const char* what_lua() const;
+
+		/**
+		 * Brief: Returns true if a Lua state is captured by this exception.
+		 */
+		bool has_lua_state() const;
 	private:
 		/**
 		 * Message the exception was called with.
 		 */
 		std::string msg_;
+
+		/**
+		 * Pointer to the Lua state, used for stack manipulation (like lua error retrieval).
+		 */
+		Script::state L_;
 };
 
 

@@ -91,3 +91,16 @@ const char* lpp::Exception::what() const
 {
 	return msg_.c_str();
 }
+
+const char * lpp::Exception::what_lua() const
+{
+	if(L_)
+		return lua_tostring(L_, -1);
+	else
+		return "UNKNOWN LUA ERROR";
+}
+
+bool lpp::Exception::has_lua_state() const
+{
+	return L_ != nullptr;
+}
