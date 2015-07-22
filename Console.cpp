@@ -1,7 +1,7 @@
 #include "Console.hpp"
 
 Console::Console()
-	: window_{nullptr}, curr_command_{}
+	: window_{nullptr}, list_box_{nullptr}, curr_command_{}
 { /* DUMMY BODY */ }
 
 void Console::init()
@@ -17,6 +17,8 @@ void Console::init()
 											   CEGUI::Event::Subscriber(&Console::handle_text, this));
 	window_->getChild("EXECUTE")->subscribeEvent(CEGUI::PushButton::EventClicked,
 												 CEGUI::Event::Subscriber(&Console::execute, this));
+
+	list_box_ = (CEGUI::Listbox*)window_->getChild("CONSOLE_LOG");
 }
 
 void Console::set_visible(bool visible)
@@ -35,6 +37,8 @@ void Console::handle_text(const CEGUI::EventArgs &)
 	curr_command_ += '\n' + command;
 	print_text(command);
 	window_->getChild("INPUT")->setText("");
+
+	list_box_->getVertScrollbar()->scrollForwardsByStep(); // Sync the list box.
 }
 
 void Console::execute(const CEGUI::EventArgs &)
@@ -51,13 +55,13 @@ void Console::execute(const CEGUI::EventArgs &)
 			print_text(ex.what(), CEGUI::Colour{1.f, 0.f, 0.f});
 	}
 	print_text(""); // Just visual delimiter.
+	list_box_->getVertScrollbar()->scrollForwardsByStep(); // Sync the list box.
 	curr_command_ = "";
 }
 
 void Console::print_text(const std::string& msg, CEGUI::Colour col)
 {
-	CEGUI::Listbox* lbox = (CEGUI::Listbox*)window_->getChild("CONSOLE_LOG");
 	CEGUI::ListboxTextItem* text = new CEGUI::ListboxTextItem(msg + "\n");
 	text->setTextColours(col);
-	lbox->addItem(text);
+	list_box_->addItem(text);
 }

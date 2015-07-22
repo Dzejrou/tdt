@@ -25,5 +25,6 @@ class Console
 		void print_text(const std::string&, CEGUI::Colour = CEGUI::Colour{0xFFFFFFFF});
 	private:
 		CEGUI::Window* window_;
+		CEGUI::Listbox* list_box_;
 		std::string curr_command_;
 };
