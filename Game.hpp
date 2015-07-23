@@ -126,6 +126,8 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 */
 		Console console_;
 
+		bool camera_free_mode_;
+
 		/**
 		 * These methods are to be used from Lua, note that Lua can register only
 		 * static functions, so a static pointer to the instance of this game is created in

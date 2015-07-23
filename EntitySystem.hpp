@@ -316,7 +316,6 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 	// Ogre init of the entity and scene node.
 	auto& comp = res.first->second;
 	comp.node = scene_.getRootSceneNode()->createChildSceneNode();
-	comp.node->showBoundingBox(true);
 	comp.entity = scene_.createEntity(comp.mesh);
 	//comp.entity->setMaterialName(comp.material);
 	comp.node->attachObject(comp.entity);

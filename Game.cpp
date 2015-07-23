@@ -6,7 +6,7 @@ Game::Game()
 	: state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
-	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, lmb_down_{false}, rmb_down_{false}
+	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, camera_free_mode_{false}
 {
 	ogre_init();
 	ois_init();
@@ -92,7 +92,7 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 
 	if(console_.is_visible())
 	{
-		if(event.key == OIS::KC_TAB)
+		if(event.key == OIS::KC_GRAVE)
 			console_.set_visible(false);
 		return true;
 	}
@@ -120,7 +120,7 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 		case OIS::KC_LCONTROL:
 			camera_dir_.y -= 1;
 			break;
-		case OIS::KC_TAB:
+		case OIS::KC_GRAVE:
 			console_.set_visible(true);
 			break;
 	}
@@ -332,6 +332,7 @@ void Game::lua_init()
 		{"get_fps", Game::lua_get_fps},
 		{"print", Game::lua_print},
 		{"set_game_state", Game::lua_set_game_state},
+		{"toggle_bounding_boxes", Game::lua_toggle_bounding_boxes},
 
 		// Entity manipulation.
 		{"create_entity", Game::lua_create_entity},
