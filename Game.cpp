@@ -6,7 +6,7 @@ Game::Game()
 	: state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
-	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}
+	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, lmb_down_{false}, rmb_down_{false}
 {
 	ogre_init();
 	ois_init();
@@ -50,6 +50,7 @@ void Game::update(Ogre::Real delta)
 	}
 
 	health_system_->update_regen();
+	// TODO: Possibly revert the update system to improve caching? Check std::map memory repr.
 	for(auto& ent : entity_system_->get_component_list())
 	{
 		for(auto& system : systems_)

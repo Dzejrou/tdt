@@ -111,7 +111,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::vector<System*> systems_;
 
 		/**
-		 * CEGUI related stuff.
+		 * CEGUI renderer.
 		 */
 		CEGUI::OgreRenderer* renderer_;
 
