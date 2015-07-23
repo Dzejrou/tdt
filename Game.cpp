@@ -119,9 +119,6 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 		case OIS::KC_LCONTROL:
 			camera_dir_.y -= 1;
 			break;
-		case OIS::KC_0:
-			input_system_->set_first_person(!input_system_->is_first_person(), 8);
-			break;
 		case OIS::KC_TAB:
 			console_.set_visible(true);
 			break;
@@ -388,6 +385,7 @@ void Game::lua_init()
 
 		// Input system.
 		{"set_input_handler", Game::lua_set_input_handler},
+		{"toggle_first_person", Game::lua_toggle_first_person},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -480,6 +478,12 @@ int Game::lua_set_game_state(lpp::Script::state L)
 	GAME_STATE state = (GAME_STATE)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 	lua_this->set_state(state);
+	return 0;
+}
+
+int Game::lua_toggle_bounding_boxes(lpp::Script::state)
+{
+	lua_this->scene_mgr_->showBoundingBoxes(!lua_this->scene_mgr_->getShowBoundingBoxes());
 	return 0;
 }
 
@@ -957,6 +961,19 @@ int Game::lua_set_input_handler(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	lua_this->input_system_->set_input_handler(id, handler);
+	return 0;
+}
+
+int Game::lua_toggle_first_person(lpp::Script::state L)
+{
+	std::size_t id{0};
+	if(lua_gettop(L) >= 1) // Allow for easy exit.
+	{
+		std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+		lua_pop(L, 1);
+	}
+
+	lua_this->input_system_->set_first_person(!lua_this->input_system_->is_first_person(), id);
 	return 0;
 }
 #pragma endregion
