@@ -7,7 +7,8 @@ Game::Game()
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
 	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, camera_free_mode_{false},
-	  camera_position_backup_{0, 0, 0}, camera_orientation_backup_{}
+	  camera_position_backup_{0, 0, 0}, camera_orientation_backup_{},
+	  selection_box_{}
 {
 	ogre_init();
 	ois_init();
@@ -25,6 +26,11 @@ Game::Game()
 	systems_.emplace_back(movement_system_.get());
 	systems_.emplace_back(ai_system_.get());
 	systems_.emplace_back(input_system_.get());
+
+	selection_box_.reset(new SelectionBox{"MainSelectionBox",
+						                  *entity_system_,
+						                  *scene_mgr_->createPlaneBoundedVolumeQuery(Ogre::PlaneBoundedVolumeList{}),
+						                  *scene_mgr_});
 
 	lua_this = this;
 	lua_init();
@@ -186,24 +192,65 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 	}
 
 	// Update CEGUI mouse position. TODO: Do this only if GUI is visible?
-	auto& cont = CEGUI::System::getSingleton().getDefaultGUIContext();
-	cont.injectMouseMove(event.state.X.rel, event.state.Y.rel);
+	auto& gui_cont = CEGUI::System::getSingleton().getDefaultGUIContext();
+	gui_cont.injectMouseMove(event.state.X.rel, event.state.Y.rel);
 	if(event.state.Z.rel != 0) // Mouse scroll.
-		cont.injectMouseWheelChange(event.state.Z.rel / 120.f); // Note: 120.f is a magic number used by MS, might not be
-																//       cross-platform.
+		gui_cont.injectMouseWheelChange(event.state.Z.rel / 120.f); // Note: 120.f is a magic number used by MS, might not be
+																	//       cross-platform.
+
+	if(selection_box_->is_selecting())
+	{
+		auto& mouse = gui_cont.getMouseCursor();
+		Ogre::Vector2 end{
+			mouse.getPosition().d_x / (float)event.state.width,
+			mouse.getPosition().d_y / (float)event.state.height
+		};
+		selection_box_->extend_to(end);
+	}
 
 	return true;
 }
 
 bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 {
-	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(ois_to_cegui(id));
+	auto& gui_context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	gui_context.injectMouseButtonDown(ois_to_cegui(id));
+
+	if(id == OIS::MB_Left)
+	{ // Start selection.
+		auto& mouse = gui_context.getMouseCursor();
+
+		Ogre::Vector2 start{
+			mouse.getPosition().d_x / (float)event.state.width,
+			mouse.getPosition().d_y / (float)event.state.height
+		};
+		selection_box_->set_starting_point(start);
+		selection_box_->clear();
+		selection_box_->setVisible(true);
+		selection_box_->set_selecting(true);
+		selection_box_->set_corners(start, start);
+	}
+
 	return true;
 }
 
 bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 {
-	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(ois_to_cegui(id));
+	auto& gui_context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	gui_context.injectMouseButtonUp(ois_to_cegui(id));
+
+	if(id == OIS::MB_Left)
+	{
+		auto& mouse = gui_context.getMouseCursor();
+		Ogre::Vector2 end{
+			mouse.getPosition().d_x / (float)event.state.width,
+			mouse.getPosition().d_y / (float)event.state.height
+		};
+		selection_box_->execute_selection(end, *main_cam_);
+		selection_box_->set_selecting(false);
+		selection_box_->setVisible(false);
+	}
+
 	return true;
 }
 
@@ -287,8 +334,8 @@ void Game::ogre_init()
 	// TODO: Research different types of scene managers!
 	scene_mgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
 	main_cam_ = scene_mgr_->createCamera("MainCam");
-	main_cam_->lookAt(0, 0, 0);
-	main_cam_->setPosition(0, 75, 75);
+	main_cam_->setPosition(300, 300, 300);
+	main_cam_->lookAt(100, 100, 100);
 	main_cam_->setNearClipDistance(5);
 	main_view_ = window_->addViewport(main_cam_);
 	main_cam_->setAspectRatio(Ogre::Real(main_view_->getActualWidth()) /

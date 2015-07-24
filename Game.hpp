@@ -15,6 +15,7 @@
 #include "InputSystem.hpp"
 #include "lppscript/LppScript.hpp"
 #include "Console.hpp"
+#include "SelectionBox.hpp"
 
 enum class GAME_STATE
 {
@@ -145,6 +146,11 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * Brief: Toggles the free camera movement mode.
 		 */
 		void toggle_camera_free_mode();
+
+		/**
+		 * Selection box used to select multiple entities at once.
+		 */
+		std::unique_ptr<SelectionBox> selection_box_;
 
 		/**
 		 * These methods are to be used from Lua, note that Lua can register only

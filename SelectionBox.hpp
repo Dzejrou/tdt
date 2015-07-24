@@ -13,8 +13,9 @@ class SelectionBox : public Ogre::ManualObject
 {
 	public:
 		SelectionBox(const Ogre::String&, EntitySystem&,
-					 Ogre::PlaneBoundedVolumeListSceneQuery&);
-		~SelectionBox() {}
+					 Ogre::PlaneBoundedVolumeListSceneQuery&,
+					 Ogre::SceneManager&);
+		~SelectionBox();
 
 		void set_corners(float, float, float, float);
 		void set_corners(const Ogre::Vector2&, const Ogre::Vector2&);
@@ -23,6 +24,9 @@ class SelectionBox : public Ogre::ManualObject
 		void clear_selected_entities();
 		void execute_selection(const Ogre::Vector2&, Ogre::Camera&);
 		void set_starting_point(const Ogre::Vector2&);
+		void set_selecting(bool);
+		bool is_selecting() const;
+		void extend_to(const Ogre::Vector2&);
 	private:
 		/**
 		 * Currently selected entities.
@@ -45,4 +49,14 @@ class SelectionBox : public Ogre::ManualObject
 		 * Scene query used to find all the entities that are within the selection box.
 		 */
 		Ogre::PlaneBoundedVolumeListSceneQuery& volume_query_;
+
+		/**
+		 * Determines if the player is currently selecting entities.
+		 */
+		bool selection_in_progress_;
+
+		/**
+		 *
+		 */
+		Ogre::SceneManager& scene_mgr_;
 };

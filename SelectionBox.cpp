@@ -1,13 +1,20 @@
 #include "SelectionBox.hpp"
 
 SelectionBox::SelectionBox(const Ogre::String& name, EntitySystem& ents,
-						   Ogre::PlaneBoundedVolumeListSceneQuery& query)
-	: Ogre::ManualObject(name), entities_{ents}, volume_query_{query}
+						   Ogre::PlaneBoundedVolumeListSceneQuery& query,
+						   Ogre::SceneManager& mgr)
+	: Ogre::ManualObject(name), entities_{ents}, volume_query_{query}, scene_mgr_{mgr}
 {
 	setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY); // So that the box renders over everything else.
 	setUseIdentityProjection(true);
 	setUseIdentityView(true);
 	setQueryFlags(0); // So that it isn't part of any query.
+	volume_query_.setQueryMask(1);
+}
+
+SelectionBox::~SelectionBox()
+{
+	scene_mgr_.destroyQuery(&volume_query_);
 }
 
 void SelectionBox::set_corners(float left, float top, float right, float bottom)
@@ -120,4 +127,19 @@ void SelectionBox::execute_selection(const Ogre::Vector2& end, Ogre::Camera& cam
 void SelectionBox::set_starting_point(const Ogre::Vector2& start)
 {
 	start_ = start;
+}
+
+void SelectionBox::set_selecting(bool sel)
+{
+	selection_in_progress_ = sel;
+}
+
+bool SelectionBox::is_selecting() const
+{
+	return selection_in_progress_;
+}
+
+void SelectionBox::extend_to(const Ogre::Vector2& end)
+{
+	set_corners(start_, end);
 }
