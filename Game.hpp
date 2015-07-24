@@ -132,6 +132,21 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		bool camera_free_mode_;
 
 		/**
+		 * Backup of the camera position before going to free mode.
+		 */
+		Ogre::Vector3 camera_position_backup_;
+
+		/**
+		 * Backup of the camera orientation before going to free mode.
+		 */
+		Ogre::Quaternion camera_orientation_backup_;
+
+		/**
+		 * Brief: Toggles the free camera movement mode.
+		 */
+		void toggle_camera_free_mode();
+
+		/**
 		 * Currently selected entities.
 		 */
 		std::vector<Ogre::SceneNode*> selected_entities_;
@@ -149,6 +164,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_print(lpp::Script::state);
 		static int lua_set_game_state(lpp::Script::state);
 		static int lua_toggle_bounding_boxes(lpp::Script::state);
+		static int lua_toggle_camera_free_mode(lpp::Script::state);
 
 		// Entity manipulation.
 		static int lua_create_entity(lpp::Script::state);

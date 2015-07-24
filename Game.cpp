@@ -6,7 +6,9 @@ Game::Game()
 	: state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
-	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, camera_free_mode_{false}
+	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, camera_free_mode_{false},
+	  camera_position_backup_{0, 0, 0}, camera_orientation_backup_{},
+	  selected_entities_{}
 {
 	ogre_init();
 	ois_init();
@@ -44,10 +46,8 @@ void Game::run()
 
 void Game::update(Ogre::Real delta)
 {
-	if(!keyboard_->isKeyDown(OIS::KC_C))
-	{
+	if(camera_free_mode_)
 		main_cam_->moveRelative(camera_dir_);
-	}
 
 	health_system_->update_regen();
 	// TODO: Possibly revert the update system to improve caching? Check std::map memory repr.
@@ -102,27 +102,35 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 		case OIS::KC_ESCAPE:
 			state_ = GAME_STATE::ENDED;
 			return false;
-		case OIS::KC_A:
-			camera_dir_.x -= 1;
-			break;
-		case OIS::KC_D:
-			camera_dir_.x += 1;
-			break;
-		case OIS::KC_W:
-			camera_dir_.z -= 1;
-			break;
-		case OIS::KC_S:
-			camera_dir_.z += 1;
-			break;
-		case OIS::KC_SPACE:
-			camera_dir_.y += 1;
-			break;
-		case OIS::KC_LCONTROL:
-			camera_dir_.y -= 1;
-			break;
 		case OIS::KC_GRAVE:
 			console_.set_visible(true);
 			break;
+	}
+
+	// Allows for free camera movement during debugging.
+	if(camera_free_mode_)
+	{
+		switch(event.key)
+		{
+			case OIS::KC_A:
+				camera_dir_.x -= 1;
+				break;
+			case OIS::KC_D:
+				camera_dir_.x += 1;
+				break;
+			case OIS::KC_W:
+				camera_dir_.z -= 1;
+				break;
+			case OIS::KC_S:
+				camera_dir_.z += 1;
+				break;
+			case OIS::KC_SPACE:
+				camera_dir_.y += 1;
+				break;
+			case OIS::KC_LCONTROL:
+				camera_dir_.y -= 1;
+				break;
+		}
 	}
 
 	return true;
@@ -136,26 +144,30 @@ bool Game::keyReleased(const OIS::KeyEvent& event)
 	if(console_.is_visible())
 		return true;
 
-	switch(event.key)
+	// Allows for free camera movement during debbuging.
+	if(camera_free_mode_)
 	{
-		case OIS::KC_A:
-			camera_dir_.x += 1;
-			break;
-		case OIS::KC_D:
-			camera_dir_.x -= 1;
-			break;
-		case OIS::KC_W:
-			camera_dir_.z += 1;
-			break;
-		case OIS::KC_S:
-			camera_dir_.z -= 1;
-			break;
-		case OIS::KC_SPACE:
-			camera_dir_.y -= 1;
-			break;
-		case OIS::KC_LCONTROL:
-			camera_dir_.y += 1;
-			break;
+		switch(event.key)
+		{
+			case OIS::KC_A:
+				camera_dir_.x += 1;
+				break;
+			case OIS::KC_D:
+				camera_dir_.x -= 1;
+				break;
+			case OIS::KC_W:
+				camera_dir_.z += 1;
+				break;
+			case OIS::KC_S:
+				camera_dir_.z -= 1;
+				break;
+			case OIS::KC_SPACE:
+				camera_dir_.y -= 1;
+				break;
+			case OIS::KC_LCONTROL:
+				camera_dir_.y += 1;
+				break;
+		}
 	}
 
 	return true;
@@ -163,7 +175,7 @@ bool Game::keyReleased(const OIS::KeyEvent& event)
 
 bool Game::mouseMoved(const OIS::MouseEvent& event)
 {
-	if(event.state.buttonDown(OIS::MB_Left))
+	if(camera_free_mode_ && event.state.buttonDown(OIS::MB_Left))
 	{
 		main_cam_->yaw(Ogre::Degree(-.13f * event.state.X.rel));
 		main_cam_->pitch(Ogre::Degree(-.13f * event.state.Y.rel));
@@ -333,6 +345,7 @@ void Game::lua_init()
 		{"print", Game::lua_print},
 		{"set_game_state", Game::lua_set_game_state},
 		{"toggle_bounding_boxes", Game::lua_toggle_bounding_boxes},
+		{"toggle_camera_free_mode", Game::lua_toggle_camera_free_mode},
 
 		// Entity manipulation.
 		{"create_entity", Game::lua_create_entity},
@@ -445,6 +458,22 @@ CEGUI::MouseButton Game::ois_to_cegui(OIS::MouseButtonID id)
 	}
 }
 
+void Game::toggle_camera_free_mode()
+{
+	if(camera_free_mode_)
+	{
+		camera_free_mode_ = false;
+		main_cam_->setPosition(camera_position_backup_);
+		main_cam_->setOrientation(camera_orientation_backup_);
+	}
+	else
+	{
+		camera_free_mode_ = true;
+		camera_position_backup_ = main_cam_->getPosition();
+		camera_orientation_backup_ = main_cam_->getOrientation();
+	}
+}
+
 /**
  * Note: Function definitions below act as an interface between C++ and Lua, they all have
  *		 to have the signature int fname(lpp::Script::state) and return the number of results
@@ -486,6 +515,12 @@ int Game::lua_set_game_state(lpp::Script::state L)
 int Game::lua_toggle_bounding_boxes(lpp::Script::state)
 {
 	lua_this->scene_mgr_->showBoundingBoxes(!lua_this->scene_mgr_->getShowBoundingBoxes());
+	return 0;
+}
+
+int Game::lua_toggle_camera_free_mode(lpp::Script::state)
+{
+	lua_this->toggle_camera_free_mode();
 	return 0;
 }
 
