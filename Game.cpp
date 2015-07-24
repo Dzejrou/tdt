@@ -226,9 +226,8 @@ bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 		};
 		selection_box_->set_starting_point(start);
 		selection_box_->clear();
-		selection_box_->setVisible(true);
 		selection_box_->set_selecting(true);
-		selection_box_->set_corners(start, start);
+		//selection_box_->set_corners(start, start);
 	}
 
 	return true;
@@ -248,7 +247,6 @@ bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 		};
 		selection_box_->execute_selection(end, *main_cam_);
 		selection_box_->set_selecting(false);
-		selection_box_->setVisible(false);
 	}
 
 	return true;
@@ -378,6 +376,7 @@ void Game::level_init()
 	ground_entity->setCastShadows(false);
 	scene_mgr_->getRootSceneNode()->createChildSceneNode()->attachObject(ground_entity);
 	ground_entity->setMaterialName("rocky_ground");
+	ground_entity->setQueryFlags(0);
 }
 
 void Game::lua_init()
