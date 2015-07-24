@@ -13,6 +13,7 @@ void Console::init()
 		CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(window_);
 	}
 	
+	// Registers event handlers.
 	window_->getChild("INPUT")->subscribeEvent(CEGUI::Editbox::EventTextAccepted,
 											   CEGUI::Event::Subscriber(&Console::handle_text, this));
 	window_->getChild("EXECUTE")->subscribeEvent(CEGUI::PushButton::EventClicked,
