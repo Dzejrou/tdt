@@ -28,6 +28,7 @@
     <ClCompile Include="lppscript\LppScript.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
+    <ClCompile Include="SelectionBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AISystem.hpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="InputSystem.hpp" />
     <ClInclude Include="lppscript\LppScript.hpp" />
     <ClInclude Include="MovementSystem.hpp" />
+    <ClInclude Include="SelectionBox.hpp" />
     <ClInclude Include="System.hpp" />
   </ItemGroup>
   <ItemGroup>
