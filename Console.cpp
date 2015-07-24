@@ -16,8 +16,10 @@ void Console::init()
 	// Registers event handlers.
 	window_->getChild("INPUT")->subscribeEvent(CEGUI::Editbox::EventTextAccepted,
 											   CEGUI::Event::Subscriber(&Console::handle_text, this));
-	window_->getChild("EXECUTE")->subscribeEvent(CEGUI::PushButton::EventClicked,
+	auto* input = window_->getChild("EXECUTE");
+	input->subscribeEvent(CEGUI::PushButton::EventClicked,
 												 CEGUI::Event::Subscriber(&Console::execute, this));
+	input->activate(); // Input box will start with focus when console is shown.
 
 	list_box_ = (CEGUI::Listbox*)window_->getChild("CONSOLE_LOG");
 }
