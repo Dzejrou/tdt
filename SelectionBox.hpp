@@ -12,15 +12,17 @@
 class SelectionBox : public Ogre::ManualObject
 {
 	public:
-		SelectionBox(const Ogre::String&, EntitySystem&);
+		SelectionBox(const Ogre::String&, EntitySystem&,
+					 Ogre::PlaneBoundedVolumeListSceneQuery&);
 		~SelectionBox() {}
 
 		void set_corners(float, float, float, float);
 		void set_corners(const Ogre::Vector2&, const Ogre::Vector2&);
 		std::vector<std::size_t>& get_selected_entities();
-		void select_object(Ogre::MovableObject*);
+		void select_object(Ogre::MovableObject&);
 		void clear_selected_entities();
-		void execute_selection();
+		void execute_selection(const Ogre::Vector2&, Ogre::Camera&);
+		void set_starting_point(const Ogre::Vector2&);
 	private:
 		/**
 		 * Currently selected entities.
@@ -33,4 +35,14 @@ class SelectionBox : public Ogre::ManualObject
 		 */
 		EntitySystem& entities_;
 
+		/**
+		 * Vector containing the coordinates of the starting point of the selection.
+		 * (Ending point will be specified in the SelectionBox::execute_selection method.)
+		 */
+		Ogre::Vector2 start_;
+
+		/**
+		 * Scene query used to find all the entities that are within the selection box.
+		 */
+		Ogre::PlaneBoundedVolumeListSceneQuery& volume_query_;
 };
