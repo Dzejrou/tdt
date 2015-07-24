@@ -126,7 +126,15 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 */
 		Console console_;
 
+		/**
+		 * Indicates whether the camera is in a free movement mode.
+		 */
 		bool camera_free_mode_;
+
+		/**
+		 * Currently selected entities.
+		 */
+		std::vector<Ogre::SceneNode*> selected_entities_;
 
 		/**
 		 * These methods are to be used from Lua, note that Lua can register only
