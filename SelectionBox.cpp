@@ -55,3 +55,8 @@ void SelectionBox::select_object(Ogre::MovableObject* obj)
 			selected_entities_.emplace_back(ent.first);
 	}
 }
+
+void SelectionBox::clear_selected_entities()
+{
+	selected_entities_.clear();
+}
