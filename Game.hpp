@@ -147,11 +147,6 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		void toggle_camera_free_mode();
 
 		/**
-		 * Currently selected entities.
-		 */
-		std::vector<Ogre::SceneNode*> selected_entities_;
-
-		/**
 		 * These methods are to be used from Lua, note that Lua can register only
 		 * static functions, so a static pointer to the instance of this game is created in
 		 * the game's constructor and used in these static functions.
