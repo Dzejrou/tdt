@@ -7,8 +7,7 @@ Game::Game()
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
 	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, camera_free_mode_{false},
-	  camera_position_backup_{0, 0, 0}, camera_orientation_backup_{},
-	  selected_entities_{}
+	  camera_position_backup_{0, 0, 0}, camera_orientation_backup_{}
 {
 	ogre_init();
 	ois_init();
