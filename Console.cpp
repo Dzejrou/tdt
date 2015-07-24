@@ -43,6 +43,9 @@ void Console::handle_text(const CEGUI::EventArgs &)
 
 void Console::execute(const CEGUI::EventArgs &)
 {
+	bool success{true};
+	std::string err_msg{};
+
 	try
 	{
 		lpp::Script::get_singleton().execute(curr_command_);
@@ -50,11 +53,18 @@ void Console::execute(const CEGUI::EventArgs &)
 	catch(const lpp::Exception& ex)
 	{
 		if(ex.has_lua_state())
-			print_text(ex.what_lua(), CEGUI::Colour{1.f, 0.1f, 0.1f});
+			err_msg = ex.what_lua();
 		else
-			print_text(ex.what(), CEGUI::Colour{1.f, 0.f, 0.f});
+			err_msg = ex.what();
+
+		success = false;
 	}
-	print_text(""); // Just visual delimiter.
+
+	if(success)
+		print_text("<SUCCESS>", CEGUI::Colour{0.f, 1.f, 0.f});
+	else
+		print_text("<FAILURE> " + err_msg, CEGUI::Colour{1.f, 0.f, 0.f});
+
 	list_box_->getVertScrollbar()->scrollForwardsByStep(); // Sync the list box.
 	curr_command_ = "";
 }
