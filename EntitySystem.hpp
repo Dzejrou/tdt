@@ -115,18 +115,24 @@ class EntitySystem
 
 		/**
 		 * Brief: Adds a components to the given enetity using it's default constructor (all values have
-		 *        to be set afterwards).
+		 *        to be set afterwards). Returns reference to the newly created component.
 		 * Param: ID of the entity.
 		 */
 		template<typename COMP>
-		void add_component(std::size_t id)
+		COMP& add_component(std::size_t id)
 		{
-			get_component_container<COMP>().emplace(std::make_pair(id, COMP{}));
+			auto res = get_component_container<COMP>().emplace(std::make_pair(id, COMP{}));
 
 			// Set the flag.
 			auto it = entities_.find(id);
 			if(it != entities_.end())
 				it->second.set(COMP::type, true);
+
+			if(res.second)
+				return res.first->second;
+			else
+				throw std::runtime_error("[Error][EntitySystem] Could not add component of type " +
+										 std::to_string(COMP::type) + "to entity #" + std::to_string(id) + ".");
 		}
 
 		/**
@@ -190,6 +196,8 @@ class EntitySystem
 		std::map<std::size_t, ManaComponent> mana_;
 		std::map<std::size_t, SpellComponent> spell_;
 		std::map<std::size_t, ProductionComponent> production_;
+		std::map<std::size_t, GridNodeComponent> grid_node_;
+		std::map<std::size_t, GridLineComponent> grid_line_;
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -272,8 +280,23 @@ inline std::map<std::size_t, ProductionComponent>& EntitySystem::get_component_c
 	return production_;
 }
 
+template<>
+inline std::map<std::size_t, GridNodeComponent>& EntitySystem::get_component_container<GridNodeComponent>()
+{
+	return grid_node_;
+}
+
+template<>
+inline std::map<std::size_t, GridLineComponent>& EntitySystem::get_component_container<GridLineComponent>()
+{
+	return grid_line_;
+}
+
 /**
  * Specializations of the EntitySystem::load_component method.
+ * Note: Following components can only be created manually and thus don't have load_component specialization.
+ *       GridNodeComponent (created by GridSystem::add_node)
+ *       GridLineComponent (created by GridSystem::add_node)
  */
 template<>
 inline void EntitySystem::load_component<PhysicsComponent>(std::size_t id, const std::string& table_name)
