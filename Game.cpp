@@ -15,6 +15,7 @@ Game::Game()
 	level_init();
 	cegui_init();
 	console_.init();
+	windowResized(window_); // Will adjust dimensions for OIS mouse.
 
 	entity_system_.reset(new EntitySystem(*scene_mgr_));
 	health_system_.reset(new HealthSystem(*entity_system_));
@@ -254,10 +255,6 @@ bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 
 void Game::windowResized(Ogre::RenderWindow * window)
 {
-	// TODO: Ask about the necessity of this.
-	if(window != window_)
-		return; // For the possibility of more windows.
-
 	std::size_t width, height, depth;
 	int left, top;
 	window->getMetrics(width, height, depth, left, top);
