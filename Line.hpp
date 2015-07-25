@@ -8,7 +8,7 @@ class Line : public Ogre::ManualObject
 {
 	public:
 		Line(const Ogre::Vector3&, const Ogre::Vector3&,
-			 const Ogre::String&, const std::string& = "colour/blue");
+			 const Ogre::String& = "line_", const std::string& = "colour/blue");
 		~Line() {}
 	private:
 		Ogre::Vector3 start_, end_;
