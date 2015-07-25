@@ -213,11 +213,11 @@ struct ProductionComponent
 struct GridNodeComponent
 {
 	GridNodeComponent()
-		: neighbours{}
+		: neighbours{}, free{true}
 	{ /* DUMMY BODY */ }
 
 	std::vector<std::size_t> neighbours;
-
+	bool free;
 };
 
 /**
