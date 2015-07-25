@@ -212,6 +212,8 @@ struct ProductionComponent
  */
 struct GridNodeComponent
 {
+	static constexpr int type = 12;
+
 	GridNodeComponent()
 		: neighbours{}, free{true}
 	{ /* DUMMY BODY */ }
@@ -226,6 +228,8 @@ struct GridNodeComponent
  */
 struct GridLineComponent
 {
+	static constexpr int type = 13;
+
 	GridLineComponent(std::size_t start = 0, std::size_t end = 0)
 		: start_id{start}, end_id{end}, distance{0}
 	{ /* DUMMY BODY */ }
