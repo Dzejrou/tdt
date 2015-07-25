@@ -14,7 +14,11 @@ class GridSystem : public System
 
 		void update(Ogre::Real);
 		bool is_valid(std::size_t) const;
+
+		void add_node(Ogre::Real, Ogre::Real);
 	private:
+		void add_line(std::size_t, std::size_t);
+
 		EntitySystem& entities_;
 		Ogre::SceneManager& scene_mgr_;
 };
