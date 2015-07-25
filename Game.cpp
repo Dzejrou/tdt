@@ -218,7 +218,7 @@ bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 	auto& gui_context = CEGUI::System::getSingleton().getDefaultGUIContext();
 	gui_context.injectMouseButtonDown(ois_to_cegui(id));
 
-	if(id == OIS::MB_Left)
+	if(id == OIS::MB_Left && !console_.is_visible()) // TODO: State switch!
 	{ // Start selection.
 		auto& mouse = gui_context.getMouseCursor();
 
@@ -240,7 +240,7 @@ bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 	auto& gui_context = CEGUI::System::getSingleton().getDefaultGUIContext();
 	gui_context.injectMouseButtonUp(ois_to_cegui(id));
 
-	if(id == OIS::MB_Left)
+	if(id == OIS::MB_Left && selection_box_->is_selecting())
 	{
 		auto& mouse = gui_context.getMouseCursor();
 		Ogre::Vector2 end{
@@ -389,6 +389,8 @@ void Game::lua_init()
 		{"set_game_state", Game::lua_set_game_state},
 		{"toggle_bounding_boxes", Game::lua_toggle_bounding_boxes},
 		{"toggle_camera_free_mode", Game::lua_toggle_camera_free_mode},
+		{"list_selection", Game::lua_list_selection},
+		{"destroy_selected", Game::lua_destroy_selected},
 
 		// Entity manipulation.
 		{"create_entity", Game::lua_create_entity},
@@ -543,7 +545,7 @@ int Game::lua_print(lpp::Script::state L)
 	std::string msg = luaL_checkstring(L, -1);
 	lua_pop(L, 1);
 
-	lua_this->console_.print_text(msg, CEGUI::Colour{1.f, 0.5f, 0.1f});
+	lua_this->console_.print_text(msg, Console::ORANGE_TEXT);
 	return 0;
 }
 
@@ -564,6 +566,29 @@ int Game::lua_toggle_bounding_boxes(lpp::Script::state)
 int Game::lua_toggle_camera_free_mode(lpp::Script::state)
 {
 	lua_this->toggle_camera_free_mode();
+	return 0;
+}
+
+int Game::lua_list_selection(lpp::Script::state)
+{
+	auto& to_be_destroyed = lua_this->selection_box_->get_selected_entities();
+	for(auto& ent : to_be_destroyed)
+	{
+		lua_this->console_.print_text(std::to_string(ent), Console::ORANGE_TEXT);
+	}
+
+	return 0;
+}
+
+int Game::lua_destroy_selected(lpp::Script::state)
+{
+	auto& to_be_destroyed = lua_this->selection_box_->get_selected_entities();
+	for(auto& ent : to_be_destroyed)
+	{
+		lua_this->entity_system_->destroy_entity(ent);
+	}
+	lua_this->selection_box_->clear_selected_entities();
+
 	return 0;
 }
 

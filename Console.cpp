@@ -1,5 +1,10 @@
 #include "Console.hpp"
 
+// Static initialization:
+const CEGUI::Colour Console::RED_TEXT = CEGUI::Colour{1.f, 0.f, 0.f};
+const CEGUI::Colour Console::GREEN_TEXT = CEGUI::Colour{0.f, 1.f, 0.f};
+const CEGUI::Colour Console::ORANGE_TEXT = CEGUI::Colour{1.f, 0.5f, 0.1f};
+
 Console::Console()
 	: window_{nullptr}, list_box_{nullptr}, curr_command_{}
 { /* DUMMY BODY */ }
@@ -62,9 +67,9 @@ void Console::execute(const CEGUI::EventArgs &)
 	}
 
 	if(success)
-		print_text("<SUCCESS>", CEGUI::Colour{0.f, 1.f, 0.f});
+		print_text("<SUCCESS>", GREEN_TEXT);
 	else
-		print_text("<FAILURE> " + err_msg, CEGUI::Colour{1.f, 0.f, 0.f});
+		print_text("<FAILURE> " + err_msg, RED_TEXT);
 
 	list_box_->getVertScrollbar()->scrollForwardsByStep(); // Sync the list box.
 	curr_command_ = "";
