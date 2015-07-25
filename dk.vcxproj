@@ -23,6 +23,7 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="EntitySystem.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GridSystem.cpp" />
     <ClCompile Include="HealthSystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="Line.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Console.hpp" />
     <ClInclude Include="EntitySystem.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="GridSystem.hpp" />
     <ClInclude Include="HealthSystem.hpp" />
     <ClInclude Include="InputSystem.hpp" />
     <ClInclude Include="Line.hpp" />
