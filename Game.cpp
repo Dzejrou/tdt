@@ -8,7 +8,8 @@ Game::Game()
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
 	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, camera_free_mode_{false},
 	  camera_position_backup_{0, 0, 0}, camera_orientation_backup_{},
-	  selection_box_{}
+	  selection_box_{},
+	test_line_{nullptr}
 {
 	ogre_init();
 	ois_init();
@@ -47,6 +48,8 @@ Game::~Game()
 void Game::run()
 {
 	scene_mgr_->setAmbientLight(Ogre::ColourValue(.5, .5, .5));
+	test_line_.reset(new Line{Ogre::Vector3{0, 0, 0}, Ogre::Vector3{-200, 200, 200}, "line"});
+	scene_mgr_->getRootSceneNode()->createChildSceneNode()->attachObject(test_line_.get());
 
 	root_->startRendering();
 }

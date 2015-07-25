@@ -25,6 +25,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthSystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="lppscript\LppScript.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="HealthSystem.hpp" />
     <ClInclude Include="InputSystem.hpp" />
+    <ClInclude Include="Line.hpp" />
     <ClInclude Include="lppscript\LppScript.hpp" />
     <ClInclude Include="MovementSystem.hpp" />
     <ClInclude Include="SelectionBox.hpp" />

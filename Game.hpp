@@ -16,6 +16,7 @@
 #include "lppscript/LppScript.hpp"
 #include "Console.hpp"
 #include "SelectionBox.hpp"
+#include "Line.hpp"
 
 enum class GAME_STATE
 {
@@ -158,6 +159,8 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * the game's constructor and used in these static functions.
 		 */
 		static Game* lua_this;
+
+		std::unique_ptr<Line> test_line_;
 
 		// Core functions.
 		static int lua_get_avg_fps(lpp::Script::state);
