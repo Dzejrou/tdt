@@ -26,6 +26,7 @@ Game::Game()
 	movement_system_.reset(new MovementSystem(*entity_system_));
 	ai_system_.reset(new AISystem(*entity_system_));
 	input_system_.reset(new InputSystem(*entity_system_, *keyboard_, *main_cam_));
+	grid_system_.reset(new GridSystem(*entity_system_, *scene_mgr_));
 
 	systems_.emplace_back(health_system_.get());
 	systems_.emplace_back(movement_system_.get());
@@ -53,6 +54,9 @@ void Game::run()
 	scene_mgr_->setAmbientLight(Ogre::ColourValue(.5, .5, .5));
 	test_line_.reset(new Line{Ogre::Vector3{0, 0, 0}, Ogre::Vector3{-200, 200, 200}, "line"});
 	scene_mgr_->getRootSceneNode()->createChildSceneNode()->attachObject(test_line_.get());
+	auto node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
+	node->attachObject(scene_mgr_->createEntity("block.mesh"));
+	node->setScale(20, 20, 20);
 
 	root_->startRendering();
 }

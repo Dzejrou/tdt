@@ -13,7 +13,7 @@ class GridSystem : public System
 		~GridSystem() {}
 
 		void update(Ogre::Real);
-		bool is_valid(std::size_t);
+		bool is_valid(std::size_t) const;
 	private:
 		void create_block_mesh();
 

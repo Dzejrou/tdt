@@ -13,6 +13,7 @@
 #include "MovementSystem.hpp"
 #include "AISystem.hpp"
 #include "InputSystem.hpp"
+#include "GridSystem.hpp"
 #include "lppscript/LppScript.hpp"
 #include "Console.hpp"
 #include "SelectionBox.hpp"
@@ -106,6 +107,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<MovementSystem> movement_system_;
 		std::unique_ptr<AISystem> ai_system_;
 		std::unique_ptr<InputSystem> input_system_;
+		std::unique_ptr<GridSystem> grid_system_;
 
 		/**
 		 * Vector of all systems used for updating the game's logic.
