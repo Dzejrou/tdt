@@ -1,3 +1,8 @@
+# Lua interpreter
+scripts/lua/*
+
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
