@@ -1,0 +1,44 @@
+material colour/green
+{ // Author: Dzejrou
+	technique
+	{
+		pass
+		{
+			lighting on
+
+			ambient 0 1 0 1
+			diffuse 0 1 0 1
+			emissive 0 1 0 1
+		}
+	}
+}
+
+material colour/red
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+
+			ambient 1 0 0 1
+			diffuse 1 0 0 1
+			emissive 1 0 0 1
+		}
+	}
+}
+
+material colour/blue
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+
+			ambient 0 0 1 1
+			diffuse 0 0 1 1
+			emissive 0 0 1 1
+		}
+	}
+}

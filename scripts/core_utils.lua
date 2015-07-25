@@ -37,6 +37,14 @@ enum = {
 		key_down = 1,
 		key_left = 2,
 		key_right = 3,
+	},
+
+	game_state = {
+		running = 0,
+		ended = 1,
+		console = 2,
+		paused = 3,
+		menu = 4
 	}
 }
 
@@ -62,13 +70,17 @@ utils = {
 if game then
 	game.enum = enum
 	game.utils = utils
+
+	if show_msg then
+		game.show_msg = show_msg
+	end
 end
 
 -- Error entity blueprint, messages are for debug purposes, disallowing
 -- undefined entities to leave the development process.
 ERROR = {
 	init = function()
-		show_msg("Initializing an ERROR entity.")
+		game.show_msg("Initializing an ERROR entity.")
 	end,
 
 	update = function()
@@ -76,9 +88,10 @@ ERROR = {
 	end,
 
 	finnish = function()
-		show_msg("Destroying an ERROR entity.")
+		game.show_msg("Destroying an ERROR entity.")
 	end,
 
 	input_handler = function(id, key)
+		game.show_msg("Trying to move an ERROR entity.")
 	end
 }

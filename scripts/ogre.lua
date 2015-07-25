@@ -82,7 +82,8 @@ ogre = {
 			x, y, z = game.dir_to_enemy(9, 8)
 			angle = game.get_angle(id, x, y, z)
 			game.move(id, x, y, z)
-			game.rotate(id, angle)
+
+			game.rotate(id, angle * 0.01)
 		end
 
 		if id % 2 == 0 then
@@ -154,4 +155,4 @@ game.move_to(id9, -100, 30, 100)
 
 ogre.MovementComponent.speed_modifier = 0.1
 id10 = game.create_entity("ogre")
-game.move_to(id10, -100, 30, -100)
+game.move_to(id10, -100, 30, -300)

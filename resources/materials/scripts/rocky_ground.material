@@ -1,0 +1,13 @@
+material rocky_ground
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture rocky_ground.tga
+			}
+		}
+	}
+}
