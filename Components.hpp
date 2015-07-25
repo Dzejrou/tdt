@@ -16,7 +16,7 @@ class Event {};
 
 struct Component
 {
-	static constexpr int count = 12;
+	static constexpr int count = 14;
 };
 
 /**
@@ -205,4 +205,31 @@ struct SpellComponent
 struct ProductionComponent
 {
 	static constexpr int type = 11;
+};
+
+/**
+ * Holds GridNode's neighbour nodes.
+ */
+struct GridNodeComponent
+{
+	GridNodeComponent()
+		: neighbours{}
+	{ /* DUMMY BODY */ }
+
+	std::vector<std::size_t> neighbours;
+
+};
+
+/**
+ * Holds data related to a grid line - ID of it's starting GridNode,
+ * ID of it's ending GridNode and the distance between the two nodes.
+ */
+struct GridLineComponent
+{
+	GridLineComponent(std::size_t start = 0, std::size_t end = 0)
+		: start_id{start}, end_id{end}, distance{0}
+	{ /* DUMMY BODY */ }
+
+	std::size_t start_id, end_id;
+	Ogre::Real distance;
 };
