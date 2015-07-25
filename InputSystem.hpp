@@ -30,11 +30,11 @@ class InputSystem : public System
 		~InputSystem() {}
 
 		/**
-		 * Brief: Handles the input of a single valid entity.
-		 * Param: ID of the entity.
+		 * Brief: Handles the input for the entity that is
+		 *        currently in the first person mode.
 		 * Param: Time since the last frame.
 		 */
-		void update(std::size_t, Ogre::Real);
+		void update(Ogre::Real);
 
 		/**
 		 * Brief: Returns true if an entity is valid and thus can be updated by this system, should be used

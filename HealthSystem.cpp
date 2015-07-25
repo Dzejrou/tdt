@@ -4,14 +4,18 @@ HealthSystem::HealthSystem(EntitySystem& ent)
 	: entities_{ent}, regen_timer_{0}, regen_period_{1000} // TODO: Experiment with regen period!
 { /* DUMMY BODY */ }
 
-void HealthSystem::update(std::size_t id, Ogre::Real)
+void HealthSystem::update(Ogre::Real)
 {
-	if(!entities_.get_component<HealthComponent>(id).alive)
-	{ // Entity died.
-		entities_.destroy_entity(id);
+	update_regen();
+	for(auto& ent : entities_.get_component_container<HealthComponent>())
+	{
+		if(!entities_.get_component<HealthComponent>(ent.first).alive)
+		{ // Entity died.
+			entities_.destroy_entity(ent.first);
+		}
+		else if(regen_)
+			add_health(ent.first, ent.second.regen);
 	}
-	else if(regen_)
-		add_health(id, entities_.get_component<HealthComponent>(id).regen);
 }
 
 bool HealthSystem::is_valid(std::size_t id) const

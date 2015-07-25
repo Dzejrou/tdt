@@ -25,12 +25,11 @@ class HealthSystem : public System
 		~HealthSystem() {}
 
 		/**
-		 * Brief: Updates a single valid entity by checking it's health (or death) status
+		 * Brief: Updates a the system by checking every valid entity's health (or death) status
 		 *        and applying health regeneration if necessary.
-		 * Param: ID of the entity.
 		 * Param: Time since the last frame.
 		 */
-		void update(std::size_t, Ogre::Real);
+		void update(Ogre::Real);
 
 		/**
 		 * Brief: Returns true if an entity is valid, false otherwise. (Should be tested before

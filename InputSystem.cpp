@@ -7,24 +7,24 @@ InputSystem::InputSystem(EntitySystem& ents, OIS::Keyboard& key, Ogre::Camera& c
 	  delete_input_{false}
 { /* DUMMY BODY */ }
 
-void InputSystem::update(std::size_t id, Ogre::Real delta)
+void InputSystem::update(Ogre::Real delta)
 {
-	lpp::Script& script = lpp::Script::get_singleton();
-	auto& comp = entities_.get_component<InputComponent>(id);
-	if(keyboard_.isKeyDown((OIS::KeyCode)KEY_UP))
-		script.call<void, std::size_t, int>(comp.input_handler, id, KEY_UP);
-	if(keyboard_.isKeyDown((OIS::KeyCode)KEY_DOWN))
-		script.call<void, std::size_t, int>(comp.input_handler, id, KEY_DOWN);
-	if(keyboard_.isKeyDown((OIS::KeyCode)KEY_LEFT))
-		script.call<void, std::size_t, int>(comp.input_handler, id, KEY_LEFT);
-	if(keyboard_.isKeyDown((OIS::KeyCode)KEY_RIGHT))
-		script.call<void, std::size_t, int>(comp.input_handler, id, KEY_RIGHT);
-
-	if(first_person_ && first_person_id_ == id)
+	if(first_person_)
 	{
-		auto& comp = entities_.get_component<GraphicsComponent>(first_person_id_);
-		cam_.setOrientation(comp.node->getOrientation());
-		cam_.setPosition(comp.node->getPosition());
+		lpp::Script& script = lpp::Script::get_singleton();
+		auto& in_comp = entities_.get_component<InputComponent>(first_person_id_);
+		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_UP))
+			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_UP);
+		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_DOWN))
+			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_DOWN);
+		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_LEFT))
+			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_LEFT);
+		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_RIGHT))
+			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_RIGHT);
+
+		auto& graph_comp = entities_.get_component<GraphicsComponent>(first_person_id_);
+		cam_.setOrientation(graph_comp.node->getOrientation());
+		cam_.setPosition(graph_comp.node->getPosition());
 	}
 }
 
@@ -46,9 +46,12 @@ void InputSystem::set_first_person(bool on_off, std::size_t id)
 	first_person_ = on_off;
 	first_person_id_ = id;
 
-	if(!entities_.has_component<GraphicsComponent>(id))
+	if(first_person_ && !entities_.has_component<GraphicsComponent>(id))
+	{
+		first_person_ = false;
 		throw std::runtime_error{"[Error][InputSystem] Trying to use first person mode on an entity without GraphicsComponent: "
 								 + std::to_string(id)};
+	}
 
 	// Adds the InputComponent if possible.
 	if(!entities_.has_component<InputComponent>(id) && entities_.has_component<AIComponent>(id))

@@ -23,12 +23,11 @@ class AISystem : public System
 		~AISystem() {}
 
 		/**
-		 * Brief: Updates a given valid entity by calling the update function stored in the
+		 * Brief: Updates all valid entities by calling their update function stored in the
 		 *        AIComponent::blueprint table.
-		 * Param: ID of the entity.
 		 * Param: Time since the last frame.
 		 */
-		void update(std::size_t, Ogre::Real);
+		void update(Ogre::Real);
 
 		/**
 		 * Brief: Returns true if a given entity is valid and can be updated by this system, should be tested

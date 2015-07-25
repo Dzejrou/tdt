@@ -56,16 +56,8 @@ void Game::update(Ogre::Real delta)
 	if(camera_free_mode_)
 		main_cam_->moveRelative(camera_dir_);
 
-	health_system_->update_regen();
-	// TODO: Possibly revert the update system to improve caching? Check std::map memory repr.
-	for(auto& ent : entity_system_->get_component_list())
-	{
-		for(auto& system : systems_)
-		{
-			if(system->is_valid(ent.first))
-				system->update(ent.first, delta);
-		}
-	}
+	for(auto sys : systems_)
+		sys->update(delta);
 	entity_system_->cleanup();
 }
 
@@ -256,6 +248,8 @@ bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 
 void Game::windowResized(Ogre::RenderWindow * window)
 {
+	if(window != window_) // For the possibility of more windows.
+		return;
 	std::size_t width, height, depth;
 	int left, top;
 	window->getMetrics(width, height, depth, left, top);

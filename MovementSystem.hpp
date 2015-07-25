@@ -26,11 +26,10 @@ class MovementSystem : public System
 		~MovementSystem() {}
 
 		/**
-		 * Brief: Updates the movement of a single valid entity.
-		 * Param: ID of the entity.
+		 * Brief: Updates the movement system.
 		 * Param: Time since the last frame.
 		 */
-		void update(std::size_t, Ogre::Real);
+		void update(Ogre::Real);
 
 		/**
 		 * Brief: Returns true if a given entity is valid for this system's update, false otherwise.

@@ -4,18 +4,21 @@ MovementSystem::MovementSystem(EntitySystem& ents)
 	: entities_{ents}
 { /* DUMMY BODY */ }
 
-void MovementSystem::update(std::size_t id, Ogre::Real delta)
+void MovementSystem::update(Ogre::Real delta)
 {
-	if(is_moving(id))
+	for(auto& ent : entities_.get_component_list())
 	{
-		auto& phys_comp = entities_.get_component<PhysicsComponent>(id);
-		auto& mov_comp = entities_.get_component<MovementComponent>(id);
-		phys_comp.position += mov_comp.movement_vector * mov_comp.speed_modifier;
+		if(is_moving(ent.first))
+		{
+			auto& phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
+			auto& mov_comp = entities_.get_component<MovementComponent>(ent.first);
+			phys_comp.position += mov_comp.movement_vector * mov_comp.speed_modifier;
 
-		if(entities_.has_component<GraphicsComponent>(id))
-			entities_.get_component<GraphicsComponent>(id).node->setPosition(phys_comp.position);
+			if(entities_.has_component<GraphicsComponent>(ent.first))
+				entities_.get_component<GraphicsComponent>(ent.first).node->setPosition(phys_comp.position);
 
-		mov_comp.moving = false;
+			mov_comp.moving = false;
+		}
 	}
 }
 
