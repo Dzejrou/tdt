@@ -15,8 +15,6 @@ class GridSystem : public System
 		void update(Ogre::Real);
 		bool is_valid(std::size_t) const;
 	private:
-		void create_block_mesh();
-
 		EntitySystem& entities_;
 		Ogre::SceneManager& scene_mgr_;
 };

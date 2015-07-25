@@ -55,8 +55,11 @@ void Game::run()
 	test_line_.reset(new Line{Ogre::Vector3{0, 0, 0}, Ogre::Vector3{-200, 200, 200}, "line"});
 	scene_mgr_->getRootSceneNode()->createChildSceneNode()->attachObject(test_line_.get());
 	auto node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
-	node->attachObject(scene_mgr_->createEntity("block.mesh"));
+	auto entity = scene_mgr_->createEntity("cube.mesh");
+	entity->setMaterialName("colour/red");
+	node->attachObject(entity);
 	node->setScale(20, 20, 20);
+	node->setPosition(0, 20, 0);
 
 	root_->startRendering();
 }
