@@ -122,6 +122,10 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 {
 	std::size_t id = get_new_id();
 	entities_.emplace(std::make_pair(id, std::bitset<Component::count>{}));
+
+	if(table_name == "") // Allows to create empty entities that are setup manually.
+		return id;
+
 	auto& bits = entities_.find(id)->second;
 
 	lpp::Script& script = lpp::Script::get_singleton();

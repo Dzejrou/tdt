@@ -43,7 +43,7 @@ class EntitySystem
 		 * Brief: Creates a new entity from a blueprint.
 		 * Param: Name of the Lua table containing the entity blueprint.
 		 */
-		std::size_t create_entity(std::string);
+		std::size_t create_entity(std::string = "");
 
 		/**
 		 * Brief: Removes an entity from the system, thus killing/destroying it.

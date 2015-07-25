@@ -591,8 +591,12 @@ int Game::lua_destroy_selected(lpp::Script::state)
 
 int Game::lua_create_entity(lpp::Script::state L)
 {
-	std::string table_name = luaL_checkstring(L, 1);
-	lua_pop(L, 1);
+	std::string table_name{""};
+	if(lua_gettop(L) >= 1)
+	{
+		table_name = luaL_checkstring(L, 1);
+		lua_pop(L, 1);
+	}
 
 	std::size_t id = lua_this->entity_system_->create_entity(table_name);
 	lua_pushinteger(L, id); // Return the new id.
