@@ -1,5 +1,8 @@
 #include "Game.hpp"
 
+/**
+ * Static member initialization.
+ */
 Game* Game::lua_this{nullptr};
 
 Game::Game()
@@ -190,7 +193,7 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 
 	// Update CEGUI mouse position. TODO: Do this only if GUI is visible?
 	auto& gui_cont = CEGUI::System::getSingleton().getDefaultGUIContext();
-	gui_cont.injectMouseMove(event.state.X.rel, event.state.Y.rel);
+	gui_cont.injectMouseMove((float)event.state.X.rel, (float)event.state.Y.rel);
 	if(event.state.Z.rel != 0) // Mouse scroll.
 		gui_cont.injectMouseWheelChange(event.state.Z.rel / 120.f); // Note: 120.f is a magic number used by MS, might not be
 																	//       cross-platform.
