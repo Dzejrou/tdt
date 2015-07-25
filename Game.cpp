@@ -1068,7 +1068,7 @@ int Game::lua_toggle_first_person(lpp::Script::state L)
 	std::size_t id{0};
 	if(lua_gettop(L) >= 1) // Allow for easy exit.
 	{
-		std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+		id = (std::size_t)luaL_checkinteger(L, -1);
 		lua_pop(L, 1);
 	}
 
