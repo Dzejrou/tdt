@@ -31,6 +31,7 @@ Game::Game()
 	selection_box_.reset(new SelectionBox{"MainSelectionBox",
 						                  *entity_system_,
 						                  *scene_mgr_->createPlaneBoundedVolumeQuery(Ogre::PlaneBoundedVolumeList{}),
+						                  *scene_mgr_->createRayQuery(Ogre::Ray{}),
 						                  *scene_mgr_});
 
 	lua_this = this;

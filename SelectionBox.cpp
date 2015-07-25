@@ -1,20 +1,23 @@
 #include "SelectionBox.hpp"
 
 SelectionBox::SelectionBox(const Ogre::String& name, EntitySystem& ents,
-						   Ogre::PlaneBoundedVolumeListSceneQuery& query,
-						   Ogre::SceneManager& mgr)
-	: Ogre::ManualObject(name), entities_{ents}, volume_query_{query}, scene_mgr_{mgr}
+						   Ogre::PlaneBoundedVolumeListSceneQuery& vol_query,
+						   Ogre::RaySceneQuery& ray_query, Ogre::SceneManager& mgr)
+	: Ogre::ManualObject(name), entities_{ents}, volume_query_{vol_query},
+	  ray_query_{ray_query}, scene_mgr_{mgr}, start_{}
 {
 	setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY); // So that the box renders over everything else.
 	setUseIdentityProjection(true);
 	setUseIdentityView(true);
 	setQueryFlags(0); // So that it isn't part of any query.
 	scene_mgr_.getRootSceneNode()->createChildSceneNode()->attachObject(this);
+	ray_query_.setSortByDistance(true);
 }
 
 SelectionBox::~SelectionBox()
 {
 	scene_mgr_.destroyQuery(&volume_query_);
+	scene_mgr_.destroyQuery(&ray_query_);
 }
 
 void SelectionBox::set_corners(float left, float top, float right, float bott)
@@ -56,15 +59,13 @@ std::vector<std::size_t>& SelectionBox::get_selected_entities()
 
 void SelectionBox::select_object(Ogre::MovableObject& obj)
 {
-	auto node = obj.getParentSceneNode();
-	node->showBoundingBox(true);
-
 	// Since it was found by Ogre, it has GraphicsComponent.
 	for(auto& ent : entities_.get_component_container<GraphicsComponent>())
 	{
-		if(ent.second.node == node)
+		if(ent.second.entity == &obj)
 		{
 			selected_entities_.emplace_back(ent.first);
+			ent.second.node->showBoundingBox(true);
 			break;
 		}
 	}
@@ -80,11 +81,11 @@ void SelectionBox::clear_selected_entities()
 
 void SelectionBox::execute_selection(const Ogre::Vector2& end, Ogre::Camera& cam)
 {
-	auto end_norm = end;//.normalisedCopy();
 	float left = start_.x;
 	float top = start_.y;
-	float right = end_norm.x;
-	float bott = end_norm.y;
+	float right = end.x;
+	float bott = end.y;
+	clear_selected_entities(); // Previous selection.
 
 	// Adjust coordinates in case of selection in a different direction.
 	if(left > right)
@@ -93,14 +94,16 @@ void SelectionBox::execute_selection(const Ogre::Vector2& end, Ogre::Camera& cam
 		std::swap(top, bott);
 
 	if((right - left) * (bott - top) < 0.0001)
+	{
+		execute_single_selection(cam);
 		return;
+	}
 
 	Ogre::PlaneBoundedVolumeList volume_list{cam.getCameraToViewportBoxVolume(
 												left, top, right, bott
 											)};
 	volume_query_.setVolumes(volume_list);
 	Ogre::SceneQueryResult result{volume_query_.execute()};
-	clear_selected_entities(); // Previous selection.
 
 	for(const auto& movable : result.movables)
 	{
@@ -127,4 +130,21 @@ bool SelectionBox::is_selecting() const
 void SelectionBox::extend_to(const Ogre::Vector2& end)
 {
 	set_corners(start_, end);
+}
+
+void SelectionBox::execute_single_selection(Ogre::Camera& cam)
+{
+	auto mouse_ray = cam.getCameraToViewportRay(start_.x, start_.y);
+	ray_query_.setRay(mouse_ray);
+
+	auto& res = ray_query_.execute();
+
+	for(auto& obj : res)
+	{
+		if(obj.movable && obj.movable->getName() != cam.getName())
+		{ // Select closest movable object that isn't the camera itself.
+			select_object(*obj.movable);
+			break;
+		}
+	}
 }
