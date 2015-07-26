@@ -2,7 +2,7 @@
 
 #include <Ogre.h>
 #include <string>
-#include <vector>
+#include <array>
 #include <queue>
 #include <bitset>
 #include <memory>
@@ -221,7 +221,12 @@ struct GridNodeComponent
 		: neighbours{}, free{true}
 	{ /* DUMMY BODY */ }
 
-	std::vector<std::size_t> neighbours;
+	/**
+	 * Note: For more versatility of the game engine, using
+	 * a std::vector instead would allow for non grid-like
+	 * pathfinding graphs.
+	 */
+	std::array<std::size_t, 4> neighbours;
 	bool free;
 };
 
@@ -239,7 +244,11 @@ struct GridLineComponent
 
 	std::size_t start_id, end_id;
 	Ogre::Real distance;
-	std::unique_ptr<Line> line; // Although the pointer will be stored in the GraphicsComponent
-	                            // for Ogre, this will ensure the Line object will be properly
-	                            // deallocated.
+
+	/**
+	 * Although the pointer will be stored in the GraphicsComponent
+	 * for Ogre, this will ensure the Line object will be properly
+	 * deallocated.
+	 */
+	std::unique_ptr<Line> line; 
 };
