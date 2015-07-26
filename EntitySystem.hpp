@@ -355,7 +355,6 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 	auto& comp = res.first->second;
 	comp.node = scene_.getRootSceneNode()->createChildSceneNode();
 	comp.entity = scene_.createEntity(comp.mesh);
-	comp.entity->setMaterialName(comp.material);
 	comp.node->attachObject(comp.entity);
 	comp.entity->setQueryFlags(1);
 
