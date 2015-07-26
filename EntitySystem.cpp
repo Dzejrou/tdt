@@ -261,7 +261,7 @@ void EntitySystem::init_graphics_component(std::size_t id)
 	auto& comp = graphics_.find(id)->second;
 
 	// Grid nodes and lines are created through the GridSystem.
-	if(!has_component<GridNodeComponent>(id) && !has_component<GridLineComponent>(id))
+	if(!has_component<GridLineComponent>(id))
 	{
 		comp.entity = scene_.createEntity(comp.mesh);
 		comp.node = scene_.getRootSceneNode()->createChildSceneNode();
