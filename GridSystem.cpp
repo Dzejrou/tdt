@@ -1,7 +1,8 @@
 #include "GridSystem.hpp"
 
 GridSystem::GridSystem(EntitySystem& ents, Ogre::SceneManager& scene)
-	: entities_{ents}, scene_mgr_{scene}
+	: entities_{ents}, scene_mgr_{scene}, width_{0}, height_{0},
+	  board_{}
 { /* DUMMY BODY */ }
 
 void GridSystem::update(Ogre::Real)
@@ -26,6 +27,8 @@ std::size_t GridSystem::add_node(Ogre::Real x, Ogre::Real z)
 	graph_comp.mesh = "cube.mesh";
 	graph_comp.material = "colour/red";
 	entities_.init_graphics_component(id); // Creates entity and node.
+	graph_comp.entity->setQueryFlags(2);
+	((Ogre::Entity*)graph_comp.entity)->setMaterialName(graph_comp.material);
 	graph_comp.node->setScale(10, 20, 10);
 	graph_comp.node->setPosition(phys_comp.position);
 
@@ -53,5 +56,33 @@ std::size_t GridSystem::add_line(std::size_t id1, std::size_t id2)
 	graph_comp.visible = true;
 	graph_comp.node->setVisible(true);
 
+	return std::size_t();
+}
+
+void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real dist,
+							  Ogre::Real start_x, Ogre::Real start_y)
+{
+	width_ = width;
+	height_ = height;
+	board_.clear();
+	board_.resize(width_ * height_);
+
+	Ogre::Real x{};
+	Ogre::Real z{};
+	for(std::size_t i = 0; i < board_.size(); ++i)
+	{
+		x = (i % width_) * dist;
+		z = (i / height_) * dist;
+		board_[i] = (add_node(x, z));
+	}
+}
+
+std::size_t GridSystem::get_node(std::size_t w, std::size_t h) const
+{
+	return board_[w + h * width_];
+}
+
+std::size_t GridSystem::get_node(Ogre::Real, Ogre::Real) const
+{ // TODO: Return closest node?
 	return std::size_t();
 }
