@@ -2,7 +2,7 @@
 
 GridSystem::GridSystem(EntitySystem& ents, Ogre::SceneManager& scene)
 	: entities_{ents}, scene_mgr_{scene}, width_{0}, height_{0},
-	  board_{}
+	  start_{0, 0}, distance_{0}, board_{}
 { /* DUMMY BODY */ }
 
 void GridSystem::update(Ogre::Real)
@@ -64,16 +64,21 @@ void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real 
 {
 	width_ = width;
 	height_ = height;
+	start_.x = start_x;
+	start_.y = start_y;
+
 	board_.clear();
 	board_.resize(width_ * height_);
+	std::vector<GridNodeComponent*> comps(width_ * height_); // Keep pointers to components for fast access.
 
-	Ogre::Real x{};
-	Ogre::Real z{};
+	Ogre::Real x{start_.x};
+	Ogre::Real y{start_.y};
 	for(std::size_t i = 0; i < board_.size(); ++i)
 	{
 		x = (i % width_) * dist;
-		z = (i / height_) * dist;
-		board_[i] = (add_node(x, 0, z));
+		y = (i / height_) * dist;
+		board_[i] = add_node(x, 0, y);
+		comps[i] = &entities_.get_component<GridNodeComponent>(board_[i]);
 	}
 
 	// Link nodes.
@@ -81,13 +86,19 @@ void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real 
 	{
 		for(std::size_t j = 0; j < width_ - 1; ++j)
 		{
-			add_line(get_node_from_id(i, j), get_node_from_id(i, j + 1));
-			add_line(get_node_from_id(j, i), get_node_from_id(j + 1, i));
+			add_line(get_node(i, j), get_node(i, j + 1));
+			add_line(get_node(j, i), get_node(j + 1, i));
+
+			// Add neighbours.
+			comps[i]->neighbours[0] = i + 1; // Left.
+			comps[i + 1]->neighbours[1] = i; // Right.
+			comps[j]->neighbours[2] = j + 1; // Bottom.
+			comps[j + 1]->neighbours[3] = j; // Top.
 		}
 	}
 }
 
-std::size_t GridSystem::get_node_from_id(std::size_t w, std::size_t h) const
+std::size_t GridSystem::get_node(std::size_t w, std::size_t h) const
 {
 	return board_[w + h * width_];
 }
