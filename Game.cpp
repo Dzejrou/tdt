@@ -404,6 +404,7 @@ void Game::lua_init()
 		{"destroy_entity", Game::lua_destroy_entity},
 		{"add_component", Game::lua_add_component},
 		{"delete_component", Game::lua_delete_component},
+		{"init_graphics_component", Game::lua_init_graphics_component},
 
 		// Movement system.
 		{"move_to", Game::lua_move_to},
@@ -453,6 +454,10 @@ void Game::lua_init()
 		// Input system.
 		{"set_input_handler", Game::lua_set_input_handler},
 		{"toggle_first_person", Game::lua_toggle_first_person},
+
+		// Grid system.
+		{"add_node", Game::lua_add_node},
+		{"add_line", Game::lua_add_line},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -1100,5 +1105,28 @@ int Game::lua_toggle_first_person(lpp::Script::state L)
 
 	lua_this->input_system_->set_first_person(!lua_this->input_system_->is_first_person(), id);
 	return 0;
+}
+
+int Game::lua_add_node(lpp::Script::state L)
+{
+	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
+	// Y coord adjusted so it's on the ground.
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -2);
+	lua_pop(L, -2);
+
+	std::size_t res = lua_this->grid_system_->add_node(x, z);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int Game::lua_add_line(lpp::Script::state L)
+{
+	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, -2);
+
+	std::size_t res = lua_this->grid_system_->add_line(id1, id2);
+	lua_pushnumber(L, res);
+	return 1;
 }
 #pragma endregion

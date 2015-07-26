@@ -229,4 +229,8 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		// Input system.
 		static int lua_set_input_handler(lpp::Script::state);
 		static int lua_toggle_first_person(lpp::Script::state);
+
+		// Grid system.
+		static int lua_add_node(lpp::Script::state);
+		static int lua_add_line(lpp::Script::state);
 };
