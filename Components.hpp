@@ -5,6 +5,10 @@
 #include <vector>
 #include <queue>
 #include <bitset>
+#include <memory>
+
+// Forward declaration:
+class Line;
 
 // Temporary:
 enum class EntityState { NONE, NORMAL };
@@ -96,7 +100,7 @@ struct GraphicsComponent
 	std::string material;
 	bool visible;
 	Ogre::SceneNode* node;
-	Ogre::Entity* entity;
+	Ogre::MovableObject* entity;
 	// TODO: Animation + set_animation etc. in a system.
 };
 
@@ -231,9 +235,12 @@ struct GridLineComponent
 	static constexpr int type = 13;
 
 	GridLineComponent(std::size_t start = 0, std::size_t end = 0)
-		: start_id{start}, end_id{end}, distance{0}
+		: start_id{start}, end_id{end}, distance{0}, line{nullptr}
 	{ /* DUMMY BODY */ }
 
 	std::size_t start_id, end_id;
 	Ogre::Real distance;
+	std::unique_ptr<Line> line; // Although the pointer will be stored in the GraphicsComponent
+	                            // for Ogre, this will ensure the Line object will be properly
+	                            // deallocated.
 };
