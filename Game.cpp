@@ -11,12 +11,10 @@ Game::Game()
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
 	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, camera_free_mode_{false},
 	  camera_position_backup_{0, 0, 0}, camera_orientation_backup_{},
-	  selection_box_{},
-	test_line_{nullptr}
+	  selection_box_{}
 {
 	ogre_init();
 	ois_init();
-	level_init();
 	cegui_init();
 	console_.init();
 	windowResized(window_); // Will adjust dimensions for OIS mouse.
@@ -41,6 +39,7 @@ Game::Game()
 
 	lua_this = this;
 	lua_init();
+	level_init();
 }
 
 Game::~Game()
@@ -52,14 +51,6 @@ Game::~Game()
 void Game::run()
 {
 	scene_mgr_->setAmbientLight(Ogre::ColourValue(.5, .5, .5));
-	test_line_.reset(new Line{Ogre::Vector3{0, 0, 0}, Ogre::Vector3{-200, 200, 200}, "line"});
-	scene_mgr_->getRootSceneNode()->createChildSceneNode()->attachObject(test_line_.get());
-	auto node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
-	auto entity = scene_mgr_->createEntity("cube.mesh");
-	entity->setMaterialName("colour/red");
-	node->attachObject(entity);
-	node->setScale(20, 20, 20);
-	node->setPosition(0, 20, 0);
 
 	root_->startRendering();
 }
@@ -382,6 +373,8 @@ void Game::level_init()
 	scene_mgr_->getRootSceneNode()->createChildSceneNode()->attachObject(ground_entity);
 	ground_entity->setMaterialName("rocky_ground");
 	ground_entity->setQueryFlags(0);
+
+	grid_system_->create_graph(5, 5, 100.f, 0.f, 0.f);
 }
 
 void Game::lua_init()
