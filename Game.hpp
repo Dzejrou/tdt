@@ -162,8 +162,6 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 */
 		static Game* lua_this;
 
-		std::unique_ptr<Line> test_line_;
-
 		// Core functions.
 		static int lua_get_avg_fps(lpp::Script::state);
 		static int lua_get_fps(lpp::Script::state);
