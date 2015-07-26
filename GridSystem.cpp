@@ -75,14 +75,24 @@ void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real 
 		z = (i / height_) * dist;
 		board_[i] = (add_node(x, 0, z));
 	}
+
+	// Link nodes.
+	for(std::size_t i = 0; i < height_; ++i)
+	{
+		for(std::size_t j = 0; j < width_ - 1; ++j)
+		{
+			add_line(get_node_from_id(i, j), get_node_from_id(i, j + 1));
+			add_line(get_node_from_id(j, i), get_node_from_id(j + 1, i));
+		}
+	}
 }
 
-std::size_t GridSystem::get_node(std::size_t w, std::size_t h) const
+std::size_t GridSystem::get_node_from_id(std::size_t w, std::size_t h) const
 {
 	return board_[w + h * width_];
 }
 
-std::size_t GridSystem::get_node(Ogre::Real, Ogre::Real) const
+std::size_t GridSystem::get_node_from_position(Ogre::Real, Ogre::Real) const
 { // TODO: Return closest node?
 	return std::size_t();
 }
