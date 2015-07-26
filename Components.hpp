@@ -7,8 +7,7 @@
 #include <bitset>
 #include <memory>
 
-// Forward declaration:
-class Line;
+#include "Line.hpp"
 
 // Temporary:
 enum class EntityState { NONE, NORMAL };
