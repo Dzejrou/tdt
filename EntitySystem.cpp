@@ -27,41 +27,7 @@ void EntitySystem::cleanup()
 	for(auto& ent : components_to_be_removed_)
 	{
 		entities_.find(ent.first)->second.set(ent.second, false);
-		switch(ent.second)
-		{
-				case PhysicsComponent::type:
-					physics_.erase(ent.first);
-					break;
-				case HealthComponent::type:
-					health_.erase(ent.first);
-					break;
-				case AIComponent::type:
-					ai_.erase(ent.first);
-					break;
-				case GraphicsComponent::type:
-				{
-					auto& graph_comp = get_component<GraphicsComponent>(ent.first);
-					if(graph_comp.node && graph_comp.entity)
-					{
-						graph_comp.node->detachObject(graph_comp.entity);
-						if(graph_comp.node->numChildren() == 0)
-							scene_.destroySceneNode(graph_comp.node);
-						scene_.destroyEntity(graph_comp.entity);
-					}
-					graphics_.erase(ent.first);
-					break;
-				}
-				case MovementComponent::type:
-					movement_.erase(ent.first);
-					break;
-				case CombatComponent::type:
-					combat_.erase(ent.first);
-					break;
-				case EventComponent::type:
-					event_.erase(ent.first);
-					break;
-			
-			}
+		delete_component_now(ent.first, ent.second);
 		if(!entities_.find(ent.first)->second.any()) // No components remaining -> destroy it.
 			to_be_destroyed_.push_back(ent.first);
 	}
@@ -76,42 +42,7 @@ void EntitySystem::cleanup()
 		{
 			if(!entity->second.test(i))
 				continue;
-
-			switch(i)
-			{ // Remove the entity from all component containers it's in.
-				case PhysicsComponent::type:
-					physics_.erase(id);
-					break;
-				case HealthComponent::type:
-					health_.erase(id);
-					break;
-				case AIComponent::type:
-					ai_.erase(id);
-					break;
-				case GraphicsComponent::type:
-				{
-					auto& graph_comp = get_component<GraphicsComponent>(id);
-					if(graph_comp.node && graph_comp.entity)
-					{
-						graph_comp.node->detachObject(graph_comp.entity);
-						if(graph_comp.node->numChildren() == 0)
-							scene_.destroySceneNode(graph_comp.node);
-						scene_.destroyEntity(graph_comp.entity);
-					}
-					graphics_.erase(id);
-					break;
-				}
-				case MovementComponent::type:
-					movement_.erase(id);
-					break;
-				case CombatComponent::type:
-					combat_.erase(id);
-					break;
-				case EventComponent::type:
-					event_.erase(id);
-					break;
-			
-			}
+			delete_component_now(id, i);
 		}
 		entities_.erase(id);
 	}
@@ -263,7 +194,64 @@ void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 		case ProductionComponent::type:
 			delete_component<ProductionComponent>(ent_id);
 			break;
+		case GridNodeComponent::type:
+			delete_component<GridNodeComponent>(ent_id);
+			break;
+		case GridLineComponent::type:
+			delete_component<GridLineComponent>(ent_id);
+			break;
 	}
+}
+
+void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
+{
+	switch(comp_id)
+	{
+		case PhysicsComponent::type:
+			physics_.erase(ent_id);
+			break;
+		case HealthComponent::type:
+			health_.erase(ent_id);
+			break;
+		case AIComponent::type:
+			ai_.erase(ent_id);
+			break;
+		case GraphicsComponent::type:
+		{
+			auto& graph_comp = get_component<GraphicsComponent>(ent_id);
+			if(graph_comp.node && graph_comp.entity)
+			{
+				graph_comp.node->detachObject(graph_comp.entity);
+				if(graph_comp.node->numChildren() == 0)
+					scene_.destroySceneNode(graph_comp.node);
+				scene_.destroyEntity(graph_comp.entity);
+			}
+			graphics_.erase(ent_id);
+			break;
+		}
+		case MovementComponent::type:
+			movement_.erase(ent_id);
+			break;
+		case CombatComponent::type:
+			combat_.erase(ent_id);
+			break;
+		case EventComponent::type:
+			event_.erase(ent_id);
+			break;
+		case InputComponent::type:
+		case TimeComponent::type:
+		case ManaComponent::type:
+		case SpellComponent::type:
+		case ProductionComponent::type:
+			break; // TODO: Finnish remaining components.
+		case GridNodeComponent::type:
+			grid_node_.erase(ent_id);
+			break;
+		case GridLineComponent::type:
+			grid_line_.erase(ent_id);
+			break;
+	}
+
 }
 
 void EntitySystem::init_graphics_component(std::size_t id)

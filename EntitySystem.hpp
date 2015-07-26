@@ -156,11 +156,18 @@ class EntitySystem
 		}
 
 		/**
-		 * Brief: Allows to delete a component based on it's ID.
+		 * Brief: Allows to enqueue a component for deletion based on it's ID.
 		 * Param: ID of the entity.
 		 * Param: ID of the component.
 		 */
 		void delete_component(std::size_t, int);
+
+		/**
+		 * Brief: Deletes a component.
+		 * Param: ID of the entity.
+		 * Param: ID of the component.
+		 */
+		void delete_component_now(std::size_t, int);
 
 		/**
 		 * Brief: Initializes the graphics component of a manually created entity
