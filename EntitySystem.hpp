@@ -161,6 +161,14 @@ class EntitySystem
 		 * Param: ID of the component.
 		 */
 		void delete_component(std::size_t, int);
+
+		/**
+		 * Brief: Initializes the graphics component of a manually created entity
+		 *        by loading it's model into an Ogre::Entity and bounding it to a
+		 *        scene node.
+		 * Param: ID of the entity.
+		 */
+		void init_graphics_component(std::size_t);
 	private:
 		/**
 		 * Brief: Loads a component from a Lua script.
@@ -340,7 +348,7 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 	auto& comp = res.first->second;
 	comp.node = scene_.getRootSceneNode()->createChildSceneNode();
 	comp.entity = scene_.createEntity(comp.mesh);
-	//comp.entity->setMaterialName(comp.material);
+	comp.entity->setMaterialName(comp.material);
 	comp.node->attachObject(comp.entity);
 	comp.entity->setQueryFlags(1);
 

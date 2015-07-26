@@ -265,3 +265,13 @@ void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 			break;
 	}
 }
+
+void EntitySystem::init_graphics_component(std::size_t id)
+{
+	auto& comp = graphics_.find(id)->second;
+	comp.entity = scene_.createEntity(comp.mesh);
+	comp.entity->setMaterialName(comp.material);
+	comp.node = scene_.getRootSceneNode()->createChildSceneNode();
+	comp.node->attachObject(comp.entity);
+	comp.node->setVisible(comp.visible);
+}

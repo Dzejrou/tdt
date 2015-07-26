@@ -330,7 +330,7 @@ void Game::ogre_init()
 		root_->initialise(false);
 
 	// Window init.
-	window_ = root_->createRenderWindow("Dungeon Keeper", 800, 600, false);
+	window_ = root_->createRenderWindow("Dungeon Keeper", 1366, 768, false);
 	window_->setVisible(true);
 
 	// Scene init.
@@ -639,6 +639,15 @@ int Game::lua_delete_component(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	lua_this->entity_system_->delete_component(id, comp);
+	return 0;
+}
+
+int Game::lua_init_graphics_component(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->entity_system_->init_graphics_component(id);
 	return 0;
 }
 
