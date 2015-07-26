@@ -1103,11 +1103,11 @@ int Game::lua_toggle_first_person(lpp::Script::state L)
 int Game::lua_add_node(lpp::Script::state L)
 {
 	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
-	// Y coord adjusted so it's on the ground.
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -2);
-	lua_pop(L, -2);
+	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
+	lua_pop(L, 3);
 
-	std::size_t res = lua_this->grid_system_->add_node(x, z);
+	std::size_t res = lua_this->grid_system_->add_node(x, y, z);
 	lua_pushnumber(L, res);
 	return 1;
 }
@@ -1116,7 +1116,7 @@ int Game::lua_add_line(lpp::Script::state L)
 {
 	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
 	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
-	lua_pop(L, -2);
+	lua_pop(L, 2);
 
 	std::size_t res = lua_this->grid_system_->add_line(id1, id2);
 	lua_pushnumber(L, res);

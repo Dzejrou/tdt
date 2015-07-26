@@ -16,14 +16,14 @@ bool GridSystem::is_valid(std::size_t id) const
 		   entities_.has_component<GridLineComponent>(id);
 }
 
-std::size_t GridSystem::add_node(Ogre::Real x, Ogre::Real z)
+std::size_t GridSystem::add_node(Ogre::Real x, Ogre::Real y, Ogre::Real z)
 {
 	auto id = entities_.create_entity();
 	auto& node_comp = entities_.add_component<GridNodeComponent>(id);
 	auto& graph_comp = entities_.add_component<GraphicsComponent>(id);
 	auto& phys_comp = entities_.add_component<PhysicsComponent>(id);
 
-	phys_comp.position = Ogre::Vector3{x, 20, z};
+	phys_comp.position = Ogre::Vector3{x, y + 20, z};
 	graph_comp.mesh = "cube.mesh";
 	graph_comp.material = "colour/red";
 	entities_.init_graphics_component(id); // Creates entity and node.
@@ -73,7 +73,7 @@ void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real 
 	{
 		x = (i % width_) * dist;
 		z = (i / height_) * dist;
-		board_[i] = (add_node(x, z));
+		board_[i] = (add_node(x, 0, z));
 	}
 }
 
