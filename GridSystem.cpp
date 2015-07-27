@@ -180,3 +180,25 @@ bool GridSystem::is_visible() const
 	else
 		return graph_visible_;
 }
+
+std::array<std::size_t, 4> GridSystem::get_neighbours(std::size_t id) const
+{
+	if(entities_.has_component<GridNodeComponent>(id))
+		return entities_.get_component<GridNodeComponent>(id).neighbours;
+	else
+		return std::array<std::size_t, 4>();
+}
+
+bool GridSystem::is_free(std::size_t id) const
+{
+	if(entities_.has_component<GridNodeComponent>(id))
+		return entities_.get_component<GridNodeComponent>(id).free;
+	else
+		return false;
+}
+
+void GridSystem::set_free(std::size_t id, bool on_off)
+{
+	if(entities_.has_component<GridNodeComponent>(id))
+		entities_.get_component<GridNodeComponent>(id).free = on_off;
+}

@@ -3,6 +3,7 @@
 #include <Ogre.h>
 
 #include <vector>
+#include <array>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"
@@ -30,6 +31,10 @@ class GridSystem : public System
 		void delete_graphics();
 		void set_visible(bool);
 		bool is_visible() const;
+
+		std::array<std::size_t, 4> get_neighbours(std::size_t) const;
+		bool is_free(std::size_t) const;
+		void set_free(std::size_t, bool);
 	private:
 		EntitySystem& entities_;
 		Ogre::SceneManager& scene_mgr_;
