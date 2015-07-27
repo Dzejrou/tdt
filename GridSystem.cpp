@@ -23,13 +23,13 @@ std::size_t GridSystem::add_node(Ogre::Real x, Ogre::Real y, Ogre::Real z)
 	auto& graph_comp = entities_.add_component<GraphicsComponent>(id);
 	auto& phys_comp = entities_.add_component<PhysicsComponent>(id);
 
-	phys_comp.position = Ogre::Vector3{x, y + 20, z};
+	phys_comp.position = Ogre::Vector3{x, y + 10, z};
 	graph_comp.mesh = "cube.mesh";
 	graph_comp.material = "colour/red";
 	entities_.init_graphics_component(id); // Creates entity and node.
 	graph_comp.entity->setQueryFlags(2);
 	((Ogre::Entity*)graph_comp.entity)->setMaterialName(graph_comp.material);
-	graph_comp.node->setScale(10, 20, 10);
+	graph_comp.node->setScale(5, 10, 5);
 	graph_comp.node->setPosition(phys_comp.position);
 
 	return id;
