@@ -370,11 +370,13 @@ void Game::level_init()
 		);
 	Ogre::Entity* ground_entity = scene_mgr_->createEntity("ground");
 	ground_entity->setCastShadows(false);
-	scene_mgr_->getRootSceneNode()->createChildSceneNode()->attachObject(ground_entity);
+	auto ground_node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
+	ground_node->attachObject(ground_entity);
+	ground_node->setPosition(750.f, 0.f, 750.f);
 	ground_entity->setMaterialName("rocky_ground");
 	ground_entity->setQueryFlags(0);
 
-	grid_system_->create_graph(5, 5, 100.f, 0.f, 0.f);
+	grid_system_->create_graph(16, 16, 100.f, 0.f, 0.f);
 }
 
 void Game::lua_init()
@@ -451,6 +453,7 @@ void Game::lua_init()
 		// Grid system.
 		{"add_node", Game::lua_add_node},
 		{"add_line", Game::lua_add_line},
+		{"get_node", Game::lua_get_node},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -1120,6 +1123,16 @@ int Game::lua_add_line(lpp::Script::state L)
 
 	std::size_t res = lua_this->grid_system_->add_line(id1, id2);
 	lua_pushnumber(L, res);
+	return 1;
+}
+int Game::lua_get_node(lpp::Script::state L)
+{
+	std::size_t y = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t x = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	std::size_t res = lua_this->grid_system_->get_node(x, y);
+	lua_pushinteger(L, res);
 	return 1;
 }
 #pragma endregion
