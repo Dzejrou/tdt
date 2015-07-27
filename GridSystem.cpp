@@ -63,6 +63,8 @@ void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real 
 		y = (i / height_) * distance_;
 		board_[i] = add_node(x, 0, y);
 		comps[i] = &entities_.get_component<GridNodeComponent>(board_[i]);
+		comps[i]->x = i % width_;
+		comps[i]->y = i / height_;
 	}
 
 	// Link nodes.
@@ -201,4 +203,39 @@ void GridSystem::set_free(std::size_t id, bool on_off)
 {
 	if(entities_.has_component<GridNodeComponent>(id))
 		entities_.get_component<GridNodeComponent>(id).free = on_off;
+}
+
+std::size_t GridSystem::get_manhattan_distance(std::size_t id1, std::size_t id2) const
+{
+	std::size_t x1, y1;
+	std::tie(x1, y1) = get_board_coords_(id1);
+
+	std::size_t x2, y2;
+	std::tie(x2, y2) = get_board_coords_(id2);
+
+	return Ogre::Math::Abs(x1 - x2) + Ogre::Math::Abs(y1 - y2);
+}
+
+void GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t end)
+{
+	if(!entities_.has_component<PathfindingComponent>(id))
+		return;
+
+	std::queue<std::size_t> path{};
+
+	auto& path_comp = entities_.get_component<PathfindingComponent>(id);
+	path_comp.path_queue = std::move(path);
+	path_comp.last_id = start;
+	path_comp.target_id = end;
+}
+
+std::tuple<std::size_t, std::size_t> GridSystem::get_board_coords_(std::size_t id) const
+{
+	if(entities_.has_component<GridNodeComponent>(id))
+	{
+		auto& comp = entities_.get_component<GridNodeComponent>(id);
+		return std::make_tuple(comp.x, comp.y);
+	}
+	else // Should not happen as this will be accessed only from within the GridSystem.
+		return std::tuple<std::size_t, std::size_t>{};
 }
