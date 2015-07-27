@@ -9,6 +9,9 @@
 #include "Components.hpp"
 #include "Line.hpp"
 
+/**
+ *
+ */
 class GridSystem : public System
 {
 	public:

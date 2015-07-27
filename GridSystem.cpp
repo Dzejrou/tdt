@@ -31,6 +31,7 @@ std::size_t GridSystem::add_node(Ogre::Real x, Ogre::Real y, Ogre::Real z)
 	((Ogre::Entity*)graph_comp.entity)->setMaterialName(graph_comp.material);
 	graph_comp.node->setScale(5, 10, 5);
 	graph_comp.node->setPosition(phys_comp.position);
+	graph_comp.node->setVisible(false);
 
 	return id;
 }
@@ -54,7 +55,7 @@ std::size_t GridSystem::add_line(std::size_t id1, std::size_t id2)
 	graph_comp.material = "colour/blue";
 	graph_comp.mesh = "LINE";
 	graph_comp.visible = true;
-	graph_comp.node->setVisible(true);
+	graph_comp.node->setVisible(false);
 
 	return std::size_t();
 }
