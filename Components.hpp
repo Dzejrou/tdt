@@ -218,7 +218,7 @@ struct GridNodeComponent
 	static constexpr int type = 12;
 
 	GridNodeComponent()
-		: neighbours{}, free{true}
+		: neighbours{}, free{true}, x{0}, y{0}
 	{ /* DUMMY BODY */ }
 
 	/**
@@ -228,6 +228,7 @@ struct GridNodeComponent
 	 */
 	std::array<std::size_t, 4> neighbours;
 	bool free;
+	std::size_t x, y; // Position in the grid.
 };
 
 /**
