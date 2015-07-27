@@ -52,3 +52,4 @@ Debug/dk.tlog/cl.command.1.tlog
 *.obj
 Debug/vc140.idb
 *.pdb
+*.swp
