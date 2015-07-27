@@ -2,7 +2,8 @@
 
 GridSystem::GridSystem(EntitySystem& ents, Ogre::SceneManager& scene)
 	: entities_{ents}, scene_mgr_{scene}, width_{0}, height_{0},
-	  start_{0, 0}, distance_{0}, board_{}
+	  start_{0, 0}, distance_{0}, board_{},
+	  graphics_loaded_{false}, graph_visible_{false}
 { /* DUMMY BODY */ }
 
 void GridSystem::update(Ogre::Real)
@@ -19,19 +20,9 @@ bool GridSystem::is_valid(std::size_t id) const
 std::size_t GridSystem::add_node(Ogre::Real x, Ogre::Real y, Ogre::Real z)
 {
 	auto id = entities_.create_entity();
-	auto& node_comp = entities_.add_component<GridNodeComponent>(id);
-	auto& graph_comp = entities_.add_component<GraphicsComponent>(id);
+	entities_.add_component<GridNodeComponent>(id);
 	auto& phys_comp = entities_.add_component<PhysicsComponent>(id);
-
 	phys_comp.position = Ogre::Vector3{x, y + 10, z};
-	graph_comp.mesh = "cube.mesh";
-	graph_comp.material = "colour/red";
-	entities_.init_graphics_component(id); // Creates entity and node.
-	graph_comp.entity->setQueryFlags(2);
-	((Ogre::Entity*)graph_comp.entity)->setMaterialName(graph_comp.material);
-	graph_comp.node->setScale(5, 10, 5);
-	graph_comp.node->setPosition(phys_comp.position);
-	graph_comp.node->setVisible(false);
 
 	return id;
 }
@@ -40,7 +31,6 @@ std::size_t GridSystem::add_line(std::size_t id1, std::size_t id2)
 {
 	auto id = entities_.create_entity();
 	auto& line_comp = entities_.add_component<GridLineComponent>(id);
-	auto& graph_comp = entities_.add_component<GraphicsComponent>(id);
 
 	line_comp.start_id = id1;
 	line_comp.end_id = id2;
@@ -49,15 +39,7 @@ std::size_t GridSystem::add_line(std::size_t id1, std::size_t id2)
 	line_comp.distance = pos_start.distance(pos_end);
 	line_comp.line.reset(new Line{pos_start, pos_end});
 
-	graph_comp.entity = line_comp.line.get();
-	graph_comp.node = scene_mgr_.getRootSceneNode()->createChildSceneNode();
-	graph_comp.node->attachObject(graph_comp.entity);
-	graph_comp.material = "colour/blue";
-	graph_comp.mesh = "LINE";
-	graph_comp.visible = true;
-	graph_comp.node->setVisible(false);
-
-	return std::size_t();
+	return id;
 }
 
 void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real dist,
@@ -107,4 +89,80 @@ std::size_t GridSystem::get_node(std::size_t w, std::size_t h) const
 std::size_t GridSystem::get_node_from_position(Ogre::Real, Ogre::Real) const
 { // TODO: Return closest node?
 	return std::size_t();
+}
+
+void GridSystem::create_graphics()
+{
+	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
+	{
+		auto& phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
+		auto& graph_comp = entities_.add_component<GraphicsComponent>(ent.first);
+
+		graph_comp.mesh = "cube.mesh";
+		graph_comp.material = "colour/red";
+		entities_.init_graphics_component(ent.first);
+		graph_comp.entity->setQueryFlags(2);
+
+		((Ogre::Entity*)graph_comp.entity)->setMaterialName(graph_comp.material);
+		graph_comp.node->setScale(5, 10, 5);
+		graph_comp.node->setPosition(phys_comp.position);
+		graph_comp.node->setVisible(false);
+	
+	}
+
+	for(auto& ent : entities_.get_component_container<GridLineComponent>())
+	{
+		auto& line_comp = entities_.get_component<GridLineComponent>(ent.first);
+		auto& graph_comp = entities_.add_component<GraphicsComponent>(ent.first);
+
+		graph_comp.entity = line_comp.line.get();
+		graph_comp.node = scene_mgr_.getRootSceneNode()->createChildSceneNode();
+		graph_comp.node->attachObject(graph_comp.entity);
+		graph_comp.material = "colour/blue";
+		graph_comp.mesh = "LINE";
+		graph_comp.visible = true;
+		graph_comp.node->setVisible(false);
+	}
+
+	graphics_loaded_ = true;
+}
+
+void GridSystem::delete_graphics()
+{
+	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
+		entities_.delete_component<GraphicsComponent>(ent.first);
+	for(auto& ent : entities_.get_component_container<GridLineComponent>())
+		entities_.delete_component<GraphicsComponent>(ent.first);
+	graphics_loaded_ = false;
+	graph_visible_ = false;
+}
+
+void GridSystem::set_visible(bool on_off)
+{
+	if(!graphics_loaded_ || on_off == graph_visible_)
+		return;
+	
+	graph_visible_ = on_off;
+
+	// Nodes.
+	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
+	{
+		auto& graph_comp = entities_.get_component<GraphicsComponent>(ent.first);
+		graph_comp.node->setVisible(on_off);
+	}
+
+	// Links.
+	for(auto& ent : entities_.get_component_container<GridLineComponent>())
+	{
+		auto& graph_comp = entities_.get_component<GraphicsComponent>(ent.first);
+		graph_comp.node->setVisible(on_off);
+	}
+}
+
+bool GridSystem::is_visible() const
+{
+	if(!graphics_loaded_)
+		return false;
+	else
+		return graph_visible_;
 }

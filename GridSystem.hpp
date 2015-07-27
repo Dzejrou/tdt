@@ -26,6 +26,10 @@ class GridSystem : public System
 		void create_graph(std::size_t, std::size_t, Ogre::Real, Ogre::Real, Ogre::Real);
 		std::size_t get_node(std::size_t, std::size_t) const;
 		std::size_t get_node_from_position(Ogre::Real, Ogre::Real) const;
+		void create_graphics();
+		void delete_graphics();
+		void set_visible(bool);
+		bool is_visible() const;
 	private:
 		EntitySystem& entities_;
 		Ogre::SceneManager& scene_mgr_;
@@ -34,4 +38,6 @@ class GridSystem : public System
 		Ogre::Vector2 start_;
 		Ogre::Real distance_;
 		std::vector<std::size_t> board_;
+
+		bool graphics_loaded_, graph_visible_;
 };

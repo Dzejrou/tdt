@@ -455,6 +455,9 @@ void Game::lua_init()
 		{"add_node", Game::lua_add_node},
 		{"add_line", Game::lua_add_line},
 		{"get_node", Game::lua_get_node},
+		{"create_grid_graphics", Game::lua_create_grid_graphics},
+		{"delete_grid_graphics", Game::lua_delete_grid_graphics},
+		{"grid_toggle_visible", Game::lua_grid_toggle_visible},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -1143,6 +1146,7 @@ int Game::lua_add_line(lpp::Script::state L)
 	lua_pushnumber(L, res);
 	return 1;
 }
+
 int Game::lua_get_node(lpp::Script::state L)
 {
 	std::size_t y = (std::size_t)luaL_checkinteger(L, -1);
@@ -1152,5 +1156,23 @@ int Game::lua_get_node(lpp::Script::state L)
 	std::size_t res = lua_this->grid_system_->get_node(x, y);
 	lua_pushinteger(L, res);
 	return 1;
+}
+
+int Game::lua_create_grid_graphics(lpp::Script::state L)
+{
+	lua_this->grid_system_->create_graphics();
+	return 0;
+}
+
+int Game::lua_delete_grid_graphics(lpp::Script::state L)
+{
+	lua_this->grid_system_->delete_graphics();
+	return 0;
+}
+
+int Game::lua_grid_toggle_visible(lpp::Script::state)
+{
+	lua_this->grid_system_->set_visible(!lua_this->grid_system_->is_visible());
+	return 0;
 }
 #pragma endregion
