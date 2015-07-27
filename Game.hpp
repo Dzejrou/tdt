@@ -169,8 +169,9 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_set_game_state(lpp::Script::state);
 		static int lua_toggle_bounding_boxes(lpp::Script::state);
 		static int lua_toggle_camera_free_mode(lpp::Script::state);
-		static int lua_list_selection(lpp::Script::state);
+		static int lua_list_selected(lpp::Script::state);
 		static int lua_destroy_selected(lpp::Script::state);
+		static int lua_list_components(lpp::Script::state);
 
 		// Entity manipulation.
 		static int lua_create_entity(lpp::Script::state);

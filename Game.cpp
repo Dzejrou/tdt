@@ -391,8 +391,9 @@ void Game::lua_init()
 		{"set_game_state", Game::lua_set_game_state},
 		{"toggle_bounding_boxes", Game::lua_toggle_bounding_boxes},
 		{"toggle_camera_free_mode", Game::lua_toggle_camera_free_mode},
-		{"list_selection", Game::lua_list_selection},
+		{"list_selected", Game::lua_list_selected},
 		{"destroy_selected", Game::lua_destroy_selected},
+		{"list_components", Game::lua_list_components},
 
 		// Entity manipulation.
 		{"create_entity", Game::lua_create_entity},
@@ -577,7 +578,7 @@ int Game::lua_toggle_camera_free_mode(lpp::Script::state)
 	return 0;
 }
 
-int Game::lua_list_selection(lpp::Script::state)
+int Game::lua_list_selected(lpp::Script::state)
 {
 	auto& to_be_destroyed = lua_this->selection_box_->get_selected_entities();
 	for(auto& ent : to_be_destroyed)
@@ -597,6 +598,23 @@ int Game::lua_destroy_selected(lpp::Script::state)
 	}
 	lua_this->selection_box_->clear_selected_entities();
 
+	return 0;
+}
+
+int Game::lua_list_components(lpp::Script::state L)
+{
+	std::string report{};
+	for(auto& ent : lua_this->entity_system_->get_component_list())
+	{
+		report.append(std::to_string(ent.first) + ": ");
+		for(std::size_t i = 0; i < ent.second.size(); ++i)
+		{
+			if(ent.second.test(i))
+				report.append(std::to_string(i) + ", ");
+		}
+		lua_this->console_.print_text(report, Console::ORANGE_TEXT);
+		report = "";
+	}
 	return 0;
 }
 
