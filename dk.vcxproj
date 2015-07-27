@@ -121,7 +121,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Users\Dzejrou\Documents\Visual Studio 2015\Projects\dk\lib\OgreSDK\include\OGRE;C:\Users\Dzejrou\Documents\Visual Studio 2015\Projects\dk\lib\cegui\include;C:\Users\Dzejrou\Documents\Visual Studio 2015\Projects\dk\lib\OgreSDK\include\OIS;C:\Users\Dzejrou\Documents\Visual Studio 2015\Projects\dk\lib\lua\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
