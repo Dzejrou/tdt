@@ -88,6 +88,23 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 			case EventComponent::type:
 				load_component<EventComponent>(id, table_name);
 				break;
+			case InputComponent::type:
+				load_component<InputComponent>(id, table_name);
+				break;
+			case TimeComponent::type:
+			case ManaComponent::type:
+			case SpellComponent::type:
+			case ProductionComponent::type:
+				// TODO:
+				break;
+			case GridNodeComponent::type:
+			case GridLineComponent::type:
+				// Cannot be loaded automatically, will be handled by GridSystem.
+				// TODO: More research on this.
+				break;
+			case PathfindingComponent::type:
+				load_component<PathfindingComponent>(id, table_name);
+				break;
 		}
 	}
 
@@ -96,10 +113,10 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 
 void EntitySystem::destroy_entity(std::size_t id)
 {
-	auto ai_comp = entities_.find(id);
-	if(ai_comp != entities_.end())
+	auto ai_comp = ai_.find(id);
+	if(ai_comp != ai_.end())
 	{
-		std::string blueprint = get_component<AIComponent>(id).blueprint;
+		std::string blueprint = ai_comp->second.blueprint;
 		lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".finnish", id); // Calls the "destructor".
 	}
 
@@ -151,6 +168,15 @@ void EntitySystem::add_component(std::size_t ent_id, int comp_id)
 		case ProductionComponent::type:
 			add_component<ProductionComponent>(ent_id);
 			break;
+		case GridNodeComponent::type:
+			add_component<GridNodeComponent>(ent_id);
+			break;
+		case GridLineComponent::type:
+			add_component<GridLineComponent>(ent_id);
+			break;
+		case PathfindingComponent::type:
+			add_component<PathfindingComponent>(ent_id);
+			break;
 	}
 }
 
@@ -199,6 +225,9 @@ void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 			break;
 		case GridLineComponent::type:
 			delete_component<GridLineComponent>(ent_id);
+			break;
+		case PathfindingComponent::type:
+			delete_component<PathfindingComponent>(ent_id);
 			break;
 	}
 }
@@ -251,6 +280,9 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 			break;
 		case GridLineComponent::type:
 			grid_line_.erase(ent_id);
+			break;
+		case PathfindingComponent::type:
+			pathfinding_.erase(ent_id);
 			break;
 	}
 

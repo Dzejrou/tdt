@@ -213,6 +213,7 @@ class EntitySystem
 		std::map<std::size_t, ProductionComponent> production_;
 		std::map<std::size_t, GridNodeComponent> grid_node_;
 		std::map<std::size_t, GridLineComponent> grid_line_;
+		std::map<std::size_t, PathfindingComponent> pathfinding_;
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -307,6 +308,12 @@ inline std::map<std::size_t, GridLineComponent>& EntitySystem::get_component_con
 	return grid_line_;
 }
 
+template<>
+inline std::map<std::size_t, PathfindingComponent>& EntitySystem::get_component_container<PathfindingComponent>()
+{
+	return pathfinding_;
+}
+
 /**
  * Specializations of the EntitySystem::load_component method.
  * Note: Following components can only be created manually and thus don't have load_component specialization.
@@ -397,4 +404,11 @@ inline void EntitySystem::load_component<InputComponent>(std::size_t id, const s
 {
 	std::string handler = lpp::Script::get_singleton().get<std::string>(table_name + "InputComponent.input_handler");
 	input_.emplace(std::make_pair(id, InputComponent{handler}));
+}
+
+template<>
+inline void EntitySystem::load_component<PathfindingComponent>(std::size_t id, const std::string& table_name)
+{
+	std::string blueprint = lpp::Script::get_singleton().get<std::string>(table_name + "PathfindingComponent.blueprint");
+	pathfinding_.emplace(std::make_pair(id, PathfindingComponent{blueprint}));
 }

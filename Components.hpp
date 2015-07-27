@@ -19,7 +19,7 @@ class Event {};
 
 struct Component
 {
-	static constexpr int count = 14;
+	static constexpr int count = 15;
 };
 
 /**
@@ -251,4 +251,20 @@ struct GridLineComponent
 	 * deallocated.
 	 */
 	std::unique_ptr<Line> line; 
+};
+
+/**
+ *
+ */
+struct PathfindingComponent
+{
+	static constexpr int type = 14;
+
+	PathfindingComponent(const std::string& cost = "ERROR")
+		: target_id{0}, last_id{0}, path_queue{}, blueprint{cost}
+	{ /* DUMMY BODY */ }
+	
+	std::size_t target_id, last_id;
+	std::queue<std::size_t> path_queue;
+	std::string blueprint; // Name of the table the get_cost(id1, id2) function is in.
 };
