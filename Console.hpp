@@ -59,6 +59,13 @@ class Console
 		 * Param: Colour of the message text, defaults to white.
 		 */
 		void print_text(const std::string&, CEGUI::Colour = CEGUI::Colour{0xFFFFFFFF});
+
+		/**
+		 * Brief: Scrolls the console output down one line, used so that messages from the outside can scroll
+		 *        all the way down to the last line of the output.
+		 * Param: Amount of lines to scroll.
+		 */
+		void scroll_down(std::size_t = 1);
 	private:
 		/**
 		 * Pointer to the CEGUI widget representing this console.

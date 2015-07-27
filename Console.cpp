@@ -43,8 +43,6 @@ void Console::handle_text(const CEGUI::EventArgs &)
 	curr_command_ += '\n' + command;
 	print_text(command);
 	window_->getChild("INPUT")->setText("");
-
-	list_box_->getVertScrollbar()->scrollForwardsByStep(); // Sync the list box.
 }
 
 void Console::execute(const CEGUI::EventArgs &)
@@ -71,7 +69,6 @@ void Console::execute(const CEGUI::EventArgs &)
 	else
 		print_text("<FAILURE> " + err_msg, RED_TEXT);
 
-	list_box_->getVertScrollbar()->scrollForwardsByStep(); // Sync the list box.
 	curr_command_ = "";
 }
 
@@ -80,4 +77,11 @@ void Console::print_text(const std::string& msg, CEGUI::Colour col)
 	CEGUI::ListboxTextItem* text = new CEGUI::ListboxTextItem(msg + "\n");
 	text->setTextColours(col);
 	list_box_->addItem(text);
+	scroll_down();
+}
+
+void Console::scroll_down(std::size_t num_of_scrolls)
+{
+	for(std::size_t i = 0; i < num_of_scrolls; ++i)
+		list_box_->getVertScrollbar()->scrollForwardsByStep();
 }
