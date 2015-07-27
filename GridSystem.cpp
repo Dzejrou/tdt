@@ -47,6 +47,7 @@ void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real 
 {
 	width_ = width;
 	height_ = height;
+	distance_ = dist;
 	start_.x = start_x;
 	start_.y = start_y;
 
@@ -58,8 +59,8 @@ void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real 
 	Ogre::Real y{start_.y};
 	for(std::size_t i = 0; i < board_.size(); ++i)
 	{
-		x = (i % width_) * dist;
-		y = (i / height_) * dist;
+		x = (i % width_) * distance_;
+		y = (i / height_) * distance_;
 		board_[i] = add_node(x, 0, y);
 		comps[i] = &entities_.get_component<GridNodeComponent>(board_[i]);
 	}
@@ -86,9 +87,22 @@ std::size_t GridSystem::get_node(std::size_t w, std::size_t h) const
 	return board_[w + h * width_];
 }
 
-std::size_t GridSystem::get_node_from_position(Ogre::Real, Ogre::Real) const
-{ // TODO: Return closest node?
-	return std::size_t();
+std::size_t GridSystem::get_node_from_position(Ogre::Real x, Ogre::Real y) const
+{
+	x = (x - start_.x) / distance_;
+	y = (y - start_.y) / distance_;
+	std::size_t res_x = (std::size_t)x;
+	std::size_t res_y = (std::size_t)y;
+	Ogre::Real off_x = x - res_x;
+	Ogre::Real off_y = y - res_y;
+
+	// Finds the closest.
+	if(off_x > distance_ / 200)
+		++res_x;
+	if(off_y > distance_ / 200)
+		++res_y;
+
+	return get_node(res_x, res_y);
 }
 
 void GridSystem::create_graphics()

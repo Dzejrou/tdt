@@ -455,6 +455,7 @@ void Game::lua_init()
 		{"add_node", Game::lua_add_node},
 		{"add_line", Game::lua_add_line},
 		{"get_node", Game::lua_get_node},
+		{"get_node_from_position", Game::lua_get_node_from_position},
 		{"create_grid_graphics", Game::lua_create_grid_graphics},
 		{"delete_grid_graphics", Game::lua_delete_grid_graphics},
 		{"grid_toggle_visible", Game::lua_grid_toggle_visible},
@@ -1154,6 +1155,17 @@ int Game::lua_get_node(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	std::size_t res = lua_this->grid_system_->get_node(x, y);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int Game::lua_get_node_from_position(lpp::Script::state L)
+{
+	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -2);
+	lua_pop(L, 2);
+
+	std::size_t res = lua_this->grid_system_->get_node_from_position(x, z);
 	lua_pushinteger(L, res);
 	return 1;
 }
