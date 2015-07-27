@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <array>
+#include <tuple>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"
@@ -35,7 +36,13 @@ class GridSystem : public System
 		std::array<std::size_t, 4> get_neighbours(std::size_t) const;
 		bool is_free(std::size_t) const;
 		void set_free(std::size_t, bool);
+
+		std::size_t get_manhattan_distance(std::size_t, std::size_t) const;
+
+		void perform_a_star(std::size_t, std::size_t, std::size_t);
 	private:
+		std::tuple<std::size_t, std::size_t> get_board_coords_(std::size_t) const;
+
 		EntitySystem& entities_;
 		Ogre::SceneManager& scene_mgr_;
 
