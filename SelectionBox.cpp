@@ -79,13 +79,15 @@ void SelectionBox::clear_selected_entities()
 	selected_entities_.clear();
 }
 
-void SelectionBox::execute_selection(const Ogre::Vector2& end, Ogre::Camera& cam)
+void SelectionBox::execute_selection(const Ogre::Vector2& end, Ogre::Camera& cam, bool append)
 {
 	float left = start_.x;
 	float top = start_.y;
 	float right = end.x;
 	float bott = end.y;
-	clear_selected_entities(); // Previous selection.
+	
+	if(!append)
+		clear_selected_entities(); // Previous selection.
 
 	// Adjust coordinates in case of selection in a different direction.
 	if(left > right)

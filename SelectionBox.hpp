@@ -72,11 +72,12 @@ class SelectionBox : public Ogre::ManualObject
 		 * Brief: Performs the selection, to be called when the mouse is released.
 		 * Param: Coordinate of the end point of the box (mouse position).
 		 * Param: Reference to the camera the query should be performed from.
+		 * Param: True if the the new selection should be appended to the current selection.
 		 * Note: The starting point has to be saved prior to this call (i.e. when the
 		 *       mouse button gets pressed) in order for the selection to work
 		 *       properly.
 		 */
-		void execute_selection(const Ogre::Vector2&, Ogre::Camera&);
+		void execute_selection(const Ogre::Vector2&, Ogre::Camera&, bool = false);
 
 		/**
 		 * Brief: Sets the starting point of the current selection, should be
@@ -107,6 +108,7 @@ class SelectionBox : public Ogre::ManualObject
 		 * Brief: Used within the SelectionBox::execute_selection method when the selection
 		 *        box is two small (i.e. a single click) and performs a ray query selecting
 		 *        a single closest entity under the player's cursor.
+		 * Param: Reference to the game's main camera.
 		 */
 		void execute_single_selection(Ogre::Camera&);
 
