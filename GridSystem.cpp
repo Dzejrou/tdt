@@ -276,6 +276,9 @@ void GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t e
 		{
 			current = it->second;
 			path.push_front(current);
+
+			if(graphics_loaded_) // Highlight the path for testing.
+				((Ogre::Entity*)entities_.get_component<GraphicsComponent>(current).entity)->setMaterialName("colour/green");
 		}
 
 		auto& path_comp = entities_.get_component<PathfindingComponent>(id);
