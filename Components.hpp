@@ -3,9 +3,10 @@
 #include <Ogre.h>
 #include <string>
 #include <array>
-#include <queue>
+#include <deque>
 #include <bitset>
 #include <memory>
+#include <numeric>
 
 #include "Line.hpp"
 
@@ -14,6 +15,7 @@ enum class EntityState { NONE, NORMAL };
 enum class Faction { FRIENDLY, ENEMY, NEUTRAL };
 enum class EventType {};
 enum class AttackType { NONE, MELEE };
+enum class EntityType { NONE, BASIC_WALL };
 class Attack {};
 class Event {};
 
@@ -212,14 +214,20 @@ struct ProductionComponent
 
 /**
  * Holds GridNode's neighbour nodes.
+ * Note: The neighbours are set to the maximum value of std::size_t to
+ *       fix a state when one or more neighbours weren't set (won't have that many
+ *       nodes so the A* algorithm will ignore them).
  */
 struct GridNodeComponent
 {
 	static constexpr int type = 12;
 
 	GridNodeComponent()
-		: neighbours{}, free{true}, x{0}, y{0}
-	{ /* DUMMY BODY */ }
+		: neighbours{}, free{true}, x{0}, y{0}, resident{EntityType::NONE}
+	{
+		for(std::size_t i = 0; i < neighbours.size(); ++i)
+			neighbours[i] = std::numeric_limits<std::size_t>::max();
+	}
 
 	/**
 	 * Note: For more versatility of the game engine, using
@@ -229,6 +237,7 @@ struct GridNodeComponent
 	std::array<std::size_t, 4> neighbours;
 	bool free;
 	std::size_t x, y; // Position in the grid.
+	EntityType resident;
 };
 
 /**
@@ -266,6 +275,6 @@ struct PathfindingComponent
 	{ /* DUMMY BODY */ }
 	
 	std::size_t target_id, last_id;
-	std::queue<std::size_t> path_queue;
+	std::deque<std::size_t> path_queue;
 	std::string blueprint; // Name of the table the get_cost(id1, id2) function is in.
 };
