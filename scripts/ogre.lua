@@ -8,7 +8,8 @@ ogre = {
 		game.enum.component.graphics,
 		game.enum.component.movement,
 		game.enum.component.combat,
-		game.enum.component.event
+		game.enum.component.event,
+		game.enum.component.pathfinding
 	},
 
 	PhysicsComponent = {
@@ -48,6 +49,10 @@ ogre = {
 		curr_event_progress = 0,
 		curr_event_length = 0,
 		curr_event_type = 0
+	},
+
+	PathfindingComponent = {
+		blueprint = "ogre"
 	},
 
 	InputComponent = {
@@ -121,6 +126,7 @@ end
 
 ogre.PhysicsComponent.solid = false
 
+--[[
 id1 = game.create_entity("ogre")
 game.move_to(id1, 100, 100, 100)
 
@@ -156,3 +162,5 @@ game.move_to(id9, -100, 30, 100)
 ogre.MovementComponent.speed_modifier = 0.1
 id10 = game.create_entity("ogre")
 game.move_to(id10, -100, 30, -300)
+
+--]]
