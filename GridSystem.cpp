@@ -107,7 +107,7 @@ void GridSystem::create_graphics()
 		auto& graph_comp = entities_.add_component<GraphicsComponent>(ent.first);
 
 		graph_comp.mesh = "cube.mesh";
-		graph_comp.material = "colour/red";
+		graph_comp.material = "colour/blue";
 		entities_.init_graphics_component(ent.first);
 		graph_comp.entity->setQueryFlags(2);
 
@@ -194,7 +194,19 @@ bool GridSystem::is_free(std::size_t id) const
 void GridSystem::set_free(std::size_t id, bool on_off)
 {
 	if(entities_.has_component<GridNodeComponent>(id))
-		entities_.get_component<GridNodeComponent>(id).free = on_off;
+	{
+			entities_.get_component<GridNodeComponent>(id).free = on_off;
+			if(graphics_loaded_)
+				((Ogre::Entity*)entities_.get_component<GraphicsComponent>(id).entity)->setMaterialName(
+						on_off ? "colour/blue" : "colour/red"
+					);
+	}
+}
+
+void GridSystem::set_free_selected(SelectionBox& box, bool on_off)
+{
+	for(auto& ent : box.get_selected_entities())
+		set_free(ent, on_off);
 }
 
 std::size_t GridSystem::get_manhattan_distance(std::size_t id1, std::size_t id2) const
