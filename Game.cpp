@@ -377,6 +377,7 @@ void Game::level_init()
 	ground_entity->setQueryFlags(0);
 
 	grid_system_->create_graph(16, 16, 100.f, 0.f, 0.f);
+	grid_system_->pathfinding_test(console_);
 }
 
 void Game::lua_init()
