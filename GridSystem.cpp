@@ -3,7 +3,8 @@
 GridSystem::GridSystem(EntitySystem& ents, Ogre::SceneManager& scene)
 	: entities_{ents}, scene_mgr_{scene}, width_{0}, height_{0},
 	  start_{0, 0}, distance_{0}, board_{},
-	  graphics_loaded_{false}, graph_visible_{false}
+	  graphics_loaded_{false}, graph_visible_{false},
+	  error_blueprint{"ERROR"}
 { /* DUMMY BODY */ }
 
 void GridSystem::update(Ogre::Real)
@@ -53,7 +54,7 @@ void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real 
 
 	board_.clear();
 	board_.resize(width_ * height_);
-	std::vector<GridNodeComponent*> comps(width_ * height_); // Keep pointers to components for fast access.
+	std::vector<GridNodeComponent*> comps(width_ * height_); // Keep postd::size_ters to components for fast access.
 
 	Ogre::Real x{start_.x};
 	Ogre::Real y{start_.y};
@@ -68,25 +69,16 @@ void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real 
 	}
 
 	// Link nodes.
-	for(std::size_t i = 0; i < height_; ++i)
-	{
-		for(std::size_t j = 0; j < width_ - 1; ++j)
-		{
-			add_line(get_node(i, j), get_node(i, j + 1));
-			add_line(get_node(j, i), get_node(j + 1, i));
-
-			// Add neighbours.
-			comps[i]->neighbours[0] = i + 1; // Left.
-			comps[i + 1]->neighbours[1] = i; // Right.
-			comps[j]->neighbours[2] = j + 1; // Bottom.
-			comps[j + 1]->neighbours[3] = j; // Top.
-		}
-	}
+	for(std::size_t i = 0; i < board_.size(); ++i)
+		link_(i, comps);
 }
 
 std::size_t GridSystem::get_node(std::size_t w, std::size_t h) const
 {
-	return board_[w + h * width_];
+	if(in_board_(w + h * width_))
+		return board_[w + h * width_];
+	else
+		return std::numeric_limits<std::size_t>::max();
 }
 
 std::size_t GridSystem::get_node_from_position(Ogre::Real x, Ogre::Real y) const
@@ -208,12 +200,12 @@ void GridSystem::set_free(std::size_t id, bool on_off)
 std::size_t GridSystem::get_manhattan_distance(std::size_t id1, std::size_t id2) const
 {
 	std::size_t x1, y1;
-	std::tie(x1, y1) = get_board_coords_(id1);
+	std::tie(x1, y1) = get_board_coords(id1);
 
 	std::size_t x2, y2;
-	std::tie(x2, y2) = get_board_coords_(id2);
+	std::tie(x2, y2) = get_board_coords(id2);
 
-	return Ogre::Math::Abs(Ogre::Real{x1 - x2}) + Ogre::Math::Abs(Ogre::Real{y1 - y2});
+	return abs_(int(x1 - x2)) + abs_(int(y1 - y2));
 }
 
 void GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t end)
@@ -221,12 +213,76 @@ void GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t e
 	if(!entities_.has_component<PathfindingComponent>(id))
 		return;
 
-	std::queue<std::size_t> path{};
+	std::map<std::size_t, std::size_t> path_edges{};
+	std::set<std::size_t> closed{};
+	std::set<std::size_t> open{start};
+	std::map<std::size_t, std::size_t> score;
+	std::map<std::size_t, std::size_t> estimate;
 
-	auto& path_comp = entities_.get_component<PathfindingComponent>(id);
-	path_comp.path_queue = std::move(path);
-	path_comp.last_id = start;
-	path_comp.target_id = end;
+	for(auto& node : entities_.get_component_container<GridNodeComponent>())
+	{ // Starting score and estimate is "infinity".
+		score.emplace(node.first, std::numeric_limits<std::size_t>::max());
+		estimate.emplace(node.first, std::numeric_limits<std::size_t>::max());
+	}
+	score[start] = 0;
+	estimate[start] = get_manhattan_distance(start, end);
+
+	std::size_t current{};
+	bool success{false};
+
+	while(!open.empty())
+	{
+		// Find the best candidate in the open set.
+		current = *std::min_element(open.begin(), open.end(),
+				     	            [&estimate](const std::size_t& lhs, const std::size_t& rhs) -> bool
+		                            { return estimate[lhs] < estimate[rhs]; });
+		if(current == end)
+		{ // Reached goal.
+			success = true;
+			break;
+		}
+		open.erase(current);
+		closed.insert(current);
+	
+		for(const auto& neighbour : get_neighbours(current))
+		{
+			if(neighbour >= board_.size() || closed.find(neighbour) != closed.end())
+				continue;
+			auto new_score = score[current] + 1;
+
+			// Either unvisited or we found a better path to it.
+			bool not_in_open = open.find(neighbour) == open.end();
+			if(not_in_open || new_score < score[neighbour])
+			{
+				path_edges[neighbour] = current;
+				score[neighbour] = new_score;
+				estimate[neighbour] = new_score + get_manhattan_distance(neighbour, end);
+			
+				if(not_in_open)
+					open.insert(neighbour);
+			}
+		
+		}
+	}
+
+	if(success)
+	{ // Reconstruct the path.
+		std::deque<std::size_t> path;
+		path.push_back(current);
+
+		// Using assignment to an auxiliary iterator in the condition saves another lookup.
+		auto it = path_edges.begin();
+		while((it = path_edges.find(current)) != path_edges.end())
+		{
+			current = it->second;
+			path.push_front(current);
+		}
+
+		auto& path_comp = entities_.get_component<PathfindingComponent>(id);
+		path_comp.path_queue.swap(path);
+		path_comp.last_id = start;
+		path_comp.target_id = end;
+	}
 }
 
 const std::string& GridSystem::get_pathpfinding_blueprint(std::size_t id) const
@@ -234,7 +290,7 @@ const std::string& GridSystem::get_pathpfinding_blueprint(std::size_t id) const
 	if(entities_.has_component<PathfindingComponent>(id))
 		return entities_.get_component<PathfindingComponent>(id).blueprint;
 	else
-		return "ERROR";
+		return error_blueprint;
 }
 
 void GridSystem::set_pathfinding_blueprint(std::size_t id, const std::string& blueprint)
@@ -243,18 +299,17 @@ void GridSystem::set_pathfinding_blueprint(std::size_t id, const std::string& bl
 		entities_.get_component<PathfindingComponent>(id).blueprint = blueprint;
 }
 
-int GridSystem::get_cost(std::size_t ent_id, std::size_t node_id) const
+bool GridSystem::can_break(std::size_t, std::size_t) const
 {
-	if(entities_.has_component<PathfindingComponent>(ent_id))
-	{
-		const std::string& blueprint = get_pathpfinding_blueprint(ent_id);
-		return lpp::Script::get_singleton().call<int, std::size_t, std::size_t>(blueprint + ".get_cost", ent_id, node_id);
-	}
-	else
-		return -1;
+	return false;
 }
 
-std::tuple<std::size_t, std::size_t> GridSystem::get_board_coords_(std::size_t id) const
+bool GridSystem::can_pass(std::size_t, std::size_t) const
+{
+	return false;
+}
+
+std::tuple<std::size_t, std::size_t> GridSystem::get_board_coords(std::size_t id) const
 {
 	if(entities_.has_component<GridNodeComponent>(id))
 	{
@@ -263,4 +318,52 @@ std::tuple<std::size_t, std::size_t> GridSystem::get_board_coords_(std::size_t i
 	}
 	else // Should not happen as this will be accessed only from within the GridSystem.
 		return std::tuple<std::size_t, std::size_t>{};
+}
+
+void GridSystem::pathfinding_test(Console& console)
+{
+	auto id = entities_.create_entity();
+	auto& comp = entities_.add_component<PathfindingComponent>(id);
+	perform_a_star(id, get_node(0,0), get_node(width_ - 1, height_ - 1));
+
+	for(auto node : comp.path_queue)
+		console.print_text(std::to_string(node), Console::ORANGE_TEXT);
+}
+
+bool GridSystem::in_board_(std::size_t index) const
+{
+	return 0 <= index && index < board_.size();
+}
+
+void GridSystem::link_(std::size_t index, std::vector<GridNodeComponent*>& comps)
+{
+	// Note: Adding a line only from left to right and from top to bottom,
+	//       otherwise it would be wasting resources by adding since the
+	//       lines are only used visually and would thus overlap.
+
+	if(in_board_(index + 1))
+	{
+		add_line(index, index + 1);
+		comps[index]->neighbours[0] = index + 1;
+	}
+
+	if(in_board_(index - 1))
+		comps[index]->neighbours[1] = index - 1;
+
+	if(in_board_(index + width_))
+	{
+		add_line(index, index + width_);
+		comps[index]->neighbours[2] = index + width_;
+	}
+
+	if(in_board_(index - width_))
+		comps[index]->neighbours[3] = index - width_;
+}
+
+std::size_t GridSystem::abs_(int val) const
+{
+	if(val < 0)
+		return (std::size_t) -1 * val;
+	else
+		return val;
 }
