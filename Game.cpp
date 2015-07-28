@@ -377,7 +377,6 @@ void Game::level_init()
 	ground_entity->setQueryFlags(0);
 
 	grid_system_->create_graph(16, 16, 100.f, 0.f, 0.f);
-	grid_system_->pathfinding_test(console_);
 }
 
 void Game::lua_init()
@@ -459,7 +458,9 @@ void Game::lua_init()
 		{"get_node_from_position", Game::lua_get_node_from_position},
 		{"create_grid_graphics", Game::lua_create_grid_graphics},
 		{"delete_grid_graphics", Game::lua_delete_grid_graphics},
-		{"grid_toggle_visible", Game::lua_toggle_grid_visible},
+		{"toggle_grid_visible", Game::lua_toggle_grid_visible},
+		{"is_free", Game::lua_is_free},
+		{"set_free", Game::lua_set_free},
 		{"pathfind", Game::lua_pathfind},
 
 		// Ending sentinel (required by Lua).
@@ -1187,6 +1188,26 @@ int Game::lua_delete_grid_graphics(lpp::Script::state L)
 int Game::lua_toggle_grid_visible(lpp::Script::state)
 {
 	lua_this->grid_system_->set_visible(!lua_this->grid_system_->is_visible());
+	return 0;
+}
+
+int Game::lua_is_free(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	bool res = lua_this->grid_system_->is_free(id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int Game::lua_set_free(lpp::Script::state L)
+{
+	bool free = lua_toboolean(L, -1) == 1 ? true : false;
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->grid_system_->set_free(id, free);
 	return 0;
 }
 

@@ -237,6 +237,8 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_create_grid_graphics(lpp::Script::state);
 		static int lua_delete_grid_graphics(lpp::Script::state);
 		static int lua_toggle_grid_visible(lpp::Script::state);
+		static int lua_is_free(lpp::Script::state);
+		static int lua_set_free(lpp::Script::state);
 
 		static int lua_pathfind(lpp::Script::state);
 };
