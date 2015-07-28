@@ -352,7 +352,7 @@ void GridSystem::link_(std::size_t index, std::vector<GridNodeComponent*>& comps
 		comps[index]->neighbours[0] = index + 1;
 	}
 
-	if(in_board_(index - 1))
+	if(in_board_(index - 1) && index % width_ != 0)
 		comps[index]->neighbours[1] = index - 1;
 
 	if(in_board_(index + width_))
