@@ -243,7 +243,7 @@ bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 			mouse.getPosition().d_x / (float)event.state.width,
 			mouse.getPosition().d_y / (float)event.state.height
 		};
-		selection_box_->execute_selection(end, *main_cam_);
+		selection_box_->execute_selection(end, *main_cam_, keyboard_->isKeyDown(OIS::KC_LSHIFT));
 		selection_box_->set_selecting(false);
 	}
 
@@ -461,6 +461,7 @@ void Game::lua_init()
 		{"toggle_grid_visible", Game::lua_toggle_grid_visible},
 		{"is_free", Game::lua_is_free},
 		{"set_free", Game::lua_set_free},
+		{"set_free_selected", Game::lua_set_free_selected},
 		{"pathfind", Game::lua_pathfind},
 
 		// Ending sentinel (required by Lua).
@@ -1208,6 +1209,15 @@ int Game::lua_set_free(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	lua_this->grid_system_->set_free(id, free);
+	return 0;
+}
+
+int Game::lua_set_free_selected(lpp::Script::state L)
+{
+	bool free = lua_toboolean(L, -1) == 1 ? true : false;
+	lua_pop(L, 1);
+
+	lua_this->grid_system_->set_free_selected(*lua_this->selection_box_, free);
 	return 0;
 }
 
