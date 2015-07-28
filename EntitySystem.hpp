@@ -402,13 +402,13 @@ inline void EntitySystem::load_component<EventComponent>(std::size_t id, const s
 template<>
 inline void EntitySystem::load_component<InputComponent>(std::size_t id, const std::string& table_name)
 {
-	std::string handler = lpp::Script::get_singleton().get<std::string>(table_name + "InputComponent.input_handler");
+	std::string handler = lpp::Script::get_singleton().get<std::string>(table_name + ".InputComponent.input_handler");
 	input_.emplace(std::make_pair(id, InputComponent{handler}));
 }
 
 template<>
 inline void EntitySystem::load_component<PathfindingComponent>(std::size_t id, const std::string& table_name)
 {
-	std::string blueprint = lpp::Script::get_singleton().get<std::string>(table_name + "PathfindingComponent.blueprint");
+	std::string blueprint = lpp::Script::get_singleton().get<std::string>(table_name + ".PathfindingComponent.blueprint");
 	pathfinding_.emplace(std::make_pair(id, PathfindingComponent{blueprint}));
 }
