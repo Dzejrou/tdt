@@ -37,7 +37,7 @@ bool Console::is_visible() const
 	return window_->isVisible();
 }
 
-void Console::handle_text(const CEGUI::EventArgs &)
+void Console::handle_text(const CEGUI::EventArgs& args)
 {
 	std::string command = window_->getChild("INPUT")->getText().c_str();
 	curr_command_ += '\n' + command;
@@ -45,7 +45,7 @@ void Console::handle_text(const CEGUI::EventArgs &)
 	window_->getChild("INPUT")->setText("");
 }
 
-void Console::execute(const CEGUI::EventArgs &)
+void Console::execute(const CEGUI::EventArgs& args)
 {
 	bool success{true};
 	std::string err_msg{};
