@@ -459,7 +459,8 @@ void Game::lua_init()
 		{"get_node_from_position", Game::lua_get_node_from_position},
 		{"create_grid_graphics", Game::lua_create_grid_graphics},
 		{"delete_grid_graphics", Game::lua_delete_grid_graphics},
-		{"grid_toggle_visible", Game::lua_grid_toggle_visible},
+		{"grid_toggle_visible", Game::lua_toggle_grid_visible},
+		{"pathfind", Game::lua_pathfind},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -1183,9 +1184,20 @@ int Game::lua_delete_grid_graphics(lpp::Script::state L)
 	return 0;
 }
 
-int Game::lua_grid_toggle_visible(lpp::Script::state)
+int Game::lua_toggle_grid_visible(lpp::Script::state)
 {
 	lua_this->grid_system_->set_visible(!lua_this->grid_system_->is_visible());
+	return 0;
+}
+
+int Game::lua_pathfind(lpp::Script::state L)
+{
+	std::size_t end = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t start = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -3);
+	lua_pop(L, 3);
+
+	lua_this->grid_system_->perform_a_star(id, start, end);
 	return 0;
 }
 #pragma endregion
