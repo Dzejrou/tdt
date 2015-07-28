@@ -246,7 +246,7 @@ void GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t e
 	
 		for(const auto& neighbour : get_neighbours(current))
 		{
-			if(neighbour >= board_.size() || closed.find(neighbour) != closed.end())
+			if(neighbour >= board_.size() || closed.find(neighbour) != closed.end() || !is_free(neighbour))
 				continue;
 			auto new_score = score[current] + 1;
 
@@ -340,11 +340,13 @@ bool GridSystem::in_board_(std::size_t index) const
 
 void GridSystem::link_(std::size_t index, std::vector<GridNodeComponent*>& comps)
 {
+	if(!in_board_(index))
+		return;
+
 	// Note: Adding a line only from left to right and from top to bottom,
 	//       otherwise it would be wasting resources by adding since the
 	//       lines are only used visually and would thus overlap.
-
-	if(in_board_(index + 1))
+	if(in_board_(index + 1) && (index + 1) % width_ != 0)
 	{
 		add_line(index, index + 1);
 		comps[index]->neighbours[0] = index + 1;
