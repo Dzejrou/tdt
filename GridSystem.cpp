@@ -213,7 +213,7 @@ std::size_t GridSystem::get_manhattan_distance(std::size_t id1, std::size_t id2)
 	std::size_t x2, y2;
 	std::tie(x2, y2) = get_board_coords_(id2);
 
-	return Ogre::Math::Abs(x1 - x2) + Ogre::Math::Abs(y1 - y2);
+	return Ogre::Math::Abs(Ogre::Real{x1 - x2}) + Ogre::Math::Abs(Ogre::Real{y1 - y2});
 }
 
 void GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t end)
@@ -227,6 +227,31 @@ void GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t e
 	path_comp.path_queue = std::move(path);
 	path_comp.last_id = start;
 	path_comp.target_id = end;
+}
+
+const std::string& GridSystem::get_pathpfinding_blueprint(std::size_t id) const
+{
+	if(entities_.has_component<PathfindingComponent>(id))
+		return entities_.get_component<PathfindingComponent>(id).blueprint;
+	else
+		return "ERROR";
+}
+
+void GridSystem::set_pathfinding_blueprint(std::size_t id, const std::string& blueprint)
+{
+	if(entities_.has_component<PathfindingComponent>(id))
+		entities_.get_component<PathfindingComponent>(id).blueprint = blueprint;
+}
+
+int GridSystem::get_cost(std::size_t ent_id, std::size_t node_id) const
+{
+	if(entities_.has_component<PathfindingComponent>(ent_id))
+	{
+		const std::string& blueprint = get_pathpfinding_blueprint(ent_id);
+		return lpp::Script::get_singleton().call<int, std::size_t, std::size_t>(blueprint + ".get_cost", ent_id, node_id);
+	}
+	else
+		return -1;
 }
 
 std::tuple<std::size_t, std::size_t> GridSystem::get_board_coords_(std::size_t id) const

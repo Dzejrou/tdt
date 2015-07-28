@@ -40,6 +40,10 @@ class GridSystem : public System
 		std::size_t get_manhattan_distance(std::size_t, std::size_t) const;
 
 		void perform_a_star(std::size_t, std::size_t, std::size_t);
+
+		const std::string& get_pathpfinding_blueprint(std::size_t) const;
+		void set_pathfinding_blueprint(std::size_t, const std::string&);
+		int get_cost(std::size_t, std::size_t) const;
 	private:
 		std::tuple<std::size_t, std::size_t> get_board_coords_(std::size_t) const;
 
