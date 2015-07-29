@@ -393,7 +393,7 @@ void Game::lua_init()
 		{"toggle_camera_free_mode", Game::lua_toggle_camera_free_mode},
 		{"list_selected", Game::lua_list_selected},
 		{"destroy_selected", Game::lua_destroy_selected},
-		{"list_components", Game::lua_list_components},
+		{"list_components_of", Game::lua_list_components_of},
 
 		// Entity manipulation.
 		{"create_entity", Game::lua_create_entity},
@@ -610,20 +610,23 @@ int Game::lua_destroy_selected(lpp::Script::state)
 	return 0;
 }
 
-int Game::lua_list_components(lpp::Script::state L)
+int Game::lua_list_components_of(lpp::Script::state L)
 {
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
 	std::string report{};
-	for(auto& ent : lua_this->entity_system_->get_component_list())
+	auto& ent = lua_this->entity_system_->get_component_list().find(id);
+	if(ent != lua_this->entity_system_->get_component_list().end())
 	{
-		report.append(std::to_string(ent.first) + ": ");
-		for(std::size_t i = 0; i < ent.second.size(); ++i)
+		for(std::size_t i = 0; i < ent->second.size(); ++i)
 		{
-			if(ent.second.test(i))
+			if(ent->second.test(i))
 				report.append(std::to_string(i) + ", ");
 		}
-		lua_this->console_.print_text(report, Console::ORANGE_TEXT);
-		report = "";
 	}
+
+	lua_this->console_.print_text(report, Console::ORANGE_TEXT);
 	return 0;
 }
 
