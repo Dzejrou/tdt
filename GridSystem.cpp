@@ -37,7 +37,6 @@ std::size_t GridSystem::add_line(std::size_t id1, std::size_t id2)
 	line_comp.end_id = id2;
 	auto pos_start = entities_.get_component<PhysicsComponent>(id1).position;
 	auto pos_end = entities_.get_component<PhysicsComponent>(id2).position;
-	line_comp.distance = pos_start.distance(pos_end);
 
 	return id;
 }
@@ -227,16 +226,17 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t e
 				     	            [&estimate](const std::size_t& lhs, const std::size_t& rhs) -> bool
 		                            { return estimate[lhs] < estimate[rhs]; });
 		if(current == end)
-		{ // Reached goal.
+		{
 			success = true;
 			break;
 		}
+
 		open.erase(current);
 		closed.insert(current);
 	
 		for(const auto& neighbour : get_neighbours(current))
 		{
-			if(neighbour >= board_.size() || closed.find(neighbour) != closed.end() || !is_free(neighbour))
+			if(!in_board_(neighbour) || closed.find(neighbour) != closed.end() || !is_free(neighbour))
 				continue;
 			auto new_score = score[current] + 1;
 
@@ -347,9 +347,6 @@ void GridSystem::link_(std::size_t index, std::vector<GridNodeComponent*>& comps
 	if(!in_board_(index))
 		return;
 
-	// Note: Adding a line only from left to right and from top to bottom,
-	//       otherwise it would be wasting resources by adding since the
-	//       lines are only used visually and would thus overlap.
 	if(in_board_(index + 1) && (index + 1) % width_ != 0) // Right
 	{
 		add_line(index, index + 1);
