@@ -247,11 +247,10 @@ struct GridLineComponent
 	static constexpr int type = 13;
 
 	GridLineComponent(std::size_t start = 0, std::size_t end = 0)
-		: start_id{start}, end_id{end}, distance{0}
+		: start_id{start}, end_id{end}
 	{ /* DUMMY BODY */ }
 
 	std::size_t start_id, end_id;
-	Ogre::Real distance;
 };
 
 /**
