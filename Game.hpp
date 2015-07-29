@@ -242,4 +242,5 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_set_free_selected(lpp::Script::state);
 
 		static int lua_pathfind(lpp::Script::state);
+		static int lua_clear_path_colour(lpp::Script::state);
 };

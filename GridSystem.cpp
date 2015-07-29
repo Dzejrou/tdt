@@ -82,7 +82,7 @@ std::size_t GridSystem::get_node(std::size_t w, std::size_t h) const
 }
 
 std::size_t GridSystem::get_node_from_position(Ogre::Real x, Ogre::Real y) const
-{
+{ // Note: Because of this method the board should start in positive coordinates.
 	x = (x - start_.x) / distance_;
 	y = (y - start_.y) / distance_;
 	std::size_t res_x = (std::size_t)x;
@@ -115,7 +115,6 @@ void GridSystem::create_graphics()
 		graph_comp.node->setScale(5, 10, 5);
 		graph_comp.node->setPosition(phys_comp.position);
 		graph_comp.node->setVisible(false);
-	
 	}
 
 	for(auto& ent : entities_.get_component_container<GridLineComponent>())
@@ -220,10 +219,10 @@ std::size_t GridSystem::get_manhattan_distance(std::size_t id1, std::size_t id2)
 	return abs_(int(x1 - x2)) + abs_(int(y1 - y2));
 }
 
-void GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t end)
+bool GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t end)
 {
 	if(!entities_.has_component<PathfindingComponent>(id))
-		return;
+		return false;
 
 	std::map<std::size_t, std::size_t> path_edges{};
 	std::set<std::size_t> closed{};
@@ -298,6 +297,8 @@ void GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t e
 		path_comp.last_id = start;
 		path_comp.target_id = end;
 	}
+
+	return success;
 }
 
 const std::string& GridSystem::get_pathpfinding_blueprint(std::size_t id) const
@@ -343,6 +344,19 @@ void GridSystem::pathfinding_test(Console& console)
 
 	for(auto node : comp.path_queue)
 		console.print_text(std::to_string(node), Console::ORANGE_TEXT);
+}
+
+void GridSystem::clear_path_colour()
+{
+	if(!graphics_loaded_)
+		return;
+
+	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
+	{
+		auto sub_ent = ((Ogre::Entity*)entities_.get_component<GraphicsComponent>(ent.first).entity)->getSubEntity(0);
+		if(sub_ent->getMaterialName() == "colour/green")
+			((Ogre::Entity*)entities_.get_component<GraphicsComponent>(ent.first).entity)->setMaterialName("colour/blue");
+	}
 }
 
 bool GridSystem::in_board_(std::size_t index) const

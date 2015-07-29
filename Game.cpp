@@ -463,6 +463,7 @@ void Game::lua_init()
 		{"set_free", Game::lua_set_free},
 		{"set_free_selected", Game::lua_set_free_selected},
 		{"pathfind", Game::lua_pathfind},
+		{"clear_path_colour", Game::lua_clear_path_colour},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -1228,7 +1229,13 @@ int Game::lua_pathfind(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -3);
 	lua_pop(L, 3);
 
-	lua_this->grid_system_->perform_a_star(id, start, end);
+	bool res = lua_this->grid_system_->perform_a_star(id, start, end);
+	lua_pushboolean(L, res);
+	return 1;
+}
+int Game::lua_clear_path_colour(lpp::Script::state L)
+{
+	lua_this->grid_system_->clear_path_colour();
 	return 0;
 }
 #pragma endregion

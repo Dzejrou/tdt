@@ -46,7 +46,7 @@ class GridSystem : public System
 
 		std::size_t get_manhattan_distance(std::size_t, std::size_t) const;
 
-		void perform_a_star(std::size_t, std::size_t, std::size_t);
+		bool perform_a_star(std::size_t, std::size_t, std::size_t);
 
 		const std::string& get_pathpfinding_blueprint(std::size_t) const;
 		void set_pathfinding_blueprint(std::size_t, const std::string&);
@@ -55,6 +55,7 @@ class GridSystem : public System
 		bool can_pass(std::size_t, std::size_t) const;
 		std::tuple<std::size_t, std::size_t> get_board_coords(std::size_t) const;
 		void pathfinding_test(Console& console);
+		void clear_path_colour();
 	private:
 		bool in_board_(std::size_t) const;
 		void link_(std::size_t, std::vector<GridNodeComponent*>&);
