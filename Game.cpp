@@ -178,16 +178,17 @@ bool Game::keyReleased(const OIS::KeyEvent& event)
 
 bool Game::mouseMoved(const OIS::MouseEvent& event)
 {
-	if(camera_free_mode_ && event.state.buttonDown(OIS::MB_Left))
+	if(event.state.buttonDown(OIS::MB_Right))
 	{
 		main_cam_->yaw(Ogre::Degree(-.13f * event.state.X.rel));
 		main_cam_->pitch(Ogre::Degree(-.13f * event.state.Y.rel));
 	}
+	/*
 	else if(event.state.buttonDown(OIS::MB_Right))
 	{
 		main_cam_->yaw(Ogre::Degree(.13f * event.state.X.rel));
 		main_cam_->pitch(Ogre::Degree(.13f * event.state.Y.rel));
-	}
+	} */
 
 	// Update CEGUI mouse position. TODO: Do this only if GUI is visible?
 	auto& gui_cont = CEGUI::System::getSingleton().getDefaultGUIContext();
