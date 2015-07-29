@@ -5,19 +5,34 @@ MovementSystem::MovementSystem(EntitySystem& ents)
 { /* DUMMY BODY */ }
 
 void MovementSystem::update(Ogre::Real delta)
-{
-	for(auto& ent : entities_.get_component_list())
+{ // TODO: Fix this...
+	for(auto& ent : entities_.get_component_container<PathfindingComponent>())
 	{
-		if(is_moving(ent.first))
+		auto& path_comp = entities_.get_component<PathfindingComponent>(ent.first);
+
+		if(path_comp.path_queue.empty())
+			continue;
+
+		auto& move_comp = entities_.get_component<MovementComponent>(ent.first);
+		auto& phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
+		std::size_t next = path_comp.path_queue.front();
+		Ogre::Vector3 dir_to_next = dir_to_enemy(ent.first, next); // TODO: Rename to dir_to_entity?
+
+		if(!move(ent.first, dir_to_next))
 		{
-			auto& phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
-			auto& mov_comp = entities_.get_component<MovementComponent>(ent.first);
-			phys_comp.position += mov_comp.movement_vector * mov_comp.speed_modifier;
+			// TODO: perform a*?
+		}
 
-			if(entities_.has_component<GraphicsComponent>(ent.first))
-				entities_.get_component<GraphicsComponent>(ent.first).node->setPosition(phys_comp.position);
+		if(get_distance(ent.first, next) < move_comp.speed_modifier)
+		{
+			move_to(ent.first, get_position(next));
+			path_comp.last_id = next;
+			path_comp.path_queue.pop_front();
 
-			mov_comp.moving = false;
+			if(path_comp.target_id == next)
+			{
+				// TODO: Possibly check this from within the update method and ignore it here?
+			}
 		}
 	}
 }
@@ -93,7 +108,8 @@ bool MovementSystem::move(std::size_t id, Ogre::Vector3 dir_vector)
 
 		if(can_move_to(id, new_pos))
 		{
-			mov_comp.movement_vector = dir_vector;
+			//mov_comp.movement_vector = dir_vector;
+			phys_comp.position = new_pos;
 			mov_comp.moving = true;
 
 			if(entities_.has_component<GraphicsComponent>(id))
