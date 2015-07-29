@@ -38,7 +38,6 @@ std::size_t GridSystem::add_line(std::size_t id1, std::size_t id2)
 	auto pos_start = entities_.get_component<PhysicsComponent>(id1).position;
 	auto pos_end = entities_.get_component<PhysicsComponent>(id2).position;
 	line_comp.distance = pos_start.distance(pos_end);
-	line_comp.line.reset(new Line{pos_start, pos_end});
 
 	return id;
 }
@@ -71,6 +70,8 @@ void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real 
 	// Link nodes.
 	for(std::size_t i = 0; i < board_.size(); ++i)
 		link_(i, comps);
+
+	create_graphics();
 }
 
 std::size_t GridSystem::get_node(std::size_t w, std::size_t h) const
@@ -111,26 +112,11 @@ void GridSystem::create_graphics()
 		entities_.init_graphics_component(ent.first);
 		graph_comp.entity->setQueryFlags(2);
 
-		((Ogre::Entity*)graph_comp.entity)->setMaterialName(graph_comp.material);
+		graph_comp.entity->setMaterialName(graph_comp.material);
 		graph_comp.node->setScale(5, 10, 5);
 		graph_comp.node->setPosition(phys_comp.position);
 		graph_comp.node->setVisible(false);
 	}
-
-	for(auto& ent : entities_.get_component_container<GridLineComponent>())
-	{
-		auto& line_comp = entities_.get_component<GridLineComponent>(ent.first);
-		auto& graph_comp = entities_.add_component<GraphicsComponent>(ent.first);
-
-		graph_comp.entity = line_comp.line.get();
-		graph_comp.node = scene_mgr_.getRootSceneNode()->createChildSceneNode();
-		graph_comp.node->attachObject(graph_comp.entity);
-		graph_comp.material = "colour/blue";
-		graph_comp.mesh = "LINE";
-		graph_comp.visible = true;
-		graph_comp.node->setVisible(false);
-	}
-
 	graphics_loaded_ = true;
 }
 
@@ -153,13 +139,6 @@ void GridSystem::set_visible(bool on_off)
 
 	// Nodes.
 	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
-	{
-		auto& graph_comp = entities_.get_component<GraphicsComponent>(ent.first);
-		graph_comp.node->setVisible(on_off);
-	}
-
-	// Links.
-	for(auto& ent : entities_.get_component_container<GridLineComponent>())
 	{
 		auto& graph_comp = entities_.get_component<GraphicsComponent>(ent.first);
 		graph_comp.node->setVisible(on_off);
@@ -196,7 +175,7 @@ void GridSystem::set_free(std::size_t id, bool on_off)
 	{
 			entities_.get_component<GridNodeComponent>(id).free = on_off;
 			if(graphics_loaded_)
-				((Ogre::Entity*)entities_.get_component<GraphicsComponent>(id).entity)->setMaterialName(
+				entities_.get_component<GraphicsComponent>(id).entity->setMaterialName(
 						on_off ? "colour/blue" : "colour/red"
 					);
 	}
@@ -285,11 +264,10 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t e
 		auto it = path_edges.begin();
 		while((it = path_edges.find(current)) != path_edges.end())
 		{
+			if(graphics_loaded_) // Highlight the path for testing.
+				entities_.get_component<GraphicsComponent>(current).entity->setMaterialName("colour/green");
 			current = it->second;
 			path.push_front(current);
-
-			if(graphics_loaded_) // Highlight the path for testing.
-				((Ogre::Entity*)entities_.get_component<GraphicsComponent>(current).entity)->setMaterialName("colour/green");
 		}
 
 		auto& path_comp = entities_.get_component<PathfindingComponent>(id);
@@ -353,9 +331,9 @@ void GridSystem::clear_path_colour()
 
 	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
 	{
-		auto sub_ent = ((Ogre::Entity*)entities_.get_component<GraphicsComponent>(ent.first).entity)->getSubEntity(0);
+		auto sub_ent = entities_.get_component<GraphicsComponent>(ent.first).entity->getSubEntity(0);
 		if(sub_ent->getMaterialName() == "colour/green")
-			((Ogre::Entity*)entities_.get_component<GraphicsComponent>(ent.first).entity)->setMaterialName("colour/blue");
+			entities_.get_component<GraphicsComponent>(ent.first).entity->setMaterialName("colour/blue");
 	}
 }
 

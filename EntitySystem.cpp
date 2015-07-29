@@ -253,9 +253,7 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 				graph_comp.node->detachObject(graph_comp.entity);
 				if(graph_comp.node->numChildren() == 0)
 					scene_.destroySceneNode(graph_comp.node);
-
-				if(graph_comp.mesh != "LINE")
-					scene_.destroyEntity((Ogre::Entity*)graph_comp.entity);
+				scene_.destroyEntity(graph_comp.entity);
 			}
 			graphics_.erase(ent_id);
 			break;
@@ -291,13 +289,8 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 void EntitySystem::init_graphics_component(std::size_t id)
 {
 	auto& comp = graphics_.find(id)->second;
-
-	// Grid nodes and lines are created through the GridSystem.
-	if(!has_component<GridLineComponent>(id))
-	{
-		comp.entity = scene_.createEntity(comp.mesh);
-		comp.node = scene_.getRootSceneNode()->createChildSceneNode();
-		comp.node->attachObject(comp.entity);
-		comp.node->setVisible(comp.visible);
-	}
+	comp.entity = scene_.createEntity(comp.mesh);
+	comp.node = scene_.getRootSceneNode()->createChildSceneNode();
+	comp.node->attachObject(comp.entity);
+	comp.node->setVisible(comp.visible);
 }

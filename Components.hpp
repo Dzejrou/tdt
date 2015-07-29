@@ -8,8 +8,6 @@
 #include <memory>
 #include <numeric>
 
-#include "Line.hpp"
-
 // Temporary:
 enum class EntityState { NONE, NORMAL };
 enum class Faction { FRIENDLY, ENEMY, NEUTRAL };
@@ -101,7 +99,7 @@ struct GraphicsComponent
 	std::string material;
 	bool visible;
 	Ogre::SceneNode* node;
-	Ogre::MovableObject* entity;
+	Ogre::Entity* entity;
 	// TODO: Animation + set_animation etc. in a system.
 };
 
@@ -249,18 +247,11 @@ struct GridLineComponent
 	static constexpr int type = 13;
 
 	GridLineComponent(std::size_t start = 0, std::size_t end = 0)
-		: start_id{start}, end_id{end}, distance{0}, line{nullptr}
+		: start_id{start}, end_id{end}, distance{0}
 	{ /* DUMMY BODY */ }
 
 	std::size_t start_id, end_id;
 	Ogre::Real distance;
-
-	/**
-	 * Although the pointer will be stored in the GraphicsComponent
-	 * for Ogre, this will ensure the Line object will be properly
-	 * deallocated.
-	 */
-	std::unique_ptr<Line> line; 
 };
 
 /**
