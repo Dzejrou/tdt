@@ -123,8 +123,6 @@ void GridSystem::delete_graphics()
 {
 	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
 		entities_.delete_component<GraphicsComponent>(ent.first);
-	for(auto& ent : entities_.get_component_container<GridLineComponent>())
-		entities_.delete_component<GraphicsComponent>(ent.first);
 	graphics_loaded_ = false;
 	graph_visible_ = false;
 }
