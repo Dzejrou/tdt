@@ -39,7 +39,7 @@ class GridSystem : public System
 		void set_visible(bool);
 		bool is_visible() const;
 
-		std::array<std::size_t, 4> get_neighbours(std::size_t) const;
+		std::array<std::size_t, 8> get_neighbours(std::size_t) const;
 		bool is_free(std::size_t) const;
 		void set_free(std::size_t, bool);
 		void set_free_selected(SelectionBox&, bool);

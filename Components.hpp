@@ -234,7 +234,7 @@ struct GridNodeComponent
 	 * a std::vector instead would allow for non grid-like
 	 * pathfinding graphs.
 	 */
-	std::array<std::size_t, 4> neighbours;
+	std::array<std::size_t, 8> neighbours;
 	bool free;
 	std::size_t x, y; // Position in the grid.
 	EntityType resident;

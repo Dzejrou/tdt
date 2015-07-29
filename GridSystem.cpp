@@ -174,12 +174,12 @@ bool GridSystem::is_visible() const
 		return graph_visible_;
 }
 
-std::array<std::size_t, 4> GridSystem::get_neighbours(std::size_t id) const
+std::array<std::size_t, 8> GridSystem::get_neighbours(std::size_t id) const
 {
 	if(entities_.has_component<GridNodeComponent>(id))
 		return entities_.get_component<GridNodeComponent>(id).neighbours;
 	else
-		return std::array<std::size_t, 4>();
+		return std::array<std::size_t, 8>();
 }
 
 bool GridSystem::is_free(std::size_t id) const
@@ -372,23 +372,41 @@ void GridSystem::link_(std::size_t index, std::vector<GridNodeComponent*>& comps
 	// Note: Adding a line only from left to right and from top to bottom,
 	//       otherwise it would be wasting resources by adding since the
 	//       lines are only used visually and would thus overlap.
-	if(in_board_(index + 1) && (index + 1) % width_ != 0)
+	if(in_board_(index + 1) && (index + 1) % width_ != 0) // Right
 	{
 		add_line(index, index + 1);
 		comps[index]->neighbours[0] = index + 1;
 	}
 
-	if(in_board_(index - 1) && index % width_ != 0)
+	if(in_board_(index - 1) && index % width_ != 0) // Left.
 		comps[index]->neighbours[1] = index - 1;
 
-	if(in_board_(index + width_))
+	if(in_board_(index + width_)) // Down.
 	{
 		add_line(index, index + width_);
 		comps[index]->neighbours[2] = index + width_;
 	}
 
-	if(in_board_(index - width_))
+	if(in_board_(index - width_)) // Up.
 		comps[index]->neighbours[3] = index - width_;
+
+	if(in_board_(index + width_ - 1) && index % width_ != 0) // Down-left.
+	{
+		add_line(index, index + width_ - 1);
+		comps[index]->neighbours[4] = index + width_ - 1;
+	}
+
+	if(in_board_(index - width_ - 1) && index % width_ != 0) // Up-left.
+		comps[index]->neighbours[5] = index - width_ - 1;
+
+	if(in_board_(index + width_ + 1) && (index + 1) % width_ != 0) // Down-right.
+	{
+		add_line(index, index + width_ + 1);
+		comps[index]->neighbours[6] = index + width_ + 1;
+	}
+
+	if(in_board_(index - width_ + 1) && (index + 1) % width_ != 0) // Up-right.
+		comps[index]->neighbours[7] = index - width_ + 1;
 }
 
 std::size_t GridSystem::abs_(int val) const
