@@ -1251,4 +1251,34 @@ int Game::lua_clear_path_colour(lpp::Script::state L)
 	lua_this->grid_system_->clear_path_colour();
 	return 0;
 }
+
+int Game::lua_add_task(lpp::Script::state L)
+{
+	std::size_t task_id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->task_system_->add_task(ent_id, task_id);
+	return 0;
+}
+
+int Game::lua_cancel_task(lpp::Script::state L)
+{
+	std::size_t task_id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->task_system_->cancel_task(task_id);
+	return 0;
+}
+
+int Game::lua_create_task(lpp::Script::state L)
+{
+	TASK_TYPE task = (TASK_TYPE)luaL_checkinteger(L, -1);
+	std::size_t target = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	std::size_t id = lua_this->task_system_->create_task(target, task);
+	lua_pushinteger(L, id);
+	return 1;
+}
 #pragma endregion

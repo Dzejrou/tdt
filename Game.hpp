@@ -14,6 +14,7 @@
 #include "AISystem.hpp"
 #include "InputSystem.hpp"
 #include "GridSystem.hpp"
+#include "TaskSystem.hpp"
 #include "lppscript/LppScript.hpp"
 #include "Console.hpp"
 #include "SelectionBox.hpp"
@@ -108,6 +109,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<AISystem> ai_system_;
 		std::unique_ptr<InputSystem> input_system_;
 		std::unique_ptr<GridSystem> grid_system_;
+		std::unique_ptr<TaskSystem> task_system_;
 
 		/**
 		 * Vector of all systems used for updating the game's logic.
@@ -240,7 +242,11 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_is_free(lpp::Script::state);
 		static int lua_set_free(lpp::Script::state);
 		static int lua_set_free_selected(lpp::Script::state);
-
 		static int lua_pathfind(lpp::Script::state);
 		static int lua_clear_path_colour(lpp::Script::state);
+
+		// Task system.
+		static int lua_add_task(lpp::Script::state);
+		static int lua_cancel_task(lpp::Script::state);
+		static int lua_create_task(lpp::Script::state);
 };
