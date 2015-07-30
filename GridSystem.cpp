@@ -197,6 +197,13 @@ std::size_t GridSystem::get_manhattan_distance(std::size_t id1, std::size_t id2)
 
 bool GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t end)
 {
+	/**
+	 * TODO:
+	 *		Make is_free() dependent on the entity asking.
+	 *		How to use entity's ability to destroy block? (+cost then destroy task?)
+	 */
+
+
 	if(!entities_.has_component<PathfindingComponent>(id))
 		return false;
 
