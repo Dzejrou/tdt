@@ -8,18 +8,14 @@
 #include <memory>
 #include <numeric>
 
+#include "Enums.hpp"
+
 // Temporary:
-enum class EntityState { NONE, NORMAL };
-enum class Faction { FRIENDLY, ENEMY, NEUTRAL };
-enum class EventType {};
 enum class AttackType { NONE, MELEE };
-enum class EntityType { NONE, BASIC_WALL };
-class Attack {};
-class Event {};
 
 struct Component
 {
-	static constexpr int count = 15;
+	static constexpr int count = 16;
 };
 
 /**
@@ -73,14 +69,14 @@ struct AIComponent
 {
 	static constexpr int type = 2;
 
-	AIComponent(const std::string& s = "ERROR", int f = 2)
-		: blueprint{s}, state{EntityState::NORMAL}, faction((Faction)f)
+	AIComponent(const std::string& s = "ERROR", FACTION f = FACTION::NEUTRAL)
+		: blueprint{s}, state{ENTITY_STATE::NORMAL}, faction(f)
 	{ /* DUMMY BODY */ }
 	AIComponent(const AIComponent&) = default;
 
 	std::string blueprint;
-	EntityState state;
-	Faction faction;
+	ENTITY_STATE state;
+	FACTION faction;
 };
 
 /**
@@ -221,11 +217,12 @@ struct GridNodeComponent
 	static constexpr int type = 12;
 
 	GridNodeComponent()
-		: neighbours{}, free{true}, x{0}, y{0}, resident{EntityType::NONE}
+		: neighbours{}, free{true}, x{0}, y{0}, resident{ENTITY_TYPE::NONE}
 	{
 		for(std::size_t i = 0; i < neighbours.size(); ++i)
 			neighbours[i] = std::numeric_limits<std::size_t>::max();
 	}
+	GridNodeComponent(const GridNodeComponent&) = default;
 
 	/**
 	 * Note: For more versatility of the game engine, using
@@ -235,7 +232,7 @@ struct GridNodeComponent
 	std::array<std::size_t, 8> neighbours;
 	bool free;
 	std::size_t x, y; // Position in the grid.
-	EntityType resident;
+	ENTITY_TYPE resident;
 };
 
 /**
@@ -249,6 +246,7 @@ struct GridLineComponent
 	GridLineComponent(std::size_t start = 0, std::size_t end = 0)
 		: start_id{start}, end_id{end}
 	{ /* DUMMY BODY */ }
+	GridLineComponent(const GridLineComponent&) = default;
 
 	std::size_t start_id, end_id;
 };
@@ -263,8 +261,25 @@ struct PathfindingComponent
 	PathfindingComponent(const std::string& cost = "ERROR")
 		: target_id{0}, last_id{0}, path_queue{}, blueprint{cost}
 	{ /* DUMMY BODY */ }
+	PathfindingComponent(const PathfindingComponent&) = default;
 	
 	std::size_t target_id, last_id;
 	std::deque<std::size_t> path_queue;
 	std::string blueprint; // Name of the table the get_cost(id1, id2) function is in.
+};
+
+/**
+ *
+ */
+struct TaskComponent
+{
+	static constexpr int type = 15;
+
+	TaskComponent(std::size_t target_id, TASK_TYPE task_type = TASK_TYPE::NONE)
+		: task{task_type}, target{target_id}
+	{ /* DUMMY BODY */ }
+	TaskComponent(const TaskComponent&) = default;
+
+	TASK_TYPE task;
+	std::size_t target;
 };
