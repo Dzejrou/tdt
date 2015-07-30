@@ -26,6 +26,7 @@ Game::Game()
 	input_system_.reset(new InputSystem(*entity_system_, *keyboard_, *main_cam_));
 	grid_system_.reset(new GridSystem(*entity_system_, *scene_mgr_));
 
+	systems_.emplace_back(entity_system_.get());
 	systems_.emplace_back(health_system_.get());
 	systems_.emplace_back(movement_system_.get());
 	systems_.emplace_back(ai_system_.get());
@@ -60,9 +61,8 @@ void Game::update(Ogre::Real delta)
 	if(camera_free_mode_)
 		main_cam_->moveRelative(camera_dir_);
 
-	for(auto sys : systems_)
+	for(auto& sys : systems_)
 		sys->update(delta);
-	entity_system_->cleanup();
 }
 
 void Game::set_state(GAME_STATE state)
