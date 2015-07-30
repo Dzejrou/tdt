@@ -10,6 +10,14 @@
 
 #include "Enums.hpp"
 
+/**
+ * Denotes a special entity used as a placeholder.
+ * (This number shouldn't be reached during gameplay as
+*   entity system will recycle ID's whenever possible so it's
+ *  safe to use it.)
+ */
+#define NO_ENTITY (std::numeric_limits<std::size_t>::max())
+
 // Temporary:
 enum class AttackType { NONE, MELEE };
 
@@ -121,6 +129,7 @@ struct MovementComponent
 
 /**
  * Holds info about an entity's attack types and damage.
+ * TODO: Reseach the entire combat mechanism.
  */
 struct CombatComponent
 {
@@ -220,7 +229,7 @@ struct GridNodeComponent
 		: neighbours{}, free{true}, x{0}, y{0}, resident{ENTITY_TYPE::NONE}
 	{
 		for(std::size_t i = 0; i < neighbours.size(); ++i)
-			neighbours[i] = std::numeric_limits<std::size_t>::max();
+			neighbours[i] = NO_ENTITY;
 	}
 	GridNodeComponent(const GridNodeComponent&) = default;
 
@@ -275,11 +284,12 @@ struct TaskComponent
 {
 	static constexpr int type = 15;
 
-	TaskComponent(std::size_t target_id, TASK_TYPE task_type = TASK_TYPE::NONE)
+	TaskComponent(std::size_t target_id = NO_ENTITY, TASK_TYPE task_type = TASK_TYPE::NONE)
 		: task{task_type}, target{target_id}
 	{ /* DUMMY BODY */ }
 	TaskComponent(const TaskComponent&) = default;
 
 	TASK_TYPE task;
 	std::size_t target;
+	std::deque<std::pair<TASK_TYPE, std::size_t>> task_queue;
 };
