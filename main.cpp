@@ -49,6 +49,7 @@ int main(int argc, char** argv)
 	catch(const lpp::Exception& ex)
 	{
 		print_msg(ex.what(), "Lua Exception!");
+		print_msg(ex.what_lua(), "Error message from Lue:");
 		return 1;
 	}
 	catch(const std::exception& ex)
