@@ -115,6 +115,12 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 			case PathfindingComponent::type:
 				load_component<PathfindingComponent>(id, table_name);
 				break;
+			case TaskComponent::type:
+				// Cannot be loaded automatically, will be handled by TaskSystem.
+				break;
+			case TaskHandlerComponent::type:
+				load_component<TaskHandlerComponent>(id, table_name);
+				break;
 		}
 	}
 
@@ -239,6 +245,12 @@ void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 		case PathfindingComponent::type:
 			delete_component<PathfindingComponent>(ent_id);
 			break;
+		case TaskComponent::type:
+			delete_component<TaskComponent>(ent_id);
+			break;
+		case TaskHandlerComponent::type:
+			delete_component<TaskHandlerComponent>(ent_id);
+			break;
 	}
 }
 
@@ -291,6 +303,12 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 			break;
 		case PathfindingComponent::type:
 			pathfinding_.erase(ent_id);
+			break;
+		case TaskComponent::type:
+			task_.erase(ent_id);
+			break;
+		case TaskHandlerComponent::type:
+			task_handler_.erase(ent_id);
 			break;
 	}
 

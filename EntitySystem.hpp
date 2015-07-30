@@ -222,6 +222,8 @@ class EntitySystem : public System
 		std::map<std::size_t, GridNodeComponent> grid_node_;
 		std::map<std::size_t, GridLineComponent> grid_line_;
 		std::map<std::size_t, PathfindingComponent> pathfinding_;
+		std::map<std::size_t, TaskComponent> task_;
+		std::map<std::size_t, TaskHandlerComponent> task_handler_;
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -322,11 +324,24 @@ inline std::map<std::size_t, PathfindingComponent>& EntitySystem::get_component_
 	return pathfinding_;
 }
 
+template<>
+inline std::map<std::size_t, TaskComponent>& EntitySystem::get_component_container<TaskComponent>()
+{
+	return task_;
+}
+
+template<>
+inline std::map<std::size_t, TaskHandlerComponent>& EntitySystem::get_component_container<TaskHandlerComponent>()
+{
+	return task_handler_;
+}
+
 /**
  * Specializations of the EntitySystem::load_component method.
  * Note: Following components can only be created manually and thus don't have load_component specialization.
  *       GridNodeComponent (created by GridSystem::add_node)
  *       GridLineComponent (created by GridSystem::add_node)
+ *       TaskComponent     (tasks are specified by their types and are added through the TaskSystem)
  */
 template<>
 inline void EntitySystem::load_component<PhysicsComponent>(std::size_t id, const std::string& table_name)
@@ -419,4 +434,16 @@ inline void EntitySystem::load_component<PathfindingComponent>(std::size_t id, c
 {
 	std::string blueprint = lpp::Script::get_singleton().get<std::string>(table_name + ".PathfindingComponent.blueprint");
 	pathfinding_.emplace(std::make_pair(id, PathfindingComponent{blueprint}));
+}
+
+template<>
+inline void EntitySystem::load_component<TaskHandlerComponent>(std::size_t id, const std::string& table_name)
+{
+	std::vector<int> possible_tasks = lpp::Script::get_singleton().get_vector<int>(table_name + ".TaskHandlerComponent.possible_tasks");
+	auto res = task_handler_.emplace(id, TaskHandlerComponent{});
+
+	// Init possible tasks.
+	auto& tasks = res.first->second.possible_tasks;
+	for(auto task_type : possible_tasks)
+		tasks.set(task_type);
 }
