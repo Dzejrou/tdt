@@ -15,12 +15,6 @@ class System
 		virtual void update(Ogre::Real) = 0;
 
 		/**
-		 * Brief: Returns true if an entity is valid, false otherwise.
-		 * Param: ID of the entity.
-		 */
-		virtual bool is_valid(std::size_t) const = 0;
-
-		/**
 		 * Destructor.
 		 */
 		virtual ~System() {}
