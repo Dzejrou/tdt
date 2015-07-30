@@ -19,6 +19,7 @@ class TaskSystem : public System
 	private:
 		void next_task_(TaskHandlerComponent&);
 		void handle_task_(std::size_t, TaskComponent&);
+		bool current_task_completed_(TaskHandlerComponent&);
 		EntitySystem& entities_;
 		GridSystem& grid_;
 };

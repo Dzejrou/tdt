@@ -8,11 +8,13 @@ void TaskSystem::update(Ogre::Real delta)
 {
 	for(auto& ent : entities_.get_component_container<TaskHandlerComponent>())
 	{
-		if(ent.second.busy)
+		if(ent.second.busy && current_task_completed_(ent.second))
 		{ // TODO: Delete the task when finnished.
-		
+			entities_.destroy_entity(ent.second.curr_task);
+			ent.second.curr_task = Component::NO_ENTITY;
+			ent.second.busy = false;
 		}
-		else
+		else if(!ent.second.busy)
 		{
 			// Get next valid task if necessary.
 			while((ent.second.curr_task == Component::NO_ENTITY ||
@@ -92,5 +94,23 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task)
 		}
 	
 	}
-	// TODO: When to destroy the task entity?
+}
+
+bool TaskSystem::current_task_completed_(TaskHandlerComponent& handler)
+{
+	if(entities_.has_component<TaskComponent>(handler.curr_task))
+	{
+		auto& task = entities_.get_component<TaskComponent>(handler.curr_task);
+	
+		switch(task.task_type)
+		{
+			case TASK_TYPE::GOTO:
+				return entities_.get_component<PhysicsComponent>(task.source).position ==
+					   entities_.get_component<PhysicsComponent>(task.target).position;
+			default:
+				return true; // Undefined task, kill it asap.
+		}
+	}
+	else // Allows for task cancel.
+		return true;
 }
