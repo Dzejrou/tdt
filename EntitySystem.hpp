@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "System.hpp"
 #include "Components.hpp"
 #include "lppscript\LppScript.hpp"
 
@@ -13,7 +14,7 @@
  * The EntitySystem class handles everything related to entities, like addition and removal of components,
  * testing if an entity has a component or retrieval of components belonging to particular entities.
  */
-class EntitySystem
+class EntitySystem : public System
 {
 	public:
 		/**
@@ -26,6 +27,13 @@ class EntitySystem
 		 * Brief: Destructor.
 		 */
 		~EntitySystem() { /* DUMMY BODY */ }
+
+		/**
+		 * Brief: Checks for entities with no components and if any are found, deletes
+		 *        them.
+		 * Param: Time since the last frame.
+		 */
+		void update(Ogre::Real);
 
 		/**
 		 * Brief: Returns first available entity id.
@@ -344,7 +352,7 @@ inline void EntitySystem::load_component<AIComponent>(std::size_t id, const std:
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string blueprint = script.get<std::string>(table_name + ".AIComponent.blueprint");
 	int faction = script.get<int>(table_name + ".AIComponent.faction");
-	ai_.emplace(std::make_pair(id, AIComponent{blueprint, faction}));
+	ai_.emplace(std::make_pair(id, AIComponent{blueprint, (FACTION)faction}));
 
 	// Call init.
 	script.call<void, int>(blueprint + ".init", id);

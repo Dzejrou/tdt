@@ -6,6 +6,16 @@ EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
 	  components_to_be_removed_{}
 { /* DUMMY BODY */ }
 
+void EntitySystem::update(Ogre::Real)
+{
+	for(auto& ent : entities_)
+	{
+		if(ent.second.none())
+			to_be_destroyed_.push_back(ent.first);
+	}
+	cleanup();
+}
+
 std::size_t EntitySystem::get_new_id() const
 {
 	std::size_t id{0};
