@@ -10,20 +10,13 @@
 
 #include "Enums.hpp"
 
-/**
- * Denotes a special entity used as a placeholder.
- * (This number shouldn't be reached during gameplay as
-*   entity system will recycle ID's whenever possible so it's
- *  safe to use it.)
- */
-#define NO_ENTITY (std::numeric_limits<std::size_t>::max())
-
 // Temporary:
 enum class AttackType { NONE, MELEE };
 
 struct Component
 {
-	static constexpr int count = 16;
+	static constexpr int count = 17;
+	static constexpr std::size_t NO_ENTITY = std::numeric_limits<std::size_t>::max();
 };
 
 /**
@@ -229,7 +222,7 @@ struct GridNodeComponent
 		: neighbours{}, free{true}, x{0}, y{0}, resident{ENTITY_TYPE::NONE}
 	{
 		for(std::size_t i = 0; i < neighbours.size(); ++i)
-			neighbours[i] = NO_ENTITY;
+			neighbours[i] = Component::NO_ENTITY;
 	}
 	GridNodeComponent(const GridNodeComponent&) = default;
 
@@ -284,12 +277,32 @@ struct TaskComponent
 {
 	static constexpr int type = 15;
 
-	TaskComponent(std::size_t target_id = NO_ENTITY, TASK_TYPE task_type = TASK_TYPE::NONE)
-		: task{task_type}, target{target_id}
+	TaskComponent(std::size_t target_id = Component::NO_ENTITY,
+				  std::size_t source_id = Component::NO_ENTITY,
+				  TASK_TYPE t_type = TASK_TYPE::NONE)
+		: task_type{t_type}, source{source_id}, target{target_id}
 	{ /* DUMMY BODY */ }
 	TaskComponent(const TaskComponent&) = default;
 
-	TASK_TYPE task;
-	std::size_t target;
-	std::deque<std::pair<TASK_TYPE, std::size_t>> task_queue;
+	TASK_TYPE task_type;
+	std::size_t source, target;
+};
+
+/**
+ *
+ */
+struct TaskHandlerComponent
+{
+	static constexpr int type = 16;
+
+	TaskHandlerComponent()
+		: curr_task{Component::NO_ENTITY}, possible_tasks{}, task_queue{},
+		  busy{false}
+	{  /* DUMMY BODY */ }
+	TaskHandlerComponent(const TaskHandlerComponent&) = default;
+
+	std::size_t curr_task;
+	std::bitset<(int)TASK_TYPE::COUNT> possible_tasks;
+	std::deque<std::size_t> task_queue;
+	bool busy;
 };
