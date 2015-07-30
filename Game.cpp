@@ -25,12 +25,15 @@ Game::Game()
 	ai_system_.reset(new AISystem(*entity_system_));
 	input_system_.reset(new InputSystem(*entity_system_, *keyboard_, *main_cam_));
 	grid_system_.reset(new GridSystem(*entity_system_, *scene_mgr_));
+	task_system_.reset(new TaskSystem(*entity_system_, *grid_system_));
 
 	systems_.emplace_back(entity_system_.get());
 	systems_.emplace_back(health_system_.get());
 	systems_.emplace_back(movement_system_.get());
 	systems_.emplace_back(ai_system_.get());
 	systems_.emplace_back(input_system_.get());
+	systems_.emplace_back(grid_system_.get());
+	systems_.emplace_back(task_system_.get());
 
 	selection_box_.reset(new SelectionBox{"MainSelectionBox",
 						                  *entity_system_,
@@ -465,6 +468,11 @@ void Game::lua_init()
 		{"set_free_selected", Game::lua_set_free_selected},
 		{"pathfind", Game::lua_pathfind},
 		{"clear_path_colour", Game::lua_clear_path_colour},
+
+		// Task system.
+		{"add_task", Game::lua_add_task},
+		{"cancel_task", Game::lua_cancel_task},
+		{"create_task", Game::lua_create_task},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -1093,7 +1101,7 @@ int Game::lua_set_blueprint(lpp::Script::state L)
 
 int Game::lua_set_state(lpp::Script::state L)
 {
-	EntityState state = (EntityState)luaL_checkinteger(L, -1);
+	ENTITY_STATE state = (ENTITY_STATE)luaL_checkinteger(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
@@ -1103,7 +1111,7 @@ int Game::lua_set_state(lpp::Script::state L)
 
 int Game::lua_set_faction(lpp::Script::state L)
 {
-	Faction faction = (Faction)luaL_checkinteger(L, -1);
+	FACTION faction = (FACTION)luaL_checkinteger(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
@@ -1237,6 +1245,7 @@ int Game::lua_pathfind(lpp::Script::state L)
 	lua_pushboolean(L, res);
 	return 1;
 }
+
 int Game::lua_clear_path_colour(lpp::Script::state L)
 {
 	lua_this->grid_system_->clear_path_colour();

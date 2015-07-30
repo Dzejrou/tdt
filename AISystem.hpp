@@ -38,7 +38,7 @@ class AISystem : public System
 
 		/**
 		 * Brief: Returns true if two given entities are friendly (i.e. either one of them is neutral
-		 *        or they have the same faction alegiance), false otherwise.
+		 *        or they have the same FACTION alegiance), false otherwise.
 		 * Param: ID of the first entity.
 		 * Param: ID of the second entity.
 		 */
@@ -75,27 +75,27 @@ class AISystem : public System
 		 * Brief: Returns the state a given entity is in.
 		 * Param: ID of the entity.
 		 */
-		EntityState get_state(std::size_t) const;
+		ENTITY_STATE get_state(std::size_t) const;
 
 		/**
 		 * Brief: Changes the state of a given entity.
 		 * Param: ID of the entity.
 		 * Param: New state.
 		 */
-		void set_state(std::size_t, EntityState);
+		void set_state(std::size_t, ENTITY_STATE);
 
 		/**
-		 * Brief: Returns the faction of a given entity.
+		 * Brief: Returns the FACTION of a given entity.
 		 * Param: ID of the entity.
 		 */
-		Faction get_faction(std::size_t) const;
+		FACTION get_faction(std::size_t) const;
 
 		/**
-		 * Brief: Changes the faction of a given entity.
+		 * Brief: Changes the FACTION of a given entity.
 		 * Param: ID of the entity.
-		 * Param: New faction.
+		 * Param: New FACTION.
 		 */
-		void set_faction(std::size_t, Faction);
+		void set_faction(std::size_t, FACTION);
 
 	private:
 		/**

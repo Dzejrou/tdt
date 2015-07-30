@@ -25,7 +25,7 @@ bool AISystem::is_friendly(std::size_t id1, std::size_t id2) const
 		auto& ai1 = entities_.get_component<AIComponent>(id1);
 		auto& ai2 = entities_.get_component<AIComponent>(id2);
 
-		if(ai1.faction == Faction::NEUTRAL || ai2.faction == Faction::NEUTRAL)
+		if(ai1.faction == FACTION::NEUTRAL || ai2.faction == FACTION::NEUTRAL)
 			return true;
 		else
 			return ai1.faction == ai2.faction;
@@ -37,7 +37,7 @@ bool AISystem::is_friendly(std::size_t id1, std::size_t id2) const
 bool AISystem::is_neutral(std::size_t id) const
 {
 	if(is_valid(id))
-		return entities_.get_component<AIComponent>(id).faction == Faction::NEUTRAL;
+		return entities_.get_component<AIComponent>(id).faction == FACTION::NEUTRAL;
 	else
 		return true;
 }
@@ -61,29 +61,29 @@ void AISystem::set_blueprint(std::size_t id, const std::string& blueprint)
 		entities_.get_component<AIComponent>(id).blueprint = blueprint;
 }
 
-EntityState AISystem::get_state(std::size_t id) const
+ENTITY_STATE AISystem::get_state(std::size_t id) const
 {
 	if(is_valid(id))
 		return entities_.get_component<AIComponent>(id).state;
 	else
-		return EntityState::NONE;
+		return ENTITY_STATE::NONE;
 }
 
-void AISystem::set_state(std::size_t id, EntityState state)
+void AISystem::set_state(std::size_t id, ENTITY_STATE state)
 {
 	if(is_valid(id))
 		entities_.get_component<AIComponent>(id).state = state;
 }
 
-Faction AISystem::get_faction(std::size_t id) const
+FACTION AISystem::get_faction(std::size_t id) const
 {
 	if(is_valid(id))
 		return entities_.get_component<AIComponent>(id).faction;
 	else
-		return Faction::NEUTRAL;
+		return FACTION::NEUTRAL;
 }
 
-void AISystem::set_faction(std::size_t id, Faction faction)
+void AISystem::set_faction(std::size_t id, FACTION faction)
 {
 	if(is_valid(id))
 		entities_.get_component<AIComponent>(id).faction = faction;

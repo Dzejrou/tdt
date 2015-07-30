@@ -2,7 +2,8 @@
 
 enum class ENTITY_STATE
 {
-	NONE, NORMAL 
+	NONE, NORMAL,
+	COUNT
 };
 
 enum class FACTION
@@ -12,15 +13,18 @@ enum class FACTION
 
 enum class ENTITY_TYPE
 {
-	NONE, WALL
+	NONE, WALL,
+	COUNT
 };
 
 enum class EVENT_TYPE
 {
-	NONE
+	NONE,
+	COUNT
 };
 
 enum class TASK_TYPE
 {
-	NONE, GOTO
+	NONE, GOTO,
+	COUNT
 };
