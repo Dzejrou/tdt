@@ -31,12 +31,14 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="SelectionBox.cpp" />
+    <ClCompile Include="TaskSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AISystem.hpp" />
     <ClInclude Include="Components.hpp" />
     <ClInclude Include="Console.hpp" />
     <ClInclude Include="EntitySystem.hpp" />
+    <ClInclude Include="Enums.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GridSystem.hpp" />
     <ClInclude Include="HealthSystem.hpp" />
@@ -46,6 +48,7 @@
     <ClInclude Include="MovementSystem.hpp" />
     <ClInclude Include="SelectionBox.hpp" />
     <ClInclude Include="System.hpp" />
+    <ClInclude Include="TaskSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\ogre.lua" />
