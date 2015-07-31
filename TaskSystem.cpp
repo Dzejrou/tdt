@@ -68,6 +68,41 @@ std::size_t TaskSystem::create_task(std::size_t target, TASK_TYPE type)
 	return id;
 }
 
+std::deque<std::size_t> TaskSystem::get_task_queue(std::size_t id)
+{
+	if(entities_.has_component<TaskHandlerComponent>(id))
+		return entities_.get_component<TaskHandlerComponent>(id).task_queue;
+	else
+		return std::deque<std::size_t>{};
+}
+
+void TaskSystem::clear_task_queue(std::size_t id)
+{
+	if(entities_.has_component<TaskHandlerComponent>(id))
+	{
+		auto& task_queue = entities_.get_component<TaskHandlerComponent>(id).task_queue;
+		for(auto& task : task_queue)
+		{
+			if(entities_.has_component<TaskComponent>(task))
+				entities_.destroy_entity(task);
+		}
+		task_queue.clear();
+	}
+}
+
+bool TaskSystem::task_possible(std::size_t ent_id, std::size_t task_id) const
+{
+	if(entities_.has_component<TaskHandlerComponent>(ent_id) &&
+	   entities_.has_component<TaskComponent>(task_id))
+	{
+		auto& handler = entities_.get_component<TaskHandlerComponent>(ent_id);
+		auto& task = entities_.get_component<TaskComponent>(task_id);
+		return handler.possible_tasks.test((int)task.task_type);
+	}
+	else
+		return false;
+}
+
 void TaskSystem::next_task_(TaskHandlerComponent& comp)
 {
 	if(!comp.task_queue.empty())
