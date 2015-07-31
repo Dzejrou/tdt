@@ -473,6 +473,9 @@ void Game::lua_init()
 		{"add_task", Game::lua_add_task},
 		{"cancel_task", Game::lua_cancel_task},
 		{"create_task", Game::lua_create_task},
+		{"list_tasks_of", Game::lua_list_tasks_of},
+		{"task_possible", Game::lua_task_possible},
+		{"clear_task_queue", Game::lua_clear_task_queue},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -1217,7 +1220,7 @@ int Game::lua_is_free(lpp::Script::state L)
 
 int Game::lua_set_free(lpp::Script::state L)
 {
-	bool free = lua_toboolean(L, -1) == 1 ? true : false;
+	bool free = lua_toboolean(L, -1) == 1;
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
@@ -1227,7 +1230,7 @@ int Game::lua_set_free(lpp::Script::state L)
 
 int Game::lua_set_free_selected(lpp::Script::state L)
 {
-	bool free = lua_toboolean(L, -1) == 1 ? true : false;
+	bool free = lua_toboolean(L, -1) == 1;
 	lua_pop(L, 1);
 
 	lua_this->grid_system_->set_free_selected(*lua_this->selection_box_, free);
@@ -1280,5 +1283,55 @@ int Game::lua_create_task(lpp::Script::state L)
 	std::size_t id = lua_this->task_system_->create_task(target, task);
 	lua_pushinteger(L, id);
 	return 1;
+}
+
+int Game::lua_list_tasks_of(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+	
+	if(lua_this->entity_system_->has_component<TaskHandlerComponent>(id))
+	{
+		std::string report{};
+		auto& task_queue = lua_this->entity_system_->get_component<TaskHandlerComponent>(id).task_queue;
+
+		for(auto& task : task_queue)
+		{
+			report.append(std::to_string(task) + ": ");
+			if(lua_this->entity_system_->has_component<TaskComponent>(task))
+			{
+				auto& task_comp = lua_this->entity_system_->get_component<TaskComponent>(task);
+				report.append(lua_this->task_system_->get_task_name + " (" + std::to_string(task_comp.source)
+							  + " -> " + std::to_string(task_comp.target) + ").\n");
+			}
+			else
+				report.append(lua_this->task_system_->get_task_name(TASK_TYPE::NONE));
+		}
+		lua_this->console_.print_text(report, Console::ORANGE_TEXT);
+	}
+	else
+		lua_this->console_.print_text("<FAIL> GIVEN ENTITY HAS NO TASKS.", Console::RED_TEXT);
+
+	return 0;
+}
+
+int Game::lua_task_possible(lpp::Script::state L)
+{
+	std::size_t task_id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	bool res = lua_this->task_system_->task_possible(ent_id, task_id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int Game::lua_clear_task_queue(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->task_system_->clear_task_queue(id);
+	return 0;
 }
 #pragma endregion
