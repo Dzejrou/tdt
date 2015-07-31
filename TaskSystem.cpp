@@ -1,7 +1,8 @@
 #include "TaskSystem.hpp"
 
 TaskSystem::TaskSystem(EntitySystem& ents, GridSystem& grid)
-	: entities_{ents}, grid_{grid}
+	: entities_{ents}, grid_{grid},
+	  task_names_{{TASK_TYPE::NONE, "NONE"}, {TASK_TYPE::GOTO, "GOTO"}}
 { /* DUMMY BODY */ }
 
 void TaskSystem::update(Ogre::Real delta)
@@ -88,6 +89,15 @@ void TaskSystem::clear_task_queue(std::size_t id)
 		}
 		task_queue.clear();
 	}
+}
+
+const std::string & TaskSystem::get_task_name(TASK_TYPE type) const
+{
+	auto name = task_names_.find(type);
+	if(name != task_names_.end())
+		return name->second;
+	else
+		return task_names_.at(TASK_TYPE::NONE);
 }
 
 bool TaskSystem::task_possible(std::size_t ent_id, std::size_t task_id) const
