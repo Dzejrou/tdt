@@ -8,11 +8,6 @@ EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
 
 void EntitySystem::update(Ogre::Real)
 {
-	for(auto& ent : entities_)
-	{
-		if(ent.second.none())
-			to_be_destroyed_.push_back(ent.first);
-	}
 	cleanup();
 }
 
