@@ -17,9 +17,9 @@ void TaskSystem::update(Ogre::Real delta)
 		else if(!ent.second.busy)
 		{
 			// Get next valid task if necessary.
-			while((ent.second.curr_task == Component::NO_ENTITY ||
-				  !entities_.has_component<TaskComponent>(ent.second.curr_task)) &&
-				  !ent.second.task_queue.empty())
+			while(!ent.second.task_queue.empty() &&
+				  (ent.second.curr_task == Component::NO_ENTITY ||
+				  !entities_.has_component<TaskComponent>(ent.second.curr_task)))
 			{
 				next_task_(ent.second);
 			}
@@ -88,8 +88,10 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task)
 	{
 		case TASK_TYPE::GOTO:
 		{
-			Ogre::Vector3 pos = entities_.get_component<PhysicsComponent>(task.source).position;
-			grid_.perform_a_star(id, grid_.get_node_from_position(pos.x, pos.z), task.target);
+			Ogre::Vector3 source_pos = entities_.get_component<PhysicsComponent>(task.source).position;
+			Ogre::Vector3 target_pos = entities_.get_component<PhysicsComponent>(task.target).position;
+			grid_.perform_a_star(id, grid_.get_node_from_position(source_pos.x, source_pos.z),
+								     grid_.get_node_from_position(target_pos.x, target_pos.z));
 			break;
 		}
 	
