@@ -2,7 +2,7 @@
 
 enum class ENTITY_STATE
 {
-	NONE, NORMAL,
+	NONE, NORMAL, TURNING,
 	COUNT
 };
 
@@ -13,7 +13,7 @@ enum class FACTION
 
 enum class ENTITY_TYPE
 {
-	NONE, WALL,
+	NONE, WALL_BASIC,
 	COUNT
 };
 
