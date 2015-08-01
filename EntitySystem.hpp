@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <set>
 
 #include "System.hpp"
 #include "Components.hpp"
@@ -184,6 +185,19 @@ class EntitySystem : public System
 		 * Param: ID of the entity.
 		 */
 		void init_graphics_component(std::size_t);
+
+		/**
+		 * Brief: Registers an entity that has been loaded from a Lua script.
+		 *        (If it has been registered previously, the register ignores it.)
+		 * Param: Name of the table containing the info about the entity.
+		 */
+		void register_entity(const std::string&);
+
+		/**
+		 * Brief: Returns a reference to the set containing all entity tables registered
+		 *        during the game's runtime.
+		 */
+		std::set<std::string>& get_registered_entities();
 	private:
 		/**
 		 * Brief: Loads a component from a Lua script.
@@ -229,6 +243,11 @@ class EntitySystem : public System
 		 * Reference to the game's scene manager used to create nodes and entities.
 		 */
 		Ogre::SceneManager& scene_;
+
+		/**
+		 * Contains the names of all loaded entity tables.
+		 */
+		std::set<std::string> entity_register_;
 };
 
 /**

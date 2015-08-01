@@ -3,7 +3,7 @@
 EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
 	: scene_{mgr}, entities_{}, physics_{}, health_{}, ai_{},
 	  graphics_{}, movement_{}, combat_{}, event_{}, to_be_destroyed_{},
-	  components_to_be_removed_{}
+	  components_to_be_removed_{}, entity_register_{}
 { /* DUMMY BODY */ }
 
 void EntitySystem::update(Ogre::Real)
@@ -61,6 +61,8 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 
 	if(table_name == "") // Allows to create empty entities that are setup manually.
 		return id;
+	else
+		register_entity(table_name);
 
 	auto& bits = entities_.find(id)->second;
 
@@ -316,4 +318,14 @@ void EntitySystem::init_graphics_component(std::size_t id)
 	comp.node = scene_.getRootSceneNode()->createChildSceneNode();
 	comp.node->attachObject(comp.entity);
 	comp.node->setVisible(comp.visible);
+}
+
+void EntitySystem::register_entity(const std::string& table_name)
+{
+	entity_register_.emplace(table_name);
+}
+
+std::set<std::string>& EntitySystem::get_registered_entities()
+{
+	return entity_register_;
 }
