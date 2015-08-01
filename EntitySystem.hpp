@@ -412,6 +412,9 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 		comp.visible = false;
 		comp.node->setVisible(false);
 	}
+
+	if(has_component<PhysicsComponent>(id))
+		get_component<PhysicsComponent>(id).half_height = comp.entity->getBoundingBox().getCenter().y;
 }
 
 template<>

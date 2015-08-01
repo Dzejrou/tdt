@@ -318,6 +318,9 @@ void EntitySystem::init_graphics_component(std::size_t id)
 	comp.node = scene_.getRootSceneNode()->createChildSceneNode();
 	comp.node->attachObject(comp.entity);
 	comp.node->setVisible(comp.visible);
+
+	if(has_component<PhysicsComponent>(id))
+		get_component<PhysicsComponent>(id).half_height = comp.entity->getBoundingBox().getCenter().y;
 }
 
 void EntitySystem::register_entity(const std::string& table_name)
