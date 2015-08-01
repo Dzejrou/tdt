@@ -206,12 +206,6 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 		main_cam_->yaw(Ogre::Degree(-.13f * event.state.X.rel));
 		main_cam_->pitch(Ogre::Degree(-.13f * event.state.Y.rel));
 	}
-	/*
-	else if(event.state.buttonDown(OIS::MB_Right))
-	{
-		main_cam_->yaw(Ogre::Degree(.13f * event.state.X.rel));
-		main_cam_->pitch(Ogre::Degree(.13f * event.state.Y.rel));
-	} */
 
 	// Update CEGUI mouse position. TODO: Do this only if GUI is visible?
 	auto& gui_cont = CEGUI::System::getSingleton().getDefaultGUIContext();
@@ -229,7 +223,7 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 	else if(selection_box_->is_selecting())
 	{
 		auto& mouse = gui_cont.getMouseCursor();
-		Ogre::Vector2 end{
+		Ogre::Vector2 end{ // Can't use get_mouse_click_position as this is rendered in 2D.
 			mouse.getPosition().d_x / (float)event.state.width,
 			mouse.getPosition().d_y / (float)event.state.height
 		};
@@ -244,7 +238,7 @@ bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 	auto& gui_context = CEGUI::System::getSingleton().getDefaultGUIContext();
 	gui_context.injectMouseButtonDown(ois_to_cegui(id));
 
-	if(id == OIS::MB_Left && !console_.is_visible()) // TODO: State switch!
+	if(id == OIS::MB_Left && !console_.is_visible() && !placer_->is_visible()) // TODO: State switch!
 	{ // Start selection.
 		auto& mouse = gui_context.getMouseCursor();
 
@@ -442,6 +436,7 @@ void Game::lua_init()
 		{"init_graphics_component", Game::lua_init_graphics_component},
 		{"list_entity_tables", Game::lua_list_entity_tables},
 		{"place_entity", Game::lua_place_entity},
+		{"register_entity", Game::lua_register_entity},
 
 		// Movement system.
 		{"move_to", Game::lua_move_to},
@@ -765,6 +760,15 @@ int Game::lua_place_entity(lpp::Script::state L)
 
 	lua_this->placer_->set_current_entity_table(table_name);
 	lua_this->placer_->set_visible(true);
+	return 0;
+}
+
+int Game::lua_register_entity(lpp::Script::state L)
+{
+	std::string table_name = luaL_checkstring(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->entity_system_->register_entity(table_name);
 	return 0;
 }
 

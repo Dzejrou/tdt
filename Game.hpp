@@ -200,6 +200,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_init_graphics_component(lpp::Script::state);
 		static int lua_list_entity_tables(lpp::Script::state);
 		static int lua_place_entity(lpp::Script::state);
+		static int lua_register_entity(lpp::Script::state);
 
 		// Movement system.
 		static int lua_move_to(lpp::Script::state);
