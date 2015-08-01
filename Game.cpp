@@ -9,9 +9,9 @@ Game::Game()
 	: state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
-	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, camera_free_mode_{false},
-	  camera_position_backup_{0, 0, 0}, camera_orientation_backup_{},
-	  selection_box_{}
+	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, placer_{nullptr}, ground_{nullptr},
+	  camera_free_mode_{false}, camera_position_backup_{0, 0, 0},
+	  camera_orientation_backup_{}, selection_box_{}
 {
 	ogre_init();
 	ois_init();
@@ -40,6 +40,8 @@ Game::Game()
 						                  *scene_mgr_->createPlaneBoundedVolumeQuery(Ogre::PlaneBoundedVolumeList{}),
 						                  *scene_mgr_->createRayQuery(Ogre::Ray{}),
 						                  *scene_mgr_});
+
+	placer_.reset(new EntityPlacer{*entity_system_, *scene_mgr_});
 
 	lua_this = this;
 	lua_init();
@@ -218,7 +220,13 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 		gui_cont.injectMouseWheelChange(event.state.Z.rel / 120.f); // Note: 120.f is a magic number used by MS, might not be
 																	//       cross-platform.
 
-	if(selection_box_->is_selecting())
+	if(placer_->is_visible())
+	{
+		auto res = get_mouse_click_position(event);
+		if(res.first)
+			placer_->update_position(res.second);
+	}
+	else if(selection_box_->is_selecting())
 	{
 		auto& mouse = gui_cont.getMouseCursor();
 		Ogre::Vector2 end{
@@ -249,6 +257,15 @@ bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 		selection_box_->set_selecting(true);
 		//selection_box_->set_corners(start, start);
 	}
+
+	if(placer_->is_visible())
+	{
+		if(id == OIS::MB_Left)
+			placer_->place(console_);
+		else if(id == OIS::MB_Right)
+			placer_->set_visible(false);
+	}
+
 
 	return true;
 }
@@ -385,10 +402,10 @@ void Game::ois_init()
 void Game::level_init()
 {
 	// Create floor.
-	Ogre::Plane ground{Ogre::Vector3::UNIT_Y, 0};
+	ground_.reset(new Ogre::Plane{Ogre::Vector3::UNIT_Y, 0});
 	Ogre::MeshManager::getSingleton().createPlane(
 		"ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-		ground, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z
+		*ground_, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z
 		);
 	Ogre::Entity* ground_entity = scene_mgr_->createEntity("ground");
 	ground_entity->setCastShadows(false);
@@ -423,6 +440,8 @@ void Game::lua_init()
 		{"add_component", Game::lua_add_component},
 		{"delete_component", Game::lua_delete_component},
 		{"init_graphics_component", Game::lua_init_graphics_component},
+		{"list_entity_tables", Game::lua_list_entity_tables},
+		{"place_entity", Game::lua_place_entity},
 
 		// Movement system.
 		{"move_to", Game::lua_move_to},
@@ -567,6 +586,19 @@ void Game::toggle_camera_free_mode()
 	}
 }
 
+std::pair<bool, Ogre::Vector3> Game::get_mouse_click_position(const OIS::MouseEvent& event) const
+{
+	auto& mouse = CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor();
+	float screen_x = mouse.getPosition().d_x / (float)event.state.width;
+	float screen_y = mouse.getPosition().d_y / (float)event.state.height;
+	Ogre::Ray ray = main_cam_->getCameraToViewportRay(screen_x, screen_y);
+
+	auto res = ray.intersects(*ground_);
+	auto pos = ray.getPoint(res.second);
+
+	return std::make_pair(res.first, Ogre::Vector3{pos.x, pos.z, pos.y});
+}
+
 /**
  * Note: Function definitions below act as an interface between C++ and Lua, they all have
  *		 to have the signature int fname(lpp::Script::state) and return the number of results
@@ -709,6 +741,30 @@ int Game::lua_init_graphics_component(lpp::Script::state L)
 	lua_pop(L, 1);
 
 	lua_this->entity_system_->init_graphics_component(id);
+	return 0;
+}
+
+int Game::lua_list_entity_tables(lpp::Script::state L)
+{
+	auto& ents = lua_this->entity_system_->get_registered_entities();
+
+	if(!ents.empty())
+	{
+		for(const auto& ent : ents)
+			lua_this->console_.print_text(ent, Console::ORANGE_TEXT);
+	}
+	else
+		lua_this->console_.print_text("NO REGISTERED ENTITY TABLES.", Console::ORANGE_TEXT);
+	return 0;
+}
+
+int Game::lua_place_entity(lpp::Script::state L)
+{
+	std::string table_name = luaL_checkstring(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->placer_->set_current_entity_table(table_name);
+	lua_this->placer_->set_visible(true);
 	return 0;
 }
 

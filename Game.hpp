@@ -18,7 +18,7 @@
 #include "lppscript/LppScript.hpp"
 #include "Console.hpp"
 #include "SelectionBox.hpp"
-#include "Line.hpp"
+#include "EntityPlacer.hpp"
 
 enum class GAME_STATE
 {
@@ -133,6 +133,16 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		Console console_;
 
 		/**
+		 * Allows to spawn entities with the mouse ingame.
+		 */
+		std::unique_ptr<EntityPlacer> placer_;
+
+		/**
+		 * The game's ground represented by a plane, used for ray intersections.
+		 */
+		std::unique_ptr<Ogre::Plane> ground_;
+
+		/**
 		 * Indicates whether the camera is in a free movement mode.
 		 */
 		bool camera_free_mode_;
@@ -151,6 +161,13 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * Brief: Toggles the free camera movement mode.
 		 */
 		void toggle_camera_free_mode();
+
+		/**
+		 * Brief: Returns a pair consisting of the location of the point where the player
+		 *        clicked on the ground plane and a boolean indicating if the click was indeed
+		 *        on the ground plane.
+		 */
+		std::pair<bool, Ogre::Vector3> get_mouse_click_position(const OIS::MouseEvent&) const;
 
 		/**
 		 * Selection box used to select multiple entities at once.
@@ -175,12 +192,14 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_destroy_selected(lpp::Script::state);
 		static int lua_list_components_of(lpp::Script::state);
 
-		// Entity manipulation.
+		// Entity system.
 		static int lua_create_entity(lpp::Script::state);
 		static int lua_destroy_entity(lpp::Script::state);
 		static int lua_add_component(lpp::Script::state);
 		static int lua_delete_component(lpp::Script::state);
 		static int lua_init_graphics_component(lpp::Script::state);
+		static int lua_list_entity_tables(lpp::Script::state);
+		static int lua_place_entity(lpp::Script::state);
 
 		// Movement system.
 		static int lua_move_to(lpp::Script::state);
