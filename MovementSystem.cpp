@@ -8,7 +8,7 @@ void MovementSystem::update(Ogre::Real delta)
 { // TODO: Fix this...
 	for(auto& ent : entities_.get_component_container<PathfindingComponent>())
 	{
-		auto& path_comp = entities_.get_component<PathfindingComponent>(ent.first);
+		auto& path_comp = ent.second;
 
 		if(path_comp.path_queue.empty())
 			continue;

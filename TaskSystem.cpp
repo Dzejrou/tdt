@@ -43,12 +43,12 @@ void TaskSystem::add_task(std::size_t ent_id, std::size_t task_id)
 	{
 		auto& comp = entities_.get_component<TaskHandlerComponent>(ent_id);
 		auto& task = entities_.get_component<TaskComponent>(task_id);
-		task.source = ent_id;
 
 		// Make sure the entity can handle this task.
 		if(!comp.possible_tasks.test((int)task.task_type))
 			return;
 
+		task.source = ent_id;
 		comp.task_queue.push_back(task_id);
 	}
 }
@@ -132,14 +132,23 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task)
 	switch(task.task_type)
 	{
 		case TASK_TYPE::GOTO:
+		case TASK_TYPE::GO_NEAR:
 		{
-			Ogre::Vector3 source_pos = entities_.get_component<PhysicsComponent>(task.source).position;
-			Ogre::Vector3 target_pos = entities_.get_component<PhysicsComponent>(task.target).position;
+			auto source_pos = entities_.get_component<PhysicsComponent>(task.source).position;
+			auto target_pos = entities_.get_component<PhysicsComponent>(task.target).position;
 			grid_.perform_a_star(id, grid_.get_node_from_position(source_pos.x, source_pos.z),
 								     grid_.get_node_from_position(target_pos.x, target_pos.z));
+
+			if(task.task_type == TASK_TYPE::GO_NEAR)
+			{
+				auto& path_comp = entities_.get_component<PathfindingComponent>(task.source);
+				path_comp.path_queue.pop_back(); // Doesn't reach the final grid node.
+				path_comp.target_id = path_comp.path_queue.back();
+				task.target = path_comp.path_queue.back();
+			}
+
 			break;
 		}
-	
 	}
 }
 
@@ -152,6 +161,7 @@ bool TaskSystem::current_task_completed_(TaskHandlerComponent& handler)
 		switch(task.task_type)
 		{
 			case TASK_TYPE::GOTO:
+			case TASK_TYPE::GO_NEAR:
 				return entities_.get_component<PhysicsComponent>(task.source).position ==
 					   entities_.get_component<PhysicsComponent>(task.target).position;
 			default:
