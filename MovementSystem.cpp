@@ -28,11 +28,6 @@ void MovementSystem::update(Ogre::Real delta)
 			move_to(ent.first, get_position(next));
 			path_comp.last_id = next;
 			path_comp.path_queue.pop_front();
-
-			if(path_comp.target_id == next)
-			{
-				// TODO: Possibly check this from within the update method and ignore it here?
-			}
 		}
 	}
 }
