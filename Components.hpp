@@ -35,12 +35,13 @@ struct PhysicsComponent
 	static constexpr int type = 0;
 
 	PhysicsComponent(bool s = false)
-		: position{0, 0, 0}, solid{s}
+		: position{0, 0, 0}, solid{s}, half_height{false}
 	{ /* DUMMY BODY */ }
 	PhysicsComponent(const PhysicsComponent&) = default;
 
 	Ogre::Vector3 position;
 	bool solid;
+	Ogre::Real half_height;
 };
 
 /**
