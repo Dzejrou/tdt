@@ -20,7 +20,7 @@ void MovementSystem::update(Ogre::Real delta)
 
 		if(!move(ent.first, dir_to_next))
 		{
-			// TODO: perform a*?
+			// TODO: perform a*? Or wait and then perform a*?
 		}
 
 		if(get_distance(ent.first, next) < move_comp.speed_modifier)
