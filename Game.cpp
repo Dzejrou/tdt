@@ -11,7 +11,7 @@ Game::Game()
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
 	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, placer_{nullptr}, ground_{nullptr},
 	  camera_free_mode_{false}, camera_position_backup_{0, 0, 0},
-	  camera_orientation_backup_{}, selection_box_{}
+	  camera_orientation_backup_{}, selection_box_{}, entity_creator_{nullptr}
 {
 	ogre_init();
 	ois_init();
@@ -40,8 +40,8 @@ Game::Game()
 						                  *scene_mgr_->createPlaneBoundedVolumeQuery(Ogre::PlaneBoundedVolumeList{}),
 						                  *scene_mgr_->createRayQuery(Ogre::Ray{}),
 						                  *scene_mgr_});
-
 	placer_.reset(new EntityPlacer{*entity_system_, *scene_mgr_});
+	entity_creator_.reset(new EntityCreator{*placer_, *entity_system_});
 
 	lua_this = this;
 	lua_init();
@@ -424,6 +424,7 @@ void Game::lua_init()
 		{"set_game_state", Game::lua_set_game_state},
 		{"toggle_bounding_boxes", Game::lua_toggle_bounding_boxes},
 		{"toggle_camera_free_mode", Game::lua_toggle_camera_free_mode},
+		{"toggle_entity_creator", Game::lua_toggle_entity_creator},
 		{"list_selected", Game::lua_list_selected},
 		{"destroy_selected", Game::lua_destroy_selected},
 		{"list_components_of", Game::lua_list_components_of},
@@ -641,6 +642,12 @@ int Game::lua_toggle_bounding_boxes(lpp::Script::state)
 int Game::lua_toggle_camera_free_mode(lpp::Script::state)
 {
 	lua_this->toggle_camera_free_mode();
+	return 0;
+}
+
+int Game::lua_toggle_entity_creator(lpp::Script::state L)
+{
+	lua_this->entity_creator_->set_visible(!lua_this->entity_creator_->is_visible());
 	return 0;
 }
 

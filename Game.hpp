@@ -19,6 +19,7 @@
 #include "Console.hpp"
 #include "SelectionBox.hpp"
 #include "EntityPlacer.hpp"
+#include "EntityCreator.hpp"
 
 enum class GAME_STATE
 {
@@ -175,6 +176,11 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<SelectionBox> selection_box_;
 
 		/**
+		 *
+		 */
+		std::unique_ptr<EntityCreator> entity_creator_;
+
+		/**
 		 * These methods are to be used from Lua, note that Lua can register only
 		 * static functions, so a static pointer to the instance of this game is created in
 		 * the game's constructor and used in these static functions.
@@ -188,6 +194,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_set_game_state(lpp::Script::state);
 		static int lua_toggle_bounding_boxes(lpp::Script::state);
 		static int lua_toggle_camera_free_mode(lpp::Script::state);
+		static int lua_toggle_entity_creator(lpp::Script::state);
 		static int lua_list_selected(lpp::Script::state);
 		static int lua_destroy_selected(lpp::Script::state);
 		static int lua_list_components_of(lpp::Script::state);
