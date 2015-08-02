@@ -1,12 +1,7 @@
 #include "EntityCreator.hpp"
 
 EntityCreator::EntityCreator(EntityPlacer& placer, EntitySystem& ents)
-	: placer_{placer}, entities_{ents}, registered_entities_{ents.get_registered_entities()}
-{
-	init();
-}
-
-void EntityCreator::init()
+	: placer_{placer}, registered_entities_{ents.get_registered_entities()}
 {
 	window_ = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("entity_creator.layout");
 	window_->setVisible(false);
