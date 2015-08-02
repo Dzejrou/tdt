@@ -60,6 +60,7 @@ std::size_t EntityPlacer::place(Console& console)
 
 	console.print_text("Placed entity #" + std::to_string(id) + " at (" + std::to_string(curr_position_.x)
 					   + ", " + std::to_string(curr_position_.y) + ")\nTable: " + table_name_);
+	console.scroll_down();
 	return id;
 }
 
