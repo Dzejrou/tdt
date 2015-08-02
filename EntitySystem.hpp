@@ -413,8 +413,13 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 		comp.node->setVisible(false);
 	}
 
+	// Make the entity stand on ground.
+	auto half_height = comp.entity->getWorldBoundingBox(true).getHalfSize().y;
 	if(has_component<PhysicsComponent>(id))
-		get_component<PhysicsComponent>(id).half_height = comp.entity->getBoundingBox().getCenter().y;
+		get_component<PhysicsComponent>(id).half_height = half_height;
+	auto pos = comp.node->getPosition();
+	comp.node->setPosition(pos.x, half_height, pos.z);
+
 }
 
 template<>

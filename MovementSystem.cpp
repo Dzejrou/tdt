@@ -15,8 +15,8 @@ void MovementSystem::update(Ogre::Real delta)
 
 		auto& move_comp = entities_.get_component<MovementComponent>(ent.first);
 		auto& phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
-		std::size_t next = path_comp.path_queue.front();
-		Ogre::Vector3 dir_to_next = dir_to_enemy(ent.first, next); // TODO: Rename to dir_to_entity?
+		auto next = path_comp.path_queue.front();
+		auto dir_to_next = dir_to_enemy(ent.first, next); // TODO: Rename to dir_to_entity?
 
 		if(!move(ent.first, dir_to_next))
 		{

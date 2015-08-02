@@ -34,7 +34,7 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 		}
 		placed_entity_ = scene_mgr_.createEntity(mesh);
 		placing_node_.attachObject(placed_entity_);
-		half_height_ = placed_entity_->getBoundingBox().getCenter().y;
+		half_height_ = placed_entity_->getBoundingBox().getHalfSize().y;
 	}
 }
 
