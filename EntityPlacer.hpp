@@ -6,11 +6,12 @@
 
 #include "EntitySystem.hpp"
 #include "Console.hpp"
+#include "GridSystem.hpp"
 
 class EntityPlacer
 {
 	public:
-		EntityPlacer(EntitySystem&, Ogre::SceneManager&);
+		EntityPlacer(EntitySystem&, Ogre::SceneManager&, GridSystem&);
 		~EntityPlacer();
 
 		void set_current_entity_table(const std::string&);
@@ -21,10 +22,13 @@ class EntityPlacer
 	private:
 		EntitySystem& entities_;
 		Ogre::SceneManager& scene_mgr_;
+		GridSystem& grid_;
 		Ogre::Vector3 curr_position_;
 		Ogre::SceneNode& placing_node_;
 		Ogre::Entity* placed_entity_;
 		bool visible_;
 		std::string table_name_;
 		Ogre::Real half_height_;
+		bool placing_building_;
+		std::size_t building_radius_;
 };
