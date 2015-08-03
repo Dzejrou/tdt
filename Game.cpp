@@ -592,7 +592,7 @@ std::pair<bool, Ogre::Vector3> Game::get_mouse_click_position(const OIS::MouseEv
 	auto res = ray.intersects(*ground_);
 	auto pos = ray.getPoint(res.second);
 
-	return std::make_pair(res.first, Ogre::Vector3{pos.x, pos.y, pos.z});
+	return std::make_pair(res.first, pos);
 }
 
 /**
