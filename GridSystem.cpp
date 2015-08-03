@@ -78,7 +78,7 @@ std::size_t GridSystem::get_node(std::size_t w, std::size_t h) const
 	if(in_board_(w + h * width_))
 		return board_[w + h * width_];
 	else
-		return std::numeric_limits<std::size_t>::max();
+		return Component::NO_ENTITY;
 }
 
 std::size_t GridSystem::get_node_from_position(Ogre::Real x, Ogre::Real y) const
