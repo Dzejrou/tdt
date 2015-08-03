@@ -47,16 +47,21 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 
 void EntityPlacer::update_position(const Ogre::Vector3& pos)
 {
-	auto node_id = grid_.get_node_from_position(pos.x, pos.z);
+	if(placing_building_)
+	{
+		auto node_id = grid_.get_node_from_position(pos.x, pos.z);
 
-	if(node_id == Component::NO_ENTITY)
-		return;
+		if(node_id == Component::NO_ENTITY)
+			return;
 
-	// Snap to grid.
-	auto node_pos = entities_.get_component<PhysicsComponent>(node_id).position;
-	curr_position_ = node_pos;
+		// Snap to grid.
+		auto& node_pos = entities_.get_component<PhysicsComponent>(node_id).position;
+		curr_position_ = Ogre::Vector3{node_pos.x, half_height_, node_pos.z};
+	}
+	else
+		curr_position_ = Ogre::Vector3{pos.x, half_height_, pos.z};
 	
-	placing_node_.setPosition(node_pos.x, half_height_, node_pos.z);
+	placing_node_.setPosition(curr_position_);
 }
 
 std::size_t EntityPlacer::place(Console& console)
