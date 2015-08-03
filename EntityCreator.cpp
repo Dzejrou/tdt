@@ -22,8 +22,11 @@ EntityCreator::EntityCreator(EntityPlacer& placer, EntitySystem& ents)
 void EntityCreator::place(const CEGUI::EventArgs& args)
 {
 	auto selected = list_box_->getFirstSelectedItem();
-	placer_.set_current_entity_table(selected->getText().c_str());
-	placer_.set_visible(true);
+	if(selected)
+	{
+		placer_.set_current_entity_table(selected->getText().c_str());
+		placer_.set_visible(true);
+	}
 }
 
 void EntityCreator::change_to_place(const CEGUI::EventArgs& args)
@@ -44,7 +47,9 @@ void EntityCreator::actualize_list(const CEGUI::EventArgs& args)
 	for(auto& ent : registered_entities_)
 	{
 		item = new CEGUI::ListboxTextItem(ent);
-		item->setTextColours(col);
+		item->setTextColours(Console::ORANGE_TEXT);
+		item->setSelectionBrushImage("AlfiskoSkin/GenericBrush");
+		item->setSelectionColours(Console::GREEN_TEXT);
 		list_box_->addItem(item);
 	}
 }
