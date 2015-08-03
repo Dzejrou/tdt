@@ -13,7 +13,7 @@
 class Console
 {
 	public:
-	static const CEGUI::Colour RED_TEXT, GREEN_TEXT, ORANGE_TEXT;
+	static const CEGUI::Colour RED_TEXT, GREEN_TEXT, ORANGE_TEXT, BLUE_TEXT;
 		/**
 		 * Constructor.
 		 */

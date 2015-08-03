@@ -3,7 +3,8 @@
 // Static initialization:
 const CEGUI::Colour Console::RED_TEXT = CEGUI::Colour{1.f, 0.f, 0.f};
 const CEGUI::Colour Console::GREEN_TEXT = CEGUI::Colour{0.f, 1.f, 0.f};
-const CEGUI::Colour Console::ORANGE_TEXT = CEGUI::Colour{1.f, 0.5f, 0.1f};
+const CEGUI::Colour Console::ORANGE_TEXT = CEGUI::Colour{1.f, .5f, 0.1f};
+const CEGUI::Colour Console::BLUE_TEXT = CEGUI::Colour{0.f, 0.f, 1.f};
 
 Console::Console()
 	: window_{nullptr}, list_box_{nullptr}, curr_command_{}
