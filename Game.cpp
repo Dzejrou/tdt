@@ -40,7 +40,7 @@ Game::Game()
 						                  *scene_mgr_->createPlaneBoundedVolumeQuery(Ogre::PlaneBoundedVolumeList{}),
 						                  *scene_mgr_->createRayQuery(Ogre::Ray{}),
 						                  *scene_mgr_});
-	placer_.reset(new EntityPlacer{*entity_system_, *scene_mgr_});
+	placer_.reset(new EntityPlacer{*entity_system_, *scene_mgr_, *grid_system_});
 	entity_creator_.reset(new EntityCreator{*placer_, *entity_system_});
 
 	lua_this = this;
@@ -592,7 +592,7 @@ std::pair<bool, Ogre::Vector3> Game::get_mouse_click_position(const OIS::MouseEv
 	auto res = ray.intersects(*ground_);
 	auto pos = ray.getPoint(res.second);
 
-	return std::make_pair(res.first, Ogre::Vector3{pos.x, pos.z, pos.y});
+	return std::make_pair(res.first, Ogre::Vector3{pos.x, pos.y, pos.z});
 }
 
 /**
