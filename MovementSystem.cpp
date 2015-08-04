@@ -28,6 +28,16 @@ void MovementSystem::update(Ogre::Real delta)
 			move_to(ent.first, get_position(next));
 			path_comp.last_id = next;
 			path_comp.path_queue.pop_front();
+			if(!path_comp.path_queue.empty())
+			{
+				/*
+				rotate(ent.first, -get_angle(phys_comp.position,
+					   entities_.get_component<PhysicsComponent>(path_comp.path_queue.front()).position));
+					   */
+				entities_.get_component<GraphicsComponent>(ent.first).node->lookAt(
+					entities_.get_component<PhysicsComponent>(path_comp.path_queue.front()).position,
+					Ogre::Node::TransformSpace::TS_WORLD, Ogre::Vector3::UNIT_Z);
+			}
 		}
 	}
 }
