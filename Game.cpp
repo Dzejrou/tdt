@@ -1247,7 +1247,7 @@ int Game::lua_set_input_handler(lpp::Script::state L)
 
 int Game::lua_toggle_first_person(lpp::Script::state L)
 {
-	std::size_t id{0};
+	std::size_t id{Component::NO_ENTITY};
 	if(lua_gettop(L) >= 1) // Allow for easy exit.
 	{
 		id = (std::size_t)luaL_checkinteger(L, -1);
