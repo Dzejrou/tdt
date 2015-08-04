@@ -2,7 +2,7 @@
 
 TaskSystem::TaskSystem(EntitySystem& ents, GridSystem& grid)
 	: entities_{ents}, grid_{grid},
-	  task_names_{{TASK_TYPE::NONE, "NONE"}, {TASK_TYPE::GOTO, "GOTO"}}
+	  task_names_{{TASK_TYPE::NONE, "NONE"}, {TASK_TYPE::GO_TO, "GO_TO"}}
 { /* DUMMY BODY */ }
 
 void TaskSystem::update(Ogre::Real delta)
@@ -131,7 +131,7 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task)
 	 */
 	switch(task.task_type)
 	{
-		case TASK_TYPE::GOTO:
+		case TASK_TYPE::GO_TO:
 		case TASK_TYPE::GO_NEAR:
 		{
 			auto source_pos = entities_.get_component<PhysicsComponent>(task.source).position;
@@ -160,7 +160,7 @@ bool TaskSystem::current_task_completed_(TaskHandlerComponent& handler)
 	
 		switch(task.task_type)
 		{
-			case TASK_TYPE::GOTO:
+			case TASK_TYPE::GO_TO:
 			case TASK_TYPE::GO_NEAR:
 				return entities_.get_component<PhysicsComponent>(task.source).position ==
 					   entities_.get_component<PhysicsComponent>(task.target).position;

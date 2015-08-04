@@ -25,6 +25,6 @@ enum class EVENT_TYPE
 
 enum class TASK_TYPE
 {
-	NONE, GOTO, GO_NEAR,
+	NONE, GO_TO, GO_NEAR,
 	COUNT
 };
