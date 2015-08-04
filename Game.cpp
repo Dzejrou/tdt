@@ -428,6 +428,8 @@ void Game::lua_init()
 		{"list_selected", Game::lua_list_selected},
 		{"destroy_selected", Game::lua_destroy_selected},
 		{"list_components_of", Game::lua_list_components_of},
+		{"load", Game::lua_load},
+		{"reload_all", Game::lua_reload_all},
 
 		// Entity manipulation.
 		{"create_entity", Game::lua_create_entity},
@@ -692,6 +694,21 @@ int Game::lua_list_components_of(lpp::Script::state L)
 	}
 
 	lua_this->console_.print_text(report, Console::ORANGE_TEXT);
+	return 0;
+}
+
+int Game::lua_load(lpp::Script::state L)
+{
+	std::string script = luaL_checkstring(L, -1);
+	lua_pop(L, 1);
+
+	lpp::Script::get_singleton().load(script);
+	return 0;
+}
+
+int Game::lua_reload_all(lpp::Script::state L)
+{
+	lpp::Script::get_singleton().reload_all_scripts();
 	return 0;
 }
 

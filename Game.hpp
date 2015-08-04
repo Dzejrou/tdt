@@ -198,6 +198,8 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_list_selected(lpp::Script::state);
 		static int lua_destroy_selected(lpp::Script::state);
 		static int lua_list_components_of(lpp::Script::state);
+		static int lua_load(lpp::Script::state);
+		static int lua_reload_all(lpp::Script::state);
 
 		// Entity system.
 		static int lua_create_entity(lpp::Script::state);
