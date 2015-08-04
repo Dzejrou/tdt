@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <tuple>
+#include <set>
 
 namespace lpp
 {
@@ -146,6 +147,11 @@ class Script
 		}
 
 		/**
+		 * Brief: Reloads all script files that have been previously loaded.
+		 */
+		void reload_all_scripts();
+
+		/**
 		 * Brief: Returns a reference to the lpp::Script singleton.
 		 */
 		static Script& get_singleton();
@@ -225,6 +231,11 @@ class Script
 		 * Lua state representing the Lua virtual machine.
 		 */
 		state L;
+
+		/**
+		 * Containes the names of all scripts loaded during the current runtime.
+		 */
+		std::set<std::string> loaded_scripts_;
 };
 
 	/**

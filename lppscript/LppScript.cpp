@@ -10,6 +10,7 @@ std::unique_ptr<lpp::Script> lpp::Script::script_{nullptr};
  * lpp::Script definitions:
  */
 lpp::Script::Script()
+	: loaded_scripts_{}, L{nullptr}
 {
 	L = luaL_newstate();
 	luaL_openlibs(L);
@@ -31,6 +32,8 @@ void lpp::Script::load(const std::string& fname)
 	if(luaL_dofile(L, fname.c_str()))
 		throw Exception("[Error][Lua] Cannot load script: " + fname +
 						".", L);
+
+	loaded_scripts_.emplace(fname);
 }
 
 bool lpp::Script::is_nil(const std::string& name)
@@ -68,6 +71,12 @@ void lpp::Script::clear_stack()
 {
 	int n = lua_gettop(L);
 	lua_pop(L, n);
+}
+
+void lpp::Script::reload_all_scripts()
+{
+	for(const auto& script : loaded_scripts_)
+		load(script);
 }
 
 lpp::Script& lpp::Script::get_singleton()
