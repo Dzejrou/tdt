@@ -1,30 +1,53 @@
 #include "InputSystem.hpp"
 
 InputSystem::InputSystem(EntitySystem& ents, OIS::Keyboard& key, Ogre::Camera& cam)
-	: entities_{ents}, first_person_{false}, first_person_id_{0}, keyboard_{key},
+	: entities_{ents}, first_person_{false}, first_person_id_{Component::NO_ENTITY}, keyboard_{key},
 	  KEY_UP{OIS::KC_W}, KEY_DOWN{OIS::KC_S}, KEY_LEFT{OIS::KC_A}, KEY_RIGHT{OIS::KC_D},
 	  cam_{cam}, cam_position_{}, cam_orientation_{}, ai_backup_{nullptr},
-	  delete_input_{false}
+	  task_backup_{nullptr}, delete_input_{false}
 { /* DUMMY BODY */ }
 
 void InputSystem::update(Ogre::Real delta)
 {
 	if(first_person_)
 	{
+		bool moved{false}, rotated{false};
+
 		lpp::Script& script = lpp::Script::get_singleton();
 		auto& in_comp = entities_.get_component<InputComponent>(first_person_id_);
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_UP))
+		{
 			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_UP);
+			moved = true;
+		}
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_DOWN))
+		{
 			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_DOWN);
+			moved = true;
+		}
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_LEFT))
+		{
 			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_LEFT);
+			rotated = true;
+		}
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_RIGHT))
+		{
 			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_RIGHT);
+			rotated = true;
+		}
 
 		auto& graph_comp = entities_.get_component<GraphicsComponent>(first_person_id_);
-		cam_.setOrientation(graph_comp.node->getOrientation());
-		cam_.setPosition(graph_comp.node->getPosition());
+		if(rotated)
+		{ // TODO: Due to the fact that ogrehead.mesh is facing backwards, this will make the view right, but the
+		  //       controlls get swapped, research!
+			cam_.setOrientation(
+				graph_comp.node->getOrientation() * Ogre::Quaternion{Ogre::Degree{180.f}, Ogre::Vector3::UNIT_Y}
+			);
+		}
+		if(moved)
+		{
+			cam_.setPosition(graph_comp.node->getPosition());
+		}
 	}
 }
 
@@ -43,38 +66,56 @@ void InputSystem::set_first_person(bool on_off, std::size_t id)
 	if(on_off == first_person_)
 		return; // Only one first person mode entity at a time.
 
-	first_person_ = on_off;
-	first_person_id_ = id;
 
-	if(first_person_ && !entities_.has_component<GraphicsComponent>(id))
+	if(id != Component::NO_ENTITY)
+		first_person_id_ = id; // Allows for escaping first person mode without specifying the entity ID.
+	first_person_ = on_off;
+
+	if(first_person_ && !entities_.has_component<GraphicsComponent>(first_person_id_))
 	{
 		first_person_ = false;
-		throw std::runtime_error{"[Error][InputSystem] Trying to use first person mode on an entity without GraphicsComponent: "
-								 + std::to_string(id)};
+		return;
 	}
 
-	// Adds the InputComponent if possible.
-	if(!entities_.has_component<InputComponent>(id) && entities_.has_component<AIComponent>(id))
-	{
-		delete_input_ = true; // Delete it afterwards.
-
-		entities_.add_component<InputComponent>(id); // The entity has to have InputComponent blueprint.
-		auto& ai_comp = entities_.get_component<AIComponent>(id);
-		auto& in_comp = entities_.get_component<InputComponent>(id);
-		in_comp.input_handler = lpp::Script::get_singleton().get<std::string>(ai_comp.blueprint + ".InputComponent.input_handler");
-	}
 
 	if(first_person_)
 	{
 		cam_position_ = cam_.getPosition();
 		cam_orientation_ = cam_.getOrientation();
 
-		// AIComponent backup.
-		if(entities_.has_component<AIComponent>(id))
+		// Adds the InputComponent if possible.
+		bool ai = entities_.has_component<AIComponent>(first_person_id_);
+		if(!entities_.has_component<InputComponent>(first_person_id_) && ai)
 		{
-			ai_backup_.reset(new AIComponent{entities_.get_component<AIComponent>(id)});
-			entities_.delete_component<AIComponent>(id);
+			delete_input_ = true; // Delete it afterwards.
+
+			entities_.add_component<InputComponent>(first_person_id_); // The entity has to have InputComponent blueprint.
+			auto& ai_comp = entities_.get_component<AIComponent>(first_person_id_);
+			auto& in_comp = entities_.get_component<InputComponent>(first_person_id_);
+
+			auto& script = lpp::Script::get_singleton();
+			if(!script.is_nil(ai_comp.blueprint + ".InputComponent.input_handler"))
+				in_comp.input_handler = script.get<std::string>(ai_comp.blueprint + ".InputComponent.input_handler");
 		}
+
+		// AIComponent backup.
+		if(ai)
+		{
+			ai_backup_.reset(new AIComponent{entities_.get_component<AIComponent>(first_person_id_)});
+			entities_.delete_component<AIComponent>(first_person_id_);
+		}
+
+		if(entities_.has_component<TaskHandlerComponent>(first_person_id_))
+		{
+			task_backup_.reset(new TaskHandlerComponent{entities_.get_component<TaskHandlerComponent>(first_person_id_)});
+			entities_.delete_component<TaskHandlerComponent>(first_person_id_);
+		}
+
+		auto& graph_comp = entities_.get_component<GraphicsComponent>(first_person_id_);
+		cam_.setOrientation(
+			graph_comp.node->getOrientation() * Ogre::Quaternion{Ogre::Degree{180.f}, Ogre::Vector3::UNIT_Y}
+		);
+		cam_.setPosition(graph_comp.node->getPosition());
 	}
 	else
 	{ // Restore 3rd person view.
@@ -84,8 +125,7 @@ void InputSystem::set_first_person(bool on_off, std::size_t id)
 		// AIComponent restore.
 		if(ai_backup_)
 		{
-			entities_.add_component<AIComponent>(id);
-			auto& ai_comp = entities_.get_component<AIComponent>(id);
+			auto& ai_comp = entities_.add_component<AIComponent>(first_person_id_);
 
 			ai_comp.blueprint = ai_backup_->blueprint;
 			ai_comp.state = ai_backup_->state;
@@ -93,13 +133,24 @@ void InputSystem::set_first_person(bool on_off, std::size_t id)
 			ai_backup_.reset(nullptr);
 		}
 
+		if(task_backup_)
+		{
+			auto& task_comp = entities_.add_component<TaskHandlerComponent>(first_person_id_);
+			
+			task_comp.busy = task_backup_->busy;
+			task_comp.curr_task = task_backup_->curr_task;
+			task_comp.possible_tasks = task_backup_->possible_tasks;
+			task_comp.task_queue.swap(task_backup_->task_queue);
+			task_backup_.reset(nullptr);
+		}
+
 		if(delete_input_)
 		{
 			delete_input_ = false;
-			entities_.delete_component<InputComponent>(id);
+			entities_.delete_component<InputComponent>(first_person_id_);
 		}
 	}
-	entities_.get_component<GraphicsComponent>(id).node->setVisible(!first_person_);
+	entities_.get_component<GraphicsComponent>(first_person_id_).node->setVisible(!first_person_);
 }
 
 void InputSystem::rebind(int key, int new_key)

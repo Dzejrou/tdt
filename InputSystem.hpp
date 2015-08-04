@@ -115,6 +115,11 @@ class InputSystem : public System
 		std::unique_ptr<AIComponent> ai_backup_;
 
 		/**
+		 * Backup of the task component when entering first person view.
+		 */
+		std::unique_ptr<TaskHandlerComponent> task_backup_;
+
+		/**
 		 * Determines if the InputComponent of the entity being controlled in the
 		 * first person view should be deleted once the game changes back to third person view.
 		 */
