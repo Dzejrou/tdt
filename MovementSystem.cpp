@@ -29,15 +29,7 @@ void MovementSystem::update(Ogre::Real delta)
 			path_comp.last_id = next;
 			path_comp.path_queue.pop_front();
 			if(!path_comp.path_queue.empty())
-			{
-				/*
-				rotate(ent.first, -get_angle(phys_comp.position,
-					   entities_.get_component<PhysicsComponent>(path_comp.path_queue.front()).position));
-					   */
-				entities_.get_component<GraphicsComponent>(ent.first).node->lookAt(
-					entities_.get_component<PhysicsComponent>(path_comp.path_queue.front()).position,
-					Ogre::Node::TransformSpace::TS_WORLD, Ogre::Vector3::UNIT_Z);
-			}
+				look_at(ent.first, path_comp.path_queue.front());
 		}
 	}
 }
@@ -296,4 +288,17 @@ Ogre::Vector3 MovementSystem::get_dir_right(std::size_t id) const
 Ogre::Real MovementSystem::get_angle(Ogre::Vector3 v1, Ogre::Vector3 v2) const
 {
 	return v1.angleBetween(v2).valueRadians();
+}
+
+void MovementSystem::look_at(std::size_t id1, std::size_t id2)
+{
+	if(entities_.has_component<GraphicsComponent>(id1) &&
+	   entities_.has_component<PhysicsComponent>(id2))
+	{
+		entities_.get_component<GraphicsComponent>(id1).node->lookAt(
+				entities_.get_component<PhysicsComponent>(id2).position,
+				Ogre::Node::TransformSpace::TS_WORLD,
+				Ogre::Vector3::UNIT_Z
+			);
+	}
 }

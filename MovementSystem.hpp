@@ -188,6 +188,13 @@ class MovementSystem : public System
 		 * Param: Vector #2.
 		 */
 		Ogre::Real get_angle(Ogre::Vector3, Ogre::Vector3) const;
+
+		/**
+		 * Brief: Rotates a given entity so that it faces another one.
+		 * Param: ID of the first entity.
+		 * Param: ID of the second entity.
+		 */
+		void look_at(std::size_t, std::size_t);
 	private:
 		/**
 		 * Reference to the game's entity system.

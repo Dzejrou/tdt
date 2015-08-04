@@ -462,6 +462,7 @@ void Game::lua_init()
 		{"get_dir_right", Game::lua_get_dir_right},
 		{"get_angle", Game::lua_get_angle},
 		{"get_angle_between", Game::lua_get_angle_between},
+		{"look_at", Game::lua_look_at},
 
 		// Health system.
 		{"get_health", Game::lua_get_health},
@@ -1035,6 +1036,16 @@ int Game::lua_get_angle_between(lpp::Script::state L)
 	auto res = lua_this->movement_system_->get_angle(Ogre::Vector3{x1, y1, z1}, Ogre::Vector3{x2, y2, z2});
 	lua_pushnumber(L, res);
 	return 3;
+}
+
+int Game::lua_look_at(lpp::Script::state L)
+{
+	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->movement_system_->look_at(id1, id2);
+	return 0;
 }
 
 int Game::lua_get_health(lpp::Script::state L)
