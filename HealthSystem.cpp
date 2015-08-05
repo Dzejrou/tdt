@@ -101,6 +101,18 @@ void HealthSystem::buff(std::size_t id, std::size_t val)
 	}
 }
 
+void HealthSystem::set_regen(std::size_t id, std::size_t regen)
+{
+	if(is_valid(id))
+		entities_.get_component<HealthComponent>(id).regen = regen;
+}
+
+void HealthSystem::set_alive(std::size_t id, bool alive)
+{
+	if(is_valid(id))
+		entities_.get_component<HealthComponent>(id).alive = alive;
+}
+
 std::size_t HealthSystem::get_defense(std::size_t id) const
 {
 	if(is_valid(id))

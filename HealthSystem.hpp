@@ -83,6 +83,20 @@ class HealthSystem : public System
 		void buff(std::size_t, std::size_t);
 
 		/**
+		 * Brief: Sets the regeneration value of a given entity.
+		 * Param: ID of the entity.
+		 * Param: The new regen value.
+		 */
+		void set_regen(std::size_t, std::size_t);
+
+		/**
+		 * Brief: Allows to set the health status of an entity without adding/subing health.
+		 * Param: ID of the entity.
+		 * Param: True for "alive" and false for "dead".
+		 */
+		void set_alive(std::size_t, bool);
+
+		/**
 		 * Brief: Returns the defense of a given entity.
 		 * Param: ID of the entity.
 		 */
