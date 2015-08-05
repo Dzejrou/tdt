@@ -783,7 +783,7 @@ int Game::lua_set_material(lpp::Script::state L)
 
 int Game::lua_set_visible(lpp::Script::state L)
 {
-	bool vis = lua_toboolean(L, -1);
+	bool vis = lua_toboolean(L, -1) == 1;
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
@@ -1147,7 +1147,7 @@ int Game::lua_look_at(lpp::Script::state L)
 
 int Game::lua_set_solid(lpp::Script::state L)
 {
-	bool solid = lua_toboolean(L, -1);
+	bool solid = lua_toboolean(L, -1) == 1;
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
@@ -1256,7 +1256,7 @@ int Game::lua_set_regen(lpp::Script::state L)
 
 int Game::lua_set_alive(lpp::Script::state L)
 {
-	bool alive = lua_toboolean(L, -1);
+	bool alive = lua_toboolean(L, -1) == 1;
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
