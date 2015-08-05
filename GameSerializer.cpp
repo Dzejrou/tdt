@@ -11,10 +11,28 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 	std::string file_name{"saves/" + fname + ".lua"};
 	file_.open(file_name);
 
+	// TODO: Things like player info etc.
+
+	// Save the map info.
+	std::string map{
+		  "game.create_graph(" + std::to_string(game.grid_system_->width_) + ", "
+		+ std::to_string(game.grid_system_->height_) + ", " + std::to_string(game.grid_system_->distance_)
+		+ ", " + std::to_string(game.grid_system_->start_.x) + ", " + std::to_string(game.grid_system_->start_.y)
+		+ ")\n"
+	};
+	file_ << map;
+
+	// Save individual entities.
 	std::string entity_name{};
 	for(const auto& ent : entities_.get_component_list())
 	{
+		// Do not save nodes and lines!
+		if(ent.second.test(GridNodeComponent::type) || ent.second.test(GridLineComponent::type))
+			continue;
+
 		entity_name = "entity_" + std::to_string(ent.first);
+		
+		file_ << "\n" << entity_name + " = game.create_entity()\n";
 		for(std::size_t i = 0; i < ent.second.size(); ++i)
 		{
 			if(ent.second.test(i))
@@ -46,36 +64,45 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 						save_component<InputComponent>(ent.first, entity_name);
 						break;
 					case TimeComponent::type:
-					case ManaComponent::type:
-					case SpellComponent::type:
-					case ProductionComponent::type:
-						// TODO:
+						save_component<TimeComponent>(ent.first, entity_name);
 						break;
-					case GridNodeComponent::type:
-					case GridLineComponent::type:
-						// Cannot be loaded automatically, will be handled by GridSystem.
-						// TODO: More research on this.
+					case ManaComponent::type:
+						save_component<ManaComponent>(ent.first, entity_name);
+						break;
+					case SpellComponent::type:
+						save_component<SpellComponent>(ent.first, entity_name);
+						break;
+					case ProductionComponent::type:
+						save_component<ProductionComponent>(ent.first, entity_name);
 						break;
 					case PathfindingComponent::type:
 						save_component<PathfindingComponent>(ent.first, entity_name);
 						break;
 					case TaskComponent::type:
-						// Cannot be loaded automatically, will be handled by TaskSystem.
+						save_component<TaskComponent>(ent.first, entity_name);
 						break;
 					case TaskHandlerComponent::type:
 						save_component<TaskHandlerComponent>(ent.first, entity_name);
 						break;
 				}
 			}
-		}
-	
+		}	
 	}
+	save_tasks();
+	file_.flush();
+	file_.close();
 }
 
 void GameSerializer::load_game(Game& game, const std::string& fname)
 {
-	std::string file_name{"saves/" + fname + ".lua"};
+	// Clean current game.
+	for(auto& ent : entities_.get_component_list())
+	{
+		entities_.destroy_entity(ent.first);
+	}
+	entities_.cleanup();
 
+	std::string file_name{"saves/" + fname + ".lua"};
 	try
 	{
 		script_.load(file_name); // Yes, THAT simple!
@@ -83,9 +110,17 @@ void GameSerializer::load_game(Game& game, const std::string& fname)
 	catch(lpp::Exception& ex)
 	{
 		game.console_.print_text("<FAIL> Could not load from file: " + fname, Console::RED_TEXT);
+		game.console_.print_text(ex.what_lua(), Console::RED_TEXT);
 	}
 }
 
-void GameSerializer::save_entity(std::size_t)
+void GameSerializer::save_tasks()
 {
+	file_ << "\n -- TASKS: --\n";
+	for(auto& task_pair : task_pairs_)
+	{
+		file_ << "game.add_task(" + std::to_string(task_pair.first) + ", "
+			   + std::to_string(task_pair.second) + ")\n";
+	}
+	task_pairs_.clear();
 }
