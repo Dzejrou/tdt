@@ -300,3 +300,15 @@ void MovementSystem::look_at(std::size_t id1, std::size_t id2)
 			);
 	}
 }
+
+void MovementSystem::set_solid(std::size_t id, bool solid)
+{
+	if(entities_.has_component<PhysicsComponent>(id))
+		entities_.get_component<PhysicsComponent>(id).solid = solid;
+}
+
+void MovementSystem::set_half_height(std::size_t id, Ogre::Real hh)
+{
+	if(entities_.has_component<PhysicsComponent>(id))
+		entities_.get_component<PhysicsComponent>(id).half_height = hh;
+}

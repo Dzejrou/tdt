@@ -195,6 +195,20 @@ class MovementSystem : public System
 		 * Param: ID of the second entity.
 		 */
 		void look_at(std::size_t, std::size_t);
+
+		/**
+		 * Brief: Sets the solid state of a given entity.
+		 * Param: ID of the entity.
+		 * Param: The new solid state.
+		 */
+		void set_solid(std::size_t, bool);
+
+		/**
+		 * Brief: Sets the half_height property of a given entity (the default Y coordinate).
+		 * Param: ID of the entity.
+		 * Param: The new half height value.
+		 */
+		void set_half_height(std::size_t, Ogre::Real);
 	private:
 		/**
 		 * Reference to the game's entity system.
