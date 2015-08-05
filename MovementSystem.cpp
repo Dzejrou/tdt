@@ -105,9 +105,7 @@ bool MovementSystem::move(std::size_t id, Ogre::Vector3 dir_vector)
 
 		if(can_move_to(id, new_pos))
 		{
-			//mov_comp.movement_vector = dir_vector;
 			phys_comp.position = new_pos;
-			mov_comp.moving = true;
 
 			if(entities_.has_component<GraphicsComponent>(id))
 				entities_.get_component<GraphicsComponent>(id).node->setPosition(phys_comp.position);
