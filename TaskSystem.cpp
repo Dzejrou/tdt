@@ -100,6 +100,36 @@ const std::string & TaskSystem::get_task_name(TASK_TYPE type) const
 		return task_names_.at(TASK_TYPE::NONE);
 }
 
+void TaskSystem::set_task_source(std::size_t id, std::size_t source)
+{
+	if(entities_.has_component<TaskComponent>(id))
+		entities_.get_component<TaskComponent>(id).source = source;
+}
+
+void TaskSystem::set_task_target(std::size_t id, std::size_t target)
+{
+	if(entities_.has_component<TaskComponent>(id))
+		entities_.get_component<TaskComponent>(id).target = target;
+}
+
+void TaskSystem::set_task_type(std::size_t id, TASK_TYPE type)
+{
+	if(entities_.has_component<TaskComponent>(id))
+		entities_.get_component<TaskComponent>(id).task_type = type;
+}
+
+void TaskSystem::add_possible_task(std::size_t id, TASK_TYPE type)
+{
+	if(entities_.has_component<TaskHandlerComponent>(id))
+		entities_.get_component<TaskHandlerComponent>(id).possible_tasks.set((int)type);
+}
+
+void TaskSystem::delete_possible_task(std::size_t id, TASK_TYPE type)
+{
+	if(entities_.has_component<TaskHandlerComponent>(id))
+		entities_.get_component<TaskHandlerComponent>(id).possible_tasks.set((int)type, false);
+}
+
 bool TaskSystem::task_possible(std::size_t ent_id, std::size_t task_id) const
 {
 	if(entities_.has_component<TaskHandlerComponent>(ent_id) &&

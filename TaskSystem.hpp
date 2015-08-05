@@ -79,6 +79,41 @@ class TaskSystem : public System
 		 * Param: Task type to be translated.
 		 */
 		const std::string& get_task_name(TASK_TYPE) const;
+
+		/**
+		 * Brief: Sets the source of a given task (that is, the entity that is completing the task).
+		 * Param: Task ID.
+		 * Param: Source ID.
+		 */
+		void set_task_source(std::size_t, std::size_t);
+
+		/**
+		 * Brief: Sets the target entity of a given task.
+		 * Param: Task ID.
+		 * Param: Target ID.
+		 */
+		void set_task_target(std::size_t, std::size_t);
+
+		/**
+		 * Brief: Sets the task type of a given task.
+		 * Param: Task ID.
+		 * Param: The new task type.
+		 */
+		void set_task_type(std::size_t, TASK_TYPE);
+
+		/**
+		 * Brief: Marks a given entity as available to accept tasks of a given task type.
+		 * Param: ID of the entity.
+		 * Param: Type of the task to be added.
+		 */
+		void add_possible_task(std::size_t, TASK_TYPE);
+
+		/**
+		 * Brief: Marks a given entity as unavailable to accept tasks of a given task type.
+		 * Param: ID of the entity.
+		 * Param: Type of the task to be deleted.
+		 */
+		void delete_possible_task(std::size_t, TASK_TYPE);
 	private:
 		/**
 		 * Brief: Set's the current task to the task in the front of the respective task queue
