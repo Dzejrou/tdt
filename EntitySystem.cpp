@@ -321,9 +321,12 @@ void EntitySystem::init_graphics_component(std::size_t id)
 
 	auto half_height = comp.entity->getWorldBoundingBox(true).getHalfSize().y;
 	if(has_component<PhysicsComponent>(id))
-		get_component<PhysicsComponent>(id).half_height = half_height;
-	auto pos = comp.node->getPosition();
-	comp.node->setPosition(pos.x, half_height, pos.z);
+	{
+		auto& phys_comp = get_component<PhysicsComponent>(id);
+		phys_comp.half_height = half_height;
+		phys_comp.position = Ogre::Vector3{phys_comp.position.x, half_height, phys_comp.position.y};
+		comp.node->setPosition(phys_comp.position);
+	}
 }
 
 void EntitySystem::register_entity(const std::string& table_name)
