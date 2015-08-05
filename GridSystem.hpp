@@ -22,6 +22,7 @@
  */
 class GridSystem : public System
 {
+	friend class GameSerializer;
 	public:
 		GridSystem(EntitySystem&, Ogre::SceneManager&);
 		~GridSystem() {}
