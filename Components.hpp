@@ -98,8 +98,8 @@ struct GraphicsComponent
 					  const std::string& ma = "Ogre", bool v = true)
 		: mesh{me}, material{ma}, visible{v}, node{nullptr}, entity{nullptr}
 	{ /* DUMMY BODY */ }
-	GraphicsComponent(const GraphicsComponent&) = delete;
-	GraphicsComponent(GraphicsComponent&&) = delete;
+	GraphicsComponent(const GraphicsComponent&) = default;
+	GraphicsComponent(GraphicsComponent&&) = default;
 
 	std::string mesh;
 	std::string material;
@@ -118,17 +118,16 @@ struct MovementComponent
 {
 	static constexpr int type = 4;
 
-	MovementComponent(Ogre::Vector3 mov_vec = Ogre::Vector3{0, 0, 0},
-					  Ogre::Real speed = 0.f, bool mov = false)
-		: movement_vector{mov_vec}, speed_modifier{speed},
+	MovementComponent(Ogre::Real speed = 0.f, bool mov = false)
+		: movement_vector{0, 0, 0}, speed_modifier{speed},
 		  moving{mov}
 	{ /* DUMMY BODY */ }
 	MovementComponent(const MovementComponent&) = default;
 	MovementComponent(MovementComponent&&) = default;
 
-	Ogre::Vector3 movement_vector;
+	Ogre::Vector3 movement_vector; // TODO: Is this needed?
 	Ogre::Real speed_modifier;
-	bool moving;
+	bool moving; // TODO: Is this needed?
 };
 
 /**
