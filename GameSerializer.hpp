@@ -156,7 +156,7 @@ inline void GameSerializer::save_component<PathfindingComponent>(std::size_t id,
 	auto& comp = entities_.get_component<PathfindingComponent>(id);
 	std::string comm{
 		  "game.add_component(" + tbl_name + ", game.enum.component.pathfinding)\n"
-		+ "game.set_pathfind_blueprint(" + tbl_name + ", " + comp.blueprint + ")\n"
+		+ "game.set_pathfinding_blueprint(" + tbl_name + ", " + comp.blueprint + ")\n"
 		+ "game.pathfind(" + tbl_name + ", " + std::to_string(comp.target_id) + ")\n"
 	};
 
