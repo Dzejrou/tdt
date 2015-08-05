@@ -25,6 +25,7 @@
     <ClCompile Include="EntityPlacer.cpp" />
     <ClCompile Include="EntitySystem.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameSerializer.cpp" />
     <ClCompile Include="GridSystem.cpp" />
     <ClCompile Include="HealthSystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="EntitySystem.hpp" />
     <ClInclude Include="Enums.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="GameSerializer.hpp" />
     <ClInclude Include="GridSystem.hpp" />
     <ClInclude Include="HealthSystem.hpp" />
     <ClInclude Include="InputSystem.hpp" />
