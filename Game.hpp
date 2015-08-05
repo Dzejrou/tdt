@@ -20,6 +20,7 @@
 #include "SelectionBox.hpp"
 #include "EntityPlacer.hpp"
 #include "EntityCreator.hpp"
+#include "GameSerializer.hpp"
 
 enum class GAME_STATE
 {
@@ -29,6 +30,7 @@ enum class GAME_STATE
 class Game : public Ogre::FrameListener, public OIS::KeyListener,
 			 public OIS::MouseListener, public Ogre::WindowEventListener
 {
+	friend class GameSerializer;
 	public:
 		/**
 		 * Constructor.
