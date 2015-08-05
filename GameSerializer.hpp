@@ -189,7 +189,7 @@ inline void GameSerializer::save_component<TaskHandlerComponent>(std::size_t id,
 	for(std::size_t i = 0; i < comp.possible_tasks.size(); ++i)
 	{
 		if(comp.possible_tasks.test(i))
-			comm.append("game.add_possible_task(" + tbl_name + ", " + std::to_string(i)) + ")\n";
+			comm.append("game.add_possible_task(" + tbl_name + ", " + std::to_string(i) + ")\n");
 	}
 
 	file_ << comm;
