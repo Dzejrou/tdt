@@ -115,6 +115,11 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<TaskSystem> task_system_;
 
 		/**
+		 * Used to save the game.
+		 */
+		std::unique_ptr<GameSerializer> game_serializer_;
+
+		/**
 		 * Vector of all systems used for updating the game's logic.
 		 */
 		std::vector<System*> systems_;
@@ -202,6 +207,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_list_components_of(lpp::Script::state);
 		static int lua_load(lpp::Script::state);
 		static int lua_reload_all(lpp::Script::state);
+		static int lua_save(lpp::Script::state);
 
 		// Entity system.
 		static int lua_create_entity(lpp::Script::state);

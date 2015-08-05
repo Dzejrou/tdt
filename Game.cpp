@@ -42,6 +42,7 @@ Game::Game()
 						                  *scene_mgr_});
 	placer_.reset(new EntityPlacer{*entity_system_, *scene_mgr_, *grid_system_});
 	entity_creator_.reset(new EntityCreator{*placer_, *entity_system_});
+	game_serializer_.reset(new GameSerializer{*entity_system_});
 
 	lua_this = this;
 	lua_init();
@@ -430,6 +431,7 @@ void Game::lua_init()
 		{"list_components_of", Game::lua_list_components_of},
 		{"load", Game::lua_load},
 		{"reload_all", Game::lua_reload_all},
+		{"save", Game::lua_save},
 
 		// Entity manipulation.
 		{"create_entity", Game::lua_create_entity},
@@ -709,6 +711,20 @@ int Game::lua_load(lpp::Script::state L)
 int Game::lua_reload_all(lpp::Script::state L)
 {
 	lpp::Script::get_singleton().reload_all_scripts();
+	return 0;
+}
+
+int Game::lua_save(lpp::Script::state L)
+{
+	if(lua_gettop(L) > 0)
+	{
+		std::string fname = luaL_checkstring(L, -1);
+		lua_pop(L, 1);
+		lua_this->game_serializer_->save_game(*lua_this, fname);
+	}
+	else
+		lua_this->game_serializer_->save_game(*lua_this);
+
 	return 0;
 }
 
