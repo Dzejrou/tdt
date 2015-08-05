@@ -207,7 +207,13 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_list_components_of(lpp::Script::state);
 		static int lua_load(lpp::Script::state);
 		static int lua_reload_all(lpp::Script::state);
-		static int lua_save(lpp::Script::state);
+		static int lua_save_game(lpp::Script::state);
+		static int lua_load_game(lpp::Script::state);
+
+		// Ogre related functions.
+		static int lua_set_mesh(lpp::Script::state);
+		static int lua_set_material(lpp::Script::state);
+		static int lua_set_visible(lpp::Script::state);
 
 		// Entity system.
 		static int lua_create_entity(lpp::Script::state);
@@ -243,6 +249,8 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_get_angle(lpp::Script::state);
 		static int lua_get_angle_between(lpp::Script::state);
 		static int lua_look_at(lpp::Script::state);
+		static int lua_set_solid(lpp::Script::state);
+		static int lua_set_half_height(lpp::Script::state);
 
 		// Health system.
 		static int lua_get_health(lpp::Script::state);
@@ -253,6 +261,8 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_get_defense(lpp::Script::state);
 		static int lua_add_defense(lpp::Script::state);
 		static int lua_sub_defense(lpp::Script::state);
+		static int lua_set_regen(lpp::Script::state);
+		static int lua_set_alive(lpp::Script::state);
 
 		// AI system.
 		static int lua_is_friendly(lpp::Script::state);
@@ -282,6 +292,8 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_set_free_selected(lpp::Script::state);
 		static int lua_pathfind(lpp::Script::state);
 		static int lua_clear_path_colour(lpp::Script::state);
+		static int lua_set_pathfinding_blueprint(lpp::Script::state);
+		static int lua_create_graph(lpp::Script::state);
 
 		// Task system.
 		static int lua_add_task(lpp::Script::state);

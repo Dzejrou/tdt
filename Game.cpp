@@ -120,10 +120,10 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 				"if id then game.destroy_entity(id) end \
                  game.clear_path_colour() \
 				 id = game.create_entity('ogre') \
-				 task1 = game.create_task(255, game.enum.task_type.go_near) \
-				 task2 = game.create_task(15, game.enum.task_type.go_near) \
-				 task3 = game.create_task(240, game.enum.task_type.go_near) \
-				 task4 = game.create_task(0, game.enum.task_type.go_near) \
+				 task1 = game.create_task(255, game.enum.task_type.go_to) \
+				 task2 = game.create_task(15, game.enum.task_type.go_to) \
+				 task3 = game.create_task(240, game.enum.task_type.go_to) \
+				 task4 = game.create_task(0, game.enum.task_type.go_to) \
 				 game.add_task(id, task1) \
                  game.add_task(id, task2) \
                  game.add_task(id, task3) \
@@ -431,7 +431,13 @@ void Game::lua_init()
 		{"list_components_of", Game::lua_list_components_of},
 		{"load", Game::lua_load},
 		{"reload_all", Game::lua_reload_all},
-		{"save", Game::lua_save},
+		{"save_game", Game::lua_save_game},
+		{"load_game", Game::lua_load_game},
+
+		// Ogre related functions.
+		{"set_mesh", Game::lua_set_mesh},
+		{"set_material", Game::lua_set_material},
+		{"set_visible", Game::lua_set_visible},
 
 		// Entity manipulation.
 		{"create_entity", Game::lua_create_entity},
@@ -467,6 +473,8 @@ void Game::lua_init()
 		{"get_angle", Game::lua_get_angle},
 		{"get_angle_between", Game::lua_get_angle_between},
 		{"look_at", Game::lua_look_at},
+		{"set_solid", Game::lua_set_solid},
+		{"set_half_height", Game::lua_set_half_height},
 
 		// Health system.
 		{"get_health", Game::lua_get_health},
@@ -477,6 +485,8 @@ void Game::lua_init()
 		{"get_defense", Game::lua_get_defense},
 		{"add_defense", Game::lua_add_defense},
 		{"sub_defense", Game::lua_sub_defense},
+		{"set_regen", Game::lua_set_regen},
+		{"set_alive", Game::lua_set_alive},
 
 		// AI system.
 		{"is_friendly", Game::lua_is_friendly},
@@ -506,6 +516,8 @@ void Game::lua_init()
 		{"set_free_selected", Game::lua_set_free_selected},
 		{"pathfind", Game::lua_pathfind},
 		{"clear_path_colour", Game::lua_clear_path_colour},
+		{"set_pathfinding_blueprint", Game::lua_set_pathfinding_blueprint},
+		{"create_graph", Game::lua_create_graph},
 
 		// Task system.
 		{"add_task", Game::lua_add_task},
@@ -714,7 +726,7 @@ int Game::lua_reload_all(lpp::Script::state L)
 	return 0;
 }
 
-int Game::lua_save(lpp::Script::state L)
+int Game::lua_save_game(lpp::Script::state L)
 {
 	if(lua_gettop(L) > 0)
 	{
@@ -725,6 +737,53 @@ int Game::lua_save(lpp::Script::state L)
 	else
 		lua_this->game_serializer_->save_game(*lua_this);
 
+	return 0;
+}
+
+int Game::lua_load_game(lpp::Script::state L)
+{
+	if(lua_gettop(L) > 0)
+	{
+		std::string fname = luaL_checkstring(L, -1);
+		lua_pop(L, 1);
+		lua_this->game_serializer_->load_game(*lua_this, fname);
+	}
+	else
+		lua_this->game_serializer_->load_game(*lua_this);
+
+	return 0;
+}
+
+int Game::lua_set_mesh(lpp::Script::state L)
+{
+	std::string mesh = luaL_checkstring(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	if(lua_this->entity_system_->has_component<GraphicsComponent>(id))
+		lua_this->entity_system_->get_component<GraphicsComponent>(id).mesh = mesh;
+	return 0;
+}
+
+int Game::lua_set_material(lpp::Script::state L)
+{
+	std::string mat = luaL_checkstring(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	if(lua_this->entity_system_->has_component<GraphicsComponent>(id))
+		lua_this->entity_system_->get_component<GraphicsComponent>(id).material = mat;
+	return 0;
+}
+
+int Game::lua_set_visible(lpp::Script::state L)
+{
+	bool vis = lua_toboolean(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	if(lua_this->entity_system_->has_component<GraphicsComponent>(id))
+		lua_this->entity_system_->get_component<GraphicsComponent>(id).node->setVisible(vis);
 	return 0;
 }
 
@@ -1081,6 +1140,26 @@ int Game::lua_look_at(lpp::Script::state L)
 	return 0;
 }
 
+int Game::lua_set_solid(lpp::Script::state L)
+{
+	bool solid = lua_toboolean(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->movement_system_->set_solid(id, solid);
+	return 0;
+}
+
+int Game::lua_set_half_height(lpp::Script::state L)
+{
+	Ogre::Real hh = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->movement_system_->set_half_height(id, hh);
+	return 0;
+}
+
 int Game::lua_get_health(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
@@ -1157,6 +1236,26 @@ int Game::lua_sub_defense(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	lua_this->health_system_->sub_defense(id, val);
+	return 0;
+}
+
+int Game::lua_set_regen(lpp::Script::state L)
+{
+	std::size_t regen = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->health_system_->set_regen(id, regen);
+	return 0;
+}
+
+int Game::lua_set_alive(lpp::Script::state L)
+{
+	bool alive = lua_toboolean(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->health_system_->set_alive(id, alive);
 	return 0;
 }
 
@@ -1381,6 +1480,30 @@ int Game::lua_pathfind(lpp::Script::state L)
 int Game::lua_clear_path_colour(lpp::Script::state L)
 {
 	lua_this->grid_system_->clear_path_colour();
+	return 0;
+}
+
+int Game::lua_set_pathfinding_blueprint(lpp::Script::state L)
+{
+	std::string blueprint = luaL_checkstring(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->grid_system_->set_pathfinding_blueprint(id, blueprint);
+	return 0;
+}
+
+int Game::lua_create_graph(lpp::Script::state L)
+{
+	Ogre::Real start_y = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real start_x = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real dist = (Ogre::Real)luaL_checknumber(L, -3);
+	std::size_t height = (std::size_t)luaL_checkinteger(L, -4);
+	std::size_t width = (std::size_t)luaL_checkinteger(L, -5);
+	lua_pop(L, 5);
+
+	lua_this->grid_system_->create_graph(width, height, dist,
+										 start_x, start_y);
 	return 0;
 }
 
