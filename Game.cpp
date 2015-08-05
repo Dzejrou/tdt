@@ -526,6 +526,11 @@ void Game::lua_init()
 		{"list_tasks_of", Game::lua_list_tasks_of},
 		{"task_possible", Game::lua_task_possible},
 		{"clear_task_queue", Game::lua_clear_task_queue},
+		{"set_task_source", Game::lua_set_task_source},
+		{"set_task_target", Game::lua_set_task_target},
+		{"set_task_type", Game::lua_set_task_type},
+		{"add_possible_task", Game::lua_add_possible_task},
+		{"delete_possible_task", Game::lua_delete_possible_task},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -1585,6 +1590,55 @@ int Game::lua_clear_task_queue(lpp::Script::state L)
 	lua_pop(L, 1);
 
 	lua_this->task_system_->clear_task_queue(id);
+	return 0;
+}
+
+int Game::lua_set_task_source(lpp::Script::state L)
+{
+	std::size_t source = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->task_system_->set_task_source(id, source);
+	return 0;
+}
+
+int Game::lua_set_task_target(lpp::Script::state L)
+{
+	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->task_system_->set_task_target(id, target);
+	return 0;
+}
+
+int Game::lua_set_task_type(lpp::Script::state L)
+{
+	TASK_TYPE type = (TASK_TYPE)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->task_system_->set_task_type(id, type);
+	return 0;
+}
+
+int Game::lua_add_possible_task(lpp::Script::state L)
+{
+	TASK_TYPE type = (TASK_TYPE)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->task_system_->add_possible_task(id, type);
+	return 0;
+}
+int Game::lua_delete_possible_task(lpp::Script::state L)
+{
+	TASK_TYPE type = (TASK_TYPE)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->task_system_->delete_possible_task(id, type);
 	return 0;
 }
 #pragma endregion

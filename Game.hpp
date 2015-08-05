@@ -302,4 +302,9 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_list_tasks_of(lpp::Script::state);
 		static int lua_task_possible(lpp::Script::state);
 		static int lua_clear_task_queue(lpp::Script::state);
+		static int lua_set_task_source(lpp::Script::state);
+		static int lua_set_task_target(lpp::Script::state);
+		static int lua_set_task_type(lpp::Script::state);
+		static int lua_add_possible_task(lpp::Script::state);
+		static int lua_delete_possible_task(lpp::Script::state);
 };
