@@ -18,7 +18,12 @@ enum = {
 		time = 8,
 		mana = 9,
 		spell = 10,
-		producton = 11
+		producton = 11,
+		grid_node = 12,
+		grid_line = 13,
+		pathfinding = 14,
+		task = 15,
+		task_handler = 16
 	},
 
 	event = {
@@ -45,6 +50,12 @@ enum = {
 		console = 2,
 		paused = 3,
 		menu = 4
+	},
+
+	task_type = {
+		none = 0,
+		go_to = 1,
+		go_near = 2
 	}
 }
 
@@ -59,6 +70,14 @@ utils = {
 		return res
 	end,
 
+	print_env = function()
+		if game then
+			for k, v in pairs(_G) do
+				game.print(k .. " = " .. tostring(v))
+			end
+		end
+	end,
+
 	-- Returns a blueprint table of a given entity.
 	get_blueprint_table = function(id)
 		table_name = game.get_blueprint(id)
@@ -66,7 +85,7 @@ utils = {
 	end
 }
 
--- Add these tables into the main game table.
+-- Add these tables into the main game table, also add aliases.
 if game then
 	game.enum = enum
 	game.utils = utils
@@ -74,6 +93,15 @@ if game then
 	if show_msg then
 		game.show_msg = show_msg
 	end
+
+	game.quit = function()
+		game.set_game_state(game.enum.game_state.ended)
+	end
+
+	-- Aliases: (Easier to create in lua than in C++)
+	game.set_position = game.move_to
+else
+	show_msg("Game Lua table not loaded!")
 end
 
 -- Error entity blueprint, messages are for debug purposes, disallowing
