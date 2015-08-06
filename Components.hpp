@@ -318,7 +318,7 @@ struct TaskHandlerComponent
 
 	TaskHandlerComponent(std::size_t curr = Component::NO_ENTITY)
 		: curr_task{curr}, possible_tasks{}, task_queue{},
-		  busy{curr == Component::NO_ENTITY}
+		  busy{curr != Component::NO_ENTITY}
 	{  /* DUMMY BODY */ }
 	TaskHandlerComponent(const TaskHandlerComponent&) = default;
 
