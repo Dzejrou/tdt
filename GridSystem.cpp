@@ -52,7 +52,7 @@ void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real 
 
 	board_.clear();
 	board_.resize(width_ * height_);
-	std::vector<GridNodeComponent*> comps(width_ * height_); // Keep postd::size_ters to components for fast access.
+	std::vector<GridNodeComponent*> comps(width_ * height_); // Keep pointers to components for fast access.
 
 	Ogre::Real x{start_.x};
 	Ogre::Real y{start_.y};
