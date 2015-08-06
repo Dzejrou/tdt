@@ -332,7 +332,7 @@ void EntitySystem::init_graphics_component(std::size_t id)
 	{
 		auto& phys_comp = get_component<PhysicsComponent>(id);
 		phys_comp.half_height = half_height;
-		phys_comp.position = Ogre::Vector3{phys_comp.position.x, half_height, phys_comp.position.y};
+		phys_comp.position = Ogre::Vector3{phys_comp.position.x, half_height, phys_comp.position.z};
 		comp.node->setPosition(phys_comp.position);
 	}
 }
