@@ -102,7 +102,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 	std::size_t count{0}; // Saves vertical space.
 	for(const auto& tmp : temp_vars)
 	{ // This will allow to delete all those auxiliary variables when loading.
-		file_ << tmp + ", ";
+		file_ << "'" << tmp + "', ";
 		if(count++ % 10 == 0)
 			file_ << "\n";
 	}
@@ -124,6 +124,15 @@ void GameSerializer::load_game(Game& game, const std::string& fname)
 	try
 	{
 		script_.load(file_name); // Yes, THAT simple!
+
+		// Cleanup.
+		script_.execute(
+			"for _, v in ipairs(to_be_deleted) do \
+				_G[v] = nil \
+			 end \
+			 to_be_deleted = nil \
+			 collectgarbage()"
+			);
 	}
 	catch(lpp::Exception& ex)
 	{
