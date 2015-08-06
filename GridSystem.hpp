@@ -13,18 +13,33 @@
 #include "System.hpp"
 #include "EntitySystem.hpp"
 #include "Components.hpp"
-#include "Line.hpp"
 #include "Console.hpp"
 #include "SelectionBox.hpp"
 
 /**
- *
+ * Represents the pathfinding graph used by the game and provides
+ * several methods related to pathfinding that can be used in Lua.
  */
 class GridSystem : public System
 {
+	/**
+	 * GameSerialize is a friend class so that it can easily access the grid realted data
+	 * (like dimensions and node distance) when saving the game.
+	 */
 	friend class GameSerializer;
 	public:
+		/**
+		 * Constructor.
+		 * Param: Reference to the game's entity system.
+		 * Param: Reference to the game's main scene manager.
+		 * TODO: Add a reference to the SceneNode holding the ground plane (to easily set scale
+		 *       when creating a graph on it).
+		 */
 		GridSystem(EntitySystem&, Ogre::SceneManager&);
+
+		/**
+		 * Destructor.
+		 */
 		~GridSystem() {}
 
 		void update(Ogre::Real);
