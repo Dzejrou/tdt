@@ -11,24 +11,73 @@
 // Forward declaration.
 class Game;
 
+/**
+ * Class that is used to save (by using Lua code generation)
+ * and loading the game (by executing said code).
+ */
 class GameSerializer
 {
 	public:
+		/**
+		 * Constructor.
+		 * Param: Reference to the game's entity system.
+		 */
 		GameSerializer(EntitySystem&);
+
+		/**
+		 * Destructor.
+		 */
 		~GameSerializer() {}
 
+		/**
+		 * Brief: Creates a Lua script that is to be used as a save file by
+		 *        serializing every entity into a sequence of commands that create
+		 *        this entity from scratch when executed.
+		 * Param: Reference to the Game object (to be able to save all necessary data).
+		 * Param: Name of the save file.
+		 */
 		void save_game(Game&, const std::string& = "quick_save");
+
+		/**
+		 * Brief: Executes a given Lua script containing a serialized game, effectively
+		 *        restoring the state of that game.
+		 * Param: Reference to the game object (currently used for console entries,
+		 *        but might be used more in the future).
+		 * Param: Name of the save file to load.
+		 */
 		void load_game(Game&, const std::string& = "quick_save");
 	private:
+		/**
+		 * Brief: Adds commands to the save file that assign all tasks (has to be done last).
+		 */
 		void save_tasks();
 
+		/**
+		 * Brief: Generates code that constructs a single component.
+		 * Param: ID of the component to serialize (type specialized as template argument).
+		 * Param: Name of the variable already in the save file that holds the new ID.
+		 */
 		template<typename COMP>
 		void save_component(std::size_t, const std::string&);
 
+		/**
+		 * Reference to the game's entity system, used for component access.
+		 */
 		EntitySystem& entities_;
+
+		/**
+		 * Reference to the lpp::Script singleton for easy use.
+		 */
 		lpp::Script& script_;
-		std::vector<std::string> saved_entities_;
+
+		/**
+		 * Contains entity - task pairs that should be added in the save_tasks method.
+		 */
 		std::vector<std::pair<std::size_t, std::size_t>> task_pairs_;
+
+		/**
+		 * Main file stream (no need for ifstream, since loading is done through Lua).
+		 */
 		std::ofstream file_;
 };
 
