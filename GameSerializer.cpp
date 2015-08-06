@@ -10,6 +10,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 {
 	std::string file_name{"saves/" + fname + ".lua"};
 	file_.open(file_name);
+	std::vector<std::string> temp_vars{};
 
 	// TODO: Things like player info etc.
 
@@ -20,7 +21,13 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 		+ ", " + std::to_string(game.grid_system_->start_.x) + ", " + std::to_string(game.grid_system_->start_.y)
 		+ ")\n"
 	};
-	file_ << map;
+	std::string nodes{"\n-- GRAPH NODE ALIASES:\n"};
+	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
+	{
+		nodes.append("entity_" + std::to_string(ent.first) + "=" +  std::to_string(ent.first) + "\n");
+		temp_vars.emplace_back("entity_" + std::to_string(ent.first));
+	}
+	file_ << map << nodes << "\n\n -- ENTITIES:";
 
 	// Save individual entities.
 	std::string entity_name{};
@@ -31,6 +38,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 			continue;
 
 		entity_name = "entity_" + std::to_string(ent.first);
+		temp_vars.push_back(entity_name);
 		
 		file_ << "\n" << entity_name + " = game.create_entity()\n";
 		for(std::size_t i = 0; i < ent.second.size(); ++i)
@@ -89,6 +97,16 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 		}	
 	}
 	save_tasks();
+
+	file_ << "\n\n -- AUXILIARY VARIABLES TO BE DELETED:\nto_be_deleted = {\n";
+	std::size_t count{0}; // Saves vertical space.
+	for(const auto& tmp : temp_vars)
+	{ // This will allow to delete all those auxiliary variables when loading.
+		file_ << tmp + ", ";
+		if(count++ % 10 == 0)
+			file_ << "\n";
+	}
+	file_ << "}";
 	file_.flush();
 	file_.close();
 }
@@ -119,7 +137,7 @@ void GameSerializer::save_tasks()
 	file_ << "\n -- TASKS: --\n";
 	for(auto& task_pair : task_pairs_)
 	{
-		file_ << "game.add_task(" + std::to_string(task_pair.first) + ", "
+		file_ << "game.add_task(entity_" + std::to_string(task_pair.first) + ", entity_"
 			   + std::to_string(task_pair.second) + ")\n";
 	}
 	task_pairs_.clear();
