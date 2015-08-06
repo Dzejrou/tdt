@@ -9,7 +9,8 @@ ogre = {
 		game.enum.component.movement,
 		game.enum.component.combat,
 		game.enum.component.event,
-		game.enum.component.pathfinding
+		game.enum.component.pathfinding,
+		game.enum.component.task_handler
 	},
 
 	PhysicsComponent = {
@@ -29,12 +30,12 @@ ogre = {
 
 	GraphicsComponent = {
 		mesh = "ogrehead.mesh",
-		material = "Ogre",
+		material = "NO_MAT", -- Material is in mesh.
 		visible = true
 	},
 
 	MovementComponent = {
-		speed_modifier = 0.01,
+		speed_modifier = 0.5,
 	},
 
 	CombatComponent = {
@@ -53,6 +54,13 @@ ogre = {
 
 	PathfindingComponent = {
 		blueprint = "ogre"
+	},
+
+	TaskHandlerComponent = {
+		possible_tasks = {
+			game.enum.task_type.go_to,
+			game.enum.task_type.go_near
+		}
 	},
 
 	InputComponent = {
@@ -90,19 +98,16 @@ ogre = {
 
 			game.rotate(id, angle * 0.01)
 		end
-
-		if id % 2 == 0 then
-			game.rotate(id, 0.01)
-		elseif id ~= 9 then
-			game.rotate(id, -0.01)
-		end
 	end,
 
 	finnish = function(id)
 		ogre.stats.current_amount = ogre.stats.current_amount - 1
+
+		--[[
 		show_msg("Ogre #" .. tostring(id) .. " has been destroyed!\nCurrent: "
 		         .. tostring(ogre.stats.current_amount) .. "\tOverall: "
 			 .. tostring(ogre.stats.overall_amount))
+		--]]
 	end,
 
 	stats = {
@@ -124,43 +129,6 @@ ogre_handler = function(id, key)
 	end
 end
 
-ogre.PhysicsComponent.solid = false
-
---[[
-id1 = game.create_entity("ogre")
-game.move_to(id1, 100, 100, 100)
-
-id2 = game.create_entity("ogre")
-game.move_to(id2, 100, 100, 100)
-
-id3 = game.create_entity("ogre")
-game.move_to(id3, 100, 100, 100)
-
-id4 = game.create_entity("ogre")
-game.move_to(id4, 100, 100, 100)
-
-id5 = game.create_entity("ogre")
-game.move_to(id5, 100, 100, 100)
-
-id6 = game.create_entity("ogre")
-game.move_to(id6, 100, 100, 100)
-
--- ogre.PhysicsComponent.solid = true
-game.utils.get_blueprint_table(id6).PhysicsComponent.solid = true
-id7 = game.create_entity("ogre")
-game.move_to(id7, -200, 100, 400)
-
-
-id8 = game.create_entity("ogre")
-game.move_to(id8, -200, 100, 100)
-
-ogre.PhysicsComponent.solid = false
-ogre.MovementComponent.speed_modifier = 0.4
-id9 = game.create_entity("ogre")
-game.move_to(id9, -100, 30, 100)
-
-ogre.MovementComponent.speed_modifier = 0.1
-id10 = game.create_entity("ogre")
-game.move_to(id10, -100, 30, -300)
-
---]]
+if game then
+	game.register_entity("ogre")
+end
