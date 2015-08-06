@@ -417,10 +417,12 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 	// Make the entity stand on ground.
 	auto half_height = comp.entity->getWorldBoundingBox(true).getHalfSize().y;
 	if(has_component<PhysicsComponent>(id))
-		get_component<PhysicsComponent>(id).half_height = half_height;
-	auto pos = comp.node->getPosition();
-	comp.node->setPosition(pos.x, half_height, pos.z);
-
+	{
+		auto& phys_comp = get_component<PhysicsComponent>(id);
+		phys_comp.half_height = half_height;
+		phys_comp.position = Ogre::Vector3{phys_comp.position.x, half_height, phys_comp.position.z};
+		comp.node->setPosition(phys_comp.position);
+	}
 }
 
 template<>
