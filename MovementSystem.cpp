@@ -18,6 +18,7 @@ void MovementSystem::update(Ogre::Real delta)
 		auto next = path_comp.path_queue.front();
 		auto dir_to_next = dir_to_enemy(ent.first, next); // TODO: Rename to dir_to_entity?
 		dir_to_next.y = 0; // Will prohibit the entity from going under the ground.
+		dir_to_next.normalise();
 
 		if(!move(ent.first, dir_to_next))
 		{
@@ -232,7 +233,6 @@ Ogre::Vector3 MovementSystem::dir_to_closest_enemy(std::size_t id, Ogre::Real ra
 		auto pos1 = entities_.get_component<PhysicsComponent>(id).position;
 		auto pos2 = entities_.get_component<PhysicsComponent>(id_enemy).position;
 		auto pos = pos2 - pos1;
-		pos.normalise();
 		return pos;
 	}
 	else
@@ -247,7 +247,6 @@ Ogre::Vector3 MovementSystem::dir_to_enemy(std::size_t id1, std::size_t id2) con
 		auto pos1 = entities_.get_component<PhysicsComponent>(id1).position;
 		auto pos2 = entities_.get_component<PhysicsComponent>(id2).position;
 		auto pos = pos2 - pos1;
-		pos.normalise();
 		return pos;
 	}
 	else
