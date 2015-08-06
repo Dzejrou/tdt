@@ -295,8 +295,10 @@ void MovementSystem::look_at(std::size_t id1, std::size_t id2)
 	if(entities_.has_component<GraphicsComponent>(id1) &&
 	   entities_.has_component<PhysicsComponent>(id2))
 	{
-		entities_.get_component<GraphicsComponent>(id1).node->lookAt(
-				entities_.get_component<PhysicsComponent>(id2).position,
+		auto& target_pos = entities_.get_component<PhysicsComponent>(id2).position;
+		auto& comp = entities_.get_component<GraphicsComponent>(id1);
+		comp.node->lookAt(
+				Ogre::Vector3{target_pos.x, comp.node->getPosition().y, target_pos.z},
 				Ogre::Node::TransformSpace::TS_WORLD,
 				Ogre::Vector3::UNIT_Z
 			);
