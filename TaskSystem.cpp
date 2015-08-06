@@ -164,8 +164,8 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task)
 		case TASK_TYPE::GO_TO:
 		case TASK_TYPE::GO_NEAR:
 		{
-			auto source_pos = entities_.get_component<PhysicsComponent>(task.source).position;
-			auto target_pos = entities_.get_component<PhysicsComponent>(task.target).position;
+			auto& source_pos = entities_.get_component<PhysicsComponent>(task.source).position;
+			auto& target_pos = entities_.get_component<PhysicsComponent>(task.target).position;
 			grid_.perform_a_star(id, grid_.get_node_from_position(source_pos.x, source_pos.z),
 								     grid_.get_node_from_position(target_pos.x, target_pos.z));
 
@@ -192,8 +192,11 @@ bool TaskSystem::current_task_completed_(TaskHandlerComponent& handler)
 		{
 			case TASK_TYPE::GO_TO:
 			case TASK_TYPE::GO_NEAR:
-				return entities_.get_component<PhysicsComponent>(task.source).position ==
-					   entities_.get_component<PhysicsComponent>(task.target).position;
+			{
+				auto& pos1 = entities_.get_component<PhysicsComponent>(task.source).position;
+				auto& pos2 = entities_.get_component<PhysicsComponent>(task.target).position;
+				return pos1.x == pos2.x && pos1.z == pos2.z;
+			}
 			default:
 				return true; // Undefined task, kill it asap.
 		}
