@@ -94,7 +94,8 @@ class EntitySystem : public System
 			if(it != get_component_container<COMP>().end())
 				return it->second;
 			else
-				throw std::runtime_error("[Error][EntitySystem] Trying to retrieve a non-existing component.");
+				throw std::runtime_error("[Error][EntitySystem] Trying to retrieve a non-existing component: "
+										 + std::to_string(COMP::type) + " for entity #" + std::to_string(id));
 		}
 
 		/**

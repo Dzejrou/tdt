@@ -41,7 +41,9 @@ void EntitySystem::cleanup()
 	// Remove entire entities.
 	for(auto id : to_be_destroyed_)
 	{
-		auto& entity = entities_.find(id);
+		auto entity = entities_.find(id);
+		if(entity == entities_.end())
+			continue;
 
 		for(std::size_t i = 0; i < entity->second.size(); ++i)
 		{
@@ -189,6 +191,12 @@ void EntitySystem::add_component(std::size_t ent_id, int comp_id)
 			break;
 		case PathfindingComponent::type:
 			add_component<PathfindingComponent>(ent_id);
+			break;
+		case TaskComponent::type:
+			add_component<TaskComponent>(ent_id);
+			break;
+		case TaskHandlerComponent::type:
+			add_component<TaskHandlerComponent>(ent_id);
 			break;
 	}
 }
