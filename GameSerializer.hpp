@@ -39,7 +39,7 @@ inline void GameSerializer::save_component<PhysicsComponent>(std::size_t id, con
 	std::string comm{
 		  "game.add_component(" + tbl_name + ", game.enum.component.physics)\n" 
 		+ "game.set_position(" + tbl_name + ", " + std::to_string(comp.position.x)
-		+ ", " + std::to_string(comp.position.y) + ", " + std::to_string(comp.position.z) + ")\n"
+		+ ", " + std::to_string(comp.half_height) + ", " + std::to_string(comp.position.z) + ")\n"
 		+ "game.set_solid(" + tbl_name + ", " + (comp.solid ? "true" : "false") + ")\n"
 		+ "game.set_half_height(" + tbl_name + ", " + std::to_string(comp.half_height) + ")\n"
 	};
@@ -69,7 +69,7 @@ inline void GameSerializer::save_component<AIComponent>(std::size_t id, const st
 	auto& comp = entities_.get_component<AIComponent>(id);
 	std::string comm{
 		  "game.add_component(" + tbl_name + ", game.enum.component.ai)\n"
-		+ "game.set_blueprint(" + tbl_name + ", " + comp.blueprint + ")\n"
+		+ "game.set_blueprint(" + tbl_name + ", '" + comp.blueprint + "')\n"
 		+ "game.set_state(" + tbl_name + ", " + std::to_string((int)comp.state) + ")\n"
 		+ "game.set_faction(" + tbl_name + ", " + std::to_string((int)comp.faction) + ")\n"
 	};
@@ -83,8 +83,8 @@ inline void GameSerializer::save_component<GraphicsComponent>(std::size_t id, co
 	auto& comp = entities_.get_component<GraphicsComponent>(id);
 	std::string comm{
 		  "game.add_component(" + tbl_name + ", game.enum.component.graphics)\n"
-		+ "game.set_mesh(" + tbl_name + ", " + comp.mesh + ")\n"
-		+ "game.set_material(" + tbl_name + ", " + comp.material + ")\n"
+		+ "game.set_mesh(" + tbl_name + ", '" + comp.mesh + "')\n"
+		+ "game.set_material(" + tbl_name + ", '" + comp.material + "')\n"
 		+ "game.init_graphics_component(" + tbl_name + ")\n"
 		+ "game.set_visible(" + tbl_name + ", " + (comp.visible ? "true" : "false") + ")\n"
 	};
@@ -100,6 +100,8 @@ inline void GameSerializer::save_component<MovementComponent>(std::size_t id, co
 		  "game.add_component(" + tbl_name + ", game.enum.component.movement)\n"
 		+ "game.set_speed(" + tbl_name + ", " + std::to_string(comp.speed_modifier) + ")\n"
 	};
+	
+	file_ << comm;
 }
 
 template <>
@@ -120,7 +122,7 @@ inline void GameSerializer::save_component<InputComponent>(std::size_t id, const
 	auto& comp = entities_.get_component<InputComponent>(id);
 	std::string comm{
 		  "game.add_component(" + tbl_name + ", game.enum.component.input)\n"
-		+ "game.set_input_handler(" + tbl_name + ", " + comp.input_handler + ")\n"
+		+ "game.set_input_handler(" + tbl_name + ", '" + comp.input_handler + "')\n"
 	};
 
 	file_ << comm;
@@ -156,8 +158,8 @@ inline void GameSerializer::save_component<PathfindingComponent>(std::size_t id,
 	auto& comp = entities_.get_component<PathfindingComponent>(id);
 	std::string comm{
 		  "game.add_component(" + tbl_name + ", game.enum.component.pathfinding)\n"
-		+ "game.set_pathfinding_blueprint(" + tbl_name + ", " + comp.blueprint + ")\n"
-		+ "game.pathfind(" + tbl_name + ", " + std::to_string(comp.target_id) + ")\n"
+		+ "game.set_pathfinding_blueprint(" + tbl_name + ", '" + comp.blueprint + "')\n"
+		// Every task that was being completed when saving will be executed again with new pathfinding.
 	};
 
 	file_ << comm;
@@ -169,8 +171,8 @@ inline void GameSerializer::save_component<TaskComponent>(std::size_t id, const 
 	auto& comp = entities_.get_component<TaskComponent>(id);
 	std::string comm{
 		  "game.add_component(" + tbl_name + ", game.enum.component.task)\n"
-		+ "game.set_task_source(" + tbl_name + ", " + std::to_string(comp.source) + ")\n"
-		+ "game.set_task_target(" + tbl_name + ", " + std::to_string(comp.target) + ")\n"
+		+ "game.set_task_source(" + tbl_name + ", entity_" + std::to_string(comp.source) + ")\n"
+		+ "game.set_task_target(" + tbl_name + ", entity_" + std::to_string(comp.target) + ")\n"
 		+ "game.set_task_type(" + tbl_name + ", " + std::to_string((int)comp.task_type) + ")\n"
 	};
 	task_pairs_.emplace_back(std::make_pair(comp.source, id));
