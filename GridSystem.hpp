@@ -42,9 +42,14 @@ class GridSystem : public System
 		 */
 		~GridSystem() {}
 
+		/**
+		 * TODO:
+		 */
 		void update(Ogre::Real);
-		bool is_valid(std::size_t) const;
 
+		/**
+		 *
+		 */
 		std::size_t add_node(Ogre::Real, Ogre::Real, Ogre::Real);
 		std::size_t add_line(std::size_t, std::size_t);
 		void create_graph(std::size_t, std::size_t, Ogre::Real, Ogre::Real, Ogre::Real);

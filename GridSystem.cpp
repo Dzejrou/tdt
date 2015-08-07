@@ -12,12 +12,6 @@ void GridSystem::update(Ogre::Real)
 	// TODO:
 }
 
-bool GridSystem::is_valid(std::size_t id) const
-{
-	return entities_.has_component<GridNodeComponent>(id) ||
-		   entities_.has_component<GridLineComponent>(id);
-}
-
 std::size_t GridSystem::add_node(Ogre::Real x, Ogre::Real y, Ogre::Real z)
 {
 	auto id = entities_.create_entity();
