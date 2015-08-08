@@ -120,6 +120,9 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 			case TaskHandlerComponent::type:
 				load_component<TaskHandlerComponent>(id, table_name);
 				break;
+			case StructureComponent::type:
+				load_component<StructureComponent>(id, table_name);
+				break;
 		}
 	}
 
@@ -198,6 +201,9 @@ void EntitySystem::add_component(std::size_t ent_id, int comp_id)
 		case TaskHandlerComponent::type:
 			add_component<TaskHandlerComponent>(ent_id);
 			break;
+		case StructureComponent::type:
+			add_component<StructureComponent>(ent_id);
+			break;
 	}
 }
 
@@ -255,6 +261,9 @@ void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 			break;
 		case TaskHandlerComponent::type:
 			delete_component<TaskHandlerComponent>(ent_id);
+			break;
+		case StructureComponent::type:
+			delete_component<StructureComponent>(ent_id);
 			break;
 	}
 }
@@ -315,6 +324,9 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 		case TaskHandlerComponent::type:
 			task_handler_.erase(ent_id);
 			break;
+		case StructureComponent::type:
+			structure_.erase(ent_id);
+			break;
 	}
 
 }
@@ -326,6 +338,12 @@ void EntitySystem::init_graphics_component(std::size_t id)
 	comp.node = scene_.getRootSceneNode()->createChildSceneNode();
 	comp.node->attachObject(comp.entity);
 	comp.node->setVisible(comp.visible);
+
+	if(comp.manual_scaling)
+		comp.node->setScale(comp.scale);
+
+	if(comp.material != "NO_MAT")
+		comp.entity->setMaterialName(comp.material);
 
 	auto half_height = comp.entity->getWorldBoundingBox(true).getHalfSize().y;
 	if(has_component<PhysicsComponent>(id))

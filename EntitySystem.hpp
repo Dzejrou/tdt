@@ -239,6 +239,7 @@ class EntitySystem : public System
 		std::map<std::size_t, PathfindingComponent> pathfinding_;
 		std::map<std::size_t, TaskComponent> task_;
 		std::map<std::size_t, TaskHandlerComponent> task_handler_;
+		std::map<std::size_t, StructureComponent> structure_;
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -356,6 +357,12 @@ inline std::map<std::size_t, TaskHandlerComponent>& EntitySystem::get_component_
 	return task_handler_;
 }
 
+template<>
+inline std::map<std::size_t, StructureComponent>& EntitySystem::get_component_container<StructureComponent>()
+{
+	return structure_;
+}
+
 /**
  * Specializations of the EntitySystem::load_component method.
  * Note: Following components can only be created manually and thus don't have load_component specialization.
@@ -368,7 +375,7 @@ inline void EntitySystem::load_component<PhysicsComponent>(std::size_t id, const
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	bool solid = script.get<bool>(table_name + ".PhysicsComponent.solid");
-	physics_.emplace(std::make_pair(id, PhysicsComponent{solid}));
+	physics_.emplace(id, PhysicsComponent{solid});
 }
 
 template<>
@@ -378,7 +385,7 @@ inline void EntitySystem::load_component<HealthComponent>(std::size_t id, const 
 	int max = script.get<int>(table_name + ".HealthComponent.max_hp");
 	int reg = script.get<int>(table_name + ".HealthComponent.regen");
 	int def = script.get<int>(table_name + ".HealthComponent.defense");
-	health_.emplace(std::make_pair(id, HealthComponent(max, reg, def)));
+	health_.emplace(id, HealthComponent(max, reg, def));
 }
 
 template<>
@@ -387,7 +394,7 @@ inline void EntitySystem::load_component<AIComponent>(std::size_t id, const std:
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string blueprint = script.get<std::string>(table_name + ".AIComponent.blueprint");
 	int faction = script.get<int>(table_name + ".AIComponent.faction");
-	ai_.emplace(std::make_pair(id, AIComponent{blueprint, (FACTION)faction}));
+	ai_.emplace(id, AIComponent{blueprint, (FACTION)faction});
 
 	// Call init.
 	script.call<void, int>(blueprint + ".init", id);
@@ -399,7 +406,7 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string mesh = script.get<std::string>(table_name + ".GraphicsComponent.mesh");
 	std::string material = script.get<std::string>(table_name + ".GraphicsComponent.material");
-	auto res = graphics_.emplace(std::make_pair(id, GraphicsComponent{mesh, material}));
+	auto res = graphics_.emplace(id, GraphicsComponent{mesh, material});
 
 	// Ogre init of the entity and scene node.
 	auto& comp = res.first->second;
@@ -413,6 +420,20 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 		comp.visible = false;
 		comp.node->setVisible(false);
 	}
+
+	if(script.get<bool>(table_name + ".GraphicsComponent.manual_scaling"))
+	{
+		comp.manual_scaling = true;
+		Ogre::Real x, y, z;
+		x = script.get<Ogre::Real>(table_name + ".GraphicsComponent.scale_x");
+		y = script.get<Ogre::Real>(table_name + ".GraphicsComponent.scale_y");
+		z = script.get<Ogre::Real>(table_name + ".GraphicsComponent.scale_z");
+		comp.scale = Ogre::Vector3{x, y, z};
+		comp.node->setScale(comp.scale); // TODO: Apply to entity placer!
+	}
+
+	if(comp.material != "NO_MAT")
+		comp.entity->setMaterialName(comp.material);
 
 	// Make the entity stand on ground.
 	auto half_height = comp.entity->getWorldBoundingBox(true).getHalfSize().y;
@@ -430,7 +451,7 @@ inline void EntitySystem::load_component<MovementComponent>(std::size_t id, cons
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	float speed = script.get<float>(table_name + ".MovementComponent.speed_modifier");
-	movement_.emplace(std::make_pair(id, MovementComponent{speed}));
+	movement_.emplace(id, MovementComponent{speed});
 }
 
 template<>
@@ -442,28 +463,28 @@ inline void EntitySystem::load_component<CombatComponent>(std::size_t id, const 
 	int max = script.get<int>(table_name + ".CombatComponent.max_dmg");
 	int a1 = script.get<int>(table_name + ".CombatComponent.atk_1");
 	int a2 = script.get<int>(table_name + ".CombatComponent.atk_2");
-	combat_.emplace(std::make_pair(id, CombatComponent(range, min, max, a1, a2)));
+	combat_.emplace(id, CombatComponent(range, min, max, a1, a2));
 }
 
 template<>
 inline void EntitySystem::load_component<EventComponent>(std::size_t id, const std::string& table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
-	event_.emplace(std::make_pair(id, EventComponent{}));
+	event_.emplace(id, EventComponent{});
 }
 
 template<>
 inline void EntitySystem::load_component<InputComponent>(std::size_t id, const std::string& table_name)
 {
 	std::string handler = lpp::Script::get_singleton().get<std::string>(table_name + ".InputComponent.input_handler");
-	input_.emplace(std::make_pair(id, InputComponent{handler}));
+	input_.emplace(id, InputComponent{handler});
 }
 
 template<>
 inline void EntitySystem::load_component<PathfindingComponent>(std::size_t id, const std::string& table_name)
 {
 	std::string blueprint = lpp::Script::get_singleton().get<std::string>(table_name + ".PathfindingComponent.blueprint");
-	pathfinding_.emplace(std::make_pair(id, PathfindingComponent{blueprint}));
+	pathfinding_.emplace(id, PathfindingComponent{blueprint});
 }
 
 template<>
@@ -476,4 +497,11 @@ inline void EntitySystem::load_component<TaskHandlerComponent>(std::size_t id, c
 	auto& tasks = res.first->second.possible_tasks;
 	for(auto task_type : possible_tasks)
 		tasks.set(task_type);
+}
+
+template<>
+inline void EntitySystem::load_component<StructureComponent>(std::size_t id, const std::string& table_name)
+{
+	std::size_t radius = lpp::Script::get_singleton().get<std::size_t>(table_name + ".StructureComponent.radius");
+	structure_.emplace(id, StructureComponent{radius});
 }
