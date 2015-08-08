@@ -4,7 +4,7 @@ EntityPlacer::EntityPlacer(EntitySystem& ents, Ogre::SceneManager& mgr, GridSyst
 	: entities_{ents}, scene_mgr_{mgr}, grid_{grid}, curr_position_{0, 0, 0},
 	  placing_node_{*mgr.getRootSceneNode()->createChildSceneNode()},
 	  placed_entity_{nullptr}, visible_{false}, table_name_{},
-	  half_height_{}, placing_building_{false}, building_radius_{0}
+	  half_height_{}, placing_structure_{false}, structure_radius_{0}
 { /* DUMMY BODY */ }
 
 EntityPlacer::~EntityPlacer()
@@ -25,10 +25,10 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 
 	std::string mesh = script.get<std::string>(table_name + ".GraphicsComponent.mesh");
 
-	if(!script.is_nil(table_name + ".BuildingComponent"))
+	if(!script.is_nil(table_name + ".StructureComponent"))
 	{
-		placing_building_ = true;
-		building_radius_ = script.get<std::size_t>(table_name + ".BuildingComponent.radius");
+		placing_structure_ = true;
+		structure_radius_ = script.get<std::size_t>(table_name + ".StructureComponent.radius");
 	}
 
 	if(entities_.get_registered_entities().count(table_name) != 0)
@@ -47,7 +47,7 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 
 void EntityPlacer::update_position(const Ogre::Vector3& pos)
 {
-	if(placing_building_)
+	if(placing_structure_)
 	{
 		auto node_id = grid_.get_node_from_position(pos.x, pos.z);
 
@@ -78,6 +78,9 @@ std::size_t EntityPlacer::place(Console& console)
 																			 curr_position_.z);
 	}
 
+	if(placing_structure_)
+		grid_.place_structure(id, grid_.get_node_from_position(curr_position_.x, curr_position_.z), structure_radius_);
+
 	console.print_text("Placed entity #" + std::to_string(id) + " at (" + std::to_string(curr_position_.x)
 					   + ", " + std::to_string(curr_position_.y) + ")\nTable: " + table_name_);
 	console.scroll_down();
@@ -88,6 +91,9 @@ void EntityPlacer::set_visible(bool on_off)
 {
 	visible_ = on_off;
 	placing_node_.setVisible(on_off);
+
+	if(!on_off)
+		placing_structure_ = false;
 }
 
 bool EntityPlacer::is_visible() const

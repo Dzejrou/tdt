@@ -29,6 +29,6 @@ class EntityPlacer
 		bool visible_;
 		std::string table_name_;
 		Ogre::Real half_height_;
-		bool placing_building_;
-		std::size_t building_radius_;
+		bool placing_structure_;
+		std::size_t structure_radius_;
 };
