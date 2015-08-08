@@ -541,6 +541,7 @@ void Game::lua_init()
 	// Load all necessary scripts.
 	script.load("scripts/core_utils.lua");
 	script.load("scripts/ogre.lua");
+	script.load("scripts/basic_wall.lua");
 
 	// InputComponent related enums.
 	script.set("game.enum.input.key_up", OIS::KC_W);
