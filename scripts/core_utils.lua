@@ -23,7 +23,8 @@ enum = {
 		grid_line = 13,
 		pathfinding = 14,
 		task = 15,
-		task_handler = 16
+		task_handler = 16,
+		structure = 17
 	},
 
 	event = {
@@ -123,3 +124,10 @@ ERROR = {
 		game.show_msg("Trying to move an ERROR entity.")
 	end
 }
+
+
+-- Helper commands executed on startup:
+if game then
+	game.toggle_camera_free_mode()
+	game.toggle_grid_visible()
+end
