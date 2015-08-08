@@ -15,7 +15,7 @@ enum class AttackType { NONE, MELEE };
 
 struct Component
 {
-	static constexpr int count = 17;
+	static constexpr int count = 18;
 	static constexpr std::size_t NO_ENTITY = std::numeric_limits<std::size_t>::max();
 };
 
@@ -95,8 +95,10 @@ struct GraphicsComponent
 	static constexpr int type = 3;
 
 	GraphicsComponent(const std::string& me = "ogrehead.mesh",
-					  const std::string& ma = "Ogre", bool v = true)
-		: mesh{me}, material{ma}, visible{v}, node{nullptr}, entity{nullptr}
+					  const std::string& ma = "Ogre", bool v = true,
+					  bool manual = false, Ogre::Vector3 sc = Ogre::Vector3{0, 0, 0})
+		: mesh{me}, material{ma}, visible{v}, node{nullptr}, entity{nullptr},
+		  manual_scaling{manual}, scale{sc}
 	{ /* DUMMY BODY */ }
 	GraphicsComponent(const GraphicsComponent&) = default;
 	GraphicsComponent(GraphicsComponent&&) = default;
@@ -106,6 +108,8 @@ struct GraphicsComponent
 	bool visible;
 	Ogre::SceneNode* node;
 	Ogre::Entity* entity;
+	bool manual_scaling;
+	Ogre::Vector3 scale;
 	// TODO: Animation + set_animation etc. in a system. Possibly a new component?
 };
 
@@ -237,8 +241,7 @@ struct GridNodeComponent
 					  bool f = true, std::size_t pos_x = 0, std::size_t pos_y = 0, std::size_t res = Component::NO_ENTITY)
 		: neighbours(neigh), free{f}, x{pos_x}, y{pos_y}, resident{res}
 	{
-		for(std::size_t i = 0; i < neighbours.size(); ++i)
-			neighbours[i] = Component::NO_ENTITY;
+		neighbours.fill(Component::NO_ENTITY);
 	}
 	GridNodeComponent(const GridNodeComponent&) = default;
 	GridNodeComponent(GridNodeComponent&&) = default;
@@ -326,4 +329,21 @@ struct TaskHandlerComponent
 	std::bitset<(int)TASK_TYPE::COUNT> possible_tasks;
 	std::deque<std::size_t> task_queue;
 	bool busy;
+};
+
+/**
+ *
+ */
+struct StructureComponent
+{
+	static constexpr int type = 17;
+
+	StructureComponent(std::size_t r = 1)
+		: radius{r}, residences{}
+	{ /* DUMMY BODY */ }
+	StructureComponent(const StructureComponent&) = default;
+	StructureComponent(StructureComponent&&) = default;
+
+	std::size_t radius;
+	std::vector<std::size_t> residences;
 };
