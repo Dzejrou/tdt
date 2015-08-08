@@ -23,7 +23,7 @@
 class GridSystem : public System
 {
 	/**
-	 * GameSerialize is a friend class so that it can easily access the grid realted data
+	 * GameSerializer is a friend class so that it can easily access the grid realted data
 	 * (like dimensions and node distance) when saving the game.
 	 */
 	friend class GameSerializer;
@@ -77,6 +77,8 @@ class GridSystem : public System
 		std::tuple<std::size_t, std::size_t> get_board_coords(std::size_t) const;
 		void pathfinding_test(Console& console);
 		void clear_path_colour();
+
+		void place_structure(std::size_t, std::size_t, std::size_t);
 	private:
 		bool in_board_(std::size_t) const;
 		void link_(std::size_t, std::vector<GridNodeComponent*>&);

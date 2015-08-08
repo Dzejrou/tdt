@@ -336,6 +336,33 @@ void GridSystem::clear_path_colour()
 	}
 }
 
+void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::size_t radius)
+{
+	// TODO: Possibly return if the entity has a movement component?
+	auto& struct_comp = entities_.get_component<StructureComponent>(ent_id);
+
+	std::size_t x, y;
+	std::tie(x, y) = get_board_coords(node_id);
+	std::size_t start_node = get_node(x - radius + 1, y - radius + 1);
+	std::tie(x, y) = get_board_coords(start_node);
+	std::size_t target_node{};
+
+	for(std::size_t i = 0; i < radius; ++i)
+	{
+		for(std::size_t j = 0; j < radius; ++j)
+		{
+			target_node = get_node(x + i, y + j);
+			if(entities_.has_component<GridNodeComponent>(target_node))
+			{
+				auto& comp = entities_.get_component<GridNodeComponent>(target_node);
+				comp.free = false;
+				comp.resident = ent_id;
+				struct_comp.residences.push_back(target_node);
+			}
+		}
+	}
+}
+
 bool GridSystem::in_board_(std::size_t index) const
 {
 	return 0 <= index && index < board_.size();
