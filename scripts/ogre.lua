@@ -31,7 +31,8 @@ ogre = {
 	GraphicsComponent = {
 		mesh = "ogrehead.mesh",
 		material = "NO_MAT", -- Material is in mesh.
-		visible = true
+		visible = true,
+		manual_scaling = false
 	},
 
 	MovementComponent = {
