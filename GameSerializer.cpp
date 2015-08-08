@@ -2,7 +2,7 @@
 #include "Game.hpp"
 
 GameSerializer::GameSerializer(EntitySystem& ents)
-	: entities_{ents}, script_{lpp::Script::get_singleton()}
+	: entities_{ents}, script_{lpp::Script::get_singleton()},
 	  file_{}
 { /* DUMMY BODY */ }
 
