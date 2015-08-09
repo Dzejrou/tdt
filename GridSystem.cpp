@@ -313,16 +313,6 @@ std::tuple<std::size_t, std::size_t> GridSystem::get_board_coords(std::size_t id
 		return std::tuple<std::size_t, std::size_t>{};
 }
 
-void GridSystem::pathfinding_test(Console& console)
-{
-	auto id = entities_.create_entity();
-	auto& comp = entities_.add_component<PathfindingComponent>(id);
-	perform_a_star(id, get_node(0,0), get_node(width_ - 1, height_ - 1));
-
-	for(auto node : comp.path_queue)
-		console.print_text(std::to_string(node), Console::ORANGE_TEXT);
-}
-
 void GridSystem::clear_path_colour()
 {
 	if(!graphics_loaded_)
@@ -347,6 +337,16 @@ void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::s
 	std::tie(x, y) = get_board_coords(start_node);
 	std::size_t target_node{};
 
+	// This will check if the entire are is free first.
+	for(std::size_t i = 0; i < radius; ++i)
+	{
+		for(std::size_t j = 0; j < radius; ++j)
+		{
+			if(!is_free(get_node(x + i, y + j)))
+				return;
+		}
+	}
+
 	for(std::size_t i = 0; i < radius; ++i)
 	{
 		for(std::size_t j = 0; j < radius; ++j)
@@ -361,6 +361,49 @@ void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::s
 			}
 		}
 	}
+}
+
+void GridSystem::set_resident(std::size_t node_id, std::size_t res_id)
+{
+	if(entities_.has_component<GridNodeComponent>(node_id))
+	{
+		auto& comp = entities_.get_component<GridNodeComponent>(node_id);
+		if(comp.resident == Component::NO_ENTITY)
+		{
+			comp.resident = res_id;
+			comp.free = false;
+		}
+	}
+}
+
+std::size_t GridSystem::get_resident(std::size_t node_id) const
+{
+	if(entities_.has_component<GridNodeComponent>(node_id))
+		return entities_.get_component<GridNodeComponent>(node_id).resident;
+	else
+		return Component::NO_ENTITY;
+}
+
+void GridSystem::add_residences(std::size_t ent_id, const std::vector<std::size_t>& residences)
+{
+	if(entities_.has_component<StructureComponent>(ent_id))
+	{
+		auto& comp = entities_.get_component<StructureComponent>(ent_id);
+		for(const auto& node : residences)
+			comp.residences.push_back(node);
+	}
+}
+
+void GridSystem::add_residence(std::size_t ent_id, std::size_t node_id)
+{
+	if(entities_.has_component<StructureComponent>(ent_id))
+		entities_.get_component<StructureComponent>(ent_id).residences.push_back(node_id);
+}
+
+void GridSystem::set_radius(std::size_t id, std::size_t radius)
+{
+	if(entities_.has_component<StructureComponent>(id))
+		entities_.get_component<StructureComponent>(id).radius = radius;
 }
 
 bool GridSystem::in_board_(std::size_t index) const

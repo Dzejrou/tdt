@@ -75,10 +75,15 @@ class GridSystem : public System
 		bool can_break(std::size_t, std::size_t) const;
 		bool can_pass(std::size_t, std::size_t) const;
 		std::tuple<std::size_t, std::size_t> get_board_coords(std::size_t) const;
-		void pathfinding_test(Console& console);
 		void clear_path_colour();
 
 		void place_structure(std::size_t, std::size_t, std::size_t);
+		void set_resident(std::size_t, std::size_t);
+		std::size_t get_resident(std::size_t) const;
+		void add_residences(std::size_t, const std::vector<std::size_t>&);
+		void add_residence(std::size_t, std::size_t);
+
+		void set_radius(std::size_t, std::size_t);
 	private:
 		bool in_board_(std::size_t) const;
 		void link_(std::size_t, std::vector<GridNodeComponent*>&);
