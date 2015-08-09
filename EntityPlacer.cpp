@@ -35,6 +35,7 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 
 		placed_id_ = entities_.create_entity(table_name);
 		auto& comp = entities_.get_component<GraphicsComponent>(placed_id_);
+		comp.entity->setQueryFlags(0); // Ignored by selection.
 		placing_node_ = comp.node;
 
 		if(comp.manual_scaling)
