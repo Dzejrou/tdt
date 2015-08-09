@@ -40,7 +40,7 @@ Game::Game()
 						                  *scene_mgr_->createPlaneBoundedVolumeQuery(Ogre::PlaneBoundedVolumeList{}),
 						                  *scene_mgr_->createRayQuery(Ogre::Ray{}),
 						                  *scene_mgr_});
-	placer_.reset(new EntityPlacer{*entity_system_, *scene_mgr_, *grid_system_});
+	placer_.reset(new EntityPlacer{*entity_system_, *grid_system_});
 	entity_creator_.reset(new EntityCreator{*placer_, *entity_system_});
 	game_serializer_.reset(new GameSerializer{*entity_system_});
 

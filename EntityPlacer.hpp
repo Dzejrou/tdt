@@ -11,7 +11,7 @@
 class EntityPlacer
 {
 	public:
-		EntityPlacer(EntitySystem&, Ogre::SceneManager&, GridSystem&);
+		EntityPlacer(EntitySystem&, GridSystem&);
 		~EntityPlacer();
 
 		void set_current_entity_table(const std::string&);
@@ -21,14 +21,13 @@ class EntityPlacer
 		bool is_visible() const;
 	private:
 		EntitySystem& entities_;
-		Ogre::SceneManager& scene_mgr_;
 		GridSystem& grid_;
 		Ogre::Vector3 curr_position_;
-		Ogre::SceneNode& placing_node_;
-		Ogre::Entity* placed_entity_;
+		Ogre::SceneNode* placing_node_;
 		bool visible_;
 		std::string table_name_;
 		Ogre::Real half_height_;
 		bool placing_structure_;
 		std::size_t structure_radius_;
+		std::size_t placed_id_;
 };

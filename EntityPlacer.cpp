@@ -1,20 +1,16 @@
 #include "EntityPlacer.hpp"
 
-EntityPlacer::EntityPlacer(EntitySystem& ents, Ogre::SceneManager& mgr, GridSystem& grid)
-	: entities_{ents}, scene_mgr_{mgr}, grid_{grid}, curr_position_{0, 0, 0},
-	  placing_node_{*mgr.getRootSceneNode()->createChildSceneNode()},
-	  placed_entity_{nullptr}, visible_{false}, table_name_{},
-	  half_height_{}, placing_structure_{false}, structure_radius_{0}
+EntityPlacer::EntityPlacer(EntitySystem& ents, GridSystem& grid)
+	: entities_{ents}, grid_{grid}, curr_position_{0, 0, 0},
+	  placing_node_{}, visible_{false}, table_name_{},
+	  half_height_{}, placing_structure_{false}, structure_radius_{0},
+	  placed_id_{Component::NO_ENTITY}
 { /* DUMMY BODY */ }
 
 EntityPlacer::~EntityPlacer()
 {
-	if(placed_entity_)
-	{
-		scene_mgr_.destroyEntity(placed_entity_);
-		placing_node_.detachAllObjects();
-	}
-	scene_mgr_.destroySceneNode(&placing_node_);
+	if(placed_id_ != Component::NO_ENTITY)
+		entities_.destroy_entity(placed_id_);
 }
 
 void EntityPlacer::set_current_entity_table(const std::string& table_name)
@@ -23,25 +19,28 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 	if(script.is_nil(table_name + ".GraphicsComponent.mesh"))
 		return;
 
-	std::string mesh = script.get<std::string>(table_name + ".GraphicsComponent.mesh");
-
 	if(!script.is_nil(table_name + ".StructureComponent"))
 	{
 		placing_structure_ = true;
 		structure_radius_ = script.get<std::size_t>(table_name + ".StructureComponent.radius");
 	}
+	else
+		placing_structure_ = false;
 
 	if(entities_.get_registered_entities().count(table_name) != 0)
 	{
 		table_name_ = table_name;
-		if(placed_entity_)
-		{
-			scene_mgr_.destroyEntity(placed_entity_);
-			placing_node_.detachAllObjects();
-		}
-		placed_entity_ = scene_mgr_.createEntity(mesh);
-		placing_node_.attachObject(placed_entity_);
-		half_height_ = placed_entity_->getBoundingBox().getHalfSize().y;
+		if(placed_id_ != Component::NO_ENTITY)
+			entities_.destroy_entity(placed_id_);
+
+		placed_id_ = entities_.create_entity(table_name);
+		auto& comp = entities_.get_component<GraphicsComponent>(placed_id_);
+		placing_node_ = comp.node;
+
+		if(comp.manual_scaling)
+			half_height_ = comp.scale.y;
+		else
+			half_height_ = comp.entity->getBoundingBox().getHalfSize().y;
 	}
 }
 
@@ -61,7 +60,7 @@ void EntityPlacer::update_position(const Ogre::Vector3& pos)
 	else
 		curr_position_ = Ogre::Vector3{pos.x, half_height_, pos.z};
 	
-	placing_node_.setPosition(curr_position_);
+	placing_node_->setPosition(curr_position_);
 }
 
 std::size_t EntityPlacer::place(Console& console)
@@ -90,7 +89,7 @@ std::size_t EntityPlacer::place(Console& console)
 void EntityPlacer::set_visible(bool on_off)
 {
 	visible_ = on_off;
-	placing_node_.setVisible(on_off);
+	placing_node_->setVisible(on_off);
 
 	if(!on_off)
 		placing_structure_ = false;
