@@ -287,9 +287,10 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 			if(graph_comp.node && graph_comp.entity)
 			{
 				graph_comp.node->detachObject(graph_comp.entity);
-				if(graph_comp.node->numChildren() == 0)
-					scene_.destroySceneNode(graph_comp.node);
 				scene_.destroyEntity(graph_comp.entity);
+				if(graph_comp.node->numChildren() != 0)
+					graph_comp.node->removeAndDestroyAllChildren();
+				scene_.destroySceneNode(graph_comp.node);
 			}
 			graphics_.erase(ent_id);
 			break;
