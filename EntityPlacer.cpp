@@ -90,10 +90,21 @@ std::size_t EntityPlacer::place(Console& console)
 void EntityPlacer::set_visible(bool on_off)
 {
 	visible_ = on_off;
-	placing_node_->setVisible(on_off);
 
 	if(!on_off)
+	{
 		placing_structure_ = false;
+		if(placed_id_ != Component::NO_ENTITY)
+		{
+			entities_.destroy_entity(placed_id_);
+			placed_id_ = Component::NO_ENTITY;
+			placing_node_ = nullptr;
+		}
+	}
+	else
+	{
+		placing_node_->setVisible(true);
+	}
 }
 
 bool EntityPlacer::is_visible() const
