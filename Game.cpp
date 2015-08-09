@@ -438,6 +438,8 @@ void Game::lua_init()
 		{"set_mesh", Game::lua_set_mesh},
 		{"set_material", Game::lua_set_material},
 		{"set_visible", Game::lua_set_visible},
+		{"set_manual_scaling", Game::lua_set_manual_scaling},
+		{"set_scale", Game::lua_set_scale},
 
 		// Entity manipulation.
 		{"create_entity", Game::lua_create_entity},
@@ -518,6 +520,11 @@ void Game::lua_init()
 		{"clear_path_colour", Game::lua_clear_path_colour},
 		{"set_pathfinding_blueprint", Game::lua_set_pathfinding_blueprint},
 		{"create_graph", Game::lua_create_graph},
+		{"set_resident", Game::lua_set_resident},
+		{"get_resident", Game::lua_get_resident},
+		{"add_residences", Game::lua_add_residences},
+		{"add_residence", Game::lua_add_residence},
+		{"set_radius", Game::lua_set_radius},
 
 		// Task system.
 		{"add_task", Game::lua_add_task},
@@ -790,6 +797,43 @@ int Game::lua_set_visible(lpp::Script::state L)
 
 	if(lua_this->entity_system_->has_component<GraphicsComponent>(id))
 		lua_this->entity_system_->get_component<GraphicsComponent>(id).node->setVisible(vis);
+	return 0;
+}
+
+int Game::lua_set_manual_scaling(lpp::Script::state L)
+{
+	bool on_off = lua_toboolean(L, -1) == 1;
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	if(lua_this->entity_system_->has_component<GraphicsComponent>(id))
+		lua_this->entity_system_->get_component<GraphicsComponent>(id).manual_scaling = on_off;
+	return 0;
+}
+
+int Game::lua_set_scale(lpp::Script::state L)
+{
+	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+	lua_pop(L, 4);
+
+	if(lua_this->entity_system_->has_component<GraphicsComponent>(id))
+	{
+		auto& comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
+		comp.scale = Ogre::Vector3{x, y, z};
+		if(comp.node)
+			comp.node->setScale(x, y, z);
+		comp.node->setPosition(
+				comp.node->getPosition().x,
+				comp.entity->getWorldBoundingBox(true).getHalfSize().y,
+				comp.node->getPosition().z
+			);
+		if(lua_this->entity_system_->has_component<PhysicsComponent>(id))
+			lua_this->entity_system_->get_component<PhysicsComponent>(id).half_height
+				= comp.entity->getWorldBoundingBox(true).getHalfSize().y;
+	}
 	return 0;
 }
 
@@ -1510,6 +1554,57 @@ int Game::lua_create_graph(lpp::Script::state L)
 
 	lua_this->grid_system_->create_graph(width, height, dist,
 										 start_x, start_y);
+	return 0;
+}
+
+int Game::lua_set_resident(lpp::Script::state L)
+{
+	std::size_t res_id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->grid_system_->set_resident(ent_id, res_id);
+	return 0;
+}
+
+int Game::lua_get_resident(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->grid_system_->get_resident(id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int Game::lua_add_residences(lpp::Script::state L)
+{
+	std::string residences = luaL_checkstring(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	auto nodes = lpp::Script::get_singleton().get_vector<std::size_t>(residences);
+	lua_this->grid_system_->add_residences(id, nodes);
+	return 0;
+}
+
+int Game::lua_add_residence(lpp::Script::state L)
+{
+	std::size_t res_id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->grid_system_->add_residence(ent_id, res_id);
+	return 0;
+}
+
+int Game::lua_set_radius(lpp::Script::state L)
+{
+	std::size_t radius = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->grid_system_->set_radius(id, radius);
 	return 0;
 }
 

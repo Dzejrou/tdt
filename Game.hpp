@@ -210,10 +210,12 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_save_game(lpp::Script::state);
 		static int lua_load_game(lpp::Script::state);
 
-		// Ogre related functions.
+		// Ogre related functions. TODO: Create a special system for this!
 		static int lua_set_mesh(lpp::Script::state);
 		static int lua_set_material(lpp::Script::state);
 		static int lua_set_visible(lpp::Script::state);
+		static int lua_set_manual_scaling(lpp::Script::state);
+		static int lua_set_scale(lpp::Script::state);
 
 		// Entity system.
 		static int lua_create_entity(lpp::Script::state);
@@ -294,6 +296,11 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_clear_path_colour(lpp::Script::state);
 		static int lua_set_pathfinding_blueprint(lpp::Script::state);
 		static int lua_create_graph(lpp::Script::state);
+		static int lua_set_resident(lpp::Script::state);
+		static int lua_get_resident(lpp::Script::state);
+		static int lua_add_residences(lpp::Script::state);
+		static int lua_add_residence(lpp::Script::state);
+		static int lua_set_radius(lpp::Script::state);
 
 		// Task system.
 		static int lua_add_task(lpp::Script::state);
