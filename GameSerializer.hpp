@@ -134,9 +134,18 @@ inline void GameSerializer::save_component<GraphicsComponent>(std::size_t id, co
 		  "game.add_component(" + tbl_name + ", game.enum.component.graphics)\n"
 		+ "game.set_mesh(" + tbl_name + ", '" + comp.mesh + "')\n"
 		+ "game.set_material(" + tbl_name + ", '" + comp.material + "')\n"
+		+ "game.set_manual_scaling(" + tbl_name + ", " + (comp.manual_scaling ? "true" : "false") + ")\n"
 		+ "game.init_graphics_component(" + tbl_name + ")\n"
 		+ "game.set_visible(" + tbl_name + ", " + (comp.visible ? "true" : "false") + ")\n"
 	};
+
+	if(comp.manual_scaling)
+	{
+		comm.append(
+			  "game.set_scale(" + tbl_name + ", " + std::to_string(comp.scale.x) + ", "
+			+ std::to_string(comp.scale.y) + ", " + std::to_string(comp.scale.z) + ")\n"
+		);
+	}
 
 	file_ << comm;
 }
@@ -242,6 +251,23 @@ inline void GameSerializer::save_component<TaskHandlerComponent>(std::size_t id,
 		if(comp.possible_tasks.test(i))
 			comm.append("game.add_possible_task(" + tbl_name + ", " + std::to_string(i) + ")\n");
 	}
+
+	file_ << comm;
+}
+
+template<>
+inline void GameSerializer::save_component<StructureComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto& comp = entities_.get_component<StructureComponent>(id);
+	std::string comm{
+		  "game.add_component(" + tbl_name + ", game.enum.component.structure)\n"
+		+ tbl_name + "_residences = { "
+	};
+
+	for(std::size_t i = 0; i < comp.residences.size(); ++i)
+		comm.append("entity_" + std::to_string(comp.residences[i]) +
+					(i == comp.residences.size() - 1 ? "" : ", "));
+	comm.append(" }\ngame.add_residences(" + tbl_name + ", '" + tbl_name + "_residences')\n");
 
 	file_ << comm;
 }

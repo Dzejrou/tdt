@@ -92,6 +92,9 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 					case TaskHandlerComponent::type:
 						save_component<TaskHandlerComponent>(ent.first, entity_name);
 						break;
+					case StructureComponent::type:
+						save_component<StructureComponent>(ent.first, entity_name);
+						break;
 				}
 			}
 		}	
