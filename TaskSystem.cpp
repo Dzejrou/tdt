@@ -26,11 +26,11 @@ void TaskSystem::update(Ogre::Real delta)
 			}
 
 			// Found atleast one valid task.
-			if(ent.second.curr_task != Component::NO_ENTITY &&
-			   entities_.has_component<TaskComponent>(ent.second.curr_task))
+			auto comp = entities_.get_component<TaskComponent>(ent.second.curr_task);
+			if(ent.second.curr_task != Component::NO_ENTITY && comp)
 			{
 				ent.second.busy = true;
-				handle_task_(ent.first, entities_.get_component<TaskComponent>(ent.second.curr_task));
+				handle_task_(ent.first, *comp);
 			}
 		}
 	}
@@ -38,18 +38,16 @@ void TaskSystem::update(Ogre::Real delta)
 
 void TaskSystem::add_task(std::size_t ent_id, std::size_t task_id)
 {
-	if(entities_.has_component<TaskHandlerComponent>(ent_id) &&
-	   entities_.has_component<TaskComponent>(task_id))
+	auto comp1 = entities_.get_component<TaskHandlerComponent>(ent_id);
+	auto comp2 = entities_.get_component<TaskComponent>(task_id);
+	if(comp1 && comp2)
 	{
-		auto& comp = entities_.get_component<TaskHandlerComponent>(ent_id);
-		auto& task = entities_.get_component<TaskComponent>(task_id);
-
 		// Make sure the entity can handle this task.
-		if(!comp.possible_tasks.test((int)task.task_type))
+		if(!comp1->possible_tasks.test((int)comp2->task_type))
 			return;
 
-		task.source = ent_id;
-		comp.task_queue.push_back(task_id);
+		comp2->source = ent_id;
+		comp1->task_queue.push_back(task_id);
 	}
 }
 
@@ -71,17 +69,19 @@ std::size_t TaskSystem::create_task(std::size_t target, TASK_TYPE type)
 
 std::deque<std::size_t> TaskSystem::get_task_queue(std::size_t id)
 {
-	if(entities_.has_component<TaskHandlerComponent>(id))
-		return entities_.get_component<TaskHandlerComponent>(id).task_queue;
+	auto comp = entities_.get_component<TaskHandlerComponent>(id);
+	if(comp)
+		return comp->task_queue;
 	else
 		return std::deque<std::size_t>{};
 }
 
 void TaskSystem::clear_task_queue(std::size_t id)
 {
-	if(entities_.has_component<TaskHandlerComponent>(id))
+	auto comp = entities_.get_component<TaskHandlerComponent>(id);
+	if(comp)
 	{
-		auto& task_queue = entities_.get_component<TaskHandlerComponent>(id).task_queue;
+		auto& task_queue = comp->task_queue;
 		for(auto& task : task_queue)
 		{
 			if(entities_.has_component<TaskComponent>(task))
@@ -102,42 +102,46 @@ const std::string & TaskSystem::get_task_name(TASK_TYPE type) const
 
 void TaskSystem::set_task_source(std::size_t id, std::size_t source)
 {
-	if(entities_.has_component<TaskComponent>(id))
-		entities_.get_component<TaskComponent>(id).source = source;
+	auto comp = entities_.get_component<TaskComponent>(id);
+	if(comp)
+		comp->source = source;
 }
 
 void TaskSystem::set_task_target(std::size_t id, std::size_t target)
 {
-	if(entities_.has_component<TaskComponent>(id))
-		entities_.get_component<TaskComponent>(id).target = target;
+	auto comp = entities_.get_component<TaskComponent>(id);
+	if(comp)
+		comp->target = target;
 }
 
 void TaskSystem::set_task_type(std::size_t id, TASK_TYPE type)
 {
-	if(entities_.has_component<TaskComponent>(id))
-		entities_.get_component<TaskComponent>(id).task_type = type;
+	auto comp = entities_.get_component<TaskComponent>(id);
+	if(comp)
+		comp->task_type = type;
 }
 
 void TaskSystem::add_possible_task(std::size_t id, TASK_TYPE type)
 {
-	if(entities_.has_component<TaskHandlerComponent>(id))
-		entities_.get_component<TaskHandlerComponent>(id).possible_tasks.set((int)type);
+	auto comp = entities_.get_component<TaskHandlerComponent>(id);
+	if(comp)
+		comp->possible_tasks.set((int)type);
 }
 
 void TaskSystem::delete_possible_task(std::size_t id, TASK_TYPE type)
 {
-	if(entities_.has_component<TaskHandlerComponent>(id))
-		entities_.get_component<TaskHandlerComponent>(id).possible_tasks.set((int)type, false);
+	auto comp = entities_.get_component<TaskHandlerComponent>(id);
+	if(comp)
+		comp->possible_tasks.set((int)type, false);
 }
 
 bool TaskSystem::task_possible(std::size_t ent_id, std::size_t task_id) const
 {
-	if(entities_.has_component<TaskHandlerComponent>(ent_id) &&
-	   entities_.has_component<TaskComponent>(task_id))
+	auto comp1 = entities_.get_component<TaskHandlerComponent>(ent_id);
+	auto comp2 = entities_.get_component<TaskComponent>(task_id);
+	if(comp1 && comp2)
 	{
-		auto& handler = entities_.get_component<TaskHandlerComponent>(ent_id);
-		auto& task = entities_.get_component<TaskComponent>(task_id);
-		return handler.possible_tasks.test((int)task.task_type);
+		return comp1->possible_tasks.test((int)comp2->task_type);
 	}
 	else
 		return false;
@@ -164,17 +168,20 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task)
 		case TASK_TYPE::GO_TO:
 		case TASK_TYPE::GO_NEAR:
 		{
-			auto& source_pos = entities_.get_component<PhysicsComponent>(task.source).position;
-			auto& target_pos = entities_.get_component<PhysicsComponent>(task.target).position;
-			grid_.perform_a_star(id, grid_.get_node_from_position(source_pos.x, source_pos.z),
-								     grid_.get_node_from_position(target_pos.x, target_pos.z));
+			auto source_comp = entities_.get_component<PhysicsComponent>(task.source);
+			auto target_comp = entities_.get_component<PhysicsComponent>(task.target);
+			grid_.perform_a_star(id, grid_.get_node_from_position(source_comp->position.x, source_comp->position.z),
+								     grid_.get_node_from_position(target_comp->position.x, target_comp->position.z));
 
 			if(task.task_type == TASK_TYPE::GO_NEAR)
 			{
-				auto& path_comp = entities_.get_component<PathfindingComponent>(task.source);
-				path_comp.path_queue.pop_back(); // Doesn't reach the final grid node.
-				path_comp.target_id = path_comp.path_queue.back();
-				task.target = path_comp.path_queue.back();
+				auto path_comp = entities_.get_component<PathfindingComponent>(task.source);
+				if(path_comp)
+				{
+					path_comp->path_queue.pop_back(); // Doesn't reach the final grid node.
+					path_comp->target_id = path_comp->path_queue.back();
+					task.target = path_comp->path_queue.back();
+				}
 			}
 
 			break;
@@ -184,18 +191,22 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task)
 
 bool TaskSystem::current_task_completed_(TaskHandlerComponent& handler)
 {
-	if(entities_.has_component<TaskComponent>(handler.curr_task))
+	auto comp = entities_.get_component<TaskComponent>(handler.curr_task);
+	if(comp)
 	{
-		auto& task = entities_.get_component<TaskComponent>(handler.curr_task);
 	
-		switch(task.task_type)
+		switch(comp->task_type)
 		{
 			case TASK_TYPE::GO_TO:
 			case TASK_TYPE::GO_NEAR:
 			{
-				auto& pos1 = entities_.get_component<PhysicsComponent>(task.source).position;
-				auto& pos2 = entities_.get_component<PhysicsComponent>(task.target).position;
-				return pos1.x == pos2.x && pos1.z == pos2.z;
+				auto source = entities_.get_component<PhysicsComponent>(comp->source);
+				auto target = entities_.get_component<PhysicsComponent>(comp->target);
+
+				if(source && target)
+					return source->position.x == target->position.x && source->position.z == target->position.z;
+				else
+					return true; // Runtime deletion, should not occur in release code.
 			}
 			default:
 				return true; // Undefined task, kill it asap.
