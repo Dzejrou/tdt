@@ -16,17 +16,6 @@ EntityPlacer::~EntityPlacer()
 void EntityPlacer::set_current_entity_table(const std::string& table_name)
 {
 	auto& script = lpp::Script::get_singleton();
-	if(script.is_nil(table_name + ".GraphicsComponent.mesh"))
-		return;
-
-	if(!script.is_nil(table_name + ".StructureComponent"))
-	{
-		placing_structure_ = true;
-		structure_radius_ = script.get<std::size_t>(table_name + ".StructureComponent.radius");
-	}
-	else
-		placing_structure_ = false;
-
 	if(entities_.get_registered_entities().count(table_name) != 0)
 	{
 		table_name_ = table_name;
@@ -34,14 +23,33 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 			entities_.destroy_entity(placed_id_);
 
 		placed_id_ = entities_.create_entity(table_name);
-		auto& comp = entities_.get_component<GraphicsComponent>(placed_id_);
-		comp.entity->setQueryFlags(0); // Ignored by selection.
-		placing_node_ = comp.node;
+		auto comp = entities_.get_component<GraphicsComponent>(placed_id_);
+		if(comp)
+		{
+			comp->entity->setQueryFlags(0); // Ignored by selection.
+			placing_node_ = comp->node;
 
-		if(comp.manual_scaling)
-			half_height_ = comp.scale.y;
+			if(comp->manual_scaling)
+				half_height_ = comp->scale.y;
+			else
+				half_height_ = comp->entity->getBoundingBox().getHalfSize().y;
+		}
 		else
-			half_height_ = comp.entity->getBoundingBox().getHalfSize().y;
+		{
+			entities_.destroy_entity(placed_id_);
+			table_name_ = "ERROR";
+			placed_id_ = Component::NO_ENTITY;
+			return;
+		}
+
+		auto struct_comp = entities_.get_component<StructureComponent>(placed_id_);
+		if(struct_comp)
+		{
+			placing_structure_ = true;
+			structure_radius_ = struct_comp->radius;
+		}
+		else
+			placing_structure_ = false;
 	}
 }
 
@@ -55,8 +63,12 @@ void EntityPlacer::update_position(const Ogre::Vector3& pos)
 			return;
 
 		// Snap to grid.
-		auto& node_pos = entities_.get_component<PhysicsComponent>(node_id).position;
-		curr_position_ = Ogre::Vector3{node_pos.x, half_height_, node_pos.z};
+		auto comp = entities_.get_component<PhysicsComponent>(node_id);
+		if(comp)
+		{
+			auto& node_pos = comp->position;
+			curr_position_ = Ogre::Vector3{node_pos.x, half_height_, node_pos.z};
+		}
 	}
 	else
 		curr_position_ = Ogre::Vector3{pos.x, half_height_, pos.z};
@@ -68,14 +80,17 @@ std::size_t EntityPlacer::place(Console& console)
 {
 	std::size_t id = entities_.create_entity(table_name_);
 
-	if(entities_.has_component<PhysicsComponent>(id))
+	auto comp = entities_.get_component<PhysicsComponent>(id);
+	if(comp)
 	{
-		auto& comp = entities_.get_component<PhysicsComponent>(id);
-		comp.position = Ogre::Vector3{curr_position_.x, comp.half_height, curr_position_.z};
-
-		if(entities_.has_component<GraphicsComponent>(id))
-			entities_.get_component<GraphicsComponent>(id).node->setPosition(curr_position_.x, comp.half_height,
-																			 curr_position_.z);
+		comp->position = Ogre::Vector3{curr_position_.x,
+											  comp->half_height,
+											  curr_position_.z};
+		
+		auto graph_comp = entities_.get_component<GraphicsComponent>(id);
+		if(graph_comp)
+			graph_comp->node->setPosition(curr_position_.x, comp->half_height,
+												 curr_position_.z);
 	}
 
 	if(placing_structure_)
