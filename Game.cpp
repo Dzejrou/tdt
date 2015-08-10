@@ -773,8 +773,9 @@ int Game::lua_set_mesh(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	if(lua_this->entity_system_->has_component<GraphicsComponent>(id))
-		lua_this->entity_system_->get_component<GraphicsComponent>(id).mesh = mesh;
+	auto comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
+	if(comp)
+		comp->mesh = mesh;
 	return 0;
 }
 
@@ -784,8 +785,9 @@ int Game::lua_set_material(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	if(lua_this->entity_system_->has_component<GraphicsComponent>(id))
-		lua_this->entity_system_->get_component<GraphicsComponent>(id).material = mat;
+	auto comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
+	if(comp)
+		comp->material = mat;
 	return 0;
 }
 
@@ -795,8 +797,9 @@ int Game::lua_set_visible(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	if(lua_this->entity_system_->has_component<GraphicsComponent>(id))
-		lua_this->entity_system_->get_component<GraphicsComponent>(id).node->setVisible(vis);
+	auto comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
+	if(comp)
+		comp->node->setVisible(vis);
 	return 0;
 }
 
@@ -806,8 +809,9 @@ int Game::lua_set_manual_scaling(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	if(lua_this->entity_system_->has_component<GraphicsComponent>(id))
-		lua_this->entity_system_->get_component<GraphicsComponent>(id).manual_scaling = on_off;
+	auto comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
+	if(comp)
+		comp->manual_scaling = on_off;
 	return 0;
 }
 
@@ -819,20 +823,20 @@ int Game::lua_set_scale(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
 	lua_pop(L, 4);
 
-	if(lua_this->entity_system_->has_component<GraphicsComponent>(id))
+	auto comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
+	if(comp)
 	{
-		auto& comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
-		comp.scale = Ogre::Vector3{x, y, z};
-		if(comp.node)
-			comp.node->setScale(x, y, z);
-		comp.node->setPosition(
-				comp.node->getPosition().x,
-				comp.entity->getWorldBoundingBox(true).getHalfSize().y,
-				comp.node->getPosition().z
+		comp->scale = Ogre::Vector3{x, y, z};
+		if(comp->node)
+			comp->node->setScale(x, y, z);
+		comp->node->setPosition(
+				comp->node->getPosition().x,
+				comp->entity->getWorldBoundingBox(true).getHalfSize().y,
+				comp->node->getPosition().z
 			);
-		if(lua_this->entity_system_->has_component<PhysicsComponent>(id))
-			lua_this->entity_system_->get_component<PhysicsComponent>(id).half_height
-				= comp.entity->getWorldBoundingBox(true).getHalfSize().y;
+		auto phys_comp = lua_this->entity_system_->get_component<PhysicsComponent>(id);
+		if(phys_comp)
+			phys_comp->half_height = comp->entity->getWorldBoundingBox(true).getHalfSize().y;
 	}
 	return 0;
 }
@@ -1643,20 +1647,21 @@ int Game::lua_list_tasks_of(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 	
-	if(lua_this->entity_system_->has_component<TaskHandlerComponent>(id))
+	auto comp = lua_this->entity_system_->get_component<TaskHandlerComponent>(id);
+	if(comp)
 	{
 		std::string report{};
-		auto& task_queue = lua_this->entity_system_->get_component<TaskHandlerComponent>(id).task_queue;
+		auto& task_queue = comp->task_queue;
 
 		for(auto& task : task_queue)
 		{
 			report.append(std::to_string(task) + ": ");
-			if(lua_this->entity_system_->has_component<TaskComponent>(task))
+			auto task_comp = lua_this->entity_system_->get_component<TaskComponent>(task);
+			if(task_comp)
 			{
-				auto& task_comp = lua_this->entity_system_->get_component<TaskComponent>(task);
-				report.append(lua_this->task_system_->get_task_name(task_comp.task_type)
-							  + " (" + std::to_string(task_comp.source)
-							  + " -> " + std::to_string(task_comp.target) + ").\n");
+				report.append(lua_this->task_system_->get_task_name(task_comp->task_type)
+							  + " (" + std::to_string(task_comp->source)
+							  + " -> " + std::to_string(task_comp->target) + ").\n");
 			}
 			else
 				report.append(lua_this->task_system_->get_task_name(TASK_TYPE::NONE));
