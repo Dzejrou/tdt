@@ -74,28 +74,25 @@ class EntitySystem : public System
 		 *       components for some reason, investigate!
 		 */
 		template<typename COMP>
-		bool has_component(std::size_t id) const
+		bool has_component(std::size_t id)
 		{
-			auto& comp = entities_.find(id);
-			if(comp != entities_.end())
-				return comp->second.test(COMP::type);
-			else
-				return false;
+			return get_component_container<COMP>().find(id) !=
+				   get_component_container<COMP>().end();
 		}
 
 		/**
-		 * Brief: Returns a reference to the component specified by the template argument of a given entity.
+		 * Brief: Returns a bool-component pointer pair, in which the first bool member determines if the
+		 *        component was found and the second is a pointer to the component.
 		 * Param: ID of the entity whose component we ask for.
 		 */
 		template<typename COMP>
-		COMP& get_component(std::size_t id)
+		COMP* get_component(std::size_t id)
 		{
 			auto it = get_component_container<COMP>().find(id);
 			if(it != get_component_container<COMP>().end())
-				return it->second;
+				return &it->second;
 			else
-				throw std::runtime_error("[Error][EntitySystem] Trying to retrieve a non-existing component: "
-										 + std::to_string(COMP::type) + " for entity #" + std::to_string(id));
+				return nullptr;
 		}
 
 		/**
@@ -437,12 +434,12 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 
 	// Make the entity stand on ground.
 	auto half_height = comp.entity->getWorldBoundingBox(true).getHalfSize().y;
-	if(has_component<PhysicsComponent>(id))
+	auto phys_comp = get_component<PhysicsComponent>(id);
+	if(phys_comp)
 	{
-		auto& phys_comp = get_component<PhysicsComponent>(id);
-		phys_comp.half_height = half_height;
-		phys_comp.position = Ogre::Vector3{phys_comp.position.x, half_height, phys_comp.position.z};
-		comp.node->setPosition(phys_comp.position);
+		phys_comp->half_height = half_height;
+		phys_comp->position = Ogre::Vector3{phys_comp->position.x, half_height, phys_comp->position.z};
+		comp.node->setPosition(phys_comp->position);
 	}
 }
 
