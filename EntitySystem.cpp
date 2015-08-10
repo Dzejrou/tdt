@@ -283,14 +283,14 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 			break;
 		case GraphicsComponent::type:
 		{
-			auto& graph_comp = get_component<GraphicsComponent>(ent_id);
-			if(graph_comp.node && graph_comp.entity)
+			auto graph_comp = get_component<GraphicsComponent>(ent_id);
+			if(graph_comp && graph_comp->node && graph_comp->entity)
 			{
-				graph_comp.node->detachObject(graph_comp.entity);
-				scene_.destroyEntity(graph_comp.entity);
-				if(graph_comp.node->numChildren() != 0)
-					graph_comp.node->removeAndDestroyAllChildren();
-				scene_.destroySceneNode(graph_comp.node);
+				graph_comp->node->detachObject(graph_comp->entity);
+				scene_.destroyEntity(graph_comp->entity);
+				if(graph_comp->node->numChildren() != 0)
+					graph_comp->node->removeAndDestroyAllChildren();
+				scene_.destroySceneNode(graph_comp->node);
 			}
 			graphics_.erase(ent_id);
 			break;
@@ -334,25 +334,30 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 
 void EntitySystem::init_graphics_component(std::size_t id)
 {
-	auto& comp = graphics_.find(id)->second;
-	comp.entity = scene_.createEntity(comp.mesh);
-	comp.node = scene_.getRootSceneNode()->createChildSceneNode();
-	comp.node->attachObject(comp.entity);
-	comp.node->setVisible(comp.visible);
+	auto comp = get_component<GraphicsComponent>(id);
 
-	if(comp.manual_scaling)
-		comp.node->setScale(comp.scale);
+	if(!comp)
+		return;
 
-	if(comp.material != "NO_MAT")
-		comp.entity->setMaterialName(comp.material);
+	comp->entity = scene_.createEntity(comp->mesh);
+	comp->node = scene_.getRootSceneNode()->createChildSceneNode();
+	comp->node->attachObject(comp->entity);
+	comp->node->setVisible(comp->visible);
 
-	auto half_height = comp.entity->getWorldBoundingBox(true).getHalfSize().y;
-	if(has_component<PhysicsComponent>(id))
+	if(comp->manual_scaling)
+		comp->node->setScale(comp->scale);
+
+	if(comp->material != "NO_MAT")
+		comp->entity->setMaterialName(comp->material);
+
+	auto half_height = comp->entity->getWorldBoundingBox(true).getHalfSize().y;
+	auto phys_comp = get_component<PhysicsComponent>(id);
+	if(phys_comp)
 	{
-		auto& phys_comp = get_component<PhysicsComponent>(id);
-		phys_comp.half_height = half_height;
-		phys_comp.position = Ogre::Vector3{phys_comp.position.x, half_height, phys_comp.position.z};
-		comp.node->setPosition(phys_comp.position);
+		phys_comp->half_height = half_height;
+		phys_comp->position = Ogre::Vector3{phys_comp->position.x,
+												   half_height, phys_comp->position.z};
+		comp->node->setPosition(phys_comp->position);
 	}
 }
 
