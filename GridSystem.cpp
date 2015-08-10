@@ -29,9 +29,6 @@ std::size_t GridSystem::add_line(std::size_t id1, std::size_t id2)
 
 	line_comp.start_id = id1;
 	line_comp.end_id = id2;
-	auto pos_start = entities_.get_component<PhysicsComponent>(id1).position;
-	auto pos_end = entities_.get_component<PhysicsComponent>(id2).position;
-
 	return id;
 }
 
@@ -55,7 +52,9 @@ void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real 
 		x = (i % width_) * distance_;
 		y = (i / height_) * distance_;
 		board_[i] = add_node(x, 0, y);
-		comps[i] = &entities_.get_component<GridNodeComponent>(board_[i]);
+		auto comp = entities_.get_component<GridNodeComponent>(board_[i]);
+		if(comp) // Should never be false though as the component is added 2 lines above...
+			comps[i] = comp;
 		comps[i]->x = i % width_;
 		comps[i]->y = i / height_;
 	}
@@ -97,7 +96,6 @@ void GridSystem::create_graphics()
 {
 	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
 	{
-		auto& phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
 		auto& graph_comp = entities_.add_component<GraphicsComponent>(ent.first);
 
 		graph_comp.mesh = "cube.mesh";
@@ -107,8 +105,11 @@ void GridSystem::create_graphics()
 
 		graph_comp.entity->setMaterialName(graph_comp.material);
 		graph_comp.node->setScale(5, 10, 5);
-		graph_comp.node->setPosition(phys_comp.position);
 		graph_comp.node->setVisible(false);
+
+		auto phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
+		if(phys_comp)
+			graph_comp.node->setPosition(phys_comp->position);
 	}
 	graphics_loaded_ = true;
 }
@@ -131,8 +132,9 @@ void GridSystem::set_visible(bool on_off)
 	// Nodes.
 	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
 	{
-		auto& graph_comp = entities_.get_component<GraphicsComponent>(ent.first);
-		graph_comp.node->setVisible(on_off);
+		auto graph_comp = entities_.get_component<GraphicsComponent>(ent.first);
+		if(graph_comp)
+			graph_comp->node->setVisible(on_off);
 	}
 }
 
@@ -146,29 +148,39 @@ bool GridSystem::is_visible() const
 
 std::array<std::size_t, 8> GridSystem::get_neighbours(std::size_t id) const
 {
-	if(entities_.has_component<GridNodeComponent>(id))
-		return entities_.get_component<GridNodeComponent>(id).neighbours;
+	auto comp = entities_.get_component<GridNodeComponent>(id);
+	if(comp)
+		return comp->neighbours;
 	else
-		return std::array<std::size_t, 8>();
+		return std::array<std::size_t, GridNodeComponent::neighbour_count>();
 }
 
 bool GridSystem::is_free(std::size_t id) const
 {
-	if(entities_.has_component<GridNodeComponent>(id))
-		return entities_.get_component<GridNodeComponent>(id).free;
+	auto comp = entities_.get_component<GridNodeComponent>(id);
+	if(comp)
+		return comp->free;
 	else
 		return false;
 }
 
 void GridSystem::set_free(std::size_t id, bool on_off)
 {
-	if(entities_.has_component<GridNodeComponent>(id))
+	auto comp = entities_.get_component<GridNodeComponent>(id);
+	if(comp)
 	{
-			entities_.get_component<GridNodeComponent>(id).free = on_off;
+			comp->free = on_off;
 			if(graphics_loaded_)
-				entities_.get_component<GraphicsComponent>(id).entity->setMaterialName(
+			{
+				auto graph_comp = entities_.get_component<GraphicsComponent>(id);
+
+				if(graph_comp)
+				{
+					graph_comp->entity->setMaterialName(
 						on_off ? "colour/blue" : "colour/red"
 					);
+				}
+			}
 	}
 }
 
@@ -264,15 +276,22 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t e
 		while((it = path_edges.find(current)) != path_edges.end())
 		{
 			if(graphics_loaded_) // Highlight the path for testing.
-				entities_.get_component<GraphicsComponent>(current).entity->setMaterialName("colour/green");
+			{
+				auto graph_comp = entities_.get_component<GraphicsComponent>(current);
+				if(graph_comp)
+					graph_comp->entity->setMaterialName("colour/green");
+			}
 			current = it->second;
 			path.push_front(current);
 		}
 
-		auto& path_comp = entities_.get_component<PathfindingComponent>(id);
-		path_comp.path_queue.swap(path);
-		path_comp.last_id = start;
-		path_comp.target_id = end;
+		auto path_comp = entities_.get_component<PathfindingComponent>(id);
+		if(path_comp)
+		{
+			path_comp->path_queue.swap(path);
+			path_comp->last_id = start;
+			path_comp->target_id = end;
+		}
 	}
 
 	return success;
@@ -280,16 +299,18 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t e
 
 const std::string& GridSystem::get_pathpfinding_blueprint(std::size_t id) const
 {
-	if(entities_.has_component<PathfindingComponent>(id))
-		return entities_.get_component<PathfindingComponent>(id).blueprint;
+	auto comp = entities_.get_component<PathfindingComponent>(id);
+	if(comp)
+		return comp->blueprint;
 	else
 		return error_blueprint;
 }
 
 void GridSystem::set_pathfinding_blueprint(std::size_t id, const std::string& blueprint)
 {
-	if(entities_.has_component<PathfindingComponent>(id))
-		entities_.get_component<PathfindingComponent>(id).blueprint = blueprint;
+	auto comp = entities_.get_component<PathfindingComponent>(id);
+	if(comp)
+		comp->blueprint = blueprint;
 }
 
 bool GridSystem::can_break(std::size_t, std::size_t) const
@@ -304,11 +325,9 @@ bool GridSystem::can_pass(std::size_t, std::size_t) const
 
 std::tuple<std::size_t, std::size_t> GridSystem::get_board_coords(std::size_t id) const
 {
-	if(entities_.has_component<GridNodeComponent>(id))
-	{
-		auto& comp = entities_.get_component<GridNodeComponent>(id);
-		return std::make_tuple(comp.x, comp.y);
-	}
+	auto comp = entities_.get_component<GridNodeComponent>(id);
+	if(comp)
+		return std::make_tuple(comp->x, comp->y);
 	else // Should not happen as this will be accessed only from within the GridSystem.
 		return std::tuple<std::size_t, std::size_t>{};
 }
@@ -320,16 +339,22 @@ void GridSystem::clear_path_colour()
 
 	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
 	{
-		auto sub_ent = entities_.get_component<GraphicsComponent>(ent.first).entity->getSubEntity(0);
-		if(sub_ent->getMaterialName() == "colour/green")
-			entities_.get_component<GraphicsComponent>(ent.first).entity->setMaterialName("colour/blue");
+		auto comp = entities_.get_component<GraphicsComponent>(ent.first);
+		if(comp)
+		{
+			auto sub_ent = comp->entity->getSubEntity(0);
+			if(sub_ent->getMaterialName() == "colour/green")
+				comp->entity->setMaterialName("colour/blue");
+		}
 	}
 }
 
 void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::size_t radius)
 {
 	// TODO: Possibly return if the entity has a movement component?
-	auto& struct_comp = entities_.get_component<StructureComponent>(ent_id);
+	auto struct_comp = entities_.get_component<StructureComponent>(ent_id);
+	if(!struct_comp)
+		return;
 
 	std::size_t x, y;
 	std::tie(x, y) = get_board_coords(node_id);
@@ -342,7 +367,8 @@ void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::s
 	{
 		for(std::size_t j = 0; j < radius; ++j)
 		{
-			if(!is_free(get_node(x + i, y + j)))
+			if(!is_free(get_node(x + i, y + j)) ||
+			   !entities_.has_component<GridNodeComponent>(get_node(x + i, y + j)))
 				return;
 		}
 	}
@@ -352,12 +378,12 @@ void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::s
 		for(std::size_t j = 0; j < radius; ++j)
 		{
 			target_node = get_node(x + i, y + j);
-			if(entities_.has_component<GridNodeComponent>(target_node))
+			auto comp = entities_.get_component<GridNodeComponent>(target_node);
+			if(comp)
 			{
-				auto& comp = entities_.get_component<GridNodeComponent>(target_node);
-				comp.free = false;
-				comp.resident = ent_id;
-				struct_comp.residences.push_back(target_node);
+				comp->free = false;
+				comp->resident = ent_id;
+				struct_comp->residences.push_back(target_node);
 			}
 		}
 	}
@@ -365,45 +391,48 @@ void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::s
 
 void GridSystem::set_resident(std::size_t node_id, std::size_t res_id)
 {
-	if(entities_.has_component<GridNodeComponent>(node_id))
+	auto comp = entities_.get_component<GridNodeComponent>(node_id);
+	if(comp)
 	{
-		auto& comp = entities_.get_component<GridNodeComponent>(node_id);
-		if(comp.resident == Component::NO_ENTITY)
+		if(comp->resident == Component::NO_ENTITY)
 		{
-			comp.resident = res_id;
-			comp.free = false;
+			comp->resident = res_id;
+			comp->free = false;
 		}
 	}
 }
 
 std::size_t GridSystem::get_resident(std::size_t node_id) const
 {
-	if(entities_.has_component<GridNodeComponent>(node_id))
-		return entities_.get_component<GridNodeComponent>(node_id).resident;
+	auto comp = entities_.get_component<GridNodeComponent>(node_id);
+	if(comp)
+		return comp->resident;
 	else
 		return Component::NO_ENTITY;
 }
 
 void GridSystem::add_residences(std::size_t ent_id, const std::vector<std::size_t>& residences)
 {
-	if(entities_.has_component<StructureComponent>(ent_id))
+	auto comp = entities_.get_component<StructureComponent>(ent_id);
+	if(comp)
 	{
-		auto& comp = entities_.get_component<StructureComponent>(ent_id);
 		for(const auto& node : residences)
-			comp.residences.push_back(node);
+			comp->residences.push_back(node);
 	}
 }
 
 void GridSystem::add_residence(std::size_t ent_id, std::size_t node_id)
 {
-	if(entities_.has_component<StructureComponent>(ent_id))
-		entities_.get_component<StructureComponent>(ent_id).residences.push_back(node_id);
+	auto comp = entities_.get_component<StructureComponent>(ent_id);
+	if(comp)
+		comp->residences.push_back(node_id);
 }
 
 void GridSystem::set_radius(std::size_t id, std::size_t radius)
 {
-	if(entities_.has_component<StructureComponent>(id))
-		entities_.get_component<StructureComponent>(id).radius = radius;
+	auto comp = entities_.get_component<StructureComponent>(id);
+	if(comp)
+		comp->radius = radius;
 }
 
 bool GridSystem::in_board_(std::size_t index) const
