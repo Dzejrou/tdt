@@ -20,15 +20,15 @@ bool AISystem::is_valid(std::size_t id) const
 
 bool AISystem::is_friendly(std::size_t id1, std::size_t id2) const
 {
-	if(is_valid(id1) && is_valid(id2))
+	auto comp1 = entities_.get_component<AIComponent>(id1);
+	auto comp2 = entities_.get_component<AIComponent>(id2);
+	if(comp1 && comp2)
 	{
-		auto& ai1 = entities_.get_component<AIComponent>(id1);
-		auto& ai2 = entities_.get_component<AIComponent>(id2);
 
-		if(ai1.faction == FACTION::NEUTRAL || ai2.faction == FACTION::NEUTRAL)
+		if(comp1->faction == FACTION::NEUTRAL || comp2->faction == FACTION::NEUTRAL)
 			return true;
 		else
-			return ai1.faction == ai2.faction;
+			return comp1->faction == comp2->faction;
 	}
 	else
 		return true; // Entities withou AIComponent are buildings, walls etc.
@@ -36,8 +36,9 @@ bool AISystem::is_friendly(std::size_t id1, std::size_t id2) const
 
 bool AISystem::is_neutral(std::size_t id) const
 {
-	if(is_valid(id))
-		return entities_.get_component<AIComponent>(id).faction == FACTION::NEUTRAL;
+	auto comp = entities_.get_component<AIComponent>(id);
+	if(comp)
+		return comp->faction == FACTION::NEUTRAL;
 	else
 		return true;
 }
@@ -49,42 +50,48 @@ bool AISystem::is_inanimate(std::size_t id) const
 
 std::string AISystem::get_blueprint(std::size_t id) const
 {
-	if(is_valid(id))
-		return entities_.get_component<AIComponent>(id).blueprint;
+	auto comp = entities_.get_component<AIComponent>(id);
+	if(comp)
+		return comp->blueprint;
 	else
 		return "ERROR"; // Special blueprint defined in ogre_utils.lua
 }
 
 void AISystem::set_blueprint(std::size_t id, const std::string& blueprint)
 {
-	if(is_valid(id))
-		entities_.get_component<AIComponent>(id).blueprint = blueprint;
+	auto comp = entities_.get_component<AIComponent>(id);
+	if(comp)
+		comp->blueprint = blueprint;
 }
 
 ENTITY_STATE AISystem::get_state(std::size_t id) const
 {
-	if(is_valid(id))
-		return entities_.get_component<AIComponent>(id).state;
+	auto comp = entities_.get_component<AIComponent>(id);
+	if(comp)
+		return comp->state;
 	else
 		return ENTITY_STATE::NONE;
 }
 
 void AISystem::set_state(std::size_t id, ENTITY_STATE state)
 {
-	if(is_valid(id))
-		entities_.get_component<AIComponent>(id).state = state;
+	auto comp = entities_.get_component<AIComponent>(id);
+	if(comp)
+		comp->state = state;
 }
 
 FACTION AISystem::get_faction(std::size_t id) const
 {
-	if(is_valid(id))
-		return entities_.get_component<AIComponent>(id).faction;
+	auto comp = entities_.get_component<AIComponent>(id);
+	if(comp)
+		return comp->faction;
 	else
 		return FACTION::NEUTRAL;
 }
 
 void AISystem::set_faction(std::size_t id, FACTION faction)
 {
-	if(is_valid(id))
-		entities_.get_component<AIComponent>(id).faction = faction;
+	auto comp = entities_.get_component<AIComponent>(id);
+	if(comp)
+		comp->faction = faction;
 }
