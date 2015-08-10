@@ -74,7 +74,11 @@ void SelectionBox::select_object(Ogre::MovableObject& obj)
 void SelectionBox::clear_selected_entities()
 {
 	for(auto& ent : selected_entities_)
-		entities_.get_component<GraphicsComponent>(ent).node->showBoundingBox(false);
+	{
+		auto comp = entities_.get_component<GraphicsComponent>(ent);
+		if(comp)
+			comp->node->showBoundingBox(false);
+	}
 
 	selected_entities_.clear();
 }
