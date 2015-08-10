@@ -14,7 +14,7 @@ void InputSystem::update(Ogre::Real delta)
 		bool moved{false}, rotated{false};
 
 		lpp::Script& script = lpp::Script::get_singleton();
-		auto& in_comp = entities_.get_component<InputComponent>(first_person_id_);
+		auto& in_comp = *entities_.get_component<InputComponent>(first_person_id_);
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_UP))
 		{
 			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_UP);
@@ -36,7 +36,7 @@ void InputSystem::update(Ogre::Real delta)
 			rotated = true;
 		}
 
-		auto& graph_comp = entities_.get_component<GraphicsComponent>(first_person_id_);
+		auto& graph_comp = *entities_.get_component<GraphicsComponent>(first_person_id_);
 		if(rotated)
 		{ // TODO: Due to the fact that ogrehead.mesh is facing backwards, this will make the view right, but the
 		  //       controlls get swapped, research!
@@ -90,8 +90,8 @@ void InputSystem::set_first_person(bool on_off, std::size_t id)
 			delete_input_ = true; // Delete it afterwards.
 
 			entities_.add_component<InputComponent>(first_person_id_); // The entity has to have InputComponent blueprint.
-			auto& ai_comp = entities_.get_component<AIComponent>(first_person_id_);
-			auto& in_comp = entities_.get_component<InputComponent>(first_person_id_);
+			auto& ai_comp = *entities_.get_component<AIComponent>(first_person_id_);
+			auto& in_comp = *entities_.get_component<InputComponent>(first_person_id_);
 
 			auto& script = lpp::Script::get_singleton();
 			if(!script.is_nil(ai_comp.blueprint + ".InputComponent.input_handler"))
@@ -101,17 +101,18 @@ void InputSystem::set_first_person(bool on_off, std::size_t id)
 		// AIComponent backup.
 		if(ai)
 		{
-			ai_backup_.reset(new AIComponent{entities_.get_component<AIComponent>(first_person_id_)});
+			ai_backup_.reset(new AIComponent{*entities_.get_component<AIComponent>(first_person_id_)});
 			entities_.delete_component<AIComponent>(first_person_id_);
 		}
 
-		if(entities_.has_component<TaskHandlerComponent>(first_person_id_))
+		auto task_handler = entities_.get_component<TaskHandlerComponent>(first_person_id_);
+		if(task_handler)
 		{
-			task_backup_.reset(new TaskHandlerComponent{entities_.get_component<TaskHandlerComponent>(first_person_id_)});
+			task_backup_.reset(new TaskHandlerComponent{*task_handler});
 			entities_.delete_component<TaskHandlerComponent>(first_person_id_);
 		}
 
-		auto& graph_comp = entities_.get_component<GraphicsComponent>(first_person_id_);
+		auto& graph_comp = *entities_.get_component<GraphicsComponent>(first_person_id_);
 		cam_.setOrientation(
 			graph_comp.node->getOrientation() * Ogre::Quaternion{Ogre::Degree{180.f}, Ogre::Vector3::UNIT_Y}
 		);
@@ -150,7 +151,7 @@ void InputSystem::set_first_person(bool on_off, std::size_t id)
 			entities_.delete_component<InputComponent>(first_person_id_);
 		}
 	}
-	entities_.get_component<GraphicsComponent>(first_person_id_).node->setVisible(!first_person_);
+	entities_.get_component<GraphicsComponent>(first_person_id_)->node->setVisible(!first_person_);
 }
 
 void InputSystem::rebind(int key, int new_key)
@@ -181,6 +182,7 @@ void InputSystem::rebind(int key, int new_key)
 
 void InputSystem::set_input_handler(std::size_t id, const std::string& handler)
 {
-	if(is_valid(id))
-		entities_.get_component<InputComponent>(id).input_handler = handler;
+	auto comp = entities_.get_component<InputComponent>(id);
+	if(comp)
+		comp->input_handler = handler;
 }
