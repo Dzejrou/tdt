@@ -275,7 +275,7 @@ struct GridLineComponent
 };
 
 /**
- *
+ * Holds data related to the entity's current path.
  */
 struct PathfindingComponent
 {
@@ -294,7 +294,8 @@ struct PathfindingComponent
 };
 
 /**
- *
+ * Defines a task by giving it a type, source (the task handler) and a target
+ * (subject of the task). Handling of these tasks is done via the TaskHandlerComponent below.
  */
 struct TaskComponent
 {
@@ -313,7 +314,8 @@ struct TaskComponent
 };
 
 /**
- *
+ * Task queue and register of possible tasks, every entity that is
+ * able to actually do something on it's own should have it.
  */
 struct TaskHandlerComponent
 {
@@ -332,7 +334,8 @@ struct TaskHandlerComponent
 };
 
 /**
- *
+ * Defines a building (or a wall), by holding it's radius (of the area it takes
+ * in the grid) and vector of nodes that it sits on.
  */
 struct StructureComponent
 {
