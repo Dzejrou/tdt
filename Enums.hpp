@@ -28,3 +28,9 @@ enum class TASK_TYPE
 	NONE, GO_TO, GO_NEAR,
 	COUNT
 };
+
+enum class ATTACK_TYPE
+{
+	NONE,
+	COUNT
+};
