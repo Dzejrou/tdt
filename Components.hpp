@@ -139,18 +139,20 @@ struct CombatComponent
 {
 	static constexpr int type = 5;
 
-	CombatComponent(std::size_t target = Component::NO_ENTITY, std::size_t r = 0,
-					std::size_t mi = 0, std::size_t ma = 0, int type = 0)
-		: curr_target{target}, range{r}, min_dmg{mi},
-		  max_dmg{ma}, atk_type((ATTACK_TYPE)type)
+	CombatComponent(std::size_t target = Component::NO_ENTITY, std::size_t mi = 0,
+					std::size_t ma = 0, Ogre::Real cd = 0, Ogre::Real r = 0.f, int type = 0)
+		: curr_target{target}, min_dmg{mi},	max_dmg{ma}, cooldown{cd}, cd_time{0.f},
+		  range{r}, atk_type((ATTACK_TYPE)type)
 	{ /* DUMMY BODY */ }
 	CombatComponent(const CombatComponent&) = default;
 	CombatComponent(CombatComponent&&) = default;
 
 	std::size_t curr_target;
-	std::size_t range;
 	std::size_t min_dmg;
 	std::size_t max_dmg;
+	Ogre::Real cd_time;
+	Ogre::Real cooldown;
+	Ogre::Real range;
 	ATTACK_TYPE atk_type;
 };
 
