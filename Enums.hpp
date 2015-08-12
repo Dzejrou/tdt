@@ -31,6 +31,6 @@ enum class TASK_TYPE
 
 enum class ATTACK_TYPE
 {
-	NONE,
+	NONE, MELEE, RANGED,
 	COUNT
 };
