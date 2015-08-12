@@ -323,8 +323,19 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 			task_.erase(ent_id);
 			break;
 		case TaskHandlerComponent::type:
+		{
+			auto comp = get_component<TaskHandlerComponent>(ent_id);
+			if(comp)
+			{ // Destroy all assigned tasks.
+				if(comp->curr_task)
+					to_be_destroyed_.push_back(comp->curr_task);
+				for(auto task : comp->task_queue)
+					to_be_destroyed_.push_back(task);
+			}
+
 			task_handler_.erase(ent_id);
 			break;
+		}
 		case StructureComponent::type:
 			structure_.erase(ent_id);
 			break;
