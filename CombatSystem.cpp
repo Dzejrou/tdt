@@ -2,11 +2,53 @@
 
 CombatSystem::CombatSystem(EntitySystem& ents, HealthSystem& health)
 	: entities_{ents}, health_{health}, helper_box_{},
-	rd_device_{}, rd_gen_{rd_device_}, rd_dist_{std::numeric_limits<std::size_t>::max()}
+	  rd_device_{}, rd_gen_{rd_device_}, rd_dist_{0, std::numeric_limits<std::size_t>::max()}
 { /* DUMMY BODY */ }
 
-void CombatSystem::update(Ogre::Real)
+void CombatSystem::update(Ogre::Real delta)
 {
+	// Autoattacks.
+	for(auto& ent : entities_.get_component_container<CombatComponent>())
+	{
+		if(ent.second.curr_target != Component::NO_ENTITY)
+		{
+			if(ent.second.cd_time >= ent.second.cooldown)
+			{
+				ent.second.cd_time += delta;
+				continue;
+			}
+			else
+				ent.second.cd_time = 0;
+
+			auto phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
+			auto target_phys_comp = entities_.get_component<PhysicsComponent>(ent.second.curr_target);
+
+			if(phys_comp && target_phys_comp)
+			{
+				if(phys_comp->position.distance(target_phys_comp->position) < ent.second.range)
+				{ // Ran away, new pathfinding required.
+					ent.second.curr_target = Component::NO_ENTITY;
+					continue;
+				}
+
+				auto dmg = get_dmg(ent.second.min_dmg, ent.second.max_dmg);
+				switch(ent.second.atk_type)
+				{
+					case ATTACK_TYPE::MELEE:
+						health_.sub_health(ent.second.curr_target, dmg);
+						// TODO: Animation...
+						break;
+					case ATTACK_TYPE::RANGED:
+						// TODO: Spawn a projectile. (Homing component? :D)
+						break;
+				}
+			}
+			else // Target killed.
+				ent.second.curr_target = Component::NO_ENTITY;
+		}
+	}
+
+	// TODO: Spells.
 }
 
 void CombatSystem::set_range(std::size_t id, std::size_t range)

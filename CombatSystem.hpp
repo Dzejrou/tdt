@@ -32,6 +32,6 @@ class CombatSystem : public System
 		Ogre::AxisAlignedBox helper_box_;
 
 		std::random_device rd_device_;
-		std::normal_distribution<std::size_t> rd_dist_;
+		std::uniform_int_distribution<std::size_t> rd_dist_;
 		std::mt19937 rd_gen_;
 };
