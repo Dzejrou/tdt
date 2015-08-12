@@ -348,3 +348,15 @@ struct StructureComponent
 	std::size_t radius;
 	std::vector<std::size_t> residences;
 };
+
+/**
+ *
+ */
+struct OverHeadTextComponent
+{
+	static constexpr int type = 18;
+	OverHeadTextComponent()
+	{ /* DUMMY BODY */ }
+	OverHeadTextComponent(const OverHeadTextComponent&) = default;
+	OverHeadTextComponent(OverHeadTextComponent&&) = default;
+};
