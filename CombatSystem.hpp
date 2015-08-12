@@ -1,0 +1,37 @@
+#pragma once
+
+#include <Ogre.h>
+
+#include <random>
+#include <tuple>
+#include <numeric>
+
+#include "System.hpp"
+#include "EntitySystem.hpp"
+#include "HealthSystem.hpp"
+
+class CombatSystem : public System
+{
+	public:
+		CombatSystem(EntitySystem&, HealthSystem&);
+		~CombatSystem() {}
+
+		void update(Ogre::Real);
+
+		void set_range(std::size_t, std::size_t);
+		std::size_t get_range(std::size_t) const;
+
+		void set_dmg_range(std::size_t, std::size_t, std::size_t);
+		std::tuple<std::size_t, std::size_t> get_dmg_range(std::size_t) const;
+
+		std::size_t get_dmg(std::size_t, std::size_t);
+	private:
+		EntitySystem& entities_;
+		HealthSystem& health_;
+
+		Ogre::AxisAlignedBox helper_box_;
+
+		std::random_device rd_device_;
+		std::normal_distribution<std::size_t> rd_dist_;
+		std::mt19937 rd_gen_;
+};
