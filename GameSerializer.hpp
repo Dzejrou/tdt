@@ -166,6 +166,16 @@ template <>
 inline void GameSerializer::save_component<CombatComponent>(std::size_t id, const std::string& tbl_name)
 {
 	// TODO:
+	auto comp = entities_.get_component<CombatComponent>(id);
+	std::string comm{ // NOTE: Attack target will be set via a task.
+		  "game.add_component(" + tbl_name + ", game.enum.component.combat)\n"
+		+ "game.set_range(" + tbl_name + ", " + std::to_string(comp->range) + ")\n"
+		+ "game.set_atk_range(" + tbl_name + ", " + std::to_string(comp->min_dmg) + ", " + std::to_string(comp->max_dmg) + ")\n"
+		+ "game.set_cooldown(" + tbl_name + ", " + std::to_string(comp->cooldown) + ")\n"
+		+ "game.set_atk_type(" + tbl_name + ", " + std::to_string((int)comp->atk_type) + ")\n"
+	};
+
+	save_components_.emplace_back(comm);
 }
 
 template <>
