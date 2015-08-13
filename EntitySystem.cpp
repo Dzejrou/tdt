@@ -38,9 +38,19 @@ void EntitySystem::cleanup()
 	}
 	components_to_be_removed_.clear();
 
-	// Remove entire entities.
-	for(auto id : to_be_destroyed_)
+	/**
+	 * Remove entire entities.
+	 * NOTE: Creating a new vector and swaping it with the to_be_destroyed_ vector,
+	 *       because when a TaskHandlerComponent is deleted, new entities (the tasks)
+	 *       are added which might result in iterator invalidation.
+	 */
+	std::vector<std::size_t> tmp_to_be_destroyed_{};
+	tmp_to_be_destroyed_.swap(to_be_destroyed_);
+	for(auto id : tmp_to_be_destroyed_)
 	{
+		if(id == Component::NO_ENTITY)
+			continue;
+
 		auto entity = entities_.find(id);
 		if(entity == entities_.end())
 			continue;
@@ -53,7 +63,6 @@ void EntitySystem::cleanup()
 		}
 		entities_.erase(id);
 	}
-	to_be_destroyed_.clear();
 }
 
 std::size_t EntitySystem::create_entity(std::string table_name)
