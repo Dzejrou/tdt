@@ -3,7 +3,7 @@
 
 GameSerializer::GameSerializer(EntitySystem& ents)
 	: entities_{ents}, script_{lpp::Script::get_singleton()},
-	  file_{}
+	  file_{}, save_entities_{}, save_components_{}
 { /* DUMMY BODY */ }
 
 void GameSerializer::save_game(Game& game, const std::string& fname)
@@ -27,7 +27,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 		nodes.append("entity_" + std::to_string(ent.first) + "=" +  std::to_string(ent.first) + "\n");
 		temp_vars.emplace_back("entity_" + std::to_string(ent.first));
 	}
-	file_ << map << nodes << "\n\n -- ENTITIES:";
+	file_ << map << nodes << "\n\n-- ENTITIES:\n";
 
 	// Save individual entities.
 	std::string entity_name{};
@@ -40,7 +40,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 		entity_name = "entity_" + std::to_string(ent.first);
 		temp_vars.push_back(entity_name);
 		
-		file_ << "\n" << entity_name + " = game.create_entity()\n";
+		save_entities_.emplace_back(entity_name + " = game.create_entity()");
 		for(std::size_t i = 0; i < ent.second.size(); ++i)
 		{
 			if(ent.second.test(i))
@@ -99,9 +99,15 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 			}
 		}	
 	}
+	for(auto& ent : save_entities_)
+		file_ << ent << "\n";
+	file_ << "\n";
+	for(auto& comp : save_components_)
+		file_ << comp << "\n";
+	file_ << "\n";
 	save_tasks();
 
-	file_ << "\n\n -- AUXILIARY VARIABLES TO BE DELETED:\nto_be_deleted = {\n";
+	file_ << "\n\n-- AUXILIARY VARIABLES TO BE DELETED:\nto_be_deleted = {\n";
 	std::size_t count{0}; // Saves vertical space.
 	for(const auto& tmp : temp_vars)
 	{ // This will allow to delete all those auxiliary variables when loading.
@@ -112,6 +118,8 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 	file_ << "}";
 	file_.flush();
 	file_.close();
+	save_entities_.clear();
+	save_components_.clear();
 }
 
 void GameSerializer::load_game(Game& game, const std::string& fname)

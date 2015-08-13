@@ -79,6 +79,12 @@ class GameSerializer
 		 * Main file stream (no need for ifstream, since loading is done through Lua).
 		 */
 		std::ofstream file_;
+
+		/**
+		 * Auxiliary vectors that allows to place entity creation at the top (so no entity
+		 * variables are nil when loading a game) and component definitions at the bottom.
+		 */
+		std::vector<std::string> save_entities_, save_components_;
 };
 
 template <>
@@ -93,7 +99,7 @@ inline void GameSerializer::save_component<PhysicsComponent>(std::size_t id, con
 		+ "game.set_half_height(" + tbl_name + ", " + std::to_string(comp->half_height) + ")\n"
 	};
 
-	file_ << comm;
+	save_components_.emplace_back(comm);
 }
 
 template <>
@@ -109,7 +115,7 @@ inline void GameSerializer::save_component<HealthComponent>(std::size_t id, cons
 		+ "game.set_alive(" + tbl_name + ", " + (comp->alive ? "true" : "false") + ")\n"
 	};
 
-	file_ << comm;
+	save_components_.emplace_back(comm);
 }
 
 template <>
@@ -123,7 +129,7 @@ inline void GameSerializer::save_component<AIComponent>(std::size_t id, const st
 		+ "game.set_faction(" + tbl_name + ", " + std::to_string((int)comp->faction) + ")\n"
 	};
 
-	file_ << comm;
+	save_components_.emplace_back(comm);
 }
 
 template <>
@@ -147,7 +153,7 @@ inline void GameSerializer::save_component<GraphicsComponent>(std::size_t id, co
 		);
 	}
 
-	file_ << comm;
+	save_components_.emplace_back(comm);
 }
 
 template <>
@@ -159,13 +165,12 @@ inline void GameSerializer::save_component<MovementComponent>(std::size_t id, co
 		+ "game.set_speed(" + tbl_name + ", " + std::to_string(comp->speed_modifier) + ")\n"
 	};
 	
-	file_ << comm;
+	save_components_.emplace_back(comm);
 }
 
 template <>
 inline void GameSerializer::save_component<CombatComponent>(std::size_t id, const std::string& tbl_name)
 {
-	// TODO:
 	auto comp = entities_.get_component<CombatComponent>(id);
 	std::string comm{ // NOTE: Attack target will be set via a task.
 		  "game.add_component(" + tbl_name + ", game.enum.component.combat)\n"
@@ -193,7 +198,7 @@ inline void GameSerializer::save_component<InputComponent>(std::size_t id, const
 		+ "game.set_input_handler(" + tbl_name + ", '" + comp->input_handler + "')\n"
 	};
 
-	file_ << comm;
+	save_components_.emplace_back(comm);
 }
 
 template <>
@@ -230,7 +235,7 @@ inline void GameSerializer::save_component<PathfindingComponent>(std::size_t id,
 		// Every task that was being comp->eted when saving will be executed again with new pathfinding.
 	};
 
-	file_ << comm;
+	save_components_.emplace_back(comm);
 }
 
 template <>
@@ -245,7 +250,7 @@ inline void GameSerializer::save_component<TaskComponent>(std::size_t id, const 
 	};
 	task_pairs_.emplace_back(std::make_pair(comp->source, id));
 
-	file_ << comm;
+	save_components_.emplace_back(comm);
 }
 
 template<>
@@ -262,7 +267,7 @@ inline void GameSerializer::save_component<TaskHandlerComponent>(std::size_t id,
 			comm.append("game.add_possible_task(" + tbl_name + ", " + std::to_string(i) + ")\n");
 	}
 
-	file_ << comm;
+	save_components_.emplace_back(comm);
 }
 
 template<>
@@ -279,5 +284,5 @@ inline void GameSerializer::save_component<StructureComponent>(std::size_t id, c
 					(i == comp->residences.size() - 1 ? "" : ", "));
 	comm.append(" }\ngame.add_residences(" + tbl_name + ", '" + tbl_name + "_residences')\n");
 
-	file_ << comm;
+	save_components_.emplace_back(comm);
 }
