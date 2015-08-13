@@ -5,7 +5,7 @@
  */
 Game* Game::lua_this{nullptr};
 
-Game::Game()
+Game::Game() // TODO: Init systems.
 	: state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
@@ -26,6 +26,7 @@ Game::Game()
 	input_system_.reset(new InputSystem(*entity_system_, *keyboard_, *main_cam_));
 	grid_system_.reset(new GridSystem(*entity_system_, *scene_mgr_));
 	task_system_.reset(new TaskSystem(*entity_system_, *grid_system_));
+	combat_system_.reset(new CombatSystem(*entity_system_, *health_system_));
 
 	systems_.emplace_back(entity_system_.get());
 	systems_.emplace_back(health_system_.get());
@@ -34,6 +35,7 @@ Game::Game()
 	systems_.emplace_back(input_system_.get());
 	systems_.emplace_back(grid_system_.get());
 	systems_.emplace_back(task_system_.get());
+	systems_.emplace_back(combat_system_.get());
 
 	selection_box_.reset(new SelectionBox{"MainSelectionBox",
 						                  *entity_system_,
