@@ -9,7 +9,7 @@ void TaskSystem::update(Ogre::Real delta)
 {
 	for(auto& ent : entities_.get_component_container<TaskHandlerComponent>())
 	{
-		if(ent.second.busy && current_task_completed_(ent.second))
+		if(ent.second.busy && current_task_completed_(ent.first, ent.second))
 		{ // TODO: Delete the task when finnished.
 			entities_.destroy_entity(ent.second.curr_task);
 			ent.second.curr_task = Component::NO_ENTITY;
@@ -30,7 +30,7 @@ void TaskSystem::update(Ogre::Real delta)
 			if(ent.second.curr_task != Component::NO_ENTITY && comp)
 			{
 				ent.second.busy = true;
-				handle_task_(ent.first, *comp);
+				handle_task_(ent.first, *comp, ent.second);
 			}
 		}
 	}
@@ -156,7 +156,7 @@ void TaskSystem::next_task_(TaskHandlerComponent& comp)
 	}
 }
 
-void TaskSystem::handle_task_(std::size_t id, TaskComponent& task)
+void TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerComponent& handler)
 {
 	/**
 	 * Note: Not performing checks on components because the entity will have to have
@@ -183,13 +183,34 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task)
 					task.target = path_comp->path_queue.back();
 				}
 			}
-
 			break;
+		}
+		case TASK_TYPE::GO_KILL:
+		{
+			auto task_go_near = create_task(task.target, TASK_TYPE::GO_NEAR);
+			auto task_kill = create_task(task.target, TASK_TYPE::KILL);
+			add_task(id, task_go_near);
+			add_task(id, task_kill);
+
+			entities_.destroy_entity(handler.curr_task);
+			handler.curr_task = Component::NO_ENTITY;
+			break;
+		}
+		case TASK_TYPE::KILL:
+		{
+			auto combat_comp = entities_.get_component<CombatComponent>(id);
+			if(combat_comp)
+				combat_comp->curr_target = task.target;
+			else
+			{
+				entities_.destroy_entity(handler.curr_task);
+				handler.curr_task = Component::NO_ENTITY;
+			}
 		}
 	}
 }
 
-bool TaskSystem::current_task_completed_(TaskHandlerComponent& handler)
+bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& handler)
 {
 	auto comp = entities_.get_component<TaskComponent>(handler.curr_task);
 	if(comp)
@@ -207,6 +228,16 @@ bool TaskSystem::current_task_completed_(TaskHandlerComponent& handler)
 					return source->position.x == target->position.x && source->position.z == target->position.z;
 				else
 					return true; // Runtime deletion, should not occur in release code.
+			}
+			case TASK_TYPE::GO_KILL:
+				return handler.curr_task == Component::NO_ENTITY; // Removed when handled.
+			case TASK_TYPE::KILL:
+			{
+				auto combat_comp = entities_.get_component<CombatComponent>(id);
+				if(combat_comp)
+					return combat_comp->curr_target == Component::NO_ENTITY;
+				else
+					return false;
 			}
 			default:
 				return true; // Undefined task, kill it asap.
