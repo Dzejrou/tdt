@@ -16,15 +16,21 @@ class CombatSystem : public System
 		CombatSystem(EntitySystem&, HealthSystem&);
 		~CombatSystem() {}
 
-		void update(Ogre::Real);
+		void update(Ogre::Real) override;
 
-		void set_range(std::size_t, std::size_t);
-		std::size_t get_range(std::size_t) const;
+		void set_range(std::size_t, Ogre::Real);
+		Ogre::Real get_range(std::size_t) const;
 
 		void set_dmg_range(std::size_t, std::size_t, std::size_t);
 		std::tuple<std::size_t, std::size_t> get_dmg_range(std::size_t) const;
 
 		std::size_t get_dmg(std::size_t, std::size_t);
+
+		void set_cooldown(std::size_t, Ogre::Real);
+		Ogre::Real get_cooldown(std::size_t) const;
+
+		void set_atk_type(std::size_t, ATTACK_TYPE);
+		ATTACK_TYPE get_atk_type(std::size_t) const;
 	private:
 		EntitySystem& entities_;
 		HealthSystem& health_;

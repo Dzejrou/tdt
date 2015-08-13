@@ -46,14 +46,14 @@ void CombatSystem::update(Ogre::Real delta)
 	// TODO: Spells.
 }
 
-void CombatSystem::set_range(std::size_t id, std::size_t range)
+void CombatSystem::set_range(std::size_t id, Ogre::Real range)
 {
 	auto comp = entities_.get_component<CombatComponent>(id);
 	if(comp)
 		comp->range = range;
 }
 
-std::size_t CombatSystem::get_range(std::size_t id) const
+Ogre::Real CombatSystem::get_range(std::size_t id) const
 {
 	auto comp = entities_.get_component<CombatComponent>(id);
 	if(comp)
@@ -84,4 +84,36 @@ std::tuple<std::size_t, std::size_t> CombatSystem::get_dmg_range(std::size_t id)
 std::size_t CombatSystem::get_dmg(std::size_t min, std::size_t max)
 {
 	return rd_dist_(rd_gen_) % max + min;
+}
+
+void CombatSystem::set_cooldown(std::size_t id, Ogre::Real cd)
+{
+	auto comp = entities_.get_component<CombatComponent>(id);
+	if(comp)
+		comp->cooldown = cd;
+}
+
+Ogre::Real CombatSystem::get_cooldown(std::size_t id) const
+{
+	auto comp = entities_.get_component<CombatComponent>(id);
+	if(comp)
+		return comp->cooldown;
+	else
+		return 0;
+}
+
+void CombatSystem::set_atk_type(std::size_t id, ATTACK_TYPE type)
+{
+	auto comp = entities_.get_component<CombatComponent>(id);
+	if(comp)
+		comp->atk_type = type;
+}
+
+ATTACK_TYPE CombatSystem::get_atk_type(std::size_t id) const
+{
+	auto comp = entities_.get_component<CombatComponent>(id);
+	if(comp)
+		return comp->atk_type;
+	else
+		return ATTACK_TYPE::NONE;
 }
