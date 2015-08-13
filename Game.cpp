@@ -541,6 +541,16 @@ void Game::lua_init()
 		{"add_possible_task", Game::lua_add_possible_task},
 		{"delete_possible_task", Game::lua_delete_possible_task},
 
+		// Combat system.
+		{"set_range", Game::lua_set_range},
+		{"get_range", Game::lua_get_range},
+		{"set_dmg_range", Game::lua_set_dmg_range},
+		{"get_dmg_range", Game::lua_get_dmg_range},
+		{"set_cooldown", Game::lua_set_cooldown},
+		{"get_cooldown", Game::lua_get_cooldown},
+		{"set_atk_type", Game::lua_set_atk_type},
+		{"get_atk_type", Game::lua_get_atk_type},
+
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
 	};
@@ -1655,6 +1665,18 @@ int Game::lua_list_tasks_of(lpp::Script::state L)
 		std::string report{};
 		auto& task_queue = comp->task_queue;
 
+		if(comp->curr_task != Component::NO_ENTITY)
+		{ // Current task.
+			auto curr = lua_this->entity_system_->get_component<TaskComponent>(comp->curr_task);
+			if(curr)
+			{
+				report.append(lua_this->task_system_->get_task_name(curr->task_type)
+							  + " (" + std::to_string(curr->source)
+							  + " -> " + std::to_string(curr->target) + ").\n");
+			}
+		}
+
+		// Other tasks.
 		for(auto& task : task_queue)
 		{
 			report.append(std::to_string(task) + ": ");
@@ -1743,5 +1765,88 @@ int Game::lua_delete_possible_task(lpp::Script::state L)
 
 	lua_this->task_system_->delete_possible_task(id, type);
 	return 0;
+}
+
+int Game::lua_set_range(lpp::Script::state L)
+{
+	Ogre::Real range = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->combat_system_->set_range(id, range);
+	return 0;
+}
+
+int Game::lua_get_range(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_range(id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int Game::lua_set_dmg_range(lpp::Script::state L)
+{
+	std::size_t max = (std::size_t)luaL_checknumber(L, -1);
+	std::size_t min = (std::size_t)luaL_checknumber(L, -2);
+	std::size_t id = (std::size_t)luaL_checknumber(L, -3);
+	lua_pop(L, 3);
+
+	lua_this->combat_system_->set_dmg_range(id, min, max);
+	return 0;
+}
+
+int Game::lua_get_dmg_range(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	std::size_t min{}, max{};
+	std::tie(min, max) = lua_this->combat_system_->get_dmg_range(id);
+	lua_pushinteger(L, min);
+	lua_pushinteger(L, max);
+	return 2;
+}
+
+int Game::lua_set_cooldown(lpp::Script::state L)
+{
+	Ogre::Real cd = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->combat_system_->set_cooldown(id, cd);
+	return 0;
+}
+
+int Game::lua_get_cooldown(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_cooldown(id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int Game::lua_set_atk_type(lpp::Script::state L)
+{
+	int atk_type = (int)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->combat_system_->set_atk_type(id, (ATTACK_TYPE)atk_type);
+	return 0;
+}
+
+int Game::lua_get_atk_type(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_atk_type(id);
+	lua_pushnumber(L, (int)res);
+	return 1;
 }
 #pragma endregion

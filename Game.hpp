@@ -316,4 +316,14 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_set_task_type(lpp::Script::state);
 		static int lua_add_possible_task(lpp::Script::state);
 		static int lua_delete_possible_task(lpp::Script::state);
+
+		// Combat system.
+		static int lua_set_range(lpp::Script::state);
+		static int lua_get_range(lpp::Script::state);
+		static int lua_set_dmg_range(lpp::Script::state);
+		static int lua_get_dmg_range(lpp::Script::state);
+		static int lua_set_cooldown(lpp::Script::state);
+		static int lua_get_cooldown(lpp::Script::state);
+		static int lua_set_atk_type(lpp::Script::state);
+		static int lua_get_atk_type(lpp::Script::state);
 };
