@@ -381,3 +381,8 @@ std::set<std::string>& EntitySystem::get_registered_entities()
 {
 	return entity_register_;
 }
+
+bool EntitySystem::exists(std::size_t id) const
+{
+	return entities_.find(id) != entities_.end();
+}

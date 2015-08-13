@@ -196,6 +196,12 @@ class EntitySystem : public System
 		 *        during the game's runtime.
 		 */
 		std::set<std::string>& get_registered_entities();
+
+		/**
+		 * Brief: Checks if a given entity exists and returns true if it does, false otherwise.
+		 * Param: ID of the entity.
+		 */
+		bool exists(std::size_t) const;
 	private:
 		/**
 		 * Brief: Loads a component from a Lua script.
