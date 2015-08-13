@@ -12,7 +12,7 @@ void CombatSystem::update(Ogre::Real delta)
 	{
 		if(ent.second.curr_target != Component::NO_ENTITY)
 		{
-			if(ent.second.cd_time >= ent.second.cooldown)
+			if(ent.second.cd_time < ent.second.cooldown)
 			{
 				ent.second.cd_time += delta;
 				continue;
