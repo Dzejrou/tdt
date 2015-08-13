@@ -207,9 +207,6 @@ void EntitySystem::add_component(std::size_t ent_id, int comp_id)
 		case StructureComponent::type:
 			add_component<StructureComponent>(ent_id);
 			break;
-		case OverHeadTextComponent::type:
-			add_component<OverHeadTextComponent>(ent_id);
-			break;
 	}
 }
 
@@ -269,9 +266,6 @@ void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 			delete_component<TaskHandlerComponent>(ent_id);
 			break;
 		case StructureComponent::type:
-			delete_component<StructureComponent>(ent_id);
-			break;
-		case OverHeadTextComponent::type:
 			delete_component<StructureComponent>(ent_id);
 			break;
 	}
@@ -347,9 +341,6 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 		}
 		case StructureComponent::type:
 			structure_.erase(ent_id);
-			break;
-		case OverHeadTextComponent::type:
-			over_head_text_.erase(ent_id);
 			break;
 	}
 
