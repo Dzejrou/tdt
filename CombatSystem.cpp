@@ -2,7 +2,7 @@
 
 CombatSystem::CombatSystem(EntitySystem& ents, HealthSystem& health)
 	: entities_{ents}, health_{health}, helper_box_{},
-	  rd_device_{}, rd_gen_{rd_device_}, rd_dist_{0, std::numeric_limits<std::size_t>::max()}
+	  rd_device_{}, rd_gen_{rd_device_()}, rd_dist_{0, std::numeric_limits<std::size_t>::max()}
 { /* DUMMY BODY */ }
 
 void CombatSystem::update(Ogre::Real delta)
@@ -23,14 +23,9 @@ void CombatSystem::update(Ogre::Real delta)
 			auto phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
 			auto target_phys_comp = entities_.get_component<PhysicsComponent>(ent.second.curr_target);
 
-			if(phys_comp && target_phys_comp)
+			if(phys_comp && target_phys_comp &&
+			   phys_comp->position.distance(target_phys_comp->position) < ent.second.range)
 			{
-				if(phys_comp->position.distance(target_phys_comp->position) < ent.second.range)
-				{ // Ran away, new pathfinding required.
-					ent.second.curr_target = Component::NO_ENTITY;
-					continue;
-				}
-
 				auto dmg = get_dmg(ent.second.min_dmg, ent.second.max_dmg);
 				switch(ent.second.atk_type)
 				{
@@ -43,7 +38,7 @@ void CombatSystem::update(Ogre::Real delta)
 						break;
 				}
 			}
-			else // Target killed.
+			else // Target killed or ran away.
 				ent.second.curr_target = Component::NO_ENTITY;
 		}
 	}
