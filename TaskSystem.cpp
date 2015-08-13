@@ -206,6 +206,7 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 				entities_.destroy_entity(handler.curr_task);
 				handler.curr_task = Component::NO_ENTITY;
 			}
+			break;
 		}
 	}
 }
