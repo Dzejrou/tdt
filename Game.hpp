@@ -21,6 +21,7 @@
 #include "EntityPlacer.hpp"
 #include "EntityCreator.hpp"
 #include "GameSerializer.hpp"
+#include "CombatSystem.hpp"
 
 enum class GAME_STATE
 {
@@ -113,6 +114,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<InputSystem> input_system_;
 		std::unique_ptr<GridSystem> grid_system_;
 		std::unique_ptr<TaskSystem> task_system_;
+		std::unique_ptr<CombatSystem> combat_system_;
 
 		/**
 		 * Used to save the game.
