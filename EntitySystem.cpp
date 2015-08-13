@@ -123,9 +123,6 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 			case StructureComponent::type:
 				load_component<StructureComponent>(id, table_name);
 				break;
-			case OverHeadTextComponent::type:
-				load_component<OverHeadTextComponent>(id, table_name);
-				break;
 		}
 	}
 

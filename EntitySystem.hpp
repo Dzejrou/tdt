@@ -100,7 +100,6 @@ class EntitySystem : public System
 		 *		  component it that entity didn't have it.
 		 * Param: ID of the entity.
 		 * Param: Component to be assigned.
-		 * TODO: Necesary?
 		 */
 		template<typename COMP>
 		void set_component(std::size_t id, COMP comp)
@@ -238,7 +237,6 @@ class EntitySystem : public System
 		std::map<std::size_t, TaskComponent> task_;
 		std::map<std::size_t, TaskHandlerComponent> task_handler_;
 		std::map<std::size_t, StructureComponent> structure_;
-		std::map<std::size_t, OverHeadTextComponent> over_head_text_;
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -360,12 +358,6 @@ template<>
 inline std::map<std::size_t, StructureComponent>& EntitySystem::get_component_container<StructureComponent>()
 {
 	return structure_;
-}
-
-template<>
-inline std::map<std::size_t, OverHeadTextComponent>& EntitySystem::get_component_container<OverHeadTextComponent>()
-{
-	return over_head_text_;
 }
 
 /**
@@ -509,10 +501,4 @@ inline void EntitySystem::load_component<StructureComponent>(std::size_t id, con
 {
 	std::size_t radius = lpp::Script::get_singleton().get<std::size_t>(table_name + ".StructureComponent.radius");
 	structure_.emplace(id, StructureComponent{radius});
-}
-
-template<>
-inline void EntitySystem::load_component<OverHeadTextComponent>(std::size_t, const std::string& table_name)
-{
-	// TODO:
 }
