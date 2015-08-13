@@ -461,12 +461,12 @@ template<>
 inline void EntitySystem::load_component<CombatComponent>(std::size_t id, const std::string& table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
-	int range = script.get<int>(table_name + ".CombatComponent.range");
-	int min = script.get<int>(table_name + ".CombatComponent.min_dmg");
-	int max = script.get<int>(table_name + ".CombatComponent.max_dmg");
-	int a1 = script.get<int>(table_name + ".CombatComponent.atk_1");
-	int a2 = script.get<int>(table_name + ".CombatComponent.atk_2");
-	combat_.emplace(id, CombatComponent(range, min, max, a1, a2));
+	Ogre::Real range = script.get<Ogre::Real>(table_name + ".CombatComponent.range");
+	Ogre::Real cd = script.get<Ogre::Real>(table_name + ".CombatComponent.cooldown");
+	std::size_t min = script.get<std::size_t>(table_name + ".CombatComponent.min_dmg");
+	std::size_t max = script.get<std::size_t>(table_name + ".CombatComponent.max_dmg");
+	int type = script.get<int>(table_name + ".CombatComponent.type");
+	combat_.emplace(id, CombatComponent(Component::NO_ENTITY, min, max, cd, range, type));
 }
 
 template<>
