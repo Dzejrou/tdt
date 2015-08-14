@@ -32,6 +32,8 @@ class CombatSystem : public System
 		void set_atk_type(std::size_t, ATTACK_TYPE);
 		ATTACK_TYPE get_atk_type(std::size_t) const;
 	private:
+		void create_homing_projectile(std::size_t, CombatComponent&);
+
 		EntitySystem& entities_;
 		HealthSystem& health_;
 

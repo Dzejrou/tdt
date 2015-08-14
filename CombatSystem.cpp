@@ -34,7 +34,7 @@ void CombatSystem::update(Ogre::Real delta)
 						// TODO: Animation...
 						break;
 					case ATTACK_TYPE::RANGED:
-						// TODO: Spawn a projectile. (Homing component? :D)
+						create_homing_projectile(ent.first, ent.second);
 						break;
 				}
 			}
@@ -44,6 +44,37 @@ void CombatSystem::update(Ogre::Real delta)
 	}
 
 	// TODO: Spells.
+
+
+	// Homing projectiles.
+	for(auto& ent : entities_.get_component_container<HomingComponent>())
+	{
+		if(ent.second.target == Component::NO_ENTITY)
+			continue; // Manually spawned.
+
+		auto mov_comp = entities_.get_component<MovementComponent>(ent.first);
+		auto phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
+		auto graph_comp = entities_.get_component<GraphicsComponent>(ent.first);
+		auto enemy_graph_comp = entities_.get_component<GraphicsComponent>(ent.second.target);
+
+		if(mov_comp && phys_comp && graph_comp && enemy_graph_comp &&
+		   graph_comp->node && graph_comp->entity && enemy_graph_comp->entity)
+		{ // Moves the homing projectile in the target's direction and checks if hit occured.
+			auto& pos = phys_comp->position;
+			auto enemy_pos = enemy_graph_comp->node->getPosition();
+			auto dir = enemy_pos - pos;
+			dir.normalise();
+
+			pos += dir;
+			graph_comp->node->setPosition(pos);
+
+			if(graph_comp->entity->getWorldBoundingBox(true).intersects(enemy_graph_comp->entity->getWorldBoundingBox(true)))
+			{ // That's a hit.
+				health_.sub_health(ent.second.target, ent.second.dmg);
+				entities_.destroy_entity(ent.first);
+			}
+		}
+	}
 }
 
 void CombatSystem::set_range(std::size_t id, Ogre::Real range)
@@ -116,4 +147,27 @@ ATTACK_TYPE CombatSystem::get_atk_type(std::size_t id) const
 		return comp->atk_type;
 	else
 		return ATTACK_TYPE::NONE;
+}
+
+void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent& combat)
+{
+	std::size_t id = entities_.create_entity("basic_projectile");
+	auto comp = entities_.get_component<HomingComponent>(id);
+	if(comp)
+	{
+		comp->dmg = get_dmg(combat.min_dmg, combat.max_dmg);
+		comp->source = caster;
+		comp->target = combat.curr_target;
+	}
+
+	auto caster_phys_comp = entities_.get_component<PhysicsComponent>(caster);
+	auto phys_comp = entities_.get_component<PhysicsComponent>(id);
+	if(caster_phys_comp && phys_comp)
+	{
+		phys_comp->position = caster_phys_comp->position;
+
+		auto graph_comp = entities_.get_component<GraphicsComponent>(id);
+		if(graph_comp && graph_comp->node)
+			graph_comp->node->setPosition(phys_comp->position);
+	}
 }
