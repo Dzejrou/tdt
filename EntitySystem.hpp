@@ -243,6 +243,7 @@ class EntitySystem : public System
 		std::map<std::size_t, TaskComponent> task_;
 		std::map<std::size_t, TaskHandlerComponent> task_handler_;
 		std::map<std::size_t, StructureComponent> structure_;
+		std::map<std::size_t, HomingComponent> homing_;
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -364,6 +365,12 @@ template<>
 inline std::map<std::size_t, StructureComponent>& EntitySystem::get_component_container<StructureComponent>()
 {
 	return structure_;
+}
+
+template<>
+inline std::map<std::size_t, HomingComponent>& EntitySystem::get_component_container<HomingComponent>()
+{
+	return homing_;
 }
 
 /**
@@ -507,4 +514,14 @@ inline void EntitySystem::load_component<StructureComponent>(std::size_t id, con
 {
 	std::size_t radius = lpp::Script::get_singleton().get<std::size_t>(table_name + ".StructureComponent.radius");
 	structure_.emplace(id, StructureComponent{radius});
+}
+
+template<>
+inline void EntitySystem::load_component<HomingComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton().get_singleton();
+	std::size_t source = script.get<std::size_t>(table_name + ".HomingComponent.source");
+	std::size_t target = script.get<std::size_t>(table_name + ".HomingComponent.target");
+	std::size_t dmg = script.get<std::size_t>(table_name + ".HomingComponent.damage");
+	homing_.emplace(id, HomingComponent{source, target, dmg});
 }

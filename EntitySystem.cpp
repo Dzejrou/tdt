@@ -132,6 +132,9 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 			case StructureComponent::type:
 				load_component<StructureComponent>(id, table_name);
 				break;
+			case HomingComponent::type:
+				load_component<HomingComponent>(id, table_name);
+				break;
 		}
 	}
 
@@ -213,6 +216,9 @@ void EntitySystem::add_component(std::size_t ent_id, int comp_id)
 		case StructureComponent::type:
 			add_component<StructureComponent>(ent_id);
 			break;
+		case HomingComponent::type:
+			add_component<HomingComponent>(ent_id);
+			break;
 	}
 }
 
@@ -273,6 +279,9 @@ void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 			break;
 		case StructureComponent::type:
 			delete_component<StructureComponent>(ent_id);
+			break;
+		case HomingComponent::type:
+			delete_component<HomingComponent>(ent_id);
 			break;
 	}
 }
@@ -347,6 +356,9 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 		}
 		case StructureComponent::type:
 			structure_.erase(ent_id);
+			break;
+		case HomingComponent::type:
+			homing_.erase(ent_id);
 			break;
 	}
 
