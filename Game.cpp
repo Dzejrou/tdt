@@ -557,10 +557,15 @@ void Game::lua_init()
 	luaL_newlib(script.get_state(), game_funcs);
 	lua_setglobal(script.get_state(), "game");
 
+	// Set some C++ constants.
+	script.execute("game.const = {}");
+	script.execute("game.const.no_ent = " + std::to_string(Component::NO_ENTITY));
+
 	// Load all necessary scripts.
 	script.load("scripts/core_utils.lua");
 	script.load("scripts/ogre.lua");
 	script.load("scripts/basic_wall.lua");
+	script.load("scripts/basic_projectile.lua");
 
 	// InputComponent related enums.
 	script.set("game.enum.input.key_up", OIS::KC_W);
