@@ -167,6 +167,7 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 	{
 		case TASK_TYPE::GO_TO:
 		case TASK_TYPE::GO_NEAR:
+		case TASK_TYPE::GET_IN_RANGE:
 		{
 			auto source_comp = entities_.get_component<PhysicsComponent>(task.source);
 			auto target_comp = entities_.get_component<PhysicsComponent>(task.target);
@@ -187,7 +188,7 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 		}
 		case TASK_TYPE::GO_KILL:
 		{
-			auto task_go_near = create_task(task.target, TASK_TYPE::GO_NEAR);
+			auto task_go_near = create_task(task.target, TASK_TYPE::GET_IN_RANGE);
 			auto task_kill = create_task(task.target, TASK_TYPE::KILL);
 			add_task(id, task_go_near);
 			add_task(id, task_kill);
@@ -239,6 +240,27 @@ bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& h
 					return combat_comp->curr_target == Component::NO_ENTITY;
 				else
 					return false;
+			}
+			case TASK_TYPE::GET_IN_RANGE:
+			{
+				auto combat_comp = entities_.get_component<CombatComponent>(id);
+				if(combat_comp)
+				{
+					auto phys_comp = entities_.get_component<PhysicsComponent>(id);
+					auto target_phys_comp = entities_.get_component<PhysicsComponent>(combat_comp->curr_target);
+					if(phys_comp && target_phys_comp)
+					{
+						auto range = combat_comp->range * combat_comp->range; // Squared distance is faster (avoid square root).
+						if(phys_comp->position.squaredDistance(target_phys_comp->position) < range)
+						{
+							auto path_comp = entities_.get_component<PathfindingComponent>(id);
+							if(path_comp) // Stop pursuing.
+								path_comp->path_queue.clear();
+							return true;
+						}
+					}
+				}
+				return false;
 			}
 			default:
 				return true; // Undefined task, kill it asap.
