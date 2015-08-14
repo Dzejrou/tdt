@@ -286,3 +286,17 @@ inline void GameSerializer::save_component<StructureComponent>(std::size_t id, c
 
 	save_components_.emplace_back(comm);
 }
+
+template<>
+inline void GameSerializer::save_component<HomingComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<HomingComponent>(id);
+	std::string comm{
+		  "game.add_component(" + tbl_name + ", game.enum.component.homing)\n"
+		+ "game.set_homing_source(" + tbl_name + ", " + std::to_string(comp->source) + ")\n"
+		+ "game.set_homing_target(" + tbl_name + ", " + std::to_string(comp->target) + ")\n"
+		+ "game.set_homing_dmg(" + tbl_name + ", " + std::to_string(comp->dmg) + ")\n"
+	};
+
+	save_components_.emplace_back(comm);
+}

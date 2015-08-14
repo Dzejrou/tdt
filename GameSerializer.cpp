@@ -95,6 +95,8 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 					case StructureComponent::type:
 						save_component<StructureComponent>(ent.first, entity_name);
 						break;
+					case HomingComponent::type:
+						save_component<HomingComponent>(ent.first, entity_name);
 				}
 			}
 		}	
