@@ -12,7 +12,7 @@
 
 struct Component
 {
-	static constexpr int count = 18;
+	static constexpr int count = 19;
 	static constexpr std::size_t NO_ENTITY = std::numeric_limits<std::size_t>::max();
 };
 
@@ -347,4 +347,24 @@ struct StructureComponent
 
 	std::size_t radius;
 	std::vector<std::size_t> residences;
+};
+
+/**
+ *
+ */
+struct HomingComponent
+{
+	static constexpr int type = 18;
+
+	HomingComponent(std::size_t s = Component::NO_ENTITY,
+					std::size_t t = Component::NO_ENTITY,
+					std::size_t d = 0)
+		: source{s}, target{t}, dmg{d}
+	{ /* DUMMY BODY */ }
+	HomingComponent(const HomingComponent&) = default;
+	HomingComponent(HomingComponent&&) = default;
+
+	std::size_t source;
+	std::size_t target;
+	std::size_t dmg;
 };
