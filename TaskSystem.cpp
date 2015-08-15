@@ -248,17 +248,20 @@ bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& h
 				if(combat_comp)
 				{
 					auto phys_comp = entities_.get_component<PhysicsComponent>(id);
-					auto target_phys_comp = entities_.get_component<PhysicsComponent>(combat_comp->curr_target);
+					auto target_phys_comp = entities_.get_component<PhysicsComponent>(comp->target);
 					if(phys_comp && target_phys_comp)
 					{
 						auto range = combat_comp->range * combat_comp->range; // Squared distance is faster (avoid square root).
+						auto path_comp = entities_.get_component<PathfindingComponent>(id);
+						auto dist = phys_comp->position.squaredDistance(target_phys_comp->position);
 						if(phys_comp->position.squaredDistance(target_phys_comp->position) < range)
 						{
-							auto path_comp = entities_.get_component<PathfindingComponent>(id);
 							if(path_comp) // Stop pursuing.
 								path_comp->path_queue.clear();
 							return true;
 						}
+						else if(path_comp && path_comp->path_queue.empty())
+							return true;
 					}
 				}
 				return false;
