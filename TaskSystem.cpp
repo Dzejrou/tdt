@@ -219,7 +219,6 @@ bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& h
 	auto comp = entities_.get_component<TaskComponent>(handler.curr_task);
 	if(comp)
 	{
-	
 		switch(comp->task_type)
 		{
 			case TASK_TYPE::GO_TO:
