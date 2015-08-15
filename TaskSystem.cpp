@@ -2,7 +2,9 @@
 
 TaskSystem::TaskSystem(EntitySystem& ents, GridSystem& grid)
 	: entities_{ents}, grid_{grid},
-	  task_names_{{TASK_TYPE::NONE, "NONE"}, {TASK_TYPE::GO_TO, "GO_TO"}}
+	  task_names_{{TASK_TYPE::NONE, "NONE"}, {TASK_TYPE::GO_TO, "GO_TO"},
+	  {TASK_TYPE::GO_NEAR, "GO_NEAR"}, {TASK_TYPE::GO_KILL, "GO_KILL"},
+	  {TASK_TYPE::GET_IN_RANGE, "GET_IN_RANGE"}}
 { /* DUMMY BODY */ }
 
 void TaskSystem::update(Ogre::Real delta)
