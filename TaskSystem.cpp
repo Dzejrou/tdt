@@ -253,7 +253,6 @@ bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& h
 					{
 						auto range = combat_comp->range * combat_comp->range; // Squared distance is faster (avoid square root).
 						auto path_comp = entities_.get_component<PathfindingComponent>(id);
-						auto dist = phys_comp->position.squaredDistance(target_phys_comp->position);
 						if(phys_comp->position.squaredDistance(target_phys_comp->position) < range)
 						{
 							if(path_comp) // Stop pursuing.
