@@ -1,9 +1,12 @@
 #include "CombatSystem.hpp"
 
-CombatSystem::CombatSystem(EntitySystem& ents, HealthSystem& health)
+CombatSystem::CombatSystem(EntitySystem& ents, HealthSystem& health, Ogre::SceneManager& scene)
 	: entities_{ents}, health_{health}, helper_box_{},
-	  rd_device_{}, rd_gen_{rd_device_()}, rd_dist_{0, std::numeric_limits<std::size_t>::max()}
-{ /* DUMMY BODY */ }
+	  rd_device_{}, rd_gen_{rd_device_()}, rd_dist_{0, std::numeric_limits<std::size_t>::max()},
+	  ray_query_{*scene.createRayQuery(Ogre::Ray{})}
+{
+	ray_query_.setSortByDistance(true);
+}
 
 void CombatSystem::update(Ogre::Real delta)
 {
@@ -160,18 +163,30 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 		auto direction = target_position - phys_comp->position;
 		direction.normalise();
 		Ogre::Ray line_of_sight{phys_comp->position, direction};
+		ray_query_.setRay(line_of_sight);
+		auto res = ray_query_.execute();
 
+		return res.front().movable && res.front().movable
+			   == target_graph_comp->entity;
+
+
+		/*
 		for(auto& structure : entities_.get_component_container<StructureComponent>())
-		{
+		{ // No need to check regular entities, buildings and walls are the only ones that block sight.
 			auto structure_graph_comp = entities_.get_component<GraphicsComponent>(structure.first);
-			if(structure_graph_comp && structure_graph_comp->entity &&
-			   line_of_sight.intersects(structure_graph_comp->entity->getWorldBoundingBox(true)).first)
+			if(structure_graph_comp && structure_graph_comp->entity && structure_graph_comp->node &&
+			   line_of_sight.intersects(structure_graph_comp->entity->getWorldBoundingBox(true)).first &&
+			   phys_comp->position.squaredDistance(structure_graph_comp->node->getPosition()) <
+			   phys_comp->position.squaredDistance(target_position))
 			{
-				return true;
+				return false;
 			}
 		}
+		*/
 	}
-	return false;
+	else
+		return false;
+	return true;
 }
 
 void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent& combat)

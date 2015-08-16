@@ -13,7 +13,7 @@
 class CombatSystem : public System
 {
 	public:
-		CombatSystem(EntitySystem&, HealthSystem&);
+		CombatSystem(EntitySystem&, HealthSystem&, Ogre::SceneManager&);
 		~CombatSystem() {}
 
 		void update(Ogre::Real) override;
@@ -44,4 +44,6 @@ class CombatSystem : public System
 		std::random_device rd_device_;
 		std::uniform_int_distribution<std::size_t> rd_dist_;
 		std::mt19937 rd_gen_;
+
+		Ogre::RaySceneQuery& ray_query_;
 };
