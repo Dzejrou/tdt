@@ -149,6 +149,31 @@ ATTACK_TYPE CombatSystem::get_atk_type(std::size_t id) const
 		return ATTACK_TYPE::NONE;
 }
 
+bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
+{
+	auto phys_comp = entities_.get_component<PhysicsComponent>(ent_id);
+	auto target_graph_comp = entities_.get_component<GraphicsComponent>(target);
+
+	if(phys_comp && target_graph_comp && target_graph_comp->node && target_graph_comp->entity)
+	{
+		auto target_position = target_graph_comp->node->getPosition();
+		auto direction = target_position - phys_comp->position;
+		direction.normalise();
+		Ogre::Ray line_of_sight{phys_comp->position, direction};
+
+		for(auto& structure : entities_.get_component_container<StructureComponent>())
+		{
+			auto structure_graph_comp = entities_.get_component<GraphicsComponent>(structure.first);
+			if(structure_graph_comp && structure_graph_comp->entity &&
+			   line_of_sight.intersects(structure_graph_comp->entity->getWorldBoundingBox(true)).first)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent& combat)
 {
 	std::size_t id = entities_.create_entity("basic_projectile");
