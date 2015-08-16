@@ -101,7 +101,7 @@ void GridSystem::create_graphics()
 		graph_comp.mesh = "cube.mesh";
 		graph_comp.material = "colour/blue";
 		entities_.init_graphics_component(ent.first);
-		graph_comp.entity->setQueryFlags(2);
+		graph_comp.entity->setQueryFlags((Ogre::uint32)ENTITY_TYPE::NONE);
 
 		graph_comp.entity->setMaterialName(graph_comp.material);
 		graph_comp.node->setScale(5, 10, 5);
