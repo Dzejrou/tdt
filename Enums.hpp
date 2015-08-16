@@ -13,8 +13,12 @@ enum class FACTION
 
 enum class ENTITY_TYPE
 {
-	NONE, WALL, MINION, ENEMY, BUILDING, MISC,
-	COUNT
+	NONE = 0,
+	WALL = 1 << 0,
+	MINION = 1 << 1,
+	ENEMY = 1 << 2,
+	BUILDING = 1 << 3,
+	MISC = 1 << 4
 };
 
 enum class EVENT_TYPE
