@@ -166,12 +166,27 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 		ray_query_.setRay(line_of_sight);
 		auto res = ray_query_.execute();
 
+		std::string ent_name{"entity_" + std::to_string(ent_id)};
+		std::string target_name{"entity_" + std::to_string(target)};
+		std::size_t i{0};
+		while(i < res.size())
+		{
+			if(res[i].movable && res[i].movable->getParentSceneNode()->getName() != ent_name)
+				break; // This will find first object that isn't part of the entity which serves as ray origin.
+			else
+				++i;
+		}
+		if(i < res.size())
+			return res[i].movable && res[i].movable->getParentSceneNode()->getName()
+			       == target_name;
+
+		/*
 		if(res.size() >= 2)
 		{
 			return res[1].movable && res[1].movable->getParentSceneNode()->getName()
 				   == std::string{"entity_" + std::to_string(target)};
 		}
-
+		*/
 
 		/*
 		for(auto& structure : entities_.get_component_container<StructureComponent>())
