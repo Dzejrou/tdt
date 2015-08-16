@@ -166,8 +166,11 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 		ray_query_.setRay(line_of_sight);
 		auto res = ray_query_.execute();
 
-		return res.front().movable && res.front().movable
-			   == target_graph_comp->entity;
+		if(res.size() >= 2)
+		{
+			return res[1].movable && res[1].movable->getParentSceneNode()->getName()
+				   == std::string{"entity_" + std::to_string(target)};
+		}
 
 
 		/*
