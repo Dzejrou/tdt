@@ -207,6 +207,27 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 	return true;
 }
 
+void CombatSystem::set_homing_source(std::size_t id, std::size_t source)
+{
+	auto comp = entities_.get_component<HomingComponent>(id);
+	if(comp)
+		comp->source = source;
+}
+
+void CombatSystem::set_homing_target(std::size_t id, std::size_t target)
+{
+	auto comp = entities_.get_component<HomingComponent>(id);
+	if(comp)
+		comp->target = target;
+}
+
+void CombatSystem::set_homing_dmg(std::size_t id, std::size_t dmg)
+{
+	auto comp = entities_.get_component<HomingComponent>(id);
+	if(comp)
+		comp->dmg = dmg;
+}
+
 void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent& combat)
 {
 	std::size_t id = entities_.create_entity("basic_projectile");

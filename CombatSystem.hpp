@@ -33,6 +33,11 @@ class CombatSystem : public System
 		ATTACK_TYPE get_atk_type(std::size_t) const;
 
 		bool in_sight(std::size_t, std::size_t) const;
+
+		// TODO: Getters.
+		void set_homing_source(std::size_t, std::size_t);
+		void set_homing_target(std::size_t, std::size_t);
+		void set_homing_dmg(std::size_t, std::size_t);
 	private:
 		void create_homing_projectile(std::size_t, CombatComponent&);
 
