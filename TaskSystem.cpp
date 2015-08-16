@@ -1,10 +1,10 @@
 #include "TaskSystem.hpp"
 
-TaskSystem::TaskSystem(EntitySystem& ents, GridSystem& grid)
-	: entities_{ents}, grid_{grid},
+TaskSystem::TaskSystem(EntitySystem& ents, GridSystem& grid, CombatSystem& comb)
+	: entities_{ents}, grid_{grid}, combat_{comb},
 	  task_names_{{TASK_TYPE::NONE, "NONE"}, {TASK_TYPE::GO_TO, "GO_TO"},
 	  {TASK_TYPE::GO_NEAR, "GO_NEAR"}, {TASK_TYPE::GO_KILL, "GO_KILL"},
-	  {TASK_TYPE::GET_IN_RANGE, "GET_IN_RANGE"}}
+	  {TASK_TYPE::KILL, "KILL"}, {TASK_TYPE::GET_IN_RANGE, "GET_IN_RANGE"}}
 { /* DUMMY BODY */ }
 
 void TaskSystem::update(Ogre::Real delta)
@@ -255,9 +255,15 @@ bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& h
 						auto path_comp = entities_.get_component<PathfindingComponent>(id);
 						if(phys_comp->position.squaredDistance(target_phys_comp->position) < range)
 						{
-							if(path_comp) // Stop pursuing.
-								path_comp->path_queue.clear();
-							return true;
+							if(combat_.in_sight(id, comp->target))
+							{
+								if(path_comp) // Stop pursuing.
+								{
+									path_comp->target_id = Component::NO_ENTITY;
+									path_comp->path_queue.clear();
+								}
+								return true;;
+							}
 						}
 						else if(path_comp && path_comp->path_queue.empty())
 							return true;

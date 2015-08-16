@@ -7,6 +7,7 @@
 #include "System.hpp"
 #include "EntitySystem.hpp"
 #include "GridSystem.hpp"
+#include "CombatSystem.hpp"
 
 /**
  * System managing all entities with the TaskComponent, their creation, assignment,
@@ -20,7 +21,7 @@ class TaskSystem : public System
 		 * Param: Reference to the game's entity system.
 		 * Param: Reference to the game's grid system.
 		 */
-		TaskSystem(EntitySystem&, GridSystem&);
+		TaskSystem(EntitySystem&, GridSystem&, CombatSystem&);
 
 		/**
 		 * Destructor.
@@ -146,6 +147,11 @@ class TaskSystem : public System
 		 * Reference to the game's grid system.
 		 */
 		GridSystem& grid_;
+
+		/**
+		 * Reference to the game's combat system used for line of sight checking.
+		 */
+		CombatSystem& combat_;
 
 		/**
 		 * Map used for task type translation.
