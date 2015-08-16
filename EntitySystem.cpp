@@ -372,7 +372,7 @@ void EntitySystem::init_graphics_component(std::size_t id)
 		return;
 
 	comp->entity = scene_.createEntity(comp->mesh);
-	comp->node = scene_.getRootSceneNode()->createChildSceneNode();
+	comp->node = scene_.getRootSceneNode()->createChildSceneNode("entity_" + std::to_string(id));
 	comp->node->attachObject(comp->entity);
 	comp->node->setVisible(comp->visible);
 
