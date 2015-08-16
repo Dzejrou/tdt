@@ -13,7 +13,7 @@ enum class FACTION
 
 enum class ENTITY_TYPE
 {
-	NONE, WALL_BASIC,
+	NONE, WALL, MINION, ENEMY, BUILDING, MISC,
 	COUNT
 };
 
