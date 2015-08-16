@@ -550,6 +550,9 @@ void Game::lua_init()
 		{"get_cooldown", Game::lua_get_cooldown},
 		{"set_atk_type", Game::lua_set_atk_type},
 		{"get_atk_type", Game::lua_get_atk_type},
+		{"set_homing_source", Game::lua_set_homing_source},
+		{"set_homing_target", Game::lua_set_homing_target},
+		{"set_homing_dmg", Game::lua_set_homing_dmg},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -1853,5 +1856,35 @@ int Game::lua_get_atk_type(lpp::Script::state L)
 	auto res = lua_this->combat_system_->get_atk_type(id);
 	lua_pushnumber(L, (int)res);
 	return 1;
+}
+
+int Game::lua_set_homing_source(lpp::Script::state L)
+{
+	std::size_t source = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->combat_system_->set_homing_source(id, source);
+	return 0;
+}
+
+int Game::lua_set_homing_target(lpp::Script::state L)
+{
+	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->combat_system_->set_homing_target(id, target);
+	return 0;
+}
+
+int Game::lua_set_homing_dmg(lpp::Script::state L)
+{
+	std::size_t dmg = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->combat_system_->set_homing_dmg(id, dmg);
+	return 0;
 }
 #pragma endregion
