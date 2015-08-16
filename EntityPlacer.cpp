@@ -97,7 +97,7 @@ std::size_t EntityPlacer::place(Console& console)
 		grid_.place_structure(id, grid_.get_node_from_position(curr_position_.x, curr_position_.z), structure_radius_);
 
 	console.print_text("Placed entity #" + std::to_string(id) + " at (" + std::to_string(curr_position_.x)
-					   + ", " + std::to_string(curr_position_.y) + ")\nTable: " + table_name_);
+					   + ", " + std::to_string(curr_position_.z) + ")\nTable: " + table_name_);
 	console.scroll_down();
 	return id;
 }
