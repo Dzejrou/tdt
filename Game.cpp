@@ -69,8 +69,11 @@ void Game::update(Ogre::Real delta)
 	if(camera_free_mode_)
 		main_cam_->moveRelative(camera_dir_);
 
-	for(auto& sys : systems_)
-		sys->update(delta);
+	if(state_ == GAME_STATE::RUNNING)
+	{
+		for(auto& sys : systems_)
+			sys->update(delta);
+	}
 }
 
 void Game::set_state(GAME_STATE state)
