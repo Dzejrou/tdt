@@ -80,23 +80,28 @@ void EntityPlacer::update_position(const Ogre::Vector3& pos)
 
 std::size_t EntityPlacer::place(Console& console)
 {
-	std::size_t id = entities_.create_entity(table_name_);
+	std::size_t node_id = grid_.get_node_from_position(curr_position_.x, curr_position_.z);
+	if(placing_structure_ && !grid_.is_free(node_id))
+		return Component::NO_ENTITY; // This will prohibit of wall/building stacking.
 
+	std::size_t id = entities_.create_entity(table_name_);
 	auto comp = entities_.get_component<PhysicsComponent>(id);
 	if(comp)
 	{
 		comp->position = Ogre::Vector3{curr_position_.x,
-											  comp->half_height,
-											  curr_position_.z};
+									   comp->half_height,
+									   curr_position_.z};
 		
 		auto graph_comp = entities_.get_component<GraphicsComponent>(id);
 		if(graph_comp)
+		{
 			graph_comp->node->setPosition(curr_position_.x, comp->half_height,
-												 curr_position_.z);
+										  curr_position_.z);
+		}
 	}
 
 	if(placing_structure_)
-		grid_.place_structure(id, grid_.get_node_from_position(curr_position_.x, curr_position_.z), structure_radius_);
+		grid_.place_structure(id, node_id, structure_radius_);
 
 	console.print_text("Placed entity #" + std::to_string(id) + " at (" + std::to_string(curr_position_.x)
 					   + ", " + std::to_string(curr_position_.z) + ")\nTable: " + table_name_);
