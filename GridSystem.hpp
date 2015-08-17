@@ -128,6 +128,14 @@ class GridSystem : public System
 		bool is_free(std::size_t) const;
 
 		/**
+		 * Brief: Returns true if a given area (specified by a center node and a radius)
+		 *        is free.
+		 * Param: ID of the center node.
+		 * Param: Radius of the area.
+		 */
+		bool area_free(std::size_t, std::size_t = 1) const;
+
+		/**
 		 * Brief: Sets the free status of a given node.
 		 * Param: True for free, false for not-so-free.
 		 */
