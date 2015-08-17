@@ -1673,7 +1673,8 @@ int Game::lua_list_tasks_of(lpp::Script::state L)
 			auto curr = lua_this->entity_system_->get_component<TaskComponent>(comp->curr_task);
 			if(curr)
 			{
-				report.append(lua_this->task_system_->get_task_name(curr->task_type)
+				report.append(std::to_string(comp->curr_task) + ": "
+							  + lua_this->task_system_->get_task_name(curr->task_type)
 							  + " (" + std::to_string(curr->source)
 							  + " -> " + std::to_string(curr->target) + ").\n");
 			}
