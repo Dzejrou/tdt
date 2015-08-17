@@ -87,11 +87,9 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
 	keyboard_->capture();
 	mouse_->capture();
 
-	update(event.timeSinceLastFrame); // TODO: Test with timeSinceLastFrame from frameStarted method!
+	update(event.timeSinceLastFrame);
 	CEGUI::System::getSingleton().injectTimePulse(event.timeSinceLastFrame); // Update CEGUI.
 
-	// TODO:
-	// Research hypothesis - processor will assume false on conditionals.
 	if(state_ == GAME_STATE::ENDED)
 		return false;
 	else
