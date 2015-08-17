@@ -173,13 +173,16 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 		{
 			auto source_comp = entities_.get_component<PhysicsComponent>(task.source);
 			auto target_comp = entities_.get_component<PhysicsComponent>(task.target);
-			grid_.perform_a_star(id, grid_.get_node_from_position(source_comp->position.x, source_comp->position.z),
-								     grid_.get_node_from_position(target_comp->position.x, target_comp->position.z));
+			if(source_comp && target_comp)
+			{
+				grid_.perform_a_star(id, grid_.get_node_from_position(source_comp->position.x, source_comp->position.z),
+										 grid_.get_node_from_position(target_comp->position.x, target_comp->position.z));
+			}
 
 			if(task.task_type == TASK_TYPE::GO_NEAR)
 			{
 				auto path_comp = entities_.get_component<PathfindingComponent>(task.source);
-				if(path_comp)
+				if(path_comp && path_comp->path_queue.size() >= 2)
 				{
 					path_comp->path_queue.pop_back(); // Doesn't reach the final grid node.
 					path_comp->target_id = path_comp->path_queue.back();
