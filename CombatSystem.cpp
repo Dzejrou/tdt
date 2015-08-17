@@ -1,7 +1,8 @@
 #include "CombatSystem.hpp"
 
-CombatSystem::CombatSystem(EntitySystem& ents, HealthSystem& health, Ogre::SceneManager& scene)
-	: entities_{ents}, health_{health}, helper_box_{},
+CombatSystem::CombatSystem(EntitySystem& ents, HealthSystem& health, Ogre::SceneManager& scene,
+						   MovementSystem& movement)
+	: entities_{ents}, health_{health}, movement_{movement}, helper_box_{}, // TODO: helper_box_ needed?
 	  rd_device_{}, rd_gen_{rd_device_()}, rd_dist_{0, std::numeric_limits<std::size_t>::max()},
 	  ray_query_{*scene.createRayQuery(Ogre::Ray{})}
 {
