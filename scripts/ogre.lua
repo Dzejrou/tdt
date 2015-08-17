@@ -1,5 +1,5 @@
 -- Testing Ogre entity.
-evil_ogre = {
+ogre = {
 	components = {
 		-- Enums contained in core_utils.lua
 		game.enum.component.physics,
