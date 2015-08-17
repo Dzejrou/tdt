@@ -39,6 +39,8 @@ class CombatSystem : public System
 		void set_homing_source(std::size_t, std::size_t);
 		void set_homing_target(std::size_t, std::size_t);
 		void set_homing_dmg(std::size_t, std::size_t);
+
+		std::size_t get_closest_entity(std::size_t,bool = true, bool = false) const;
 	private:
 		void create_homing_projectile(std::size_t, CombatComponent&);
 
