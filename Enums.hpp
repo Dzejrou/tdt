@@ -38,3 +38,8 @@ enum class ATTACK_TYPE
 	NONE, MELEE, RANGED,
 	COUNT
 };
+
+enum class GAME_STATE
+{
+	RUNNING, ENDED, PAUSED, MENU
+};
