@@ -7,6 +7,7 @@ CombatSystem::CombatSystem(EntitySystem& ents, HealthSystem& health, Ogre::Scene
 	  ray_query_{*scene.createRayQuery(Ogre::Ray{})}
 {
 	ray_query_.setSortByDistance(true);
+	ray_query_.setQueryMask((int)ENTITY_TYPE::WALL || (int)ENTITY_TYPE::BUILDING);
 }
 
 void CombatSystem::update(Ogre::Real delta)
@@ -174,6 +175,15 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 		ray_query_.setRay(line_of_sight);
 		auto res = ray_query_.execute();
 
+		if(res.size() > 0)
+		{
+			auto dist_to_first_struct = res.front().distance * res.front().distance;
+			return phys_comp->position.squaredDistance(target_position) < dist_to_first_struct;
+		}
+		else
+			return true; // No structs found at all.
+
+		/* TODO: DEPRECATED? (This takes minions & enemies into account, also possibly projectiles.)
 		std::string ent_name{"entity_" + std::to_string(ent_id)};
 		std::string target_name{"entity_" + std::to_string(target)};
 		std::size_t i{0};
@@ -187,32 +197,10 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 		if(i < res.size())
 			return res[i].movable && res[i].movable->getParentSceneNode()->getName()
 			       == target_name;
-
-		/*
-		if(res.size() >= 2)
-		{
-			return res[1].movable && res[1].movable->getParentSceneNode()->getName()
-				   == std::string{"entity_" + std::to_string(target)};
-		}
-		*/
-
-		/*
-		for(auto& structure : entities_.get_component_container<StructureComponent>())
-		{ // No need to check regular entities, buildings and walls are the only ones that block sight.
-			auto structure_graph_comp = entities_.get_component<GraphicsComponent>(structure.first);
-			if(structure_graph_comp && structure_graph_comp->entity && structure_graph_comp->node &&
-			   line_of_sight.intersects(structure_graph_comp->entity->getWorldBoundingBox(true)).first &&
-			   phys_comp->position.squaredDistance(structure_graph_comp->node->getPosition()) <
-			   phys_comp->position.squaredDistance(target_position))
-			{
-				return false;
-			}
-		}
-		*/
+				   */
 	}
 	else
 		return false;
-	return true;
 }
 
 void CombatSystem::set_homing_source(std::size_t id, std::size_t source)
