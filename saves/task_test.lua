@@ -260,29 +260,97 @@ entity_255=255
 
 
  -- ENTITIES:
+entity_1186 = game.create_entity()
 entity_1187 = game.create_entity()
+entity_1188 = game.create_entity()
+entity_1189 = game.create_entity()
+
+game.add_component(entity_1186, game.enum.component.task)
+game.set_task_source(entity_1186, entity_1187)
+game.set_task_target(entity_1186, entity_1188)
+game.set_task_type(entity_1186, 3)
+
+game.add_component(entity_1189, game.enum.component.task)
+game.set_task_source(entity_1189, entity_1187)
+game.set_task_target(entity_1189, entity_1188)
+game.set_task_type(entity_1189, 4)
+
 game.add_component(entity_1187, game.enum.component.physics)
-game.set_position(entity_1187, 0.000000, 50.000000, 0.000000)
-game.set_solid(entity_1187, true)
-game.set_half_height(entity_1187, 50.000000)
+game.set_position(entity_1187, 929.812500, 27.008251, 1100.609131)
+game.set_solid(entity_1187, false)
+game.set_half_height(entity_1187, 27.008251)
+
 game.add_component(entity_1187, game.enum.component.health)
-game.buff(entity_1187, 2000)
+game.buff(entity_1187, 1000)
 game.sub_health(entity_1187, 0)
-game.add_defense(entity_1187, 13)
+game.add_defense(entity_1187, 8)
 game.set_regen(entity_1187, 1)
 game.set_alive(entity_1187, true)
+
+game.add_component(entity_1187, game.enum.component.ai)
+game.set_blueprint(entity_1187, 'ogre')
+game.set_state(entity_1187, 1)
+game.set_faction(entity_1187, 0)
+
 game.add_component(entity_1187, game.enum.component.graphics)
-game.set_mesh(entity_1187, 'cube.mesh')
-game.set_material(entity_1187, 'colour/brown')
-game.set_manual_scaling(entity_1187, true)
+game.set_mesh(entity_1187, 'ogrehead.mesh')
+game.set_material(entity_1187, 'NO_MAT')
+game.set_manual_scaling(entity_1187, false)
 game.init_graphics_component(entity_1187)
 game.set_visible(entity_1187, true)
-game.set_scale(entity_1187, 50.000000, 50.000000, 50.000000)
-game.add_component(entity_1187, game.enum.component.structure)
-entity_1187_residences = { entity_0 }
-game.add_residences(entity_1187, 'entity_1187_residences')
+
+game.add_component(entity_1187, game.enum.component.movement)
+game.set_speed(entity_1187, 0.500000)
+
+game.add_component(entity_1187, game.enum.component.pathfinding)
+game.set_pathfinding_blueprint(entity_1187, 'ogre')
+
+game.add_component(entity_1187, game.enum.component.task_handler)
+game.add_possible_task(entity_1187, 1)
+game.add_possible_task(entity_1187, 2)
+game.add_possible_task(entity_1187, 3)
+game.add_possible_task(entity_1187, 4)
+
+game.add_component(entity_1188, game.enum.component.physics)
+game.set_position(entity_1188, 619.519653, 27.008251, 1110.652832)
+game.set_solid(entity_1188, false)
+game.set_half_height(entity_1188, 27.008251)
+
+game.add_component(entity_1188, game.enum.component.health)
+game.buff(entity_1188, 1000)
+game.sub_health(entity_1188, 0)
+game.add_defense(entity_1188, 8)
+game.set_regen(entity_1188, 1)
+game.set_alive(entity_1188, true)
+
+game.add_component(entity_1188, game.enum.component.ai)
+game.set_blueprint(entity_1188, 'ogre')
+game.set_state(entity_1188, 1)
+game.set_faction(entity_1188, 0)
+
+game.add_component(entity_1188, game.enum.component.graphics)
+game.set_mesh(entity_1188, 'ogrehead.mesh')
+game.set_material(entity_1188, 'NO_MAT')
+game.set_manual_scaling(entity_1188, false)
+game.init_graphics_component(entity_1188)
+game.set_visible(entity_1188, true)
+
+game.add_component(entity_1188, game.enum.component.movement)
+game.set_speed(entity_1188, 0.500000)
+
+game.add_component(entity_1188, game.enum.component.pathfinding)
+game.set_pathfinding_blueprint(entity_1188, 'ogre')
+
+game.add_component(entity_1188, game.enum.component.task_handler)
+game.add_possible_task(entity_1188, 1)
+game.add_possible_task(entity_1188, 2)
+game.add_possible_task(entity_1188, 3)
+game.add_possible_task(entity_1188, 4)
+
 
  -- TASKS: --
+game.add_task(entity_1187, entity_1186)
+game.add_task(entity_1187, entity_1189)
 
 
  -- AUXILIARY VARIABLES TO BE DELETED:
@@ -313,4 +381,4 @@ to_be_deleted = {
 'entity_221', 'entity_222', 'entity_223', 'entity_224', 'entity_225', 'entity_226', 'entity_227', 'entity_228', 'entity_229', 'entity_230', 
 'entity_231', 'entity_232', 'entity_233', 'entity_234', 'entity_235', 'entity_236', 'entity_237', 'entity_238', 'entity_239', 'entity_240', 
 'entity_241', 'entity_242', 'entity_243', 'entity_244', 'entity_245', 'entity_246', 'entity_247', 'entity_248', 'entity_249', 'entity_250', 
-'entity_251', 'entity_252', 'entity_253', 'entity_254', 'entity_255', 'entity_1187', }
+'entity_251', 'entity_252', 'entity_253', 'entity_254', 'entity_255', 'entity_1186', 'entity_1187', 'entity_1188', 'entity_1189' }
