@@ -467,7 +467,6 @@ void Game::lua_init()
 		{"get_speed", Game::lua_get_speed_modifier},
 		{"set_speed", Game::lua_set_speed_modifier},
 		{"enemy_in_radius", Game::lua_enemy_in_radius},
-		{"closest_enemy", Game::lua_closest_enemy},
 		{"dir_to_closest_enemy", Game::lua_dir_to_closest_enemy},
 		{"dir_to_closest_enemy_in_radius", Game::lua_dir_to_closest_enemy_in_radius},
 		{"dir_to_enemy", Game::lua_dir_to_enemy},
@@ -554,6 +553,10 @@ void Game::lua_init()
 		{"set_homing_source", Game::lua_set_homing_source},
 		{"set_homing_target", Game::lua_set_homing_target},
 		{"set_homing_dmg", Game::lua_set_homing_dmg},
+		{"closest_enemy_in_sight", Game::lua_closest_enemy_in_sight},
+		{"closest_friendly_in_sight", Game::lua_closest_friendly_in_sight},
+		{"closest_enemy", Game::lua_closest_enemy},
+		{"closest_friendly", Game::lua_closest_friendly},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -1077,16 +1080,6 @@ int Game::lua_enemy_in_radius(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	std::size_t res = lua_this->movement_system_->enemy_in_radius(id, radius);
-	lua_pushinteger(L, res);
-	return 1;
-}
-
-int Game::lua_closest_enemy(lpp::Script::state L)
-{
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
-	lua_pop(L, 1);
-
-	std::size_t res = lua_this->movement_system_->closest_enemy(id);
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -1888,5 +1881,45 @@ int Game::lua_set_homing_dmg(lpp::Script::state L)
 
 	lua_this->combat_system_->set_homing_dmg(id, dmg);
 	return 0;
+}
+
+int Game::lua_closest_enemy_in_sight(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_closest_entity(id, true);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int Game::lua_closest_friendly_in_sight(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_closest_entity(id, true, true);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int Game::lua_closest_enemy(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_closest_entity(id, false);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int Game::lua_closest_friendly(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_closest_entity(id, false, true);
+	lua_pushinteger(L, res);
+	return 1;
 }
 #pragma endregion
