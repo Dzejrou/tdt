@@ -37,6 +37,7 @@ void CombatSystem::update(Ogre::Real delta)
 			   phys_comp->position.distance(target_phys_comp->position) < ent.second.range)
 			{
 				auto dmg = get_dmg(ent.second.min_dmg, ent.second.max_dmg);
+				movement_.look_at(ent.first, ent.second.curr_target);
 				switch(ent.second.atk_type)
 				{
 					case ATTACK_TYPE::MELEE:
