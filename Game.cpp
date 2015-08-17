@@ -113,7 +113,7 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 	switch(event.key)
 	{
 		case OIS::KC_ESCAPE:
-			state_ = GAME_STATE::ENDED;
+			state_ = (state_ == GAME_STATE::RUNNING ? GAME_STATE::PAUSED : GAME_STATE::RUNNING);
 			return false;
 		case OIS::KC_GRAVE:
 			console_.set_visible(true);
