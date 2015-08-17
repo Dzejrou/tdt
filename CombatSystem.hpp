@@ -9,11 +9,12 @@
 #include "System.hpp"
 #include "EntitySystem.hpp"
 #include "HealthSystem.hpp"
+#include "MovementSystem.hpp"
 
 class CombatSystem : public System
 {
 	public:
-		CombatSystem(EntitySystem&, HealthSystem&, Ogre::SceneManager&);
+		CombatSystem(EntitySystem&, HealthSystem&, Ogre::SceneManager&, MovementSystem&);
 		~CombatSystem() {}
 
 		void update(Ogre::Real) override;
@@ -43,6 +44,7 @@ class CombatSystem : public System
 
 		EntitySystem& entities_;
 		HealthSystem& health_;
+		MovementSystem& movement_;
 
 		Ogre::AxisAlignedBox helper_box_;
 
