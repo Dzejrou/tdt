@@ -164,6 +164,25 @@ bool GridSystem::is_free(std::size_t id) const
 		return false;
 }
 
+bool GridSystem::area_free(std::size_t center, std::size_t radius) const
+{
+	std::size_t x, y;
+	std::tie(x, y) = get_board_coords(center);
+	x = x - radius;
+	y = y - radius;
+	radius = radius * 2 + 1;
+	for(std::size_t i = 0; i < radius; ++i)
+	{
+		for(std::size_t j = 0; j < radius; ++j)
+		{
+			if(!is_free(get_node(x + i, y + j)) ||
+			   !entities_.has_component<GridNodeComponent>(get_node(x + i, y + j)))
+				return false;
+		}
+	}
+	return true;
+}
+
 void GridSystem::set_free(std::size_t id, bool on_off)
 {
 	auto comp = entities_.get_component<GridNodeComponent>(id);
@@ -358,33 +377,23 @@ void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::s
 
 	std::size_t x, y;
 	std::tie(x, y) = get_board_coords(node_id);
-	std::size_t start_node = get_node(x - radius + 1, y - radius + 1);
+	std::size_t start_node = get_node(x - radius, y - radius);
 	std::tie(x, y) = get_board_coords(start_node);
 	std::size_t target_node{};
 
-	// This will check if the entire are is free first.
-	for(std::size_t i = 0; i < radius; ++i)
-	{
-		for(std::size_t j = 0; j < radius; ++j)
-		{
-			if(!is_free(get_node(x + i, y + j)) ||
-			   !entities_.has_component<GridNodeComponent>(get_node(x + i, y + j)))
-				return;
-		}
-	}
+	// This will check if the entire area is free first.
+	if(!area_free(node_id, radius))
+		return;
 
+	radius = radius * 2 + 1;
 	for(std::size_t i = 0; i < radius; ++i)
 	{
 		for(std::size_t j = 0; j < radius; ++j)
 		{
 			target_node = get_node(x + i, y + j);
-			auto comp = entities_.get_component<GridNodeComponent>(target_node);
-			if(comp)
-			{
-				comp->free = false;
-				comp->resident = ent_id;
-				struct_comp->residences.push_back(target_node);
-			}
+			set_free(target_node, false);
+			set_resident(target_node, ent_id);
+			struct_comp->residences.push_back(target_node);
 		}
 	}
 }
