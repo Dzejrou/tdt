@@ -25,7 +25,7 @@ Game::Game() // TODO: Init systems.
 	ai_system_.reset(new AISystem(*entity_system_));
 	input_system_.reset(new InputSystem(*entity_system_, *keyboard_, *main_cam_));
 	grid_system_.reset(new GridSystem(*entity_system_, *scene_mgr_));
-	combat_system_.reset(new CombatSystem(*entity_system_, *health_system_, *scene_mgr_));
+	combat_system_.reset(new CombatSystem(*entity_system_, *health_system_, *scene_mgr_, *movement_system_));
 	task_system_.reset(new TaskSystem(*entity_system_, *grid_system_, *combat_system_));
 
 	systems_.emplace_back(entity_system_.get());
