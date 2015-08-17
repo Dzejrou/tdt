@@ -4,12 +4,32 @@ GridSystem::GridSystem(EntitySystem& ents, Ogre::SceneManager& scene)
 	: entities_{ents}, scene_mgr_{scene}, width_{0}, height_{0},
 	  start_{0, 0}, distance_{0}, board_{},
 	  graphics_loaded_{false}, graph_visible_{false},
-	  error_blueprint{"ERROR"}
+	  error_blueprint{"ERROR"}, freed_{}, unfreed_{}
 { /* DUMMY BODY */ }
 
 void GridSystem::update(Ogre::Real)
 {
-	// TODO:
+	// Correct pathfinding.
+	if(!unfreed_.empty())
+	{
+		for(auto& ent : entities_.get_component_container<PathfindingComponent>())
+		{
+			for(auto node : unfreed_)
+			{
+				if(std::find(ent.second.path_queue.begin(), ent.second.path_queue.end(),
+							 node) != ent.second.path_queue.end())
+				{
+					if(!perform_a_star(ent.first, ent.second.last_id, ent.second.target_id))
+					{ // Can't correct the path.
+						ent.second.path_queue.clear();
+						ent.second.target_id = Component::NO_ENTITY;
+					}
+					break; // Other unfreed nodes were taken into account already.
+				}
+			}
+		}
+	}
+	unfreed_.clear();
 }
 
 std::size_t GridSystem::add_node(Ogre::Real x, Ogre::Real y, Ogre::Real z)
@@ -200,6 +220,10 @@ void GridSystem::set_free(std::size_t id, bool on_off)
 					);
 				}
 			}
+			if(on_off)
+				freed_.emplace_back(id);
+			else
+				unfreed_.emplace_back(id);
 	}
 }
 

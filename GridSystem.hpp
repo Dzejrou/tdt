@@ -316,4 +316,11 @@ class GridSystem : public System
 		 * by a reference (returning a string literal would disallow that).
 		 */
 		std::string error_blueprint;
+
+		/**
+		 * Auxiliary vectors containing IDs of the nodes that have been
+		 * freed/unfreed on last frame. Used for pathfinding correction
+		 * and structure model changes.
+		 */
+		std::vector<std::size_t> freed_, unfreed_;
 };
