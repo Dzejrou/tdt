@@ -24,7 +24,8 @@ enum = {
 		pathfinding = 14,
 		task = 15,
 		task_handler = 16,
-		structure = 17
+		structure = 17,
+		homing = 18
 	},
 
 	event = {
@@ -48,15 +49,23 @@ enum = {
 	game_state = {
 		running = 0,
 		ended = 1,
-		console = 2,
-		paused = 3,
-		menu = 4
+		paused = 2,
+		menu = 3
 	},
 
-	task_type = {
+	task = {
 		none = 0,
 		go_to = 1,
-		go_near = 2
+		go_near = 2,
+		go_kill = 3,
+		kill = 4,
+		get_in_range = 5
+	},
+
+	atk_type = {
+		none = 0,
+		melee = 1,
+		ranged = 2
 	}
 }
 
@@ -99,6 +108,14 @@ if game then
 		game.set_game_state(game.enum.game_state.ended)
 	end
 
+	game.pause = function()
+		game.set_game_state(game.enum.game_state.paused)
+	end
+
+	game.unpause = function()
+		game.set_game_state(game.enum.game_state.running)
+	end
+
 	-- Aliases: (Easier to create in lua than in C++)
 	game.set_position = game.move_to
 else
@@ -129,5 +146,4 @@ ERROR = {
 -- Helper commands executed on startup:
 if game then
 	game.toggle_camera_free_mode()
-	game.toggle_grid_visible()
 end
