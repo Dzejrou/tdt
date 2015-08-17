@@ -50,6 +50,8 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 		}
 		else
 			placing_structure_ = false;
+
+		entities_.delete_component<AIComponent>(placed_id_);
 	}
 }
 
