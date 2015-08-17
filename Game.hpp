@@ -22,11 +22,7 @@
 #include "EntityCreator.hpp"
 #include "GameSerializer.hpp"
 #include "CombatSystem.hpp"
-
-enum class GAME_STATE
-{
-	RUNNING, ENDED, CONSOLE, PAUSED, MENU
-};
+#include "Enums.hpp"
 
 class Game : public Ogre::FrameListener, public OIS::KeyListener,
 			 public OIS::MouseListener, public Ogre::WindowEventListener
