@@ -256,7 +256,9 @@ bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& h
 					{
 						auto range = combat_comp->range * combat_comp->range; // Squared distance is faster (avoid square root).
 						auto path_comp = entities_.get_component<PathfindingComponent>(id);
-						if(phys_comp->position.squaredDistance(target_phys_comp->position) < range)
+						if(path_comp && path_comp->path_queue.empty())
+							return true;
+						else if(phys_comp->position.squaredDistance(target_phys_comp->position) < range)
 						{
 							if(combat_.in_sight(id, comp->target))
 							{
@@ -268,8 +270,6 @@ bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& h
 								return true;;
 							}
 						}
-						else if(path_comp && path_comp->path_queue.empty())
-							return true;
 					}
 				}
 				return false;
