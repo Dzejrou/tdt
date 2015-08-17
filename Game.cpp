@@ -78,7 +78,8 @@ void Game::update(Ogre::Real delta)
 
 void Game::set_state(GAME_STATE state)
 {
-	state_ = state;
+	if(state_ != state)
+		state_ = state;
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
