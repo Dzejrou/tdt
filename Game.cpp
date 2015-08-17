@@ -565,11 +565,12 @@ void Game::lua_init()
 	script.execute("game.const = {}");
 	script.execute("game.const.no_ent = " + std::to_string(Component::NO_ENTITY));
 
-	// Load all necessary scripts.
+	// Load all necessary scripts. TODO: Load all lua scripts!
 	script.load("scripts/core_utils.lua");
 	script.load("scripts/ogre.lua");
 	script.load("scripts/basic_wall.lua");
 	script.load("scripts/basic_projectile.lua");
+	script.load("scripts/evil_ogre.lua");
 
 	// InputComponent related enums.
 	script.set("game.enum.input.key_up", OIS::KC_W);
