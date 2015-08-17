@@ -254,7 +254,6 @@ bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 		selection_box_->set_starting_point(start);
 		selection_box_->clear();
 		selection_box_->set_selecting(true);
-		//selection_box_->set_corners(start, start);
 	}
 
 	if(placer_->is_visible())
