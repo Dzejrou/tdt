@@ -81,7 +81,7 @@ void EntityPlacer::update_position(const Ogre::Vector3& pos)
 std::size_t EntityPlacer::place(Console& console)
 {
 	std::size_t node_id = grid_.get_node_from_position(curr_position_.x, curr_position_.z);
-	if(placing_structure_ && !grid_.is_free(node_id))
+	if(placing_structure_ && !grid_.area_free(node_id, structure_radius_))
 		return Component::NO_ENTITY; // This will prohibit of wall/building stacking.
 
 	std::size_t id = entities_.create_entity(table_name_);
