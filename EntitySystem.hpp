@@ -454,6 +454,10 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 		phys_comp->position = Ogre::Vector3{phys_comp->position.x, half_height, phys_comp->position.z};
 		comp.node->setPosition(phys_comp->position);
 	}
+
+	// This will allow specific querying.
+	if(!script.is_nil(table_name + ".GraphicsComponent.query_flags"))
+		comp.entity->setQueryFlags(script.get<int>(table_name + ".GraphicsComponent.query_flags"));
 }
 
 template<>
