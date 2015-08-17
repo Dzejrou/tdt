@@ -1,5 +1,5 @@
 -- Testing Ogre entity.
-ogre = {
+evil_ogre = {
 	components = {
 		-- Enums contained in core_utils.lua
 		game.enum.component.physics,
@@ -40,11 +40,11 @@ ogre = {
 	},
 
 	CombatComponent = {
-		range = 15,
-		min_dmg = 50,
-		max_dmg = 150,
-		atk_1 = 1,
-		atk_2 = 0
+		range = 800,
+		min_dmg = 15,
+		max_dmg = 30,
+		type = game.enum.atk_type.ranged,
+		cooldown = 3
 	},
 
 	EventComponent = {
@@ -59,8 +59,11 @@ ogre = {
 
 	TaskHandlerComponent = {
 		possible_tasks = {
-			game.enum.task_type.go_to,
-			game.enum.task_type.go_near
+			game.enum.task.go_to,
+			game.enum.task.go_near,
+			game.enum.task.go_kill,
+			game.enum.task.kill,
+			game.enum.task.get_in_range
 		}
 	},
 
@@ -75,40 +78,24 @@ ogre = {
 	end,
 
 	update = function(id)
-		mov = true
-		if id == 0 then
-			mov = game.move(id, 5, 0, -2)
-		elseif id == 1 then
-			mov = game.move(id, -5, 0, 2)
-		elseif id == 2 then
-			mov = game.move(id, -5, 0, -2)
-		elseif id == 3 then
-			mov = game.move(id, 5, 0, 2)
-		elseif id == 4 then
-			mov = game.move(id, 0, 5, 0)
-		elseif id == 5 then
-			mov = game.move(id6, 0, -5, 0)
-		elseif id == 6 then
-			mov = game.move(id, 0, 0, -5)
-		elseif id == 7 then
-			mov = game.move(id, 0, 0, 5)
-		elseif id == 9 then
-			x, y, z = game.dir_to_enemy(9, 8)
-			angle = game.get_angle(id, x, y, z)
-			game.move(id, x, y, z)
+		enemy = game.closest_enemy_in_sight(id)
+		if enemy ~= game.const.no_ent then
+			task = game.create_task(enemy, game.enum.task.go_kill)
+			game.add_task(id, task)
+			return
+		end
 
-			game.rotate(id, angle * 0.01)
+		-- If failed, try enemy not in sight.
+		enemy = game.closest_enemy(id)
+		if enemy ~= game.const.no_ent then
+			task = game.create_task(enemy, game.enum.task.go_kill)
+			game.add_task(id, task)
+			return
 		end
 	end,
 
 	finnish = function(id)
 		ogre.stats.current_amount = ogre.stats.current_amount - 1
-
-		--[[
-		show_msg("Ogre #" .. tostring(id) .. " has been destroyed!\nCurrent: "
-		         .. tostring(ogre.stats.current_amount) .. "\tOverall: "
-			 .. tostring(ogre.stats.overall_amount))
-		--]]
 	end,
 
 	stats = {
