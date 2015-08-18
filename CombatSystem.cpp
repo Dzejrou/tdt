@@ -43,6 +43,11 @@ void CombatSystem::update(Ogre::Real delta)
 				{
 					case ATTACK_TYPE::MELEE:
 						health_.sub_health(ent.second.curr_target, dmg);
+						if(health_.get_health(ent.second.curr_target) <= 0)
+						{
+							ent.second.curr_target = Component::NO_ENTITY;
+							ent.second.cd_time = ent.second.cooldown; // Allows to attack again instantly.
+						}
 						// TODO: Animation...
 						break;
 					case ATTACK_TYPE::RANGED:
