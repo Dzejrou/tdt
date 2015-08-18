@@ -141,7 +141,7 @@ struct CombatComponent
 
 	CombatComponent(std::size_t target = Component::NO_ENTITY, std::size_t mi = 0,
 					std::size_t ma = 0, Ogre::Real cd = 0, Ogre::Real r = 0.f, int type = 0)
-		: curr_target{target}, min_dmg{mi},	max_dmg{ma}, cooldown{cd}, cd_time{0.f},
+		: curr_target{target}, min_dmg{mi},	max_dmg{ma}, cooldown{cd}, cd_time{cd},
 		  range{r}, atk_type((ATTACK_TYPE)type)
 	{ /* DUMMY BODY */ }
 	CombatComponent(const CombatComponent&) = default;
