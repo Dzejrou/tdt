@@ -258,6 +258,7 @@ struct GridNodeComponent
 /**
  * Holds data related to a grid line - ID of it's starting GridNode,
  * ID of it's ending GridNode and the distance between the two nodes.
+ * DEPRECATED - REPLACE WHEN A NEW COMPONENT IS IMPLEMENTED.
  */
 struct GridLineComponent
 {
