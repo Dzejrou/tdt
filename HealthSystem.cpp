@@ -9,7 +9,7 @@ void HealthSystem::update(Ogre::Real)
 	update_regen();
 	for(auto& ent : entities_.get_component_container<HealthComponent>())
 	{
-		if(!entities_.get_component<HealthComponent>(ent.first)->alive)
+		if(!ent.second.alive)
 		{ // Entity died.
 			entities_.destroy_entity(ent.first);
 		}
