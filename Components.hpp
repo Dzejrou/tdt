@@ -351,7 +351,8 @@ struct StructureComponent
 };
 
 /**
- *
+ * Used for projectiles that are supposed to follow a target and deal
+ * damage when they hit it.
  */
 struct HomingComponent
 {
