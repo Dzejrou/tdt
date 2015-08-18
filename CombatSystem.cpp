@@ -63,6 +63,8 @@ void CombatSystem::update(Ogre::Real delta)
 	{
 		if(ent.second.target == Component::NO_ENTITY)
 			continue; // Manually spawned.
+		else if(!entities_.exists(ent.second.target)) // Target killed.
+			entities_.destroy_entity(ent.first);
 
 		auto mov_comp = entities_.get_component<MovementComponent>(ent.first);
 		auto phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
