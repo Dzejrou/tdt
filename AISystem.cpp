@@ -9,7 +9,8 @@ void AISystem::update(Ogre::Real)
 	for(auto& ent : entities_.get_component_container<AIComponent>())
 	{
 		auto task_comp = entities_.get_component<TaskHandlerComponent>(ent.first);
-		if(task_comp && task_comp->busy)
+		if(task_comp && (task_comp->busy || !task_comp->task_queue.empty()
+						 || task_comp->curr_task != Component::NO_ENTITY))
 			continue; // TODO: Callbacks on_hit etc.
 
 		const std::string& blueprint  = ent.second.blueprint;
