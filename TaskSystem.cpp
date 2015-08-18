@@ -231,9 +231,11 @@ bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& h
 			{
 				auto source = entities_.get_component<PhysicsComponent>(comp->source);
 				auto target = entities_.get_component<PhysicsComponent>(comp->target);
+				auto path = entities_.get_component<PathfindingComponent>(comp->source);
 
 				if(source && target)
-					return source->position.x == target->position.x && source->position.z == target->position.z;
+					return source->position.x == target->position.x && source->position.z == target->position.z
+						   || (path && path->path_queue.empty());
 				else
 					return true; // Runtime deletion, should not occur in release code.
 			}
