@@ -57,15 +57,6 @@ class GridSystem : public System
 		std::size_t add_node(Ogre::Real, Ogre::Real, Ogre::Real);
 
 		/**
-		 * Brief: Creates a new grid line (edge) between two given nodes and
-		 *        returns it's ID.
-		 * Param: ID of the source node.
-		 * Param: ID of the target node.
-		 * TODO: Is this really needed? Might be better to remove this...
-		 */
-		std::size_t add_line(std::size_t, std::size_t);
-
-		/**
 		 * Brief: Generates a grid graph with the given parameters to be used for
 		 *        pathfinding.
 		 * Param: Width of the graph (in node count).

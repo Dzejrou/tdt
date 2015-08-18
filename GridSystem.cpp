@@ -42,16 +42,6 @@ std::size_t GridSystem::add_node(Ogre::Real x, Ogre::Real y, Ogre::Real z)
 	return id;
 }
 
-std::size_t GridSystem::add_line(std::size_t id1, std::size_t id2)
-{
-	auto id = entities_.create_entity();
-	auto& line_comp = entities_.add_component<GridLineComponent>(id);
-
-	line_comp.start_id = id1;
-	line_comp.end_id = id2;
-	return id;
-}
-
 void GridSystem::create_graph(std::size_t width, std::size_t height, Ogre::Real dist,
 							  Ogre::Real start_x, Ogre::Real start_y)
 {
@@ -479,37 +469,25 @@ void GridSystem::link_(std::size_t index, std::vector<GridNodeComponent*>& comps
 		return;
 
 	if(in_board_(index + 1) && (index + 1) % width_ != 0) // Right
-	{
-		add_line(index, index + 1);
 		comps[index]->neighbours[0] = index + 1;
-	}
 
 	if(in_board_(index - 1) && index % width_ != 0) // Left.
 		comps[index]->neighbours[1] = index - 1;
 
 	if(in_board_(index + width_)) // Down.
-	{
-		add_line(index, index + width_);
 		comps[index]->neighbours[2] = index + width_;
-	}
 
 	if(in_board_(index - width_)) // Up.
 		comps[index]->neighbours[3] = index - width_;
 
 	if(in_board_(index + width_ - 1) && index % width_ != 0) // Down-left.
-	{
-		add_line(index, index + width_ - 1);
 		comps[index]->neighbours[4] = index + width_ - 1;
-	}
 
 	if(in_board_(index - width_ - 1) && index % width_ != 0) // Up-left.
 		comps[index]->neighbours[5] = index - width_ - 1;
 
 	if(in_board_(index + width_ + 1) && (index + 1) % width_ != 0) // Down-right.
-	{
-		add_line(index, index + width_ + 1);
 		comps[index]->neighbours[6] = index + width_ + 1;
-	}
 
 	if(in_board_(index - width_ + 1) && (index + 1) % width_ != 0) // Up-right.
 		comps[index]->neighbours[7] = index - width_ + 1;

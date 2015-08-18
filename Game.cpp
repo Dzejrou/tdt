@@ -509,7 +509,6 @@ void Game::lua_init()
 
 		// Grid system.
 		{"add_node", Game::lua_add_node},
-		{"add_line", Game::lua_add_line},
 		{"get_node", Game::lua_get_node},
 		{"get_node_from_position", Game::lua_get_node_from_position},
 		{"create_grid_graphics", Game::lua_create_grid_graphics},
@@ -1450,17 +1449,6 @@ int Game::lua_add_node(lpp::Script::state L)
 	lua_pop(L, 3);
 
 	std::size_t res = lua_this->grid_system_->add_node(x, y, z);
-	lua_pushnumber(L, res);
-	return 1;
-}
-
-int Game::lua_add_line(lpp::Script::state L)
-{
-	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
-	lua_pop(L, 2);
-
-	std::size_t res = lua_this->grid_system_->add_line(id1, id2);
 	lua_pushnumber(L, res);
 	return 1;
 }

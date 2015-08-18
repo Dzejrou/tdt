@@ -280,7 +280,6 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 
 		// Grid system.
 		static int lua_add_node(lpp::Script::state);
-		static int lua_add_line(lpp::Script::state);
 		static int lua_get_node(lpp::Script::state);
 		static int lua_get_node_from_position(lpp::Script::state);
 		static int lua_create_grid_graphics(lpp::Script::state);
