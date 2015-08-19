@@ -222,6 +222,17 @@ struct SpellComponent
 struct ProductionComponent
 {
 	static constexpr int type = 11;
+
+	ProductionComponent()
+	{ /* DUMMY BODY */ }
+	ProductionComponent(const ProductionComponent&) = default;
+	ProductionComponent(ProductionComponent&&) = default;
+
+	std::string product_blueprint;
+	std::size_t curr_produced;
+	std::size_t max_produced;
+	Ogre::Real cooldown;
+	Ogre::Real curr_cd;
 };
 
 /**
@@ -256,21 +267,19 @@ struct GridNodeComponent
 };
 
 /**
- * Holds data related to a grid line - ID of it's starting GridNode,
- * ID of it's ending GridNode and the distance between the two nodes.
- * DEPRECATED - REPLACE WHEN A NEW COMPONENT IS IMPLEMENTED.
+ * TODO:
  */
-struct GridLineComponent
+struct ProductComponent
 {
 	static constexpr int type = 13;
 
-	GridLineComponent(std::size_t start = 0, std::size_t end = 0)
-		: start_id{start}, end_id{end}
+	ProductComponent(std::size_t prod_id = Component::NO_ENTITY)
+		: production_id{prod_id}
 	{ /* DUMMY BODY */ }
-	GridLineComponent(const GridLineComponent&) = default;
-	GridLineComponent(GridLineComponent&&) = default;
+	ProductComponent(const ProductComponent&) = default;
+	ProductComponent(ProductComponent&&) = default;
 
-	std::size_t start_id, end_id;
+	std::size_t production_id;
 };
 
 /**
