@@ -34,7 +34,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 	for(const auto& ent : entities_.get_component_list())
 	{
 		// Do not save nodes and lines!
-		if(ent.second.test(GridNodeComponent::type) || ent.second.test(GridLineComponent::type))
+		if(ent.second.test(GridNodeComponent::type))
 			continue;
 
 		entity_name = "entity_" + std::to_string(ent.first);
