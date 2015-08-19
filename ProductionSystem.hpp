@@ -13,6 +13,7 @@ class ProductionSystem : public System
 		~ProductionSystem() {}
 
 		void update(Ogre::Real) override;
+		void spawn_entity(std::size_t, const std::string&);
 	private:
 		EntitySystem& entities_;
 		GridSystem& grid_;
