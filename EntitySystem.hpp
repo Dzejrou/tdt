@@ -238,7 +238,7 @@ class EntitySystem : public System
 		std::map<std::size_t, SpellComponent> spell_;
 		std::map<std::size_t, ProductionComponent> production_;
 		std::map<std::size_t, GridNodeComponent> grid_node_;
-		std::map<std::size_t, GridLineComponent> grid_line_;
+		std::map<std::size_t, ProductComponent> product_;
 		std::map<std::size_t, PathfindingComponent> pathfinding_;
 		std::map<std::size_t, TaskComponent> task_;
 		std::map<std::size_t, TaskHandlerComponent> task_handler_;
@@ -338,9 +338,9 @@ inline std::map<std::size_t, GridNodeComponent>& EntitySystem::get_component_con
 }
 
 template<>
-inline std::map<std::size_t, GridLineComponent>& EntitySystem::get_component_container<GridLineComponent>()
+inline std::map<std::size_t, ProductComponent>& EntitySystem::get_component_container<ProductComponent>()
 {
-	return grid_line_;
+	return product_;
 }
 
 template<>
@@ -377,7 +377,7 @@ inline std::map<std::size_t, HomingComponent>& EntitySystem::get_component_conta
  * Specializations of the EntitySystem::load_component method.
  * Note: Following components can only be created manually and thus don't have load_component specialization.
  *       GridNodeComponent (created by GridSystem::add_node)
- *       GridLineComponent (created by GridSystem::add_node)
+ *       ProductComponent (production id is assigned during runtime)
  *       TaskComponent     (tasks are specified by their types and are added through the TaskSystem)
  */
 template<>
@@ -492,6 +492,13 @@ inline void EntitySystem::load_component<InputComponent>(std::size_t id, const s
 {
 	std::string handler = lpp::Script::get_singleton().get<std::string>(table_name + ".InputComponent.input_handler");
 	input_.emplace(id, InputComponent{handler});
+}
+
+template<>
+inline void EntitySystem::load_component<ProductionComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	production_.emplace(id, ProductionComponent{});
 }
 
 template<>
