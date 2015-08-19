@@ -112,12 +112,12 @@ class CombatSystem : public System
 		 */
 		bool in_sight(std::size_t, std::size_t) const;
 
-		// TODO: Getters.
 		/**
 		 * Brief: Changes the target of a given entity representing a homing
 		 *        projectile.
 		 * Param: ID of the entity.
 		 * Param: ID of the target.
+		 * TODO: Getters.
 		 */
 		void set_homing_source(std::size_t, std::size_t);
 
@@ -126,6 +126,7 @@ class CombatSystem : public System
 		 *        a homing projectile.
 		 * Param: ID of the entity.
 		 * Param: ID of the source.
+		 * TODO: Getters.
 		 */
 		void set_homing_target(std::size_t, std::size_t);
 
@@ -134,6 +135,7 @@ class CombatSystem : public System
 		 *        projectile.
 		 * Param: ID of the entity.
 		 * Param: The new damage value.
+		 * TODO: Getters.
 		 */
 		void set_homing_dmg(std::size_t, std::size_t);
 
