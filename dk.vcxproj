@@ -33,6 +33,7 @@
     <ClCompile Include="lppscript\LppScript.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
+    <ClCompile Include="ProductionSystem.cpp" />
     <ClCompile Include="SelectionBox.cpp" />
     <ClCompile Include="TaskSystem.cpp" />
   </ItemGroup>
@@ -52,6 +53,7 @@
     <ClInclude Include="InputSystem.hpp" />
     <ClInclude Include="lppscript\LppScript.hpp" />
     <ClInclude Include="MovementSystem.hpp" />
+    <ClInclude Include="ProductionSystem.hpp" />
     <ClInclude Include="SelectionBox.hpp" />
     <ClInclude Include="System.hpp" />
     <ClInclude Include="TaskSystem.hpp" />
