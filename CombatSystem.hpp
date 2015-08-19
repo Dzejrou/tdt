@@ -48,7 +48,6 @@ class CombatSystem : public System
 		HealthSystem& health_;
 		MovementSystem& movement_;
 
-		Ogre::AxisAlignedBox helper_box_;
 
 		std::random_device rd_device_;
 		std::uniform_int_distribution<std::size_t> rd_dist_;
