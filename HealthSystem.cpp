@@ -11,6 +11,16 @@ void HealthSystem::update(Ogre::Real)
 	{
 		if(!ent.second.alive)
 		{ // Entity died.
+			auto product_component = entities_.get_component<ProductComponent>(ent.first);
+			if(product_component)
+			{
+				auto production_component = entities_.get_component<ProductionComponent>(
+					product_component->production_id
+				);
+				if(production_component && production_component->curr_produced > 0)
+					--production_component->curr_produced;
+			}
+
 			entities_.destroy_entity(ent.first);
 		}
 		else if(regen_)
