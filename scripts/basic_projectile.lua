@@ -17,7 +17,8 @@ basic_projectile = {
 		manual_scaling = true,
 		scale_x = 10,
 		scale_y = 10,
-		scale_z = 10
+		scale_z = 10,
+		query_flags = game.enum.entity_type.misc
 	},
 
 	MovementComponent = {
