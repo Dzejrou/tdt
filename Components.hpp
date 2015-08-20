@@ -223,7 +223,8 @@ struct ProductionComponent
 {
 	static constexpr int type = 11;
 
-	ProductionComponent()
+	ProductionComponent(const std::string& b = "ERROR", std::size_t l = 1, Ogre::Real cd = 0.f)
+		: product_blueprint{b}, curr_produced{0}, max_produced{l}, cooldown{cd}, curr_cd{0}
 	{ /* DUMMY BODY */ }
 	ProductionComponent(const ProductionComponent&) = default;
 	ProductionComponent(ProductionComponent&&) = default;
