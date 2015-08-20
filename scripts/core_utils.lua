@@ -1,8 +1,12 @@
 -- Represents C++ enums.
 enum = {
-	entity = {
+	entity_type = {
 		none = 0,
-		ogre = 1
+		wall = 1,
+		minion = 2,
+		enemy = 4,
+		building = 8,
+		misc = 16
 	},
 	
 	component = {
@@ -18,9 +22,9 @@ enum = {
 		time = 8,
 		mana = 9,
 		spell = 10,
-		producton = 11,
+		production = 11,
 		grid_node = 12,
-		grid_line = 13,
+		product = 13,
 		pathfinding = 14,
 		task = 15,
 		task_handler = 16,
@@ -29,7 +33,7 @@ enum = {
 	},
 
 	event = {
-	
+		-- TODO:
 	},
 
 	faction = {
