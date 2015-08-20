@@ -22,6 +22,7 @@
 #include "EntityCreator.hpp"
 #include "GameSerializer.hpp"
 #include "CombatSystem.hpp"
+#include "ProductionSystem.hpp"
 #include "Enums.hpp"
 
 class Game : public Ogre::FrameListener, public OIS::KeyListener,
@@ -111,6 +112,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<GridSystem> grid_system_;
 		std::unique_ptr<TaskSystem> task_system_;
 		std::unique_ptr<CombatSystem> combat_system_;
+		std::unique_ptr<ProductionSystem> production_system_;
 
 		/**
 		 * Used to save the game.
