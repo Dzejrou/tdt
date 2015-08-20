@@ -359,8 +359,24 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 			break;
 		}
 		case StructureComponent::type:
+		{
+			auto comp = get_component<StructureComponent>(ent_id);
+			if(comp)
+			{ // Free all obstructed nodes.
+				for(auto& residence : comp->residences)
+				{
+					auto node = get_component<GridNodeComponent>(residence);
+
+					/**
+					 * TODO: The Lua call is a workaround, change systems to singletons?
+					 */
+					if(node && node->resident == ent_id)
+						lpp::Script::get_singleton().call<void, std::size_t, bool>("game.set_free", residence, true);
+				}
+			}
 			structure_.erase(ent_id);
 			break;
+		}
 		case HomingComponent::type:
 			homing_.erase(ent_id);
 			break;
