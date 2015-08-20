@@ -350,8 +350,6 @@ struct StructureComponent
 {
 	static constexpr int type = 17;
 
-	StructureComponent(std::size_t r = 1)
-		: radius{r}, residences{}
 	StructureComponent(std::size_t r = 1, bool wt = false)
 		: radius{r}, walk_through{wt}, residences{}
 	{ /* DUMMY BODY */ }
