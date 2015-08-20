@@ -34,66 +34,74 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 	auto product_graph_comp = entities_.get_component<GraphicsComponent>(id);
 	if(struct_comp && phys_comp && product_phys_comp)
 	{
-		std::size_t center_x, center_y;
-		std::tie(center_x, center_y) = grid_.get_board_coords(
-			grid_.get_node_from_position(
-				phys_comp->position.x,
-				phys_comp->position.z
-		));
+		if(struct_comp->walk_through)
+		{ // Spawn it on top of the building.
+			product_phys_comp->position.x = phys_comp->position.x;
+			product_phys_comp->position.z = phys_comp->position.z;
+		}
+		else
+		{ // Spawn it next to the building.
+			std::size_t center_x, center_y;
+			std::tie(center_x, center_y) = grid_.get_board_coords(
+				grid_.get_node_from_position(
+					phys_comp->position.x,
+					phys_comp->position.z
+			));
 
-		std::size_t top_left_node = grid_.get_node(center_x - struct_comp->radius,
-								                   center_y - struct_comp->radius);
-		std::size_t free_node = Component::NO_ENTITY;
-		for(std::size_t i = 0; i < struct_comp->radius + 1; ++i)
-		{
-			/**
-			 * This checks all edges of the building to find a free spot for
-			 * the entity to spawn on.
-			 */
-			auto node = grid_.get_node(center_x - struct_comp->radius + i,
-									   center_y - struct_comp->radius - 1);
-			if(node != Component::NO_ENTITY && grid_.is_free(node)) // Top row.
+			std::size_t top_left_node = grid_.get_node(center_x - struct_comp->radius,
+													   center_y - struct_comp->radius);
+			std::size_t free_node = Component::NO_ENTITY;
+			for(std::size_t i = 0; i < struct_comp->radius + 1; ++i)
 			{
-				free_node = node;
-				break;
+				/**
+				 * This checks all edges of the building to find a free spot for
+				 * the entity to spawn on.
+				 */
+				auto node = grid_.get_node(center_x - struct_comp->radius + i,
+										   center_y - struct_comp->radius - 1);
+				if(node != Component::NO_ENTITY && grid_.is_free(node)) // Top row.
+				{
+					free_node = node;
+					break;
+				}
+				node = grid_.get_node(center_x - struct_comp->radius - 1,
+									  center_y - struct_comp->radius + i);
+				if(node != Component::NO_ENTITY && grid_.is_free(node)) // Left row.
+				{
+					free_node = node;
+					break;
+				}
+				node = grid_.get_node(center_x - struct_comp->radius + i,
+									  center_y + struct_comp->radius + 1);
+				if(node != Component::NO_ENTITY && grid_.is_free(node)) // Botttom row.
+				{
+					free_node = node;
+					break;
+				}
+				node = grid_.get_node(center_x + struct_comp->radius + 1,
+									  center_y - struct_comp->radius + i);
+				if(grid_.is_free(node)) // Right row.
+				{
+					free_node = node;
+					break;
+				}
 			}
-			node = grid_.get_node(center_x - struct_comp->radius - 1,
-								  center_y - struct_comp->radius + i);
-			if(node != Component::NO_ENTITY && grid_.is_free(node)) // Left row.
+
+			if(free_node != Component::NO_ENTITY)
 			{
-				free_node = node;
-				break;
+				auto spawn_node_phys_comp = entities_.get_component<PhysicsComponent>(free_node);
+				if(spawn_node_phys_comp)
+				{
+					product_phys_comp->position.x = spawn_node_phys_comp->position.x;
+					product_phys_comp->position.z = spawn_node_phys_comp->position.z;
+				}
 			}
-			node = grid_.get_node(center_x - struct_comp->radius + i,
-								  center_y + struct_comp->radius + 1);
-			if(node != Component::NO_ENTITY && grid_.is_free(node)) // Botttom row.
+			else // New entity cannot be placed because the spawning structure is obstructed.
 			{
-				free_node = node;
-				break;
-			}
-			node = grid_.get_node(center_x + struct_comp->radius + 1,
-								  center_y - struct_comp->radius + i);
-			if(grid_.is_free(node)) // Right row.
-			{
-				free_node = node;
-				break;
+				entities_.destroy_entity(id);
+				return;
 			}
 		}
-
-		if(free_node != Component::NO_ENTITY)
-		{
-			auto spawn_node_phys_comp = entities_.get_component<PhysicsComponent>(free_node);
-			if(spawn_node_phys_comp)
-			{
-				product_phys_comp->position.x = spawn_node_phys_comp->position.x;
-				product_phys_comp->position.z = spawn_node_phys_comp->position.z;
-
-				if(product_graph_comp && product_graph_comp->node)
-					product_graph_comp->node->setPosition(product_phys_comp->position);
-			}
-		}
-		else // New entity cannot be placed because the spawning structure is obstructed.
-			entities_.destroy_entity(id);
 	}
 	else if(phys_comp && product_phys_comp)
 	{
@@ -101,5 +109,11 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 		product_phys_comp->position.z = phys_comp->position.z;
 	}
 	else
+	{
 		entities_.destroy_entity(id);
+		return;
+	}
+
+	if(product_graph_comp && product_graph_comp->node)
+		product_graph_comp->node->setPosition(product_phys_comp->position);
 }
