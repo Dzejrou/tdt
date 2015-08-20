@@ -352,11 +352,14 @@ struct StructureComponent
 
 	StructureComponent(std::size_t r = 1)
 		: radius{r}, residences{}
+	StructureComponent(std::size_t r = 1, bool wt = false)
+		: radius{r}, walk_through{wt}, residences{}
 	{ /* DUMMY BODY */ }
 	StructureComponent(const StructureComponent&) = default;
 	StructureComponent(StructureComponent&&) = default;
 
 	std::size_t radius;
+	bool walk_through;
 	std::vector<std::size_t> residences;
 };
 
