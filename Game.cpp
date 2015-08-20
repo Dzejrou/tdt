@@ -27,6 +27,7 @@ Game::Game() // TODO: Init systems.
 	grid_system_.reset(new GridSystem(*entity_system_, *scene_mgr_));
 	combat_system_.reset(new CombatSystem(*entity_system_, *health_system_, *scene_mgr_, *movement_system_));
 	task_system_.reset(new TaskSystem(*entity_system_, *grid_system_, *combat_system_));
+	production_system_.reset(new ProductionSystem(*entity_system_, *grid_system_));
 
 	systems_.emplace_back(entity_system_.get());
 	systems_.emplace_back(health_system_.get());
@@ -36,6 +37,7 @@ Game::Game() // TODO: Init systems.
 	systems_.emplace_back(grid_system_.get());
 	systems_.emplace_back(task_system_.get());
 	systems_.emplace_back(combat_system_.get());
+	systems_.emplace_back(production_system_.get());
 
 	selection_box_.reset(new SelectionBox{"MainSelectionBox",
 						                  *entity_system_,
