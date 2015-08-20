@@ -32,7 +32,8 @@ evil_ogre = {
 		mesh = "ogrehead.mesh",
 		material = "NO_MAT", -- Material is in mesh.
 		visible = true,
-		manual_scaling = false
+		manual_scaling = false,
+		query_flags = game.enum.entity_type.enemy
 	},
 
 	MovementComponent = {
