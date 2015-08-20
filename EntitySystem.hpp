@@ -526,8 +526,13 @@ inline void EntitySystem::load_component<TaskHandlerComponent>(std::size_t id, c
 template<>
 inline void EntitySystem::load_component<StructureComponent>(std::size_t id, const std::string& table_name)
 {
-	std::size_t radius = lpp::Script::get_singleton().get<std::size_t>(table_name + ".StructureComponent.radius");
-	structure_.emplace(id, StructureComponent{radius});
+	auto& script = lpp::Script::get_singleton();
+	std::size_t radius = script.get<std::size_t>(table_name + ".StructureComponent.radius");
+
+	bool walk_through{false};
+	if(!script.is_nil(table_name + ".StructureComponent.walk_through"))
+		walk_through = script.get<bool>(table_name + ".StructureComponent.walk_through");
+	structure_.emplace(id, StructureComponent{radius, walk_through});
 }
 
 template<>
