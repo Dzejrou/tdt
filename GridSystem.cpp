@@ -199,6 +199,8 @@ void GridSystem::set_free(std::size_t id, bool on_off)
 	if(comp)
 	{
 			comp->free = on_off;
+			if(on_off)
+				comp->resident = Component::NO_ENTITY;
 			if(graphics_loaded_)
 			{
 				auto graph_comp = entities_.get_component<GraphicsComponent>(id);
