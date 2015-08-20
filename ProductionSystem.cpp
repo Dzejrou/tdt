@@ -14,7 +14,11 @@ void ProductionSystem::update(Ogre::Real delta)
 		if(ent.second.curr_cd < ent.second.cooldown)
 			ent.second.curr_cd += delta;
 		else
+		{
 			spawn_entity(ent.first, ent.second.product_blueprint);
+			++ent.second.curr_produced;
+			ent.second.curr_cd = 0;
+		}
 	}
 }
 
