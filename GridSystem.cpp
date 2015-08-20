@@ -405,7 +405,8 @@ void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::s
 		for(std::size_t j = 0; j < radius; ++j)
 		{
 			target_node = get_node(x + i, y + j);
-			set_free(target_node, false);
+			if(!struct_comp->walk_through)
+				set_free(target_node, false);
 			set_resident(target_node, ent_id);
 			struct_comp->residences.push_back(target_node);
 		}
