@@ -498,7 +498,10 @@ template<>
 inline void EntitySystem::load_component<ProductionComponent>(std::size_t id, const std::string& table_name)
 {
 	auto& script = lpp::Script::get_singleton();
-	production_.emplace(id, ProductionComponent{});
+	std::string blueprint = script.get<std::string>(table_name + ".ProductionComponent.blueprint");
+	std::size_t limit = script.get<std::size_t>(table_name + ".ProductionComponent.limit");
+	Ogre::Real cd = script.get<Ogre::Real>(table_name + ".ProductionComponent.cooldown");
+	production_.emplace(id, ProductionComponent{blueprint, limit, cd});
 }
 
 template<>
