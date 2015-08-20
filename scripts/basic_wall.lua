@@ -23,11 +23,12 @@ basic_wall = {
 		manual_scaling = true,
 		scale_x = 50,
 		scale_y = 50,
-		scale_z = 50
+		scale_z = 50,
+		query_flags = game.enum.entity_type.wall
 	},
 
 	StructureComponent = {
-		radius = 1
+		radius = 0
 	}
 }
 
