@@ -26,7 +26,7 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 {
 	std::size_t id = entities_.create_entity(blueprint);
 	auto& prod_comp = entities_.add_component<ProductComponent>(id);
-	prod_comp.production_id = producer;
+	prod_comp.producer = producer;
 
 	auto struct_comp = entities_.get_component<StructureComponent>(producer);
 	auto phys_comp = entities_.get_component<PhysicsComponent>(producer);
