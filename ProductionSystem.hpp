@@ -47,6 +47,8 @@ class ProductionSystem : public System
 		std::size_t get_production_limit(std::size_t);
 		void set_production_cooldown(std::size_t, Ogre::Real);
 		Ogre::Real get_production_cooldown(std::size_t);
+		Ogre::Real get_production_progress(std::size_t);
+		std::size_t get_production_count(std::size_t);
 		void set_producer(std::size_t, std::size_t);
 		std::size_t get_producer(std::size_t);
 	private:
