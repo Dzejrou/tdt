@@ -43,6 +43,8 @@ class ProductionSystem : public System
 
 		void set_production_blueprint(std::size_t, const std::string&);
 		const std::string& get_production_blueprint(std::size_t);
+		void set_production_limit(std::size_t, std::size_t);
+		std::size_t get_production_limit(std::size_t);
 	private:
 		/**
 		 * Reference to the game's entity system (component retrieval).

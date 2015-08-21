@@ -125,3 +125,19 @@ const std::string& ProductionSystem::get_production_blueprint(std::size_t id)
 	else
 		return error_blueprint_;
 }
+
+void ProductionSystem::set_production_limit(std::size_t id, std::size_t limit)
+{
+	auto comp = entities_.get_component<ProductionComponent>(id);
+	if(comp)
+		comp->max_produced = limit;
+}
+
+std::size_t ProductionSystem::get_production_limit(std::size_t id)
+{
+	auto comp = entities_.get_component<ProductionComponent>(id);
+	if(comp)
+		return comp->max_produced;
+	else
+		return std::size_t{};
+}
