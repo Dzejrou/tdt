@@ -338,7 +338,9 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_get_production_limit(lpp::Script::state);
 		static int lua_set_production_cooldown(lpp::Script::state);
 		static int lua_get_production_cooldown(lpp::Script::state);
+		static int lua_set_production_progress(lpp::Script::state);
 		static int lua_get_production_progress(lpp::Script::state);
+		static int lua_set_production_count(lpp::Script::state);
 		static int lua_get_production_count(lpp::Script::state);
 		static int lua_set_producer(lpp::Script::state);
 		static int lua_get_producer(lpp::Script::state);

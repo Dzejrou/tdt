@@ -567,7 +567,9 @@ void Game::lua_init()
 		{"get_production_limit", Game::lua_get_production_limit},
 		{"set_production_cooldown", Game::lua_set_production_cooldown},
 		{"get_production_cooldown", Game::lua_get_production_cooldown},
+		{"set_production_progress", Game::lua_set_production_progress},
 		{"get_production_progress", Game::lua_get_production_progress},
+		{"set_production_count", Game::lua_set_production_count},
 		{"get_production_count", Game::lua_get_production_count},
 		{"set_producer", Game::lua_set_producer},
 		{"get_producer", Game::lua_get_producer},
@@ -1994,6 +1996,16 @@ int Game::lua_get_production_cooldown(lpp::Script::state L)
 	return 1;
 }
 
+int Game::lua_set_production_progress(lpp::Script::state L)
+{
+	Ogre::Real prog = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->production_system_->set_production_progress(id, prog);
+	return 0;
+}
+
 int Game::lua_get_production_progress(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
@@ -2002,6 +2014,16 @@ int Game::lua_get_production_progress(lpp::Script::state L)
 	auto res = lua_this->production_system_->get_production_progress(id);
 	lua_pushnumber(L, res);
 	return 1;
+}
+
+int Game::lua_set_production_count(lpp::Script::state L)
+{
+	std::size_t prog = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->production_system_->set_production_count(id, prog);
+	return 0;
 }
 
 int Game::lua_get_production_count(lpp::Script::state L)
