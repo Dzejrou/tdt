@@ -99,7 +99,7 @@ inline void GameSerializer::save_component<PhysicsComponent>(std::size_t id, con
 		+ "game.set_half_height(" + tbl_name + ", " + std::to_string(comp->half_height) + ")\n"
 	};
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
 
 template <>
@@ -115,7 +115,7 @@ inline void GameSerializer::save_component<HealthComponent>(std::size_t id, cons
 		+ "game.set_alive(" + tbl_name + ", " + (comp->alive ? "true" : "false") + ")\n"
 	};
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
 
 template <>
@@ -129,7 +129,7 @@ inline void GameSerializer::save_component<AIComponent>(std::size_t id, const st
 		+ "game.set_faction(" + tbl_name + ", " + std::to_string((int)comp->faction) + ")\n"
 	};
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
 
 template <>
@@ -153,7 +153,7 @@ inline void GameSerializer::save_component<GraphicsComponent>(std::size_t id, co
 		);
 	}
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
 
 template <>
@@ -165,7 +165,7 @@ inline void GameSerializer::save_component<MovementComponent>(std::size_t id, co
 		+ "game.set_speed(" + tbl_name + ", " + std::to_string(comp->speed_modifier) + ")\n"
 	};
 	
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
 
 template <>
@@ -180,7 +180,7 @@ inline void GameSerializer::save_component<CombatComponent>(std::size_t id, cons
 		+ "game.set_atk_type(" + tbl_name + ", " + std::to_string((int)comp->atk_type) + ")\n"
 	};
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
 
 template <>
@@ -198,7 +198,7 @@ inline void GameSerializer::save_component<InputComponent>(std::size_t id, const
 		+ "game.set_input_handler(" + tbl_name + ", '" + comp->input_handler + "')\n"
 	};
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
 
 template <>
@@ -232,7 +232,7 @@ inline void GameSerializer::save_component<ProductionComponent>(std::size_t id, 
 		+ "game.set_production_progress(" + tbl_name + ", " + std::to_string(comp->curr_cd) + ")\n"
 	};
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
 
 template<>
@@ -244,7 +244,7 @@ inline void GameSerializer::save_component<ProductComponent>(std::size_t id, con
 		+ "game.set_producer(" + tbl_name + ", " + std::to_string(comp->producer) + ")\n"
 	};
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
 
 template <>
@@ -257,7 +257,7 @@ inline void GameSerializer::save_component<PathfindingComponent>(std::size_t id,
 		// Every task that was being comp->eted when saving will be executed again with new pathfinding.
 	};
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
 
 template <>
@@ -272,7 +272,7 @@ inline void GameSerializer::save_component<TaskComponent>(std::size_t id, const 
 	};
 	task_pairs_.emplace_back(std::make_pair(comp->source, id));
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
 
 template<>
@@ -289,7 +289,7 @@ inline void GameSerializer::save_component<TaskHandlerComponent>(std::size_t id,
 			comm.append("game.add_possible_task(" + tbl_name + ", " + std::to_string(i) + ")\n");
 	}
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
 
 template<>
@@ -312,7 +312,7 @@ inline void GameSerializer::save_component<StructureComponent>(std::size_t id, c
 	}
 	comm.append(" }\ngame.add_residences(" + tbl_name + ", '" + tbl_name + "_residences')\n");
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 	save_components_.emplace_back(set_residents);
 }
 
@@ -327,5 +327,5 @@ inline void GameSerializer::save_component<HomingComponent>(std::size_t id, cons
 		+ "game.set_homing_dmg(" + tbl_name + ", " + std::to_string(comp->dmg) + ")\n"
 	};
 
-	save_components_.emplace_back(comm);
+	save_components_.emplace_back(std::move(comm));
 }
