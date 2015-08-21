@@ -109,3 +109,19 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 	if(product_graph_comp && product_graph_comp->node)
 		product_graph_comp->node->setPosition(product_phys_comp->position);
 }
+
+void ProductionSystem::set_production_blueprint(std::size_t id, const std::string& blueprint)
+{
+	auto comp = entities_.get_component<ProductionComponent>(id);
+	if(comp)
+		comp->product_blueprint = blueprint;
+}
+
+const std::string& ProductionSystem::get_production_blueprint(std::size_t id)
+{
+	auto comp = entities_.get_component<ProductionComponent>(id);
+	if(comp)
+		return comp->product_blueprint;
+	else
+		return error_blueprint_;
+}

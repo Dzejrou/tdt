@@ -40,6 +40,9 @@ class ProductionSystem : public System
 		 * Param: Name of the blueprint table of the spawned entity.
 		 */
 		void spawn_entity(std::size_t, const std::string&);
+
+		void set_production_blueprint(std::size_t, const std::string&);
+		const std::string& get_production_blueprint(std::size_t);
 	private:
 		/**
 		 * Reference to the game's entity system (component retrieval).
