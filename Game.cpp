@@ -560,6 +560,17 @@ void Game::lua_init()
 		{"closest_enemy", Game::lua_closest_enemy},
 		{"closest_friendly", Game::lua_closest_friendly},
 
+		// Production system.
+		{"set_production_blueprint", Game::lua_set_production_blueprint},
+		{"get_production_blueprint", Game::lua_get_production_blueprint},
+		{"set_production_limit", Game::lua_set_production_limit},
+		{"get_production_limit", Game::lua_get_production_limit},
+		{"set_production_cooldown", Game::lua_set_production_cooldown},
+		{"get_production_cooldown", Game::lua_get_production_cooldown},
+		{"get_production_progress", Game::lua_get_production_progress},
+		{"get_production_count", Game::lua_get_production_count},
+		{"set_producer", Game::lua_set_producer},
+		{"get_producer", Game::lua_get_producer},
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
 	};
