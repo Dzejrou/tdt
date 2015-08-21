@@ -1,7 +1,7 @@
 #include "ProductionSystem.hpp"
 
 ProductionSystem::ProductionSystem(EntitySystem& ents, GridSystem& grid)
-	: entities_{ents}, grid_{grid}
+	: entities_{ents}, grid_{grid}, error_blueprint_{"ERROR"}
 { /* DUMMY BODY */ }
 
 void ProductionSystem::update(Ogre::Real delta)

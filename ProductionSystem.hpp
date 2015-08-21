@@ -2,6 +2,8 @@
 
 #include <Ogre.h>
 
+#include <string>
+
 #include "System.hpp"
 #include "EntitySystem.hpp"
 #include "GridSystem.hpp"
@@ -48,4 +50,9 @@ class ProductionSystem : public System
 		 * Reference to the game's grid system (spawn positioning).
 		 */
 		GridSystem& grid_;
+
+		/**
+		 *
+		 */
+		std::string error_blueprint_;
 };
