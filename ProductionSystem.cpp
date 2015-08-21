@@ -157,3 +157,18 @@ Ogre::Real ProductionSystem::get_production_cooldown(std::size_t id)
 	else
 		return Ogre::Real{};
 }
+void ProductionSystem::set_producer(std::size_t id, std::size_t producer)
+{
+	auto comp = entities_.get_component<ProductComponent>(id);
+	if(comp)
+		comp->producer = producer;
+}
+
+std::size_t ProductionSystem::get_producer(std::size_t id)
+{
+	auto comp = entities_.get_component<ProductComponent>(id);
+	if(comp)
+		return comp->producer;
+	else
+		return Component::NO_ENTITY;
+}
