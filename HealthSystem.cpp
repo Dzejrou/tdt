@@ -15,7 +15,7 @@ void HealthSystem::update(Ogre::Real)
 			if(product_component)
 			{
 				auto production_component = entities_.get_component<ProductionComponent>(
-					product_component->production_id
+					product_component->producer
 				);
 				if(production_component && production_component->curr_produced > 0)
 					--production_component->curr_produced;
