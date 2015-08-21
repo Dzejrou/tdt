@@ -276,6 +276,7 @@ inline void GameSerializer::save_component<StructureComponent>(std::size_t id, c
 	auto comp = entities_.get_component<StructureComponent>(id);
 	std::string comm{
 		  "game.add_component(" + tbl_name + ", game.enum.component.structure)\n"
+		+ "game.set_walk_through(" + tbl_name + ", true)\n"
 		+ tbl_name + "_residences = { "
 	};
 	std::string set_residents{}; // This will ensure that the grid nodes will have their residents also set.
