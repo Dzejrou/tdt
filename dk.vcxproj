@@ -31,6 +31,7 @@
     <ClCompile Include="HealthSystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="lppscript\LppScript.cpp" />
+    <ClCompile Include="LuaInterface.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="ProductionSystem.cpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="HealthSystem.hpp" />
     <ClInclude Include="InputSystem.hpp" />
     <ClInclude Include="lppscript\LppScript.hpp" />
+    <ClInclude Include="LuaInterface.hpp" />
     <ClInclude Include="MovementSystem.hpp" />
     <ClInclude Include="ProductionSystem.hpp" />
     <ClInclude Include="SelectionBox.hpp" />
