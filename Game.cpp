@@ -528,6 +528,7 @@ void Game::lua_init()
 		{"add_residences", Game::lua_add_residences},
 		{"add_residence", Game::lua_add_residence},
 		{"set_radius", Game::lua_set_radius},
+		{"set_walk_through", Game::lua_set_walk_through},
 
 		// Task system.
 		{"add_task", Game::lua_add_task},
@@ -1610,6 +1611,16 @@ int Game::lua_set_radius(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	lua_this->grid_system_->set_radius(id, radius);
+	return 0;
+}
+
+int Game::lua_set_walk_through(lpp::Script::state L)
+{
+	bool on_off = lua_toboolean(L, -1) == 1;
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->grid_system_->set_walk_through(id, on_off);
 	return 0;
 }
 

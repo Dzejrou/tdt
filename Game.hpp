@@ -299,6 +299,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		static int lua_add_residences(lpp::Script::state);
 		static int lua_add_residence(lpp::Script::state);
 		static int lua_set_radius(lpp::Script::state);
+		static int lua_set_walk_through(lpp::Script::state);
 
 		// Task system.
 		static int lua_add_task(lpp::Script::state);
