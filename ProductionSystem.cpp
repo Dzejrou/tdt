@@ -158,6 +158,18 @@ Ogre::Real ProductionSystem::get_production_cooldown(std::size_t id)
 		return Ogre::Real{};
 }
 
+void ProductionSystem::set_production_progress(std::size_t id, Ogre::Real prog)
+{
+	auto comp = entities_.get_component<ProductionComponent>(id);
+	if(comp)
+	{
+		if(prog < comp->cooldown)
+			comp->curr_cd = prog;
+		else
+			comp->curr_cd = comp->cooldown;
+	}
+}
+
 Ogre::Real ProductionSystem::get_production_progress(std::size_t id)
 {
 	auto comp = entities_.get_component<ProductionComponent>(id);
@@ -165,6 +177,13 @@ Ogre::Real ProductionSystem::get_production_progress(std::size_t id)
 		return comp->curr_cd;
 	else
 		return Ogre::Real();
+}
+
+void ProductionSystem::set_production_count(std::size_t id, std::size_t count)
+{
+	auto comp = entities_.get_component<ProductionComponent>(id);
+	if(comp)
+		comp->curr_produced = count;
 }
 
 std::size_t ProductionSystem::get_production_count(std::size_t id)
