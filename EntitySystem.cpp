@@ -290,6 +290,10 @@ void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 
 void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 {
+	auto ent = entities_.find(ent_id);
+	if(ent != entities_.end())
+		ent->second.set(comp_id, false);
+
 	switch(comp_id)
 	{
 		case PhysicsComponent::type:
