@@ -1920,4 +1920,105 @@ int Game::lua_closest_friendly(lpp::Script::state L)
 	lua_pushinteger(L, res);
 	return 1;
 }
+
+int Game::lua_set_production_blueprint(lpp::Script::state L)
+{
+	std::string blueprint = luaL_checkstring(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->production_system_->set_production_blueprint(id, blueprint);
+	return 0;
+}
+
+int Game::lua_get_production_blueprint(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto& res = lua_this->production_system_->get_production_blueprint(id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int Game::lua_set_production_limit(lpp::Script::state L)
+{
+	std::size_t limit = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->production_system_->set_production_limit(id, limit);
+	return 0;
+}
+
+int Game::lua_get_production_limit(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->production_system_->get_production_limit(id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int Game::lua_set_production_cooldown(lpp::Script::state L)
+{
+	Ogre::Real cd = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->production_system_->set_production_cooldown(id, cd);
+	return 0;
+}
+
+int Game::lua_get_production_cooldown(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->production_system_->get_production_cooldown(id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int Game::lua_get_production_progress(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+	
+	auto res = lua_this->production_system_->get_production_progress(id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int Game::lua_get_production_count(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->production_system_->get_production_count(id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int Game::lua_set_producer(lpp::Script::state L)
+{
+	std::size_t producer = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->production_system_->set_producer(id, producer);
+	return 0;
+}
+
+int Game::lua_get_producer(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->production_system_->get_producer(id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
 #pragma endregion
