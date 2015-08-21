@@ -141,3 +141,19 @@ std::size_t ProductionSystem::get_production_limit(std::size_t id)
 	else
 		return std::size_t{};
 }
+
+void ProductionSystem::set_production_cooldown(std::size_t id, Ogre::Real cd)
+{
+	auto comp = entities_.get_component<ProductionComponent>(id);
+	if(comp)
+		comp->cooldown = cd;
+}
+
+Ogre::Real ProductionSystem::get_production_cooldown(std::size_t id)
+{
+	auto comp = entities_.get_component<ProductionComponent>(id);
+	if(comp)
+		return comp->cooldown;
+	else
+		return Ogre::Real{};
+}

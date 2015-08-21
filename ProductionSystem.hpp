@@ -45,6 +45,8 @@ class ProductionSystem : public System
 		const std::string& get_production_blueprint(std::size_t);
 		void set_production_limit(std::size_t, std::size_t);
 		std::size_t get_production_limit(std::size_t);
+		void set_production_cooldown(std::size_t, Ogre::Real);
+		Ogre::Real get_production_cooldown(std::size_t);
 	private:
 		/**
 		 * Reference to the game's entity system (component retrieval).
