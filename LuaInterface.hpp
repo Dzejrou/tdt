@@ -2,15 +2,31 @@
 
 #include "lppscript/LppScript.hpp"
 
+/**
+ * Forward declaration required as LuaInterface is included in Game.hpp
+ * so that the Game class can call the LuaInterface::init method.
+ */
 class Game;
 
+/**
+ * Class that creates an interface between engine (C++) and
+ * logic (Lua) code.
+ */
 class LuaInterface
 {
 	public:
+		/**
+		 * This is a static class, so all constructors are deleted.
+		 */
 		LuaInterface() = delete;
 		LuaInterface(const LuaInterface&) = delete;
 		LuaInterface(LuaInterface&&) = delete;
 
+		/**
+		 * Brief: Sets the lua_this pointer and registers all C++ API functions
+		 *        to Lua.
+		 * Param: Pointer to the game object that provides the game data to Lua.
+		 */
 		static void init(Game*);
 	private:
 		/**
