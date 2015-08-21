@@ -275,12 +275,12 @@ struct ProductComponent
 	static constexpr int type = 13;
 
 	ProductComponent(std::size_t prod_id = Component::NO_ENTITY)
-		: production_id{prod_id}
+		: producer{prod_id}
 	{ /* DUMMY BODY */ }
 	ProductComponent(const ProductComponent&) = default;
 	ProductComponent(ProductComponent&&) = default;
 
-	std::size_t production_id;
+	std::size_t producer;
 };
 
 /**
