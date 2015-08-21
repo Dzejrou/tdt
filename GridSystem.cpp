@@ -461,6 +461,13 @@ void GridSystem::set_radius(std::size_t id, std::size_t radius)
 		comp->radius = radius;
 }
 
+void GridSystem::set_walk_through(std::size_t id, bool on_off)
+{
+	auto comp = entities_.get_component<StructureComponent>(id);
+	if(comp)
+		comp->walk_through = on_off;
+}
+
 bool GridSystem::in_board_(std::size_t index) const
 {
 	return 0 <= index && index < board_.size();

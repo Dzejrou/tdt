@@ -236,6 +236,14 @@ class GridSystem : public System
 		 * Param: The new radius.
 		 */
 		void set_radius(std::size_t, std::size_t);
+
+		/**
+		 * Brief: Sets the walk through field of a structure, causing it
+		 *        to either block or allow pathfinding.
+		 * Param: ID of the structure.
+		 * Param: True for walkable, false for not walkable.
+		 */
+		void set_walk_through(std::size_t, bool);
 	private:
 		/**
 		 * Brief: Returns true if a given entity is on the board (that is, is an actual node).
