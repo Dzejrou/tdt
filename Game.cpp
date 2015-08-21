@@ -571,6 +571,8 @@ void Game::lua_init()
 		{"get_production_count", Game::lua_get_production_count},
 		{"set_producer", Game::lua_set_producer},
 		{"get_producer", Game::lua_get_producer},
+		{"instant_production", Game::lua_instant_production},
+
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
 	};
@@ -2032,4 +2034,10 @@ int Game::lua_get_producer(lpp::Script::state L)
 	return 1;
 }
 
+int Game::lua_instant_production(lpp::Script::state L)
+{
+	for(auto& ent : lua_this->entity_system_->get_component_container<ProductionComponent>())
+		ent.second.cooldown = 0;
+	return 0;
+}
 #pragma endregion
