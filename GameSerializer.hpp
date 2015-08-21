@@ -225,7 +225,7 @@ inline void GameSerializer::save_component<ProductionComponent>(std::size_t id, 
 	auto comp = entities_.get_component<ProductionComponent>(id);
 	std::string comm{
 		  "game.add_component(" + tbl_name + ", game.enum.component.production)\n"
-		+ "game.set_production_blueprint(" + tbl_name + ", " + comp->product_blueprint + ")\n"
+		+ "game.set_production_blueprint(" + tbl_name + ", '" + comp->product_blueprint + "')\n"
 		+ "game.set_production_limit(" + tbl_name + ", " + std::to_string(comp->max_produced) + ")\n"
 		+ "game.set_production_count(" + tbl_name + ", " + std::to_string(comp->curr_produced) + ")\n"
 		+ "game.set_production_cooldown(" + tbl_name + ", " + std::to_string(comp->cooldown) + ")\n"
