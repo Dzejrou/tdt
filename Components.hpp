@@ -160,20 +160,19 @@ struct CombatComponent
  * TODO:
  */
 struct EventComponent
-{ // TODO: 
+{ 
 	static constexpr int type = 6;
 
-	EventComponent()
-		: curr_event_position{0, 0, 0}, curr_event_radius{0}, curr_event_progress{},
-		  curr_event_length{}, possible_events{}
+	EventComponent(EVENT_TYPE ev = EVENT_TYPE::NONE, std::size_t t = Component::NO_ENTITY,
+				   Ogre::Real r = 0.f)
+		: event_type{ev}, target{t}, radius{r}
 	{ /* DUMMY BODY */ }
 	EventComponent(const EventComponent&) = default;
+	EventComponent(EventComponent&&) = default;
 
-	Ogre::Vector3 curr_event_position;
-	Ogre::Real curr_event_radius;
-	std::size_t curr_event_progress;
-	std::size_t curr_event_length;
-	std::bitset<32> possible_events;
+	EVENT_TYPE event_type;
+	std::size_t target;
+	Ogre::Real radius;
 };
 
 /**
