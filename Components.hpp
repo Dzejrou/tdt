@@ -12,7 +12,7 @@
 
 struct Component
 {
-	static constexpr int count = 19;
+	static constexpr int count = 20;
 	static constexpr std::size_t NO_ENTITY = std::numeric_limits<std::size_t>::max();
 };
 
@@ -392,4 +392,20 @@ struct HomingComponent
 	std::size_t source;
 	std::size_t target;
 	std::size_t dmg;
+};
+
+/**
+ *
+ */
+struct EventHandlerComponent
+{
+	static constexpr int type = 19;
+
+	EventHandlerComponent()
+	{ /* DUMMY BODY */ }
+	EventHandlerComponent(const EventHandlerComponent&) = default;
+	EventHandlerComponent(EventHandlerComponent&&) = default;
+
+	std::string handler;
+	std::bitset<(int)EVENT_TYPE::COUNT> possible_events;
 };
