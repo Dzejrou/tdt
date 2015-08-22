@@ -279,7 +279,8 @@ struct GridNodeComponent
 };
 
 /**
- * TODO:
+ * References the producer of the entity that has this component.
+ * (Producer == building/tile that spawned it.)
  */
 struct ProductComponent
 {
