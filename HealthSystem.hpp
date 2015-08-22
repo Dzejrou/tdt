@@ -41,8 +41,9 @@ class HealthSystem : public System
 		/**
 		 * Brief: Adds one to the regeneration timer, simulating continuous regeration, should
 		 *        be called once per frame before the update method.
+		 * Param: Time since the last frame.
 		 */
-		void update_regen();
+		void update_regen(Ogre::Real);
 
 		/**
 		 * Brief: Returns the current health amount of a given entity.
@@ -124,12 +125,12 @@ class HealthSystem : public System
 		/**
 		 * Amount of frames since the last regeneration tick.
 		 */
-		std::size_t regen_timer_;
+		Ogre::Real regen_timer_;
 
 		/**
 		 * Amount of frames per regeneration period.
 		 */
-		std::size_t regen_period_;
+		Ogre::Real regen_period_;
 
 		/**
 		 * True if this frame's update should renerate health.

@@ -4,9 +4,9 @@ HealthSystem::HealthSystem(EntitySystem& ent)
 	: entities_{ent}, regen_timer_{0}, regen_period_{1000} // TODO: Experiment with regen period!
 { /* DUMMY BODY */ }
 
-void HealthSystem::update(Ogre::Real)
+void HealthSystem::update(Ogre::Real delta)
 {
-	update_regen();
+	update_regen(delta);
 	for(auto& ent : entities_.get_component_container<HealthComponent>())
 	{
 		if(!ent.second.alive)
@@ -33,7 +33,7 @@ bool HealthSystem::is_valid(std::size_t id) const
 	return entities_.has_component<HealthComponent>(id);
 }
 
-void HealthSystem::update_regen()
+void HealthSystem::update_regen(Ogre::Real delta)
 {
 	if(regen_)
 	{
@@ -47,7 +47,7 @@ void HealthSystem::update_regen()
 		regen_timer_ = 0;
 	}
 	else
-		++regen_timer_;
+		regen_timer_ += delta;
 }
 
 std::size_t HealthSystem::get_health(std::size_t id) const
