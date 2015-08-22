@@ -43,3 +43,9 @@ enum class GAME_STATE
 {
 	RUNNING, ENDED, PAUSED, MENU
 };
+
+enum class TIME_EVENT
+{
+	NONE, START_EVENT, END_EVENT,
+	COUNT
+};
