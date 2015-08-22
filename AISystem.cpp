@@ -1,11 +1,17 @@
 #include "AISystem.hpp"
 
 AISystem::AISystem(EntitySystem& ent)
-	: entities_{ent}
+	: entities_{ent}, update_timer_{0.f}, update_period_{.5f}
 { /* DUMMY BODY */ }
 
-void AISystem::update(Ogre::Real)
+void AISystem::update(Ogre::Real delta)
 {
+	update_timer_ += delta;
+	if(update_timer_ > update_period_)
+		update_timer_ = 0;
+	else
+		return;
+
 	for(auto& ent : entities_.get_component_container<AIComponent>())
 	{
 		auto task_comp = entities_.get_component<TaskHandlerComponent>(ent.first);

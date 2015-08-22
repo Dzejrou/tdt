@@ -102,4 +102,10 @@ class AISystem : public System
 		 * Reference to the game's entity system.
 		 */
 		EntitySystem& entities_;
+
+		/**
+		 * Used to track the time and check if the entities should be updated.
+		 * TODO: Add as a setting to a config (along with regen timer etc).
+		 */
+		Ogre::Real update_timer_, update_period_;
 };
