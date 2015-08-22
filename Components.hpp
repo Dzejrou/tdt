@@ -197,6 +197,18 @@ struct InputComponent
 struct TimeComponent
 {
 	static constexpr int type = 8;
+
+	TimeComponent(TIME_EVENT ev = TIME_EVENT::NONE, Ogre::Real limit = 0.f,
+				  std::size_t t = Component::NO_ENTITY)
+		: curr_time{0.f}, time_limit{limit}, target{t}, event_type{ev}
+	{ /* DUMMY BODY */ }
+	TimeComponent(const TimeComponent&) = default;
+	TimeComponent(TimeComponent&&) = default;
+
+	Ogre::Real curr_time;
+	Ogre::Real time_limit;
+	std::size_t target;
+	TIME_EVENT event_type;
 };
 
 /**
