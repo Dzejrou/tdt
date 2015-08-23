@@ -51,11 +51,6 @@ void InputSystem::update(Ogre::Real delta)
 	}
 }
 
-bool InputSystem::is_valid(std::size_t id) const
-{
-	return entities_.has_component<InputComponent>(id);
-}
-
 bool InputSystem::is_first_person() const
 {
 	return first_person_;
@@ -178,11 +173,4 @@ void InputSystem::rebind(int key, int new_key)
 		default:
 			break;
 	}
-}
-
-void InputSystem::set_input_handler(std::size_t id, const std::string& handler)
-{
-	auto comp = entities_.get_component<InputComponent>(id);
-	if(comp)
-		comp->input_handler = handler;
 }
