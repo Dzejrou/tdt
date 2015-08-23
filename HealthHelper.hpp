@@ -7,6 +7,7 @@ namespace HealthHelper
 {
 	/**
 	 * Brief: Sets the health of a given entity without any regard to it's maximal health.
+	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the entity.
 	 * Param: The new health value.
 	 */
