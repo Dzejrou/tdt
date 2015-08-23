@@ -49,33 +49,6 @@ class CombatSystem : public System
 		bool in_sight(std::size_t, std::size_t) const;
 
 		/**
-		 * Brief: Changes the target of a given entity representing a homing
-		 *        projectile.
-		 * Param: ID of the entity.
-		 * Param: ID of the target.
-		 * TODO: Getters.
-		 */
-		void set_homing_source(std::size_t, std::size_t);
-
-		/**
-		 * Brief: Changes the source (the caster) of a given entity representing
-		 *        a homing projectile.
-		 * Param: ID of the entity.
-		 * Param: ID of the source.
-		 * TODO: Getters.
-		 */
-		void set_homing_target(std::size_t, std::size_t);
-
-		/**
-		 * Brief: Changes the damage of a ggiven entity representing a homing
-		 *        projectile.
-		 * Param: ID of the entity.
-		 * Param: The new damage value.
-		 * TODO: Getters.
-		 */
-		void set_homing_dmg(std::size_t, std::size_t);
-
-		/**
 		 * Brief: Returns the ID of the closest entity (from a given entity's
 		 *        position), Component::NO_ENTITY otherwise.
 		 * Param: ID of the entity from whose position the search is performed.

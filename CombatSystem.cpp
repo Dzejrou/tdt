@@ -137,27 +137,6 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 		return false;
 }
 
-void CombatSystem::set_homing_source(std::size_t id, std::size_t source)
-{
-	auto comp = entities_.get_component<HomingComponent>(id);
-	if(comp)
-		comp->source = source;
-}
-
-void CombatSystem::set_homing_target(std::size_t id, std::size_t target)
-{
-	auto comp = entities_.get_component<HomingComponent>(id);
-	if(comp)
-		comp->target = target;
-}
-
-void CombatSystem::set_homing_dmg(std::size_t id, std::size_t dmg)
-{
-	auto comp = entities_.get_component<HomingComponent>(id);
-	if(comp)
-		comp->dmg = dmg;
-}
-
 std::size_t CombatSystem::get_closest_entity(std::size_t id, bool only_sight, bool friendly) const
 {
 	auto ai_comp = entities_.get_component<AIComponent>(id);
