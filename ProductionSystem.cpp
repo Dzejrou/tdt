@@ -1,7 +1,7 @@
 #include "ProductionSystem.hpp"
 
 ProductionSystem::ProductionSystem(EntitySystem& ents, GridSystem& grid)
-	: entities_{ents}, grid_{grid}, error_blueprint_{"ERROR"}
+	: entities_{ents}, grid_{grid}
 { /* DUMMY BODY */ }
 
 void ProductionSystem::update(Ogre::Real delta)
@@ -108,105 +108,4 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 
 	if(product_graph_comp && product_graph_comp->node)
 		product_graph_comp->node->setPosition(product_phys_comp->position);
-}
-
-void ProductionSystem::set_production_blueprint(std::size_t id, const std::string& blueprint)
-{
-	auto comp = entities_.get_component<ProductionComponent>(id);
-	if(comp)
-		comp->product_blueprint = blueprint;
-}
-
-const std::string& ProductionSystem::get_production_blueprint(std::size_t id)
-{
-	auto comp = entities_.get_component<ProductionComponent>(id);
-	if(comp)
-		return comp->product_blueprint;
-	else
-		return error_blueprint_;
-}
-
-void ProductionSystem::set_production_limit(std::size_t id, std::size_t limit)
-{
-	auto comp = entities_.get_component<ProductionComponent>(id);
-	if(comp)
-		comp->max_produced = limit;
-}
-
-std::size_t ProductionSystem::get_production_limit(std::size_t id)
-{
-	auto comp = entities_.get_component<ProductionComponent>(id);
-	if(comp)
-		return comp->max_produced;
-	else
-		return std::size_t{};
-}
-
-void ProductionSystem::set_production_cooldown(std::size_t id, Ogre::Real cd)
-{
-	auto comp = entities_.get_component<ProductionComponent>(id);
-	if(comp)
-		comp->cooldown = cd;
-}
-
-Ogre::Real ProductionSystem::get_production_cooldown(std::size_t id)
-{
-	auto comp = entities_.get_component<ProductionComponent>(id);
-	if(comp)
-		return comp->cooldown;
-	else
-		return Ogre::Real{};
-}
-
-void ProductionSystem::set_production_progress(std::size_t id, Ogre::Real prog)
-{
-	auto comp = entities_.get_component<ProductionComponent>(id);
-	if(comp)
-	{
-		if(prog < comp->cooldown)
-			comp->curr_cd = prog;
-		else
-			comp->curr_cd = comp->cooldown;
-	}
-}
-
-Ogre::Real ProductionSystem::get_production_progress(std::size_t id)
-{
-	auto comp = entities_.get_component<ProductionComponent>(id);
-	if(comp)
-		return comp->curr_cd;
-	else
-		return Ogre::Real();
-}
-
-void ProductionSystem::set_production_count(std::size_t id, std::size_t count)
-{
-	auto comp = entities_.get_component<ProductionComponent>(id);
-	if(comp)
-		comp->curr_produced = count;
-}
-
-std::size_t ProductionSystem::get_production_count(std::size_t id)
-{
-	auto comp = entities_.get_component<ProductionComponent>(id);
-	if(comp)
-		return comp->curr_produced;
-	else
-		return std::size_t{};
-}
-
-void ProductionSystem::set_producer(std::size_t id, std::size_t producer)
-{
-	auto comp = entities_.get_component<ProductComponent>(id);
-	if(comp)
-		comp->producer = producer;
-}
-
-std::size_t ProductionSystem::get_producer(std::size_t id)
-{
-	auto comp = entities_.get_component<ProductComponent>(id);
-	if(comp)
-		return comp->producer;
-	else
-		return Component::NO_ENTITY;
 }
