@@ -3,6 +3,8 @@
 #include <Ogre.h>
 
 #include <tuple>
+#include <random>
+#include <numeric>
 
 #include "Components.hpp"
 #include "EntitySystem.hpp"
