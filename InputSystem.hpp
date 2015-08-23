@@ -37,13 +37,6 @@ class InputSystem : public System
 		void update(Ogre::Real);
 
 		/**
-		 * Brief: Returns true if an entity is valid and thus can be updated by this system, should be used
-		 *        to test validity before the InputSystem::update call.
-		 * Param: ID of the entity.
-		 */
-		bool is_valid(std::size_t) const;
-
-		/**
 		 * Brief: Returns true if the game is in the first person mode, returns
 		 *        false otherwise.
 		 */
@@ -63,14 +56,6 @@ class InputSystem : public System
 		 * Param: The new key.
 		 */
 		void rebind(int, int);
-
-		/**
-		 * Brief: Changes an entity's input handler.
-		 * Param: Name of the new input handler (Lua function).
-		 * Note: The handler recieves the ID of the entity and the key number when it's called, for current
-		 *       keybindings use the game.enum.input Lua table.
-		 */
-		void set_input_handler(std::size_t, const std::string&);
 	private:
 		/**
 		 * Reference to the game's entity system.
