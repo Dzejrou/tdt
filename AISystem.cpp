@@ -60,5 +60,4 @@ bool AISystem::is_inanimate(std::size_t id) const
 {
 }
 
-void AISystem::set_faction(std::size_t id, FACTION faction)
 {
