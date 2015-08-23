@@ -28,7 +28,7 @@ void MovementSystem::update(Ogre::Real delta)
 			// TODO: perform a*? Or wait and then perform a*?
 		}
 
-		auto pos_next = get_position(next);
+		auto pos_next = PhysicsHelper::get_position(entities_, next);
 		pos_next.y = phys_comp->half_height; // Ignore the Y distance.
 		if(pos_next.distance(phys_comp->position) < move_comp->speed_modifier)
 		{
@@ -36,15 +36,9 @@ void MovementSystem::update(Ogre::Real delta)
 			path_comp.last_id = next;
 			path_comp.path_queue.pop_front();
 			if(!path_comp.path_queue.empty())
-				look_at(ent.first, path_comp.path_queue.front());
+				GraphicsHelper::look_at(entities_, ent.first, path_comp.path_queue.front());
 		}
 	}
-}
-
-bool MovementSystem::is_valid(std::size_t id) const
-{
-	return entities_.has_component<PhysicsComponent>(id)
-		   && entities_.has_component<MovementComponent>(id);
 }
 
 bool MovementSystem::is_moving(std::size_t id) const
@@ -139,33 +133,6 @@ void MovementSystem::move_to(std::size_t id, Ogre::Vector3 pos)
 	}
 }
 
-void MovementSystem::rotate(std::size_t id, Ogre::Real delta)
-{
-	auto comp = entities_.get_component<GraphicsComponent>(id);
-	if(comp)
-		comp->node->rotate(Ogre::Vector3{0, 1, 0}, Ogre::Radian{delta});
-}
-
-const Ogre::AxisAlignedBox& MovementSystem::get_bounds(std::size_t id) const
-{
-	auto comp = entities_.get_component<GraphicsComponent>(id);
-	if(comp)
-		return comp->entity->getWorldBoundingBox();
-	else
-		throw std::runtime_error("[Error][MovementSystem] Trying to get bounding box of entity #"
-								 + std::to_string(id) + " which does not have GraphicsComponent.");
-}
-
-bool MovementSystem::collide(std::size_t id1, std::size_t id2) const
-{
-	auto comp1 = entities_.get_component<GraphicsComponent>(id1);
-	auto comp2 = entities_.get_component<GraphicsComponent>(id2);
-	if(comp1 && comp2) // Collision checking is done through Ogre.
-		return get_bounds(id1).intersects(get_bounds(id2));
-	else
-		return false;
-}
-
 Ogre::Real MovementSystem::get_distance(std::size_t id1, std::size_t id2) const
 {
 	auto comp1 = entities_.get_component<PhysicsComponent>(id1);
@@ -174,15 +141,6 @@ Ogre::Real MovementSystem::get_distance(std::size_t id1, std::size_t id2) const
 		return comp1->position.distance(comp2->position);
 	else
 		return std::numeric_limits<Ogre::Real>::max();
-}
-
-Ogre::Vector3 MovementSystem::get_position(std::size_t id) const
-{
-	auto comp = entities_.get_component<PhysicsComponent>(id);
-	if(comp)
-		return comp->position;
-	else
-		return Ogre::Vector3{0, 0, 0};
 }
 
 Ogre::Real MovementSystem::get_speed_modifier(std::size_t id) const
@@ -302,21 +260,6 @@ Ogre::Vector3 MovementSystem::get_dir_right(std::size_t id) const
 Ogre::Real MovementSystem::get_angle(Ogre::Vector3 v1, Ogre::Vector3 v2) const
 {
 	return v1.angleBetween(v2).valueRadians();
-}
-
-void MovementSystem::look_at(std::size_t id1, std::size_t id2)
-{
-	auto comp1 = entities_.get_component<GraphicsComponent>(id1);
-	auto comp2 = entities_.get_component<PhysicsComponent>(id2);
-	if(comp1 && comp2)
-	{
-		auto& target_pos = comp2->position;
-		comp1->node->lookAt(
-				Ogre::Vector3{target_pos.x, comp1->node->getPosition().y, target_pos.z},
-				Ogre::Node::TransformSpace::TS_WORLD,
-				Ogre::Vector3::UNIT_Z
-			);
-	}
 }
 
 void MovementSystem::set_solid(std::size_t id, bool solid)

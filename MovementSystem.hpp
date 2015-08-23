@@ -7,6 +7,8 @@
 #include "System.hpp"
 #include "EntitySystem.hpp"
 #include "Components.hpp"
+#include "PhysicsHelper.hpp"
+#include "GraphicsHelper.hpp"
 
 /**
  * System handling movement related updates and containing movement & physics related methods.
@@ -30,13 +32,6 @@ class MovementSystem : public System
 		 * Param: Time since the last frame.
 		 */
 		void update(Ogre::Real);
-
-		/**
-		 * Brief: Returns true if a given entity is valid for this system's update, false otherwise.
-		 *        (Should be tested before each update call.)
-		 * Param: ID of the entity.
-		 */
-		bool is_valid(std::size_t) const;
 
 		/**
 		 * Brief: Returns true if a given entity is moving.
@@ -75,40 +70,11 @@ class MovementSystem : public System
 		void move_to(std::size_t, Ogre::Vector3);
 
 		/**
-		 * Brief: Rotates a given entity by a given amount of radians.
-		 * Param: ID of the entity.
-		 * Param: Rotation angle in radians.
-		 * Note: Ogre3D has conversion functions.
-		 */
-		void rotate(std::size_t, Ogre::Real);
-
-		/**
-		 * Brief: Returns a given entity's bounding box.
-		 * Param: ID of th entity.
-		 * Note: The entity has to have a GraphicsComponent, because collision detection is
-		 *       done using Ogre's bounding boxes.
-		 */
-		const Ogre::AxisAlignedBox& get_bounds(std::size_t) const;
-
-		/**
-		 * Brief: Returns true if two given entities collide, false otherwise.
-		 * Param: ID of the first entity.
-		 * Param: ID of the second entity.
-		 */
-		bool collide(std::size_t, std::size_t) const;
-
-		/**
 		 * Brief: Returns the distance between two given entities.
 		 * Param: ID of the first entity.
 		 * Param: ID of the second entity.
 		 */
 		Ogre::Real get_distance(std::size_t, std::size_t) const;
-
-		/**
-		 * Brief: Returns the position of a given entity.
-		 * Param: ID of the entity.
-		 */
-		Ogre::Vector3 get_position(std::size_t) const;
 
 		/**
 		 * Brief: Returns the speed modifier of a given entity.
@@ -188,13 +154,6 @@ class MovementSystem : public System
 		 * Param: Vector #2.
 		 */
 		Ogre::Real get_angle(Ogre::Vector3, Ogre::Vector3) const;
-
-		/**
-		 * Brief: Rotates a given entity so that it faces another one.
-		 * Param: ID of the first entity.
-		 * Param: ID of the second entity.
-		 */
-		void look_at(std::size_t, std::size_t);
 
 		/**
 		 * Brief: Sets the solid state of a given entity.
