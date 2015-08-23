@@ -37,7 +37,8 @@ std::tuple<std::size_t, std::size_t> CombatHelper::get_dmg_range(EntitySystem& e
 
 std::size_t CombatHelper::get_dmg(EntitySystem& ents, std::size_t min, std::size_t max)
 {
-	return rd_dist_(rd_gen_) % max + min;
+	return std::uniform_int_distribution<std::size_t>{0, std::numeric_limits<std::size_t>::max()}(
+		   std::mt19937{std::random_device{}()}) % max + min;
 }
 
 void CombatHelper::set_cooldown(EntitySystem& ents, std::size_t id, Ogre::Real cd)
