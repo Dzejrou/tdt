@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Components.hpp"
 #include "EntitySystem.hpp"
 
 namespace AIHelper
