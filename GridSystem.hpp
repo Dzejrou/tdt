@@ -158,20 +158,6 @@ class GridSystem : public System
 		bool perform_a_star(std::size_t, std::size_t, std::size_t);
 
 		/**
-		 * Brief: Returns constant reference to the pathfinding blueprint of a given entity.
-		 *        (Which is used for the can_pass & can_break methods in lua.)
-		 * Param: ID of the entity.
-		 */
-		const std::string& get_pathpfinding_blueprint(std::size_t) const;
-
-		/**
-		 * Brief: Changes the pathfinding blueprint of a given entity.
-		 * Param: ID of the entity.
-		 * Param: Name of the new blueprint table.
-		 */
-		void set_pathfinding_blueprint(std::size_t, const std::string&);
-
-		/**
 		 * TODO: Implement this mechanic.
 		 */
 		bool can_break(std::size_t, std::size_t) const;
@@ -309,12 +295,6 @@ class GridSystem : public System
 		 * is true).
 		 */
 		bool graphics_loaded_, graph_visible_;
-
-		/**
-		 * Auxiliary string used when a blueprint wasn't found but allows to return
-		 * by a reference (returning a string literal would disallow that).
-		 */
-		std::string error_blueprint;
 
 		/**
 		 * Auxiliary vectors containing IDs of the nodes that have been

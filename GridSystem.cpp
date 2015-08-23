@@ -4,7 +4,7 @@ GridSystem::GridSystem(EntitySystem& ents, Ogre::SceneManager& scene)
 	: entities_{ents}, scene_mgr_{scene}, width_{0}, height_{0},
 	  start_{0, 0}, distance_{0}, board_{},
 	  graphics_loaded_{false}, graph_visible_{false},
-	  error_blueprint{"ERROR"}, freed_{}, unfreed_{}
+	  freed_{}, unfreed_{}
 { /* DUMMY BODY */ }
 
 void GridSystem::update(Ogre::Real)
@@ -330,22 +330,6 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t e
 	}
 
 	return success;
-}
-
-const std::string& GridSystem::get_pathpfinding_blueprint(std::size_t id) const
-{
-	auto comp = entities_.get_component<PathfindingComponent>(id);
-	if(comp)
-		return comp->blueprint;
-	else
-		return error_blueprint;
-}
-
-void GridSystem::set_pathfinding_blueprint(std::size_t id, const std::string& blueprint)
-{
-	auto comp = entities_.get_component<PathfindingComponent>(id);
-	if(comp)
-		comp->blueprint = blueprint;
 }
 
 bool GridSystem::can_break(std::size_t, std::size_t) const
