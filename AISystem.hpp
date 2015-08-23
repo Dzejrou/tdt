@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Ogre.h>
+
 #include "System.hpp"
 #include "EntitySystem.hpp"
 #include "Components.hpp"

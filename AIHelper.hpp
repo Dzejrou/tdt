@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 
