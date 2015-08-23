@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-
-#include "EntitySystem.hpp"
+class InputComponent;
+class EntitySystem;
 
 namespace InputHelper
 {

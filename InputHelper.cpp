@@ -1,4 +1,6 @@
 #include "InputHelper.hpp"
+#include "Components.hpp"
+#include "EntitySystem.hpp"
 
 void InputHelper::set_input_handler(EntitySystem& ents, std::size_t id, const std::string& handler)
 {
