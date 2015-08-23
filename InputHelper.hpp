@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-class InputComponent;
 class EntitySystem;
 
 namespace InputHelper

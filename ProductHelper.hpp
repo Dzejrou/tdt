@@ -1,6 +1,5 @@
 #pragma once
 
-class ProductComponent;
 class EntitySystem;
 
 namespace ProductHelper

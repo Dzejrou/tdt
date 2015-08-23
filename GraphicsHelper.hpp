@@ -1,6 +1,5 @@
 #pragma once
 
-class GraphicsComponent;
 class EntitySystem;
 
 namespace GraphicsHelper

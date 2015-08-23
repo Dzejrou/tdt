@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-class ProductionComponent;
 class EntitySystem;
 
 namespace ProductionHelper

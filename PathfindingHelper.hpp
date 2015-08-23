@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-class PathfindingComponent;
 class EntitySystem;
 
 namespace PathfindingHelper

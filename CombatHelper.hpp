@@ -5,7 +5,6 @@
 #include <tuple>
 #include <random>
 #include <numeric>
-class CombatComponent;
 class EntitySystem;
 
 namespace CombatHelper

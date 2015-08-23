@@ -1,6 +1,5 @@
 #pragma once
 
-class HealthComponent;
 class EntitySystem;
 
 namespace HealthHelper
