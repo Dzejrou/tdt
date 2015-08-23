@@ -69,30 +69,6 @@ std::size_t TaskSystem::create_task(std::size_t target, TASK_TYPE type)
 	return id;
 }
 
-std::deque<std::size_t> TaskSystem::get_task_queue(std::size_t id)
-{
-	auto comp = entities_.get_component<TaskHandlerComponent>(id);
-	if(comp)
-		return comp->task_queue;
-	else
-		return std::deque<std::size_t>{};
-}
-
-void TaskSystem::clear_task_queue(std::size_t id)
-{
-	auto comp = entities_.get_component<TaskHandlerComponent>(id);
-	if(comp)
-	{
-		auto& task_queue = comp->task_queue;
-		for(auto& task : task_queue)
-		{
-			if(entities_.has_component<TaskComponent>(task))
-				entities_.destroy_entity(task);
-		}
-		task_queue.clear();
-	}
-}
-
 const std::string & TaskSystem::get_task_name(TASK_TYPE type) const
 {
 	auto name = task_names_.find(type);
@@ -100,53 +76,6 @@ const std::string & TaskSystem::get_task_name(TASK_TYPE type) const
 		return name->second;
 	else
 		return task_names_.at(TASK_TYPE::NONE);
-}
-
-void TaskSystem::set_task_source(std::size_t id, std::size_t source)
-{
-	auto comp = entities_.get_component<TaskComponent>(id);
-	if(comp)
-		comp->source = source;
-}
-
-void TaskSystem::set_task_target(std::size_t id, std::size_t target)
-{
-	auto comp = entities_.get_component<TaskComponent>(id);
-	if(comp)
-		comp->target = target;
-}
-
-void TaskSystem::set_task_type(std::size_t id, TASK_TYPE type)
-{
-	auto comp = entities_.get_component<TaskComponent>(id);
-	if(comp)
-		comp->task_type = type;
-}
-
-void TaskSystem::add_possible_task(std::size_t id, TASK_TYPE type)
-{
-	auto comp = entities_.get_component<TaskHandlerComponent>(id);
-	if(comp)
-		comp->possible_tasks.set((int)type);
-}
-
-void TaskSystem::delete_possible_task(std::size_t id, TASK_TYPE type)
-{
-	auto comp = entities_.get_component<TaskHandlerComponent>(id);
-	if(comp)
-		comp->possible_tasks.set((int)type, false);
-}
-
-bool TaskSystem::task_possible(std::size_t ent_id, std::size_t task_id) const
-{
-	auto comp1 = entities_.get_component<TaskHandlerComponent>(ent_id);
-	auto comp2 = entities_.get_component<TaskComponent>(task_id);
-	if(comp1 && comp2)
-	{
-		return comp1->possible_tasks.test((int)comp2->task_type);
-	}
-	else
-		return false;
 }
 
 void TaskSystem::next_task_(TaskHandlerComponent& comp)
