@@ -8,7 +8,6 @@
 
 #include "System.hpp"
 #include "EntitySystem.hpp"
-#include "HealthSystem.hpp"
 #include "MovementSystem.hpp"
 #include "HealthHelper.hpp"
 #include "CombatHelper.hpp"
@@ -27,7 +26,7 @@ class CombatSystem : public System
 		 * Param: Reference to the main scene manager (ray casting).
 		 * Param: Reference to the movement system (model orientation when attacking).
 		 */
-		CombatSystem(EntitySystem&, HealthSystem&, Ogre::SceneManager&, MovementSystem&);
+		CombatSystem(EntitySystem&, Ogre::SceneManager&, MovementSystem&);
 
 		/**
 		 * Destructor.
@@ -99,11 +98,6 @@ class CombatSystem : public System
 		 * Reference to the game's entity system (component retrieval).
 		 */
 		EntitySystem& entities_;
-
-		/**
-		 * Reference to the game's health system (damage dealing).
-		 */
-		HealthSystem& health_;
 
 		/**
 		 * Reference to the game's movement system (model transformation).
