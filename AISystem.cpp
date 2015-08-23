@@ -63,3 +63,8 @@ Ogre::Real AISystem::get_update_period() const
 {
 	return update_period_;
 }
+
+void AISystem::force_update()
+{
+	update_timer_ = update_period_;
+}
