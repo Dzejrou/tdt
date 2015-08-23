@@ -37,13 +37,13 @@ void CombatSystem::update(Ogre::Real delta)
 			if(phys_comp && target_phys_comp &&
 			   phys_comp->position.distance(target_phys_comp->position) < ent.second.range)
 			{
-				auto dmg = get_dmg(ent.second.min_dmg, ent.second.max_dmg);
+				auto dmg = CombatHelper::get_dmg(entities_, ent.second.min_dmg, ent.second.max_dmg);
 				movement_.look_at(ent.first, ent.second.curr_target);
 				switch(ent.second.atk_type)
 				{
 					case ATTACK_TYPE::MELEE:
-						health_.sub_health(ent.second.curr_target, dmg);
-						if(health_.get_health(ent.second.curr_target) <= 0)
+						HealthHelper::sub_health(entities_, ent.second.curr_target, dmg);
+						if(HealthHelper::get_health(entities_, ent.second.curr_target) <= 0)
 						{
 							ent.second.curr_target = Component::NO_ENTITY;
 							ent.second.cd_time = ent.second.cooldown; // Allows to attack again instantly.
@@ -89,7 +89,7 @@ void CombatSystem::update(Ogre::Real delta)
 
 			if(graph_comp->entity->getWorldBoundingBox(true).intersects(enemy_graph_comp->entity->getWorldBoundingBox(true)))
 			{ // That's a hit.
-				health_.sub_health(ent.second.target, ent.second.dmg);
+				HealthHelper::sub_health(entities_, ent.second.target, ent.second.dmg);
 				entities_.destroy_entity(ent.first);
 			}
 		}
@@ -204,7 +204,7 @@ void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent&
 	auto comp = entities_.get_component<HomingComponent>(id);
 	if(comp)
 	{
-		comp->dmg = get_dmg(combat.min_dmg, combat.max_dmg);
+		comp->dmg = CombatHelper::get_dmg(entities_, combat.min_dmg, combat.max_dmg);
 		comp->source = caster;
 		comp->target = combat.curr_target;
 	}
