@@ -60,4 +60,3 @@ bool AISystem::is_inanimate(std::size_t id) const
 {
 }
 
-{
