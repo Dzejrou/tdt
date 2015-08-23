@@ -10,6 +10,8 @@
 #include "EntitySystem.hpp"
 #include "HealthSystem.hpp"
 #include "MovementSystem.hpp"
+#include "HealthHelper.hpp"
+#include "CombatHelper.hpp"
 
 /**
  * Manages auto attack melee and ranged combat, special melee and ranged attacks will be
