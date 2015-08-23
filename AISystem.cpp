@@ -24,11 +24,6 @@ void AISystem::update(Ogre::Real delta)
 	}
 }
 
-bool AISystem::is_valid(std::size_t id) const
-{
-	return entities_.has_component<AIComponent>(id);
-}
-
 bool AISystem::is_friendly(std::size_t id1, std::size_t id2) const
 {
 	auto comp1 = entities_.get_component<AIComponent>(id1);
@@ -59,50 +54,11 @@ bool AISystem::is_inanimate(std::size_t id) const
 	return !is_valid(id);
 }
 
-std::string AISystem::get_blueprint(std::size_t id) const
 {
-	auto comp = entities_.get_component<AIComponent>(id);
-	if(comp)
-		return comp->blueprint;
-	else
-		return "ERROR"; // Special blueprint defined in ogre_utils.lua
 }
 
-void AISystem::set_blueprint(std::size_t id, const std::string& blueprint)
 {
-	auto comp = entities_.get_component<AIComponent>(id);
-	if(comp)
-		comp->blueprint = blueprint;
-}
-
-ENTITY_STATE AISystem::get_state(std::size_t id) const
-{
-	auto comp = entities_.get_component<AIComponent>(id);
-	if(comp)
-		return comp->state;
-	else
-		return ENTITY_STATE::NONE;
-}
-
-void AISystem::set_state(std::size_t id, ENTITY_STATE state)
-{
-	auto comp = entities_.get_component<AIComponent>(id);
-	if(comp)
-		comp->state = state;
-}
-
-FACTION AISystem::get_faction(std::size_t id) const
-{
-	auto comp = entities_.get_component<AIComponent>(id);
-	if(comp)
-		return comp->faction;
-	else
-		return FACTION::NEUTRAL;
 }
 
 void AISystem::set_faction(std::size_t id, FACTION faction)
 {
-	auto comp = entities_.get_component<AIComponent>(id);
-	if(comp)
-		comp->faction = faction;
-}
