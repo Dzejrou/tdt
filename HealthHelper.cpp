@@ -24,12 +24,7 @@ void HealthHelper::add_health(EntitySystem& ents, std::size_t id, std::size_t va
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
-	{
-		if(comp->curr_hp + val >= comp->max_hp)
-			comp->curr_hp = comp->max_hp;
-		else
-			comp->curr_hp += val;
-	}
+		comp->curr_hp = (comp->curr_hp + val >= comp->max_hp ? comp->max_hp : comp->curr_hp + val);
 }
 
 void HealthHelper::sub_health(EntitySystem& ents, std::size_t id, std::size_t val, bool ignore_armor)
@@ -37,6 +32,9 @@ void HealthHelper::sub_health(EntitySystem& ents, std::size_t id, std::size_t va
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
 	{
+		if(!ignore_armor)
+			val = (comp->defense < val ? val - comp->defense : 0);
+
 		if(comp->curr_hp <= val)
 		{
 			comp->curr_hp = 0;
