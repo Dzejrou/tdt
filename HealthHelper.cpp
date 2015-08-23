@@ -1,4 +1,6 @@
 #include "HealthHelper.hpp"
+#include "Components.hpp"
+#include "EntitySystem.hpp"
 
 void HealthHelper::set_health(EntitySystem& ents, std::size_t id, std::size_t val)
 {
