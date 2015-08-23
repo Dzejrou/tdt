@@ -35,17 +35,20 @@ class AISystem : public System
 		 * Param: ID of the first entity.
 		 * Param: ID of the second entity.
 		 */
+		bool is_friendly(std::size_t, std::size_t) const; // TODO: In Lua.
 
 		/**
 		 * Brief: Returns true if a given entity is neutral, returns false otherwise.
 		 * Param: ID of the entity.
 		 */
+		bool is_neutral(std::size_t) const; // TODO: In Lua.
 
 		/**
 		 * Brief: Returns true if a given entity is inanimate (i.e. does not have an AIComponent),
 		 *        false otherwise.
 		 * Param: ID of the entity.
 		 */
+		bool is_inanimate(std::size_t) const; // TODO: In Lua.
 
 		/**
 		 */
