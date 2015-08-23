@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Components.hpp"
-#include "EntitySystem.hpp"
+class HealthComponent;
+class EntitySystem;
 
 namespace HealthHelper
 {

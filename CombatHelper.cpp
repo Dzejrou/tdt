@@ -1,4 +1,6 @@
 #include "CombatHelper.hpp"
+#include "Components.hpp"
+#include "EntitySystem.hpp"
 
 void CombatHelper::set_range(EntitySystem& ents, std::size_t id, Ogre::Real range)
 {
