@@ -51,9 +51,17 @@ class AISystem : public System
 		bool is_inanimate(std::size_t) const; // TODO: In Lua.
 
 		/**
+		 * Brief: Sets the amount of seconds it takes before the next AI
+		 *        update will be performed.
+		 * Param: Update period time (in seconds).
 		 */
+		void set_update_period(Ogre::Real);
+		
 		/**
+		 * Brief: Returns the amount of seconds it takes before the next AI
+		 *        update will be performed.
 		 */
+		Ogre::Real get_update_period() const;
 
 		/**
 		 */
