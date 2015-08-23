@@ -17,22 +17,22 @@ void InputSystem::update(Ogre::Real delta)
 		auto& in_comp = *entities_.get_component<InputComponent>(first_person_id_);
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_UP))
 		{
-			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_UP);
+			script.call<void, std::size_t, int>(in_comp.input_handler + "handle", first_person_id_, KEY_UP);
 			moved = true;
 		}
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_DOWN))
 		{
-			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_DOWN);
+			script.call<void, std::size_t, int>(in_comp.input_handler + "handle", first_person_id_, KEY_DOWN);
 			moved = true;
 		}
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_LEFT))
 		{
-			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_LEFT);
+			script.call<void, std::size_t, int>(in_comp.input_handler + "handle", first_person_id_, KEY_LEFT);
 			rotated = true;
 		}
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_RIGHT))
 		{
-			script.call<void, std::size_t, int>(in_comp.input_handler, first_person_id_, KEY_RIGHT);
+			script.call<void, std::size_t, int>(in_comp.input_handler + "handle", first_person_id_, KEY_RIGHT);
 			rotated = true;
 		}
 
