@@ -1,4 +1,7 @@
 #include "AIHelper.hpp"
+#include "Components.hpp"
+#include "EntitySystem.hpp"
+
 
 void AIHelper::set_blueprint(EntitySystem& ents, std::size_t id, const std::string& val)
 {
