@@ -2,9 +2,7 @@
 
 #include <Ogre.h>
 
-#include <random>
 #include <tuple>
-#include <numeric>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"
