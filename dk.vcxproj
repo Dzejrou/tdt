@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AIHelper.cpp" />
     <ClCompile Include="AISystem.cpp" />
+    <ClCompile Include="CombatHelper.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="EntityCreator.cpp" />
@@ -27,19 +29,31 @@
     <ClCompile Include="EntitySystem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameSerializer.cpp" />
+    <ClCompile Include="GraphicsHelper.cpp" />
     <ClCompile Include="GridSystem.cpp" />
+    <ClCompile Include="HealthHelper.cpp" />
     <ClCompile Include="HealthSystem.cpp" />
+    <ClCompile Include="HomingHelper.cpp" />
+    <ClCompile Include="InputHelper.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="lppscript\LppScript.cpp" />
     <ClCompile Include="LuaInterface.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
+    <ClCompile Include="PathfindingHelper.cpp" />
+    <ClCompile Include="PhysicsHelper.cpp" />
+    <ClCompile Include="ProductHelper.cpp" />
+    <ClCompile Include="ProductionHelper.cpp" />
     <ClCompile Include="ProductionSystem.cpp" />
     <ClCompile Include="SelectionBox.cpp" />
+    <ClCompile Include="TaskHandlerHelper.cpp" />
+    <ClCompile Include="TaskHelper.cpp" />
     <ClCompile Include="TaskSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIHelper.hpp" />
     <ClInclude Include="AISystem.hpp" />
+    <ClInclude Include="CombatHelper.hpp" />
     <ClInclude Include="CombatSystem.hpp" />
     <ClInclude Include="Components.hpp" />
     <ClInclude Include="Console.hpp" />
@@ -49,15 +63,25 @@
     <ClInclude Include="Enums.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameSerializer.hpp" />
+    <ClInclude Include="GraphicsHelper.hpp" />
     <ClInclude Include="GridSystem.hpp" />
+    <ClInclude Include="HealthHelper.hpp" />
     <ClInclude Include="HealthSystem.hpp" />
+    <ClInclude Include="HomingHelper.hpp" />
+    <ClInclude Include="InputHelper.hpp" />
     <ClInclude Include="InputSystem.hpp" />
     <ClInclude Include="lppscript\LppScript.hpp" />
     <ClInclude Include="LuaInterface.hpp" />
     <ClInclude Include="MovementSystem.hpp" />
+    <ClInclude Include="PathfindingHelper.hpp" />
+    <ClInclude Include="PhysicsHelper.hpp" />
+    <ClInclude Include="ProductHelper.hpp" />
+    <ClInclude Include="ProductionHelper.hpp" />
     <ClInclude Include="ProductionSystem.hpp" />
     <ClInclude Include="SelectionBox.hpp" />
     <ClInclude Include="System.hpp" />
+    <ClInclude Include="TaskHandlerHelper.hpp" />
+    <ClInclude Include="TaskHelper.hpp" />
     <ClInclude Include="TaskSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
