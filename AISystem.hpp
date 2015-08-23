@@ -64,7 +64,10 @@ class AISystem : public System
 		Ogre::Real get_update_period() const;
 
 		/**
+		 * Brief: Sets the update timer equal to the period and thus forcing
+		 *        all entities' AI to be updated on next AISystem::update call.
 		 */
+		void force_update();
 	private:
 		/**
 		 * Reference to the game's entity system.
