@@ -3,7 +3,6 @@
 CombatSystem::CombatSystem(EntitySystem& ents, Ogre::SceneManager& scene,
 						   MovementSystem& movement)
 	: entities_{ents}, movement_{movement},
-	  rd_device_{}, rd_gen_{rd_device_()}, rd_dist_{0, std::numeric_limits<std::size_t>::max()},
 	  ray_query_{*scene.createRayQuery(Ogre::Ray{})}
 {
 	ray_query_.setSortByDistance(true);

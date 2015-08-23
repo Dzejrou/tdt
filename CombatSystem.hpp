@@ -105,14 +105,6 @@ class CombatSystem : public System
 		MovementSystem& movement_;
 
 		/**
-		 * Set of tools from the c++11 stdlib used to calculate
-		 * pseudo random numbers.
-		 */
-		std::random_device rd_device_;
-		std::uniform_int_distribution<std::size_t> rd_dist_;
-		std::mt19937 rd_gen_;
-
-		/**
 		 * Reference to the ray cast used to check if two entities can see each other.
 		 */
 		Ogre::RaySceneQuery& ray_query_;
