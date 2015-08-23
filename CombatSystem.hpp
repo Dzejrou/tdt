@@ -39,69 +39,6 @@ class CombatSystem : public System
 		void update(Ogre::Real) override;
 
 		/**
-		 * Brief: Changes the attack range of a given entity.
-		 * Param: ID of the entity.
-		 * Param: The new attack range.
-		 */
-		void set_range(std::size_t, Ogre::Real);
-
-		/**
-		 * Brief: Returns the attack range of a given entity.
-		 * Param: ID of the entity.
-		 */
-		Ogre::Real get_range(std::size_t) const;
-
-		/**
-		 * Brief: Changes the damage range (min damage, max damage) that a given
-		 *        entity can deal when attacking.
-		 * Param: ID of the entity.
-		 * Param: Minimal damage value.
-		 * Param: Maximal damage value.
-		 */
-		void set_dmg_range(std::size_t, std::size_t, std::size_t);
-
-		/**
-		 * Brief: Returns the damage range (in the form of a 2-member tuple) of
-		 *        a given entity.
-		 * Param: ID of the entity.
-		 */
-		std::tuple<std::size_t, std::size_t> get_dmg_range(std::size_t) const;
-
-		/**
-		 * Brief: Returns a pseudo random damage value between given two numbers,
-		 *        used to calculate the damage of each individual attack.
-		 * Param: Minimal damage value.
-		 * Param: Maximal damage value.
-		 */
-		std::size_t get_dmg(std::size_t, std::size_t);
-
-		/**
-		 * Brief: Changes the cooldown (minimal time between attacks) of a given entity.
-		 * Param: ID of the entity.
-		 * Param: The new cooldown value.
-		 */
-		void set_cooldown(std::size_t, Ogre::Real);
-
-		/**
-		 * Brief: Returns the cooldown (minimal time between attacks) of a given entity.
-		 * Param: ID of the entity.
-		 */
-		Ogre::Real get_cooldown(std::size_t) const;
-
-		/**
-		 * Brief: Changes the attack type of a given entity.
-		 * Param: ID of the entity.
-		 * Param: The new attack type.
-		 */
-		void set_atk_type(std::size_t, ATTACK_TYPE);
-
-		/**
-		 * Brief: Returns the attack type of a given entity.
-		 * Param: ID of the entity.
-		 */
-		ATTACK_TYPE get_atk_type(std::size_t) const;
-
-		/**
 		 * Brief: Returns true if two given entities can see each other,
 		 *        false otherwise.
 		 * Param: ID of the first entity.
