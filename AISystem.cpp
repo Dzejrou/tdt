@@ -54,9 +54,12 @@ bool AISystem::is_inanimate(std::size_t id) const
 	return !is_valid(id);
 }
 
+void AISystem::set_update_period(Ogre::Real val)
 {
+	return update_period_;
 }
 
+Ogre::Real AISystem::get_update_period() const
 {
+	return update_period_;
 }
-
