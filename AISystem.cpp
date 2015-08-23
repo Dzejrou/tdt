@@ -56,7 +56,7 @@ bool AISystem::is_inanimate(std::size_t id) const
 
 void AISystem::set_update_period(Ogre::Real val)
 {
-	return update_period_;
+	update_period_ = val;
 }
 
 Ogre::Real AISystem::get_update_period() const
