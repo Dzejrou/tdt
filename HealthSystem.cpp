@@ -45,8 +45,12 @@ void HealthSystem::update_regen(Ogre::Real delta)
 		regen_timer_ += delta;
 }
 
+void HealthSystem::set_regen_period(Ogre::Real val)
 {
+	regen_period_ = val;
 }
 
+Ogre::Real HealthSystem::get_regen_period() const
 {
+	return regen_period_;
 }

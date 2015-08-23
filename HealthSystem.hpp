@@ -44,9 +44,13 @@ class HealthSystem : public System
 		 *        tick to happen (in seconds).
 		 * Param: The new regen period.
 		 */
+		void set_regen_period(Ogre::Real);
 
 		/**
+		 * Brief: Returns the amount of time it takes for one regeneration
+		 *        tick to happen (in seconds).
 		 */
+		Ogre::Real get_regen_period() const;
 	public:
 		/**
 		 * Reference to the game's entity system.
