@@ -44,7 +44,8 @@ void GraphicsHelper::set_visible(EntitySystem& ents, std::size_t id, bool val)
 	if(comp)
 	{
 		comp->visible = val;
-		comp->node->setVisible(val);
+		if(comp->node)
+			comp->node->setVisible(val);
 	}
 }
 
