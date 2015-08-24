@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Components.hpp"
-#include "EntitySystem.hpp"
+class EntitySystem;
 
 namespace HomingHelper
 {

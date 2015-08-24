@@ -1,4 +1,6 @@
 #include "HomingHelper.hpp"
+#include "Components.hpp"
+#include "EntitySystem.hpp"
 
 void HomingHelper::set_source(EntitySystem& ents, std::size_t id, std::size_t source)
 {
