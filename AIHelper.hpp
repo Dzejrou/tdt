@@ -2,6 +2,7 @@
 
 #include <string>
 #include <cstdlib>
+#include "Enums.hpp"
 class EntitySystem;
 
 namespace AIHelper
