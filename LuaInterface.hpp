@@ -1,7 +1,11 @@
 #pragma once
 
+#include <Ogre.h>
+#include <cstdlib>
+
 #include "lppscript/LppScript.hpp"
 #include "Helpers.hpp"
+#include "EntitySystem.hpp"
 
 /**
  * Forward declaration required as LuaInterface is included in Game.hpp
@@ -35,6 +39,7 @@ class LuaInterface
 		 * (because it doesn't know anything about C++).
 		 */
 		static Game* lua_this;
+		static EntitySystem* ents;
 
 		// Core functions.
 		static int lua_get_avg_fps(lpp::Script::state);
@@ -52,7 +57,7 @@ class LuaInterface
 		static int lua_save_game(lpp::Script::state);
 		static int lua_load_game(lpp::Script::state);
 
-		// Ogre related functions. TODO: Create a special system for this!
+		// Graphics.
 		static int lua_set_mesh(lpp::Script::state);
 		static int lua_set_material(lpp::Script::state);
 		static int lua_set_visible(lpp::Script::state);
@@ -69,11 +74,10 @@ class LuaInterface
 		static int lua_place_entity(lpp::Script::state);
 		static int lua_register_entity(lpp::Script::state);
 
-		// Movement system.
+		// Movement and physics.
 		static int lua_move_to(lpp::Script::state);
 		static int lua_move(lpp::Script::state);
 		static int lua_rotate(lpp::Script::state);
-		static int lua_is_moving(lpp::Script::state);
 		static int lua_is_solid(lpp::Script::state);
 		static int lua_can_move_to(lpp::Script::state);
 		static int lua_collide(lpp::Script::state);
@@ -81,10 +85,7 @@ class LuaInterface
 		static int lua_get_position(lpp::Script::state);
 		static int lua_get_speed_modifier(lpp::Script::state);
 		static int lua_set_speed_modifier(lpp::Script::state);
-		static int lua_enemy_in_radius(lpp::Script::state);
-		static int lua_dir_to_closest_enemy(lpp::Script::state);
-		static int lua_dir_to_closest_enemy_in_radius(lpp::Script::state);
-		static int lua_dir_to_enemy(lpp::Script::state);
+		static int lua_dir_to(lpp::Script::state);
 		static int lua_get_dir(lpp::Script::state);
 		static int lua_get_dir_back(lpp::Script::state);
 		static int lua_get_dir_left(lpp::Script::state);
@@ -108,9 +109,6 @@ class LuaInterface
 		static int lua_set_alive(lpp::Script::state);
 
 		// AI system.
-		static int lua_is_friendly(lpp::Script::state);
-		static int lua_is_neutral(lpp::Script::state);
-		static int lua_is_inanimate(lpp::Script::state);
 		static int lua_get_blueprint(lpp::Script::state);
 		static int lua_get_state(lpp::Script::state);
 		static int lua_get_faction(lpp::Script::state);

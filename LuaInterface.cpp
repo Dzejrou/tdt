@@ -6,10 +6,12 @@
  * init method.
  */
 Game* LuaInterface::lua_this = nullptr;
+EntitySystem* LuaInterface::ents = nullptr;
 
 void LuaInterface::init(Game* game)
 {
 	lua_this = game;
+	ents = game->entity_system_.get();
 
 	// Register all functions that will be used in Lua.
 	lpp::Script& script = lpp::Script::get_singleton();
@@ -51,7 +53,6 @@ void LuaInterface::init(Game* game)
 		{"move_to", LuaInterface::lua_move_to},
 		{"move", LuaInterface::lua_move},
 		{"rotate", LuaInterface::lua_rotate},
-		{"is_moving", LuaInterface::lua_is_moving},
 		{"is_solid", LuaInterface::lua_is_solid},
 		{"can_move_to", LuaInterface::lua_can_move_to},
 		{"collide", LuaInterface::lua_collide},
@@ -59,10 +60,6 @@ void LuaInterface::init(Game* game)
 		{"get_position", LuaInterface::lua_get_position},
 		{"get_speed", LuaInterface::lua_get_speed_modifier},
 		{"set_speed", LuaInterface::lua_set_speed_modifier},
-		{"enemy_in_radius", LuaInterface::lua_enemy_in_radius},
-		{"dir_to_closest_enemy", LuaInterface::lua_dir_to_closest_enemy},
-		{"dir_to_closest_enemy_in_radius", LuaInterface::lua_dir_to_closest_enemy_in_radius},
-		{"dir_to_enemy", LuaInterface::lua_dir_to_enemy},
 		{"get_dir", LuaInterface::lua_get_dir},
 		{"get_dir_back", LuaInterface::lua_get_dir_back},
 		{"get_dir_left", LuaInterface::lua_get_dir_left},
@@ -86,9 +83,6 @@ void LuaInterface::init(Game* game)
 		{"set_alive", LuaInterface::lua_set_alive},
 
 		// AI system.
-		{"is_friendly", LuaInterface::lua_is_friendly},
-		{"is_neutral", LuaInterface::lua_is_neutral},
-		{"is_inanimate", LuaInterface::lua_is_inanimate},
 		{"get_blueprint", LuaInterface::lua_get_blueprint},
 		{"get_state", LuaInterface::lua_get_state},
 		{"get_faction", LuaInterface::lua_get_faction},
@@ -334,9 +328,7 @@ int LuaInterface::lua_set_mesh(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	auto comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
-	if(comp)
-		comp->mesh = mesh;
+	GraphicsHelper::set_mesh(*ents, id, mesh);
 	return 0;
 }
 
@@ -346,9 +338,7 @@ int LuaInterface::lua_set_material(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	auto comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
-	if(comp)
-		comp->material = mat;
+	GraphicsHelper::set_material(*ents, id, mat);
 	return 0;
 }
 
@@ -358,9 +348,7 @@ int LuaInterface::lua_set_visible(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	auto comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
-	if(comp)
-		comp->node->setVisible(vis);
+	GraphicsHelper::set_visible(*ents, id, vis);
 	return 0;
 }
 
@@ -370,9 +358,7 @@ int LuaInterface::lua_set_manual_scaling(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	auto comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
-	if(comp)
-		comp->manual_scaling = on_off;
+	GraphicsHelper::set_manual_scaling(*ents, id, on_off);
 	return 0;
 }
 
@@ -384,6 +370,8 @@ int LuaInterface::lua_set_scale(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
 	lua_pop(L, 4);
 
+	GraphicsHelper::set_scale(*ents, id, Ogre::Vector3{x, y, z});
+	/** TODO: Move this to the init_graphics_component and move that to GraphicsHelper.
 	auto comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
 	if(comp)
 	{
@@ -399,6 +387,7 @@ int LuaInterface::lua_set_scale(lpp::Script::state L)
 		if(phys_comp)
 			phys_comp->half_height = comp->entity->getWorldBoundingBox(true).getHalfSize().y;
 	}
+	*/
 	return 0;
 }
 
@@ -495,7 +484,7 @@ int LuaInterface::lua_move_to(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
 	lua_pop(L, 4);
 
-	lua_this->movement_system_->move_to(id, Ogre::Vector3{x, y, z});
+	PhysicsHelper::move_to(*ents, id, Ogre::Vector3{x, y, z});
 	return 0;
 }
 
@@ -518,18 +507,8 @@ int LuaInterface::lua_rotate(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->movement_system_->rotate(id, delta);
+	GraphicsHelper::rotate(*ents, id, delta);
 	return 0;
-}
-
-int LuaInterface::lua_is_moving(lpp::Script::state L)
-{
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
-	lua_pop(L, 1);
-
-	bool res = lua_this->movement_system_->is_moving(id);
-	lua_pushboolean(L, res);
-	return 1;
 }
 
 int LuaInterface::lua_is_solid(lpp::Script::state L)
@@ -537,7 +516,7 @@ int LuaInterface::lua_is_solid(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	bool res = lua_this->movement_system_->is_solid(id);
+	bool res = PhysicsHelper::is_solid(*ents, id);
 	lua_pushboolean(L, res);
 	return 1;
 }
@@ -561,7 +540,7 @@ int LuaInterface::lua_collide(lpp::Script::state L)
 	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	bool res = lua_this->movement_system_->collide(id1, id2);
+	bool res = GraphicsHelper::collide(*ents, id1, id2);
 	lua_pushboolean(L, res);
 	return 1;
 }
@@ -572,7 +551,7 @@ int LuaInterface::lua_get_distance(lpp::Script::state L)
 	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	Ogre::Real res = lua_this->movement_system_->get_distance(id1, id2);
+	Ogre::Real res = PhysicsHelper::get_distance(*ents, id1, id2);
 	lua_pushnumber(L, res);
 	return 1;
 }
@@ -582,7 +561,7 @@ int LuaInterface::lua_get_position(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	Ogre::Vector3 res = lua_this->movement_system_->get_position(id);
+	Ogre::Vector3 res = PhysicsHelper::get_position(*ents, id);
 	lua_pushnumber(L, res.x);
 	lua_pushnumber(L, res.y);
 	lua_pushnumber(L, res.z);
@@ -594,7 +573,7 @@ int LuaInterface::lua_get_speed_modifier(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	Ogre::Real res = lua_this->movement_system_->get_speed_modifier(id);
+	Ogre::Real res = MovementHelper::get_speed_modifier(*ents, id);
 	lua_pushnumber(L, res);
 	return 1;
 }
@@ -605,53 +584,17 @@ int LuaInterface::lua_set_speed_modifier(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->movement_system_->set_speed_modifier(id, speed);
+	MovementHelper::set_speed_modifier(*ents, id, speed);
 	return 0;
 }
 
-int LuaInterface::lua_enemy_in_radius(lpp::Script::state L)
-{
-	Ogre::Real radius = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
-	lua_pop(L, 2);
-
-	std::size_t res = lua_this->movement_system_->enemy_in_radius(id, radius);
-	lua_pushinteger(L, res);
-	return 1;
-}
-
-int LuaInterface::lua_dir_to_closest_enemy(lpp::Script::state L)
-{
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
-	lua_pop(L, 1);
-
-	auto res = lua_this->movement_system_->dir_to_closest_enemy(id);
-	lua_pushnumber(L, res.x);
-	lua_pushnumber(L, res.y);
-	lua_pushnumber(L, res.z);
-	return 3;
-}
-
-int LuaInterface::lua_dir_to_closest_enemy_in_radius(lpp::Script::state L)
-{
-	Ogre::Real radius = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
-	lua_pop(L, 2);
-
-	auto res = lua_this->movement_system_->dir_to_closest_enemy(id, radius);
-	lua_pushnumber(L, res.x);
-	lua_pushnumber(L, res.y);
-	lua_pushnumber(L, res.z);
-	return 3;
-}
-
-int LuaInterface::lua_dir_to_enemy(lpp::Script::state L)
+int LuaInterface::lua_dir_to(lpp::Script::state L)
 {
 	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
 	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	auto res = lua_this->movement_system_->dir_to_enemy(id1, id2);
+	auto res = MovementHelper::dir_to(*ents, id1, id2);
 	lua_pushnumber(L, res.x);
 	lua_pushnumber(L, res.y);
 	lua_pushnumber(L, res.z);
@@ -663,7 +606,7 @@ int LuaInterface::lua_get_dir(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = lua_this->movement_system_->get_dir(id);
+	auto res = MovementHelper::get_dir(*ents, id);
 	lua_pushnumber(L, res.x);
 	lua_pushnumber(L, res.y);
 	lua_pushnumber(L, res.z);
@@ -675,7 +618,7 @@ int LuaInterface::lua_get_dir_back(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = lua_this->movement_system_->get_dir_back(id);
+	auto res = MovementHelper::get_dir_back(*ents, id);
 	lua_pushnumber(L, res.x);
 	lua_pushnumber(L, res.y);
 	lua_pushnumber(L, res.z);
@@ -687,7 +630,7 @@ int LuaInterface::lua_get_dir_left(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = lua_this->movement_system_->get_dir_left(id);
+	auto res = MovementHelper::get_dir_left(*ents, id);
 	lua_pushnumber(L, res.x);
 	lua_pushnumber(L, res.y);
 	lua_pushnumber(L, res.z);
@@ -699,7 +642,7 @@ int LuaInterface::lua_get_dir_right(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = lua_this->movement_system_->get_dir_right(id);
+	auto res = MovementHelper::get_dir_right(*ents, id);
 	lua_pushnumber(L, res.x);
 	lua_pushnumber(L, res.y);
 	lua_pushnumber(L, res.z);
@@ -714,8 +657,8 @@ int LuaInterface::lua_get_angle(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
 	lua_pop(L, 4);
 
-	auto dir = lua_this->movement_system_->get_dir(id);
-	auto res = lua_this->movement_system_->get_angle(dir, Ogre::Vector3{x, y, z});
+	auto dir = MovementHelper::get_dir(*ents, id);
+	auto res = PhysicsHelper::get_angle(dir, Ogre::Vector3{x, y, z});
 	lua_pushnumber(L, res);
 	return 1;
 }
@@ -730,7 +673,7 @@ int LuaInterface::lua_get_angle_between(lpp::Script::state L)
 	Ogre::Real x1 = (Ogre::Real)luaL_checknumber(L, -6);
 	lua_pop(L, 6);
 
-	auto res = lua_this->movement_system_->get_angle(Ogre::Vector3{x1, y1, z1}, Ogre::Vector3{x2, y2, z2});
+	auto res = PhysicsHelper::get_angle(Ogre::Vector3{x1, y1, z1}, Ogre::Vector3{x2, y2, z2});
 	lua_pushnumber(L, res);
 	return 3;
 }
@@ -741,7 +684,7 @@ int LuaInterface::lua_look_at(lpp::Script::state L)
 	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->movement_system_->look_at(id1, id2);
+	GraphicsHelper::look_at(*ents, id1, id2);
 	return 0;
 }
 
@@ -751,7 +694,7 @@ int LuaInterface::lua_set_solid(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->movement_system_->set_solid(id, solid);
+	PhysicsHelper::set_solid(*ents, id, solid);
 	return 0;
 }
 
@@ -760,8 +703,8 @@ int LuaInterface::lua_set_half_height(lpp::Script::state L)
 	Ogre::Real hh = (Ogre::Real)luaL_checknumber(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
-
-	lua_this->movement_system_->set_half_height(id, hh);
+	
+	PhysicsHelper::set_half_height(*ents, id, hh);
 	return 0;
 }
 
@@ -770,7 +713,7 @@ int LuaInterface::lua_get_health(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	std::size_t res = lua_this->health_system_->get_health(id);
+	std::size_t res = HealthHelper::get_health(*ents, id);
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -781,7 +724,7 @@ int LuaInterface::lua_add_health(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->health_system_->add_health(id, val);
+	HealthHelper::add_health(*ents, id, val);
 	return 0;
 }
 
@@ -791,7 +734,7 @@ int LuaInterface::lua_sub_health(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->health_system_->sub_health(id, val);
+	HealthHelper::sub_health(*ents, id, val);
 	return 0;
 }
 
@@ -800,7 +743,7 @@ int LuaInterface::lua_heal(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 2);
 
-	lua_this->health_system_->heal(id);
+	HealthHelper::heal(*ents, id);
 	return 0;
 }
 
@@ -810,7 +753,7 @@ int LuaInterface::lua_buff(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->health_system_->buff(id, val);
+	HealthHelper::buff(*ents, id, val);
 	return 0;
 }
 
@@ -819,7 +762,7 @@ int LuaInterface::lua_get_defense(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	std::size_t res = (std::size_t)lua_this->health_system_->get_defense(id);
+	std::size_t res = HealthHelper::get_defense(*ents, id);
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -830,7 +773,7 @@ int LuaInterface::lua_add_defense(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->health_system_->add_defense(id, val);
+	HealthHelper::add_defense(*ents, id, val);
 	return 0;
 }
 
@@ -840,7 +783,7 @@ int LuaInterface::lua_sub_defense(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->health_system_->sub_defense(id, val);
+	HealthHelper::sub_defense(*ents, id, val);
 	return 0;
 }
 
@@ -850,7 +793,7 @@ int LuaInterface::lua_set_regen(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->health_system_->set_regen(id, regen);
+	HealthHelper::set_regen(*ents, id, regen);
 	return 0;
 }
 
@@ -860,39 +803,8 @@ int LuaInterface::lua_set_alive(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->health_system_->set_alive(id, alive);
+	HealthHelper::set_alive(*ents, id, alive);
 	return 0;
-}
-
-int LuaInterface::lua_is_friendly(lpp::Script::state L)
-{
-	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
-	lua_pop(L, 2);
-
-	bool res = lua_this->ai_system_->is_friendly(id1, id2);
-	lua_pushboolean(L, res);
-	return 1;
-}
-
-int LuaInterface::lua_is_neutral(lpp::Script::state L)
-{
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
-	lua_pop(L, 1);
-
-	bool res = lua_this->ai_system_->is_neutral(id);
-	lua_pushboolean(L, res);
-	return 1;
-}
-
-int LuaInterface::lua_is_inanimate(lpp::Script::state L)
-{
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
-	lua_pop(L, 1);
-
-	bool res = lua_this->ai_system_->is_inanimate(id);
-	lua_pushboolean(L, res);
-	return 1;
 }
 
 int LuaInterface::lua_get_blueprint(lpp::Script::state L)
@@ -900,7 +812,7 @@ int LuaInterface::lua_get_blueprint(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	std::string res = lua_this->ai_system_->get_blueprint(id);
+	std::string res = AIHelper::get_blueprint(*ents, id);
 	lua_pushstring(L, res.c_str());
 	return 1;
 }
@@ -910,7 +822,7 @@ int LuaInterface::lua_get_state(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	int res = (int)lua_this->ai_system_->get_state(id);
+	int res = (int)AIHelper::get_state(*ents, id);
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -920,7 +832,7 @@ int LuaInterface::lua_get_faction(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	int res = (int)lua_this->ai_system_->get_faction(id);
+	int res = (int)AIHelper::get_faction(*ents, id);
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -931,7 +843,7 @@ int LuaInterface::lua_set_blueprint(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->ai_system_->set_blueprint(id, blueprint);
+	AIHelper::set_blueprint(*ents, id, blueprint);
 	return 0;
 }
 
@@ -941,7 +853,7 @@ int LuaInterface::lua_set_state(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->ai_system_->set_state(id, state);
+	AIHelper::set_state(*ents, id, state);
 	return 0;
 }
 
@@ -951,7 +863,7 @@ int LuaInterface::lua_set_faction(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->ai_system_->set_faction(id, faction);
+	AIHelper::set_faction(*ents, id, faction);
 	return 0;
 }
 
@@ -961,7 +873,7 @@ int LuaInterface::lua_set_input_handler(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->input_system_->set_input_handler(id, handler);
+	InputHelper::set_input_handler(*ents, id, handler);
 	return 0;
 }
 
@@ -1083,7 +995,7 @@ int LuaInterface::lua_set_pathfinding_blueprint(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->grid_system_->set_pathfinding_blueprint(id, blueprint);
+	PathfindingHelper::set_pathfinding_blueprint(*ents, id, blueprint);
 	return 0;
 }
 
@@ -1128,7 +1040,7 @@ int LuaInterface::lua_add_residences(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	auto nodes = lpp::Script::get_singleton().get_vector<std::size_t>(residences);
-	lua_this->grid_system_->add_residences(id, nodes);
+	StructureHelper::add_residences(*ents, id, nodes);
 	return 0;
 }
 
@@ -1138,7 +1050,7 @@ int LuaInterface::lua_add_residence(lpp::Script::state L)
 	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->grid_system_->add_residence(ent_id, res_id);
+	StructureHelper::add_residence(*ents, ent_id, res_id);
 	return 0;
 }
 
@@ -1148,7 +1060,7 @@ int LuaInterface::lua_set_radius(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->grid_system_->set_radius(id, radius);
+	StructureHelper::set_radius(*ents, id, radius);
 	return 0;
 }
 
@@ -1158,7 +1070,7 @@ int LuaInterface::lua_set_walk_through(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->grid_system_->set_walk_through(id, on_off);
+	StructureHelper::set_walk_through(*ents, id, on_off);
 	return 0;
 }
 
@@ -1243,7 +1155,7 @@ int LuaInterface::lua_task_possible(lpp::Script::state L)
 	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	bool res = lua_this->task_system_->task_possible(ent_id, task_id);
+	bool res = TaskHandlerHelper::task_possible(*ents, ent_id, task_id);
 	lua_pushboolean(L, res);
 	return 1;
 }
@@ -1253,7 +1165,7 @@ int LuaInterface::lua_clear_task_queue(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	lua_this->task_system_->clear_task_queue(id);
+	TaskHandlerHelper::clear_task_queue(*ents, id);
 	return 0;
 }
 
@@ -1263,7 +1175,7 @@ int LuaInterface::lua_set_task_source(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->task_system_->set_task_source(id, source);
+	TaskHelper::set_task_source(*ents, id, source);
 	return 0;
 }
 
@@ -1273,7 +1185,7 @@ int LuaInterface::lua_set_task_target(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->task_system_->set_task_target(id, target);
+	TaskHelper::set_task_target(*ents, id, target);
 	return 0;
 }
 
@@ -1283,7 +1195,7 @@ int LuaInterface::lua_set_task_type(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->task_system_->set_task_type(id, type);
+	TaskHelper::set_task_type(*ents, id, type);
 	return 0;
 }
 
@@ -1293,7 +1205,7 @@ int LuaInterface::lua_add_possible_task(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->task_system_->add_possible_task(id, type);
+	TaskHandlerHelper::add_possible_task(*ents, id, type);
 	return 0;
 }
 int LuaInterface::lua_delete_possible_task(lpp::Script::state L)
@@ -1302,7 +1214,7 @@ int LuaInterface::lua_delete_possible_task(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->task_system_->delete_possible_task(id, type);
+	TaskHandlerHelper::delete_possible_task(*ents, id, type);
 	return 0;
 }
 
@@ -1312,7 +1224,7 @@ int LuaInterface::lua_set_range(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->combat_system_->set_range(id, range);
+	CombatHelper::set_range(*ents, id, range);
 	return 0;
 }
 
@@ -1321,7 +1233,7 @@ int LuaInterface::lua_get_range(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = lua_this->combat_system_->get_range(id);
+	auto res = CombatHelper::get_range(*ents, id);
 	lua_pushnumber(L, res);
 	return 1;
 }
@@ -1333,7 +1245,7 @@ int LuaInterface::lua_set_dmg_range(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checknumber(L, -3);
 	lua_pop(L, 3);
 
-	lua_this->combat_system_->set_dmg_range(id, min, max);
+	CombatHelper::set_dmg_range(*ents, id, min, max);
 	return 0;
 }
 
@@ -1343,7 +1255,7 @@ int LuaInterface::lua_get_dmg_range(lpp::Script::state L)
 	lua_pop(L, 1);
 
 	std::size_t min{}, max{};
-	std::tie(min, max) = lua_this->combat_system_->get_dmg_range(id);
+	std::tie(min, max) = CombatHelper::get_dmg_range(*ents, id);
 	lua_pushinteger(L, min);
 	lua_pushinteger(L, max);
 	return 2;
@@ -1355,7 +1267,7 @@ int LuaInterface::lua_set_cooldown(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->combat_system_->set_cooldown(id, cd);
+	CombatHelper::set_cooldown(*ents, id, cd);
 	return 0;
 }
 
@@ -1364,7 +1276,7 @@ int LuaInterface::lua_get_cooldown(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = lua_this->combat_system_->get_cooldown(id);
+	auto res = CombatHelper::get_cooldown(*ents, id);
 	lua_pushnumber(L, res);
 	return 1;
 }
@@ -1375,7 +1287,7 @@ int LuaInterface::lua_set_atk_type(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->combat_system_->set_atk_type(id, (ATTACK_TYPE)atk_type);
+	CombatHelper::set_atk_type(*ents, id, (ATTACK_TYPE)atk_type);
 	return 0;
 }
 
@@ -1384,7 +1296,7 @@ int LuaInterface::lua_get_atk_type(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = lua_this->combat_system_->get_atk_type(id);
+	auto res = CombatHelper::get_atk_type(*ents, id);
 	lua_pushnumber(L, (int)res);
 	return 1;
 }
@@ -1395,7 +1307,7 @@ int LuaInterface::lua_set_homing_source(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->combat_system_->set_homing_source(id, source);
+	HomingHelper::set_source(*ents, id, source);
 	return 0;
 }
 
@@ -1405,7 +1317,7 @@ int LuaInterface::lua_set_homing_target(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->combat_system_->set_homing_target(id, target);
+	HomingHelper::set_target(*ents, id, target);
 	return 0;
 }
 
@@ -1415,7 +1327,7 @@ int LuaInterface::lua_set_homing_dmg(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->combat_system_->set_homing_dmg(id, dmg);
+	HomingHelper::set_dmg(*ents, id, dmg);
 	return 0;
 }
 
@@ -1465,7 +1377,7 @@ int LuaInterface::lua_set_production_blueprint(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->production_system_->set_production_blueprint(id, blueprint);
+	ProductionHelper::set_production_blueprint(*ents, id, blueprint);
 	return 0;
 }
 
@@ -1474,7 +1386,7 @@ int LuaInterface::lua_get_production_blueprint(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto& res = lua_this->production_system_->get_production_blueprint(id);
+	auto& res = ProductionHelper::get_production_blueprint(*ents, id);
 	lua_pushstring(L, res.c_str());
 	return 1;
 }
@@ -1485,7 +1397,7 @@ int LuaInterface::lua_set_production_limit(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->production_system_->set_production_limit(id, limit);
+	ProductionHelper::set_production_limit(*ents, id, limit);
 	return 0;
 }
 
@@ -1494,7 +1406,7 @@ int LuaInterface::lua_get_production_limit(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = lua_this->production_system_->get_production_limit(id);
+	auto res = ProductionHelper::get_production_limit(*ents, id);
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -1505,7 +1417,7 @@ int LuaInterface::lua_set_production_cooldown(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->production_system_->set_production_cooldown(id, cd);
+	ProductionHelper::set_production_cooldown(*ents, id, cd);
 	return 0;
 }
 
@@ -1514,7 +1426,7 @@ int LuaInterface::lua_get_production_cooldown(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = lua_this->production_system_->get_production_cooldown(id);
+	auto res = ProductionHelper::get_production_cooldown(*ents, id);
 	lua_pushnumber(L, res);
 	return 1;
 }
@@ -1525,7 +1437,7 @@ int LuaInterface::lua_set_production_progress(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->production_system_->set_production_progress(id, prog);
+	ProductionHelper::set_production_progress(*ents, id, prog);
 	return 0;
 }
 
@@ -1534,7 +1446,7 @@ int LuaInterface::lua_get_production_progress(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 	
-	auto res = lua_this->production_system_->get_production_progress(id);
+	auto res = ProductionHelper::get_production_progress(*ents, id);
 	lua_pushnumber(L, res);
 	return 1;
 }
@@ -1545,7 +1457,7 @@ int LuaInterface::lua_set_production_count(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->production_system_->set_production_count(id, prog);
+	ProductionHelper::set_production_count(*ents, id, prog);
 	return 0;
 }
 
@@ -1554,7 +1466,7 @@ int LuaInterface::lua_get_production_count(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = lua_this->production_system_->get_production_count(id);
+	auto res = ProductionHelper::get_production_count(*ents, id);
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -1565,7 +1477,7 @@ int LuaInterface::lua_set_producer(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->production_system_->set_producer(id, producer);
+	ProductHelper::set_producer(*ents, id, producer);
 	return 0;
 }
 
@@ -1574,7 +1486,7 @@ int LuaInterface::lua_get_producer(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = lua_this->production_system_->get_producer(id);
+	auto res = ProductHelper::get_producer(*ents, id);
 	lua_pushinteger(L, res);
 	return 1;
 }
