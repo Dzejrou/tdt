@@ -6,9 +6,9 @@
 
 #include "System.hpp"
 #include "EntitySystem.hpp"
-#include "MovementSystem.hpp"
 #include "HealthHelper.hpp"
 #include "CombatHelper.hpp"
+#include "GraphicsHelper.hpp"
 
 /**
  * Manages auto attack melee and ranged combat, special melee and ranged attacks will be
@@ -22,9 +22,8 @@ class CombatSystem : public System
 		 * Param: Reference to the game's entity system (component retrieval).
 		 * Param: Reference to the game's health system (damage dealing).
 		 * Param: Reference to the main scene manager (ray casting).
-		 * Param: Reference to the movement system (model orientation when attacking).
 		 */
-		CombatSystem(EntitySystem&, Ogre::SceneManager&, MovementSystem&);
+		CombatSystem(EntitySystem&, Ogre::SceneManager&);
 
 		/**
 		 * Destructor.
@@ -69,11 +68,6 @@ class CombatSystem : public System
 		 * Reference to the game's entity system (component retrieval).
 		 */
 		EntitySystem& entities_;
-
-		/**
-		 * Reference to the game's movement system (model transformation).
-		 */
-		MovementSystem& movement_;
 
 		/**
 		 * Reference to the ray cast used to check if two entities can see each other.
