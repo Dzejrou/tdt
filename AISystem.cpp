@@ -24,36 +24,6 @@ void AISystem::update(Ogre::Real delta)
 	}
 }
 
-bool AISystem::is_friendly(std::size_t id1, std::size_t id2) const
-{
-	auto comp1 = entities_.get_component<AIComponent>(id1);
-	auto comp2 = entities_.get_component<AIComponent>(id2);
-	if(comp1 && comp2)
-	{
-
-		if(comp1->faction == FACTION::NEUTRAL || comp2->faction == FACTION::NEUTRAL)
-			return true;
-		else
-			return comp1->faction == comp2->faction;
-	}
-	else
-		return true; // Entities withou AIComponent are buildings, walls etc.
-}
-
-bool AISystem::is_neutral(std::size_t id) const
-{
-	auto comp = entities_.get_component<AIComponent>(id);
-	if(comp)
-		return comp->faction == FACTION::NEUTRAL;
-	else
-		return true;
-}
-
-bool AISystem::is_inanimate(std::size_t id) const
-{
-	return !is_valid(id);
-}
-
 void AISystem::set_update_period(Ogre::Real val)
 {
 	update_period_ = val;
