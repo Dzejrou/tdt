@@ -77,19 +77,6 @@ class MovementSystem : public System
 		Ogre::Real get_distance(std::size_t, std::size_t) const;
 
 		/**
-		 * Brief: Returns the speed modifier of a given entity.
-		 * Param: ID of the entity.
-		 */
-		Ogre::Real get_speed_modifier(std::size_t) const;
-
-		/**
-		 * Brief: Changes the speed modifier of a given entity to a given value.
-		 * Param: ID of the entity.
-		 * Param: New speed value.
-		 */
-		void set_speed_modifier(std::size_t, Ogre::Real);
-
-		/**
 		 * Brief: Returns the ID of the closest enemy in a given radius around a given entity,
 		 *        returns said entity's ID if no enemies are present in the radius.
 		 * Param: ID of the entity.

@@ -143,22 +143,6 @@ Ogre::Real MovementSystem::get_distance(std::size_t id1, std::size_t id2) const
 		return std::numeric_limits<Ogre::Real>::max();
 }
 
-Ogre::Real MovementSystem::get_speed_modifier(std::size_t id) const
-{
-	auto comp = entities_.get_component<MovementComponent>(id);
-	if(comp)
-		return comp->speed_modifier;
-	else
-		return Ogre::Real{};
-}
-
-void MovementSystem::set_speed_modifier(std::size_t id, Ogre::Real speed)
-{
-	auto comp = entities_.get_component<MovementComponent>(id);
-	if(comp)
-		comp->speed_modifier = speed;
-}
-
 std::size_t MovementSystem::enemy_in_radius(std::size_t id, Ogre::Real radius) const
 {
 	auto comp = entities_.get_component<PhysicsComponent>(id);
