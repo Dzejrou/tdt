@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <vector>
 class EntitySystem;
 
 namespace StructureHelper
