@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lppscript/LppScript.hpp"
+#include "Helpers.hpp"
 
 /**
  * Forward declaration required as LuaInterface is included in Game.hpp
