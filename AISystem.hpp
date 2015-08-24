@@ -2,6 +2,8 @@
 
 #include <Ogre.h>
 
+#include <cstdlib>
+
 #include "System.hpp"
 #include "EntitySystem.hpp"
 #include "Components.hpp"

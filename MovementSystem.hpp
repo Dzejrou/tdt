@@ -3,6 +3,7 @@
 #include <Ogre.h>
 #include <stdexcept>
 #include <limits>
+#include <cstdlib>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"

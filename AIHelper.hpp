@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <cstdlib>
 class EntitySystem;
 
 namespace AIHelper

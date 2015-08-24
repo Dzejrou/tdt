@@ -3,6 +3,7 @@
 #include <Ogre.h>
 
 #include <tuple>
+#include <cstdlib>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"

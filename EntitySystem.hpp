@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <cstdlib>
 
 #include "System.hpp"
 #include "Components.hpp"

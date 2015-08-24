@@ -3,6 +3,7 @@
 #include <deque>
 #include <map>
 #include <string>
+#include <cstdlib>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"

@@ -3,6 +3,7 @@
 #include <Ogre.h>
 
 #include <string>
+#include <cstdlib>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"

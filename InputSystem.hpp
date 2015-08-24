@@ -4,6 +4,7 @@
 #include <OIS.h>
 #include <stdexcept>
 #include <memory>
+#include <cstdlib>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"

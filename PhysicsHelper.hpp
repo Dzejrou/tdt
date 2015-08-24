@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Ogre.h>
+#include <cstdlib>
 class PhysicsComponent;
 class EntitySystem;
 

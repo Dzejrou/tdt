@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdlib>
 class EntitySystem;
 
 namespace ProductHelper

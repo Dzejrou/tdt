@@ -9,6 +9,7 @@
 #include <set>
 #include <algorithm>
 #include <deque>
+#include <cstdlib>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"
