@@ -1,11 +1,11 @@
 #pragma once
 
 #include <Ogre.h>
-
 #include <tuple>
 #include <random>
 #include <numeric>
 #include <cstdlib>
+#include "Enums.hpp"
 class EntitySystem;
 
 namespace CombatHelper
