@@ -32,7 +32,7 @@ FACTION AIHelper::get_faction(EntitySystem& ents, std::size_t id)
 {
 	auto comp = ents.get_component<AIComponent>(id);
 	if(comp)
-		comp->faction;
+		return comp->faction;
 	else
 		return FACTION::NEUTRAL;
 }
