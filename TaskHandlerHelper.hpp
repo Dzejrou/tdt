@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdlib>
+#include <deque>
+#include "Enums.hpp"
 class EntitySystem;
 
 namespace TaskHandlerHelper
