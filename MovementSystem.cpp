@@ -19,7 +19,7 @@ void MovementSystem::update(Ogre::Real delta)
 			continue;
 
 		auto next = path_comp.path_queue.front();
-		auto dir_to_next = dir_to_enemy(ent.first, next); // TODO: Rename to dir_to_entity?
+		auto dir_to_next = MovementHelper::dir_to(entities_, ent.first, next);
 		dir_to_next.y = 0; // Will prohibit the entity from going under the ground.
 		dir_to_next.normalise();
 
@@ -32,7 +32,7 @@ void MovementSystem::update(Ogre::Real delta)
 		pos_next.y = phys_comp->half_height; // Ignore the Y distance.
 		if(pos_next.distance(phys_comp->position) < move_comp->speed_modifier)
 		{
-			move_to(ent.first, pos_next);
+			PhysicsHelper::move_to(entities_, ent.first, pos_next);
 			path_comp.last_id = next;
 			path_comp.path_queue.pop_front();
 			if(!path_comp.path_queue.empty())

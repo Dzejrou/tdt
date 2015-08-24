@@ -9,6 +9,7 @@
 #include "Components.hpp"
 #include "PhysicsHelper.hpp"
 #include "GraphicsHelper.hpp"
+#include "MovementHelper.hpp"
 
 /**
  * System handling movement related updates and containing movement & physics related methods.
