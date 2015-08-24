@@ -389,7 +389,7 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 }
 
 void EntitySystem::init_graphics_component(std::size_t id)
-{
+{ // TODO: Check for previous nodes/entities and kill 'em.
 	auto comp = get_component<GraphicsComponent>(id);
 
 	if(!comp)
