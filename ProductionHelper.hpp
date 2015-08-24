@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Ogre.h>
 #include <string>
 #include <cstdlib>
 class EntitySystem;
