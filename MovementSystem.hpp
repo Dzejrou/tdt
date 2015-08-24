@@ -72,63 +72,6 @@ class MovementSystem : public System
 		 * Param: Optional radius.
 		 */
 		Ogre::Vector3 dir_to_closest_enemy(std::size_t, Ogre::Real = std::numeric_limits<Ogre::Real>::max()) const;
-
-		/**
-		 * Brief: Returns the direction from a given entity to another given entity.
-		 * Param: ID of the first entity.
-		 * Param: ID of the second entity.
-		 */
-		Ogre::Vector3 dir_to_enemy(std::size_t, std::size_t) const;
-
-		/**
-		 * Brief: Returns the direction a given entity is facing.
-		 * Param: ID of the entity.
-		 */
-		Ogre::Vector3 get_dir(std::size_t) const;
-
-		/**
-		 * Brief: Returns the opposite direction to the direction a given entity is facing.
-		 * Param: ID of the entity.
-		 */
-		Ogre::Vector3 get_dir_back(std::size_t) const;
-
-		/**
-		 * Brief: Returns the direction perpendicular to the direction a given entity is facing.
-		 *        (To the left.)
-		 * Param: ID of the entity.
-		 */
-		Ogre::Vector3 get_dir_left(std::size_t) const;
-
-		/**
-		 * Brief: Returns the direction perpendicular to the direction a given entity is facing.
-		 *        (To the right.)
-		 * Param: ID of the entity.
-		 */
-		Ogre::Vector3 get_dir_right(std::size_t) const;
-
-		/**
-		 * Brief: Returns the size of the angle bewteen two given vectors as Ogre::Real
-		 *        which can then be used in Ogre::Radian constructor for conversion to Radians.
-		 *        (The reason for this is that Lua does not have the notion of radians and as such
-		 *        using floating point numbers is easier.)
-		 * Param: Vector #1.
-		 * Param: Vector #2.
-		 */
-		Ogre::Real get_angle(Ogre::Vector3, Ogre::Vector3) const;
-
-		/**
-		 * Brief: Sets the solid state of a given entity.
-		 * Param: ID of the entity.
-		 * Param: The new solid state.
-		 */
-		void set_solid(std::size_t, bool);
-
-		/**
-		 * Brief: Sets the half_height property of a given entity (the default Y coordinate).
-		 * Param: ID of the entity.
-		 * Param: The new half height value.
-		 */
-		void set_half_height(std::size_t, Ogre::Real);
 	private:
 		/**
 		 * Reference to the game's entity system.
