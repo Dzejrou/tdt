@@ -421,37 +421,6 @@ std::size_t GridSystem::get_resident(std::size_t node_id) const
 		return Component::NO_ENTITY;
 }
 
-void GridSystem::add_residences(std::size_t ent_id, const std::vector<std::size_t>& residences)
-{
-	auto comp = entities_.get_component<StructureComponent>(ent_id);
-	if(comp)
-	{
-		for(const auto& node : residences)
-			comp->residences.push_back(node);
-	}
-}
-
-void GridSystem::add_residence(std::size_t ent_id, std::size_t node_id)
-{
-	auto comp = entities_.get_component<StructureComponent>(ent_id);
-	if(comp)
-		comp->residences.push_back(node_id);
-}
-
-void GridSystem::set_radius(std::size_t id, std::size_t radius)
-{
-	auto comp = entities_.get_component<StructureComponent>(id);
-	if(comp)
-		comp->radius = radius;
-}
-
-void GridSystem::set_walk_through(std::size_t id, bool on_off)
-{
-	auto comp = entities_.get_component<StructureComponent>(id);
-	if(comp)
-		comp->walk_through = on_off;
-}
-
 bool GridSystem::in_board_(std::size_t index) const
 {
 	return 0 <= index && index < board_.size();

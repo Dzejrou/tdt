@@ -199,37 +199,6 @@ class GridSystem : public System
 		 * Param: ID of the node.
 		 */
 		std::size_t get_resident(std::size_t) const;
-
-		/**
-		 * Brief: Adds the members of a given vector (containing node IDs) as residences
-		 *        of a given entity (that has a structure component).
-		 * Param: ID of the entity.
-		 * Param: Vector containing the IDs of the new residences (nodes the entity is on).
-		 */
-		void add_residences(std::size_t, const std::vector<std::size_t>&);
-
-		/**
-		 * Brief: Adds a single node as a residence to the residence list of a given
-		 *        entity.
-		 * Param: ID of the entity.
-		 * Param: ID of the residence.
-		 */
-		void add_residence(std::size_t, std::size_t);
-
-		/**
-		 * Brief: Sets the radius of the area a given structure occupies.
-		 * Param: ID of the entity (which has a structure component).
-		 * Param: The new radius.
-		 */
-		void set_radius(std::size_t, std::size_t);
-
-		/**
-		 * Brief: Sets the walk through field of a structure, causing it
-		 *        to either block or allow pathfinding.
-		 * Param: ID of the structure.
-		 * Param: True for walkable, false for not walkable.
-		 */
-		void set_walk_through(std::size_t, bool);
 	private:
 		/**
 		 * Brief: Returns true if a given entity is on the board (that is, is an actual node).
