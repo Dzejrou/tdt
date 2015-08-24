@@ -119,16 +119,13 @@ struct MovementComponent
 {
 	static constexpr int type = 4;
 
-	MovementComponent(Ogre::Real speed = 0.f, bool mov = false)
-		: movement_vector{0, 0, 0}, speed_modifier{speed},
-		  moving{mov}
+	MovementComponent(Ogre::Real speed = 0.f)
+		: speed_modifier{speed}
 	{ /* DUMMY BODY */ }
 	MovementComponent(const MovementComponent&) = default;
 	MovementComponent(MovementComponent&&) = default;
 
-	Ogre::Vector3 movement_vector; // TODO: Is this needed?
 	Ogre::Real speed_modifier;
-	bool moving; // TODO: Is this needed?
 };
 
 /**
