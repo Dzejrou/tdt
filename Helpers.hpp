@@ -4,6 +4,7 @@
 #include "CombatHelper.hpp"
 #include "GraphicsHelper.hpp"
 #include "HealthHelper.hpp"
+#include "HomingHelper.hpp"
 #include "InputHelper.hpp"
 #include "MovementHelper.hpp"
 #include "PathfindingHelper.hpp"
