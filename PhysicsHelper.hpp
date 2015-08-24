@@ -54,4 +54,23 @@ namespace PhysicsHelper
 	 * Param: ID of the entity.
 	 */
 	Ogre::Real get_halfheight(EntitySystem&, std::size_t);
+
+	/**
+	 * Brief: Moves a given entity to a given point in space (absolute movement).
+	 * Param: Reference to the entity system containing components.
+	 * Param: ID of the entity.
+	 * Param: Target coordinate.
+	 * Note: The difference with set_position is that this function also sets
+	 *       the position of the scene node this entity is attached to (if
+	 *       such node exists) and thus moves the entity's model as well.
+	 */
+	void move_to(EntitySystem&, std::size_t, Ogre::Vector3);
+
+	/**
+	 * Brief: Returns the distance between two given entities.
+	 * Param: Reference to the entity system containing components.
+	 * Param: ID of the first entity.
+	 * Param: ID of the second entity.
+	 */
+	Ogre::Real get_distance(EntitySystem&, std::size_t, std::size_t);
 }

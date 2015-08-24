@@ -50,3 +50,26 @@ Ogre::Real PhysicsHelper::get_halfheight(EntitySystem& ents, std::size_t id)
 	else
 		return Ogre::Real{};
 }
+
+void PhysicsHelper::move_to(EntitySystem& ents, std::size_t id, Ogre::Vector3 pos)
+{
+	auto phys_comp = ents.get_component<PhysicsComponent>(id);
+	if(phys_comp)
+	{
+		phys_comp->position = pos;
+
+		auto graph_comp = ents.get_component<GraphicsComponent>(id);
+		if(graph_comp)
+			graph_comp->node->setPosition(pos);
+	}
+}
+
+Ogre::Real PhysicsHelper::get_distance(EntitySystem& ents, std::size_t id1, std::size_t id2)
+{
+	auto comp1 = ents.get_component<PhysicsComponent>(id1);
+	auto comp2 = ents.get_component<PhysicsComponent>(id2);
+	if(comp1 && comp2)
+		return comp1->position.distance(comp2->position);
+	else
+		return std::numeric_limits<Ogre::Real>::max();
+}
