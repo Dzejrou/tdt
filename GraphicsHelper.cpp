@@ -2,6 +2,95 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 
+void GraphicsHelper::set_mesh(EntitySystem& ents, std::size_t id, const std::string& mesh)
+{
+	auto comp = ents.get_component<GraphicsComponent>(id);
+	if(comp)
+		comp->mesh = mesh;
+}
+
+const std::string& GraphicsHelper::get_mesh(EntitySystem& ents, std::size_t id)
+{
+	static const std::string NO_MESH{"ERROR.mesh"}; // TODO: Create error mesh.
+
+	auto comp = ents.get_component<GraphicsComponent>(id);
+	if(comp)
+		return comp->mesh;
+	else
+		return NO_MESH;
+}
+
+void GraphicsHelper::set_material(EntitySystem& ents, std::size_t id, const std::string& material)
+{
+	auto comp = ents.get_component<GraphicsComponent>(id);
+	if(comp)
+		comp->material = material;
+}
+
+const std::string& GraphicsHelper::get_material(EntitySystem& ents, std::size_t id)
+{
+	static const std::string NO_MATERIAL{"colour/pink"}; // TODO: Create pink error material.
+
+	auto comp = ents.get_component<GraphicsComponent>(id);
+	if(comp)
+		return comp->material;
+	else
+		return NO_MATERIAL;
+}
+
+void GraphicsHelper::set_visible(EntitySystem& ents, std::size_t id, bool val)
+{
+	auto comp = ents.get_component<GraphicsComponent>(id);
+	if(comp)
+	{
+		comp->visible = val;
+		comp->node->setVisible(val);
+	}
+}
+
+bool GraphicsHelper::is_visible(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<GraphicsComponent>(id);
+	if(comp)
+		return comp->visible;
+	else
+		return false;
+}
+
+void GraphicsHelper::set_manual_scaling(EntitySystem& ents, std::size_t id, bool val)
+{
+	auto comp = ents.get_component<GraphicsComponent>(id);
+	if(comp)
+		comp->manual_scaling = val;
+}
+
+bool GraphicsHelper::get_manual_scaling(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<GraphicsComponent>(id);
+	if(comp)
+		return comp->manual_scaling;
+	else
+		return false;
+}
+
+void GraphicsHelper::set_scale(EntitySystem& ents, std::size_t id, const Ogre::Vector3& val)
+{
+	auto comp = ents.get_component<GraphicsComponent>(id);
+	if(comp)
+		comp->scale = val;
+}
+
+const Ogre::Vector3& GraphicsHelper::get_scale(EntitySystem& ents, std::size_t id)
+{
+	static const Ogre::Vector3 NO_SCALE{0.f, 0.f, 0.f};
+
+	auto comp = ents.get_component<GraphicsComponent>(id);
+	if(comp)
+		return comp->scale;
+	else
+		return NO_SCALE;
+}
+
 void GraphicsHelper::look_at(EntitySystem& ents, std::size_t id1, std::size_t id2)
 {
 	auto comp1 = ents.get_component<GraphicsComponent>(id1);
