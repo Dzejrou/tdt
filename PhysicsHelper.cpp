@@ -73,3 +73,8 @@ Ogre::Real PhysicsHelper::get_distance(EntitySystem& ents, std::size_t id1, std:
 	else
 		return std::numeric_limits<Ogre::Real>::max();
 }
+
+Ogre::Real PhysicsHelper::get_angle(Ogre::Vector3 v1, Ogre::Vector3 v2)
+{
+	return v1.angleBetween(v2).valueRadians();
+}

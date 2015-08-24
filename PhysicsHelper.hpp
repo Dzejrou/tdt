@@ -73,4 +73,14 @@ namespace PhysicsHelper
 	 * Param: ID of the second entity.
 	 */
 	Ogre::Real get_distance(EntitySystem&, std::size_t, std::size_t);
+
+	/**
+	 * Brief: Returns the size of the angle bewteen two given vectors as Ogre::Real
+	 *        which can then be used in Ogre::Radian constructor for conversion to Radians.
+	 *        (The reason for this is that Lua does not have the notion of radians and as such
+	 *        using floating point numbers is easier.)
+	 * Param: Vector #1.
+	 * Param: Vector #2.
+	 */
+	Ogre::Real get_angle(Ogre::Vector3, Ogre::Vector3);
 }
