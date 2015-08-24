@@ -116,22 +116,6 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 		}
 		else
 			return true; // No structs found at all.
-
-		/* TODO: DEPRECATED? (This takes minions & enemies into account, also possibly projectiles.)
-		std::string ent_name{"entity_" + std::to_string(ent_id)};
-		std::string target_name{"entity_" + std::to_string(target)};
-		std::size_t i{0};
-		while(i < res.size())
-		{
-			if(res[i].movable && res[i].movable->getParentSceneNode()->getName() != ent_name)
-				break; // This will find first object that isn't part of the entity which serves as ray origin.
-			else
-				++i;
-		}
-		if(i < res.size())
-			return res[i].movable && res[i].movable->getParentSceneNode()->getName()
-			       == target_name;
-				   */
 	}
 	else
 		return false;
