@@ -141,7 +141,6 @@ inline void GameSerializer::save_component<GraphicsComponent>(std::size_t id, co
 		+ "game.set_mesh(" + tbl_name + ", '" + comp->mesh + "')\n"
 		+ "game.set_material(" + tbl_name + ", '" + comp->material + "')\n"
 		+ "game.set_manual_scaling(" + tbl_name + ", " + (comp->manual_scaling ? "true" : "false") + ")\n"
-		+ "game.init_graphics_component(" + tbl_name + ")\n"
 		+ "game.set_visible(" + tbl_name + ", " + (comp->visible ? "true" : "false") + ")\n"
 	};
 
@@ -152,6 +151,7 @@ inline void GameSerializer::save_component<GraphicsComponent>(std::size_t id, co
 			+ std::to_string(comp->scale.y) + ", " + std::to_string(comp->scale.z) + ")\n"
 		);
 	}
+	comm.append("game.init_graphics_component(" + tbl_name + ")\n");
 
 	save_components_.emplace_back(std::move(comm));
 }
