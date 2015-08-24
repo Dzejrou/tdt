@@ -34,18 +34,6 @@ class MovementSystem : public System
 		void update(Ogre::Real);
 
 		/**
-		 * Brief: Returns true if a given entity is moving.
-		 * Param: ID of the entity.
-		 */
-		bool is_moving(std::size_t) const;
-
-		/**
-		 * Brief: Returns true if a given entity is solid (i.e. is subject to collision detection).
-		 * Param: ID of the entity.
-		 */
-		bool is_solid(std::size_t) const;
-
-		/**
 		 * Brief: Returns true if a given entity can move to a given point in space, false otherwise.
 		 * Param: ID of the entity.
 		 * Param: Target coordinate.
@@ -61,20 +49,6 @@ class MovementSystem : public System
 		 *       increased by the entity's speed modifier. This is not enforced though.
 		 */
 		bool move(std::size_t, Ogre::Vector3);
-
-		/**
-		 * Brief: Moves a given entity to a given point in space (absolute movement).
-		 * Param: ID of the entity.
-		 * Param: Target coordinate.
-		 */
-		void move_to(std::size_t, Ogre::Vector3);
-
-		/**
-		 * Brief: Returns the distance between two given entities.
-		 * Param: ID of the first entity.
-		 * Param: ID of the second entity.
-		 */
-		Ogre::Real get_distance(std::size_t, std::size_t) const;
 
 		/**
 		 * Brief: Returns the ID of the closest enemy in a given radius around a given entity,

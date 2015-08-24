@@ -41,24 +41,6 @@ void MovementSystem::update(Ogre::Real delta)
 	}
 }
 
-bool MovementSystem::is_moving(std::size_t id) const
-{
-	auto comp = entities_.get_component<MovementComponent>(id);
-	if(comp)
-		return comp->moving;
-	else
-		return false;
-}
-
-bool MovementSystem::is_solid(std::size_t id) const
-{
-	auto comp = entities_.get_component<PhysicsComponent>(id);
-	if(comp)
-		return comp->solid;
-	else
-		return false;
-}
-
 bool MovementSystem::can_move_to(std::size_t id, Ogre::Vector3 pos)
 {
 	auto graph_comp = entities_.get_component<GraphicsComponent>(id);
@@ -79,8 +61,8 @@ bool MovementSystem::can_move_to(std::size_t id, Ogre::Vector3 pos)
 			if(id == ent.first)
 				continue;
 
-			if(is_valid(ent.first) && is_solid(ent.first) &&
-			   collide(id, ent.first))
+			if(PhysicsHelper::is_solid(entities_, ent.first) &&
+			   GraphicsHelper::collide(entities_, id, ent.first))
 			{
 				graph_comp->node->setPosition(phys_comp->position);
 				return false;
@@ -118,29 +100,6 @@ bool MovementSystem::move(std::size_t id, Ogre::Vector3 dir_vector)
 	}
 
 	return false;
-}
-
-void MovementSystem::move_to(std::size_t id, Ogre::Vector3 pos)
-{
-	auto phys_comp = entities_.get_component<PhysicsComponent>(id);
-	if(phys_comp)
-	{
-		phys_comp->position = pos;
-
-		auto graph_comp = entities_.get_component<GraphicsComponent>(id);
-		if(graph_comp)
-			graph_comp->node->setPosition(pos);
-	}
-}
-
-Ogre::Real MovementSystem::get_distance(std::size_t id1, std::size_t id2) const
-{
-	auto comp1 = entities_.get_component<PhysicsComponent>(id1);
-	auto comp2 = entities_.get_component<PhysicsComponent>(id2);
-	if(comp1 && comp2)
-		return comp1->position.distance(comp2->position);
-	else
-		return std::numeric_limits<Ogre::Real>::max();
 }
 
 std::size_t MovementSystem::enemy_in_radius(std::size_t id, Ogre::Real radius) const
