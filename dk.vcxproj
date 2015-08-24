@@ -69,6 +69,7 @@
     <ClInclude Include="GridSystem.hpp" />
     <ClInclude Include="HealthHelper.hpp" />
     <ClInclude Include="HealthSystem.hpp" />
+    <ClInclude Include="Helpers.hpp" />
     <ClInclude Include="HomingHelper.hpp" />
     <ClInclude Include="InputHelper.hpp" />
     <ClInclude Include="InputSystem.hpp" />
