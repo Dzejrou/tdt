@@ -105,6 +105,12 @@
     <ClCompile Include="TaskHandlerHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StructureHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lppscript\LppScript.hpp">
@@ -203,11 +209,11 @@
     <ClInclude Include="TaskHandlerHelper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="scripts\test.lua" />
-    <None Include="scripts\test_entity.lua" />
-    <None Include="scripts\ogre.lua" />
-    <None Include="scripts\core_utils.lua" />
+    <ClInclude Include="StructureHelper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementHelper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

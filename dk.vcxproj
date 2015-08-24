@@ -39,6 +39,7 @@
     <ClCompile Include="lppscript\LppScript.cpp" />
     <ClCompile Include="LuaInterface.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MovementHelper.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="PathfindingHelper.cpp" />
     <ClCompile Include="PhysicsHelper.cpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="ProductionHelper.cpp" />
     <ClCompile Include="ProductionSystem.cpp" />
     <ClCompile Include="SelectionBox.cpp" />
+    <ClCompile Include="StructureHelper.cpp" />
     <ClCompile Include="TaskHandlerHelper.cpp" />
     <ClCompile Include="TaskHelper.cpp" />
     <ClCompile Include="TaskSystem.cpp" />
@@ -72,6 +74,7 @@
     <ClInclude Include="InputSystem.hpp" />
     <ClInclude Include="lppscript\LppScript.hpp" />
     <ClInclude Include="LuaInterface.hpp" />
+    <ClInclude Include="MovementHelper.hpp" />
     <ClInclude Include="MovementSystem.hpp" />
     <ClInclude Include="PathfindingHelper.hpp" />
     <ClInclude Include="PhysicsHelper.hpp" />
@@ -79,16 +82,11 @@
     <ClInclude Include="ProductionHelper.hpp" />
     <ClInclude Include="ProductionSystem.hpp" />
     <ClInclude Include="SelectionBox.hpp" />
+    <ClInclude Include="StructureHelper.hpp" />
     <ClInclude Include="System.hpp" />
     <ClInclude Include="TaskHandlerHelper.hpp" />
     <ClInclude Include="TaskHelper.hpp" />
     <ClInclude Include="TaskSystem.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="scripts\ogre.lua" />
-    <None Include="scripts\test.lua" />
-    <None Include="scripts\test_entity.lua" />
-    <None Include="scripts\core_utils.lua" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D88489E-16AD-492B-BEF7-FE61AEACA92B}</ProjectGuid>
