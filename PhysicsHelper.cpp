@@ -35,14 +35,14 @@ const Ogre::Vector3& PhysicsHelper::get_position(EntitySystem& ents, std::size_t
 		return NO_POSITION;
 }
 
-void PhysicsHelper::set_halfheight(EntitySystem& ents, std::size_t id, Ogre::Real val)
+void PhysicsHelper::set_half_height(EntitySystem& ents, std::size_t id, Ogre::Real val)
 {
 	auto comp = ents.get_component<PhysicsComponent>(id);
 	if(comp)
 		comp->half_height = val;
 }
 
-Ogre::Real PhysicsHelper::get_halfheight(EntitySystem& ents, std::size_t id)
+Ogre::Real PhysicsHelper::get_half_height(EntitySystem& ents, std::size_t id)
 {
 	auto comp = ents.get_component<PhysicsComponent>(id);
 	if(comp)

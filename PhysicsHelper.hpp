@@ -2,7 +2,6 @@
 
 #include <Ogre.h>
 #include <cstdlib>
-class PhysicsComponent;
 class EntitySystem;
 
 namespace PhysicsHelper
@@ -45,7 +44,7 @@ namespace PhysicsHelper
 	 * Param: ID of the entity.
 	 * Param: The new half height value.
 	 */
-	void set_halfheight(EntitySystem&, std::size_t, Ogre::Real);
+	void set_half_height(EntitySystem&, std::size_t, Ogre::Real);
 
 	/**
 	 * Brief: Returns the half height of a given entity (which is used to
@@ -54,7 +53,7 @@ namespace PhysicsHelper
 	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Real get_halfheight(EntitySystem&, std::size_t);
+	Ogre::Real get_half_height(EntitySystem&, std::size_t);
 
 	/**
 	 * Brief: Moves a given entity to a given point in space (absolute movement).
