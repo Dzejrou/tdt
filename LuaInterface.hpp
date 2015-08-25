@@ -63,6 +63,14 @@ class LuaInterface
 		static int lua_set_visible(lpp::Script::state);
 		static int lua_set_manual_scaling(lpp::Script::state);
 		static int lua_set_scale(lpp::Script::state);
+		static int lua_get_mesh(lpp::Script::state);
+		static int lua_get_material(lpp::Script::state);
+		static int lua_is_visible(lpp::Script::state);
+		static int lua_get_manual_scaling(lpp::Script::state);
+		static int lua_get_scale(lpp::Script::state);
+		static int lua_look_at(lpp::Script::state);
+		static int lua_rotate(lpp::Script::state);
+		static int lua_collide(lpp::Script::state);
 
 		// Entity system.
 		static int lua_create_entity(lpp::Script::state);
