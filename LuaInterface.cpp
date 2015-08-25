@@ -58,7 +58,7 @@ void LuaInterface::init(Game* game)
 		{"register_entity", LuaInterface::lua_register_entity},
 
 		// Physics.
-		{"set_position", LuaInterface::lua_set_position}
+		{"set_position", LuaInterface::lua_set_position},
 		{"get_position", LuaInterface::lua_get_position},
 		{"set_solid", LuaInterface::lua_set_solid},
 		{"is_solid", LuaInterface::lua_is_solid},
