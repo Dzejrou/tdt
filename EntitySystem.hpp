@@ -11,6 +11,7 @@
 #include "System.hpp"
 #include "Components.hpp"
 #include "lppscript\LppScript.hpp"
+#include "Helpers.hpp"
 
 /**
  * The EntitySystem class handles everything related to entities, like addition and removal of components,
@@ -178,14 +179,6 @@ class EntitySystem : public System
 		void delete_component_now(std::size_t, int);
 
 		/**
-		 * Brief: Initializes the graphics component of a manually created entity
-		 *        by loading it's model into an Ogre::Entity and bounding it to a
-		 *        scene node.
-		 * Param: ID of the entity.
-		 */
-		void init_graphics_component(std::size_t);
-
-		/**
 		 * Brief: Registers an entity that has been loaded from a Lua script.
 		 *        (If it has been registered previously, the register ignores it.)
 		 * Param: Name of the table containing the info about the entity.
@@ -203,6 +196,12 @@ class EntitySystem : public System
 		 * Param: ID of the entity.
 		 */
 		bool exists(std::size_t) const;
+
+		/**
+		 * Brief: Returns a reference to the scene manager all entities of this system are
+		 *        attached to (if they have a graphics component).
+		 */
+		Ogre::SceneManager& get_scene_manager() { return scene_; }
 	private:
 		/**
 		 * Brief: Loads a component from a Lua script.

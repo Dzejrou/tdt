@@ -385,44 +385,6 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 			homing_.erase(ent_id);
 			break;
 	}
-
-}
-
-void EntitySystem::init_graphics_component(std::size_t id)
-{
-	auto comp = get_component<GraphicsComponent>(id);
-
-	if(!comp)
-		return;
-
-	if(comp->node && comp->entity)
-	{
-		comp->node->detachObject(comp->entity);
-		scene_.destroyEntity(comp->entity);
-	}
-	
-	if(!comp->node)
-		comp->node = scene_.getRootSceneNode()->createChildSceneNode("entity_" + std::to_string(id));
-
-	comp->entity = scene_.createEntity(comp->mesh);
-	comp->node->attachObject(comp->entity);
-	comp->node->setVisible(comp->visible);
-
-	if(comp->manual_scaling)
-		comp->node->setScale(comp->scale);
-
-	if(comp->material != "NO_MAT")
-		comp->entity->setMaterialName(comp->material);
-
-	auto half_height = comp->entity->getWorldBoundingBox(true).getHalfSize().y;
-	auto phys_comp = get_component<PhysicsComponent>(id);
-	if(phys_comp)
-	{
-		phys_comp->half_height = half_height;
-		phys_comp->position = Ogre::Vector3{phys_comp->position.x,
-												   half_height, phys_comp->position.z};
-		comp->node->setPosition(phys_comp->position);
-	}
 }
 
 void EntitySystem::register_entity(const std::string& table_name)
