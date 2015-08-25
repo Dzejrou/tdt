@@ -143,8 +143,11 @@ void LuaInterface::init(Game* game)
 		{"task_possible", LuaInterface::lua_task_possible},
 		{"clear_task_queue", LuaInterface::lua_clear_task_queue},
 		{"set_task_source", LuaInterface::lua_set_task_source},
+		{"get_task_source", LuaInterface::lua_get_task_source},
 		{"set_task_target", LuaInterface::lua_set_task_target},
+		{"get_task_target", LuaInterface::lua_get_task_target},
 		{"set_task_type", LuaInterface::lua_set_task_type},
+		{"get_task_type", LuaInterface::lua_get_task_type},
 		{"add_possible_task", LuaInterface::lua_add_possible_task},
 		{"delete_possible_task", LuaInterface::lua_delete_possible_task},
 
@@ -1361,6 +1364,16 @@ int LuaInterface::lua_set_task_source(lpp::Script::state L)
 	return 0;
 }
 
+int LuaInterface::lua_get_task_source(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = TaskHelper::get_task_source(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_set_task_target(lpp::Script::state L)
 {
 	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
@@ -1371,6 +1384,16 @@ int LuaInterface::lua_set_task_target(lpp::Script::state L)
 	return 0;
 }
 
+int LuaInterface::lua_get_task_target(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = TaskHelper::get_task_target(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_set_task_type(lpp::Script::state L)
 {
 	TASK_TYPE type = (TASK_TYPE)luaL_checkinteger(L, -1);
@@ -1379,6 +1402,16 @@ int LuaInterface::lua_set_task_type(lpp::Script::state L)
 
 	TaskHelper::set_task_type(*ents, id, type);
 	return 0;
+}
+
+int LuaInterface::lua_get_task_type(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = TaskHelper::get_task_type(*ents, id);
+	lua_pushinteger(L, (int)res);
+	return 1;
 }
 
 int LuaInterface::lua_add_possible_task(lpp::Script::state L)
