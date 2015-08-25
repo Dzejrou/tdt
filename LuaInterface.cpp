@@ -105,6 +105,9 @@ void LuaInterface::init(Game* game)
 		{"set_blueprint", LuaInterface::lua_set_blueprint},
 		{"set_state", LuaInterface::lua_set_state},
 		{"set_faction", LuaInterface::lua_set_faction},
+		{"set_update_period", LuaInterface::lua_set_update_period},
+		{"get_update_period", LuaInterface::lua_get_update_period},
+		{"force_update", LuaInterface::lua_force_update},
 
 		// Input system.
 		{"set_input_handler", LuaInterface::lua_set_input_handler},
@@ -1010,6 +1013,28 @@ int LuaInterface::lua_set_faction(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	AIHelper::set_faction(*ents, id, faction);
+	return 0;
+}
+
+int LuaInterface::lua_set_update_period(lpp::Script::state L)
+{
+	Ogre::Real t = (Ogre::Real)luaL_checknumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->ai_system_->set_update_period(t);
+	return 0;
+}
+
+int LuaInterface::lua_get_update_period(lpp::Script::state L)
+{
+	auto res = lua_this->ai_system_->get_update_period();
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_force_update(lpp::Script::state L)
+{
+	lua_this->ai_system_->force_update();
 	return 0;
 }
 
