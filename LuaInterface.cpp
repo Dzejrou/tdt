@@ -151,7 +151,7 @@ void LuaInterface::init(Game* game)
 		{"add_possible_task", LuaInterface::lua_add_possible_task},
 		{"delete_possible_task", LuaInterface::lua_delete_possible_task},
 
-		// Combat.
+		// Combat & homing projectiles.
 		{"set_range", LuaInterface::lua_set_range},
 		{"get_range", LuaInterface::lua_get_range},
 		{"set_dmg_range", LuaInterface::lua_set_dmg_range},
@@ -161,8 +161,11 @@ void LuaInterface::init(Game* game)
 		{"set_atk_type", LuaInterface::lua_set_atk_type},
 		{"get_atk_type", LuaInterface::lua_get_atk_type},
 		{"set_homing_source", LuaInterface::lua_set_homing_source},
+		{"get_homing_source", LuaInterface::lua_get_homing_source},
 		{"set_homing_target", LuaInterface::lua_set_homing_target},
+		{"get_homing_target", LuaInterface::lua_get_homing_target},
 		{"set_homing_dmg", LuaInterface::lua_set_homing_dmg},
+		{"get_homing_dmg", LuaInterface::lua_get_homing_dmg},
 		{"closest_enemy_in_sight", LuaInterface::lua_closest_enemy_in_sight},
 		{"closest_friendly_in_sight", LuaInterface::lua_closest_friendly_in_sight},
 		{"closest_enemy", LuaInterface::lua_closest_enemy},
@@ -1526,6 +1529,16 @@ int LuaInterface::lua_set_homing_source(lpp::Script::state L)
 	return 0;
 }
 
+int LuaInterface::lua_get_homing_source(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = HomingHelper::get_source(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_set_homing_target(lpp::Script::state L)
 {
 	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
@@ -1536,6 +1549,16 @@ int LuaInterface::lua_set_homing_target(lpp::Script::state L)
 	return 0;
 }
 
+int LuaInterface::lua_get_homing_target(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = HomingHelper::get_target(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_set_homing_dmg(lpp::Script::state L)
 {
 	std::size_t dmg = (std::size_t)luaL_checkinteger(L, -1);
@@ -1544,6 +1567,16 @@ int LuaInterface::lua_set_homing_dmg(lpp::Script::state L)
 
 	HomingHelper::set_dmg(*ents, id, dmg);
 	return 0;
+}
+
+int LuaInterface::lua_get_homing_dmg(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = HomingHelper::get_dmg(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
 }
 
 int LuaInterface::lua_closest_enemy_in_sight(lpp::Script::state L)

@@ -188,8 +188,11 @@ class LuaInterface
 		static int lua_set_atk_type(lpp::Script::state);
 		static int lua_get_atk_type(lpp::Script::state);
 		static int lua_set_homing_source(lpp::Script::state);
+		static int lua_get_homing_source(lpp::Script::state);
 		static int lua_set_homing_target(lpp::Script::state);
+		static int lua_get_homing_target(lpp::Script::state);
 		static int lua_set_homing_dmg(lpp::Script::state);
+		static int lua_get_homing_dmg(lpp::Script::state);
 		static int lua_closest_enemy_in_sight(lpp::Script::state);
 		static int lua_closest_friendly_in_sight(lpp::Script::state);
 		static int lua_closest_enemy(lpp::Script::state);
