@@ -389,14 +389,22 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 }
 
 void EntitySystem::init_graphics_component(std::size_t id)
-{ // TODO: Check for previous nodes/entities and kill 'em.
+{
 	auto comp = get_component<GraphicsComponent>(id);
 
 	if(!comp)
 		return;
 
+	if(comp->node && comp->entity)
+	{
+		comp->node->detachObject(comp->entity);
+		scene_.destroyEntity(comp->entity);
+	}
+	
+	if(!comp->node)
+		comp->node = scene_.getRootSceneNode()->createChildSceneNode("entity_" + std::to_string(id));
+
 	comp->entity = scene_.createEntity(comp->mesh);
-	comp->node = scene_.getRootSceneNode()->createChildSceneNode("entity_" + std::to_string(id));
 	comp->node->attachObject(comp->entity);
 	comp->node->setVisible(comp->visible);
 
