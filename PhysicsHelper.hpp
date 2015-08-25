@@ -26,6 +26,9 @@ namespace PhysicsHelper
 	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the entity.
 	 * Param: The new position.
+	 * Note: The difference with move_to is that this function does not set
+	 *       the position of the scene node this entity is attached to
+	 *       and thus does not move the entity's model as well.
 	 */
 	void set_position(EntitySystem&, std::size_t, const Ogre::Vector3&);
 
