@@ -96,12 +96,7 @@ class LuaInterface
 		// Movement.
 		static int lua_move_to(lpp::Script::state);
 		static int lua_move(lpp::Script::state);
-		static int lua_rotate(lpp::Script::state);
-		static int lua_is_solid(lpp::Script::state);
 		static int lua_can_move_to(lpp::Script::state);
-		static int lua_collide(lpp::Script::state);
-		static int lua_get_distance(lpp::Script::state);
-		static int lua_get_position(lpp::Script::state);
 		static int lua_get_speed_modifier(lpp::Script::state);
 		static int lua_set_speed_modifier(lpp::Script::state);
 		static int lua_dir_to(lpp::Script::state);
@@ -109,11 +104,6 @@ class LuaInterface
 		static int lua_get_dir_back(lpp::Script::state);
 		static int lua_get_dir_left(lpp::Script::state);
 		static int lua_get_dir_right(lpp::Script::state);
-		static int lua_get_angle(lpp::Script::state);
-		static int lua_get_angle_between(lpp::Script::state);
-		static int lua_look_at(lpp::Script::state);
-		static int lua_set_solid(lpp::Script::state);
-		static int lua_set_half_height(lpp::Script::state);
 
 		// Health system.
 		static int lua_get_health(lpp::Script::state);
