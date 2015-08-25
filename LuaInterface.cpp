@@ -79,8 +79,8 @@ void LuaInterface::init(Game* game)
 		{"get_dir_left", LuaInterface::lua_get_dir_left},
 		{"get_dir_right", LuaInterface::lua_get_dir_right},
 
-		// Health system.
-		{"set_health", LuaInterface::lua_set_health}
+		// Health & defense.
+		{"set_health", LuaInterface::lua_set_health},
 		{"get_health", LuaInterface::lua_get_health},
 		{"add_health", LuaInterface::lua_add_health},
 		{"sub_health", LuaInterface::lua_sub_health},
@@ -98,7 +98,7 @@ void LuaInterface::init(Game* game)
 		{"set_regen_period", LuaInterface::lua_set_regen_period},
 		{"get_regen_period", LuaInterface::lua_get_regen_period},
 
-		// AI system.
+		// AI & update.
 		{"get_blueprint", LuaInterface::lua_get_blueprint},
 		{"get_state", LuaInterface::lua_get_state},
 		{"get_faction", LuaInterface::lua_get_faction},
@@ -109,7 +109,7 @@ void LuaInterface::init(Game* game)
 		{"get_update_period", LuaInterface::lua_get_update_period},
 		{"force_update", LuaInterface::lua_force_update},
 
-		// Input system.
+		// Input handling.
 		{"set_input_handler", LuaInterface::lua_set_input_handler},
 		{"get_input_handler", LuaInterface::lua_get_input_handler},
 		{"toggle_first_person", LuaInterface::lua_toggle_first_person},
@@ -135,7 +135,7 @@ void LuaInterface::init(Game* game)
 		{"set_radius", LuaInterface::lua_set_radius},
 		{"set_walk_through", LuaInterface::lua_set_walk_through},
 
-		// Task system.
+		// Tasks & task handling.
 		{"add_task", LuaInterface::lua_add_task},
 		{"cancel_task", LuaInterface::lua_cancel_task},
 		{"create_task", LuaInterface::lua_create_task},
@@ -151,7 +151,7 @@ void LuaInterface::init(Game* game)
 		{"add_possible_task", LuaInterface::lua_add_possible_task},
 		{"delete_possible_task", LuaInterface::lua_delete_possible_task},
 
-		// Combat system.
+		// Combat.
 		{"set_range", LuaInterface::lua_set_range},
 		{"get_range", LuaInterface::lua_get_range},
 		{"set_dmg_range", LuaInterface::lua_set_dmg_range},
@@ -168,7 +168,7 @@ void LuaInterface::init(Game* game)
 		{"closest_enemy", LuaInterface::lua_closest_enemy},
 		{"closest_friendly", LuaInterface::lua_closest_friendly},
 
-		// Production system.
+		// Production & products.
 		{"set_production_blueprint", LuaInterface::lua_set_production_blueprint},
 		{"get_production_blueprint", LuaInterface::lua_get_production_blueprint},
 		{"set_production_limit", LuaInterface::lua_set_production_limit},

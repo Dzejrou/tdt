@@ -125,7 +125,7 @@ class LuaInterface
 		static int lua_set_regen_period(lpp::Script::state);
 		static int lua_get_regen_period(lpp::Script::state);
 
-		// AI and updating.
+		// AI & updating.
 		static int lua_get_blueprint(lpp::Script::state);
 		static int lua_get_state(lpp::Script::state);
 		static int lua_get_faction(lpp::Script::state);
@@ -136,7 +136,7 @@ class LuaInterface
 		static int lua_get_update_period(lpp::Script::state);
 		static int lua_force_update(lpp::Script::state);
 
-		// Input system.
+		// Input handling.
 		static int lua_set_input_handler(lpp::Script::state);
 		static int lua_get_input_handler(lpp::Script::state);
 		static int lua_toggle_first_person(lpp::Script::state);
@@ -162,7 +162,7 @@ class LuaInterface
 		static int lua_set_radius(lpp::Script::state);
 		static int lua_set_walk_through(lpp::Script::state);
 
-		// Task system.
+		// Tasks & task handling.
 		static int lua_add_task(lpp::Script::state);
 		static int lua_cancel_task(lpp::Script::state);
 		static int lua_create_task(lpp::Script::state);
@@ -178,7 +178,7 @@ class LuaInterface
 		static int lua_add_possible_task(lpp::Script::state);
 		static int lua_delete_possible_task(lpp::Script::state);
 
-		// Combat system.
+		// Combat.
 		static int lua_set_range(lpp::Script::state);
 		static int lua_get_range(lpp::Script::state);
 		static int lua_set_dmg_range(lpp::Script::state);
@@ -195,7 +195,7 @@ class LuaInterface
 		static int lua_closest_enemy(lpp::Script::state);
 		static int lua_closest_friendly(lpp::Script::state);
 
-		// Production system.
+		// Production & products.
 		static int lua_set_production_blueprint(lpp::Script::state);
 		static int lua_get_production_blueprint(lpp::Script::state);
 		static int lua_set_production_limit(lpp::Script::state);
