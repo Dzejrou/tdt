@@ -80,16 +80,23 @@ void LuaInterface::init(Game* game)
 		{"get_dir_right", LuaInterface::lua_get_dir_right},
 
 		// Health system.
+		{"set_health", LuaInterface::lua_set_health}
 		{"get_health", LuaInterface::lua_get_health},
 		{"add_health", LuaInterface::lua_add_health},
 		{"sub_health", LuaInterface::lua_sub_health},
 		{"heal", LuaInterface::lua_heal},
 		{"buff", LuaInterface::lua_buff},
+		{"debuff", LuaInterface::lua_debuff},
 		{"get_defense", LuaInterface::lua_get_defense},
 		{"add_defense", LuaInterface::lua_add_defense},
 		{"sub_defense", LuaInterface::lua_sub_defense},
 		{"set_regen", LuaInterface::lua_set_regen},
+		{"get_regen", LuaInterface::lua_get_regen},
 		{"set_alive", LuaInterface::lua_set_alive},
+		{"is_alive", LuaInterface::lua_is_alive},
+		{"ubercharge", LuaInterface::lua_ubercharge},
+		{"set_regen_period", LuaInterface::lua_set_regen_period},
+		{"get_regen_period", LuaInterface::lua_get_regen_period},
 
 		// AI system.
 		{"get_blueprint", LuaInterface::lua_get_blueprint},
@@ -773,6 +780,17 @@ int LuaInterface::lua_set_position(lpp::Script::state L)
 	PhysicsHelper::set_position(*ents, id, Ogre::Vector3{x, y, z});
 	return 0;
 }
+
+int LuaInterface::lua_set_health(lpp::Script::state L)
+{
+	std::size_t hp = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	HealthHelper::set_health(*ents, id, hp);
+	return 0;
+}
+
 int LuaInterface::lua_get_health(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
@@ -822,6 +840,24 @@ int LuaInterface::lua_buff(lpp::Script::state L)
 	return 0;
 }
 
+int LuaInterface::lua_debuff(lpp::Script::state L)
+{
+	std::size_t hp = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	HealthHelper::debuff(*ents, id, hp);
+	return 0;
+}
+
+int LuaInterface::lua_set_defense(lpp::Script::state L)
+{
+	std::size_t def = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	HealthHelper::set_defense(*ents, id, def);
+	return 0;
+}
+
 int LuaInterface::lua_get_defense(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
@@ -862,6 +898,16 @@ int LuaInterface::lua_set_regen(lpp::Script::state L)
 	return 0;
 }
 
+int LuaInterface::lua_get_regen(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = HealthHelper::get_regen(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_set_alive(lpp::Script::state L)
 {
 	bool alive = lua_toboolean(L, -1) == 1;
@@ -870,6 +916,41 @@ int LuaInterface::lua_set_alive(lpp::Script::state L)
 
 	HealthHelper::set_alive(*ents, id, alive);
 	return 0;
+}
+
+int LuaInterface::lua_is_alive(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = HealthHelper::is_alive(*ents, id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_ubercharge(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	HealthHelper::ubercharge(*ents, id);
+	return 0;
+}
+
+int LuaInterface::lua_set_regen_period(lpp::Script::state L)
+{
+	Ogre::Real t = (Ogre::Real)luaL_checknumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->health_system_->set_regen_period(t);
+	return 0;
+}
+
+int LuaInterface::lua_get_regen_period(lpp::Script::state L)
+{
+	auto res = lua_this->health_system_->get_regen_period();
+	lua_pushnumber(L, res);
+	return 1;
 }
 
 int LuaInterface::lua_get_blueprint(lpp::Script::state L)
