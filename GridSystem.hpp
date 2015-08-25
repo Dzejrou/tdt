@@ -16,6 +16,7 @@
 #include "Components.hpp"
 #include "Console.hpp"
 #include "SelectionBox.hpp"
+#include "Helpers.hpp"
 
 /**
  * Represents the pathfinding graph used by the game and provides
