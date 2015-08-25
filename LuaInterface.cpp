@@ -57,7 +57,18 @@ void LuaInterface::init(Game* game)
 		{"place_entity", LuaInterface::lua_place_entity},
 		{"register_entity", LuaInterface::lua_register_entity},
 
-		// Movement system.
+		// Physics.
+		{"set_position", LuaInterface::lua_set_position}
+		{"get_position", LuaInterface::lua_get_position},
+		{"set_solid", LuaInterface::lua_set_solid},
+		{"is_solid", LuaInterface::lua_is_solid},
+		{"set_half_height", LuaInterface::lua_set_half_height},
+		{"get_half_height", LuaInterface::lua_get_half_height},
+		{"get_distance", LuaInterface::lua_get_distance},
+		{"get_angle", LuaInterface::lua_get_angle},
+		{"get_angle_between", LuaInterface::lua_get_angle_between},
+
+		// Movement.
 		{"move_to", LuaInterface::lua_move_to},
 		{"move", LuaInterface::lua_move},
 		{"rotate", LuaInterface::lua_rotate},
@@ -751,6 +762,27 @@ int LuaInterface::lua_set_half_height(lpp::Script::state L)
 	return 0;
 }
 
+int LuaInterface::lua_get_half_height(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = PhysicsHelper::get_half_height(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_position(lpp::Script::state L)
+{
+	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+	lua_pop(L, 4);
+
+	PhysicsHelper::set_position(*ents, id, Ogre::Vector3{x, y, z});
+	return 0;
+}
 int LuaInterface::lua_get_health(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
