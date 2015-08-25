@@ -134,6 +134,7 @@ void LuaInterface::init(Game* game)
 		{"add_residence", LuaInterface::lua_add_residence},
 		{"set_radius", LuaInterface::lua_set_radius},
 		{"set_walk_through", LuaInterface::lua_set_walk_through},
+		{"is_walk_through", LuaInterface::lua_is_walk_throuth},
 
 		// Tasks & task handling.
 		{"add_task", LuaInterface::lua_add_task},
@@ -1259,6 +1260,16 @@ int LuaInterface::lua_set_walk_through(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	StructureHelper::set_walk_through(*ents, id, on_off);
+	return 0;
+}
+
+int LuaInterface::lua_is_walk_throuth(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = StructureHelper::is_walk_through(*ents, id);
+	lua_pushboolean(L, res);
 	return 0;
 }
 

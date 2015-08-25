@@ -161,6 +161,7 @@ class LuaInterface
 		static int lua_add_residence(lpp::Script::state);
 		static int lua_set_radius(lpp::Script::state);
 		static int lua_set_walk_through(lpp::Script::state);
+		static int lua_is_walk_throuth(lpp::Script::state);
 
 		// Tasks & task handling.
 		static int lua_add_task(lpp::Script::state);
