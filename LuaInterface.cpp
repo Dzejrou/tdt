@@ -111,6 +111,7 @@ void LuaInterface::init(Game* game)
 
 		// Input system.
 		{"set_input_handler", LuaInterface::lua_set_input_handler},
+		{"get_input_handler", LuaInterface::lua_get_input_handler},
 		{"toggle_first_person", LuaInterface::lua_toggle_first_person},
 
 		// Grid system.
@@ -1045,6 +1046,16 @@ int LuaInterface::lua_set_input_handler(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	InputHelper::set_input_handler(*ents, id, handler);
+	return 0;
+}
+
+int LuaInterface::lua_get_input_handler(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto& res = InputHelper::get_input_handler(*ents, id);
+	lua_pushstring(L, res.c_str());
 	return 0;
 }
 
