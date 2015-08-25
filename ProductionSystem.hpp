@@ -41,20 +41,6 @@ class ProductionSystem : public System
 		 * Param: Name of the blueprint table of the spawned entity.
 		 */
 		void spawn_entity(std::size_t, const std::string&);
-
-		/**
-		 * Brief: Set's the producer of a given entity (the building that
-		 *        spawned it).
-		 * Param: ID of the entity.
-		 * Param: ID of the producer.
-		 */
-		void set_producer(std::size_t, std::size_t);
-
-		/**
-		 * Brief: Returns the producer of a given entity.
-		 * Param: ID of the entity.
-		 */
-		std::size_t get_producer(std::size_t);
 	private:
 		/**
 		 * Reference to the game's entity system (component retrieval).
