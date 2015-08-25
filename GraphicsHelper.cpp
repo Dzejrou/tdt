@@ -127,3 +127,40 @@ bool GraphicsHelper::collide(EntitySystem& ents, std::size_t id1, std::size_t id
 {
 	return get_bounds(ents, id1).intersects(get_bounds(ents, id2));
 }
+
+void GraphicsHelper::init_graphics_component(EntitySystem& ents, Ogre::SceneManager& scene, std::size_t id)
+{
+	auto comp = ents.get_component<GraphicsComponent>(id);
+
+	if(!comp)
+		return;
+
+	if(comp->node && comp->entity)
+	{
+		comp->node->detachObject(comp->entity);
+		scene.destroyEntity(comp->entity);
+	}
+	
+	if(!comp->node)
+		comp->node = scene.getRootSceneNode()->createChildSceneNode("entity_" + std::to_string(id));
+	
+	comp->entity = scene.createEntity(comp->mesh);
+	comp->node->attachObject(comp->entity);
+	comp->node->setVisible(comp->visible);
+
+	if(comp->manual_scaling)
+		comp->node->setScale(comp->scale);
+
+	if(comp->material != "NO_MAT")
+		comp->entity->setMaterialName(comp->material);
+
+	auto half_height = comp->entity->getWorldBoundingBox(true).getHalfSize().y;
+	auto phys_comp = ents.get_component<PhysicsComponent>(id);
+	if(phys_comp)
+	{
+		phys_comp->half_height = half_height;
+		phys_comp->position = Ogre::Vector3{phys_comp->position.x,
+												   half_height, phys_comp->position.z};
+		comp->node->setPosition(phys_comp->position);
+	}
+}
