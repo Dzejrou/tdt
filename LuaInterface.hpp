@@ -138,6 +138,7 @@ class LuaInterface
 
 		// Input system.
 		static int lua_set_input_handler(lpp::Script::state);
+		static int lua_get_input_handler(lpp::Script::state);
 		static int lua_toggle_first_person(lpp::Script::state);
 
 		// Grid system.
