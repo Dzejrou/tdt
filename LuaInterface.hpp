@@ -82,7 +82,18 @@ class LuaInterface
 		static int lua_place_entity(lpp::Script::state);
 		static int lua_register_entity(lpp::Script::state);
 
-		// Movement and physics.
+		// Physics.
+		static int lua_set_position(lpp::Script::state);
+		static int lua_get_position(lpp::Script::state);
+		static int lua_is_solid(lpp::Script::state);
+		static int lua_set_solid(lpp::Script::state);
+		static int lua_set_half_height(lpp::Script::state);
+		static int lua_get_half_height(lpp::Script::state);
+		static int lua_get_distance(lpp::Script::state);
+		static int lua_get_angle(lpp::Script::state);
+		static int lua_get_angle_between(lpp::Script::state);
+
+		// Movement.
 		static int lua_move_to(lpp::Script::state);
 		static int lua_move(lpp::Script::state);
 		static int lua_rotate(lpp::Script::state);
