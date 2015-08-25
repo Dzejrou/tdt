@@ -105,17 +105,25 @@ class LuaInterface
 		static int lua_get_dir_left(lpp::Script::state);
 		static int lua_get_dir_right(lpp::Script::state);
 
-		// Health system.
+		// Health & defense.
+		static int lua_set_health(lpp::Script::state);
 		static int lua_get_health(lpp::Script::state);
 		static int lua_add_health(lpp::Script::state);
 		static int lua_sub_health(lpp::Script::state);
 		static int lua_heal(lpp::Script::state);
 		static int lua_buff(lpp::Script::state);
+		static int lua_debuff(lpp::Script::state);
+		static int lua_set_defense(lpp::Script::state);
 		static int lua_get_defense(lpp::Script::state);
 		static int lua_add_defense(lpp::Script::state);
 		static int lua_sub_defense(lpp::Script::state);
 		static int lua_set_regen(lpp::Script::state);
+		static int lua_get_regen(lpp::Script::state);
 		static int lua_set_alive(lpp::Script::state);
+		static int lua_is_alive(lpp::Script::state);
+		static int lua_ubercharge(lpp::Script::state);
+		static int lua_set_regen_period(lpp::Script::state);
+		static int lua_get_regen_period(lpp::Script::state);
 
 		// AI system.
 		static int lua_get_blueprint(lpp::Script::state);
