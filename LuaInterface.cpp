@@ -32,12 +32,20 @@ void LuaInterface::init(Game* game)
 		{"save_game", LuaInterface::lua_save_game},
 		{"load_game", LuaInterface::lua_load_game},
 
-		// Ogre related functions.
+		// Graphics.
 		{"set_mesh", LuaInterface::lua_set_mesh},
 		{"set_material", LuaInterface::lua_set_material},
 		{"set_visible", LuaInterface::lua_set_visible},
 		{"set_manual_scaling", LuaInterface::lua_set_manual_scaling},
 		{"set_scale", LuaInterface::lua_set_scale},
+		{"get_mesh", LuaInterface::lua_get_mesh},
+		{"get_material", LuaInterface::lua_get_material},
+		{"is_visible", LuaInterface::lua_is_visible},
+		{"get_manual_scaling", LuaInterface::lua_get_manual_scaling},
+		{"get_scale", LuaInterface::lua_get_scale},
+		{"rotate", LuaInterface::lua_rotate},
+		{"collide", LuaInterface::lua_collide},
+		{"look_at", LuaInterface::lua_look_at},
 
 		// Entity manipulation.
 		{"create_entity", LuaInterface::lua_create_entity},
@@ -371,23 +379,79 @@ int LuaInterface::lua_set_scale(lpp::Script::state L)
 	lua_pop(L, 4);
 
 	GraphicsHelper::set_scale(*ents, id, Ogre::Vector3{x, y, z});
-	/** TODO: Move this to the init_graphics_component and move that to GraphicsHelper.
-	auto comp = lua_this->entity_system_->get_component<GraphicsComponent>(id);
-	if(comp)
-	{
-		comp->scale = Ogre::Vector3{x, y, z};
-		if(comp->node)
-			comp->node->setScale(x, y, z);
-		comp->node->setPosition(
-				comp->node->getPosition().x,
-				comp->entity->getWorldBoundingBox(true).getHalfSize().y,
-				comp->node->getPosition().z
-			);
-		auto phys_comp = lua_this->entity_system_->get_component<PhysicsComponent>(id);
-		if(phys_comp)
-			phys_comp->half_height = comp->entity->getWorldBoundingBox(true).getHalfSize().y;
-	}
-	*/
+	return 0;
+}
+
+int LuaInterface::lua_get_mesh(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto& res = GraphicsHelper::get_mesh(*ents, id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_get_material(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto& res = GraphicsHelper::get_material(*ents, id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_is_visible(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = GraphicsHelper::is_visible(*ents, id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_get_manual_scaling(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = GraphicsHelper::get_manual_scaling(*ents, id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_get_scale(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto& res = GraphicsHelper::get_scale(*ents, id);
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	lua_pushnumber(L, res.z);
+	return 3;
+}
+
+int LuaInterface::lua_collide(lpp::Script::state L)
+{
+	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	bool res = GraphicsHelper::collide(*ents, id1, id2);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_look_at(lpp::Script::state L)
+{
+	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	GraphicsHelper::look_at(*ents, id1, id2);
 	return 0;
 }
 
@@ -534,17 +598,6 @@ int LuaInterface::lua_can_move_to(lpp::Script::state L)
 	return 1;
 }
 
-int LuaInterface::lua_collide(lpp::Script::state L)
-{
-	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
-	lua_pop(L, 2);
-
-	bool res = GraphicsHelper::collide(*ents, id1, id2);
-	lua_pushboolean(L, res);
-	return 1;
-}
-
 int LuaInterface::lua_get_distance(lpp::Script::state L)
 {
 	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
@@ -676,16 +729,6 @@ int LuaInterface::lua_get_angle_between(lpp::Script::state L)
 	auto res = PhysicsHelper::get_angle(Ogre::Vector3{x1, y1, z1}, Ogre::Vector3{x2, y2, z2});
 	lua_pushnumber(L, res);
 	return 3;
-}
-
-int LuaInterface::lua_look_at(lpp::Script::state L)
-{
-	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
-	lua_pop(L, 2);
-
-	GraphicsHelper::look_at(*ents, id1, id2);
-	return 0;
 }
 
 int LuaInterface::lua_set_solid(lpp::Script::state L)
