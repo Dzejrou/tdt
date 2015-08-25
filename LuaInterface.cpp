@@ -71,23 +71,13 @@ void LuaInterface::init(Game* game)
 		// Movement.
 		{"move_to", LuaInterface::lua_move_to},
 		{"move", LuaInterface::lua_move},
-		{"rotate", LuaInterface::lua_rotate},
-		{"is_solid", LuaInterface::lua_is_solid},
 		{"can_move_to", LuaInterface::lua_can_move_to},
-		{"collide", LuaInterface::lua_collide},
-		{"get_distance", LuaInterface::lua_get_distance},
-		{"get_position", LuaInterface::lua_get_position},
 		{"get_speed", LuaInterface::lua_get_speed_modifier},
 		{"set_speed", LuaInterface::lua_set_speed_modifier},
 		{"get_dir", LuaInterface::lua_get_dir},
 		{"get_dir_back", LuaInterface::lua_get_dir_back},
 		{"get_dir_left", LuaInterface::lua_get_dir_left},
 		{"get_dir_right", LuaInterface::lua_get_dir_right},
-		{"get_angle", LuaInterface::lua_get_angle},
-		{"get_angle_between", LuaInterface::lua_get_angle_between},
-		{"look_at", LuaInterface::lua_look_at},
-		{"set_solid", LuaInterface::lua_set_solid},
-		{"set_half_height", LuaInterface::lua_set_half_height},
 
 		// Health system.
 		{"get_health", LuaInterface::lua_get_health},
