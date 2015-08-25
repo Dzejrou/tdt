@@ -511,7 +511,7 @@ int LuaInterface::lua_init_graphics_component(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	lua_this->entity_system_->init_graphics_component(id);
+	GraphicsHelper::init_graphics_component(*ents, *lua_this->scene_mgr_, id);
 	return 0;
 }
 
