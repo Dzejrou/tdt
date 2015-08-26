@@ -75,7 +75,7 @@ class Script
 				lua_getglobal(L, name.c_str());
 
 			if(lua_isnil(L, -1))
-				throw Exception("[Error][Lua] Variable " + name + "is not defined or nil.", L);
+				throw Exception("[Error][Lua] Variable " + name + " is not defined or nil.", L);
 
 			return get_<T>(sub_name);
 		}
