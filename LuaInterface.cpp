@@ -189,6 +189,21 @@ void LuaInterface::init(Game* game)
 		{"set_production_multiplier", LuaInterface::lua_set_production_multiplier},
 		{"get_production_multiplier", LuaInterface::lua_get_production_multiplier},
 
+		// Time & time system.
+		{"get_curr_time", LuaInterface::lua_get_curr_time},
+		{"advance_curr_time", LuaInterface::lua_advance_curr_time},
+		{"max_curr_time", LuaInterface::lua_max_curr_time},
+		{"set_time_limit", LuaInterface::lua_set_time_limit},
+		{"get_time_limit", LuaInterface::lua_get_time_limit},
+		{"set_timer_target", LuaInterface::lua_set_timer_target},
+		{"get_timer_target", LuaInterface::lua_get_timer_target},
+		{"get_timer_type", LuaInterface::lua_get_timer_type},
+		{"set_timer_type", LuaInterface::lua_set_timer_type},
+		{"advance_all_timers", LuaInterface::lua_advance_all_timers},
+		{"advance_all_timers_of_type", LuaInterface::lua_advance_all_timers_of_type},
+		{"set_timer_multiplier", LuaInterface::lua_set_timer_multiplier},
+		{"get_timer_multiplier", LuaInterface::lua_get_timer_multiplier},
+
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
 	};
@@ -1771,6 +1786,130 @@ int LuaInterface::lua_set_production_multiplier(lpp::Script::state L)
 int LuaInterface::lua_get_production_multiplier(lpp::Script::state L)
 {
 	auto res = lua_this->production_system_->get_time_multiplier();
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_get_curr_time(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = TimeHelper::get_curr_time(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_advance_curr_time(lpp::Script::state L)
+{
+	Ogre::Real time = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checknumber(L, -2);
+	lua_pop(L, 2);
+
+	TimeHelper::advance_curr_time(*ents, id, time);
+	return 0;
+}
+
+int LuaInterface::lua_max_curr_time(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	TimeHelper::max_curr_time(*ents, id);
+	return 0;
+}
+
+int LuaInterface::lua_set_time_limit(lpp::Script::state L)
+{
+	Ogre::Real limit = (Ogre::Real)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	TimeHelper::set_time_limit(*ents, id, limit);
+	return 0;
+}
+
+int LuaInterface::lua_get_time_limit(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = TimeHelper::get_time_limit(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_timer_target(lpp::Script::state L)
+{
+	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	TimeHelper::set_target(*ents, id, target);
+	return 0;
+}
+
+int LuaInterface::lua_get_timer_target(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = TimeHelper::get_target(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_timer_type(lpp::Script::state L)
+{
+	TIME_EVENT type = (TIME_EVENT)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	TimeHelper::set_type(*ents, id, type);
+	return 0;
+}
+
+int LuaInterface::lua_get_timer_type(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = TimeHelper::get_type(*ents, id);
+	lua_pushinteger(L, (int)res);
+	return 1;
+}
+
+int LuaInterface::lua_advance_all_timers(lpp::Script::state L)
+{
+	Ogre::Real time = (Ogre::Real)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->time_system_->advance_all_timers(time);
+	return 0;
+}
+
+int LuaInterface::lua_advance_all_timers_of_type(lpp::Script::state L)
+{
+	TIME_EVENT type = (TIME_EVENT)luaL_checkinteger(L, -1);
+	Ogre::Real time = (Ogre::Real)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	lua_this->time_system_->advance_all_timers_of_type(time, type);
+	return 0;
+}
+
+int LuaInterface::lua_set_timer_multiplier(lpp::Script::state L)
+{
+	Ogre::Real multiplier = (Ogre::Real)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->time_system_->set_time_multiplier(multiplier);
+	return 0;
+}
+
+int LuaInterface::lua_get_timer_multiplier(lpp::Script::state L)
+{
+	auto res = lua_this->time_system_->get_time_multiplier();
 	lua_pushnumber(L, res);
 	return 1;
 }

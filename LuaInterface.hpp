@@ -215,4 +215,19 @@ class LuaInterface
 		static int lua_instant_production(lpp::Script::state);
 		static int lua_set_production_multiplier(lpp::Script::state);
 		static int lua_get_production_multiplier(lpp::Script::state);
+
+		// Timers and time system.
+		static int lua_get_curr_time(lpp::Script::state);
+		static int lua_advance_curr_time(lpp::Script::state);
+		static int lua_max_curr_time(lpp::Script::state);
+		static int lua_set_time_limit(lpp::Script::state);
+		static int lua_get_time_limit(lpp::Script::state);
+		static int lua_set_timer_target(lpp::Script::state);
+		static int lua_get_timer_target(lpp::Script::state);
+		static int lua_set_timer_type(lpp::Script::state);
+		static int lua_get_timer_type(lpp::Script::state);
+		static int lua_advance_all_timers(lpp::Script::state);
+		static int lua_advance_all_timers_of_type(lpp::Script::state);
+		static int lua_set_timer_multiplier(lpp::Script::state);
+		static int lua_get_timer_multiplier(lpp::Script::state);
 };
