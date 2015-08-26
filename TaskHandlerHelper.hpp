@@ -12,7 +12,7 @@ namespace TaskHandlerHelper
 	 * Param: Reference to the entity system containing needed components.
 	 * Param: ID of the entity.
 	 */
-	std::deque<std::size_t> get_task_queue(EntitySystem&, std::size_t);
+	std::deque<std::size_t>& get_task_queue(EntitySystem&, std::size_t);
 
 	/**
 	 * Brief: Checks whether an entity can accept and complete a given task.

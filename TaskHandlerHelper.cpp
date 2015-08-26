@@ -2,7 +2,7 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 
-std::deque<std::size_t> TaskHandlerHelper::get_task_queue(EntitySystem& ents, std::size_t id)
+std::deque<std::size_t>& TaskHandlerHelper::get_task_queue(EntitySystem& ents, std::size_t id)
 {
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
 	if(comp)
