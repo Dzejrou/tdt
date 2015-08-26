@@ -8,7 +8,6 @@ evil_ogre = {
 		game.enum.component.graphics,
 		game.enum.component.movement,
 		game.enum.component.combat,
-		game.enum.component.event,
 		game.enum.component.pathfinding,
 		game.enum.component.task_handler
 	},
