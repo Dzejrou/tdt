@@ -70,6 +70,12 @@ enum = {
 		none = 0,
 		melee = 1,
 		ranged = 2
+	},
+
+	time_event = {
+		none = 0,
+		start_event = 1,
+		end_event = 2
 	}
 }
 
@@ -121,7 +127,7 @@ if game then
 	end
 
 	-- Aliases: (Easier to create in lua than in C++)
-	game.set_position = game.move_to
+	--game.set_position = game.move_to
 else
 	show_msg("Game Lua table not loaded!")
 end

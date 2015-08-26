@@ -16,7 +16,7 @@ barracks = {
 		visible = true,
 		manual_scaling = true,
 		scale_x = 50,
-		scale_y = 10,
+		scale_y = 1,
 		scale_z = 50,
 		query_flags = game.enum.entity_type.building
 	},
@@ -28,7 +28,8 @@ barracks = {
 	},
 
 	StructureComponent = {
-		radius = 0
+		radius = 0,
+		walk_through = true
 	}
 }
 if game then
