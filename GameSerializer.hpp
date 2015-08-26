@@ -204,7 +204,16 @@ inline void GameSerializer::save_component<InputComponent>(std::size_t id, const
 template <>
 inline void GameSerializer::save_component<TimeComponent>(std::size_t id, const std::string& tbl_name)
 {
-	// TODO:
+	auto comp = entities_.get_component<TimeComponent>(id);
+	std::string comm{
+		  "game.add_component(" + tbl_name + ", game.enum.component.time)\n"
+		+ "game.advance_curr_time(" + tbl_name + ", " + std::to_string(comp->curr_time) + ")\n"
+		+ "game.set_time_limit(" + tbl_name + ", " + std::to_string(comp->time_limit) + ")\n"
+		+ "game.set_timer_target(" + tbl_name + ", " + std::to_string(comp->target) + ")\n"
+		+ "game.set_timer_type(" + tbl_name + ", " + std::to_string((int)comp->event_type) + ")\n"
+	};
+
+	save_components_.emplace_back(std::move(comm));
 }
 
 template <>
