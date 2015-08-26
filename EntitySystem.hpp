@@ -7,7 +7,6 @@
 #include <vector>
 #include <set>
 #include <cstdlib>
-
 #include "System.hpp"
 #include "Components.hpp"
 #include "lppscript\LppScript.hpp"
@@ -484,7 +483,11 @@ template<>
 inline void EntitySystem::load_component<EventComponent>(std::size_t id, const std::string& table_name)
 {
 	lpp::Script& script = lpp::Script::get_singleton();
-	event_.emplace(id, EventComponent{});
+	EVENT_TYPE type = (EVENT_TYPE)script.get<int>(table_name + ".EventComponent.type");
+	std::size_t target = script.get<std::size_t>(table_name + ".EventComponent.target");
+	Ogre::Real radius = script.get<Ogre::Real>(table_name + ".EventComponent.radius");
+	bool active = script.get<bool>(table_name + ".EventComponent.active");
+	event_.emplace(id, EventComponent{type, target, radius, active});
 }
 
 template<>
@@ -492,6 +495,16 @@ inline void EntitySystem::load_component<InputComponent>(std::size_t id, const s
 {
 	std::string handler = lpp::Script::get_singleton().get<std::string>(table_name + ".InputComponent.input_handler");
 	input_.emplace(id, InputComponent{handler});
+}
+
+template<>
+inline void EntitySystem::load_component<TimeComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	int type = script.get<int>(table_name + ".TimeComponent.type");
+	Ogre::Real time_limit = script.get<Ogre::Real>(table_name + ".TimeComponent.time_limit");
+	std::size_t target = script.get<std::size_t>(table_name + ".TimeComponent.target");
+	time_.emplace(id, TimeComponent{(TIME_EVENT)type, time_limit, target});
 }
 
 template<>
