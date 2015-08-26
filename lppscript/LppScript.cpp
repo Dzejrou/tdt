@@ -103,10 +103,11 @@ const char* lpp::Exception::what() const
 
 const char * lpp::Exception::what_lua() const
 {
+	static std::string unknown{"UNKNOWN LUA ERROR"};
 	if(L_)
 		return lua_tostring(L_, -1);
 	else
-		return "UNKNOWN LUA ERROR";
+		return unknown.c_str();
 }
 
 bool lpp::Exception::has_lua_state() const
