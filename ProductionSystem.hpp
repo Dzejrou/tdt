@@ -41,6 +41,19 @@ class ProductionSystem : public System
 		 * Param: Name of the blueprint table of the spawned entity.
 		 */
 		void spawn_entity(std::size_t, const std::string&);
+
+		/**
+		 * Brief: Sets the time value by which the frame times are multiplied
+		 *        when added to the production timers.
+		 * Param: The new time multiplier.
+		 */
+		void set_time_multiplier(Ogre::Real);
+
+		/**
+		 * Brief: Returns the time value by which the frame times are multiplied
+		 *        when added to the production timers.
+		 */
+		Ogre::Real get_time_multiplier();
 	private:
 		/**
 		 * Reference to the game's entity system (component retrieval).
@@ -51,4 +64,9 @@ class ProductionSystem : public System
 		 * Reference to the game's grid system (spawn positioning).
 		 */
 		GridSystem& grid_;
+
+		/**
+		 * Allows to speed up/slow down the production of all buildings.
+		 */
+		Ogre::Real time_multiplier_;
 };

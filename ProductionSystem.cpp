@@ -1,7 +1,7 @@
 #include "ProductionSystem.hpp"
 
 ProductionSystem::ProductionSystem(EntitySystem& ents, GridSystem& grid)
-	: entities_{ents}, grid_{grid}
+	: entities_{ents}, grid_{grid}, time_multiplier_{1.f}
 { /* DUMMY BODY */ }
 
 void ProductionSystem::update(Ogre::Real delta)
@@ -12,7 +12,7 @@ void ProductionSystem::update(Ogre::Real delta)
 			continue;
 
 		if(ent.second.curr_cd < ent.second.cooldown)
-			ent.second.curr_cd += delta;
+			ent.second.curr_cd += delta * time_multiplier_;
 		else
 		{
 			spawn_entity(ent.first, ent.second.product_blueprint);
@@ -108,4 +108,14 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 
 	if(product_graph_comp && product_graph_comp->node)
 		product_graph_comp->node->setPosition(product_phys_comp->position);
+}
+
+void ProductionSystem::set_time_multiplier(Ogre::Real val)
+{
+	time_multiplier_ = val;
+}
+
+Ogre::Real ProductionSystem::get_time_multiplier()
+{
+	return time_multiplier_;
 }
