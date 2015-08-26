@@ -51,6 +51,8 @@
     <ClCompile Include="TaskHandlerHelper.cpp" />
     <ClCompile Include="TaskHelper.cpp" />
     <ClCompile Include="TaskSystem.cpp" />
+    <ClCompile Include="TimeHelper.cpp" />
+    <ClCompile Include="TimeSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIHelper.hpp" />
@@ -88,6 +90,8 @@
     <ClInclude Include="TaskHandlerHelper.hpp" />
     <ClInclude Include="TaskHelper.hpp" />
     <ClInclude Include="TaskSystem.hpp" />
+    <ClInclude Include="TimeHelper.hpp" />
+    <ClInclude Include="TimeSystem.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D88489E-16AD-492B-BEF7-FE61AEACA92B}</ProjectGuid>
