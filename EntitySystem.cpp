@@ -110,6 +110,8 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 				load_component<InputComponent>(id, table_name);
 				break;
 			case TimeComponent::type:
+				load_component<TimeComponent>(id, table_name);
+				break;
 			case ManaComponent::type:
 			case SpellComponent::type:
 				break; // TODO: Create these components and their respective system.
@@ -330,7 +332,10 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 			break;
 		case InputComponent::type:
 			input_.erase(ent_id);
+			break;
 		case TimeComponent::type:
+			time_.erase(ent_id);
+			break;
 		case ManaComponent::type:
 		case SpellComponent::type:
 			break; // TODO: Finnish remaining components.
