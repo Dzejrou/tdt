@@ -186,6 +186,8 @@ void LuaInterface::init(Game* game)
 		{"set_producer", LuaInterface::lua_set_producer},
 		{"get_producer", LuaInterface::lua_get_producer},
 		{"instant_production", LuaInterface::lua_instant_production},
+		{"set_production_multiplier", LuaInterface::lua_set_production_multiplier},
+		{"get_production_multiplier", LuaInterface::lua_get_production_multiplier},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -1755,5 +1757,21 @@ int LuaInterface::lua_instant_production(lpp::Script::state L)
 	for(auto& ent : lua_this->entity_system_->get_component_container<ProductionComponent>())
 		ent.second.cooldown = 0;
 	return 0;
+}
+
+int LuaInterface::lua_set_production_multiplier(lpp::Script::state L)
+{
+	Ogre::Real multiplier = (Ogre::Real)luaL_checknumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->production_system_->set_time_multiplier(multiplier);
+	return 0;
+}
+
+int LuaInterface::lua_get_production_multiplier(lpp::Script::state L)
+{
+	auto res = lua_this->production_system_->get_time_multiplier();
+	lua_pushnumber(L, res);
+	return 1;
 }
 #pragma endregion

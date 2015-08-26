@@ -213,4 +213,6 @@ class LuaInterface
 		static int lua_set_producer(lpp::Script::state);
 		static int lua_get_producer(lpp::Script::state);
 		static int lua_instant_production(lpp::Script::state);
+		static int lua_set_production_multiplier(lpp::Script::state);
+		static int lua_get_production_multiplier(lpp::Script::state);
 };
