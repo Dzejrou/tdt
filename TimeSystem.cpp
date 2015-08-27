@@ -45,9 +45,9 @@ void TimeSystem::handle_event_(std::size_t id, TimeComponent& comp)
 	switch(comp.event_type)
 	{
 		case TIME_EVENT::START_EVENT:
+			EventHelper::set_active(entities_, id, true);
 			break;
 		case TIME_EVENT::END_EVENT:
-			// TODO: Notify all that handle the event?
 			entities_.destroy_entity(comp.target);
 			break;
 	}
