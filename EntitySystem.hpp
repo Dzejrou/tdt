@@ -243,6 +243,7 @@ class EntitySystem : public System
 		std::map<std::size_t, TaskHandlerComponent> task_handler_;
 		std::map<std::size_t, StructureComponent> structure_;
 		std::map<std::size_t, HomingComponent> homing_;
+		std::map<std::size_t, EventHandlerComponent> event_handler_;
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -370,6 +371,12 @@ template<>
 inline std::map<std::size_t, HomingComponent>& EntitySystem::get_component_container<HomingComponent>()
 {
 	return homing_;
+}
+
+template<>
+inline std::map<std::size_t, EventHandlerComponent>& EntitySystem::get_component_container<EventHandlerComponent>()
+{
+	return event_handler_;
 }
 
 /**
@@ -556,4 +563,17 @@ inline void EntitySystem::load_component<HomingComponent>(std::size_t id, const 
 	std::size_t target = script.get<std::size_t>(table_name + ".HomingComponent.target");
 	std::size_t dmg = script.get<std::size_t>(table_name + ".HomingComponent.damage");
 	homing_.emplace(id, HomingComponent{source, target, dmg});
+}
+
+template<>
+inline void EntitySystem::load_component<EventHandlerComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton().get_singleton();
+	std::string handler = script.get<std::string>(table_name + ".EventHandlerComponent.handler");
+	auto res = event_handler_.emplace(id, EventHandlerComponent{handler});
+
+	auto& comp = res.first->second;
+	auto possible_events = script.get_vector<int>(table_name + ".EventHandlerComponent.possible_events");
+	for(const auto& evt : possible_events)
+		comp.possible_events.set(evt);
 }

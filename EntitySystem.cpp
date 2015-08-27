@@ -57,9 +57,8 @@ void EntitySystem::cleanup()
 
 		for(std::size_t i = 0; i < entity->second.size(); ++i)
 		{
-			if(!entity->second.test(i))
-				continue;
-			delete_component_now(id, i);
+			if(entity->second.test(i))
+				delete_component_now(id, i);
 		}
 		entities_.erase(id);
 	}
@@ -138,6 +137,9 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 				break;
 			case HomingComponent::type:
 				load_component<HomingComponent>(id, table_name);
+				break;
+			case EventHandlerComponent::type:
+				load_component<EventHandlerComponent>(id, table_name);
 				break;
 		}
 	}
@@ -223,6 +225,9 @@ void EntitySystem::add_component(std::size_t ent_id, int comp_id)
 		case HomingComponent::type:
 			add_component<HomingComponent>(ent_id);
 			break;
+		case EventHandlerComponent::type:
+			add_component<EventHandlerComponent>(ent_id);
+			break;
 	}
 }
 
@@ -286,6 +291,9 @@ void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 			break;
 		case HomingComponent::type:
 			delete_component<HomingComponent>(ent_id);
+			break;
+		case EventHandlerComponent::type:
+			delete_component<EventHandlerComponent>(ent_id);
 			break;
 	}
 }
@@ -388,6 +396,9 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 		}
 		case HomingComponent::type:
 			homing_.erase(ent_id);
+			break;
+		case EventHandlerComponent::type:
+			event_handler_.erase(ent_id);
 			break;
 	}
 }
