@@ -54,5 +54,15 @@ Ogre::Real EventSystem::get_update_time_multiplier() const
 
 bool EventSystem::handle_event_(std::size_t handler, std::size_t evt)
 {
-	return false;
+	auto type = EventHelper::get_event_type(entities_, evt);
+	switch(type)
+	{
+		case EVENT_TYPE::NONE:
+			return true;
+		case EVENT_TYPE::KILL_ENTITY:
+			entities_.destroy_entity(handler);
+			return true;
+		default:
+			// TODO:
+	}
 }
