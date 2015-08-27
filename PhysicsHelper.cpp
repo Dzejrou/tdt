@@ -69,7 +69,7 @@ Ogre::Real PhysicsHelper::get_distance(EntitySystem& ents, std::size_t id1, std:
 	auto comp1 = ents.get_component<PhysicsComponent>(id1);
 	auto comp2 = ents.get_component<PhysicsComponent>(id2);
 	if(comp1 && comp2)
-		return comp1->position.distance(comp2->position);
+		return comp1->position.squaredDistance(comp2->position);
 	else
 		return std::numeric_limits<Ogre::Real>::max();
 }
