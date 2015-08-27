@@ -27,6 +27,8 @@
     <ClCompile Include="EntityCreator.cpp" />
     <ClCompile Include="EntityPlacer.cpp" />
     <ClCompile Include="EntitySystem.cpp" />
+    <ClCompile Include="EventHelper.cpp" />
+    <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameSerializer.cpp" />
     <ClCompile Include="GraphicsHelper.cpp" />
@@ -65,6 +67,8 @@
     <ClInclude Include="EntityPlacer.hpp" />
     <ClInclude Include="EntitySystem.hpp" />
     <ClInclude Include="Enums.hpp" />
+    <ClInclude Include="EventHelper.hpp" />
+    <ClInclude Include="EventSystem.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameSerializer.hpp" />
     <ClInclude Include="GraphicsHelper.hpp" />
