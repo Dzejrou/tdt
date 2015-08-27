@@ -5,6 +5,7 @@
 #include "System.hpp"
 #include "EntitySystem.hpp"
 #include "Helpers.hpp"
+#include "lppscript/LppScript.hpp"
 
 class EventSystem : public System
 {
