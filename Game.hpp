@@ -26,6 +26,7 @@
 #include "Enums.hpp"
 #include "LuaInterface.hpp"
 #include "TimeSystem.hpp"
+#include "EventSystem.hpp"
 
 class Game : public Ogre::FrameListener, public OIS::KeyListener,
 			 public OIS::MouseListener, public Ogre::WindowEventListener
@@ -116,6 +117,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<CombatSystem> combat_system_;
 		std::unique_ptr<ProductionSystem> production_system_;
 		std::unique_ptr<TimeSystem> time_system_;
+		std::unique_ptr<EventSystem> event_system_;
 
 		/**
 		 * Used to save the game.
