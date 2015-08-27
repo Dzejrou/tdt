@@ -213,6 +213,11 @@ void LuaInterface::init(Game* game)
 		{"get_event_radius", LuaInterface::lua_get_event_radius},
 		{"set_event_active", LuaInterface::lua_set_event_active},
 		{"is_event_active", LuaInterface::lua_is_event_active},
+		{"set_event_handler", LuaInterface::lua_set_event_handler},
+		{"get_event_handler", LuaInterface::lua_get_event_handler},
+		{"can_handle_event", LuaInterface::lua_can_handle_event},
+		{"add_possible_event", LuaInterface::lua_add_possible_event},
+		{"delete_possible_event", LuaInterface::lua_delete_possible_event},
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
 	};
