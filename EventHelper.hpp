@@ -1,5 +1,8 @@
 #pragma once
 
+#include <Ogre.h>
+#include <cstdlib>
+#include <numeric>
 #include "Enums.hpp"
 class EntitySystem;
 
