@@ -190,7 +190,8 @@ struct InputComponent
 };
 
 /**
- * TODO:
+ * Represents a timer that after a certain amount of time can start
+ * end an event (it's target).
  */
 struct TimeComponent
 {
