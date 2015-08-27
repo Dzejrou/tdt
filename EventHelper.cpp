@@ -47,7 +47,7 @@ Ogre::Real EventHelper::get_radius(EntitySystem& ents, std::size_t id)
 	if(comp)
 		return comp->radius;
 	else
-		return Ogre::Real{};
+		return 0.000001f;
 }
 
 void EventHelper::set_active(EntitySystem& ents, std::size_t id, bool val)
