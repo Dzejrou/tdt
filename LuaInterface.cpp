@@ -204,6 +204,15 @@ void LuaInterface::init(Game* game)
 		{"set_timer_multiplier", LuaInterface::lua_set_timer_multiplier},
 		{"get_timer_multiplier", LuaInterface::lua_get_timer_multiplier},
 
+		// Events & event handling.
+		{"set_event_type", LuaInterface::lua_set_event_type},
+		{"get_event_type", LuaInterface::lua_get_event_type},
+		{"set_event_target", LuaInterface::lua_set_event_target},
+		{"get_event_target", LuaInterface::lua_get_event_target},
+		{"set_event_radius", LuaInterface::lua_set_event_radius},
+		{"get_event_radius", LuaInterface::lua_get_event_radius},
+		{"set_event_active", LuaInterface::lua_set_event_active},
+		{"is_event_active", LuaInterface::lua_is_event_active},
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
 	};
@@ -1911,6 +1920,86 @@ int LuaInterface::lua_get_timer_multiplier(lpp::Script::state L)
 {
 	auto res = lua_this->time_system_->get_time_multiplier();
 	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_event_type(lpp::Script::state L)
+{
+	EVENT_TYPE type = (EVENT_TYPE)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	EventHelper::set_event_type(*ents, id, type);
+	return 0;
+}
+
+int LuaInterface::lua_get_event_type(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = EventHelper::get_event_type(*ents, id);
+	lua_pushinteger(L, (int)res);
+	return 1;
+}
+
+int LuaInterface::lua_set_event_target(lpp::Script::state L)
+{
+	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	EventHelper::set_target(*ents, id, target);
+	return 0;
+}
+
+int LuaInterface::lua_get_event_target(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = EventHelper::get_target(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_event_radius(lpp::Script::state L)
+{
+	Ogre::Real radius = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (Ogre::Real)luaL_checknumber(L, -2);
+	lua_pop(L, 2);
+
+	EventHelper::set_radius(*ents, id, radius);
+	return 0;
+}
+
+int LuaInterface::lua_get_event_radius(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = EventHelper::get_radius(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_event_active(lpp::Script::state L)
+{
+	bool active = lua_toboolean(L, -1) == 1;
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 2);
+
+	EventHelper::set_active(*ents, id, active);
+	return 0;
+}
+
+int LuaInterface::lua_is_event_active(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, -1);
+
+	auto res = EventHelper::is_active(*ents, id);
+	lua_pushboolean(L, res);
 	return 1;
 }
 #pragma endregion

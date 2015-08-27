@@ -230,4 +230,14 @@ class LuaInterface
 		static int lua_advance_all_timers_of_type(lpp::Script::state);
 		static int lua_set_timer_multiplier(lpp::Script::state);
 		static int lua_get_timer_multiplier(lpp::Script::state);
+
+		// Events & event handling.
+		static int lua_set_event_type(lpp::Script::state);
+		static int lua_get_event_type(lpp::Script::state);
+		static int lua_set_event_target(lpp::Script::state);
+		static int lua_get_event_target(lpp::Script::state);
+		static int lua_set_event_radius(lpp::Script::state);
+		static int lua_get_event_radius(lpp::Script::state);
+		static int lua_set_event_active(lpp::Script::state);
+		static int lua_is_event_active(lpp::Script::state);
 };
