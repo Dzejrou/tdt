@@ -4,11 +4,12 @@
 
 std::deque<std::size_t>& TaskHandlerHelper::get_task_queue(EntitySystem& ents, std::size_t id)
 {
+	static std::deque<std::size_t> NO_QUEUE{};
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
 	if(comp)
 		return comp->task_queue;
 	else
-		return std::deque<std::size_t>{};
+		return NO_QUEUE;
 }
 
 bool TaskHandlerHelper::task_possible(EntitySystem& ents, std::size_t ent_id, std::size_t task_id)
