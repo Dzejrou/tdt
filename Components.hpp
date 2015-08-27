@@ -154,7 +154,8 @@ struct CombatComponent
 };
 
 /**
- * TODO:
+ * Represents events that happen in the game, like gold seams dropping gold,
+ * curing an entity of poisoning or triggers from traps etc.
  */
 struct EventComponent
 { 
@@ -394,7 +395,9 @@ struct HomingComponent
 };
 
 /**
- *
+ * Allows to cherry pink when it comes to event handling and handle
+ * only certain events. (Also, only entities with this component
+ * will react to events.)
  */
 struct EventHandlerComponent
 {
