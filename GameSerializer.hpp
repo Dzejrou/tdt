@@ -186,7 +186,16 @@ inline void GameSerializer::save_component<CombatComponent>(std::size_t id, cons
 template <>
 inline void GameSerializer::save_component<EventComponent>(std::size_t id, const std::string& tbl_name)
 {
-	// TODO:
+	auto comp = entities_.get_component<EventComponent>(id);
+	std::string comm{
+		  "game.add_component(" + tbl_name + ", game.enum.component.event"
+		+ "game.set_event_type(" + tbl_name + ", " + std::to_string((int)comp->event_type) + ")\n"
+		+ "game.set_event_target(" + tbl_name + ", " + std::to_string(comp->target) + ")\n"
+		+ "game.set_event_radius(" + tbl_name + ", " + std::to_string(comp->radius) + ")\n"
+		+ "game.set_event_active(" + tbl_name + ", " + (comp->active ? "true" : "false") + ")\n"
+	};
+
+	save_components_.emplace_back(std::move(comm));
 }
 
 template <>
@@ -337,4 +346,20 @@ inline void GameSerializer::save_component<HomingComponent>(std::size_t id, cons
 	};
 
 	save_components_.emplace_back(std::move(comm));
+}
+
+template<>
+inline void GameSerializer::save_component<EventHandlerComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<EventHandlerComponent>(id);
+	std::string comm{
+		  "game.add_component(" + tbl_name + ", game.enum.component.event_handler)\n"
+		+ "game.set_event_handler(" + tbl_name + ", " + comp->handler + ")\n"
+	};
+
+	for(std::size_t i = 0; i < comp->possible_events.size(); ++i)
+	{
+		if(comp->possible_events.test(i))
+			comm.append("game.add_possible_event(" + tbl_name + ", " + std::to_string(i) + ")\n");
+	}
 }
