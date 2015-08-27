@@ -1976,7 +1976,7 @@ int LuaInterface::lua_get_event_target(lpp::Script::state L)
 int LuaInterface::lua_set_event_radius(lpp::Script::state L)
 {
 	Ogre::Real radius = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (Ogre::Real)luaL_checknumber(L, -2);
+	std::size_t id = (std::size_t)luaL_checknumber(L, -2);
 	lua_pop(L, 2);
 
 	EventHelper::set_radius(*ents, id, radius);
@@ -1996,7 +1996,7 @@ int LuaInterface::lua_get_event_radius(lpp::Script::state L)
 int LuaInterface::lua_set_event_active(lpp::Script::state L)
 {
 	bool active = lua_toboolean(L, -1) == 1;
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
 	EventHelper::set_active(*ents, id, active);
