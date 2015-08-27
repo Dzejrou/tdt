@@ -2002,4 +2002,55 @@ int LuaInterface::lua_is_event_active(lpp::Script::state L)
 	lua_pushboolean(L, res);
 	return 1;
 }
+
+int LuaInterface::lua_set_event_handler(lpp::Script::state L)
+{
+	std::string handler = luaL_checkstring(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	EventHandlerHelper::set_handler(*ents, id, handler);
+	return 0;
+}
+
+int LuaInterface::lua_get_event_handler(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto& res = EventHandlerHelper::get_handler(*ents, id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_can_handle_event(lpp::Script::state L)
+{
+	EVENT_TYPE type = (EVENT_TYPE)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	auto res = EventHandlerHelper::can_handle(*ents, id, type);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_add_possible_event(lpp::Script::state L)
+{
+	EVENT_TYPE type = (EVENT_TYPE)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	EventHandlerHelper::add_possible_event(*ents, id, type);
+	return 0;
+}
+
+int LuaInterface::lua_delete_possible_event(lpp::Script::state L)
+{
+	EVENT_TYPE type = (EVENT_TYPE)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	EventHandlerHelper::delete_possible_event(*ents, id, type);
+	return 0;
+}
 #pragma endregion

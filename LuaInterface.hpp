@@ -240,4 +240,9 @@ class LuaInterface
 		static int lua_get_event_radius(lpp::Script::state);
 		static int lua_set_event_active(lpp::Script::state);
 		static int lua_is_event_active(lpp::Script::state);
+		static int lua_set_event_handler(lpp::Script::state);
+		static int lua_get_event_handler(lpp::Script::state);
+		static int lua_can_handle_event(lpp::Script::state);
+		static int lua_add_possible_event(lpp::Script::state);
+		static int lua_delete_possible_event(lpp::Script::state);
 };
