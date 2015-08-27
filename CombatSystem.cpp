@@ -31,8 +31,9 @@ void CombatSystem::update(Ogre::Real delta)
 			auto phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
 			auto target_phys_comp = entities_.get_component<PhysicsComponent>(ent.second.curr_target);
 
+			auto range = ent.second.range * ent.second.range;
 			if(phys_comp && target_phys_comp &&
-			   phys_comp->position.distance(target_phys_comp->position) < ent.second.range)
+			   phys_comp->position.squaredDistance(target_phys_comp->position) < range)
 			{
 				auto dmg = CombatHelper::get_dmg(entities_, ent.second.min_dmg, ent.second.max_dmg);
 				GraphicsHelper::look_at(entities_, ent.first, ent.second.curr_target);
