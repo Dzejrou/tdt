@@ -400,7 +400,8 @@ struct EventHandlerComponent
 {
 	static constexpr int type = 19;
 
-	EventHandlerComponent()
+	EventHandlerComponent(const std::string& h = "ERROR")
+		: handler{h}, possible_events{}
 	{ /* DUMMY BODY */ }
 	EventHandlerComponent(const EventHandlerComponent&) = default;
 	EventHandlerComponent(EventHandlerComponent&&) = default;
