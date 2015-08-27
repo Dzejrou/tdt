@@ -35,7 +35,8 @@ enum = {
 	},
 
 	event = {
-		-- TODO:
+		none = 0,
+		kill_entity = 1
 	},
 
 	faction = {

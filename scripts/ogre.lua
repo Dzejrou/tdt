@@ -9,7 +9,8 @@ ogre = {
 		game.enum.component.movement,
 		game.enum.component.combat,
 		game.enum.component.pathfinding,
-		game.enum.component.task_handler
+		game.enum.component.task_handler,
+		game.enum.component.event_handler
 	},
 
 	PhysicsComponent = {
@@ -71,6 +72,17 @@ ogre = {
 		-- Won't get loaded, but serves as a blueprint if needed.
 		input_handler = "ogre_handler"
 	},
+
+	EventHandlerComponent = {
+		handler = "ogre",
+		possible_events = {
+			game.enum.event.kill_entity
+		}
+	},
+
+	handle_event = function(id, evt)
+		-- TODO:
+	end,
 
 	init = function(id)
 		ogre.stats.current_amount = ogre.stats.current_amount + 1
