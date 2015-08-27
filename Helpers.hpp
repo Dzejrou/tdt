@@ -16,3 +16,4 @@
 #include "TaskHelper.hpp"
 #include "TimeHelper.hpp"
 #include "EventHelper.hpp"
+#include "EventHandlerHelper.hpp"
