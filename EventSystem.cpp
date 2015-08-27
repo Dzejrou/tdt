@@ -18,15 +18,26 @@ void EventSystem::update(Ogre::Real delta)
 	{
 		if(!evt.second.active)
 			continue;
-		auto radius = evt.second.radius * evt.second.radius; // get_distance returns squared distance.
 		
-		for(auto& handler : entities_.get_component_container<EventHandlerComponent>())
-		{
-			if(handler.second.possible_events.test((int)evt.second.event_type)
-			   && PhysicsHelper::get_distance(entities_, evt.first, handler.first) <= radius
-			   && handle_event_(handler.first, evt.first))
+		auto radius = evt.second.radius;
+		if(radius == 0.f)
+		{ // Targeted events.
+			auto handler = entities_.get_component<EventHandlerComponent>(evt.second.target);
+			if(handler && handler->possible_events.test((int)evt.second.event_type))
+				handle_event_(evt.second.target, evt.first);
+		}
+		else
+		{ // Area events.
+			radius *= radius; // get_distance returns squared distance.
+			
+			for(auto& handler : entities_.get_component_container<EventHandlerComponent>())
 			{
-				break;
+				if(handler.second.possible_events.test((int)evt.second.event_type)
+				   && PhysicsHelper::get_distance(entities_, evt.first, handler.first) <= radius
+				   && handle_event_(handler.first, evt.first))
+				{
+					break;
+				}
 			}
 		}
 	}
