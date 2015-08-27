@@ -2,6 +2,7 @@
 
 #include <Ogre.h>
 #include <cstdlib>
+#include <numeric>
 class EntitySystem;
 
 namespace PhysicsHelper
