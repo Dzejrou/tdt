@@ -63,6 +63,9 @@ bool EventSystem::handle_event_(std::size_t handler, std::size_t evt)
 			entities_.destroy_entity(handler);
 			return true;
 		default:
-			// TODO:
+			return lpp::Script::get_singleton().call<bool, std::size_t, std::size_t>(
+				EventHandlerHelper::get_handler(entities_, handler),
+				handler, evt
+			);
 	}
 }
