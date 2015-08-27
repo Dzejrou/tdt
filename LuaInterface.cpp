@@ -218,6 +218,11 @@ void LuaInterface::init(Game* game)
 		{"can_handle_event", LuaInterface::lua_can_handle_event},
 		{"add_possible_event", LuaInterface::lua_add_possible_event},
 		{"delete_possible_event", LuaInterface::lua_delete_possible_event},
+		{"set_event_update_period", LuaInterface::lua_set_event_update_period},
+		{"get_event_update_period", LuaInterface::lua_get_event_update_period},
+		{"set_event_update_multiplier", LuaInterface::lua_set_event_update_multiplier},
+		{"get_event_update_multiplier", LuaInterface::lua_get_event_update_multiplier},
+
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
 	};
@@ -2057,5 +2062,36 @@ int LuaInterface::lua_delete_possible_event(lpp::Script::state L)
 
 	EventHandlerHelper::delete_possible_event(*ents, id, type);
 	return 0;
+}
+
+int LuaInterface::lua_set_event_update_period(lpp::Script::state L)
+{
+	Ogre::Real t = (Ogre::Real)luaL_checknumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->event_system_->set_update_period(t);
+	return 0;
+}
+
+int LuaInterface::lua_get_event_update_period(lpp::Script::state L)
+{
+	auto res = lua_this->event_system_->get_update_period();
+	lua_pushnumber(L, res);
+	return 1;
+}
+int LuaInterface::lua_set_event_update_multiplier(lpp::Script::state L)
+{
+	Ogre::Real multiplier = (Ogre::Real)luaL_checknumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_this->event_system_->set_update_time_multiplier(multiplier);
+	return 0;
+}
+
+int LuaInterface::lua_get_event_update_multiplier(lpp::Script::state L)
+{
+	auto res = lua_this->event_system_->get_update_time_multiplier();
+	lua_pushnumber(L, res);
+	return 1;
 }
 #pragma endregion
