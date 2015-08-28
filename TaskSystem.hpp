@@ -76,7 +76,7 @@ class TaskSystem : public System
 		 * Param: Reference to the task component of the task to be handled.
 		 * Param: Reference to the task handling component of the assigned entity.
 		 */
-		void handle_task_(std::size_t, TaskComponent&, TaskHandlerComponent&);
+		bool handle_task_(std::size_t, TaskComponent&, TaskHandlerComponent&);
 
 		/**
 		 * Brief: Checks whether the current task of a given entity has been completed.

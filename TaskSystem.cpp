@@ -30,10 +30,7 @@ void TaskSystem::update(Ogre::Real delta)
 			// Found atleast one valid task.
 			auto comp = entities_.get_component<TaskComponent>(ent.second.curr_task);
 			if(ent.second.curr_task != Component::NO_ENTITY && comp)
-			{
-				ent.second.busy = true;
-				handle_task_(ent.first, *comp, ent.second);
-			}
+				ent.second.busy = handle_task_(ent.first, *comp, ent.second);
 		}
 	}
 }
@@ -87,26 +84,21 @@ void TaskSystem::next_task_(TaskHandlerComponent& comp)
 	}
 }
 
-void TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerComponent& handler)
+bool TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerComponent& handler)
 {
 	/**
 	 * Note: Not performing checks on components because the entity will have to have
 	 *       those components to accept the task and these components should not be deleted
 	 *       before this call.
 	 */
+	bool res{false};
 	switch(task.task_type)
 	{
 		case TASK_TYPE::GO_TO:
 		case TASK_TYPE::GO_NEAR:
 		case TASK_TYPE::GET_IN_RANGE:
 		{
-			auto source_comp = entities_.get_component<PhysicsComponent>(task.source);
-			auto target_comp = entities_.get_component<PhysicsComponent>(task.target);
-			if(source_comp && target_comp)
-			{
-				grid_.perform_a_star(id, grid_.get_node_from_position(source_comp->position.x, source_comp->position.z),
-										 grid_.get_node_from_position(target_comp->position.x, target_comp->position.z));
-			}
+			res = grid_.perform_a_star(id, task.target);
 
 			if(task.task_type == TASK_TYPE::GO_NEAR)
 			{
@@ -129,13 +121,17 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 
 			entities_.destroy_entity(handler.curr_task);
 			handler.curr_task = Component::NO_ENTITY;
+			res = true;
 			break;
 		}
 		case TASK_TYPE::KILL:
 		{
 			auto combat_comp = entities_.get_component<CombatComponent>(id);
 			if(combat_comp)
+			{
+				res = true;
 				combat_comp->curr_target = task.target;
+			}
 			else
 			{
 				entities_.destroy_entity(handler.curr_task);
@@ -144,6 +140,7 @@ void TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 			break;
 		}
 	}
+	return res;
 }
 
 bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& handler)
