@@ -1,7 +1,8 @@
 #include "EventSystem.hpp"
 
 EventSystem::EventSystem(EntitySystem& ents)
-	: entities_{ents}, update_period_{1.f}, curr_update_time_{0.f}
+	: entities_{ents}, update_period_{1.f}, curr_update_time_{0.f},
+	  update_time_multiplier_{1.f}
 { /* DUMMY BODY */ }
 
 void EventSystem::update(Ogre::Real delta)
