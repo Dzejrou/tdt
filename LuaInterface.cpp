@@ -1840,7 +1840,7 @@ int LuaInterface::lua_max_curr_time(lpp::Script::state L)
 
 int LuaInterface::lua_set_time_limit(lpp::Script::state L)
 {
-	Ogre::Real limit = (Ogre::Real)luaL_checkinteger(L, -1);
+	Ogre::Real limit = (Ogre::Real)luaL_checknumber(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
