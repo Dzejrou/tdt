@@ -1,7 +1,8 @@
 #include "CombatSystem.hpp"
 
-CombatSystem::CombatSystem(EntitySystem& ents, Ogre::SceneManager& scene)
-	: entities_{ents}, ray_query_{*scene.createRayQuery(Ogre::Ray{})}
+CombatSystem::CombatSystem(EntitySystem& ents, Ogre::SceneManager& scene, GridSystem& grid)
+	: entities_{ents}, ray_query_{*scene.createRayQuery(Ogre::Ray{})},
+	  grid_{grid}
 {
 	ray_query_.setSortByDistance(true);
 	ray_query_.setQueryMask((int)ENTITY_TYPE::WALL || (int)ENTITY_TYPE::BUILDING);
