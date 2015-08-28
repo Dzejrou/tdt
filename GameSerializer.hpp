@@ -188,7 +188,7 @@ inline void GameSerializer::save_component<EventComponent>(std::size_t id, const
 {
 	auto comp = entities_.get_component<EventComponent>(id);
 	std::string comm{
-		  "game.add_component(" + tbl_name + ", game.enum.component.event"
+		  "game.add_component(" + tbl_name + ", game.enum.component.event)\n"
 		+ "game.set_event_type(" + tbl_name + ", " + std::to_string((int)comp->event_type) + ")\n"
 		+ "game.set_event_target(" + tbl_name + ", " + std::to_string(comp->target) + ")\n"
 		+ "game.set_event_radius(" + tbl_name + ", " + std::to_string(comp->radius) + ")\n"
