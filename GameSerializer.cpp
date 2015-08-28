@@ -158,7 +158,7 @@ void GameSerializer::load_game(Game& game, const std::string& fname)
 
 void GameSerializer::save_tasks()
 {
-	file_ << "\n -- TASKS: --\n";
+	file_ << "\n-- TASKS: --\n";
 	for(auto& task_pair : task_pairs_)
 	{
 		file_ << "game.add_task(entity_" + std::to_string(task_pair.first) + ", entity_"
