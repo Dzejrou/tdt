@@ -19,7 +19,7 @@ void GridSystem::update(Ogre::Real)
 				if(std::find(ent.second.path_queue.begin(), ent.second.path_queue.end(),
 							 node) != ent.second.path_queue.end())
 				{
-					if(!perform_a_star(ent.first, ent.second.last_id, ent.second.target_id))
+					if(!perform_a_star(ent.first, ent.second.target_id))
 					{ // Can't correct the path.
 						ent.second.path_queue.clear();
 						ent.second.target_id = Component::NO_ENTITY;
@@ -333,7 +333,11 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t target, bool add_pat
 			path_comp->path_queue.swap(path);
 			path_comp->last_id = start;
 			path_comp->target_id = end;
+
+			if(!path_comp->path_queue.empty()) // In case the entity moves backwards.
+				GraphicsHelper::look_at(entities_, id, path_comp->path_queue.front());
 		}
+
 	}
 
 	return success;
