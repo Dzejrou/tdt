@@ -362,4 +362,6 @@ inline void GameSerializer::save_component<EventHandlerComponent>(std::size_t id
 		if(comp->possible_events.test(i))
 			comm.append("game.add_possible_event(" + tbl_name + ", " + std::to_string(i) + ")\n");
 	}
+
+	save_components_.emplace_back(std::move(comm));
 }
