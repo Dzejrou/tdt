@@ -354,7 +354,7 @@ inline void GameSerializer::save_component<EventHandlerComponent>(std::size_t id
 	auto comp = entities_.get_component<EventHandlerComponent>(id);
 	std::string comm{
 		  "game.add_component(" + tbl_name + ", game.enum.component.event_handler)\n"
-		+ "game.set_event_handler(" + tbl_name + ", " + comp->handler + ")\n"
+		+ "game.set_event_handler(" + tbl_name + ", '" + comp->handler + "')\n"
 	};
 
 	for(std::size_t i = 0; i < comp->possible_events.size(); ++i)
