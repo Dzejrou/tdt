@@ -30,8 +30,7 @@ enum = {
 		task_handler = 16,
 		structure = 17,
 		homing = 18,
-		time = 19,
-		event_handler = 20
+		event_handler = 19
 	},
 
 	event = {
