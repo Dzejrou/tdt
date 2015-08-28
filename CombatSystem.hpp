@@ -21,7 +21,6 @@ class CombatSystem : public System
 		/**
 		 * Constructor.
 		 * Param: Reference to the game's entity system (component retrieval).
-		 * Param: Reference to the game's health system (damage dealing).
 		 * Param: Reference to the main scene manager (ray casting).
 		 */
 		CombatSystem(EntitySystem&, Ogre::SceneManager&);
