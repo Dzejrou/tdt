@@ -25,7 +25,10 @@ void EventSystem::update(Ogre::Real delta)
 		{ // Targeted events.
 			auto handler = entities_.get_component<EventHandlerComponent>(evt.second.target);
 			if(handler && handler->possible_events.test((int)evt.second.event_type))
-				handle_event_(evt.second.target, evt.first);
+			{
+				if(handle_event_(evt.second.target, evt.first))
+					entities_.destroy_entity(evt.first);
+			}
 		}
 		else
 		{ // Area events.
