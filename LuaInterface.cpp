@@ -1199,11 +1199,10 @@ int LuaInterface::lua_set_free_selected(lpp::Script::state L)
 int LuaInterface::lua_pathfind(lpp::Script::state L)
 {
 	std::size_t end = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t start = (std::size_t)luaL_checkinteger(L, -2);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -3);
-	lua_pop(L, 3);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
 
-	bool res = lua_this->grid_system_->perform_a_star(id, start, end);
+	bool res = lua_this->grid_system_->perform_a_star(id, end);
 	lua_pushboolean(L, res);
 	return 1;
 }
