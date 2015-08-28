@@ -10,6 +10,7 @@
 #include "HealthHelper.hpp"
 #include "CombatHelper.hpp"
 #include "GraphicsHelper.hpp"
+#include "GridSystem.hpp"
 
 /**
  * Manages auto attack melee and ranged combat, special melee and ranged attacks will be
@@ -22,8 +23,9 @@ class CombatSystem : public System
 		 * Constructor.
 		 * Param: Reference to the game's entity system (component retrieval).
 		 * Param: Reference to the main scene manager (ray casting).
+		 * Param: Reference to the game's grid system (accessibility).
 		 */
-		CombatSystem(EntitySystem&, Ogre::SceneManager&);
+		CombatSystem(EntitySystem&, Ogre::SceneManager&, GridSystem&);
 
 		/**
 		 * Destructor.
@@ -73,4 +75,9 @@ class CombatSystem : public System
 		 * Reference to the ray cast used to check if two entities can see each other.
 		 */
 		Ogre::RaySceneQuery& ray_query_;
+
+		/**
+		 * Used to check if an entity is accessible.
+		 */
+		GridSystem& grid_;
 };
