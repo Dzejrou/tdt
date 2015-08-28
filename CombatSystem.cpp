@@ -150,7 +150,8 @@ std::size_t CombatSystem::get_closest_entity(std::size_t id, bool only_sight, bo
 
 			auto enemy_phys_comp = entities_.get_component<PhysicsComponent>(id);
 			auto dist = phys_comp->position.squaredDistance(enemy_phys_comp->position);
-			if(enemy_phys_comp && dist < min_distance && (!only_sight || in_sight(id, ent.first)))
+			if(enemy_phys_comp && dist < min_distance && (!only_sight || in_sight(id, ent.first))
+			   && grid_.perform_a_star(id, ent.first, false))
 			{
 				min_distance = dist;
 				closest_id = ent.first;
