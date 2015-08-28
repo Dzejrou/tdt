@@ -151,13 +151,14 @@ class GridSystem : public System
 		std::size_t get_manhattan_distance(std::size_t, std::size_t) const;
 
 		/**
-		 * Brief: Performs pathfinding for a given entity between the two given
-		 *        nodes and adds the path to the entity's pathfinding component.
+		 * Brief: Performs pathfinding for a given entity to a given target
+		 *        and adds the path to the entity's pathfinding component.
 		 * Param: ID of the entity.
-		 * Param: ID of the source node.
-		 * Param: ID of the target node.
+		 * Param: ID of the target.
+		 * Param: If true, the path will be added to the entity's pathfinding component,
+		 *        otherwise will just return if the target is reachable.
 		 */
-		bool perform_a_star(std::size_t, std::size_t, std::size_t);
+		bool perform_a_star(std::size_t, std::size_t, bool = true);
 
 		/**
 		 * TODO: Implement this mechanic.
