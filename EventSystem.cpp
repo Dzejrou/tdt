@@ -40,6 +40,7 @@ void EventSystem::update(Ogre::Real delta)
 				   && PhysicsHelper::get_distance(entities_, evt.first, handler.first) <= radius
 				   && handle_event_(handler.first, evt.first))
 				{
+					entities_.destroy_entity(evt.first);
 					break;
 				}
 			}
