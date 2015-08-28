@@ -245,8 +245,15 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t start, std::size_t e
 	 */
 
 
-	if(!entities_.has_component<PathfindingComponent>(id))
+	if(!entities_.has_component<PathfindingComponent>(id)
+	   || !entities_.has_component<PhysicsComponent>(id)
+	   || !entities_.has_component<PhysicsComponent>(target))
 		return false;
+
+	auto pos_start = PhysicsHelper::get_position(entities_, id);
+	auto pos_end = PhysicsHelper::get_position(entities_, target);
+	std::size_t start{get_node_from_position(pos_start.x, pos_start.z)},
+		        end{get_node_from_position(pos_end.x, pos_end.z)};
 
 	std::map<std::size_t, std::size_t> path_edges{};
 	std::set<std::size_t> closed{};
