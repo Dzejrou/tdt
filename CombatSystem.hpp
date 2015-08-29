@@ -1,16 +1,16 @@
 #pragma once
 
 #include <Ogre.h>
-
 #include <tuple>
 #include <cstdlib>
-
 #include "System.hpp"
+#include "Components.hpp"
 #include "EntitySystem.hpp"
 #include "HealthHelper.hpp"
 #include "CombatHelper.hpp"
 #include "GraphicsHelper.hpp"
 #include "GridSystem.hpp"
+#include "Util.hpp"
 
 /**
  * Manages auto attack melee and ranged combat, special melee and ranged attacks will be
@@ -65,6 +65,44 @@ class CombatSystem : public System
 		 * Param: Reference to the caster entity's combat component.
 		 */
 		void create_homing_projectile(std::size_t, CombatComponent&);
+
+		/**
+		 * Brief: Returns the ID of the closest entity that has a given component, meets
+		 *        a given condition and is accessible.
+		 * Param: ID of the entity that is searching.
+		 * Param: Functor representing the condition.
+		 * Param: If true, only entities in sight get checked.
+		 */
+		template<typename COMP, typename COND>
+		std::size_t get_entity_by_component(std::size_t id, COND condition, bool only_sight = true) const
+		{
+			auto comp = entities_.get_component<COMP>(id);
+			auto phys_comp = entities_.get_component<PhysicsComponent>(id);
+
+			std::size_t closest_id = Component::NO_ENTITY;
+			Ogre::Real min_distance = std::numeric_limits<Ogre::Real>::max();
+			if(comp && phys_comp)
+			{
+				for(auto& ent : entities_.get_component_container<COMP>())
+				{
+					if(ent.first == id || !condition(ent.first))
+						continue;
+
+					auto enemy_phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
+					if(enemy_phys_comp)
+					{
+						auto dist = phys_comp->position.squaredDistance(enemy_phys_comp->position);
+						if(enemy_phys_comp && dist < min_distance && (!only_sight || in_sight(id, ent.first))
+						   && grid_.perform_a_star(id, ent.first, false))
+						{
+							min_distance = dist;
+							closest_id = ent.first;
+						}
+					}
+				}
+			}
+			return closest_id;
+		}
 
 		/**
 		 * Reference to the game's entity system (component retrieval).
