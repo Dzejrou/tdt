@@ -126,6 +126,9 @@
     <ClCompile Include="EventHandlerHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lppscript\LppScript.hpp">
@@ -246,6 +249,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EventHandlerHelper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

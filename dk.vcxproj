@@ -56,6 +56,7 @@
     <ClCompile Include="TaskSystem.cpp" />
     <ClCompile Include="TimeHelper.cpp" />
     <ClCompile Include="TimeSystem.cpp" />
+    <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIHelper.hpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="TaskSystem.hpp" />
     <ClInclude Include="TimeHelper.hpp" />
     <ClInclude Include="TimeSystem.hpp" />
+    <ClInclude Include="Util.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D88489E-16AD-492B-BEF7-FE61AEACA92B}</ProjectGuid>
