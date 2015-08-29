@@ -123,42 +123,10 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 
 std::size_t CombatSystem::get_closest_entity(std::size_t id, bool only_sight, bool friendly) const
 {
-	auto ai_comp = entities_.get_component<AIComponent>(id);
-	auto phys_comp = entities_.get_component<PhysicsComponent>(id);
-
-	std::size_t closest_id = Component::NO_ENTITY;
-	Ogre::Real min_distance = std::numeric_limits<Ogre::Real>::max();
-	if(ai_comp && phys_comp)
-	{
-		FACTION enemy_faction{};
-		if(!friendly)
-		{
-			if(ai_comp->faction == FACTION::FRIENDLY)
-				enemy_faction = FACTION::ENEMY;
-			else if(ai_comp->faction == FACTION::ENEMY)
-				enemy_faction = FACTION::FRIENDLY;
-			else
-				return closest_id; // Called by a neutral (those won't initiate combat).
-		}
-		else // For example might be used for healing etc.
-			enemy_faction = ai_comp->faction;
-
-		for(auto& ent : entities_.get_component_container<AIComponent>())
-		{
-			if(ent.first == id || ent.second.faction != enemy_faction)
-				continue;
-
-			auto enemy_phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
-			auto dist = phys_comp->position.squaredDistance(enemy_phys_comp->position);
-			if(enemy_phys_comp && dist < min_distance && (!only_sight || in_sight(id, ent.first))
-			   && grid_.perform_a_star(id, ent.first, false))
-			{
-				min_distance = dist;
-				closest_id = ent.first;
-			}
-		}
-	}
-	return closest_id;
+	if(friendly)
+		return get_entity_by_component<AIComponent>(id, util::IS_FRIENDLY(entities_, id), only_sight);
+	else
+		return get_entity_by_component<AIComponent>(id, util::IS_ENEMY(entities_, id), only_sight);
 }
 
 void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent& combat)
