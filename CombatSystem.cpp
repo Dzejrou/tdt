@@ -148,7 +148,7 @@ std::size_t CombatSystem::get_closest_entity(std::size_t id, bool only_sight, bo
 			if(ent.first == id || ent.second.faction != enemy_faction)
 				continue;
 
-			auto enemy_phys_comp = entities_.get_component<PhysicsComponent>(id);
+			auto enemy_phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
 			auto dist = phys_comp->position.squaredDistance(enemy_phys_comp->position);
 			if(enemy_phys_comp && dist < min_distance && (!only_sight || in_sight(id, ent.first))
 			   && grid_.perform_a_star(id, ent.first, false))
