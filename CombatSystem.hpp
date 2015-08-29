@@ -57,14 +57,6 @@ class CombatSystem : public System
 		 * Param: If true, will return only friendly entities (enemies otherwise).
 		 */
 		std::size_t get_closest_entity(std::size_t,bool = true, bool = false) const;
-	private:
-		/**
-		 * Brief: Creates a new homing projectile at the position of a given entity
-		 *        homing at the entity's current target.
-		 * Param: ID of the caster entity.
-		 * Param: Reference to the caster entity's combat component.
-		 */
-		void create_homing_projectile(std::size_t, CombatComponent&);
 
 		/**
 		 * Brief: Returns the ID of the closest entity that has a given component, meets
@@ -103,6 +95,14 @@ class CombatSystem : public System
 			}
 			return closest_id;
 		}
+	private:
+		/**
+		 * Brief: Creates a new homing projectile at the position of a given entity
+		 *        homing at the entity's current target.
+		 * Param: ID of the caster entity.
+		 * Param: Reference to the caster entity's combat component.
+		 */
+		void create_homing_projectile(std::size_t, CombatComponent&);
 
 		/**
 		 * Reference to the game's entity system (component retrieval).
