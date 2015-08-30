@@ -247,6 +247,7 @@ class EntitySystem : public System
 		std::map<std::size_t, HomingComponent> homing_;
 		std::map<std::size_t, EventHandlerComponent> event_handler_;
 		std::map<std::size_t, DestructorComponent> destructor_;
+		std::map<std::size_t, GoldComponent> gold_;
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -387,6 +388,13 @@ inline std::map<std::size_t, DestructorComponent>& EntitySystem::get_component_c
 {
 	return destructor_;
 }
+
+template<>
+inline std::map<std::size_t, GoldComponent>& EntitySystem::get_component_container<GoldComponent>()
+{
+	return gold_;
+}
+
 /**
  * Specializations of the EntitySystem::load_component method.
  * Note: Following components can only be created manually and thus don't have load_component specialization.
@@ -584,6 +592,8 @@ inline void EntitySystem::load_component<EventHandlerComponent>(std::size_t id, 
 	auto possible_events = script.get_vector<int>(table_name + ".EventHandlerComponent.possible_events");
 	for(const auto& evt : possible_events)
 		comp.possible_events.set(evt);
+}
+
 template<>
 inline void EntitySystem::load_component<DestructorComponent>(std::size_t id, const std::string& table_name)
 {
@@ -591,4 +601,11 @@ inline void EntitySystem::load_component<DestructorComponent>(std::size_t id, co
 	destructor_.emplace(id, DestructorComponent{blueprint});
 }
 
+template<>
+inline void EntitySystem::load_component<GoldComponent>(std::size_t id, const std::string& table_name)
+{
+	auto script = lpp::Script::get_singleton();
+	auto max = script.get<std::size_t>(table_name + ".GoldComponent.max");
+	auto curr = script.get<std::size_t>(table_name + ".GoldComponent.curr");
+	gold_.emplace(id, GoldComponent{max, curr});
 }
