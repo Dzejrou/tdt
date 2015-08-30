@@ -262,4 +262,6 @@ class LuaInterface
 		static int lua_add_gold(lpp::Script::state);
 		static int lua_sub_gold(lpp::Script::state);
 		static int lua_transfer_all_gold(lpp::Script::state);
+		static int lua_get_closest_gold_deposit(lpp::Script::state);
+		static int lua_get_closest_gold_deposit_in_sight(lpp::Script::state);
 };

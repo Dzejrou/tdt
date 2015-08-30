@@ -235,6 +235,8 @@ void LuaInterface::init(Game* game)
 		{"add_gold", LuaInterface::lua_add_gold},
 		{"sub_gold", LuaInterface::lua_sub_gold},
 		{"transfer_all_gold", LuaInterface::lua_transfer_all_gold},
+		{"get_closest_gold_deposit", LuaInterface::lua_get_closest_gold_deposit},
+		{"get_closest_gold_deposit_in_sight", LuaInterface::lua_get_closest_gold_deposit_in_sight},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -2195,5 +2197,25 @@ int LuaInterface::lua_transfer_all_gold(lpp::Script::state L)
 
 	GoldHelper::transfer_all_gold(*ents, id1, id2);
 	return 0;
+}
+
+int LuaInterface::lua_get_closest_gold_deposit(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_closest_gold_deposit(id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_get_closest_gold_deposit_in_sight(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_closest_gold_deposit(id, true);
+	lua_pushinteger(L, res);
+	return 1;
 }
 #pragma endregion
