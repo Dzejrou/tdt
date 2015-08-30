@@ -76,12 +76,10 @@ class CombatSystem : public System
 		template<typename COND>
 		std::size_t get_closest_entity(std::size_t id, COND condition, bool only_sight = true) const
 		{
-			auto comp = entities_.get_component<COMP>(id);
 			auto phys_comp = entities_.get_component<PhysicsComponent>(id);
-
 			std::size_t closest_id = Component::NO_ENTITY;
 			Ogre::Real min_distance = std::numeric_limits<Ogre::Real>::max();
-			if(comp && phys_comp)
+			if(phys_comp)
 			{
 				for(auto& ent : entities_.get_component_list())
 				{
