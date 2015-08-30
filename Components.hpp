@@ -12,7 +12,7 @@
 
 struct Component
 {
-	static constexpr int count = 20;
+	static constexpr int count = 22;
 	static constexpr std::size_t NO_ENTITY = std::numeric_limits<std::size_t>::max();
 };
 
