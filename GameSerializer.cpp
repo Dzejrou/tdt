@@ -99,6 +99,9 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 						save_component<HomingComponent>(ent.first, entity_name);
 					case EventHandlerComponent::type:
 						save_component<EventHandlerComponent>(ent.first, entity_name);
+					case DestructorComponent::type:
+						save_component<DestructorComponent>(ent.first, entity_name);
+						break;
 				}
 			}
 		}	
