@@ -411,6 +411,8 @@ struct EventHandlerComponent
 
 	std::string handler;
 	std::bitset<(int)EVENT_TYPE::COUNT> possible_events;
+};
+
 /**
  * Contains name of the table that contains the function
  * (called "dtor") which is called when an entity is destroyed.
@@ -428,4 +430,19 @@ struct DestructorComponent
 	std::string blueprint;
 };
 
+/**
+ * Represents a gold amount an entity is holding, be it a gold seam,
+ * worker minion or gold depository.
+ */
+struct GoldComponent
+{
+
+	GoldComponent(std::size_t max = 0, std::size_t curr = 0)
+		: max_amount{max}, curr_amount{curr}
+	{ /* DUMMY BODY */ }
+	GoldComponent(const GoldComponent&) = default;
+	GoldComponent(GoldComponent&&) = default;
+
+	std::size_t max_amount;
+	std::size_t curr_amount;
 };
