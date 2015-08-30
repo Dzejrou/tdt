@@ -364,6 +364,7 @@ inline void GameSerializer::save_component<EventHandlerComponent>(std::size_t id
 	}
 
 	save_components_.emplace_back(std::move(comm));
+}
 
 template<>
 inline void GameSerializer::save_component<DestructorComponent>(std::size_t id, const std::string& tbl_name)
@@ -376,4 +377,16 @@ inline void GameSerializer::save_component<DestructorComponent>(std::size_t id, 
 
 	save_components_.emplace_back(std::move(comm));
 }
+
+template<>
+inline void GameSerializer::save_component<GoldComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<GoldComponent>(id);
+	std::string comm{
+		  "game.add_component(" + tbl_name + ", game.enum.component.gold)\n"
+		+ "game.set_curr_gold(" + tbl_name + ", " + std::to_string(comp->curr_amount) + ")\n"
+		+ "game.set_max_gold(" + tbl_name + ", " + std::to_string(comp->max_amount) + ")\n"
+	};
+
+	save_components_.emplace_back(std::move(comm));
 }
