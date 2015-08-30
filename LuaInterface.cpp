@@ -223,6 +223,10 @@ void LuaInterface::init(Game* game)
 		{"set_event_update_multiplier", LuaInterface::lua_set_event_update_multiplier},
 		{"get_event_update_multiplier", LuaInterface::lua_get_event_update_multiplier},
 
+		// Destructor.
+		{"set_destructor_blueprint", LuaInterface::lua_set_destructor_blueprint},
+		{"get_destructor_blueprint", LuaInterface::lua_get_destructor_blueprint},
+
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
 	};
@@ -2091,6 +2095,26 @@ int LuaInterface::lua_get_event_update_multiplier(lpp::Script::state L)
 {
 	auto res = lua_this->event_system_->get_update_time_multiplier();
 	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_destructor_blueprint(lpp::Script::state L)
+{
+	std::string  blueprint = luaL_checkstring(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	DestructorHelper::set_blueprint(*ents, id, blueprint);
+	return 0;
+}
+
+int LuaInterface::lua_get_destructor_blueprint(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto& res = DestructorHelper::get_blueprint(*ents, id);
+	lua_pushstring(L, res.c_str());
 	return 1;
 }
 #pragma endregion

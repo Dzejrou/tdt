@@ -249,4 +249,8 @@ class LuaInterface
 		static int lua_get_event_update_period(lpp::Script::state);
 		static int lua_set_event_update_multiplier(lpp::Script::state);
 		static int lua_get_event_update_multiplier(lpp::Script::state);
+
+		// Destructor.
+		static int lua_set_destructor_blueprint(lpp::Script::state);
+		static int lua_get_destructor_blueprint(lpp::Script::state);
 };
