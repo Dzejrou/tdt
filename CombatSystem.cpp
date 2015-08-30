@@ -128,6 +128,10 @@ std::size_t CombatSystem::get_closest_entity(std::size_t id, bool only_sight, bo
 	else
 		return get_closest_entity(id, util::IS_ENEMY(entities_, id), only_sight);
 }
+
+std::size_t CombatSystem::get_closest_gold_deposit(std::size_t id, bool only_sight) const
+{
+	return get_closest_entity(id, util::IS_GOLD_DEPOSIT(entities_), only_sight);
 }
 
 void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent& combat)
