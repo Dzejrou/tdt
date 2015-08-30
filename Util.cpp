@@ -34,3 +34,8 @@ bool util::IS_FRIENDLY_OR_NEUTRAL::operator()(std::size_t id)
 	auto faction = AIHelper::get_faction(entities_, id);
 	return faction == faction_ || faction == FACTION::NEUTRAL;
 }
+
+void util::EntityDestroyer::destroy(EntitySystem& ents, std::size_t id)
+{
+	ents.destroy_entity(id);
+}

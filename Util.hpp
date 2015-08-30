@@ -7,6 +7,9 @@ class EntitySystem;
 
 namespace util
 {
+	/**
+	 * Functors.
+	 */
 	struct IS_ENEMY
 	{
 		IS_ENEMY(EntitySystem&, std::size_t);
@@ -38,5 +41,12 @@ namespace util
 		private:
 			FACTION faction_;
 			EntitySystem& entities_;
+	};
+
+	struct EntityDestroyer
+	{
+		friend void DestructorHelper::destroy(EntitySystem&, std::size_t);
+		private:
+			static void destroy(EntitySystem&, std::size_t);
 	};
 }
