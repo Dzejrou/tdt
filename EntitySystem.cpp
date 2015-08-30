@@ -144,6 +144,9 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 			case DestructorComponent::type:
 				load_component<DestructorComponent>(id, table_name);
 				break;
+			case GoldComponent::type:
+				load_component<GoldComponent>(id, table_name);
+				break;
 		}
 	}
 
@@ -234,6 +237,9 @@ void EntitySystem::add_component(std::size_t ent_id, int comp_id)
 		case DestructorComponent::type:
 			add_component<DestructorComponent>(ent_id);
 			break;
+		case GoldComponent::type:
+			add_component<GoldComponent>(ent_id);
+			break;
 	}
 }
 
@@ -303,6 +309,9 @@ void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 			break;
 		case DestructorComponent::type:
 			delete_component<DestructorComponent>(ent_id);
+			break;
+		case GoldComponent::type:
+			delete_component<GoldComponent>(ent_id);
 			break;
 	}
 }
@@ -411,6 +420,9 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 			break;
 		case DestructorComponent::type:
 			destructor_.erase(ent_id);
+			break;
+		case GoldComponent::type:
+			gold_.erase(ent_id);
 			break;
 	}
 }
