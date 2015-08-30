@@ -28,6 +28,7 @@ namespace DestructorHelper
 	 * Brief: Destroys a given entity and if possible calls it's destructor.
 	 * Param: EntitySystem containing the entity.
 	 * Param: ID of the entity.
+	 * Param: If true, the destructor won't be called.
 	 */
-	void destroy(EntitySystem&, std::size_t);
+	void destroy(EntitySystem&, std::size_t, bool = false);
 }
