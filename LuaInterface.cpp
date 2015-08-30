@@ -237,7 +237,7 @@ void LuaInterface::init(Game* game)
 	script.execute("game.const = {}");
 	script.execute("game.const.no_ent = " + std::to_string(Component::NO_ENTITY));
 
-	// Load all necessary scripts. TODO: Load all lua scripts!
+	// Load all necessary scripts.
 	script.load("scripts/core.lua");
 
 	// InputComponent related enums.
