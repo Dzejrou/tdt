@@ -17,3 +17,4 @@
 #include "TimeHelper.hpp"
 #include "EventHelper.hpp"
 #include "EventHandlerHelper.hpp"
+#include "DestructorHelper.hpp"
