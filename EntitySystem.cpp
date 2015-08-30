@@ -141,6 +141,9 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 			case EventHandlerComponent::type:
 				load_component<EventHandlerComponent>(id, table_name);
 				break;
+			case DestructorComponent::type:
+				load_component<DestructorComponent>(id, table_name);
+				break;
 		}
 	}
 
@@ -228,6 +231,9 @@ void EntitySystem::add_component(std::size_t ent_id, int comp_id)
 		case EventHandlerComponent::type:
 			add_component<EventHandlerComponent>(ent_id);
 			break;
+		case DestructorComponent::type:
+			add_component<DestructorComponent>(ent_id);
+			break;
 	}
 }
 
@@ -294,6 +300,9 @@ void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 			break;
 		case EventHandlerComponent::type:
 			delete_component<EventHandlerComponent>(ent_id);
+			break;
+		case DestructorComponent::type:
+			delete_component<DestructorComponent>(ent_id);
 			break;
 	}
 }
@@ -399,6 +408,9 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 			break;
 		case EventHandlerComponent::type:
 			event_handler_.erase(ent_id);
+			break;
+		case DestructorComponent::type:
+			destructor_.erase(ent_id);
 			break;
 	}
 }
