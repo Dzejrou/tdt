@@ -11,6 +11,7 @@
 #include "Components.hpp"
 #include "lppscript\LppScript.hpp"
 #include "Helpers.hpp"
+#include "Util.hpp"
 
 /**
  * The EntitySystem class handles everything related to entities, like addition and removal of components,
@@ -18,6 +19,7 @@
  */
 class EntitySystem : public System
 {
+	friend class util::EntityDestroyer;
 	public:
 		/**
 		 * Brief: Constructor.
@@ -54,12 +56,6 @@ class EntitySystem : public System
 		 * Param: Name of the Lua table containing the entity blueprint.
 		 */
 		std::size_t create_entity(std::string = "");
-
-		/**
-		 * Brief: Removes an entity from the system, thus killing/destroying it.
-		 * Param: ID of the entity.
-		 */
-		void destroy_entity(std::size_t);
 
 		/**
 		 * Breif: Returns const reference to the component list, so that it can
@@ -171,13 +167,6 @@ class EntitySystem : public System
 		void delete_component(std::size_t, int);
 
 		/**
-		 * Brief: Deletes a component.
-		 * Param: ID of the entity.
-		 * Param: ID of the component.
-		 */
-		void delete_component_now(std::size_t, int);
-
-		/**
 		 * Brief: Registers an entity that has been loaded from a Lua script.
 		 *        (If it has been registered previously, the register ignores it.)
 		 * Param: Name of the table containing the info about the entity.
@@ -209,6 +198,19 @@ class EntitySystem : public System
 		 */
 		template<typename COMP>
 		void load_component(std::size_t id, const std::string& table_name);
+
+		/**
+		 * Brief: Removes an entity from the system, thus killing/destroying it.
+		 * Param: ID of the entity.
+		 */
+		void destroy_entity(std::size_t);
+
+		/**
+		 * Brief: Deletes a component.
+		 * Param: ID of the entity.
+		 * Param: ID of the component.
+		 */
+		void delete_component_now(std::size_t, int);
 
 		/**
 		 * Contains bitsets describing component availability.
