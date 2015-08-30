@@ -436,6 +436,7 @@ struct DestructorComponent
  */
 struct GoldComponent
 {
+	static constexpr int type = 21;
 
 	GoldComponent(std::size_t max = 0, std::size_t curr = 0)
 		: max_amount{max}, curr_amount{curr}
