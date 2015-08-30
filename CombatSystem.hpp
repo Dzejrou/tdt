@@ -65,8 +65,8 @@ class CombatSystem : public System
 		 * Param: Functor representing the condition.
 		 * Param: If true, only entities in sight get checked.
 		 */
-		template<typename COMP, typename COND>
-		std::size_t get_entity_by_component(std::size_t id, COND condition, bool only_sight = true) const
+		template<typename COND>
+		std::size_t get_closest_entity(std::size_t id, COND condition, bool only_sight = true) const
 		{
 			auto comp = entities_.get_component<COMP>(id);
 			auto phys_comp = entities_.get_component<PhysicsComponent>(id);
@@ -75,7 +75,7 @@ class CombatSystem : public System
 			Ogre::Real min_distance = std::numeric_limits<Ogre::Real>::max();
 			if(comp && phys_comp)
 			{
-				for(auto& ent : entities_.get_component_container<COMP>())
+				for(auto& ent : entities_.get_component_list())
 				{
 					if(ent.first == id || !condition(ent.first))
 						continue;
