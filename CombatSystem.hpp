@@ -59,7 +59,10 @@ class CombatSystem : public System
 		std::size_t get_closest_entity(std::size_t,bool = true, bool = false) const;
 
 		/**
-		 *
+		 * Brief: Returns the ID of the closest gold deposit (entity with both structure
+		 *        and gold components).
+		 * Param: ID of the entity that looks for the gold deposit.
+		 * Param: If true, only deposits in sight will be checked.
 		 */
 		std::size_t get_closest_gold_deposit(std::size_t, bool = false) const;
 
