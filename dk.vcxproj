@@ -33,6 +33,7 @@
     <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameSerializer.cpp" />
+    <ClCompile Include="GoldHelper.cpp" />
     <ClCompile Include="GraphicsHelper.cpp" />
     <ClCompile Include="GridSystem.cpp" />
     <ClCompile Include="HealthHelper.cpp" />
@@ -76,6 +77,7 @@
     <ClInclude Include="EventSystem.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameSerializer.hpp" />
+    <ClInclude Include="GoldHelper.hpp" />
     <ClInclude Include="GraphicsHelper.hpp" />
     <ClInclude Include="GridSystem.hpp" />
     <ClInclude Include="HealthHelper.hpp" />
