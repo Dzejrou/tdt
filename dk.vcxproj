@@ -24,6 +24,7 @@
     <ClCompile Include="CombatHelper.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="DestructorHelper.cpp" />
     <ClCompile Include="EntityCreator.cpp" />
     <ClCompile Include="EntityPlacer.cpp" />
     <ClCompile Include="EntitySystem.cpp" />
@@ -65,6 +66,7 @@
     <ClInclude Include="CombatSystem.hpp" />
     <ClInclude Include="Components.hpp" />
     <ClInclude Include="Console.hpp" />
+    <ClInclude Include="DestructorHelper.hpp" />
     <ClInclude Include="EntityCreator.hpp" />
     <ClInclude Include="EntityPlacer.hpp" />
     <ClInclude Include="EntitySystem.hpp" />
