@@ -21,7 +21,7 @@ void HealthSystem::update(Ogre::Real delta)
 					--production_component->curr_produced;
 			}
 
-			entities_.destroy_entity(ent.first);
+			DestructorHelper::destroy(entities_, ent.first);
 		}
 		else if(regen_)
 			HealthHelper::add_health(entities_, ent.first, ent.second.regen);

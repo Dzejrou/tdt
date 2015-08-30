@@ -33,7 +33,7 @@ void TaskHandlerHelper::clear_task_queue(EntitySystem& ents, std::size_t id)
 		for(auto& task : task_queue)
 		{
 			if(ents.has_component<TaskComponent>(task))
-				ents.destroy_entity(task);
+				DestructorHelper::destroy(ents, task);
 		}
 		task_queue.clear();
 	}

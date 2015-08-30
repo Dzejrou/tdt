@@ -27,7 +27,7 @@ void EventSystem::update(Ogre::Real delta)
 			if(handler && handler->possible_events.test((int)evt.second.event_type))
 			{
 				if(handle_event_(evt.second.target, evt.first))
-					entities_.destroy_entity(evt.first);
+					DestructorHelper::destroy(entities_, evt.first);
 			}
 		}
 		else
@@ -40,7 +40,7 @@ void EventSystem::update(Ogre::Real delta)
 				   && PhysicsHelper::get_distance(entities_, evt.first, handler.first) <= radius
 				   && handle_event_(handler.first, evt.first))
 				{
-					entities_.destroy_entity(evt.first);
+					DestructorHelper::destroy(entities_, evt.first);
 					break;
 				}
 			}
@@ -76,7 +76,7 @@ bool EventSystem::handle_event_(std::size_t handler, std::size_t evt)
 		case EVENT_TYPE::NONE:
 			return true;
 		case EVENT_TYPE::KILL_ENTITY:
-			entities_.destroy_entity(handler);
+			DestructorHelper::destroy(entities_, handler);
 			return true;
 		default:
 			return lpp::Script::get_singleton().call<bool, std::size_t, std::size_t>(

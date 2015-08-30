@@ -7,6 +7,7 @@
 #include "EntitySystem.hpp"
 #include "Console.hpp"
 #include "GridSystem.hpp"
+#include "Helpers.hpp"
 
 /**
  * Class allowing the player/developer to place entities on the ground.

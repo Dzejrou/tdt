@@ -9,7 +9,7 @@
 #include <cstdlib>
 #include "System.hpp"
 #include "Components.hpp"
-#include "lppscript\LppScript.hpp"
+#include "lppscript/LppScript.hpp"
 #include "Helpers.hpp"
 #include "Util.hpp"
 

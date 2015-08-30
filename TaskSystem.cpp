@@ -12,8 +12,8 @@ void TaskSystem::update(Ogre::Real delta)
 	for(auto& ent : entities_.get_component_container<TaskHandlerComponent>())
 	{
 		if(ent.second.busy && current_task_completed_(ent.first, ent.second))
-		{ // TODO: Delete the task when finnished.
-			entities_.destroy_entity(ent.second.curr_task);
+		{
+			DestructorHelper::destroy(entities_, ent.second.curr_task);
 			ent.second.curr_task = Component::NO_ENTITY;
 			ent.second.busy = false;
 		}
@@ -53,7 +53,7 @@ void TaskSystem::add_task(std::size_t ent_id, std::size_t task_id)
 void TaskSystem::cancel_task(std::size_t task_id)
 {
 	if(entities_.has_component<TaskComponent>(task_id))
-		entities_.destroy_entity(task_id);
+		DestructorHelper::destroy(entities_, task_id);
 }
 
 std::size_t TaskSystem::create_task(std::size_t target, TASK_TYPE type)
@@ -119,7 +119,7 @@ bool TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 			add_task(id, task_go_near);
 			add_task(id, task_kill);
 
-			entities_.destroy_entity(handler.curr_task);
+			DestructorHelper::destroy(entities_, handler.curr_task);
 			handler.curr_task = Component::NO_ENTITY;
 			res = true;
 			break;
@@ -134,7 +134,7 @@ bool TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 			}
 			else
 			{
-				entities_.destroy_entity(handler.curr_task);
+				DestructorHelper::destroy(entities_, handler.curr_task);
 				handler.curr_task = Component::NO_ENTITY;
 			}
 			break;

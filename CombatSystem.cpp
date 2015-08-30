@@ -68,7 +68,7 @@ void CombatSystem::update(Ogre::Real delta)
 		if(ent.second.target == Component::NO_ENTITY)
 			continue; // Manually spawned.
 		else if(!entities_.exists(ent.second.target)) // Target killed.
-			entities_.destroy_entity(ent.first);
+			DestructorHelper::destroy(entities_, ent.first);
 
 		auto mov_comp = entities_.get_component<MovementComponent>(ent.first);
 		auto phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
@@ -89,7 +89,7 @@ void CombatSystem::update(Ogre::Real delta)
 			if(graph_comp->entity->getWorldBoundingBox(true).intersects(enemy_graph_comp->entity->getWorldBoundingBox(true)))
 			{ // That's a hit.
 				HealthHelper::sub_health(entities_, ent.second.target, ent.second.dmg);
-				entities_.destroy_entity(ent.first);
+				DestructorHelper::destroy(entities_, ent.first);
 			}
 		}
 	}

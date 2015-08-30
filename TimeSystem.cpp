@@ -48,8 +48,8 @@ void TimeSystem::handle_event_(std::size_t id, TimeComponent& comp)
 			EventHelper::set_active(entities_, comp.target, true);
 			break;
 		case TIME_EVENT::END_EVENT:
-			entities_.destroy_entity(comp.target);
+			DestructorHelper::destroy(entities_, comp.target);
 			break;
 	}
-	entities_.destroy_entity(id);
+	DestructorHelper::destroy(entities_, id);
 }

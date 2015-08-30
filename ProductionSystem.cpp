@@ -91,7 +91,7 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 		}
 		else // New entity cannot be placed because the spawning structure is obstructed.
 		{
-			entities_.destroy_entity(id);
+			DestructorHelper::destroy(entities_, id, true);
 			return;
 		}
 	}
@@ -102,7 +102,7 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 	}
 	else
 	{
-		entities_.destroy_entity(id);
+		DestructorHelper::destroy(entities_, id, true);
 		return;
 	}
 

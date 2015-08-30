@@ -315,7 +315,7 @@ int LuaInterface::lua_destroy_selected(lpp::Script::state)
 	auto& to_be_destroyed = lua_this->selection_box_->get_selected_entities();
 	for(auto& ent : to_be_destroyed)
 	{
-		lua_this->entity_system_->destroy_entity(ent);
+		DestructorHelper::destroy(*ents, ent);
 	}
 	lua_this->selection_box_->clear_selected_entities();
 
@@ -529,7 +529,7 @@ int LuaInterface::lua_destroy_entity(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	lua_this->entity_system_->destroy_entity(id);
+	DestructorHelper::destroy(*ents, id);
 	return 0;
 }
 

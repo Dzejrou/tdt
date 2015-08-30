@@ -10,7 +10,7 @@ EntityPlacer::EntityPlacer(EntitySystem& ents, GridSystem& grid)
 EntityPlacer::~EntityPlacer()
 {
 	if(placed_id_ != Component::NO_ENTITY)
-		entities_.destroy_entity(placed_id_);
+		DestructorHelper::destroy(entities_, placed_id_, true);
 }
 
 void EntityPlacer::set_current_entity_table(const std::string& table_name)
@@ -20,7 +20,7 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 	{
 		table_name_ = table_name;
 		if(placed_id_ != Component::NO_ENTITY)
-			entities_.destroy_entity(placed_id_);
+			DestructorHelper::destroy(entities_, placed_id_, true);
 
 		placed_id_ = entities_.create_entity(table_name);
 		auto comp = entities_.get_component<GraphicsComponent>(placed_id_);
@@ -36,7 +36,7 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 		}
 		else
 		{
-			entities_.destroy_entity(placed_id_);
+			DestructorHelper::destroy(entities_, placed_id_, true);
 			table_name_ = "ERROR";
 			placed_id_ = Component::NO_ENTITY;
 			return;
@@ -118,7 +118,8 @@ void EntityPlacer::set_visible(bool on_off)
 		placing_structure_ = false;
 		if(placed_id_ != Component::NO_ENTITY)
 		{
-			entities_.destroy_entity(placed_id_);
+			DestructorHelper::destroy(entities_, placed_id_, true);
+			entities_.cleanup();
 			placed_id_ = Component::NO_ENTITY;
 			placing_node_ = nullptr;
 		}

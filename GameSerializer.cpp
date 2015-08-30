@@ -130,9 +130,7 @@ void GameSerializer::load_game(Game& game, const std::string& fname)
 {
 	// Clean current game.
 	for(auto& ent : entities_.get_component_list())
-	{
-		entities_.destroy_entity(ent.first);
-	}
+		DestructorHelper::destroy(entities_, ent.first, true);
 	entities_.cleanup();
 
 	std::string file_name{"saves/" + fname + ".lua"};
