@@ -411,4 +411,21 @@ struct EventHandlerComponent
 
 	std::string handler;
 	std::bitset<(int)EVENT_TYPE::COUNT> possible_events;
+/**
+ * Contains name of the table that contains the function
+ * (called "dtor") which is called when an entity is destroyed.
+ */
+struct DestructorComponent
+{
+	static constexpr int type = 20;
+
+	DestructorComponent(std::string b = "ERROR")
+		: blueprint{b}
+	{ /* DUMMY BODY */ }
+	DestructorComponent(const DestructorComponent&) = default;
+	DestructorComponent(DestructorComponent&&) = default;
+
+	std::string blueprint;
+};
+
 };
