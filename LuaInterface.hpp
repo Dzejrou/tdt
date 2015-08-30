@@ -253,4 +253,13 @@ class LuaInterface
 		// Destructor.
 		static int lua_set_destructor_blueprint(lpp::Script::state);
 		static int lua_get_destructor_blueprint(lpp::Script::state);
+
+		// Gold.
+		static int lua_set_curr_gold(lpp::Script::state);
+		static int lua_get_curr_gold(lpp::Script::state);
+		static int lua_set_max_gold(lpp::Script::state);
+		static int lua_get_max_gold(lpp::Script::state);
+		static int lua_add_gold(lpp::Script::state);
+		static int lua_sub_gold(lpp::Script::state);
+		static int lua_transfer_all_gold(lpp::Script::state);
 };

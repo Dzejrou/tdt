@@ -227,6 +227,15 @@ void LuaInterface::init(Game* game)
 		{"set_destructor_blueprint", LuaInterface::lua_set_destructor_blueprint},
 		{"get_destructor_blueprint", LuaInterface::lua_get_destructor_blueprint},
 
+		// Gold.
+		{"set_curr_gold", LuaInterface::lua_set_curr_gold},
+		{"get_curr_gold", LuaInterface::lua_get_curr_gold},
+		{"set_max_gold", LuaInterface::lua_set_max_gold},
+		{"get_max_gold", LuaInterface::lua_get_max_gold},
+		{"add_gold", LuaInterface::lua_add_gold},
+		{"sub_gold", LuaInterface::lua_sub_gold},
+		{"transfer_all_gold", LuaInterface::lua_transfer_all_gold},
+
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
 	};
@@ -2116,5 +2125,75 @@ int LuaInterface::lua_get_destructor_blueprint(lpp::Script::state L)
 	auto& res = DestructorHelper::get_blueprint(*ents, id);
 	lua_pushstring(L, res.c_str());
 	return 1;
+}
+
+int LuaInterface::lua_set_curr_gold(lpp::Script::state L)
+{
+	std::size_t gold = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	GoldHelper::set_curr_gold(*ents, id, gold);
+	return 0;
+}
+
+int LuaInterface::lua_get_curr_gold(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = GoldHelper::get_curr_gold(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_max_gold(lpp::Script::state L)
+{
+	std::size_t gold = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	GoldHelper::set_max_gold(*ents, id, gold);
+	return 0;
+}
+
+int LuaInterface::lua_get_max_gold(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = GoldHelper::get_max_gold(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_add_gold(lpp::Script::state L)
+{
+	std::size_t gold = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	GoldHelper::add_gold(*ents, id, gold);
+	return 0;
+}
+
+int LuaInterface::lua_sub_gold(lpp::Script::state L)
+{
+	std::size_t gold = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	GoldHelper::sub_gold(*ents, id, gold);
+	return 0;
+}
+
+int LuaInterface::lua_transfer_all_gold(lpp::Script::state L)
+{
+	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	GoldHelper::transfer_all_gold(*ents, id1, id2);
+	return 0;
 }
 #pragma endregion
