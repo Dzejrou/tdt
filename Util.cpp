@@ -2,7 +2,7 @@
 #include "EntitySystem.hpp"
 
 util::IS_ENEMY::IS_ENEMY(EntitySystem& ents, std::size_t id)
-	: enemy_faction_{}, entities_{ents}
+	: enemy_faction_{FACTION::NEUTRAL}, entities_{ents}
 {
 	auto faction = AIHelper::get_faction(ents, id);
 	if(faction == FACTION::FRIENDLY)
@@ -13,7 +13,8 @@ util::IS_ENEMY::IS_ENEMY(EntitySystem& ents, std::size_t id)
 
 bool util::IS_ENEMY::operator()(std::size_t id)
 {
-	return enemy_faction_ == AIHelper::get_faction(entities_, id);
+	return enemy_faction_ != FACTION::NEUTRAL &&
+		   enemy_faction_ == AIHelper::get_faction(entities_, id);
 }
 
 util::IS_FRIENDLY::IS_FRIENDLY(EntitySystem& ents, std::size_t id)
