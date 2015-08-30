@@ -43,6 +43,16 @@ namespace util
 			EntitySystem& entities_;
 	};
 
+	struct IS_GOLD_DEPOSIT
+	{
+		IS_GOLD_DEPOSIT(EntitySystem&);
+
+		bool operator()(std::size_t);
+
+		private:
+			EntitySystem& entities_;
+	};
+
 	class EntityDestroyer
 	{
 		friend void DestructorHelper::destroy(EntitySystem&, std::size_t, bool);
