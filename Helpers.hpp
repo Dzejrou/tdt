@@ -18,3 +18,4 @@
 #include "EventHelper.hpp"
 #include "EventHandlerHelper.hpp"
 #include "DestructorHelper.hpp"
+#include "GoldHelper.hpp"
