@@ -35,10 +35,10 @@ void EntitySystem::cleanup()
 		if(it != entities_.end())
 		{
 			it->second.set(ent.second, false);
-			delete_component_now(ent.first, ent.second);
 			if(!it->second.any()) // No components remaining -> destroy it.
 				to_be_destroyed_.push_back(ent.first);
 		}
+		delete_component_now(ent.first, ent.second);
 	}
 	components_to_be_removed_.clear();
 
