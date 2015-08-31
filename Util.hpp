@@ -55,8 +55,7 @@ namespace util
 
 	class EntityDestroyer
 	{
-		friend void DestructorHelper::destroy(EntitySystem&, std::size_t, bool);
-		private:
-			static void destroy(EntitySystem&, std::size_t);
+		friend void DestructorHelper::destroy(EntitySystem&, std::size_t, bool, std::size_t);
+		static void destroy(EntitySystem&, std::size_t);
 	};
 }
