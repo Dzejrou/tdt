@@ -23,7 +23,7 @@ enum class ENTITY_TYPE
 
 enum class EVENT_TYPE
 {
-	NONE, KILL_ENTITY,
+	NONE, KILL_ENTITY, GOLD_DROPPED,
 	COUNT
 };
 
