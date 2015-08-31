@@ -20,10 +20,10 @@ const std::string & DestructorHelper::get_blueprint(EntitySystem& ents, std::siz
 		return NO_BLUEPRINT;
 }
 
-void DestructorHelper::destroy(EntitySystem& ents, std::size_t id, bool supress_dtor)
+void DestructorHelper::destroy(EntitySystem& ents, std::size_t id, bool supress_dtor, std::size_t killer)
 {
 	auto comp = ents.get_component<DestructorComponent>(id);
 	if(comp && !supress_dtor)
-		lpp::Script::get_singleton().call<void, std::size_t>(comp->blueprint + "dtor", id);
+		lpp::Script::get_singleton().call<void, std::size_t, std::size_t>(comp->blueprint + "dtor", id, killer);
 	util::EntityDestroyer::destroy(ents, id);
 }

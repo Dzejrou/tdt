@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <string>
 #include "lppscript/LppScript.hpp"
+#include "Components.hpp"
 class EntitySystem;
 
 namespace DestructorHelper
@@ -29,6 +30,7 @@ namespace DestructorHelper
 	 * Param: EntitySystem containing the entity.
 	 * Param: ID of the entity.
 	 * Param: If true, the destructor won't be called.
+	 * Param: ID of the killer (if any).
 	 */
-	void destroy(EntitySystem&, std::size_t, bool = false);
+	void destroy(EntitySystem&, std::size_t, bool = false, std::size_t = Component::NO_ENTITY);
 }
