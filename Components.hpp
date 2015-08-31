@@ -347,6 +347,7 @@ struct TaskHandlerComponent
 		  busy{curr != Component::NO_ENTITY}
 	{  /* DUMMY BODY */ }
 	TaskHandlerComponent(const TaskHandlerComponent&) = default;
+	TaskHandlerComponent(TaskHandlerComponent&&) = default;
 
 	std::size_t curr_task;
 	std::bitset<(int)TASK_TYPE::COUNT> possible_tasks;
