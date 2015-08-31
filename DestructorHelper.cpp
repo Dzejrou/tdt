@@ -24,6 +24,6 @@ void DestructorHelper::destroy(EntitySystem& ents, std::size_t id, bool supress_
 {
 	auto comp = ents.get_component<DestructorComponent>(id);
 	if(comp && !supress_dtor)
-		lpp::Script::get_singleton().call<void, std::size_t, std::size_t>(comp->blueprint + "dtor", id, killer);
+		lpp::Script::get_singleton().call<void, std::size_t, std::size_t>(comp->blueprint + ".dtor", id, killer);
 	util::EntityDestroyer::destroy(ents, id);
 }
