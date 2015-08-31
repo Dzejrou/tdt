@@ -61,6 +61,10 @@ void Console::execute(const CEGUI::EventArgs& args)
 
 		success = false;
 	}
+	catch(...)
+	{
+		print_text("<FAIL> Caught an unspecified error.", RED_TEXT);
+	}
 
 	if(success)
 		print_text("<SUCCESS>", GREEN_TEXT);
