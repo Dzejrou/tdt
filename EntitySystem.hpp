@@ -605,7 +605,7 @@ template<>
 inline void EntitySystem::load_component<GoldComponent>(std::size_t id, const std::string& table_name)
 {
 	auto script = lpp::Script::get_singleton();
-	auto max = script.get<std::size_t>(table_name + ".GoldComponent.max");
-	auto curr = script.get<std::size_t>(table_name + ".GoldComponent.curr");
+	std::size_t max = script.get<std::size_t>(table_name + ".GoldComponent.max");
+	std::size_t curr = script.get<std::size_t>(table_name + ".GoldComponent.curr");
 	gold_.emplace(id, GoldComponent{max, curr});
 }
