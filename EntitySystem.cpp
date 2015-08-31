@@ -155,13 +155,6 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 
 void EntitySystem::destroy_entity(std::size_t id)
 {
-	auto ai_comp = ai_.find(id);
-	if(ai_comp != ai_.end())
-	{
-		std::string blueprint = ai_comp->second.blueprint;
-		lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".finnish", id); // Calls the "destructor".
-	}
-
 	to_be_destroyed_.push_back(id);
 }
 
