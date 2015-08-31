@@ -574,7 +574,7 @@ inline void EntitySystem::load_component<StructureComponent>(std::size_t id, con
 template<>
 inline void EntitySystem::load_component<HomingComponent>(std::size_t id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton().get_singleton();
+	auto& script = lpp::Script::get_singleton();
 	std::size_t source = script.get<std::size_t>(table_name + ".HomingComponent.source");
 	std::size_t target = script.get<std::size_t>(table_name + ".HomingComponent.target");
 	std::size_t dmg = script.get<std::size_t>(table_name + ".HomingComponent.damage");
@@ -584,7 +584,7 @@ inline void EntitySystem::load_component<HomingComponent>(std::size_t id, const 
 template<>
 inline void EntitySystem::load_component<EventHandlerComponent>(std::size_t id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton().get_singleton();
+	auto& script = lpp::Script::get_singleton();
 	std::string handler = script.get<std::string>(table_name + ".EventHandlerComponent.handler");
 	auto res = event_handler_.emplace(id, EventHandlerComponent{handler});
 
