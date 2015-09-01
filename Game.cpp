@@ -124,10 +124,10 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 				"if id then game.destroy_entity(id) end \
                  game.clear_path_colour() \
 				 id = game.create_entity('ogre') \
-				 task1 = game.create_task(255, game.enum.task_type.go_to) \
-				 task2 = game.create_task(15, game.enum.task_type.go_to) \
-				 task3 = game.create_task(240, game.enum.task_type.go_to) \
-				 task4 = game.create_task(0, game.enum.task_type.go_to) \
+				 task1 = game.create_task(255, game.enum.task.go_to) \
+				 task2 = game.create_task(15, game.enum.task.go_to) \
+				 task3 = game.create_task(240, game.enum.task.go_to) \
+				 task4 = game.create_task(0, game.enum.task.go_to) \
 				 game.add_task(id, task1) \
                  game.add_task(id, task2) \
                  game.add_task(id, task3) \
