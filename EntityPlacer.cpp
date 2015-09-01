@@ -126,7 +126,10 @@ void EntityPlacer::set_visible(bool on_off)
 	}
 	else
 	{
-		placing_node_->setVisible(true);
+		if(placing_node_)
+			placing_node_->setVisible(true);
+		else
+			visible_ = false;
 	}
 }
 
