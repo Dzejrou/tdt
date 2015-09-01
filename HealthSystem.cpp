@@ -1,7 +1,8 @@
 #include "HealthSystem.hpp"
 
 HealthSystem::HealthSystem(EntitySystem& ent)
-	: entities_{ent}, regen_timer_{0}, regen_period_{1000.f} // TODO: Time period in a config!
+	: entities_{ent}, regen_timer_{0}, regen_period_{1000.f}, // TODO: Time period in a config!
+	  regen_{false}
 { /* DUMMY BODY */ }
 
 void HealthSystem::update(Ogre::Real delta)
