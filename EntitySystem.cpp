@@ -84,6 +84,9 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 
 	for(auto x : comps)
 	{
+		if(x < 0 || x >= (int)bits.size())
+			continue; // Maybe notify in the console? Make the console a singleton?
+
 		bits.set(x); // Duplicate components will just overwrite, no need for error checking.
 		switch(x)
 		{
