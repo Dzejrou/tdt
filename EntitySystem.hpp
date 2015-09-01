@@ -225,29 +225,30 @@ class EntitySystem : public System
 
 		/**
 		 * Contain components specified by the entity ID.
+		 * Initialized here to avoid a long initializing list in the constructor.
 		 */
-		std::map<std::size_t, PhysicsComponent> physics_;
-		std::map<std::size_t, HealthComponent> health_;
-		std::map<std::size_t, AIComponent> ai_;
-		std::map<std::size_t, GraphicsComponent> graphics_;
-		std::map<std::size_t, MovementComponent> movement_;
-		std::map<std::size_t, CombatComponent> combat_;
-		std::map<std::size_t, EventComponent> event_;
-		std::map<std::size_t, InputComponent> input_;
-		std::map<std::size_t, TimeComponent> time_;
-		std::map<std::size_t, ManaComponent> mana_;
-		std::map<std::size_t, SpellComponent> spell_;
-		std::map<std::size_t, ProductionComponent> production_;
-		std::map<std::size_t, GridNodeComponent> grid_node_;
-		std::map<std::size_t, ProductComponent> product_;
-		std::map<std::size_t, PathfindingComponent> pathfinding_;
-		std::map<std::size_t, TaskComponent> task_;
-		std::map<std::size_t, TaskHandlerComponent> task_handler_;
-		std::map<std::size_t, StructureComponent> structure_;
-		std::map<std::size_t, HomingComponent> homing_;
-		std::map<std::size_t, EventHandlerComponent> event_handler_;
-		std::map<std::size_t, DestructorComponent> destructor_;
-		std::map<std::size_t, GoldComponent> gold_;
+		std::map<std::size_t, PhysicsComponent> physics_{};
+		std::map<std::size_t, HealthComponent> health_{};
+		std::map<std::size_t, AIComponent> ai_{};
+		std::map<std::size_t, GraphicsComponent> graphics_{};
+		std::map<std::size_t, MovementComponent> movement_{};
+		std::map<std::size_t, CombatComponent> combat_{};
+		std::map<std::size_t, EventComponent> event_{};
+		std::map<std::size_t, InputComponent> input_{};
+		std::map<std::size_t, TimeComponent> time_{};
+		std::map<std::size_t, ManaComponent> mana_{};
+		std::map<std::size_t, SpellComponent> spell_{};
+		std::map<std::size_t, ProductionComponent> production_{};
+		std::map<std::size_t, GridNodeComponent> grid_node_{};
+		std::map<std::size_t, ProductComponent> product_{};
+		std::map<std::size_t, PathfindingComponent> pathfinding_{};
+		std::map<std::size_t, TaskComponent> task_{};
+		std::map<std::size_t, TaskHandlerComponent> task_handler_{};
+		std::map<std::size_t, StructureComponent> structure_{};
+		std::map<std::size_t, HomingComponent> homing_{};
+		std::map<std::size_t, EventHandlerComponent> event_handler_{};
+		std::map<std::size_t, DestructorComponent> destructor_{};
+		std::map<std::size_t, GoldComponent> gold_{};
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
