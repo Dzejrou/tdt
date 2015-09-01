@@ -1,8 +1,7 @@
 #include "EntitySystem.hpp"
 
 EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
-	: scene_{mgr}, entities_{}, physics_{}, health_{}, ai_{},
-	  graphics_{}, movement_{}, combat_{}, event_{}, to_be_destroyed_{},
+	: scene_{mgr}, entities_{}, to_be_destroyed_{},
 	  components_to_be_removed_{}, entity_register_{}
 { /* DUMMY BODY */ }
 
