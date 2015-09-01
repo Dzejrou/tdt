@@ -61,7 +61,8 @@ std::string lpp::Script::get_field_to_stack(const std::string& name)
 	while(std::getline(iss, tmp, '.'))
 	{ // Sub fields.
 		lua_pushstring(L, tmp.c_str());
-		lua_gettable(L, -2);
+		if(lua_istable(L, -2))
+			lua_gettable(L, -2);
 		lua_remove(L, -2);
 	}
 	return tmp; // Last field name.
