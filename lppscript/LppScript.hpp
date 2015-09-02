@@ -21,6 +21,13 @@ class Script
 		using regs = luaL_Reg;
 
 		/**
+		 * Copying this script might cause the Lua state get closed when one
+		 * of the copies gets destroyed and would cause the game to be unable to
+		 * use it's scripting engine (and thus crashing probably).
+		 */
+		Script(const Script&) = delete;
+
+		/**
 		 * Destructor, closes the Lua virtual machine.
 		 */
 		~Script() { if(L) lua_close(L); }
