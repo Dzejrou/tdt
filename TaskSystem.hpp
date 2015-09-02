@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <cstdlib>
+#include <numeric>
 
 #include "System.hpp"
 #include "EntitySystem.hpp"

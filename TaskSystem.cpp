@@ -151,6 +151,20 @@ bool TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 			res = true;
 			break;
 		}
+		case TASK_TYPE::PICK_UP_GOLD:
+		{
+			GoldHelper::transfer_all_gold(entities_, task.target, id);
+			if(GoldHelper::get_curr_gold(entities_, task.target) > 0)
+			{ // Calls other minions to pick it up.
+				auto evt = entities_.create_entity("");
+				auto& comp = entities_.add_component<EventComponent>(evt);
+				comp.target = task.target;
+				comp.event_type = EVENT_TYPE::GOLD_DROPPED;
+				comp.radius = std::numeric_limits<Ogre::Real>::max(); // This time signal everyone.
+			}
+			// TODO: If gold capped, create new task to return the gold to the vault!
+			// Note: Or handle this in the update method? Might be easier and more flexible.
+		}
 	}
 	return res;
 }
