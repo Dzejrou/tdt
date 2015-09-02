@@ -76,7 +76,7 @@ void lpp::Script::clear_stack()
 
 std::string lpp::Script::get_stack_contents()
 {
-	std::string conts{};
+	std::string conts{"LUA STACK (" + std::to_string(lua_gettop(L)) + "):\n"};
 	int top{lua_gettop(L)};
 	for(int i = 1; i <= top; ++i)
 	{
