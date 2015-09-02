@@ -80,7 +80,8 @@ std::string lpp::Script::get_stack_contents()
 	int top{lua_gettop(L)};
 	for(int i = 1; i <= top; ++i)
 	{
-		switch(lua_type(L, i))
+		int type = lua_type(L, i);
+		switch(type)
 		{
 			case LUA_TSTRING:
 				conts.append(lua_tostring(L, i));
