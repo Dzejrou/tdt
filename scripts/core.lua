@@ -1,7 +1,8 @@
 -- Load all scripts:
 scripts = {
 	"core_utils.lua", "ogre.lua", "evil_ogre.lua", "basic_wall.lua", "basic_projectile.lua",
-	"barracks.lua", "evil_barracks.lua", "test.lua"
+	"barracks.lua", "evil_barracks.lua", "test.lua", "gold_deposit.lua", "blueprints.lua",
+	"gold_pile.lua", "ogre_miner.lua"
 }
 
 if game then
