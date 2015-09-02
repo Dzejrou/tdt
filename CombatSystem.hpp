@@ -92,7 +92,7 @@ class CombatSystem : public System
 						auto dist = phys_comp->position.squaredDistance(enemy_phys_comp->position);
 						if(enemy_phys_comp && dist < min_distance && (!only_sight || in_sight(id, ent.first))
 						   && grid_.perform_a_star(id, ent.first, false))
-						{
+						{ // TODO: Because of the free status structures will be deemed inaccesible! Change this.
 							min_distance = dist;
 							closest_id = ent.first;
 						}
