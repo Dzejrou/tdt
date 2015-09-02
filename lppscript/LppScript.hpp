@@ -78,7 +78,7 @@ class Script
 				throw Exception("[Error][Lua] Variable " + name + " is not defined or nil.", L);
 
 			auto res = get_<T>(sub_name);
-			lua_pop(L, 1);
+			clear_stack();
 			return std::move(res);
 		}
 
