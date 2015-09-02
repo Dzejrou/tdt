@@ -93,7 +93,7 @@ std::string lpp::Script::get_stack_contents()
 				conts.append(std::to_string(lua_tonumber(L, i)));
 				break;
 			default:
-				conts.append(lua_typename(L, i));
+				conts.append(lua_typename(L, type));
 				break;
 		}
 		conts.append("\n");
