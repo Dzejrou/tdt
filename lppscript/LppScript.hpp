@@ -149,6 +149,11 @@ class Script
 		}
 
 		/**
+		 * Brief: Returns string representation of the Lua stack.
+		 */
+		std::string get_stack_contents();
+
+		/**
 		 * Brief: Reloads all script files that have been previously loaded.
 		 */
 		void reload_all_scripts();

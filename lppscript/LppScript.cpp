@@ -74,6 +74,32 @@ void lpp::Script::clear_stack()
 	lua_pop(L, n);
 }
 
+std::string lpp::Script::get_stack_contents()
+{
+	std::string conts{};
+	int top{lua_gettop(L)};
+	for(int i = 1; i <= top; ++i)
+	{
+		switch(lua_type(L, i))
+		{
+			case LUA_TSTRING:
+				conts.append(lua_tostring(L, i));
+				break;
+			case LUA_TBOOLEAN:
+				conts.append(lua_toboolean(L, i) ? "true" : false);
+				break;
+			case LUA_TNUMBER:
+				conts.append(std::to_string(lua_tonumber(L, i)));
+				break;
+			default:
+				conts.append(lua_typename(L, i));
+				break;
+		}
+		conts.append("\n");
+	}
+	return conts;
+}
+
 void lpp::Script::reload_all_scripts()
 {
 	for(const auto& script : loaded_scripts_)
