@@ -110,6 +110,7 @@ bool TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 					task.target = path_comp->path_queue.back();
 				}
 			}
+			res = true;
 			break;
 		}
 		case TASK_TYPE::GO_KILL:
@@ -162,6 +163,8 @@ bool TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 				comp.event_type = EVENT_TYPE::GOLD_DROPPED;
 				comp.radius = std::numeric_limits<Ogre::Real>::max(); // This time signal everyone.
 			}
+			handler.curr_task = Component::NO_ENTITY;
+			break;
 			// TODO: If gold capped, create new task to return the gold to the vault!
 			// Note: Or handle this in the update method? Might be easier and more flexible.
 		}
@@ -230,6 +233,10 @@ bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& h
 				}
 				return false;
 			}
+			case TASK_TYPE::GO_PICK_UP_GOLD:
+				return TaskHandlerHelper::get_task_queue(entities_, id).empty();
+			case TASK_TYPE::PICK_UP_GOLD:
+				return handler.curr_task == Component::NO_ENTITY;
 			default:
 				return true; // Undefined task, kill it asap.
 		}
