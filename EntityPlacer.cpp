@@ -51,7 +51,9 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 		else
 			placing_structure_ = false;
 
+		// TODO: Revert this back to just model, entity is causing too much problems.
 		entities_.delete_component<AIComponent>(placed_id_);
+		entities_.delete_component<GoldComponent>(placed_id_);
 	}
 }
 
