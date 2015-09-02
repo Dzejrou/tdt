@@ -30,12 +30,15 @@ enum = {
 		task_handler = 16,
 		structure = 17,
 		homing = 18,
-		event_handler = 19
+		event_handler = 19,
+		destructor = 20,
+		gold = 21
 	},
 
 	event = {
 		none = 0,
-		kill_entity = 1
+		kill_entity = 1,
+		gold_dropped = 2
 	},
 
 	faction = {
@@ -65,7 +68,9 @@ enum = {
 		go_near = 2,
 		go_kill = 3,
 		kill = 4,
-		get_in_range = 5
+		get_in_range = 5,
+		go_pick_up_gold = 6,
+		pick_up_gold = 7
 	},
 
 	atk_type = {
