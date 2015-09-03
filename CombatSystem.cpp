@@ -112,7 +112,8 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 		if(res.size() > 0)
 		{
 			auto dist_to_first_struct = res.front().distance * res.front().distance;
-			return phys_comp->position.squaredDistance(target_position) < dist_to_first_struct;
+			return phys_comp->position.squaredDistance(target_position) < dist_to_first_struct
+				   || res.front().movable->getName() == "entity_" + std::to_string(target);
 		}
 		else
 			return true; // No structs found at all.
@@ -124,14 +125,14 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 std::size_t CombatSystem::get_closest_entity(std::size_t id, bool only_sight, bool friendly) const
 {
 	if(friendly)
-		return get_closest_entity(id, util::IS_FRIENDLY(entities_, id), only_sight);
+		return get_closest_entity<AIComponent>(id, util::IS_FRIENDLY(entities_, id), only_sight);
 	else
-		return get_closest_entity(id, util::IS_ENEMY(entities_, id), only_sight);
+		return get_closest_entity<AIComponent>(id, util::IS_ENEMY(entities_, id), only_sight);
 }
 
 std::size_t CombatSystem::get_closest_gold_deposit(std::size_t id, bool only_sight) const
 {
-	return get_closest_entity(id, util::IS_GOLD_DEPOSIT(entities_), only_sight);
+	return get_closest_entity<StructureComponent>(id, util::HAS_GOLD(entities_), only_sight);
 }
 
 void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent& combat)
