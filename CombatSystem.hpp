@@ -81,6 +81,10 @@ class CombatSystem : public System
 		 * Param: ID of the entity that is searching.
 		 * Param: Functor representing the condition.
 		 * Param: If true, only entities in sight get checked.
+		 * Note: The explicit template specialization determines over which component container
+		 *       this method will iterate, use a component name for a specific components only
+		 *       or ALL_COMPONENTS for the component bitset map (which allows to iterate over
+		 *       all entitites regardless of their components).
 		 */
 		template<typename CONT, typename COND>
 		std::size_t get_closest_entity(std::size_t id, COND condition, bool only_sight = true) const
@@ -112,7 +116,8 @@ class CombatSystem : public System
 		}
 	private:
 		/**
-		 *
+		 * Brief: Retuns a map containing pairs of IDs and components of a given type, use
+		 *        the type ALL_COMPONENTS to get the <ID, component bitset> container.
 		 */
 		template<typename COMP>
 		const std::map<std::size_t, COMP>& get_container() const
@@ -144,6 +149,10 @@ class CombatSystem : public System
 		GridSystem& grid_;
 };
 
+/**
+ * Brief: Specific case of the get_container method, which returns the map containing
+ *        <ID, component bitset> map containing all entities.
+ */
 template<>
 inline const std::map<std::size_t, ALL_COMPONENTS>& CombatSystem::get_container() const
 {
