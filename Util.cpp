@@ -47,6 +47,5 @@ util::HAS_GOLD::HAS_GOLD(EntitySystem& ents)
 
 bool util::HAS_GOLD::operator()(std::size_t id)
 {
-	return entities_.has_component<StructureComponent>(id) &&
-		   entities_.has_component<GoldComponent>(id);
+	return entities_.has_component<GoldComponent>(id);
 }
