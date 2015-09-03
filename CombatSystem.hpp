@@ -3,6 +3,8 @@
 #include <Ogre.h>
 #include <tuple>
 #include <cstdlib>
+#include <bitset>
+#include <map>
 #include "System.hpp"
 #include "Components.hpp"
 #include "EntitySystem.hpp"
@@ -11,6 +13,13 @@
 #include "GraphicsHelper.hpp"
 #include "GridSystem.hpp"
 #include "Util.hpp"
+
+/**
+ * Used for entity container filtering, this represents the entity
+ * component list. (Allows to iterate over all entities in the get entity
+ * methods.)
+ */
+using ALL_COMPONENTS = std::bitset<Component::count>;
 
 /**
  * Manages auto attack melee and ranged combat, special melee and ranged attacks will be
@@ -73,7 +82,7 @@ class CombatSystem : public System
 		 * Param: Functor representing the condition.
 		 * Param: If true, only entities in sight get checked.
 		 */
-		template<typename COND>
+		template<typename CONT, typename COND>
 		std::size_t get_closest_entity(std::size_t id, COND condition, bool only_sight = true) const
 		{
 			auto phys_comp = entities_.get_component<PhysicsComponent>(id);
@@ -81,7 +90,7 @@ class CombatSystem : public System
 			Ogre::Real min_distance = std::numeric_limits<Ogre::Real>::max();
 			if(phys_comp)
 			{
-				for(auto& ent : entities_.get_component_list())
+				for(auto& ent : get_container<CONT>())
 				{
 					if(ent.first == id || !condition(ent.first))
 						continue;
@@ -102,6 +111,15 @@ class CombatSystem : public System
 			return closest_id;
 		}
 	private:
+		/**
+		 *
+		 */
+		template<typename COMP>
+		const std::map<std::size_t, COMP>& get_container() const
+		{
+			return entities_.get_component_container<COMP>();
+		}
+
 		/**
 		 * Brief: Creates a new homing projectile at the position of a given entity
 		 *        homing at the entity's current target.
@@ -125,3 +143,9 @@ class CombatSystem : public System
 		 */
 		GridSystem& grid_;
 };
+
+template<>
+inline const std::map<std::size_t, ALL_COMPONENTS>& CombatSystem::get_container() const
+{
+	return entities_.get_component_list();
+}
