@@ -43,9 +43,9 @@ namespace util
 			EntitySystem& entities_;
 	};
 
-	struct IS_GOLD_DEPOSIT
+	struct HAS_GOLD
 	{
-		IS_GOLD_DEPOSIT(EntitySystem&);
+		HAS_GOLD(EntitySystem&);
 
 		bool operator()(std::size_t);
 

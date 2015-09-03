@@ -41,11 +41,11 @@ void util::EntityDestroyer::destroy(EntitySystem& ents, std::size_t id)
 	ents.destroy_entity(id);
 }
 
-util::IS_GOLD_DEPOSIT::IS_GOLD_DEPOSIT(EntitySystem& ents)
+util::HAS_GOLD::HAS_GOLD(EntitySystem& ents)
 	: entities_{ents}
 { /* DUMMY BODY */ }
 
-bool util::IS_GOLD_DEPOSIT::operator()(std::size_t id)
+bool util::HAS_GOLD::operator()(std::size_t id)
 {
 	return entities_.has_component<StructureComponent>(id) &&
 		   entities_.has_component<GoldComponent>(id);
