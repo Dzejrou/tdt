@@ -202,6 +202,12 @@ class GridSystem : public System
 		 * TODO: Implement this mechanic.
 		 */
 		bool can_break_(std::size_t, PathfindingComponent&, std::size_t) const;
+
+		/**
+		 *
+		 */
+		std::deque<std::size_t> get_path_(std::size_t, std::size_t, std::size_t);
+		/**
 		 * Brief: Returns true if a given entity is on the board (that is, is an actual node).
 		 * Param: ID of the entity.
 		 * Note: Nodes have incremental IDs as they are created first and after each other,
