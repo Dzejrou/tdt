@@ -447,29 +447,31 @@ void GridSystem::link_(std::size_t index, std::vector<GridNodeComponent*>& comps
 {
 	if(!in_board_(index))
 		return;
+	std::size_t x{comps[index]->x}, y{comps[index]->y};
+	bool bottom{y == height_ - 1}, top{y == 0}, left{x == 0}, right = {x == height_ -1};
 
-	if(in_board_(index + 1) && (index + 1) % width_ != 0) // Right
+	if(!right) // Right
 		comps[index]->neighbours[0] = index + 1;
 
-	if(in_board_(index - 1) && index % width_ != 0) // Left.
+	if(!left) // Left.
 		comps[index]->neighbours[1] = index - 1;
 
-	if(in_board_(index + width_)) // Down.
+	if(!bottom) // Down.
 		comps[index]->neighbours[2] = index + width_;
 
-	if(in_board_(index - width_)) // Up.
+	if(!top) // Up.
 		comps[index]->neighbours[3] = index - width_;
 
-	if(in_board_(index + width_ - 1) && index % width_ != 0) // Down-left.
+	if(!bottom && !left) // Down-left.
 		comps[index]->neighbours[4] = index + width_ - 1;
 
-	if(in_board_(index - width_ - 1) && index % width_ != 0) // Up-left.
+	if(!top && !left) // Up-left.
 		comps[index]->neighbours[5] = index - width_ - 1;
 
-	if(in_board_(index + width_ + 1) && (index + 1) % width_ != 0) // Down-right.
+	if(!bottom && !left) // Down-right.
 		comps[index]->neighbours[6] = index + width_ + 1;
 
-	if(in_board_(index - width_ + 1) && (index + 1) % width_ != 0) // Up-right.
+	if(!top && !right) // Up-right.
 		comps[index]->neighbours[7] = index - width_ + 1;
 }
 
