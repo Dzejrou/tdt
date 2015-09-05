@@ -163,11 +163,6 @@ class GridSystem : public System
 		/**
 		 * TODO: Implement this mechanic.
 		 */
-		bool can_break(std::size_t, std::size_t) const;
-
-		/**
-		 * TODO: Implement this mechanic.
-		 */
 		bool can_pass(std::size_t, std::size_t) const;
 
 		/**
@@ -204,6 +199,9 @@ class GridSystem : public System
 		std::size_t get_resident(std::size_t) const;
 	private:
 		/**
+		 * TODO: Implement this mechanic.
+		 */
+		bool can_break_(std::size_t, PathfindingComponent&, std::size_t) const;
 		 * Brief: Returns true if a given entity is on the board (that is, is an actual node).
 		 * Param: ID of the entity.
 		 * Note: Nodes have incremental IDs as they are created first and after each other,
