@@ -417,6 +417,7 @@ std::deque<std::size_t> GridSystem::get_path_(std::size_t id, std::size_t start,
 	if(found_path)
 	{ // Reconstruct the path.
 		std::deque<std::size_t> path;
+		current = end;
 		path.push_back(current);
 
 		// Using assignment to an auxiliary iterator in the condition saves another lookup.
