@@ -343,9 +343,6 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t target, bool add_pat
 	return success;
 }
 
-bool GridSystem::can_break(std::size_t, std::size_t) const
-{
-	return false;
 }
 
 bool GridSystem::can_pass(std::size_t, std::size_t) const
@@ -432,6 +429,10 @@ std::size_t GridSystem::get_resident(std::size_t node_id) const
 		return Component::NO_ENTITY;
 }
 
+bool GridSystem::can_break_(std::size_t id, PathfindingComponent& comp, std::size_t structure) const
+{
+	return lpp::Script::get_singleton().call<bool, std::size_t, std::size_t>(comp.blueprint + ".can_break", id, structure);
+}
 bool GridSystem::in_board_(std::size_t index) const
 {
 	return 0 <= index && index < board_.size();
