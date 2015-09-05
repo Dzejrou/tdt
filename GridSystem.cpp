@@ -397,7 +397,7 @@ std::deque<std::size_t> GridSystem::get_path_(std::size_t id, std::size_t start,
 			   (!is_free(neighbour) && !can_break_(id, *comp, neighbour)))
 				continue;
 			auto s = script.call<std::size_t, std::size_t, std::size_t>(comp->blueprint + ".get_cost", id, current);
-			auto new_score = score[current] + 1;
+			auto new_score = score[current] + s;
 
 			// Either unvisited or we found a better path to it.
 			bool not_in_open = open.find(neighbour) == open.end();
