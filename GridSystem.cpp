@@ -448,7 +448,7 @@ void GridSystem::link_(std::size_t index, std::vector<GridNodeComponent*>& comps
 	if(!in_board_(index))
 		return;
 	std::size_t x{comps[index]->x}, y{comps[index]->y};
-	bool bottom{y == height_ - 1}, top{y == 0}, left{x == 0}, right = {x == height_ -1};
+	bool bottom{y == height_ - 1}, top{y == 0}, left{x == 0}, right = {x == width_ - 1};
 
 	if(!right) // Right
 		comps[index]->neighbours[0] = index + 1;
