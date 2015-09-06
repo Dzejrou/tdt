@@ -84,10 +84,10 @@ bool TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 		}
 		case TASK_TYPE::GO_KILL:
 		{
-			auto task_go_near = create_task(task.target, TASK_TYPE::GET_IN_RANGE);
-			auto task_kill = create_task(task.target, TASK_TYPE::KILL);
-			add_task(id, task_go_near);
-			add_task(id, task_kill);
+			auto task_go_near = TaskHelper::create_task(entities_, task.target, TASK_TYPE::GET_IN_RANGE);
+			auto task_kill = TaskHelper::create_task(entities_, task.target, TASK_TYPE::KILL);
+			TaskHelper::add_task(entities_, id, task_go_near);
+			TaskHelper::add_task(entities_, id, task_kill);
 
 			DestructorHelper::destroy(entities_, handler.curr_task);
 			handler.curr_task = Component::NO_ENTITY;
@@ -111,10 +111,10 @@ bool TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 		}
 		case TASK_TYPE::GO_PICK_UP_GOLD:
 		{
-			auto task_go_near = create_task(task.target, TASK_TYPE::GO_NEAR);
-			auto task_pick_up = create_task(task.target, TASK_TYPE::PICK_UP_GOLD);
-			add_task(id, task_go_near);
-			add_task(id, task_pick_up);
+			auto task_go_near = TaskHelper::create_task(entities_, task.target, TASK_TYPE::GO_NEAR);
+			auto task_pick_up = TaskHelper::create_task(entities_, task.target, TASK_TYPE::PICK_UP_GOLD);
+			TaskHelper::add_task(entities_, id, task_go_near);
+			TaskHelper::add_task(entities_, id, task_pick_up);
 		
 			DestructorHelper::destroy(entities_, handler.curr_task);
 			handler.curr_task = Component::NO_ENTITY;
@@ -129,6 +129,7 @@ bool TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerCo
 				auto evt = entities_.create_entity("");
 				auto& comp = entities_.add_component<EventComponent>(evt);
 				comp.target = task.target;
+				comp.handler = id;
 				comp.event_type = EVENT_TYPE::GOLD_DROPPED;
 				comp.radius = std::numeric_limits<Ogre::Real>::max(); // This time signal everyone.
 			}
