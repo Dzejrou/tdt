@@ -151,5 +151,13 @@ namespace util
 		static void destroy(EntitySystem&, std::size_t);
 	};
 
+	/**
+	 * Brief: Returns the direction from a given entity to another given
+	 *        entity in the form of the direction enum (8 directional).
+	 * Param: EntitySystem containing both entities.
+	 * Param: ID of the first entity.
+	 * Param: ID of the second entity.
+	 * Note: The direction is #1 -> #2.
+	 */
 	int get_enum_direction(EntitySystem&, std::size_t, std::size_t);
 }
