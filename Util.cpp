@@ -49,3 +49,39 @@ bool util::HAS_GOLD::operator()(std::size_t id)
 {
 	return entities_.has_component<GoldComponent>(id);
 }
+
+int util::get_enum_direction(EntitySystem& ents, std::size_t id, std::size_t target)
+{
+	auto pos1 = PhysicsHelper::get_position(ents, id);
+	auto pos2 = PhysicsHelper::get_position(ents, target);
+
+	auto diff_x = pos1.x > pos2.x ? pos1.x - pos2.x : pos2.x - pos1.x;
+	bool same_axis_x = diff_x < 20.f;
+	
+	auto diff_z = pos1.z > pos2.z ? pos1.z - pos2.z : pos2.z - pos1.z;
+	bool same_axis_z = diff_z < 20.f;
+
+	bool left = pos1.x > pos2.x;
+	bool right = pos1.x <= pos2.x;
+	bool up = pos1.z > pos2.z;
+	bool down = pos1.z <= pos2.z;
+
+	if(same_axis_x && same_axis_z)
+		return DIRECTION::NONE;
+	else if(same_axis_x && up)
+		return DIRECTION::UP;
+	else if(same_axis_x && down)
+		return DIRECTION::DOWN;
+	else if(same_axis_z && left)
+		return DIRECTION::LEFT;
+	else if(same_axis_z && right)
+		return DIRECTION::RIGHT;
+	else if(up && left)
+		return DIRECTION::UP_LEFT;
+	else if(up && right)
+		return DIRECTION::UP_RIGHT;
+	else if(down && left)
+		return DIRECTION::DOWN_LEFT;
+	else if(down && right)
+		return DIRECTION::DOWN_RIGHT;
+}

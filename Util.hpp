@@ -150,4 +150,6 @@ namespace util
 		 */
 		static void destroy(EntitySystem&, std::size_t);
 	};
+
+	int get_enum_direction(EntitySystem&, std::size_t, std::size_t);
 }
