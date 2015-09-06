@@ -163,13 +163,14 @@ struct EventComponent
 
 	EventComponent(EVENT_TYPE ev = EVENT_TYPE::NONE, std::size_t t = Component::NO_ENTITY,
 				   Ogre::Real r = 0.f, bool a = true)
-		: event_type{ev}, target{t}, radius{r}, active{a}
+		: event_type{ev}, target{t}, handler{Component::NO_ENTITY}, radius{r}, active{a}
 	{ /* DUMMY BODY */ }
 	EventComponent(const EventComponent&) = default;
 	EventComponent(EventComponent&&) = default;
 
 	EVENT_TYPE event_type;
 	std::size_t target;
+	std::size_t handler;
 	Ogre::Real radius;
 	bool active;
 };
