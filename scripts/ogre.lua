@@ -114,7 +114,15 @@ ogre = {
 		current_amount = 0,
 		overall_amount = 0,
 		default_blueprint = "ogre"
-	}
+	},
+
+	can_break = function(id, struct)
+		return true
+	end,
+
+	get_cost = function(id) --, struct)
+		return 1
+	end
 }
 
 ogre_handler = function(id, key)
