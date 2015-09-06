@@ -198,6 +198,11 @@ class GridSystem : public System
 		 */
 		std::size_t get_resident(std::size_t) const;
 
+		/**
+		 * Brief: Returns the closest node in a given direction.
+		 * Param: ID of the entity that is looking for the node.
+		 * Param: The direction represented by the DIRECTION::VAL enum.
+		 */
 		std::size_t get_node_in_dir(std::size_t, int) const;
 	private:
 		/**
