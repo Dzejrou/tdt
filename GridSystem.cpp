@@ -393,6 +393,8 @@ std::deque<std::size_t> GridSystem::get_path_(std::size_t id, std::size_t start,
 	
 		for(const auto& neighbour : get_neighbours(current))
 		{
+			// TODO: If this continues when the neighbour is closed, shortest path won't be found!
+			//       Shortest path vs. performance ?
 			if(!in_board_(neighbour) || closed.find(neighbour) != closed.end() ||
 			   (!is_free(neighbour) && !can_break_(id, *comp, neighbour)))
 				continue;
