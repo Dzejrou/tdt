@@ -245,8 +245,8 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t target, bool add_pat
 
 	auto pos_start = PhysicsHelper::get_position(entities_, id);
 	auto pos_end = PhysicsHelper::get_position(entities_, target);
-	std::size_t start{get_node_from_position(pos_start.x, pos_start.z)},
-		        end{get_node_from_position(pos_end.x, pos_end.z)};
+	std::size_t start{get_node_in_dir(id, util::get_enum_direction(entities_, id, target))},
+		        end{get_node_in_dir(target, util::get_enum_direction(entities_, target, id))};
 
 	auto path = get_path_(id, start, end);
 	if(!path.empty() && add_path)
