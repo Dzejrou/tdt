@@ -20,18 +20,18 @@ void EventSystem::update(Ogre::Real delta)
 		if(!evt.second.active)
 			continue;
 		
-		auto radius = evt.second.radius;
-		if(radius == 0.f)
+		if(evt.second.handler != Component::NO_ENTITY)
 		{ // Targeted events.
 			auto handler = entities_.get_component<EventHandlerComponent>(evt.second.target);
 			if(handler && handler->possible_events.test((int)evt.second.event_type))
 			{
-				if(handle_event_(evt.second.target, evt.first))
+				if(handle_event_(evt.second.handler, evt.first))
 					DestructorHelper::destroy(entities_, evt.first);
 			}
 		}
 		else
 		{ // Area events.
+			auto radius = evt.second.radius;
 			radius *= radius; // get_distance returns squared distance.
 			
 			for(auto& handler : entities_.get_component_container<EventHandlerComponent>())
