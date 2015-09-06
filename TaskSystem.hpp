@@ -37,27 +37,6 @@ class TaskSystem : public System
 		void update(Ogre::Real);
 
 		/**
-		 * Brief: Assigns a new task to an entity (by adding it to the task queue).
-		 * Param: ID of the entity.
-		 * Param: ID of the task.
-		 */
-		void add_task(std::size_t, std::size_t);
-
-		/**
-		 * Brief: Destroys the TaskComponent of a given task, effectively stopping
-		 *        it's completion.
-		 * Param: ID of the task.
-		 */
-		void cancel_task(std::size_t);
-
-		/**
-		 * Brief: Creates a new task of a given tasks and returns it's ID.
-		 * Param: ID of the task's target (goto location, kill target etc.).
-		 * Param: Type of the task.
-		 */
-		std::size_t create_task(std::size_t, TASK_TYPE);
-
-		/**
 		 * Brief: Translates a task type enum value into a string that can be displayed
 		 *        in the developer's console.
 		 * Param: Task type to be translated.

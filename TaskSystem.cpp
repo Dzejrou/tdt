@@ -35,37 +35,6 @@ void TaskSystem::update(Ogre::Real delta)
 	}
 }
 
-void TaskSystem::add_task(std::size_t ent_id, std::size_t task_id)
-{
-	auto comp1 = entities_.get_component<TaskHandlerComponent>(ent_id);
-	auto comp2 = entities_.get_component<TaskComponent>(task_id);
-	if(comp1 && comp2)
-	{
-		// Make sure the entity can handle this task.
-		if(!comp1->possible_tasks.test((int)comp2->task_type))
-			return;
-
-		comp2->source = ent_id;
-		comp1->task_queue.push_back(task_id);
-	}
-}
-
-void TaskSystem::cancel_task(std::size_t task_id)
-{
-	if(entities_.has_component<TaskComponent>(task_id))
-		DestructorHelper::destroy(entities_, task_id);
-}
-
-std::size_t TaskSystem::create_task(std::size_t target, TASK_TYPE type)
-{
-	std::size_t id = entities_.create_entity();
-	auto& comp = entities_.add_component<TaskComponent>(id);
-	comp.target = target;
-	comp.task_type = type;
-
-	return id;
-}
-
 const std::string & TaskSystem::get_task_name(TASK_TYPE type) const
 {
 	auto name = task_names_.find(type);
