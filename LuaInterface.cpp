@@ -213,6 +213,8 @@ void LuaInterface::init(Game* game)
 		{"get_event_radius", LuaInterface::lua_get_event_radius},
 		{"set_event_active", LuaInterface::lua_set_event_active},
 		{"is_event_active", LuaInterface::lua_is_event_active},
+		{"set_handler_of_event", LuaInterface::lua_set_handler_of_event},
+		{"get_handler_of_event", LuaInterface::lua_get_handler_of_event},
 		{"set_event_handler", LuaInterface::lua_set_event_handler},
 		{"get_event_handler", LuaInterface::lua_get_event_handler},
 		{"can_handle_event", LuaInterface::lua_can_handle_event},
@@ -2024,6 +2026,26 @@ int LuaInterface::lua_is_event_active(lpp::Script::state L)
 
 	auto res = EventHelper::is_active(*ents, id);
 	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_handler_of_event(lpp::Script::state L)
+{
+	std::size_t handler = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t evt = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	EventHelper::set_event_handler(*ents, evt, handler);
+	return 0;
+}
+
+int LuaInterface::lua_get_handler_of_event(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = EventHelper::get_event_handler(*ents, id);
+	lua_pushinteger(L, res);
 	return 1;
 }
 
