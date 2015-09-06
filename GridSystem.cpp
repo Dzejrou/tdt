@@ -350,6 +350,21 @@ std::size_t GridSystem::get_resident(std::size_t node_id) const
 		return Component::NO_ENTITY;
 }
 
+std::size_t GridSystem::get_node_in_dir(std::size_t id, int dir) const
+{
+	auto pos = PhysicsHelper::get_position(entities_, id);
+	std::size_t node = get_node_from_position(pos.x, pos.z);
+
+	if(dir == DIRECTION::NONE)
+		return node;
+	
+	auto comp = entities_.get_component<GridNodeComponent>(node);
+	if(comp)
+		return comp->neighbours[dir];
+	else
+		return Component::NO_ENTITY;
+}
+
 bool GridSystem::can_break_(std::size_t id, PathfindingComponent& comp, std::size_t structure) const
 {
 	return lpp::Script::get_singleton().call<bool, std::size_t, std::size_t>(comp.blueprint + ".can_break", id, structure);

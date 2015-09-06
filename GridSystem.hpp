@@ -197,6 +197,8 @@ class GridSystem : public System
 		 * Param: ID of the node.
 		 */
 		std::size_t get_resident(std::size_t) const;
+
+		std::size_t get_node_in_dir(std::size_t, int) const;
 	private:
 		/**
 		 * TODO: Implement this mechanic.
