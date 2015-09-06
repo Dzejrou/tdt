@@ -50,3 +50,13 @@ enum class TIME_EVENT
 	NONE, START_EVENT, END_EVENT,
 	COUNT
 };
+
+namespace DIRECTION
+{
+	enum VAL
+	{
+		UP, DOWN, LEFT, RIGHT,
+		UP_LEFT, UP_RIGHT,
+		DOWN_LEFT, DOWN_RIGHT
+	};
+}
