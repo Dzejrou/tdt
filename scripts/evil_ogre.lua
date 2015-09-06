@@ -54,7 +54,7 @@ evil_ogre = {
 	},
 
 	PathfindingComponent = {
-		blueprint = "ogre"
+		blueprint = "evil_ogre"
 	},
 
 	TaskHandlerComponent = {
@@ -102,7 +102,15 @@ evil_ogre = {
 		current_amount = 0,
 		overall_amount = 0,
 		default_blueprint = "evil_ogre"
-	}
+	},
+
+	can_break = function(id, struct)
+		return false
+	end,
+
+	get_cost = function(id) --, struct)
+		return 1
+	end
 }
 
 if game then
