@@ -18,5 +18,9 @@ drop_gold_destructor = {
 		game.set_event_target(evt, gold_pile)
 		game.set_event_type(evt, game.enum.event.gold_dropped)
 		game.set_event_radius(evt, 300.0)
+
+		if killer and killer ~= game.const.no_ent then
+			game.set_handler_of_event(evt, killer)
+		end
 	end
 }
