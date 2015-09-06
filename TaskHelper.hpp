@@ -50,4 +50,25 @@ namespace TaskHelper
 	 * Param: Task ID.
 	 */
 	TASK_TYPE get_task_type(EntitySystem&, std::size_t);
+
+	/**
+	 * Brief: Assigns a new task to an entity (by adding it to the task queue).
+	 * Param: ID of the entity.
+	 * Param: ID of the task.
+	 */
+	void add_task(EntitySystem&, std::size_t, std::size_t);
+
+	/**
+	 * Brief: Creates a new task of a given tasks and returns it's ID.
+	 * Param: ID of the task's target (goto location, kill target etc.).
+	 * Param: Type of the task.
+	 */
+	std::size_t create_task(EntitySystem&, std::size_t, TASK_TYPE);
+
+	/**
+	 * Brief: Destroys the TaskComponent of a given task, effectively stopping
+	 *        it's completion.
+	 * Param: ID of the task.
+	 */
+	void cancel_task(EntitySystem&, std::size_t);
 }
