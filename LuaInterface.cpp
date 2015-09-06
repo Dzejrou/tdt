@@ -1329,7 +1329,7 @@ int LuaInterface::lua_add_task(lpp::Script::state L)
 	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->task_system_->add_task(ent_id, task_id);
+	TaskHelper::add_task(*ents, ent_id, task_id);
 	return 0;
 }
 
@@ -1338,7 +1338,7 @@ int LuaInterface::lua_cancel_task(lpp::Script::state L)
 	std::size_t task_id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	lua_this->task_system_->cancel_task(task_id);
+	TaskHelper::cancel_task(*ents, task_id);
 	return 0;
 }
 
@@ -1348,7 +1348,7 @@ int LuaInterface::lua_create_task(lpp::Script::state L)
 	std::size_t target = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	std::size_t id = lua_this->task_system_->create_task(target, task);
+	auto id = TaskHelper::create_task(*ents, target, task);
 	lua_pushinteger(L, id);
 	return 1;
 }
