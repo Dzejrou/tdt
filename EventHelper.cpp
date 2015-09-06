@@ -65,3 +65,19 @@ bool EventHelper::is_active(EntitySystem& ents, std::size_t id)
 	else
 		return false;
 }
+
+void EventHelper::set_event_handler(EntitySystem& ents, std::size_t id, std::size_t val)
+{
+	auto comp = ents.get_component<EventComponent>(id);
+	if(comp)
+		comp->handler = val;
+}
+
+std::size_t EventHelper::get_event_handler(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<EventComponent>(id);
+	if(comp)
+		return comp->handler;
+	else
+		return Component::NO_ENTITY;
+}

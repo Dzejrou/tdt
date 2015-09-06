@@ -65,10 +65,25 @@ namespace EventHelper
 	void set_active(EntitySystem&, std::size_t, bool = true);
 
 	/**
-	 * Brief: Rreturns true if a given event is active,
+	 * Brief: Returns true if a given event is active,
 	 *        false otherwise.
 	 * Param: Entity system that contains the entity.
 	 * Param: ID of the event.
 	 */
 	bool is_active(EntitySystem&, std::size_t);
+
+	/**
+	 * Brief: Sets the entity that handles a given event.
+	 * Param: Entity system containing both the entity and the event.
+	 * Param: ID of the event.
+	 * Param: ID of the handling entity.
+	 */
+	void set_event_handler(EntitySystem&, std::size_t, std::size_t);
+
+	/**
+	 * Brief: Returns the entity that handles a given event.
+	 * Param: Entity system containing both the entity and the event.
+	 * Param: ID of the event.
+	 */
+	std::size_t get_event_handler(EntitySystem&, std::size_t);
 }
