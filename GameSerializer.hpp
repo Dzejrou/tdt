@@ -193,6 +193,7 @@ inline void GameSerializer::save_component<EventComponent>(std::size_t id, const
 		+ "game.set_event_target(" + tbl_name + ", entity_" + std::to_string(comp->target) + ")\n"
 		+ "game.set_event_radius(" + tbl_name + ", " + std::to_string(comp->radius) + ")\n"
 		+ "game.set_event_active(" + tbl_name + ", " + (comp->active ? "true" : "false") + ")\n"
+		+ "game.set_handler_of_event(" + tbl_name + ", " + std::to_string(comp->handler) + ")\n"
 	};
 
 	save_components_.emplace_back(std::move(comm));
