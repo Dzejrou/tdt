@@ -60,6 +60,7 @@ void LuaInterface::init(Game* game)
 		{"list_entity_tables", LuaInterface::lua_list_entity_tables},
 		{"place_entity", LuaInterface::lua_place_entity},
 		{"register_entity", LuaInterface::lua_register_entity},
+		{"exists", LuaInterface::lua_exists},
 
 		// Physics.
 		{"set_position", LuaInterface::lua_set_position},
@@ -642,6 +643,16 @@ int LuaInterface::lua_register_entity(lpp::Script::state L)
 
 	lua_this->entity_system_->register_entity(table_name);
 	return 0;
+}
+
+int LuaInterface::lua_exists(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->entity_system_->exists(id);
+	lua_pushboolean(L, res);
+	return 1;
 }
 
 int LuaInterface::lua_move_to(lpp::Script::state L)
