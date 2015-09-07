@@ -125,6 +125,8 @@ void LuaInterface::init(Game* game)
 		{"set_free", LuaInterface::lua_set_free},
 		{"set_free_selected", LuaInterface::lua_set_free_selected},
 		{"pathfind", LuaInterface::lua_pathfind},
+		{"pop_first_path_node", LuaInterface::lua_pop_first_path_node},
+		{"pop_last_path_node", LuaInterface::lua_pop_last_path_node},
 		{"clear_path_colour", LuaInterface::lua_clear_path_colour},
 		{"set_pathfinding_blueprint", LuaInterface::lua_set_pathfinding_blueprint},
 		{"create_graph", LuaInterface::lua_create_graph},
@@ -1224,6 +1226,24 @@ int LuaInterface::lua_pathfind(lpp::Script::state L)
 	bool res = lua_this->grid_system_->perform_a_star(id, end);
 	lua_pushboolean(L, res);
 	return 1;
+}
+
+int LuaInterface::lua_pop_first_path_node(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	PathfindingHelper::get_path(*ents, id).pop_front();
+	return 0;
+}
+
+int LuaInterface::lua_pop_last_path_node(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	PathfindingHelper::get_path(*ents, id).pop_back();
+	return 0;
 }
 
 int LuaInterface::lua_clear_path_colour(lpp::Script::state L)

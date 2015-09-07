@@ -152,6 +152,8 @@ class LuaInterface
 		static int lua_set_free(lpp::Script::state);
 		static int lua_set_free_selected(lpp::Script::state);
 		static int lua_pathfind(lpp::Script::state);
+		static int lua_pop_first_path_node(lpp::Script::state);
+		static int lua_pop_last_path_node(lpp::Script::state);
 		static int lua_clear_path_colour(lpp::Script::state);
 		static int lua_set_pathfinding_blueprint(lpp::Script::state);
 		static int lua_create_graph(lpp::Script::state);
