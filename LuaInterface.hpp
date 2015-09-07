@@ -57,6 +57,10 @@ class LuaInterface
 		static int lua_save_game(lpp::Script::state);
 		static int lua_load_game(lpp::Script::state);
 
+		// Util.
+		static int lua_get_enum_direction(lpp::Script::state);
+		static int lua_get_node_in_dir(lpp::Script::state);
+
 		// Graphics.
 		static int lua_set_mesh(lpp::Script::state);
 		static int lua_set_material(lpp::Script::state);

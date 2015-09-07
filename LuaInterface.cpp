@@ -32,6 +32,10 @@ void LuaInterface::init(Game* game)
 		{"save_game", LuaInterface::lua_save_game},
 		{"load_game", LuaInterface::lua_load_game},
 
+		// Util.
+		{"get_enum_direction", LuaInterface::lua_get_enum_direction},
+		{"get_node_in_dir", LuaInterface::lua_get_node_in_dir},
+
 		// Graphics.
 		{"set_mesh", LuaInterface::lua_set_mesh},
 		{"set_material", LuaInterface::lua_set_material},
@@ -406,6 +410,28 @@ int LuaInterface::lua_load_game(lpp::Script::state L)
 		lua_this->game_serializer_->load_game(*lua_this);
 
 	return 0;
+}
+
+int LuaInterface::lua_get_enum_direction(lpp::Script::state L)
+{
+	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t source = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	auto res = util::get_enum_direction(*ents, source, target);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_get_node_in_dir(lpp::Script::state L)
+{
+	int dir = (int)luaL_checkinteger(L, -1);
+	std::size_t source = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	auto res = lua_this->grid_system_->get_node_in_dir(source, dir);
+	lua_pushinteger(L, res);
+	return 1;
 }
 
 int LuaInterface::lua_set_mesh(lpp::Script::state L)
