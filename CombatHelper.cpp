@@ -2,6 +2,22 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 
+void CombatHelper::set_target(EntitySystem& ents, std::size_t id, std::size_t val)
+{
+	auto comp = ents.get_component<CombatComponent>(id);
+	if(comp)
+		comp->curr_target = val;
+}
+
+std::size_t CombatHelper::get_combat_target(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<CombatComponent>(id);
+	if(comp)
+		return comp->curr_target;
+	else
+		return Component::NO_ENTITY;
+}
+
 void CombatHelper::set_range(EntitySystem& ents, std::size_t id, Ogre::Real range)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
@@ -37,7 +53,7 @@ std::tuple<std::size_t, std::size_t> CombatHelper::get_dmg_range(EntitySystem& e
 		return std::tuple<std::size_t, std::size_t>{};
 }
 
-std::size_t CombatHelper::get_dmg(EntitySystem& ents, std::size_t min, std::size_t max)
+std::size_t CombatHelper::get_dmg(std::size_t min, std::size_t max)
 {
 	return std::uniform_int_distribution<std::size_t>{0, std::numeric_limits<std::size_t>::max()}(
 		   std::mt19937{std::random_device{}()}) % max + min;
