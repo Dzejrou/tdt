@@ -182,6 +182,8 @@ class LuaInterface
 		static int lua_delete_possible_task(lpp::Script::state);
 
 		// Combat & homing projectiles.
+		static int lua_set_combat_target(lpp::Script::state);
+		static int lua_get_combat_target(lpp::Script::state);
 		static int lua_set_range(lpp::Script::state);
 		static int lua_get_range(lpp::Script::state);
 		static int lua_set_dmg_range(lpp::Script::state);

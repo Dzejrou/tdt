@@ -155,6 +155,8 @@ void LuaInterface::init(Game* game)
 		{"delete_possible_task", LuaInterface::lua_delete_possible_task},
 
 		// Combat & homing projectiles.
+		{"set_combat_target", LuaInterface::lua_set_combat_target},
+		{"get_combat_target", LuaInterface::lua_get_combat_target},
 		{"set_range", LuaInterface::lua_set_range},
 		{"get_range", LuaInterface::lua_get_range},
 		{"set_dmg_range", LuaInterface::lua_set_dmg_range},
@@ -1519,6 +1521,26 @@ int LuaInterface::lua_delete_possible_task(lpp::Script::state L)
 
 	TaskHandlerHelper::delete_possible_task(*ents, id, type);
 	return 0;
+}
+
+int LuaInterface::lua_set_combat_target(lpp::Script::state L)
+{
+	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	CombatHelper::set_target(*ents, id, target);
+	return 0;
+}
+
+int LuaInterface::lua_get_combat_target(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = CombatHelper::get_target(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
 }
 
 int LuaInterface::lua_set_range(lpp::Script::state L)
