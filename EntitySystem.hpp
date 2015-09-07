@@ -551,8 +551,10 @@ inline void EntitySystem::load_component<PathfindingComponent>(std::size_t id, c
 template<>
 inline void EntitySystem::load_component<TaskHandlerComponent>(std::size_t id, const std::string& table_name)
 {
-	std::vector<int> possible_tasks = lpp::Script::get_singleton().get_vector<int>(table_name + ".TaskHandlerComponent.possible_tasks");
-	auto res = task_handler_.emplace(id, TaskHandlerComponent{});
+	auto& script = lpp::Script::get_singleton();
+	std::vector<int> possible_tasks = script.get_vector<int>(table_name + ".TaskHandlerComponent.possible_tasks");
+	std::string blueprint = script.get<std::string>(table_name + ".TaskHandlerComponent.blueprint");
+	auto res = task_handler_.emplace(id, TaskHandlerComponent{blueprint});
 
 	// Init possible tasks.
 	auto& tasks = res.first->second.possible_tasks;
