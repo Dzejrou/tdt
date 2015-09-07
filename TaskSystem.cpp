@@ -28,9 +28,8 @@ void TaskSystem::update(Ogre::Real delta)
 			}
 
 			// Found atleast one valid task.
-			auto comp = entities_.get_component<TaskComponent>(ent.second.curr_task);
-			if(ent.second.curr_task != Component::NO_ENTITY && comp)
-				ent.second.busy = handle_task_(ent.first, *comp, ent.second);
+			if(ent.second.curr_task != Component::NO_ENTITY)
+				ent.second.busy = handle_task_(ent.first, ent.second.curr_task, ent.second);
 		}
 	}
 }
@@ -53,93 +52,10 @@ void TaskSystem::next_task_(TaskHandlerComponent& comp)
 	}
 }
 
-bool TaskSystem::handle_task_(std::size_t id, TaskComponent& task, TaskHandlerComponent& handler)
+bool TaskSystem::handle_task_(std::size_t id, std::size_t task, TaskHandlerComponent& handler)
 {
-	/**
-	 * Note: Not performing checks on components because the entity will have to have
-	 *       those components to accept the task and these components should not be deleted
-	 *       before this call.
-	 */
-	bool res{false};
-	switch(task.task_type)
-	{
-		case TASK_TYPE::GO_TO:
-		case TASK_TYPE::GO_NEAR:
-		case TASK_TYPE::GET_IN_RANGE:
-		{
-			res = grid_.perform_a_star(id, task.target);
-
-			if(task.task_type == TASK_TYPE::GO_NEAR)
-			{
-				auto path_comp = entities_.get_component<PathfindingComponent>(task.source);
-				if(path_comp && path_comp->path_queue.size() >= 2)
-				{
-					path_comp->path_queue.pop_back(); // Doesn't reach the final grid node.
-					path_comp->target_id = path_comp->path_queue.back();
-					task.target = path_comp->path_queue.back();
-				}
-			}
-			res = true;
-			break;
-		}
-		case TASK_TYPE::GO_KILL:
-		{
-			auto task_go_near = TaskHelper::create_task(entities_, task.target, TASK_TYPE::GET_IN_RANGE);
-			auto task_kill = TaskHelper::create_task(entities_, task.target, TASK_TYPE::KILL);
-			TaskHelper::add_task(entities_, id, task_go_near);
-			TaskHelper::add_task(entities_, id, task_kill);
-
-			DestructorHelper::destroy(entities_, handler.curr_task);
-			handler.curr_task = Component::NO_ENTITY;
-			res = true;
-			break;
-		}
-		case TASK_TYPE::KILL:
-		{
-			auto combat_comp = entities_.get_component<CombatComponent>(id);
-			if(combat_comp)
-			{
-				res = true;
-				combat_comp->curr_target = task.target;
-			}
-			else
-			{
-				DestructorHelper::destroy(entities_, handler.curr_task);
-				handler.curr_task = Component::NO_ENTITY;
-			}
-			break;
-		}
-		case TASK_TYPE::GO_PICK_UP_GOLD:
-		{
-			auto task_go_near = TaskHelper::create_task(entities_, task.target, TASK_TYPE::GO_NEAR);
-			auto task_pick_up = TaskHelper::create_task(entities_, task.target, TASK_TYPE::PICK_UP_GOLD);
-			TaskHelper::add_task(entities_, id, task_go_near);
-			TaskHelper::add_task(entities_, id, task_pick_up);
-		
-			DestructorHelper::destroy(entities_, handler.curr_task);
-			handler.curr_task = Component::NO_ENTITY;
-			res = true;
-			break;
-		}
-		case TASK_TYPE::PICK_UP_GOLD:
-		{
-			GoldHelper::transfer_all_gold(entities_, task.target, id);
-			if(GoldHelper::get_curr_gold(entities_, task.target) > 0)
-			{ // Calls other minions to pick it up.
-				auto evt = entities_.create_entity("");
-				auto& comp = entities_.add_component<EventComponent>(evt);
-				comp.target = task.target;
-				comp.handler = id;
-				comp.event_type = EVENT_TYPE::GOLD_DROPPED;
-				comp.radius = std::numeric_limits<Ogre::Real>::max(); // This time signal everyone.
-			}
-			handler.curr_task = Component::NO_ENTITY;
-			break;
-			// TODO: If gold capped, create new task to return the gold to the vault!
-			// Note: Or handle this in the update method? Might be easier and more flexible.
-		}
-	}
-	return res;
+	return lpp::Script::get_singleton().call<bool, std::size_t, std::size_t>(
+		        handler.blueprint + ".handle_task", id, task);
 }
 
 bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& handler)

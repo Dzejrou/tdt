@@ -53,10 +53,11 @@ class TaskSystem : public System
 		/**
 		 * Brief: Executes a single task.
 		 * Param: ID of the entity that the task is assigned to.
-		 * Param: Reference to the task component of the task to be handled.
+		 * Param: ID of the task.
 		 * Param: Reference to the task handling component of the assigned entity.
+		 *        (For easier look up of the blueprint.)
 		 */
-		bool handle_task_(std::size_t, TaskComponent&, TaskHandlerComponent&);
+		bool handle_task_(std::size_t, std::size_t, TaskHandlerComponent&);
 
 		/**
 		 * Brief: Checks whether the current task of a given entity has been completed.
