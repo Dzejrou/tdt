@@ -9,7 +9,7 @@ void CombatHelper::set_target(EntitySystem& ents, std::size_t id, std::size_t va
 		comp->curr_target = val;
 }
 
-std::size_t CombatHelper::get_combat_target(EntitySystem& ents, std::size_t id)
+std::size_t CombatHelper::get_target(EntitySystem& ents, std::size_t id)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)
