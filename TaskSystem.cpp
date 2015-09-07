@@ -29,7 +29,7 @@ void TaskSystem::update(Ogre::Real delta)
 
 			// Found atleast one valid task.
 			if(ent.second.curr_task != Component::NO_ENTITY)
-				ent.second.busy = handle_task_(ent.first, ent.second.curr_task, ent.second);
+				ent.second.busy = handle_task_(ent.first, ent.second);
 		}
 	}
 }
@@ -61,73 +61,7 @@ bool TaskSystem::handle_task_(std::size_t id, TaskHandlerComponent& handler)
 
 bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& handler)
 {
-	auto comp = entities_.get_component<TaskComponent>(handler.curr_task);
-	if(comp)
-	{
-		if(!entities_.exists(comp->target) || !entities_.exists(comp->source))
-			return true;
-		switch(comp->task_type)
-		{
-			case TASK_TYPE::GO_TO:
-			case TASK_TYPE::GO_NEAR:
-			{
-				auto source = entities_.get_component<PhysicsComponent>(comp->source);
-				auto target = entities_.get_component<PhysicsComponent>(comp->target);
-				auto path = entities_.get_component<PathfindingComponent>(comp->source);
-
-				if(source && target)
-					return source->position.x == target->position.x && source->position.z == target->position.z
-						   || (path && path->path_queue.empty());
-				else
-					return true; // Runtime deletion, should not occur in release code.
-			}
-			case TASK_TYPE::GO_KILL:
-				return handler.curr_task == Component::NO_ENTITY; // Removed when handled.
-			case TASK_TYPE::KILL:
-			{
-				auto combat_comp = entities_.get_component<CombatComponent>(id);
-				if(combat_comp)
-					return combat_comp->curr_target == Component::NO_ENTITY;
-				else
-					return false;
-			}
-			case TASK_TYPE::GET_IN_RANGE:
-			{
-				auto combat_comp = entities_.get_component<CombatComponent>(id);
-				if(combat_comp)
-				{
-					auto phys_comp = entities_.get_component<PhysicsComponent>(id);
-					auto target_phys_comp = entities_.get_component<PhysicsComponent>(comp->target);
-					if(phys_comp && target_phys_comp)
-					{
-						auto range = combat_comp->range * combat_comp->range; // Squared distance is faster (avoid square root).
-						auto path_comp = entities_.get_component<PathfindingComponent>(id);
-						if(path_comp && path_comp->path_queue.empty())
-							return true;
-						else if(phys_comp->position.squaredDistance(target_phys_comp->position) < range)
-						{
-							if(combat_.in_sight(id, comp->target))
-							{
-								if(path_comp) // Stop pursuing.
-								{
-									path_comp->target_id = Component::NO_ENTITY;
-									path_comp->path_queue.clear();
-								}
-								return true;;
-							}
-						}
-					}
-				}
-				return false;
-			}
-			case TASK_TYPE::GO_PICK_UP_GOLD:
-				return TaskHandlerHelper::get_task_queue(entities_, id).empty();
-			case TASK_TYPE::PICK_UP_GOLD:
-				return handler.curr_task == Component::NO_ENTITY;
-			default:
-				return true; // Undefined task, kill it asap.
-		}
-	}
-	else // Allows for task cancel.
-		return true;
+	return lpp::Script::get_singleton().call<bool>(
+				handler.blueprint + ".task_complete", id, handler.curr_task	
+	);
 }
