@@ -343,9 +343,9 @@ struct TaskHandlerComponent
 {
 	static constexpr int type = 16;
 
-	TaskHandlerComponent(std::size_t curr = Component::NO_ENTITY, const std::string& b = "ERROR")
-		: curr_task{curr}, possible_tasks{}, task_queue{},
-		  busy{curr != Component::NO_ENTITY}, blueprint{b}
+	TaskHandlerComponent(const std::string& b = "ERROR")
+		: curr_task{Component::NO_ENTITY}, possible_tasks{}, task_queue{},
+		  busy{false}, blueprint{b}
 	{  /* DUMMY BODY */ }
 	TaskHandlerComponent(const TaskHandlerComponent&) = default;
 	TaskHandlerComponent(TaskHandlerComponent&&) = default;
