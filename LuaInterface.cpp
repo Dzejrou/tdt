@@ -1291,7 +1291,7 @@ int LuaInterface::lua_path_queue_empty(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = PathfindingHelper::get_path().empty();
+	auto res = PathfindingHelper::get_path(*ents, id).empty();
 	lua_pushboolean(L, res);
 	return 1;
 }
