@@ -77,6 +77,11 @@ std::size_t TaskHelper::create_task(EntitySystem& ents, std::size_t target, TASK
 
 void TaskHelper::cancel_task(EntitySystem& ents, std::size_t task_id)
 {
-	if(ents.has_component<TaskComponent>(task_id))
+	auto comp = ents.get_component<TaskComponent>(task_id);
+	if(comp)
+	{
+		auto handler = ents.get_component<TaskHandlerComponent>(comp->source);
+		handler->curr_task = Component::NO_ENTITY;
 		DestructorHelper::destroy(ents, task_id);
+	}
 }
