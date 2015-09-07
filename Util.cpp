@@ -84,4 +84,6 @@ int util::get_enum_direction(EntitySystem& ents, std::size_t id, std::size_t tar
 		return DIRECTION::DOWN_LEFT;
 	else if(down && right)
 		return DIRECTION::DOWN_RIGHT;
+	else
+		return DIRECTION::NONE;
 }
