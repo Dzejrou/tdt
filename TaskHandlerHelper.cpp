@@ -52,3 +52,21 @@ void TaskHandlerHelper::delete_possible_task(EntitySystem& ents, std::size_t id,
 	if(comp)
 		comp->possible_tasks.set((int)type, false);
 }
+
+void TaskHandlerHelper::set_blueprint(EntitySystem& ents, std::size_t id, const std::string& val)
+{
+	auto comp = ents.get_component<TaskHandlerComponent>(id);
+	if(comp)
+		comp->blueprint = val;
+}
+
+const std::string& TaskHandlerHelper::get_blueprint(EntitySystem& ents, std::size_t id)
+{
+	static const std::string NO_BLUEPRINT{"ERROR"};
+
+	auto comp = ents.get_component<TaskHandlerComponent>(id);
+	if(comp)
+		return comp->blueprint;
+	else
+		return NO_BLUEPRINT;
+}

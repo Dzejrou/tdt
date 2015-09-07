@@ -9,14 +9,14 @@ namespace TaskHandlerHelper
 {
 	/**
 	 * Brief: Returns a reference to the task queue of a given entity.
-	 * Param: Reference to the entity system containing needed components.
+	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.
 	 */
 	std::deque<std::size_t>& get_task_queue(EntitySystem&, std::size_t);
 
 	/**
 	 * Brief: Checks whether an entity can accept and complete a given task.
-	 * Param: Reference to the entity system containing needed components.
+	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.
 	 * Param: ID of the task.
 	 */
@@ -24,14 +24,14 @@ namespace TaskHandlerHelper
 
 	/**
 	 * Brief: Cancels all tasks in a given entity's task queue.
-	 * Param: Reference to the entity system containing needed components.
+	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.
 	 */
 	void clear_task_queue(EntitySystem&, std::size_t);
 
 	/**
 	 * Brief: Marks a given entity as available to accept tasks of a given task type.
-	 * Param: Reference to the entity system containing needed components.
+	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.
 	 * Param: Type of the task to be added.
 	 */
@@ -39,9 +39,24 @@ namespace TaskHandlerHelper
 
 	/**
 	 * Brief: Marks a given entity as unavailable to accept tasks of a given task type.
-	 * Param: Reference to the entity system containing needed components.
+	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.
 	 * Param: Type of the task to be deleted.
 	 */
 	void delete_possible_task(EntitySystem&, std::size_t, TASK_TYPE);
+
+	/**
+	 * Brief: Sets the handling blueprint of a given entity.
+	 * Param: EntitySystem that contains the entity.
+	 * Param: ID of the entity.
+	 * Param: The name of the new blueprint.
+	 */
+	void set_blueprint(EntitySystem&, std::size_t, const std::string&);
+
+	/**
+	 * Brief: Returns the handling blueprint of a given entity.
+	 * Param: EntitySystem that contains the entity.
+	 * Param: ID of the entity.
+	 */
+	const std::string& get_blueprint(EntitySystem&, std::size_t);
 }
