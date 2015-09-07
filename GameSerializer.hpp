@@ -299,7 +299,8 @@ inline void GameSerializer::save_component<TaskHandlerComponent>(std::size_t id,
 {
 	auto comp = entities_.get_component<TaskHandlerComponent>(id);
 	std::string comm{
-		"game.add_component(" + tbl_name + ", game.enum.component.task_handler)\n"
+		  "game.add_component(" + tbl_name + ", game.enum.component.task_handler)\n"
+		+ "game.set_task_handling_blueprint(" + tbl_name + ", '" + comp->blueprint + "')\n"
 	};
 
 	for(std::size_t i = 0; i < comp->possible_tasks.size(); ++i)
