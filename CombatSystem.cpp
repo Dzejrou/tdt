@@ -36,7 +36,7 @@ void CombatSystem::update(Ogre::Real delta)
 			if(phys_comp && target_phys_comp &&
 			   phys_comp->position.squaredDistance(target_phys_comp->position) < range)
 			{
-				auto dmg = CombatHelper::get_dmg(entities_, ent.second.min_dmg, ent.second.max_dmg);
+				auto dmg = CombatHelper::get_dmg(ent.second.min_dmg, ent.second.max_dmg);
 				GraphicsHelper::look_at(entities_, ent.first, ent.second.curr_target);
 				switch(ent.second.atk_type)
 				{
@@ -141,7 +141,7 @@ void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent&
 	auto comp = entities_.get_component<HomingComponent>(id);
 	if(comp)
 	{
-		comp->dmg = CombatHelper::get_dmg(entities_, combat.min_dmg, combat.max_dmg);
+		comp->dmg = CombatHelper::get_dmg(combat.min_dmg, combat.max_dmg);
 		comp->source = caster;
 		comp->target = combat.curr_target;
 	}
