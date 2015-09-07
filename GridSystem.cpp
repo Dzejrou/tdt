@@ -402,7 +402,10 @@ std::deque<std::size_t> GridSystem::get_path_(std::size_t id, std::size_t start,
 				     	            [&estimate](const std::size_t& lhs, const std::size_t& rhs) -> bool
 		                            { return estimate[lhs] < estimate[rhs]; });
 		if(current == end)
+		{
 			found_path = true;
+			break;
+		}
 		open.erase(current);
 		closed.insert(current);
 	
