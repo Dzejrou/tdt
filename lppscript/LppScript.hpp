@@ -86,7 +86,7 @@ class Script
 
 			auto res = get_<T>(sub_name);
 			clear_stack();
-			return std::move(res);
+			return res;
 		}
 
 		/**
