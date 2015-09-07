@@ -55,7 +55,7 @@ namespace DIRECTION
 {
 	enum VAL
 	{
-		UP = 1, DOWN, LEFT, RIGHT,
+		UP = 0, DOWN, LEFT, RIGHT,
 		UP_LEFT, UP_RIGHT,
 		DOWN_LEFT, DOWN_RIGHT,
 		NONE
