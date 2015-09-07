@@ -52,10 +52,11 @@ void TaskSystem::next_task_(TaskHandlerComponent& comp)
 	}
 }
 
-bool TaskSystem::handle_task_(std::size_t id, std::size_t task, TaskHandlerComponent& handler)
+bool TaskSystem::handle_task_(std::size_t id, TaskHandlerComponent& handler)
 {
-	return lpp::Script::get_singleton().call<bool, std::size_t, std::size_t>(
-		        handler.blueprint + ".handle_task", id, task);
+	return lpp::Script::get_singleton().call<bool>(
+		        handler.blueprint + ".handle_task", id, handler.curr_task
+	);
 }
 
 bool TaskSystem::current_task_completed_(std::size_t id, TaskHandlerComponent& handler)
