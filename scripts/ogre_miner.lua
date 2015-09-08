@@ -100,6 +100,14 @@ ogre_miner = {
 
 	finnish = function(id)
 	end,
+
+	can_break = function(id, structure)
+		return true
+	end,
+
+	get_cost = function(id, structure)
+		return 1
+	end
 }
 
 if game then
