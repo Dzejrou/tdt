@@ -56,15 +56,9 @@ default_task_handler = {
 	end,
 
 	task_complete = function(id, task)
-		--[[
-		if not game.has_component(id, game.enum.component.task_handler) or
-		   not game.has_component(task, game.enum.component.task) then
-			return true
-		end --]]
 		task_type = game.get_task_type(task)
 		if task_type == game.enum.task.none or
 		   not game.task_type_possible(id, task) then
-			   game.print("TASK IS NULL OR IMPOSSIBLE: " .. task_type)
 			return true
 		end
 
@@ -85,10 +79,6 @@ default_task_handler = {
 			end
 		elseif task_type == game.enum.task.kill then
 			res = game.get_combat_target(id) == game.const.no_ent
-		end
-
-		if res then
-			game.print("task complete")
 		end
 
 		return res
