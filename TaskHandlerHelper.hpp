@@ -23,6 +23,14 @@ namespace TaskHandlerHelper
 	bool task_possible(EntitySystem&, std::size_t, std::size_t);
 
 	/**
+	 * Brief: Checks whether an entity can accept and complete a task of agiven task type.
+	 * Param: EntitySystem that contains the entity.
+	 * Param: ID of the entity.
+	 * Param: Task type to be tested.
+	 */
+	bool task_possible(EntitySystem&, std::size_t, TASK_TYPE);
+
+	/**
 	 * Brief: Cancels all tasks in a given entity's task queue.
 	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.

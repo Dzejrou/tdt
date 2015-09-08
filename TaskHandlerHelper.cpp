@@ -24,6 +24,15 @@ bool TaskHandlerHelper::task_possible(EntitySystem& ents, std::size_t ent_id, st
 		return false;
 }
 
+bool TaskHandlerHelper::task_possible(EntitySystem& ents, std::size_t id, TASK_TYPE val)
+{
+	auto comp = ents.get_component<TaskHandlerComponent>(id);
+	if(comp)
+		return comp->possible_tasks.test((int)val);
+	else
+		return false;
+}
+
 void TaskHandlerHelper::clear_task_queue(EntitySystem& ents, std::size_t id)
 {
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
