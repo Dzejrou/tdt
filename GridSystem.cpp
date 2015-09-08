@@ -379,7 +379,6 @@ std::deque<std::size_t> GridSystem::get_path_(std::size_t id, std::size_t start,
 	auto& script = lpp::Script::get_singleton();
 
 	std::map<std::size_t, std::size_t> path_edges{};
-	std::set<std::size_t> closed{};
 	std::set<std::size_t> open{start};
 	std::map<std::size_t, std::size_t> score;
 	std::map<std::size_t, std::size_t> estimate;
@@ -402,19 +401,15 @@ std::deque<std::size_t> GridSystem::get_path_(std::size_t id, std::size_t start,
 				     	            [&estimate](const std::size_t& lhs, const std::size_t& rhs) -> bool
 		                            { return estimate[lhs] < estimate[rhs]; });
 		if(current == end)
-		{
 			found_path = true;
-			break;
-		}
 		open.erase(current);
-		closed.insert(current);
 	
 		for(const auto& neighbour : get_neighbours(current))
 		{
 			// TODO: If this continues when the neighbour is closed, shortest path won't be found!
 			//       Shortest path vs. performance ?
-			if(!in_board_(neighbour) || closed.find(neighbour) != closed.end() ||
-			   (!is_free(neighbour) && !can_break_(id, *comp, neighbour)))
+			bool cannot_pass = !is_free(neighbour) && !can_break_(id, *comp, neighbour);
+			if(!in_board_(neighbour) || cannot_pass)
 				continue;
 			auto s = script.call<std::size_t, std::size_t, std::size_t>(comp->blueprint + ".get_cost", id, current);
 			auto new_score = score[current] + s;
