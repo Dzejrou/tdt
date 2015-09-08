@@ -60,7 +60,8 @@ ogre_miner = {
 			game.enum.task.get_in_range,
 			game.enum.task.go_pick_up_gold,
 			game.enum.task.pick_up_gold
-		}
+		},
+		blueprint = "default_task_handler"
 	},
 
 	EventHandlerComponent = {

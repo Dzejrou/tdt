@@ -64,7 +64,8 @@ evil_ogre = {
 			game.enum.task.go_kill,
 			game.enum.task.kill,
 			game.enum.task.get_in_range
-		}
+		},
+		blueprint = "default_task_handler"
 	},
 
 	InputComponent = {

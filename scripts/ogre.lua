@@ -65,7 +65,8 @@ ogre = {
 			game.enum.task.go_kill,
 			game.enum.task.kill,
 			game.enum.task.get_in_range
-		}
+		},
+		blueprint = "default_task_handler"
 	},
 
 	InputComponent = {
@@ -117,10 +118,10 @@ ogre = {
 	},
 
 	can_break = function(id, struct)
-		return true
+		return false
 	end,
 
-	get_cost = function(id) --, struct)
+	get_cost = function(id, struct)
 		return 1
 	end
 }
