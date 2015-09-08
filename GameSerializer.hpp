@@ -328,7 +328,8 @@ inline void GameSerializer::save_component<StructureComponent>(std::size_t id, c
 		comm.append("entity_" + std::to_string(comp->residences[i]) +
 					(i == comp->residences.size() - 1 ? "" : ", "));
 		set_residents.append("game.set_resident(entity_" + std::to_string(comp->residences[i])
-							 + ", " + tbl_name + ")\n");
+							 + ", " + tbl_name + ")\n"
+							 + "game.set_free(" + std::to_string(comp->residences[i]) + ", false)\n");
 	}
 	comm.append(" }\ngame.add_residences(" + tbl_name + ", '" + tbl_name + "_residences')\n");
 
