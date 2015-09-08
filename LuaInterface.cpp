@@ -185,6 +185,7 @@ void LuaInterface::init(Game* game)
 		{"closest_friendly_in_sight", LuaInterface::lua_closest_friendly_in_sight},
 		{"closest_enemy", LuaInterface::lua_closest_enemy},
 		{"closest_friendly", LuaInterface::lua_closest_friendly},
+		{"in_sight", LuaInterface::lua_in_sight},
 
 		// Production & products.
 		{"set_production_blueprint", LuaInterface::lua_set_production_blueprint},
@@ -1817,6 +1818,17 @@ int LuaInterface::lua_closest_friendly(lpp::Script::state L)
 
 	auto res = lua_this->combat_system_->get_closest_entity(id, false, true);
 	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_in_sight(lpp::Script::state L)
+{
+	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	auto res = lua_this->combat_system_->in_sight(id1, id2);
+	lua_pushboolean(L, res);
 	return 1;
 }
 

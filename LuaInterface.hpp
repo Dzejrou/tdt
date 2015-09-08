@@ -212,6 +212,7 @@ class LuaInterface
 		static int lua_closest_friendly_in_sight(lpp::Script::state);
 		static int lua_closest_enemy(lpp::Script::state);
 		static int lua_closest_friendly(lpp::Script::state);
+		static int lua_in_sight(lpp::Script::state);
 
 		// Production & products.
 		static int lua_set_production_blueprint(lpp::Script::state);
