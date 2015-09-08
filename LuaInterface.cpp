@@ -151,6 +151,7 @@ void LuaInterface::init(Game* game)
 		{"create_task", LuaInterface::lua_create_task},
 		{"list_tasks_of", LuaInterface::lua_list_tasks_of},
 		{"task_possible", LuaInterface::lua_task_possible},
+		{"task_type_possible", LuaInterface::lua_task_type_possibe},
 		{"clear_task_queue", LuaInterface::lua_clear_task_queue},
 		{"set_task_source", LuaInterface::lua_set_task_source},
 		{"get_task_source", LuaInterface::lua_get_task_source},
@@ -1493,6 +1494,17 @@ int LuaInterface::lua_task_possible(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	bool res = TaskHandlerHelper::task_possible(*ents, ent_id, task_id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_task_type_possibe(lpp::Script::state L)
+{
+	TASK_TYPE type = (TASK_TYPE)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	auto res = TaskHandlerHelper::task_possible(*ents, id, type);
 	lua_pushboolean(L, res);
 	return 1;
 }

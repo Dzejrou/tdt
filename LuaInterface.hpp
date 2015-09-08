@@ -178,6 +178,7 @@ class LuaInterface
 		static int lua_create_task(lpp::Script::state);
 		static int lua_list_tasks_of(lpp::Script::state);
 		static int lua_task_possible(lpp::Script::state);
+		static int lua_task_type_possibe(lpp::Script::state);
 		static int lua_clear_task_queue(lpp::Script::state);
 		static int lua_set_task_source(lpp::Script::state);
 		static int lua_get_task_source(lpp::Script::state);
