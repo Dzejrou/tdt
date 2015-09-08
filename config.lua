@@ -12,8 +12,11 @@ game.config = {
 	event_update_multiplier = 1.0
 }
 
--- TODO: Autoset of the config properties.
+-- NOTE: IT'S INADVISED TO CHANGE THE FOLLOWING CODE!
 game.set_update_period(game.config.ai_update_period)
 game.set_production_multiplier(game.config.production_multiplier)
 game.set_timer_multiplier(game.config.timer_multiplier)
 game.set_event_update_multiplier(game.config.event_update_multiplier)
+
+-- Helper commands executed on startup:
+game.toggle_camera_free_mode()
