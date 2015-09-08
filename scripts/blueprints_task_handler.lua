@@ -58,7 +58,7 @@ default_task_handler = {
 	task_complete = function(id, task)
 		task_type = game.get_task_type(task)
 		if task_type == game.enum.task.none or
-		   not game.task_type_possible(id, task) then
+		   not game.task_type_possible(id, task_type) then
 			return true
 		end
 
