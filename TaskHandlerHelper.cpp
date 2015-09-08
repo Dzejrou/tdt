@@ -27,7 +27,7 @@ bool TaskHandlerHelper::task_possible(EntitySystem& ents, std::size_t ent_id, st
 bool TaskHandlerHelper::task_possible(EntitySystem& ents, std::size_t id, TASK_TYPE val)
 {
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
-	if(comp)
+	if(comp && (int)val > 0 && (int)val < (int)TASK_TYPE::COUNT)
 		return comp->possible_tasks.test((int)val);
 	else
 		return false;
