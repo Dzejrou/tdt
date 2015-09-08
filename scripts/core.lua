@@ -18,7 +18,7 @@ else
 end
 
 -- Returns true if a given value v has a type matching
--- one of the type names passed as remaining arguments.
+-- one of the type names passed as the remaining arguments.
 assert_types = function(v, ...)
 	res = false
 
