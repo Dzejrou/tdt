@@ -415,15 +415,13 @@ std::deque<std::size_t> GridSystem::get_path_(std::size_t id, std::size_t start,
 			auto new_score = score[current] + s;
 
 			// Either unvisited or we found a better path to it.
-			bool not_in_open = open.find(neighbour) == open.end();
-			if(not_in_open || new_score < score[neighbour])
+			if(new_score < score[neighbour])
 			{
 				path_edges[neighbour] = current;
 				score[neighbour] = new_score;
 				estimate[neighbour] = new_score + get_manhattan_distance(neighbour, end);
 			
-				if(not_in_open)
-					open.insert(neighbour);
+				open.insert(neighbour);
 			}
 		
 		}
