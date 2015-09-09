@@ -118,7 +118,7 @@ ogre = {
 	},
 
 	can_break = function(id, struct)
-		return false
+		return true
 	end,
 
 	get_cost = function(id, struct)
