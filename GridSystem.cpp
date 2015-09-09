@@ -262,9 +262,9 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t target, bool add_pat
 				auto comp = entities_.get_component<TaskHandlerComponent>(id);
 				if(comp)
 				{
-					comp->task_queue.push_front(comp->curr_task);
-					comp->task_queue.push_front(task_kill);
-					comp->task_queue.push_front(task_get_in_range);
+					TaskHelper::add_task(entities_, id, comp->curr_task, true);
+					TaskHelper::add_task(entities_, id, task_kill, true);
+					TaskHelper::add_task(entities_, id, task_get_in_range, true);
 					comp->curr_task = Component::NO_ENTITY;
 					destruction = true;
 					break;
