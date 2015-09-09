@@ -320,6 +320,7 @@ entity_312 = game.create_entity()
 entity_313 = game.create_entity()
 entity_314 = game.create_entity()
 entity_315 = game.create_entity()
+entity_316 = game.create_entity()
 entity_317 = game.create_entity()
 entity_318 = game.create_entity()
 entity_319 = game.create_entity()
@@ -352,10 +353,9 @@ entity_345 = game.create_entity()
 entity_346 = game.create_entity()
 entity_347 = game.create_entity()
 entity_348 = game.create_entity()
+entity_349 = game.create_entity()
 entity_350 = game.create_entity()
 entity_351 = game.create_entity()
-entity_352 = game.create_entity()
-entity_353 = game.create_entity()
 
 game.add_component(entity_256, game.enum.component.physics)
 game.set_position(entity_256, 1500.000000, 50.000000, 0.000000)
@@ -383,6 +383,7 @@ entity_256_residences = { entity_15 }
 game.add_residences(entity_256, 'entity_256_residences')
 
 game.set_resident(entity_15, entity_256)
+game.set_free(15, false)
 
 game.add_component(entity_257, game.enum.component.physics)
 game.set_position(entity_257, 1400.000000, 50.000000, 0.000000)
@@ -410,6 +411,7 @@ entity_257_residences = { entity_14 }
 game.add_residences(entity_257, 'entity_257_residences')
 
 game.set_resident(entity_14, entity_257)
+game.set_free(14, false)
 
 game.add_component(entity_258, game.enum.component.physics)
 game.set_position(entity_258, 1300.000000, 50.000000, 0.000000)
@@ -437,6 +439,7 @@ entity_258_residences = { entity_13 }
 game.add_residences(entity_258, 'entity_258_residences')
 
 game.set_resident(entity_13, entity_258)
+game.set_free(13, false)
 
 game.add_component(entity_259, game.enum.component.physics)
 game.set_position(entity_259, 1200.000000, 50.000000, 0.000000)
@@ -464,6 +467,7 @@ entity_259_residences = { entity_12 }
 game.add_residences(entity_259, 'entity_259_residences')
 
 game.set_resident(entity_12, entity_259)
+game.set_free(12, false)
 
 game.add_component(entity_260, game.enum.component.physics)
 game.set_position(entity_260, 1100.000000, 50.000000, 0.000000)
@@ -491,6 +495,7 @@ entity_260_residences = { entity_11 }
 game.add_residences(entity_260, 'entity_260_residences')
 
 game.set_resident(entity_11, entity_260)
+game.set_free(11, false)
 
 game.add_component(entity_261, game.enum.component.physics)
 game.set_position(entity_261, 1000.000000, 50.000000, 0.000000)
@@ -518,6 +523,7 @@ entity_261_residences = { entity_10 }
 game.add_residences(entity_261, 'entity_261_residences')
 
 game.set_resident(entity_10, entity_261)
+game.set_free(10, false)
 
 game.add_component(entity_262, game.enum.component.physics)
 game.set_position(entity_262, 900.000000, 50.000000, 0.000000)
@@ -545,6 +551,7 @@ entity_262_residences = { entity_9 }
 game.add_residences(entity_262, 'entity_262_residences')
 
 game.set_resident(entity_9, entity_262)
+game.set_free(9, false)
 
 game.add_component(entity_263, game.enum.component.physics)
 game.set_position(entity_263, 800.000000, 50.000000, 0.000000)
@@ -572,6 +579,7 @@ entity_263_residences = { entity_8 }
 game.add_residences(entity_263, 'entity_263_residences')
 
 game.set_resident(entity_8, entity_263)
+game.set_free(8, false)
 
 game.add_component(entity_264, game.enum.component.physics)
 game.set_position(entity_264, 700.000000, 50.000000, 0.000000)
@@ -599,6 +607,7 @@ entity_264_residences = { entity_7 }
 game.add_residences(entity_264, 'entity_264_residences')
 
 game.set_resident(entity_7, entity_264)
+game.set_free(7, false)
 
 game.add_component(entity_265, game.enum.component.physics)
 game.set_position(entity_265, 600.000000, 50.000000, 0.000000)
@@ -626,6 +635,7 @@ entity_265_residences = { entity_6 }
 game.add_residences(entity_265, 'entity_265_residences')
 
 game.set_resident(entity_6, entity_265)
+game.set_free(6, false)
 
 game.add_component(entity_266, game.enum.component.physics)
 game.set_position(entity_266, 500.000000, 50.000000, 0.000000)
@@ -653,6 +663,7 @@ entity_266_residences = { entity_5 }
 game.add_residences(entity_266, 'entity_266_residences')
 
 game.set_resident(entity_5, entity_266)
+game.set_free(5, false)
 
 game.add_component(entity_267, game.enum.component.physics)
 game.set_position(entity_267, 400.000000, 50.000000, 0.000000)
@@ -680,6 +691,7 @@ entity_267_residences = { entity_4 }
 game.add_residences(entity_267, 'entity_267_residences')
 
 game.set_resident(entity_4, entity_267)
+game.set_free(4, false)
 
 game.add_component(entity_268, game.enum.component.physics)
 game.set_position(entity_268, 300.000000, 50.000000, 0.000000)
@@ -707,6 +719,7 @@ entity_268_residences = { entity_3 }
 game.add_residences(entity_268, 'entity_268_residences')
 
 game.set_resident(entity_3, entity_268)
+game.set_free(3, false)
 
 game.add_component(entity_269, game.enum.component.physics)
 game.set_position(entity_269, 200.000000, 50.000000, 0.000000)
@@ -734,6 +747,7 @@ entity_269_residences = { entity_2 }
 game.add_residences(entity_269, 'entity_269_residences')
 
 game.set_resident(entity_2, entity_269)
+game.set_free(2, false)
 
 game.add_component(entity_270, game.enum.component.physics)
 game.set_position(entity_270, 100.000000, 50.000000, 0.000000)
@@ -761,6 +775,7 @@ entity_270_residences = { entity_1 }
 game.add_residences(entity_270, 'entity_270_residences')
 
 game.set_resident(entity_1, entity_270)
+game.set_free(1, false)
 
 game.add_component(entity_271, game.enum.component.physics)
 game.set_position(entity_271, 0.000000, 50.000000, 0.000000)
@@ -788,6 +803,7 @@ entity_271_residences = { entity_0 }
 game.add_residences(entity_271, 'entity_271_residences')
 
 game.set_resident(entity_0, entity_271)
+game.set_free(0, false)
 
 game.add_component(entity_272, game.enum.component.physics)
 game.set_position(entity_272, 0.000000, 50.000000, 100.000000)
@@ -815,6 +831,7 @@ entity_272_residences = { entity_16 }
 game.add_residences(entity_272, 'entity_272_residences')
 
 game.set_resident(entity_16, entity_272)
+game.set_free(16, false)
 
 game.add_component(entity_273, game.enum.component.physics)
 game.set_position(entity_273, 0.000000, 50.000000, 200.000000)
@@ -842,6 +859,7 @@ entity_273_residences = { entity_32 }
 game.add_residences(entity_273, 'entity_273_residences')
 
 game.set_resident(entity_32, entity_273)
+game.set_free(32, false)
 
 game.add_component(entity_274, game.enum.component.physics)
 game.set_position(entity_274, 0.000000, 50.000000, 300.000000)
@@ -869,6 +887,7 @@ entity_274_residences = { entity_48 }
 game.add_residences(entity_274, 'entity_274_residences')
 
 game.set_resident(entity_48, entity_274)
+game.set_free(48, false)
 
 game.add_component(entity_275, game.enum.component.physics)
 game.set_position(entity_275, 0.000000, 50.000000, 400.000000)
@@ -896,6 +915,7 @@ entity_275_residences = { entity_64 }
 game.add_residences(entity_275, 'entity_275_residences')
 
 game.set_resident(entity_64, entity_275)
+game.set_free(64, false)
 
 game.add_component(entity_276, game.enum.component.physics)
 game.set_position(entity_276, 0.000000, 50.000000, 500.000000)
@@ -923,6 +943,7 @@ entity_276_residences = { entity_80 }
 game.add_residences(entity_276, 'entity_276_residences')
 
 game.set_resident(entity_80, entity_276)
+game.set_free(80, false)
 
 game.add_component(entity_277, game.enum.component.physics)
 game.set_position(entity_277, 0.000000, 50.000000, 600.000000)
@@ -950,6 +971,7 @@ entity_277_residences = { entity_96 }
 game.add_residences(entity_277, 'entity_277_residences')
 
 game.set_resident(entity_96, entity_277)
+game.set_free(96, false)
 
 game.add_component(entity_278, game.enum.component.physics)
 game.set_position(entity_278, 0.000000, 50.000000, 700.000000)
@@ -977,6 +999,7 @@ entity_278_residences = { entity_112 }
 game.add_residences(entity_278, 'entity_278_residences')
 
 game.set_resident(entity_112, entity_278)
+game.set_free(112, false)
 
 game.add_component(entity_279, game.enum.component.physics)
 game.set_position(entity_279, 0.000000, 50.000000, 800.000000)
@@ -1004,6 +1027,7 @@ entity_279_residences = { entity_128 }
 game.add_residences(entity_279, 'entity_279_residences')
 
 game.set_resident(entity_128, entity_279)
+game.set_free(128, false)
 
 game.add_component(entity_280, game.enum.component.physics)
 game.set_position(entity_280, 0.000000, 50.000000, 900.000000)
@@ -1031,6 +1055,7 @@ entity_280_residences = { entity_144 }
 game.add_residences(entity_280, 'entity_280_residences')
 
 game.set_resident(entity_144, entity_280)
+game.set_free(144, false)
 
 game.add_component(entity_281, game.enum.component.physics)
 game.set_position(entity_281, 0.000000, 50.000000, 1000.000000)
@@ -1058,6 +1083,7 @@ entity_281_residences = { entity_160 }
 game.add_residences(entity_281, 'entity_281_residences')
 
 game.set_resident(entity_160, entity_281)
+game.set_free(160, false)
 
 game.add_component(entity_282, game.enum.component.physics)
 game.set_position(entity_282, 0.000000, 50.000000, 1100.000000)
@@ -1085,6 +1111,7 @@ entity_282_residences = { entity_176 }
 game.add_residences(entity_282, 'entity_282_residences')
 
 game.set_resident(entity_176, entity_282)
+game.set_free(176, false)
 
 game.add_component(entity_283, game.enum.component.physics)
 game.set_position(entity_283, 0.000000, 50.000000, 1200.000000)
@@ -1112,6 +1139,7 @@ entity_283_residences = { entity_192 }
 game.add_residences(entity_283, 'entity_283_residences')
 
 game.set_resident(entity_192, entity_283)
+game.set_free(192, false)
 
 game.add_component(entity_284, game.enum.component.physics)
 game.set_position(entity_284, 0.000000, 50.000000, 1300.000000)
@@ -1139,6 +1167,7 @@ entity_284_residences = { entity_208 }
 game.add_residences(entity_284, 'entity_284_residences')
 
 game.set_resident(entity_208, entity_284)
+game.set_free(208, false)
 
 game.add_component(entity_285, game.enum.component.physics)
 game.set_position(entity_285, 0.000000, 50.000000, 1400.000000)
@@ -1166,6 +1195,7 @@ entity_285_residences = { entity_224 }
 game.add_residences(entity_285, 'entity_285_residences')
 
 game.set_resident(entity_224, entity_285)
+game.set_free(224, false)
 
 game.add_component(entity_286, game.enum.component.physics)
 game.set_position(entity_286, 0.000000, 50.000000, 1500.000000)
@@ -1193,6 +1223,7 @@ entity_286_residences = { entity_240 }
 game.add_residences(entity_286, 'entity_286_residences')
 
 game.set_resident(entity_240, entity_286)
+game.set_free(240, false)
 
 game.add_component(entity_287, game.enum.component.physics)
 game.set_position(entity_287, 1500.000000, 50.000000, 1500.000000)
@@ -1220,6 +1251,7 @@ entity_287_residences = { entity_255 }
 game.add_residences(entity_287, 'entity_287_residences')
 
 game.set_resident(entity_255, entity_287)
+game.set_free(255, false)
 
 game.add_component(entity_288, game.enum.component.physics)
 game.set_position(entity_288, 100.000000, 50.000000, 1500.000000)
@@ -1247,6 +1279,7 @@ entity_288_residences = { entity_241 }
 game.add_residences(entity_288, 'entity_288_residences')
 
 game.set_resident(entity_241, entity_288)
+game.set_free(241, false)
 
 game.add_component(entity_289, game.enum.component.physics)
 game.set_position(entity_289, 200.000000, 50.000000, 1500.000000)
@@ -1274,6 +1307,7 @@ entity_289_residences = { entity_242 }
 game.add_residences(entity_289, 'entity_289_residences')
 
 game.set_resident(entity_242, entity_289)
+game.set_free(242, false)
 
 game.add_component(entity_290, game.enum.component.physics)
 game.set_position(entity_290, 300.000000, 50.000000, 1500.000000)
@@ -1301,6 +1335,7 @@ entity_290_residences = { entity_243 }
 game.add_residences(entity_290, 'entity_290_residences')
 
 game.set_resident(entity_243, entity_290)
+game.set_free(243, false)
 
 game.add_component(entity_291, game.enum.component.physics)
 game.set_position(entity_291, 400.000000, 50.000000, 1500.000000)
@@ -1328,6 +1363,7 @@ entity_291_residences = { entity_244 }
 game.add_residences(entity_291, 'entity_291_residences')
 
 game.set_resident(entity_244, entity_291)
+game.set_free(244, false)
 
 game.add_component(entity_292, game.enum.component.physics)
 game.set_position(entity_292, 500.000000, 50.000000, 1500.000000)
@@ -1355,6 +1391,7 @@ entity_292_residences = { entity_245 }
 game.add_residences(entity_292, 'entity_292_residences')
 
 game.set_resident(entity_245, entity_292)
+game.set_free(245, false)
 
 game.add_component(entity_293, game.enum.component.physics)
 game.set_position(entity_293, 600.000000, 50.000000, 1500.000000)
@@ -1382,6 +1419,7 @@ entity_293_residences = { entity_246 }
 game.add_residences(entity_293, 'entity_293_residences')
 
 game.set_resident(entity_246, entity_293)
+game.set_free(246, false)
 
 game.add_component(entity_294, game.enum.component.physics)
 game.set_position(entity_294, 700.000000, 50.000000, 1500.000000)
@@ -1409,6 +1447,7 @@ entity_294_residences = { entity_247 }
 game.add_residences(entity_294, 'entity_294_residences')
 
 game.set_resident(entity_247, entity_294)
+game.set_free(247, false)
 
 game.add_component(entity_295, game.enum.component.physics)
 game.set_position(entity_295, 800.000000, 50.000000, 1500.000000)
@@ -1436,6 +1475,7 @@ entity_295_residences = { entity_248 }
 game.add_residences(entity_295, 'entity_295_residences')
 
 game.set_resident(entity_248, entity_295)
+game.set_free(248, false)
 
 game.add_component(entity_296, game.enum.component.physics)
 game.set_position(entity_296, 900.000000, 50.000000, 1500.000000)
@@ -1463,6 +1503,7 @@ entity_296_residences = { entity_249 }
 game.add_residences(entity_296, 'entity_296_residences')
 
 game.set_resident(entity_249, entity_296)
+game.set_free(249, false)
 
 game.add_component(entity_297, game.enum.component.physics)
 game.set_position(entity_297, 1000.000000, 50.000000, 1500.000000)
@@ -1490,6 +1531,7 @@ entity_297_residences = { entity_250 }
 game.add_residences(entity_297, 'entity_297_residences')
 
 game.set_resident(entity_250, entity_297)
+game.set_free(250, false)
 
 game.add_component(entity_298, game.enum.component.physics)
 game.set_position(entity_298, 1100.000000, 50.000000, 1500.000000)
@@ -1517,6 +1559,7 @@ entity_298_residences = { entity_251 }
 game.add_residences(entity_298, 'entity_298_residences')
 
 game.set_resident(entity_251, entity_298)
+game.set_free(251, false)
 
 game.add_component(entity_299, game.enum.component.physics)
 game.set_position(entity_299, 1200.000000, 50.000000, 1500.000000)
@@ -1544,6 +1587,7 @@ entity_299_residences = { entity_252 }
 game.add_residences(entity_299, 'entity_299_residences')
 
 game.set_resident(entity_252, entity_299)
+game.set_free(252, false)
 
 game.add_component(entity_300, game.enum.component.physics)
 game.set_position(entity_300, 1300.000000, 50.000000, 1500.000000)
@@ -1571,6 +1615,7 @@ entity_300_residences = { entity_253 }
 game.add_residences(entity_300, 'entity_300_residences')
 
 game.set_resident(entity_253, entity_300)
+game.set_free(253, false)
 
 game.add_component(entity_301, game.enum.component.physics)
 game.set_position(entity_301, 1400.000000, 50.000000, 1500.000000)
@@ -1598,6 +1643,7 @@ entity_301_residences = { entity_254 }
 game.add_residences(entity_301, 'entity_301_residences')
 
 game.set_resident(entity_254, entity_301)
+game.set_free(254, false)
 
 game.add_component(entity_302, game.enum.component.physics)
 game.set_position(entity_302, 1500.000000, 50.000000, 1400.000000)
@@ -1625,6 +1671,7 @@ entity_302_residences = { entity_239 }
 game.add_residences(entity_302, 'entity_302_residences')
 
 game.set_resident(entity_239, entity_302)
+game.set_free(239, false)
 
 game.add_component(entity_303, game.enum.component.physics)
 game.set_position(entity_303, 1500.000000, 50.000000, 1300.000000)
@@ -1652,6 +1699,7 @@ entity_303_residences = { entity_223 }
 game.add_residences(entity_303, 'entity_303_residences')
 
 game.set_resident(entity_223, entity_303)
+game.set_free(223, false)
 
 game.add_component(entity_304, game.enum.component.physics)
 game.set_position(entity_304, 1500.000000, 50.000000, 1200.000000)
@@ -1679,6 +1727,7 @@ entity_304_residences = { entity_207 }
 game.add_residences(entity_304, 'entity_304_residences')
 
 game.set_resident(entity_207, entity_304)
+game.set_free(207, false)
 
 game.add_component(entity_305, game.enum.component.physics)
 game.set_position(entity_305, 1500.000000, 50.000000, 1000.000000)
@@ -1706,6 +1755,7 @@ entity_305_residences = { entity_175 }
 game.add_residences(entity_305, 'entity_305_residences')
 
 game.set_resident(entity_175, entity_305)
+game.set_free(175, false)
 
 game.add_component(entity_306, game.enum.component.physics)
 game.set_position(entity_306, 1500.000000, 50.000000, 1100.000000)
@@ -1733,6 +1783,7 @@ entity_306_residences = { entity_191 }
 game.add_residences(entity_306, 'entity_306_residences')
 
 game.set_resident(entity_191, entity_306)
+game.set_free(191, false)
 
 game.add_component(entity_307, game.enum.component.physics)
 game.set_position(entity_307, 1500.000000, 50.000000, 900.000000)
@@ -1760,6 +1811,7 @@ entity_307_residences = { entity_159 }
 game.add_residences(entity_307, 'entity_307_residences')
 
 game.set_resident(entity_159, entity_307)
+game.set_free(159, false)
 
 game.add_component(entity_308, game.enum.component.physics)
 game.set_position(entity_308, 1500.000000, 50.000000, 800.000000)
@@ -1787,6 +1839,7 @@ entity_308_residences = { entity_143 }
 game.add_residences(entity_308, 'entity_308_residences')
 
 game.set_resident(entity_143, entity_308)
+game.set_free(143, false)
 
 game.add_component(entity_309, game.enum.component.physics)
 game.set_position(entity_309, 1500.000000, 50.000000, 600.000000)
@@ -1814,6 +1867,7 @@ entity_309_residences = { entity_111 }
 game.add_residences(entity_309, 'entity_309_residences')
 
 game.set_resident(entity_111, entity_309)
+game.set_free(111, false)
 
 game.add_component(entity_310, game.enum.component.physics)
 game.set_position(entity_310, 1500.000000, 50.000000, 700.000000)
@@ -1841,6 +1895,7 @@ entity_310_residences = { entity_127 }
 game.add_residences(entity_310, 'entity_310_residences')
 
 game.set_resident(entity_127, entity_310)
+game.set_free(127, false)
 
 game.add_component(entity_311, game.enum.component.physics)
 game.set_position(entity_311, 1500.000000, 50.000000, 500.000000)
@@ -1868,6 +1923,7 @@ entity_311_residences = { entity_95 }
 game.add_residences(entity_311, 'entity_311_residences')
 
 game.set_resident(entity_95, entity_311)
+game.set_free(95, false)
 
 game.add_component(entity_312, game.enum.component.physics)
 game.set_position(entity_312, 1500.000000, 50.000000, 300.000000)
@@ -1895,6 +1951,7 @@ entity_312_residences = { entity_63 }
 game.add_residences(entity_312, 'entity_312_residences')
 
 game.set_resident(entity_63, entity_312)
+game.set_free(63, false)
 
 game.add_component(entity_313, game.enum.component.physics)
 game.set_position(entity_313, 1500.000000, 50.000000, 400.000000)
@@ -1922,6 +1979,7 @@ entity_313_residences = { entity_79 }
 game.add_residences(entity_313, 'entity_313_residences')
 
 game.set_resident(entity_79, entity_313)
+game.set_free(79, false)
 
 game.add_component(entity_314, game.enum.component.physics)
 game.set_position(entity_314, 1500.000000, 50.000000, 100.000000)
@@ -1949,6 +2007,7 @@ entity_314_residences = { entity_31 }
 game.add_residences(entity_314, 'entity_314_residences')
 
 game.set_resident(entity_31, entity_314)
+game.set_free(31, false)
 
 game.add_component(entity_315, game.enum.component.physics)
 game.set_position(entity_315, 1500.000000, 50.000000, 200.000000)
@@ -1976,9 +2035,38 @@ entity_315_residences = { entity_47 }
 game.add_residences(entity_315, 'entity_315_residences')
 
 game.set_resident(entity_47, entity_315)
+game.set_free(47, false)
+
+game.add_component(entity_316, game.enum.component.physics)
+game.set_position(entity_316, 1400.000000, 50.000000, 1000.000000)
+game.set_solid(entity_316, true)
+game.set_half_height(entity_316, 50.000000)
+
+game.add_component(entity_316, game.enum.component.health)
+game.buff(entity_316, 2000)
+game.sub_health(entity_316, 0)
+game.add_defense(entity_316, 13)
+game.set_regen(entity_316, 1)
+game.set_alive(entity_316, true)
+
+game.add_component(entity_316, game.enum.component.graphics)
+game.set_mesh(entity_316, 'cube.mesh')
+game.set_material(entity_316, 'colour/pink')
+game.set_manual_scaling(entity_316, true)
+game.set_visible(entity_316, true)
+game.set_scale(entity_316, 50.000000, 50.000000, 50.000000)
+game.init_graphics_component(entity_316)
+
+game.add_component(entity_316, game.enum.component.structure)
+game.set_walk_through(entity_316, true)
+entity_316_residences = { entity_174 }
+game.add_residences(entity_316, 'entity_316_residences')
+
+game.set_resident(entity_174, entity_316)
+game.set_free(174, false)
 
 game.add_component(entity_317, game.enum.component.physics)
-game.set_position(entity_317, 1400.000000, 50.000000, 1000.000000)
+game.set_position(entity_317, 1300.000000, 50.000000, 1000.000000)
 game.set_solid(entity_317, true)
 game.set_half_height(entity_317, 50.000000)
 
@@ -1999,13 +2087,14 @@ game.init_graphics_component(entity_317)
 
 game.add_component(entity_317, game.enum.component.structure)
 game.set_walk_through(entity_317, true)
-entity_317_residences = { entity_174 }
+entity_317_residences = { entity_173 }
 game.add_residences(entity_317, 'entity_317_residences')
 
-game.set_resident(entity_174, entity_317)
+game.set_resident(entity_173, entity_317)
+game.set_free(173, false)
 
 game.add_component(entity_318, game.enum.component.physics)
-game.set_position(entity_318, 1300.000000, 50.000000, 1000.000000)
+game.set_position(entity_318, 1000.000000, 50.000000, 1400.000000)
 game.set_solid(entity_318, true)
 game.set_half_height(entity_318, 50.000000)
 
@@ -2026,13 +2115,14 @@ game.init_graphics_component(entity_318)
 
 game.add_component(entity_318, game.enum.component.structure)
 game.set_walk_through(entity_318, true)
-entity_318_residences = { entity_173 }
+entity_318_residences = { entity_234 }
 game.add_residences(entity_318, 'entity_318_residences')
 
-game.set_resident(entity_173, entity_318)
+game.set_resident(entity_234, entity_318)
+game.set_free(234, false)
 
 game.add_component(entity_319, game.enum.component.physics)
-game.set_position(entity_319, 1000.000000, 50.000000, 1400.000000)
+game.set_position(entity_319, 1000.000000, 50.000000, 1300.000000)
 game.set_solid(entity_319, true)
 game.set_half_height(entity_319, 50.000000)
 
@@ -2053,13 +2143,14 @@ game.init_graphics_component(entity_319)
 
 game.add_component(entity_319, game.enum.component.structure)
 game.set_walk_through(entity_319, true)
-entity_319_residences = { entity_234 }
+entity_319_residences = { entity_218 }
 game.add_residences(entity_319, 'entity_319_residences')
 
-game.set_resident(entity_234, entity_319)
+game.set_resident(entity_218, entity_319)
+game.set_free(218, false)
 
 game.add_component(entity_320, game.enum.component.physics)
-game.set_position(entity_320, 1000.000000, 50.000000, 1300.000000)
+game.set_position(entity_320, 1000.000000, 50.000000, 1100.000000)
 game.set_solid(entity_320, true)
 game.set_half_height(entity_320, 50.000000)
 
@@ -2080,13 +2171,14 @@ game.init_graphics_component(entity_320)
 
 game.add_component(entity_320, game.enum.component.structure)
 game.set_walk_through(entity_320, true)
-entity_320_residences = { entity_218 }
+entity_320_residences = { entity_186 }
 game.add_residences(entity_320, 'entity_320_residences')
 
-game.set_resident(entity_218, entity_320)
+game.set_resident(entity_186, entity_320)
+game.set_free(186, false)
 
 game.add_component(entity_321, game.enum.component.physics)
-game.set_position(entity_321, 1000.000000, 50.000000, 1100.000000)
+game.set_position(entity_321, 1000.000000, 50.000000, 1000.000000)
 game.set_solid(entity_321, true)
 game.set_half_height(entity_321, 50.000000)
 
@@ -2107,13 +2199,14 @@ game.init_graphics_component(entity_321)
 
 game.add_component(entity_321, game.enum.component.structure)
 game.set_walk_through(entity_321, true)
-entity_321_residences = { entity_186 }
+entity_321_residences = { entity_170 }
 game.add_residences(entity_321, 'entity_321_residences')
 
-game.set_resident(entity_186, entity_321)
+game.set_resident(entity_170, entity_321)
+game.set_free(170, false)
 
 game.add_component(entity_322, game.enum.component.physics)
-game.set_position(entity_322, 1000.000000, 50.000000, 1000.000000)
+game.set_position(entity_322, 1100.000000, 50.000000, 1000.000000)
 game.set_solid(entity_322, true)
 game.set_half_height(entity_322, 50.000000)
 
@@ -2134,13 +2227,14 @@ game.init_graphics_component(entity_322)
 
 game.add_component(entity_322, game.enum.component.structure)
 game.set_walk_through(entity_322, true)
-entity_322_residences = { entity_170 }
+entity_322_residences = { entity_171 }
 game.add_residences(entity_322, 'entity_322_residences')
 
-game.set_resident(entity_170, entity_322)
+game.set_resident(entity_171, entity_322)
+game.set_free(171, false)
 
 game.add_component(entity_323, game.enum.component.physics)
-game.set_position(entity_323, 1100.000000, 50.000000, 1000.000000)
+game.set_position(entity_323, 100.000000, 50.000000, 500.000000)
 game.set_solid(entity_323, true)
 game.set_half_height(entity_323, 50.000000)
 
@@ -2161,13 +2255,14 @@ game.init_graphics_component(entity_323)
 
 game.add_component(entity_323, game.enum.component.structure)
 game.set_walk_through(entity_323, true)
-entity_323_residences = { entity_171 }
+entity_323_residences = { entity_81 }
 game.add_residences(entity_323, 'entity_323_residences')
 
-game.set_resident(entity_171, entity_323)
+game.set_resident(entity_81, entity_323)
+game.set_free(81, false)
 
 game.add_component(entity_324, game.enum.component.physics)
-game.set_position(entity_324, 100.000000, 50.000000, 500.000000)
+game.set_position(entity_324, 200.000000, 50.000000, 500.000000)
 game.set_solid(entity_324, true)
 game.set_half_height(entity_324, 50.000000)
 
@@ -2188,13 +2283,14 @@ game.init_graphics_component(entity_324)
 
 game.add_component(entity_324, game.enum.component.structure)
 game.set_walk_through(entity_324, true)
-entity_324_residences = { entity_81 }
+entity_324_residences = { entity_82 }
 game.add_residences(entity_324, 'entity_324_residences')
 
-game.set_resident(entity_81, entity_324)
+game.set_resident(entity_82, entity_324)
+game.set_free(82, false)
 
 game.add_component(entity_325, game.enum.component.physics)
-game.set_position(entity_325, 200.000000, 50.000000, 500.000000)
+game.set_position(entity_325, 400.000000, 50.000000, 500.000000)
 game.set_solid(entity_325, true)
 game.set_half_height(entity_325, 50.000000)
 
@@ -2215,13 +2311,14 @@ game.init_graphics_component(entity_325)
 
 game.add_component(entity_325, game.enum.component.structure)
 game.set_walk_through(entity_325, true)
-entity_325_residences = { entity_82 }
+entity_325_residences = { entity_84 }
 game.add_residences(entity_325, 'entity_325_residences')
 
-game.set_resident(entity_82, entity_325)
+game.set_resident(entity_84, entity_325)
+game.set_free(84, false)
 
 game.add_component(entity_326, game.enum.component.physics)
-game.set_position(entity_326, 400.000000, 50.000000, 500.000000)
+game.set_position(entity_326, 500.000000, 50.000000, 500.000000)
 game.set_solid(entity_326, true)
 game.set_half_height(entity_326, 50.000000)
 
@@ -2242,13 +2339,14 @@ game.init_graphics_component(entity_326)
 
 game.add_component(entity_326, game.enum.component.structure)
 game.set_walk_through(entity_326, true)
-entity_326_residences = { entity_84 }
+entity_326_residences = { entity_85 }
 game.add_residences(entity_326, 'entity_326_residences')
 
-game.set_resident(entity_84, entity_326)
+game.set_resident(entity_85, entity_326)
+game.set_free(85, false)
 
 game.add_component(entity_327, game.enum.component.physics)
-game.set_position(entity_327, 500.000000, 50.000000, 500.000000)
+game.set_position(entity_327, 500.000000, 50.000000, 400.000000)
 game.set_solid(entity_327, true)
 game.set_half_height(entity_327, 50.000000)
 
@@ -2269,13 +2367,14 @@ game.init_graphics_component(entity_327)
 
 game.add_component(entity_327, game.enum.component.structure)
 game.set_walk_through(entity_327, true)
-entity_327_residences = { entity_85 }
+entity_327_residences = { entity_69 }
 game.add_residences(entity_327, 'entity_327_residences')
 
-game.set_resident(entity_85, entity_327)
+game.set_resident(entity_69, entity_327)
+game.set_free(69, false)
 
 game.add_component(entity_328, game.enum.component.physics)
-game.set_position(entity_328, 500.000000, 50.000000, 400.000000)
+game.set_position(entity_328, 500.000000, 50.000000, 200.000000)
 game.set_solid(entity_328, true)
 game.set_half_height(entity_328, 50.000000)
 
@@ -2296,13 +2395,14 @@ game.init_graphics_component(entity_328)
 
 game.add_component(entity_328, game.enum.component.structure)
 game.set_walk_through(entity_328, true)
-entity_328_residences = { entity_69 }
+entity_328_residences = { entity_37 }
 game.add_residences(entity_328, 'entity_328_residences')
 
-game.set_resident(entity_69, entity_328)
+game.set_resident(entity_37, entity_328)
+game.set_free(37, false)
 
 game.add_component(entity_329, game.enum.component.physics)
-game.set_position(entity_329, 500.000000, 50.000000, 200.000000)
+game.set_position(entity_329, 500.000000, 50.000000, 100.000000)
 game.set_solid(entity_329, true)
 game.set_half_height(entity_329, 50.000000)
 
@@ -2323,13 +2423,14 @@ game.init_graphics_component(entity_329)
 
 game.add_component(entity_329, game.enum.component.structure)
 game.set_walk_through(entity_329, true)
-entity_329_residences = { entity_37 }
+entity_329_residences = { entity_21 }
 game.add_residences(entity_329, 'entity_329_residences')
 
-game.set_resident(entity_37, entity_329)
+game.set_resident(entity_21, entity_329)
+game.set_free(21, false)
 
 game.add_component(entity_330, game.enum.component.physics)
-game.set_position(entity_330, 500.000000, 50.000000, 100.000000)
+game.set_position(entity_330, 800.000000, 50.000000, 700.000000)
 game.set_solid(entity_330, true)
 game.set_half_height(entity_330, 50.000000)
 
@@ -2350,13 +2451,14 @@ game.init_graphics_component(entity_330)
 
 game.add_component(entity_330, game.enum.component.structure)
 game.set_walk_through(entity_330, true)
-entity_330_residences = { entity_21 }
+entity_330_residences = { entity_120 }
 game.add_residences(entity_330, 'entity_330_residences')
 
-game.set_resident(entity_21, entity_330)
+game.set_resident(entity_120, entity_330)
+game.set_free(120, false)
 
 game.add_component(entity_331, game.enum.component.physics)
-game.set_position(entity_331, 800.000000, 50.000000, 700.000000)
+game.set_position(entity_331, 900.000000, 50.000000, 600.000000)
 game.set_solid(entity_331, true)
 game.set_half_height(entity_331, 50.000000)
 
@@ -2377,13 +2479,14 @@ game.init_graphics_component(entity_331)
 
 game.add_component(entity_331, game.enum.component.structure)
 game.set_walk_through(entity_331, true)
-entity_331_residences = { entity_120 }
+entity_331_residences = { entity_105 }
 game.add_residences(entity_331, 'entity_331_residences')
 
-game.set_resident(entity_120, entity_331)
+game.set_resident(entity_105, entity_331)
+game.set_free(105, false)
 
 game.add_component(entity_332, game.enum.component.physics)
-game.set_position(entity_332, 900.000000, 50.000000, 600.000000)
+game.set_position(entity_332, 1000.000000, 50.000000, 500.000000)
 game.set_solid(entity_332, true)
 game.set_half_height(entity_332, 50.000000)
 
@@ -2404,13 +2507,14 @@ game.init_graphics_component(entity_332)
 
 game.add_component(entity_332, game.enum.component.structure)
 game.set_walk_through(entity_332, true)
-entity_332_residences = { entity_105 }
+entity_332_residences = { entity_90 }
 game.add_residences(entity_332, 'entity_332_residences')
 
-game.set_resident(entity_105, entity_332)
+game.set_resident(entity_90, entity_332)
+game.set_free(90, false)
 
 game.add_component(entity_333, game.enum.component.physics)
-game.set_position(entity_333, 1000.000000, 50.000000, 500.000000)
+game.set_position(entity_333, 800.000000, 50.000000, 600.000000)
 game.set_solid(entity_333, true)
 game.set_half_height(entity_333, 50.000000)
 
@@ -2431,13 +2535,14 @@ game.init_graphics_component(entity_333)
 
 game.add_component(entity_333, game.enum.component.structure)
 game.set_walk_through(entity_333, true)
-entity_333_residences = { entity_90 }
+entity_333_residences = { entity_104 }
 game.add_residences(entity_333, 'entity_333_residences')
 
-game.set_resident(entity_90, entity_333)
+game.set_resident(entity_104, entity_333)
+game.set_free(104, false)
 
 game.add_component(entity_334, game.enum.component.physics)
-game.set_position(entity_334, 800.000000, 50.000000, 600.000000)
+game.set_position(entity_334, 900.000000, 50.000000, 500.000000)
 game.set_solid(entity_334, true)
 game.set_half_height(entity_334, 50.000000)
 
@@ -2458,13 +2563,14 @@ game.init_graphics_component(entity_334)
 
 game.add_component(entity_334, game.enum.component.structure)
 game.set_walk_through(entity_334, true)
-entity_334_residences = { entity_104 }
+entity_334_residences = { entity_89 }
 game.add_residences(entity_334, 'entity_334_residences')
 
-game.set_resident(entity_104, entity_334)
+game.set_resident(entity_89, entity_334)
+game.set_free(89, false)
 
 game.add_component(entity_335, game.enum.component.physics)
-game.set_position(entity_335, 900.000000, 50.000000, 500.000000)
+game.set_position(entity_335, 1000.000000, 50.000000, 600.000000)
 game.set_solid(entity_335, true)
 game.set_half_height(entity_335, 50.000000)
 
@@ -2485,66 +2591,68 @@ game.init_graphics_component(entity_335)
 
 game.add_component(entity_335, game.enum.component.structure)
 game.set_walk_through(entity_335, true)
-entity_335_residences = { entity_89 }
+entity_335_residences = { entity_106 }
 game.add_residences(entity_335, 'entity_335_residences')
 
-game.set_resident(entity_89, entity_335)
+game.set_resident(entity_106, entity_335)
+game.set_free(106, false)
 
 game.add_component(entity_336, game.enum.component.physics)
-game.set_position(entity_336, 1000.000000, 50.000000, 600.000000)
-game.set_solid(entity_336, true)
-game.set_half_height(entity_336, 50.000000)
-
-game.add_component(entity_336, game.enum.component.health)
-game.buff(entity_336, 2000)
-game.sub_health(entity_336, 0)
-game.add_defense(entity_336, 13)
-game.set_regen(entity_336, 1)
-game.set_alive(entity_336, true)
+game.set_position(entity_336, 300.000000, 1.000000, 100.000000)
+game.set_solid(entity_336, false)
+game.set_half_height(entity_336, 1.000000)
 
 game.add_component(entity_336, game.enum.component.graphics)
 game.set_mesh(entity_336, 'cube.mesh')
-game.set_material(entity_336, 'colour/pink')
+game.set_material(entity_336, 'colour/blue')
 game.set_manual_scaling(entity_336, true)
 game.set_visible(entity_336, true)
-game.set_scale(entity_336, 50.000000, 50.000000, 50.000000)
+game.set_scale(entity_336, 50.000000, 1.000000, 50.000000)
 game.init_graphics_component(entity_336)
+
+game.add_component(entity_336, game.enum.component.production)
+game.set_production_blueprint(entity_336, 'ogre')
+game.set_production_limit(entity_336, 1)
+game.set_production_count(entity_336, 0)
+game.set_production_cooldown(entity_336, 5.000000)
+game.set_production_progress(entity_336, 0.134000)
 
 game.add_component(entity_336, game.enum.component.structure)
 game.set_walk_through(entity_336, true)
-entity_336_residences = { entity_106 }
+entity_336_residences = {  }
 game.add_residences(entity_336, 'entity_336_residences')
 
-game.set_resident(entity_106, entity_336)
 
 game.add_component(entity_337, game.enum.component.physics)
-game.set_position(entity_337, 300.000000, 1.000000, 100.000000)
-game.set_solid(entity_337, false)
-game.set_half_height(entity_337, 1.000000)
+game.set_position(entity_337, 900.000000, 50.000000, 700.000000)
+game.set_solid(entity_337, true)
+game.set_half_height(entity_337, 50.000000)
+
+game.add_component(entity_337, game.enum.component.health)
+game.buff(entity_337, 2000)
+game.sub_health(entity_337, 0)
+game.add_defense(entity_337, 13)
+game.set_regen(entity_337, 1)
+game.set_alive(entity_337, true)
 
 game.add_component(entity_337, game.enum.component.graphics)
 game.set_mesh(entity_337, 'cube.mesh')
-game.set_material(entity_337, 'colour/blue')
+game.set_material(entity_337, 'colour/pink')
 game.set_manual_scaling(entity_337, true)
 game.set_visible(entity_337, true)
-game.set_scale(entity_337, 50.000000, 1.000000, 50.000000)
+game.set_scale(entity_337, 50.000000, 50.000000, 50.000000)
 game.init_graphics_component(entity_337)
-
-game.add_component(entity_337, game.enum.component.production)
-game.set_production_blueprint(entity_337, 'ogre')
-game.set_production_limit(entity_337, 1)
-game.set_production_count(entity_337, 0)
-game.set_production_cooldown(entity_337, 5.000000)
-game.set_production_progress(entity_337, 0.134000)
 
 game.add_component(entity_337, game.enum.component.structure)
 game.set_walk_through(entity_337, true)
-entity_337_residences = {  }
+entity_337_residences = { entity_121 }
 game.add_residences(entity_337, 'entity_337_residences')
 
+game.set_resident(entity_121, entity_337)
+game.set_free(121, false)
 
 game.add_component(entity_338, game.enum.component.physics)
-game.set_position(entity_338, 900.000000, 50.000000, 700.000000)
+game.set_position(entity_338, 500.000000, 50.000000, 1000.000000)
 game.set_solid(entity_338, true)
 game.set_half_height(entity_338, 50.000000)
 
@@ -2565,13 +2673,14 @@ game.init_graphics_component(entity_338)
 
 game.add_component(entity_338, game.enum.component.structure)
 game.set_walk_through(entity_338, true)
-entity_338_residences = { entity_121 }
+entity_338_residences = { entity_165 }
 game.add_residences(entity_338, 'entity_338_residences')
 
-game.set_resident(entity_121, entity_338)
+game.set_resident(entity_165, entity_338)
+game.set_free(165, false)
 
 game.add_component(entity_339, game.enum.component.physics)
-game.set_position(entity_339, 500.000000, 50.000000, 1000.000000)
+game.set_position(entity_339, 400.000000, 50.000000, 1100.000000)
 game.set_solid(entity_339, true)
 game.set_half_height(entity_339, 50.000000)
 
@@ -2592,13 +2701,14 @@ game.init_graphics_component(entity_339)
 
 game.add_component(entity_339, game.enum.component.structure)
 game.set_walk_through(entity_339, true)
-entity_339_residences = { entity_165 }
+entity_339_residences = { entity_180 }
 game.add_residences(entity_339, 'entity_339_residences')
 
-game.set_resident(entity_165, entity_339)
+game.set_resident(entity_180, entity_339)
+game.set_free(180, false)
 
 game.add_component(entity_340, game.enum.component.physics)
-game.set_position(entity_340, 400.000000, 50.000000, 1100.000000)
+game.set_position(entity_340, 300.000000, 50.000000, 1200.000000)
 game.set_solid(entity_340, true)
 game.set_half_height(entity_340, 50.000000)
 
@@ -2619,13 +2729,14 @@ game.init_graphics_component(entity_340)
 
 game.add_component(entity_340, game.enum.component.structure)
 game.set_walk_through(entity_340, true)
-entity_340_residences = { entity_180 }
+entity_340_residences = { entity_195 }
 game.add_residences(entity_340, 'entity_340_residences')
 
-game.set_resident(entity_180, entity_340)
+game.set_resident(entity_195, entity_340)
+game.set_free(195, false)
 
 game.add_component(entity_341, game.enum.component.physics)
-game.set_position(entity_341, 300.000000, 50.000000, 1200.000000)
+game.set_position(entity_341, 400.000000, 50.000000, 1200.000000)
 game.set_solid(entity_341, true)
 game.set_half_height(entity_341, 50.000000)
 
@@ -2646,13 +2757,14 @@ game.init_graphics_component(entity_341)
 
 game.add_component(entity_341, game.enum.component.structure)
 game.set_walk_through(entity_341, true)
-entity_341_residences = { entity_195 }
+entity_341_residences = { entity_196 }
 game.add_residences(entity_341, 'entity_341_residences')
 
-game.set_resident(entity_195, entity_341)
+game.set_resident(entity_196, entity_341)
+game.set_free(196, false)
 
 game.add_component(entity_342, game.enum.component.physics)
-game.set_position(entity_342, 400.000000, 50.000000, 1200.000000)
+game.set_position(entity_342, 500.000000, 50.000000, 1100.000000)
 game.set_solid(entity_342, true)
 game.set_half_height(entity_342, 50.000000)
 
@@ -2673,13 +2785,14 @@ game.init_graphics_component(entity_342)
 
 game.add_component(entity_342, game.enum.component.structure)
 game.set_walk_through(entity_342, true)
-entity_342_residences = { entity_196 }
+entity_342_residences = { entity_181 }
 game.add_residences(entity_342, 'entity_342_residences')
 
-game.set_resident(entity_196, entity_342)
+game.set_resident(entity_181, entity_342)
+game.set_free(181, false)
 
 game.add_component(entity_343, game.enum.component.physics)
-game.set_position(entity_343, 500.000000, 50.000000, 1100.000000)
+game.set_position(entity_343, 300.000000, 50.000000, 1100.000000)
 game.set_solid(entity_343, true)
 game.set_half_height(entity_343, 50.000000)
 
@@ -2700,13 +2813,14 @@ game.init_graphics_component(entity_343)
 
 game.add_component(entity_343, game.enum.component.structure)
 game.set_walk_through(entity_343, true)
-entity_343_residences = { entity_181 }
+entity_343_residences = { entity_179 }
 game.add_residences(entity_343, 'entity_343_residences')
 
-game.set_resident(entity_181, entity_343)
+game.set_resident(entity_179, entity_343)
+game.set_free(179, false)
 
 game.add_component(entity_344, game.enum.component.physics)
-game.set_position(entity_344, 300.000000, 50.000000, 1100.000000)
+game.set_position(entity_344, 400.000000, 50.000000, 1000.000000)
 game.set_solid(entity_344, true)
 game.set_half_height(entity_344, 50.000000)
 
@@ -2727,40 +2841,40 @@ game.init_graphics_component(entity_344)
 
 game.add_component(entity_344, game.enum.component.structure)
 game.set_walk_through(entity_344, true)
-entity_344_residences = { entity_179 }
+entity_344_residences = { entity_164 }
 game.add_residences(entity_344, 'entity_344_residences')
 
-game.set_resident(entity_179, entity_344)
+game.set_resident(entity_164, entity_344)
+game.set_free(164, false)
 
 game.add_component(entity_345, game.enum.component.physics)
-game.set_position(entity_345, 400.000000, 50.000000, 1000.000000)
-game.set_solid(entity_345, true)
-game.set_half_height(entity_345, 50.000000)
-
-game.add_component(entity_345, game.enum.component.health)
-game.buff(entity_345, 2000)
-game.sub_health(entity_345, 0)
-game.add_defense(entity_345, 13)
-game.set_regen(entity_345, 1)
-game.set_alive(entity_345, true)
+game.set_position(entity_345, 100.000000, 1.000000, 300.000000)
+game.set_solid(entity_345, false)
+game.set_half_height(entity_345, 1.000000)
 
 game.add_component(entity_345, game.enum.component.graphics)
 game.set_mesh(entity_345, 'cube.mesh')
-game.set_material(entity_345, 'colour/pink')
+game.set_material(entity_345, 'colour/blue')
 game.set_manual_scaling(entity_345, true)
 game.set_visible(entity_345, true)
-game.set_scale(entity_345, 50.000000, 50.000000, 50.000000)
+game.set_scale(entity_345, 50.000000, 1.000000, 50.000000)
 game.init_graphics_component(entity_345)
+
+game.add_component(entity_345, game.enum.component.production)
+game.set_production_blueprint(entity_345, 'ogre')
+game.set_production_limit(entity_345, 1)
+game.set_production_count(entity_345, 0)
+game.set_production_cooldown(entity_345, 5.000000)
+game.set_production_progress(entity_345, 0.134000)
 
 game.add_component(entity_345, game.enum.component.structure)
 game.set_walk_through(entity_345, true)
-entity_345_residences = { entity_164 }
+entity_345_residences = {  }
 game.add_residences(entity_345, 'entity_345_residences')
 
-game.set_resident(entity_164, entity_345)
 
 game.add_component(entity_346, game.enum.component.physics)
-game.set_position(entity_346, 100.000000, 1.000000, 300.000000)
+game.set_position(entity_346, 100.000000, 1.000000, 100.000000)
 game.set_solid(entity_346, false)
 game.set_half_height(entity_346, 1.000000)
 
@@ -2786,7 +2900,7 @@ game.add_residences(entity_346, 'entity_346_residences')
 
 
 game.add_component(entity_347, game.enum.component.physics)
-game.set_position(entity_347, 100.000000, 1.000000, 100.000000)
+game.set_position(entity_347, 300.000000, 1.000000, 300.000000)
 game.set_solid(entity_347, false)
 game.set_half_height(entity_347, 1.000000)
 
@@ -2812,20 +2926,20 @@ game.add_residences(entity_347, 'entity_347_residences')
 
 
 game.add_component(entity_348, game.enum.component.physics)
-game.set_position(entity_348, 300.000000, 1.000000, 300.000000)
+game.set_position(entity_348, 1400.000000, 1.000000, 1400.000000)
 game.set_solid(entity_348, false)
 game.set_half_height(entity_348, 1.000000)
 
 game.add_component(entity_348, game.enum.component.graphics)
 game.set_mesh(entity_348, 'cube.mesh')
-game.set_material(entity_348, 'colour/blue')
+game.set_material(entity_348, 'colour/red')
 game.set_manual_scaling(entity_348, true)
 game.set_visible(entity_348, true)
 game.set_scale(entity_348, 50.000000, 1.000000, 50.000000)
 game.init_graphics_component(entity_348)
 
 game.add_component(entity_348, game.enum.component.production)
-game.set_production_blueprint(entity_348, 'ogre')
+game.set_production_blueprint(entity_348, 'evil_ogre')
 game.set_production_limit(entity_348, 1)
 game.set_production_count(entity_348, 0)
 game.set_production_cooldown(entity_348, 5.000000)
@@ -2837,8 +2951,34 @@ entity_348_residences = {  }
 game.add_residences(entity_348, 'entity_348_residences')
 
 
+game.add_component(entity_349, game.enum.component.physics)
+game.set_position(entity_349, 1400.000000, 1.000000, 1200.000000)
+game.set_solid(entity_349, false)
+game.set_half_height(entity_349, 1.000000)
+
+game.add_component(entity_349, game.enum.component.graphics)
+game.set_mesh(entity_349, 'cube.mesh')
+game.set_material(entity_349, 'colour/red')
+game.set_manual_scaling(entity_349, true)
+game.set_visible(entity_349, true)
+game.set_scale(entity_349, 50.000000, 1.000000, 50.000000)
+game.init_graphics_component(entity_349)
+
+game.add_component(entity_349, game.enum.component.production)
+game.set_production_blueprint(entity_349, 'evil_ogre')
+game.set_production_limit(entity_349, 1)
+game.set_production_count(entity_349, 0)
+game.set_production_cooldown(entity_349, 5.000000)
+game.set_production_progress(entity_349, 0.134000)
+
+game.add_component(entity_349, game.enum.component.structure)
+game.set_walk_through(entity_349, true)
+entity_349_residences = {  }
+game.add_residences(entity_349, 'entity_349_residences')
+
+
 game.add_component(entity_350, game.enum.component.physics)
-game.set_position(entity_350, 1400.000000, 1.000000, 1400.000000)
+game.set_position(entity_350, 1200.000000, 1.000000, 1200.000000)
 game.set_solid(entity_350, false)
 game.set_half_height(entity_350, 1.000000)
 
@@ -2864,7 +3004,7 @@ game.add_residences(entity_350, 'entity_350_residences')
 
 
 game.add_component(entity_351, game.enum.component.physics)
-game.set_position(entity_351, 1400.000000, 1.000000, 1200.000000)
+game.set_position(entity_351, 1200.000000, 1.000000, 1400.000000)
 game.set_solid(entity_351, false)
 game.set_half_height(entity_351, 1.000000)
 
@@ -2889,61 +3029,9 @@ entity_351_residences = {  }
 game.add_residences(entity_351, 'entity_351_residences')
 
 
-game.add_component(entity_352, game.enum.component.physics)
-game.set_position(entity_352, 1200.000000, 1.000000, 1200.000000)
-game.set_solid(entity_352, false)
-game.set_half_height(entity_352, 1.000000)
-
-game.add_component(entity_352, game.enum.component.graphics)
-game.set_mesh(entity_352, 'cube.mesh')
-game.set_material(entity_352, 'colour/red')
-game.set_manual_scaling(entity_352, true)
-game.set_visible(entity_352, true)
-game.set_scale(entity_352, 50.000000, 1.000000, 50.000000)
-game.init_graphics_component(entity_352)
-
-game.add_component(entity_352, game.enum.component.production)
-game.set_production_blueprint(entity_352, 'evil_ogre')
-game.set_production_limit(entity_352, 1)
-game.set_production_count(entity_352, 0)
-game.set_production_cooldown(entity_352, 5.000000)
-game.set_production_progress(entity_352, 0.134000)
-
-game.add_component(entity_352, game.enum.component.structure)
-game.set_walk_through(entity_352, true)
-entity_352_residences = {  }
-game.add_residences(entity_352, 'entity_352_residences')
 
 
-game.add_component(entity_353, game.enum.component.physics)
-game.set_position(entity_353, 1200.000000, 1.000000, 1400.000000)
-game.set_solid(entity_353, false)
-game.set_half_height(entity_353, 1.000000)
-
-game.add_component(entity_353, game.enum.component.graphics)
-game.set_mesh(entity_353, 'cube.mesh')
-game.set_material(entity_353, 'colour/red')
-game.set_manual_scaling(entity_353, true)
-game.set_visible(entity_353, true)
-game.set_scale(entity_353, 50.000000, 1.000000, 50.000000)
-game.init_graphics_component(entity_353)
-
-game.add_component(entity_353, game.enum.component.production)
-game.set_production_blueprint(entity_353, 'evil_ogre')
-game.set_production_limit(entity_353, 1)
-game.set_production_count(entity_353, 0)
-game.set_production_cooldown(entity_353, 5.000000)
-game.set_production_progress(entity_353, 0.134000)
-
-game.add_component(entity_353, game.enum.component.structure)
-game.set_walk_through(entity_353, true)
-entity_353_residences = {  }
-game.add_residences(entity_353, 'entity_353_residences')
-
-
-
-
- -- TASKS: --
+-- TASKS: --
 
 
 -- AUXILIARY VARIABLES TO BE DELETED:
@@ -2980,8 +3068,8 @@ to_be_deleted = {
 'entity_281', 'entity_282', 'entity_283', 'entity_284', 'entity_285', 'entity_286', 'entity_287', 'entity_288', 'entity_289', 'entity_290', 
 'entity_291', 'entity_292', 'entity_293', 'entity_294', 'entity_295', 'entity_296', 'entity_297', 'entity_298', 'entity_299', 'entity_300', 
 'entity_301', 'entity_302', 'entity_303', 'entity_304', 'entity_305', 'entity_306', 'entity_307', 'entity_308', 'entity_309', 'entity_310', 
-'entity_311', 'entity_312', 'entity_313', 'entity_314', 'entity_315', 'entity_317', 'entity_318', 'entity_319', 'entity_320', 'entity_321', 
-'entity_322', 'entity_323', 'entity_324', 'entity_325', 'entity_326', 'entity_327', 'entity_328', 'entity_329', 'entity_330', 'entity_331', 
-'entity_332', 'entity_333', 'entity_334', 'entity_335', 'entity_336', 'entity_337', 'entity_338', 'entity_339', 'entity_340', 'entity_341', 
-'entity_342', 'entity_343', 'entity_344', 'entity_345', 'entity_346', 'entity_347', 'entity_348', 'entity_350', 'entity_351', 'entity_352', 
-'entity_353', }
+'entity_311', 'entity_312', 'entity_313', 'entity_314', 'entity_315', 'entity_316', 'entity_317', 'entity_318', 'entity_319', 'entity_320', 
+'entity_321', 'entity_322', 'entity_323', 'entity_324', 'entity_325', 'entity_326', 'entity_327', 'entity_328', 'entity_329', 'entity_330', 
+'entity_331', 'entity_332', 'entity_333', 'entity_334', 'entity_335', 'entity_336', 'entity_337', 'entity_338', 'entity_339', 'entity_340', 
+'entity_341', 'entity_342', 'entity_343', 'entity_344', 'entity_345', 'entity_346', 'entity_347', 'entity_348', 'entity_349', 'entity_350', 
+'entity_351', }
