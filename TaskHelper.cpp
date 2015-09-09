@@ -50,7 +50,7 @@ TASK_TYPE TaskHelper::get_task_type(EntitySystem& ents, std::size_t id)
 		return TASK_TYPE::NONE;
 }
 
-void TaskHelper::add_task(EntitySystem& ents, std::size_t ent_id, std::size_t task_id)
+void TaskHelper::add_task(EntitySystem& ents, std::size_t ent_id, std::size_t task_id, bool priority)
 {
 	auto comp1 = ents.get_component<TaskHandlerComponent>(ent_id);
 	auto comp2 = ents.get_component<TaskComponent>(task_id);
@@ -61,7 +61,11 @@ void TaskHelper::add_task(EntitySystem& ents, std::size_t ent_id, std::size_t ta
 			return;
 
 		comp2->source = ent_id;
-		comp1->task_queue.push_back(task_id);
+
+		if(priority)
+			comp1->task_queue.push_front(task_id);
+		else
+			comp1->task_queue.push_back(task_id);
 	}
 }
 

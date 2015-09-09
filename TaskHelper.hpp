@@ -55,8 +55,9 @@ namespace TaskHelper
 	 * Brief: Assigns a new task to an entity (by adding it to the task queue).
 	 * Param: ID of the entity.
 	 * Param: ID of the task.
+	 * Param: If true, the task will be added to the fron of the task queue.
 	 */
-	void add_task(EntitySystem&, std::size_t, std::size_t);
+	void add_task(EntitySystem&, std::size_t, std::size_t, bool = false);
 
 	/**
 	 * Brief: Creates a new task of a given tasks and returns it's ID.
