@@ -2,6 +2,7 @@
 
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
+#include <Ogre.h>
 #include <string>
 
 #include "lppscript/LppScript.hpp"
@@ -66,6 +67,12 @@ class Console
 		 * Param: Amount of lines to scroll.
 		 */
 		void scroll_down(std::size_t = 1);
+
+		/**
+		 * Brief: Updates the FPS value next to the console name.
+		 * Param: The new framerate.
+		 */
+		void update_fps(Ogre::Real, Ogre::Real);
 	private:
 		/**
 		 * Pointer to the CEGUI widget representing this console.
@@ -83,4 +90,9 @@ class Console
 		 * Lua code.
 		 */
 		std::string curr_command_;
+
+		/**
+		 *
+		 */
+		Ogre::Real time_since_last_fps_update_;
 };

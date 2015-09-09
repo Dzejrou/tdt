@@ -7,7 +7,8 @@ const CEGUI::Colour Console::ORANGE_TEXT = CEGUI::Colour{1.f, .5f, 0.1f};
 const CEGUI::Colour Console::BLUE_TEXT = CEGUI::Colour{0.f, 0.f, 1.f};
 
 Console::Console()
-	: window_{nullptr}, list_box_{nullptr}, curr_command_{}
+	: window_{nullptr}, list_box_{nullptr}, curr_command_{},
+	  time_since_last_fps_update_{}
 { /* DUMMY BODY */ }
 
 void Console::init()
@@ -86,4 +87,14 @@ void Console::scroll_down(std::size_t num_of_scrolls)
 {
 	for(std::size_t i = 0; i < num_of_scrolls; ++i)
 		list_box_->getVertScrollbar()->scrollForwardsByStep();
+}
+
+void Console::update_fps(Ogre::Real delta, Ogre::Real fps)
+{
+	time_since_last_fps_update_ += delta;
+	if(time_since_last_fps_update_ > 1.f)
+	{
+		window_->setText("DEVELOPER CONSOLE (LUA 5.3) FPS: " + std::to_string(fps));
+		time_since_last_fps_update_ = 0.f;
+	}
 }
