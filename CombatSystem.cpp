@@ -113,7 +113,7 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 		{
 			auto dist_to_first_struct = res.front().distance * res.front().distance;
 			return phys_comp->position.squaredDistance(target_position) < dist_to_first_struct
-				   || res.front().movable->getName() == "entity_" + std::to_string(target);
+				   || res.front().movable->getParentSceneNode()->getName() == "entity_" + std::to_string(target);
 		}
 		else
 			return true; // No structs found at all.
