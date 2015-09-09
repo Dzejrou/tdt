@@ -249,17 +249,40 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t target, bool add_pat
 		        end{get_node_in_dir(target, util::get_enum_direction(entities_, target, id))};
 
 	auto path = get_path_(id, start, end);
-	if(!path.empty() && add_path)
-	{
-		if(path_comp)
+	bool destruction{false};
+	if(!path.empty())
+	{ // Finds the first blocked node and orders the entity to destroy it's resident.
+		for(auto node : path)
 		{
-			path_comp->path_queue.swap(path);
-			path_comp->last_id = start;
-			path_comp->target_id = end;
-
-			if(!path_comp->path_queue.empty()) // In case the entity moves backwards.
-				GraphicsHelper::look_at(entities_, id, path_comp->path_queue.front());
+			if(!is_free(node)) // can_break can be assumed as the node wouldn't be added without it.
+			{
+				auto target = get_resident(node);
+				auto task_get_in_range = TaskHelper::create_task(entities_, target, TASK_TYPE::GET_IN_RANGE);
+				auto task_kill = TaskHelper::create_task(entities_, target, TASK_TYPE::KILL);
+				auto comp = entities_.get_component<TaskHandlerComponent>(id);
+				if(comp)
+				{
+					comp->task_queue.push_front(comp->curr_task);
+					comp->task_queue.push_front(task_kill);
+					comp->task_queue.push_front(task_get_in_range);
+					comp->curr_task = Component::NO_ENTITY;
+					destruction = true;
+					break;
+				}
+				else
+					return false;
+			}
 		}
+	}
+
+	if(!destruction && add_path)
+	{
+		path_comp->path_queue.swap(path);
+		path_comp->last_id = start;
+		path_comp->target_id = end;
+
+		if(!path_comp->path_queue.empty()) // In case the entity moves backwards.
+			GraphicsHelper::look_at(entities_, id, path_comp->path_queue.front());
 		return true;
 	}
 	else
