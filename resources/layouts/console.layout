@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <GUILayout version="4" >
-    <Window type="AlfiskoSkin/FrameWindow" name="DEVELOPER CONSOLE" >
+    <Window type="AlfiskoSkin/FrameWindow" name="DEVELOPER_CONSOLE" >
         <Property name="Area" value="{{0.5,0},{0.5,0},{1,0},{0.95,0}}" />
         <Property name="Text" value="DEVELOPER CONSOLE (LUA 5.3)" />
         <Property name="MaxSize" value="{{0.8,0},{0.8,0}}" />
         <Property name="MinSize" value="{{0.2,0},{0.2,0}}" />
-        <Property name="AlwaysOnTop" value="false" />
         <Property name="CloseButtonEnabled" value="false" />
         <Property name="AutoRenderingSurface" value="true" />
         <AutoWindow namePath="__auto_titlebar__" >
@@ -29,8 +28,8 @@
             <Property name="ID" value="2" />
             <Property name="Area" value="{{0,7},{0,-7},{0.75,-14},{0,23}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="AlwaysOnTop" value="true" />
             <Property name="VerticalAlignment" value="Bottom" />
-	    <Property name="AlwaysOnTop" value="true" />
         </Window>
         <Window type="AlfiskoSkin/Listbox" name="CONSOLE_LOG" >
             <Property name="ID" value="3" />
