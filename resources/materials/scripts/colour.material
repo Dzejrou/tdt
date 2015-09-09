@@ -87,3 +87,18 @@ material colour/pink
 		}
 	}
 }
+
+material colour/gold
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+
+			ambient 1 0.8431 0 1
+			diffuse 1 0.8431 0 1
+			emissive 1 0.8431 0 1
+		}
+	}
+}
