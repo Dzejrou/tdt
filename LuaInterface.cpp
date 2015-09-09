@@ -1278,7 +1278,9 @@ int LuaInterface::lua_pop_first_path_node(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	PathfindingHelper::get_path(*ents, id).pop_front();
+	auto& path = PathfindingHelper::get_path(*ents, id);
+	if(!path.empty())
+		path.pop_front();
 	return 0;
 }
 
@@ -1287,7 +1289,9 @@ int LuaInterface::lua_pop_last_path_node(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	PathfindingHelper::get_path(*ents, id).pop_back();
+	auto& path = PathfindingHelper::get_path(*ents, id);
+	if(!path.empty())
+		path.pop_back();
 	return 0;
 }
 
