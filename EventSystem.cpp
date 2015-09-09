@@ -22,7 +22,7 @@ void EventSystem::update(Ogre::Real delta)
 		
 		if(evt.second.handler != Component::NO_ENTITY)
 		{ // Targeted events.
-			auto handler = entities_.get_component<EventHandlerComponent>(evt.second.target);
+			auto handler = entities_.get_component<EventHandlerComponent>(evt.second.handler);
 			if(handler && handler->possible_events.test((int)evt.second.event_type))
 			{
 				if(handle_event_(evt.second.handler, evt.first))
