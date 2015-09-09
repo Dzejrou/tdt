@@ -375,7 +375,7 @@ inline void GameSerializer::save_component<DestructorComponent>(std::size_t id, 
 	auto comp = entities_.get_component<DestructorComponent>(id);
 	std::string comm{
 		  "game.add_component(" + tbl_name + ", game.enum.component.destructor)\n"
-		+ "game.set_destructor_blueprint(" + tbl_name + ", " + comp->blueprint + ")\n"
+		+ "game.set_destructor_blueprint(" + tbl_name + ", '" + comp->blueprint + "')\n"
 	};
 
 	save_components_.emplace_back(std::move(comm));
