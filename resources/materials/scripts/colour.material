@@ -42,3 +42,34 @@ material colour/blue
 		}
 	}
 }
+
+material colour/gray
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+
+			ambient 0.33 0.33 0.33 1
+			diffuse 0.33 0.33 0.33 1
+			emissive 0.33 0.33 0.33 1
+		}
+	}
+}
+
+material colour/brown
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+
+			ambient 0.2 0.1 0.0 1
+			diffuse 0.2 0.1 0.0 1
+			emissive 0.2 0.1 0.0 1
+		}
+	}
+}
+
