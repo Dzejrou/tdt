@@ -69,6 +69,9 @@ void Game::update(Ogre::Real delta)
 	if(camera_free_mode_)
 		main_cam_->moveRelative(camera_dir_);
 
+	if(console_.is_visible())
+		console_.update_fps(delta, window_->getLastFPS());
+
 	if(state_ == GAME_STATE::RUNNING)
 	{
 		for(auto& sys : systems_)
