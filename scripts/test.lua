@@ -3,7 +3,7 @@ kill_event = function(id, time)
 	evt = game.create_entity("")
 	game.add_component(evt, game.enum.component.event)
 	game.set_event_type(evt, game.enum.event.kill_entity)
-	game.set_event_target(evt, id)
+	game.set_handler_of_event(evt, id)
 	game.set_event_radius(evt, 0.0)
 	game.set_event_active(evt, false)
 
