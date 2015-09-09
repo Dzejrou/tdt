@@ -301,6 +301,7 @@ game.add_component(entity_256, game.enum.component.pathfinding)
 game.set_pathfinding_blueprint(entity_256, 'ogre')
 
 game.add_component(entity_256, game.enum.component.task_handler)
+game.set_task_handling_blueprint(entity_256, 'default_task_handler')
 game.add_possible_task(entity_256, 1)
 game.add_possible_task(entity_256, 2)
 game.add_possible_task(entity_256, 3)
@@ -316,6 +317,7 @@ game.set_event_type(entity_257, 1)
 game.set_event_target(entity_257, entity_256)
 game.set_event_radius(entity_257, 0.000000)
 game.set_event_active(entity_257, false)
+game.set_handler_of_event(entity_257, entity_256)
 
 game.add_component(entity_258, game.enum.component.time)
 game.advance_curr_time(entity_258, 0.000000)
@@ -325,7 +327,7 @@ game.set_timer_type(entity_258, 1)
 
 
 
- -- TASKS: --
+-- TASKS: --
 
 
 -- AUXILIARY VARIABLES TO BE DELETED:
