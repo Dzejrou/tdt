@@ -52,6 +52,7 @@ void LuaInterface::init(Game* game)
 		{"look_at", LuaInterface::lua_look_at},
 		{"set_query_flags", LuaInterface::lua_set_query_flags},
 		{"get_query_flags", LuaInterface::lua_get_query_flags},
+		{"apply_scale", LuaInterface::lua_apply_scale},
 
 		// Entity manipulation.
 		{"create_entity", LuaInterface::lua_create_entity},
@@ -577,6 +578,15 @@ int LuaInterface::lua_get_query_flags(lpp::Script::state L)
 	auto res = GraphicsHelper::get_query_flags(*ents, id);
 	lua_pushinteger(L, res);
 	return 1;
+}
+
+int LuaInterface::lua_apply_scale(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	GraphicsHelper::apply_scale(*ents, id);
+	return 0;
 }
 
 int LuaInterface::lua_look_at(lpp::Script::state L)
