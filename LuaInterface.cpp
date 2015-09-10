@@ -50,6 +50,8 @@ void LuaInterface::init(Game* game)
 		{"rotate", LuaInterface::lua_rotate},
 		{"collide", LuaInterface::lua_collide},
 		{"look_at", LuaInterface::lua_look_at},
+		{"set_query_flags", LuaInterface::lua_set_query_flags},
+		{"get_query_flags", LuaInterface::lua_get_query_flags},
 
 		// Entity manipulation.
 		{"create_entity", LuaInterface::lua_create_entity},
@@ -554,6 +556,26 @@ int LuaInterface::lua_collide(lpp::Script::state L)
 
 	bool res = GraphicsHelper::collide(*ents, id1, id2);
 	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_query_flags(lpp::Script::state L)
+{
+	std::size_t flags = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	GraphicsHelper::set_query_flags(*ents, id, flags);
+	return 0;
+}
+
+int LuaInterface::lua_get_query_flags(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = GraphicsHelper::get_query_flags(*ents, id);
+	lua_pushinteger(L, res);
 	return 1;
 }
 

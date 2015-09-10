@@ -75,6 +75,8 @@ class LuaInterface
 		static int lua_look_at(lpp::Script::state);
 		static int lua_rotate(lpp::Script::state);
 		static int lua_collide(lpp::Script::state);
+		static int lua_set_query_flags(lpp::Script::state);
+		static int lua_get_query_flags(lpp::Script::state);
 
 		// Entity system.
 		static int lua_create_entity(lpp::Script::state);
