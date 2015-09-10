@@ -140,4 +140,11 @@ namespace GraphicsHelper
 	 * Param: The new query flags.
 	 */
 	void set_query_flags(EntitySystem&, std::size_t, std::size_t);
+
+	/**
+	 * Brief: Return the flags used for queries (like in CombatSystem::in_sight) of
+	 *        a given entity.
+	 * Param: ID of the entity.
+	 */
+	std::size_t get_query_flags(EntitySystem&, std::size_t);
 }
