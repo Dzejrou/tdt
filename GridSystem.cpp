@@ -259,21 +259,24 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t target, bool add_pat
 		{
 			if(!is_free(node)) // can_break can be assumed as the node wouldn't be added without it.
 			{
-				auto target = get_resident(node);
-				auto task_get_in_range = TaskHelper::create_task(entities_, target, TASK_TYPE::GET_IN_RANGE);
-				auto task_kill = TaskHelper::create_task(entities_, target, TASK_TYPE::KILL);
-				auto comp = entities_.get_component<TaskHandlerComponent>(id);
-				if(comp)
+				auto resident = get_resident(node);
+				if(resident != target)
 				{
-					TaskHelper::add_task(entities_, id, comp->curr_task, true);
-					TaskHelper::add_task(entities_, id, task_kill, true);
-					TaskHelper::add_task(entities_, id, task_get_in_range, true);
-					comp->curr_task = Component::NO_ENTITY;
-					destruction = true;
-					break;
+					auto task_get_in_range = TaskHelper::create_task(entities_, resident, TASK_TYPE::GET_IN_RANGE);
+					auto task_kill = TaskHelper::create_task(entities_, resident, TASK_TYPE::KILL);
+					auto comp = entities_.get_component<TaskHandlerComponent>(id);
+					if(comp)
+					{
+						TaskHelper::add_task(entities_, id, comp->curr_task, true);
+						TaskHelper::add_task(entities_, id, task_kill, true);
+						TaskHelper::add_task(entities_, id, task_get_in_range, true);
+						comp->curr_task = Component::NO_ENTITY;
+						destruction = true;
+						break;
+					}
+					else
+						return false;
 				}
-				else
-					return false;
 			}
 		}
 	}
