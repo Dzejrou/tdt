@@ -238,6 +238,9 @@ std::size_t GridSystem::get_manhattan_distance(std::size_t id1, std::size_t id2)
 
 bool GridSystem::perform_a_star(std::size_t id, std::size_t target, bool add_path)
 {
+	if(graph_visible_)
+		clear_path_colour();
+
 	auto path_comp = entities_.get_component<PathfindingComponent>(id);
 	if(!path_comp || !entities_.has_component<PhysicsComponent>(id)
 	   || !entities_.has_component<PhysicsComponent>(target))
