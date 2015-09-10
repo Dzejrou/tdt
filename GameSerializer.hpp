@@ -152,6 +152,8 @@ inline void GameSerializer::save_component<GraphicsComponent>(std::size_t id, co
 		);
 	}
 	comm.append("game.init_graphics_component(" + tbl_name + ")\n");
+	if(comp->entity)
+		comm.append("game.set_query_flags(" + tbl_name + ", " + std::to_string(comp->entity->getQueryFlags()) + ")\n");
 
 	save_components_.emplace_back(std::move(comm));
 }
