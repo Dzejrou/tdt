@@ -163,4 +163,11 @@ void GraphicsHelper::init_graphics_component(EntitySystem& ents, Ogre::SceneMana
 												   half_height, phys_comp->position.z};
 		comp->node->setPosition(phys_comp->position);
 	}
+}}
+
+void GraphicsHelper::set_query_flags(EntitySystem& ents, std::size_t id, std::size_t val)
+{
+	auto comp = ents.get_component<GraphicsComponent>(id);
+	if(comp && comp->entity)
+		comp->entity->setQueryFlags(val);
 }

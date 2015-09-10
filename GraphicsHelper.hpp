@@ -132,4 +132,12 @@ namespace GraphicsHelper
 	 * Param: ID of the entity.
 	 */
 	void init_graphics_component(EntitySystem&, Ogre::SceneManager&, std::size_t);
+
+	/**
+	 * Brief: Sets the flags used for queries (like in CombatSystem::in_sight) of
+	 *        a given entity.
+	 * Param: ID of the entity.
+	 * Param: The new query flags.
+	 */
+	void set_query_flags(EntitySystem&, std::size_t, std::size_t);
 }
