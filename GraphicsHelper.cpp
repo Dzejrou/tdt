@@ -180,3 +180,10 @@ std::size_t GraphicsHelper::get_query_flags(EntitySystem& ents, std::size_t id)
 	else
 		return std::size_t{};
 }
+
+void GraphicsHelper::apply_scale(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<GraphicsComponent>(id);
+	if(comp && comp->manual_scaling && comp->node)
+		comp->node->setScale(comp->scale);
+}

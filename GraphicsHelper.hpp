@@ -147,4 +147,11 @@ namespace GraphicsHelper
 	 * Param: ID of the entity.
 	 */
 	std::size_t get_query_flags(EntitySystem&, std::size_t);
+
+	/**
+	 * Brief: Applies scale to a given entity's Ogre::Node if the entity has
+	 *        manual scaling enabled (the scale is a part of the component).
+	 * Param: ID of the entity.
+	 */
+	void apply_scale(EntitySystem&, std::size_t);
 }
