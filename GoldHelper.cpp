@@ -91,3 +91,12 @@ std::size_t GoldHelper::transfer_all_gold(EntitySystem& ents, std::size_t id_fro
 		return std::size_t{};
 
 }
+
+bool GoldHelper::gold_full(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<GoldComponent>(id);
+	if(comp)
+		return comp->curr_amount >= comp->max_amount;
+	else
+		return false;
+}

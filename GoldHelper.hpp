@@ -66,4 +66,12 @@ namespace GoldHelper
 	 * Param: ID of the receiver entity.
 	 */
 	std::size_t transfer_all_gold(EntitySystem&, std::size_t, std::size_t);
+
+	/**
+	 * Brief: Returns true if a given entity's gold storage is full, false
+	 *        otherwise.
+	 * Param: EntitySystem that contains the entity.
+	 * Param: ID of the entity.
+	 */
+	bool gold_full(EntitySystem&, std::size_t);
 };
