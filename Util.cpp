@@ -99,3 +99,9 @@ int util::get_enum_direction(EntitySystem& ents, std::size_t id, std::size_t tar
 		return DIRECTION::NONE;
 		*/
 }
+
+std::size_t util::get_random(std::size_t min, std::size_t max)
+{
+	return std::uniform_int_distribution<std::size_t>{0, std::numeric_limits<std::size_t>::max()}(
+		   std::mt19937{std::random_device{}()}) % max + min;
+}
