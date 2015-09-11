@@ -160,4 +160,12 @@ namespace util
 	 * Note: The direction is #1 -> #2.
 	 */
 	int get_enum_direction(EntitySystem&, std::size_t, std::size_t);
+
+	/**
+	 * Brief: Simple alias for the get_dmg_range that can be used to get
+	 *        random numbers within a given range.
+	 * Param: Lower bound of the range.
+	 * Param: Upper bound of the range.
+	 */
+	const auto& get_random = CombatHelper::get_dmg_range;
 }
