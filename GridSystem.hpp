@@ -203,13 +203,6 @@ class GridSystem : public System
 		void link_(std::size_t, std::vector<GridNodeComponent*>&);
 
 		/**
-		 * Brief: Returns the absolute value of a given integer - this is used to avoid
-		 *        all the explicit conversions to std::size_t as the std::abs and
-		 *        Ogre::Math::Abs functions return int and Ogre::Real (both signed) respectively.
-		 */
-		std::size_t abs_(int) const;
-
-		/**
 		 * Reference to the game's entity system.
 		 */
 		EntitySystem& entities_;
