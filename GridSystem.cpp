@@ -358,11 +358,3 @@ void GridSystem::link_(std::size_t index, std::vector<GridNodeComponent*>& comps
 	if(!top && !right)
 		comps[index]->neighbours[DIRECTION::UP_RIGHT] = index - width_ + 1;
 }
-
-std::size_t GridSystem::abs_(int val) const
-{
-	if(val < 0)
-		return (std::size_t) -1 * val;
-	else
-		return val;
-}
