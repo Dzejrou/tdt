@@ -122,4 +122,19 @@ namespace path_type
 		}
 	};
 }
+
+namespace heuristic
+{
+	struct MANHATTAN_DISTANCE
+	{
+		static std::size_t get_score(EntitySystem&, std::size_t, std::size_t)
+		{
+			// TODO: Possibly create Grid class to remove the use of the grid system
+			//       in manhattan distance claculation?
+			// TODO: Implement this and possibly other heuristic + add it as a template
+			//       argument to the pathfinding function.
+		}
+	};
+}
+
 }
