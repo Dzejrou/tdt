@@ -6,6 +6,7 @@
 #include <numeric>
 #include <cstdlib>
 #include "Enums.hpp"
+#include "Util.hpp"
 class EntitySystem;
 
 namespace CombatHelper
