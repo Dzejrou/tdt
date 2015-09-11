@@ -90,6 +90,8 @@
     <ClInclude Include="LuaInterface.hpp" />
     <ClInclude Include="MovementHelper.hpp" />
     <ClInclude Include="MovementSystem.hpp" />
+    <ClInclude Include="Pathfinding.hpp" />
+    <ClInclude Include="PathfindingAlgorithms.hpp" />
     <ClInclude Include="PathfindingHelper.hpp" />
     <ClInclude Include="PhysicsHelper.hpp" />
     <ClInclude Include="ProductHelper.hpp" />
