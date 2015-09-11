@@ -240,9 +240,6 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t target, bool add_pat
 {
 }
 
-bool GridSystem::can_pass(std::size_t, std::size_t) const
-{
-	return false;
 }
 
 std::tuple<std::size_t, std::size_t> GridSystem::get_board_coords(std::size_t id) const
@@ -357,4 +354,3 @@ void GridSystem::link_(std::size_t index, std::vector<GridNodeComponent*>& comps
 
 	if(!top && !right)
 		comps[index]->neighbours[DIRECTION::UP_RIGHT] = index - width_ + 1;
-}
