@@ -152,18 +152,11 @@ class GridSystem : public System
 		std::size_t get_manhattan_distance(std::size_t, std::size_t) const;
 
 		/**
-		/**
 		 * Brief: Returns the board relative coordinates (row & column)
 		 *        of a given node.
 		 * Param: ID of the node.
 		 */
 		std::tuple<std::size_t, std::size_t> get_board_coords(std::size_t) const;
-
-		/**
-		 * Brief: Resets the colour of path nodes back to blue if the graphics
-		 *        are enabled, does nothing otherwise.
-		 */
-		void clear_path_colour();
 
 		/**
 		 * Brief: Places a structure (building, wall...) by changing the nodes it
