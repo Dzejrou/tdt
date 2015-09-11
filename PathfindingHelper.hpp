@@ -3,7 +3,9 @@
 #include <string>
 #include <cstdlib>
 #include <deque>
+#include "lppscript/LppScript.hpp"
 class EntitySystem;
+struct PathfindingComponent;
 
 namespace PathfindingHelper
 {
@@ -29,4 +31,12 @@ namespace PathfindingHelper
 	 * Param: ID of the entity.
 	 */
 	std::deque<std::size_t>& get_path(EntitySystem&, std::size_t);
+
+	/**
+	 * Brief: Returns true if a given entity can break a given structure.
+	 * Param: ID of the entity.
+	 * Param: Pathfinding component of the entity.
+	 * Param: ID of the structure.
+	 */
+	bool can_break(std::size_t, PathfindingComponent&, std::size_t);
 }
