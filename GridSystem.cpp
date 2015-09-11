@@ -254,23 +254,6 @@ std::tuple<std::size_t, std::size_t> GridSystem::get_board_coords(std::size_t id
 		return std::tuple<std::size_t, std::size_t>{};
 }
 
-void GridSystem::clear_path_colour()
-{
-	if(!graphics_loaded_)
-		return;
-
-	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
-	{
-		auto comp = entities_.get_component<GraphicsComponent>(ent.first);
-		if(comp)
-		{
-			auto sub_ent = comp->entity->getSubEntity(0);
-			if(sub_ent->getMaterialName() == "colour/green")
-				comp->entity->setMaterialName("colour/blue");
-		}
-	}
-}
-
 void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::size_t radius)
 {
 	// TODO: Possibly return if the entity has a movement component?
