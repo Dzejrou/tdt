@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Ogre.h>
-
 #include <vector>
 #include <array>
 #include <tuple>
@@ -10,13 +9,13 @@
 #include <algorithm>
 #include <deque>
 #include <cstdlib>
-
 #include "System.hpp"
 #include "EntitySystem.hpp"
 #include "Components.hpp"
 #include "Console.hpp"
 #include "SelectionBox.hpp"
 #include "Helpers.hpp"
+#include "PathfindingAlgorithms.hpp"
 
 /**
  * Represents the pathfinding graph used by the game and provides
@@ -205,15 +204,6 @@ class GridSystem : public System
 		 */
 		std::size_t get_node_in_dir(std::size_t, int) const;
 	private:
-		/**
-		 * TODO: Implement this mechanic.
-		 */
-		bool can_break_(std::size_t, PathfindingComponent&, std::size_t) const;
-
-		/**
-		 *
-		 */
-		std::deque<std::size_t> get_path_(std::size_t, std::size_t, std::size_t);
 		/**
 		 * Brief: Returns true if a given entity is on the board (that is, is an actual node).
 		 * Param: ID of the entity.
