@@ -1301,7 +1301,8 @@ int LuaInterface::lua_pathfind(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	bool res = lua_this->grid_system_->perform_a_star(id, end);
+	bool res = util::pathfind<util::DEFAULT_PATHFINDING_ALGORITHM,
+				              util::DEFAULT_PATH_TYPE>(*ents, id, end);
 	lua_pushboolean(L, res);
 	return 1;
 }
