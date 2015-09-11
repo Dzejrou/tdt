@@ -152,12 +152,6 @@ class GridSystem : public System
 		std::size_t get_manhattan_distance(std::size_t, std::size_t) const;
 
 		/**
-
-		/**
-		 * TODO: Implement this mechanic.
-		 */
-		bool can_pass(std::size_t, std::size_t) const;
-
 		/**
 		 * Brief: Returns the board relative coordinates (row & column)
 		 *        of a given node.
