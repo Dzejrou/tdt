@@ -66,6 +66,17 @@ int util::get_enum_direction(EntitySystem& ents, std::size_t id, std::size_t tar
 	bool up = pos1.z > pos2.z;
 	bool down = pos1.z <= pos2.z;
 
+	if(up)
+		return DIRECTION::UP;
+	else if(down)
+		return DIRECTION::DOWN;
+	else if(left)
+		return DIRECTION::LEFT;
+	else if(right)
+		return DIRECTION::RIGHT;
+	else
+		return DIRECTION::NONE;
+	/*
 	if(same_axis_x && same_axis_z)
 		return DIRECTION::NONE;
 	else if(same_axis_x && up)
@@ -86,4 +97,5 @@ int util::get_enum_direction(EntitySystem& ents, std::size_t id, std::size_t tar
 		return DIRECTION::DOWN_RIGHT;
 	else
 		return DIRECTION::NONE;
+		*/
 }
