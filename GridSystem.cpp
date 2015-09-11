@@ -240,6 +240,7 @@ bool GridSystem::perform_a_star(std::size_t id, std::size_t target, bool add_pat
 {
 }
 
+	return util::abs(int(x1 - x2)) + util::abs(int(y1 - y2));
 }
 
 std::tuple<std::size_t, std::size_t> GridSystem::get_board_coords(std::size_t id) const
