@@ -19,7 +19,8 @@ void GridSystem::update(Ogre::Real)
 				if(std::find(ent.second.path_queue.begin(), ent.second.path_queue.end(),
 							 node) != ent.second.path_queue.end())
 				{
-					if(!perform_a_star(ent.first, ent.second.target_id))
+					if(!util::pathfind<util::pathfinding::A_STAR, util::path_type::BEST_PATH>(
+						entities_, ent.first, ent.second.target_id, true))
 					{ // Can't correct the path.
 						ent.second.path_queue.clear();
 						ent.second.target_id = Component::NO_ENTITY;
