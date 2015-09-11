@@ -233,7 +233,6 @@ std::size_t GridSystem::get_manhattan_distance(std::size_t id1, std::size_t id2)
 	std::size_t x2, y2;
 	std::tie(x2, y2) = get_board_coords(id2);
 
-	return abs_(int(x1 - x2)) + abs_(int(y1 - y2));
 }
 
 bool GridSystem::perform_a_star(std::size_t id, std::size_t target, bool add_path)
