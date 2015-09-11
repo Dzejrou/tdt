@@ -169,4 +169,9 @@ namespace util
 	 */
 	std::size_t get_random(std::size_t, std::size_t);
 
+	/**
+	 * Brief: Returns the absolute value of a given integer.
+	 * Param: The number we want absolute value of.
+	 */
+	std::size_t abs(int);
 }
