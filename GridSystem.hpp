@@ -44,7 +44,9 @@ class GridSystem : public System
 		~GridSystem() {}
 
 		/**
-		 * TODO:
+		 * Brief: Checks if any nodes were freed or unfreed and if so, corrects
+		 *        any path that had those nodes in it.
+		 * Param: Time since the last frame.
 		 */
 		void update(Ogre::Real);
 
