@@ -47,8 +47,8 @@ Game::Game() // TODO: Init systems.
 	entity_creator_.reset(new EntityCreator{*placer_, *entity_system_});
 	game_serializer_.reset(new GameSerializer{*entity_system_});
 
-	LuaInterface::init(this);
 	level_init();
+	LuaInterface::init(this);
 }
 
 Game::~Game()
