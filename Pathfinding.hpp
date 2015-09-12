@@ -6,7 +6,7 @@
 
 namespace util
 {
-	template<typename ALGORITHM = util::pathfinding::A_STAR, typename PATH_TYPE = util::path_type::BEST_PATH>
+	template<typename ALGORITHM = util::DEFAULT_PATHFINDING_ALGORITHM>
 	bool pathfind(EntitySystem& ents, std::size_t id, std::size_t target, bool add_path = true)
 	{
 		auto path_comp = ents.get_component<PathfindingComponent>(id);
@@ -19,7 +19,7 @@ namespace util
 		std::size_t start{get_node_in_dir(id, util::get_enum_direction(ents, id, target))},
 					end{get_node_in_dir(target, util::get_enum_direction(ents, target, id))};
 
-		auto path = ALGORITHM<PATH_TYPE>::get_path(ents, id, start, end);
+		auto path = ALGORITHM::get_path(ents, id, start, end);
 		bool destruction{false};
 		if(!path.empty())
 		{ // Finds the first blocked node and orders the entity to destroy it's resident.
