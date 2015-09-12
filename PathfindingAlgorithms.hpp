@@ -10,7 +10,7 @@ namespace util
 {
 namespace pathfinding
 {
-	template<typename PATH_TYPE, typename HEURISTIC>
+	template<typename PATH_TYPE = util::DEFAULT_PATH_TYPE, typename HEURISTIC = util::DEFAULT_HEURISTIC>
 	struct A_STAR
 	{
 		static std::deque<std::size_t> get_path(EntitySystem& ents, std::size_t id, std::size_t start, std::size_t end)
