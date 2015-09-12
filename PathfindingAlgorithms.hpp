@@ -9,7 +9,7 @@ namespace util
 {
 namespace pathfinding
 {
-	template<typename COND>
+	template<typename PATH_TYPE, typename HEURISTIC>
 	struct A_STAR
 	{
 		static std::deque<std::size_t> get_path(EntitySystem& ents, std::size_t id, std::size_t start, std::size_t end)
@@ -45,7 +45,7 @@ namespace pathfinding
 				if(current == end)
 				{
 					found_path = true;
-					if(COND::return_path())
+					if(PATH_TYPE::return_path())
 						break;
 				}
 				open.erase(current);
