@@ -19,3 +19,4 @@
 #include "EventHandlerHelper.hpp"
 #include "DestructorHelper.hpp"
 #include "GoldHelper.hpp"
+#include "GridNodeHelper.hpp"
