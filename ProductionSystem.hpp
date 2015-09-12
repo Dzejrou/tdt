@@ -1,13 +1,12 @@
 #pragma once
 
 #include <Ogre.h>
-
 #include <string>
 #include <cstdlib>
-
 #include "System.hpp"
 #include "EntitySystem.hpp"
-#include "GridSystem.hpp"
+#include "Grid.hpp"
+#include "Helpers.hpp"
 
 /**
  * System taking care of entities spawned by buildings and the spawn counts
@@ -20,9 +19,8 @@ class ProductionSystem : public System
 		/**
 		 * Constructor.
 		 * Param: Reference to the game's entity system.
-		 * Param: Reference to the game's grid system (spawn positioning).
 		 */
-		ProductionSystem(EntitySystem&, GridSystem&);
+		ProductionSystem(EntitySystem&);
 
 		/**
 		 * Destructor.
@@ -61,9 +59,9 @@ class ProductionSystem : public System
 		EntitySystem& entities_;
 
 		/**
-		 * Reference to the game's grid system (spawn positioning).
+		 * Reference to the game's pathfinding grid (spawn positioning).
 		 */
-		GridSystem& grid_;
+		Grid& grid_;
 
 		/**
 		 * Allows to speed up/slow down the production of all buildings.
