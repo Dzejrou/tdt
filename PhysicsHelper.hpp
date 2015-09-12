@@ -87,4 +87,14 @@ namespace PhysicsHelper
 	 * Param: Vector #2.
 	 */
 	Ogre::Real get_angle(Ogre::Vector3, Ogre::Vector3);
+
+	/**
+	 *
+	 */
+	void set_2d_position(EntitySystem&, std::size_t, Ogre::Vector2);
+
+	/**
+	 *
+	 */
+	Ogre::Vector2 get_2d_position(EntitySystem&, std::size_t);
 }

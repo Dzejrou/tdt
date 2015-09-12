@@ -83,3 +83,23 @@ Ogre::Real PhysicsHelper::get_angle(Ogre::Vector3 v1, Ogre::Vector3 v2)
 {
 	return v1.angleBetween(v2).valueRadians();
 }
+
+void PhysicsHelper::set_2d_position(EntitySystem& ents, std::size_t id, Ogre::Vector2 val)
+{
+	auto comp = ents.get_component<PhysicsComponent>(id);
+	if(comp)
+	{
+		comp->position.x = val.x;
+		comp->position.y = comp->half_height;
+		comp->position.z = val.y;
+	}
+}
+
+Ogre::Vector2 PhysicsHelper::get_2d_position(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<PhysicsComponent>(id);
+	if(comp)
+		return Ogre::Vector2{comp->position.x, comp->position.z};
+	else
+		return Ogre::Vector2{};
+}
