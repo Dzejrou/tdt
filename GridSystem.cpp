@@ -19,7 +19,7 @@ void GridSystem::update(Ogre::Real)
 				if(std::find(ent.second.path_queue.begin(), ent.second.path_queue.end(),
 							 node) != ent.second.path_queue.end())
 				{
-					if(!util::pathfind<util::DEFAULT_PATHFINDING_ALGORITHM, util::DEFAULT_PATH_TYPE>(
+					if(!util::pathfind<util::DEFAULT_PATHFINDING_ALGORITHM>(
 						entities_, ent.first, ent.second.target_id, true))
 					{ // Can't correct the path.
 						ent.second.path_queue.clear();
