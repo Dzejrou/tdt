@@ -22,7 +22,7 @@ Game::Game() // TODO: Init systems.
 	grid_system_.reset(new GridSystem(*entity_system_, *scene_mgr_));
 	combat_system_.reset(new CombatSystem(*entity_system_, *scene_mgr_, *grid_system_));
 	task_system_.reset(new TaskSystem(*entity_system_, *grid_system_, *combat_system_));
-	production_system_.reset(new ProductionSystem(*entity_system_, *grid_system_));
+	production_system_.reset(new ProductionSystem(*entity_system_));
 	time_system_.reset(new TimeSystem(*entity_system_));
 	event_system_.reset(new EventSystem(*entity_system_));
 
@@ -416,7 +416,7 @@ void Game::level_init()
 	ground_entity->setMaterialName("rocky_ground");
 	ground_entity->setQueryFlags(0);
 
-	grid_system_->create_graph(16, 16, 100.f, 0.f, 0.f);
+	Grid::instance().create_graph(*entity_system_, Ogre::Vector2{0, 0}, 16, 16, 100.f);
 }
 
 void Game::cegui_init()

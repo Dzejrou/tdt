@@ -27,6 +27,7 @@
 #include "LuaInterface.hpp"
 #include "TimeSystem.hpp"
 #include "EventSystem.hpp"
+#include "Grid.hpp"
 
 class Game : public Ogre::FrameListener, public OIS::KeyListener,
 			 public OIS::MouseListener, public Ogre::WindowEventListener
