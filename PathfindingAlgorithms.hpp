@@ -141,5 +141,6 @@ namespace heuristic
  * Default types for the different pathfinding functors.
  */
 using DEFAULT_PATH_TYPE = path_type::BEST_PATH;
+using DEFAULT_HEURISTIC = heuristic::MANHATTAN_DISTANCE;
 using DEFAULT_PATHFINDING_ALGORITHM = pathfinding::A_STAR<DEFAULT_PATH_TYPE>;
 }
