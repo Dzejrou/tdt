@@ -66,6 +66,7 @@ namespace pathfinding
 						path_edges[neighbour] = current;
 						score[neighbour] = new_score;
 						estimate[neighbour] = new_score + get_manhattan_distance(neighbour, end);
+						// estimate[neighbour] = new_score + HEURISTIC::get_cost(ents, neighbour, end);
 					
 						open.insert(neighbour);
 					}
