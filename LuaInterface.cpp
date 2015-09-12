@@ -439,7 +439,7 @@ int LuaInterface::lua_get_node_in_dir(lpp::Script::state L)
 	std::size_t source = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	auto res = lua_this->grid_system_->get_node_in_dir(source, dir);
+	auto res = GridNodeHelper::get_node_in_dir(*ents, source, dir);
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -1216,11 +1216,10 @@ int LuaInterface::lua_toggle_first_person(lpp::Script::state L)
 int LuaInterface::lua_add_node(lpp::Script::state L)
 {
 	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
-	lua_pop(L, 3);
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -2);
+	lua_pop(L, 2);
 
-	std::size_t res = lua_this->grid_system_->add_node(x, y, z);
+	auto res = Grid::instance().add_node(*ents, Ogre::Vector2{x, z});
 	lua_pushnumber(L, res);
 	return 1;
 }
@@ -1231,7 +1230,7 @@ int LuaInterface::lua_get_node(lpp::Script::state L)
 	std::size_t x = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	std::size_t res = lua_this->grid_system_->get_node(x, y);
+	std::size_t res = Grid::instance().get_node(x, y);
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -1242,7 +1241,7 @@ int LuaInterface::lua_get_node_from_position(lpp::Script::state L)
 	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -2);
 	lua_pop(L, 2);
 
-	std::size_t res = lua_this->grid_system_->get_node_from_position(x, z);
+	std::size_t res = Grid::instance().get_node_from_position(x, z);
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -1270,7 +1269,7 @@ int LuaInterface::lua_is_free(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	bool res = lua_this->grid_system_->is_free(id);
+	bool res = GridNodeHelper::is_free(*ents, id);
 	lua_pushboolean(L, res);
 	return 1;
 }
@@ -1281,7 +1280,7 @@ int LuaInterface::lua_set_free(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->grid_system_->set_free(id, free);
+	GridNodeHelper::set_free(*ents, id, free);
 	return 0;
 }
 
@@ -1290,7 +1289,7 @@ int LuaInterface::lua_set_free_selected(lpp::Script::state L)
 	bool free = lua_toboolean(L, -1) == 1;
 	lua_pop(L, 1);
 
-	lua_this->grid_system_->set_free_selected(*lua_this->selection_box_, free);
+	GridNodeHelper::set_free_selected(*ents, *lua_this->selection_box_, free);
 	return 0;
 }
 
@@ -1300,8 +1299,7 @@ int LuaInterface::lua_pathfind(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	bool res = util::pathfind<util::DEFAULT_PATHFINDING_ALGORITHM,
-				              util::DEFAULT_PATH_TYPE>(*ents, id, end);
+	bool res = util::pathfind<util::DEFAULT_PATHFINDING_ALGORITHM>(*ents, id, end);
 	lua_pushboolean(L, res);
 	return 1;
 }
@@ -1368,8 +1366,7 @@ int LuaInterface::lua_create_graph(lpp::Script::state L)
 	std::size_t width = (std::size_t)luaL_checkinteger(L, -5);
 	lua_pop(L, 5);
 
-	lua_this->grid_system_->create_graph(width, height, dist,
-										 start_x, start_y);
+	Grid::instance().create_graph(*ents, Ogre::Vector2{start_x, start_y}, width, height, dist);
 	return 0;
 }
 
@@ -1379,7 +1376,7 @@ int LuaInterface::lua_set_resident(lpp::Script::state L)
 	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	lua_this->grid_system_->set_resident(ent_id, res_id);
+	GridNodeHelper::set_resident(*ents, ent_id, res_id);
 	return 0;
 }
 
@@ -1388,7 +1385,7 @@ int LuaInterface::lua_get_resident(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	auto res = lua_this->grid_system_->get_resident(id);
+	auto res = GridNodeHelper::get_resident(*ents, id);
 	lua_pushinteger(L, res);
 	return 1;
 }

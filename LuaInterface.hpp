@@ -6,6 +6,7 @@
 #include "lppscript/LppScript.hpp"
 #include "Helpers.hpp"
 #include "EntitySystem.hpp"
+#include "Grid.hpp"
 
 /**
  * Forward declaration required as LuaInterface is included in Game.hpp
