@@ -137,7 +137,6 @@ void LuaInterface::init(Game* game)
 		{"pop_last_path_node", LuaInterface::lua_pop_last_path_node},
 		{"path_queue_empty", LuaInterface::lua_path_queue_empty},
 		{"clear_path", LuaInterface::lua_clear_path},
-		{"clear_path_colour", LuaInterface::lua_clear_path_colour},
 		{"set_pathfinding_blueprint", LuaInterface::lua_set_pathfinding_blueprint},
 		{"create_graph", LuaInterface::lua_create_graph},
 		{"set_resident", LuaInterface::lua_set_resident},
@@ -1347,12 +1346,6 @@ int LuaInterface::lua_clear_path(lpp::Script::state L)
 	auto& queue = PathfindingHelper::get_path(*ents, id);
 	if(!queue.empty())
 		queue.clear();
-	return 0;
-}
-
-int LuaInterface::lua_clear_path_colour(lpp::Script::state L)
-{
-	lua_this->grid_system_->clear_path_colour();
 	return 0;
 }
 
