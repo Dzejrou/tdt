@@ -7,7 +7,6 @@
 #include <bitset>
 #include <memory>
 #include <numeric>
-
 #include "Enums.hpp"
 
 struct Component
