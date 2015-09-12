@@ -1,7 +1,7 @@
 #include "ProductionSystem.hpp"
 
-ProductionSystem::ProductionSystem(EntitySystem& ents, GridSystem& grid)
-	: entities_{ents}, grid_{grid}, time_multiplier_{1.f}
+ProductionSystem::ProductionSystem(EntitySystem& ents)
+	: entities_{ents}, grid_{Grid::instance()}, time_multiplier_{1.f}
 { /* DUMMY BODY */ }
 
 void ProductionSystem::update(Ogre::Real delta)
@@ -35,14 +35,12 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 	if(struct_comp && phys_comp && product_phys_comp && !struct_comp->walk_through)
 	{
 		std::size_t center_x, center_y;
-		std::tie(center_x, center_y) = grid_.get_board_coords(
-			grid_.get_node_from_position(
-				phys_comp->position.x,
-				phys_comp->position.z
+		std::tie(center_x, center_y) = GridNodeHelper::get_board_coords(
+			entities_, grid_.get_node_from_position(phys_comp->position.x, phys_comp->position.z
 		));
 
 		std::size_t top_left_node = grid_.get_node(center_x - struct_comp->radius,
-												   center_y - struct_comp->radius);
+											       center_y - struct_comp->radius);
 		std::size_t free_node = Component::NO_ENTITY;
 		for(std::size_t i = 0; i < struct_comp->radius + 1; ++i)
 		{
@@ -51,29 +49,29 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 			 * the entity to spawn on.
 			 */
 			auto node = grid_.get_node(center_x - struct_comp->radius + i,
-									   center_y - struct_comp->radius - 1);
-			if(node != Component::NO_ENTITY && grid_.is_free(node)) // Top row.
+									              center_y - struct_comp->radius - 1);
+			if(node != Component::NO_ENTITY && GridNodeHelper::is_free(entities_, node)) // Top row.
 			{
 				free_node = node;
 				break;
 			}
 			node = grid_.get_node(center_x - struct_comp->radius - 1,
-								  center_y - struct_comp->radius + i);
-			if(node != Component::NO_ENTITY && grid_.is_free(node)) // Left row.
+						   		  center_y - struct_comp->radius + i);
+			if(node != Component::NO_ENTITY && GridNodeHelper::is_free(entities_, node)) // Left row.
 			{
 				free_node = node;
 				break;
 			}
 			node = grid_.get_node(center_x - struct_comp->radius + i,
 								  center_y + struct_comp->radius + 1);
-			if(node != Component::NO_ENTITY && grid_.is_free(node)) // Botttom row.
+			if(node != Component::NO_ENTITY && GridNodeHelper::is_free(entities_, node)) // Botttom row.
 			{
 				free_node = node;
 				break;
 			}
 			node = grid_.get_node(center_x + struct_comp->radius + 1,
 								  center_y - struct_comp->radius + i);
-			if(grid_.is_free(node)) // Right row.
+			if(GridNodeHelper::is_free(entities_, node)) // Right row.
 			{
 				free_node = node;
 				break;
