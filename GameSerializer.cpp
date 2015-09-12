@@ -16,9 +16,9 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 
 	// Save the map info.
 	std::string map{
-		  "game.create_graph(" + std::to_string(game.grid_system_->width_) + ", "
-		+ std::to_string(game.grid_system_->height_) + ", " + std::to_string(game.grid_system_->distance_)
-		+ ", " + std::to_string(game.grid_system_->start_.x) + ", " + std::to_string(game.grid_system_->start_.y)
+		  "game.create_graph(" + std::to_string(Grid::instance().width_) + ", "
+		+ std::to_string(Grid::instance().height_) + ", " + std::to_string(Grid::instance().distance_)
+		+ ", " + std::to_string(Grid::instance().start_.x) + ", " + std::to_string(Grid::instance().start_.y)
 		+ ")\n"
 	};
 	std::string nodes{"\n-- GRAPH NODE ALIASES:\n"};
