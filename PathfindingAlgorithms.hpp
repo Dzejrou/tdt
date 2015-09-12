@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include "EntitySystem.hpp"
 #include "Util.hpp"
+#include "Helpers.hpp"
 
 namespace util
 {
@@ -65,8 +66,7 @@ namespace pathfinding
 					{
 						path_edges[neighbour] = current;
 						score[neighbour] = new_score;
-						estimate[neighbour] = new_score + get_manhattan_distance(neighbour, end);
-						// estimate[neighbour] = new_score + HEURISTIC::get_cost(ents, neighbour, end);
+						estimate[neighbour] = new_score + HEURISTIC::get_cost(ents, neighbour, end);
 					
 						open.insert(neighbour);
 					}
@@ -128,12 +128,9 @@ namespace heuristic
 {
 	struct MANHATTAN_DISTANCE
 	{
-		static std::size_t get_score(EntitySystem&, std::size_t, std::size_t)
+		static std::size_t get_score(EntitySystem& ents, std::size_t id1, std::size_t id2)
 		{
-			// TODO: Possibly create Grid class to remove the use of the grid system
-			//       in manhattan distance claculation?
-			// TODO: Implement this and possibly other heuristic + add it as a template
-			//       argument to the pathfinding function.
+			return GridNodeHelper::get_manhattan_distance(ents, id1, id2);
 		}
 	};
 }
@@ -143,5 +140,5 @@ namespace heuristic
  */
 using DEFAULT_PATH_TYPE = path_type::BEST_PATH;
 using DEFAULT_HEURISTIC = heuristic::MANHATTAN_DISTANCE;
-using DEFAULT_PATHFINDING_ALGORITHM = pathfinding::A_STAR<DEFAULT_PATH_TYPE>;
+using DEFAULT_PATHFINDING_ALGORITHM = pathfinding::A_STAR<DEFAULT_PATH_TYPE, DEFAULT_HEURISTIC>;
 }
