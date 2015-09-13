@@ -59,6 +59,9 @@ namespace util
 			GraphicsHelper::look_at(ents, id, path_comp->path_queue.front());
 			return true;
 		}
+
+		if(!add_path)
+			return !path.empty();
 		else
 			return false;
 	}
