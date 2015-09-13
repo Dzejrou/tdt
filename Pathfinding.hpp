@@ -30,11 +30,11 @@ namespace util
 					auto resident = get_resident(node);
 					if(resident != target)
 					{
-						auto task_get_in_range = TaskHelper::create_task(ents, resident, TASK_TYPE::GET_IN_RANGE);
-						auto task_kill = TaskHelper::create_task(ents, resident, TASK_TYPE::KILL);
 						auto comp = ents.get_component<TaskHandlerComponent>(id);
 						if(comp)
 						{
+							auto task_get_in_range = TaskHelper::create_task(ents, resident, TASK_TYPE::GET_IN_RANGE);
+							auto task_kill = TaskHelper::create_task(ents, resident, TASK_TYPE::KILL);
 							TaskHelper::add_task(ents, id, comp->curr_task, true);
 							TaskHelper::add_task(ents, id, task_kill, true);
 							TaskHelper::add_task(ents, id, task_get_in_range, true);
