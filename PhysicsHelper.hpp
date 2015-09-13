@@ -89,12 +89,20 @@ namespace PhysicsHelper
 	Ogre::Real get_angle(Ogre::Vector3, Ogre::Vector3);
 
 	/**
-	 *
+	 * Brief: Sets the position of a given entity disregarding it's Y coordinate.
+	 * Param: EntitySystem that contains the entity.
+	 * Param: ID of the entity.
+	 * Param: The new position (vector2 containing the x and z coordinates.)
 	 */
 	void set_2d_position(EntitySystem&, std::size_t, Ogre::Vector2);
 
 	/**
-	 *
+	 * Brief: Returns the X and Z coordinates of a given entity's position.
+	 * Param: EntitySystem that contains the entity.
+	 * Param: ID of the entity.
+	 * Note: Cannot use const reference like in the usual get_position function
+	 *       because this method creates a proxy Vector2 which cannot be passed
+	 *       as an lvalue reference due to it being a temporary object.
 	 */
 	Ogre::Vector2 get_2d_position(EntitySystem&, std::size_t);
 }
