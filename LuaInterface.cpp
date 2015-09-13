@@ -1506,7 +1506,7 @@ int LuaInterface::lua_list_tasks_of(lpp::Script::state L)
 							  + " -> " + std::to_string(task_comp->target) + ").\n");
 			}
 			else
-				report.append(lua_this->task_system_->get_task_name(TASK_TYPE::NONE));
+				report.append(lua_this->task_system_->get_task_name(TASK_TYPE::NONE) + "\n");
 		}
 		lua_this->console_.print_text(report, Console::ORANGE_TEXT);
 	}
