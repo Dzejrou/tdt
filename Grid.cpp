@@ -32,6 +32,7 @@ std::size_t Grid::add_node(EntitySystem& ents, Ogre::Vector2 pos)
 		auto id = ents.create_entity();
 		ents.add_component<GridNodeComponent>(id);
 		PhysicsHelper::set_2d_position(ents, id, pos);
+		nodes_.push_back(id);
 
 		return id;
 	}
