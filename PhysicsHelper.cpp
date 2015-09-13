@@ -27,7 +27,7 @@ void PhysicsHelper::set_position(EntitySystem& ents, std::size_t id, const Ogre:
 
 const Ogre::Vector3& PhysicsHelper::get_position(EntitySystem& ents, std::size_t id)
 {
-	static Ogre::Vector3 NO_POSITION{0.f, 100.f, 0.f};
+	static Ogre::Vector3 NO_POSITION{-1.f, -1.f, -1.f};
 	auto comp = ents.get_component<PhysicsComponent>(id);
 	if(comp)
 		return comp->position;
