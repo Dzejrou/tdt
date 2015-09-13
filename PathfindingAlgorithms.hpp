@@ -32,7 +32,7 @@ namespace pathfinding
 				estimate.emplace(node.first, std::numeric_limits<std::size_t>::max());
 			}
 			score[start] = 0;
-			estimate[start] = get_manhattan_distance(start, end);
+			estimate[start] = HEURISTIC::get_cost(ents, start, end);
 
 			std::size_t current{};
 			bool found_path{false};
@@ -51,12 +51,12 @@ namespace pathfinding
 				}
 				open.erase(current);
 			
-				for(const auto& neighbour : get_neighbours(current))
+				for(const auto& neighbour : GridNodeHelper::get_neighbours(ents, current))
 				{
 					// TODO: If this continues when the neighbour is closed, shortest path won't be found!
 					//       Shortest path vs. performance ?
-					bool cannot_pass = !is_free(neighbour) && !can_break_(id, *comp, neighbour);
-					if(!in_board_(neighbour) || cannot_pass)
+					bool cannot_pass = !GridNodeHelper::is_free(ents, neighbour) && !PathfindingHelper::can_break(id, *comp, neighbour);
+					if(!Grid::instance().in_board(neighbour) || cannot_pass)
 						continue;
 					auto s = script.call<std::size_t, std::size_t, std::size_t>(comp->blueprint + ".get_cost", id, current);
 					auto new_score = score[current] + s;
@@ -128,7 +128,7 @@ namespace heuristic
 {
 	struct MANHATTAN_DISTANCE
 	{
-		static std::size_t get_score(EntitySystem& ents, std::size_t id1, std::size_t id2)
+		static std::size_t get_cost(EntitySystem& ents, std::size_t id1, std::size_t id2)
 		{
 			return GridNodeHelper::get_manhattan_distance(ents, id1, id2);
 		}
@@ -138,7 +138,7 @@ namespace heuristic
 /**
  * Default types for the different pathfinding functors.
  */
-using DEFAULT_PATH_TYPE = path_type::BEST_PATH;
+using DEFAULT_PATH_TYPE = path_type::RANDOM_PATH<1>;
 using DEFAULT_HEURISTIC = heuristic::MANHATTAN_DISTANCE;
 using DEFAULT_PATHFINDING_ALGORITHM = pathfinding::A_STAR<DEFAULT_PATH_TYPE, DEFAULT_HEURISTIC>;
 }
