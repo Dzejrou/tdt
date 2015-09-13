@@ -2,8 +2,8 @@
 
 #include <cstdlib>
 #include <random>
-#include "Helpers.hpp"
 #include "Enums.hpp"
+#include "DestructorHelper.hpp"
 class EntitySystem;
 
 /**
