@@ -15,9 +15,9 @@ namespace util
 			return false;
 
 		auto pos_start = PhysicsHelper::get_position(ents, id);
-		auto pos_end = PhysicsHelper::get_position(ents, target);
-		std::size_t start{get_node_in_dir(id, util::get_enum_direction(ents, id, target))},
-					end{get_node_in_dir(target, util::get_enum_direction(ents, target, id))};
+		//auto pos_end = PhysicsHelper::get_position(ents, target);
+		std::size_t start{Grid::instance().get_node_from_position(pos_start.x, pos_start.z)},
+					end{GridNodeHelper::get_node_in_dir(ents, target, util::get_enum_direction(ents, target, id))};
 
 		auto path = ALGORITHM::get_path(ents, id, start, end);
 		bool destruction{false};
@@ -25,9 +25,9 @@ namespace util
 		{ // Finds the first blocked node and orders the entity to destroy it's resident.
 			for(auto node : path)
 			{
-				if(!is_free(node)) // can_break can be assumed as the node wouldn't be added without it.
+				if(!GridNodeHelper::is_free(ents, node)) // can_break can be assumed as the node wouldn't be added without it.
 				{
-					auto resident = get_resident(node);
+					auto resident = GridNodeHelper::get_resident(ents, node);
 					if(resident != target)
 					{
 						auto comp = ents.get_component<TaskHandlerComponent>(id);
