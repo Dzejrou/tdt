@@ -1481,9 +1481,11 @@ int LuaInterface::lua_list_tasks_of(lpp::Script::state L)
 	{
 		std::string report{};
 		auto& task_queue = comp->task_queue;
+		int task_count{};
 
 		if(comp->curr_task != Component::NO_ENTITY)
 		{ // Current task.
+			++task_count;
 			auto curr = lua_this->entity_system_->get_component<TaskComponent>(comp->curr_task);
 			if(curr)
 			{
@@ -1497,6 +1499,7 @@ int LuaInterface::lua_list_tasks_of(lpp::Script::state L)
 		// Other tasks.
 		for(auto& task : task_queue)
 		{
+			++task_count;
 			report.append(std::to_string(task) + ": ");
 			auto task_comp = lua_this->entity_system_->get_component<TaskComponent>(task);
 			if(task_comp)
@@ -1509,6 +1512,7 @@ int LuaInterface::lua_list_tasks_of(lpp::Script::state L)
 				report.append(lua_this->task_system_->get_task_name(TASK_TYPE::NONE) + "\n");
 		}
 		lua_this->console_.print_text(report, Console::ORANGE_TEXT);
+		lua_this->console_.scroll_down(task_count);
 	}
 	else
 		lua_this->console_.print_text("<FAIL> GIVEN ENTITY HAS NO TASKS.", Console::RED_TEXT);
