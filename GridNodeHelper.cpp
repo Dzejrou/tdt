@@ -5,11 +5,12 @@
 
 const std::array<std::size_t, GridNodeComponent::neighbour_count>& GridNodeHelper::get_neighbours(EntitySystem& ents, std::size_t id)
 {
+	static std::array<std::size_t, GridNodeComponent::neighbour_count> NO_NEIGHBOURS{};
 	auto comp = ents.get_component<GridNodeComponent>(id);
 	if(comp)
 		return comp->neighbours;
 	else
-		return std::array<std::size_t, GridNodeComponent::neighbour_count>();
+		return NO_NEIGHBOURS;
 }
 
 bool GridNodeHelper::is_free(EntitySystem& ents, std::size_t id)
