@@ -1,6 +1,7 @@
 #include "DestructorHelper.hpp"
 #include "Components.hpp"
 #include "EntitySystem.hpp"
+#include "Util.hpp"
 
 void DestructorHelper::set_blueprint(EntitySystem& ents, std::size_t id, const std::string& val)
 {
