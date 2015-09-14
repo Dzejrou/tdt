@@ -20,3 +20,4 @@ game.set_event_update_multiplier(game.config.event_update_multiplier)
 
 -- Helper commands executed on startup:
 game.toggle_camera_free_mode()
+game.create_grid_graphics()
