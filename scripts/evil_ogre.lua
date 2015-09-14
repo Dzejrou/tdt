@@ -105,11 +105,11 @@ evil_ogre = {
 		default_blueprint = "evil_ogre"
 	},
 
-	can_break = function(id, struct)
+	can_break = function(id, node)
 		return false
 	end,
 
-	get_cost = function(id) --, struct)
+	get_cost = function(id, node)
 		return 1
 	end
 }
