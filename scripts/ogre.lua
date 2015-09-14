@@ -117,12 +117,15 @@ ogre = {
 		default_blueprint = "ogre"
 	},
 
-	can_break = function(id, struct)
+	can_break = function(id, node)
 		return true
 	end,
 
-	get_cost = function(id, struct)
-		return 1
+	get_cost = function(id, node)
+		resident = game.get_resident(node)
+		hp = game.get_health(resident)
+
+		return hp
 	end
 }
 
