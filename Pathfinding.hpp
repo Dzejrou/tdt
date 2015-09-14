@@ -18,7 +18,6 @@ namespace util
 		auto pos_end = PhysicsHelper::get_position(ents, target);
 		std::size_t start{Grid::instance().get_node_from_position(pos_start.x, pos_start.z)},
 			        end{Grid::instance().get_node_from_position(pos_end.x, pos_end.z)};
-					//end{GridNodeHelper::get_node_in_dir(ents, target, util::get_enum_direction(ents, target, id))};
 
 		auto path = ALGORITHM::get_path(ents, id, start, end);
 		bool destruction{false};
