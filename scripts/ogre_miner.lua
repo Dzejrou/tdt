@@ -79,7 +79,6 @@ ogre_miner = {
 
 	handle_event = function(id, evt)
 		if game.get_event_type(evt) == game.enum.event.gold_dropped then
-		game.print("Handling: " .. tostring(evt))
 			task = game.create_task(game.get_event_target(evt), game.task.go_pick_up_gold)
 			game.add_task(id, task)
 		end
@@ -91,7 +90,6 @@ ogre_miner = {
 	update = function(id)
 		deposit = game.get_closest_gold_deposit(id)
 		if deposit ~= game.const.no_ent then
-			game.show_msg("Found deposit: " .. tostring(deposit))
 			task = game.create_task(deposit, game.enum.task.go_kill)
 			game.add_task(id, task)
 			return
@@ -101,12 +99,13 @@ ogre_miner = {
 	finnish = function(id)
 	end,
 
-	can_break = function(id, structure)
+	can_break = function(id, node)
 		return true
 	end,
 
-	get_cost = function(id, structure)
-		return 1
+	get_cost = function(id, node)
+		resident = game.get_resident(node)
+		return game.get_health(resident)
 	end
 }
 
