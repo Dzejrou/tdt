@@ -49,9 +49,6 @@ default_task_handler = {
 			res = false
 	   	end
 
-		if not res then
-			game.cancel_task(task)
-		end
 		return res
 	end,
 
@@ -69,11 +66,12 @@ default_task_handler = {
 			res = game.path_queue_empty(id)
 		elseif task_type == game.enum.task.get_in_range then
 			range = game.get_range(id)
+			range = range - (range / 10)
 			range = range * range
 
 			target = game.get_task_target(task)
 			dist = game.get_distance(id, target)
-			res = dist <= range and game.in_sight(id, target)
+			res = dist < range and game.in_sight(id, target)
 			if res then
 				game.clear_path(id)
 			end
