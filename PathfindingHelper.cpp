@@ -31,7 +31,7 @@ std::deque<std::size_t>& PathfindingHelper::get_path(EntitySystem& ents, std::si
 		return NO_PATH;
 }
 
-bool PathfindingHelper::can_break(std::size_t id, PathfindingComponent& comp, std::size_t structure)
+bool PathfindingHelper::can_break(std::size_t id1, const PathfindingComponent& comp, std::size_t id2)
 {
 	return lpp::Script::get_singleton().call<bool, std::size_t, std::size_t>(comp.blueprint + ".can_break", id1, id2);
 }
