@@ -317,12 +317,12 @@ game.set_event_type(entity_257, 1)
 game.set_event_target(entity_257, entity_256)
 game.set_event_radius(entity_257, 0.000000)
 game.set_event_active(entity_257, false)
-game.set_handler_of_event(entity_257, entity_256)
+game.set_handler_of_event(entity_257, 4294967295)
 
 game.add_component(entity_258, game.enum.component.time)
 game.advance_curr_time(entity_258, 0.000000)
 game.set_time_limit(entity_258, 10.000000)
-game.set_timer_target(entity_258, entity_257)
+game.set_timer_target(entity_258, entity_4294967295)
 game.set_timer_type(entity_258, 1)
 
 
