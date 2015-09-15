@@ -41,5 +41,12 @@ namespace PathfindingHelper
 	 * Param: ID of the node.
 	 */
 	bool can_break(std::size_t, const PathfindingComponent&, std::size_t);
+
+	/**
+	 * Brief: Returns the cost a journey to a given node takes for a given entity.
+	 * Param: ID of the entity.
+	 * Param: Pathfinding component of the entity.
+	 * Param: ID of the node.
+	 */
 	Ogre::Real get_cost(std::size_t, const PathfindingComponent&, std::size_t, DIRECTION::VAL);
 }
