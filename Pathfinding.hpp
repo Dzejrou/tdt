@@ -55,6 +55,9 @@ namespace util
 			path_comp->last_id = start;
 			path_comp->target_id = end;
 
+			if(path_comp->path_queue.size() >= 2)
+				path_comp->path_queue.pop_front(); // This will stop the entity from returning when halfway to the second node.
+
 			// In case the entity moves backwards.
 			GraphicsHelper::look_at(ents, id, path_comp->path_queue.front());
 			return true;
