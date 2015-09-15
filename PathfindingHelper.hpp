@@ -40,5 +40,5 @@ namespace PathfindingHelper
 	 * Param: Pathfinding component of the entity.
 	 * Param: ID of the node.
 	 */
-	bool can_break(std::size_t, PathfindingComponent&, std::size_t);
+	bool can_break(std::size_t, const PathfindingComponent&, std::size_t);
 }
