@@ -132,7 +132,11 @@ namespace heuristic
 {
 	struct MANHATTAN_DISTANCE
 	{
-		static std::size_t get_cost(EntitySystem& ents, std::size_t id1, std::size_t id2)
+		static Ogre::Real get_cost(EntitySystem& ents, std::size_t id1, std::size_t id2)
+		{
+			return (Ogre::Real)GridNodeHelper::get_manhattan_distance(ents, id1, id2);
+		}
+	};
 		{
 			return GridNodeHelper::get_manhattan_distance(ents, id1, id2);
 		}
