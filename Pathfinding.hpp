@@ -21,7 +21,7 @@ namespace util
 
 		auto path = ALGORITHM::get_path(ents, id, start, end);
 		bool destruction{false};
-		if(!path.empty())
+		if(add_path && !path.empty())
 		{ // Finds the first blocked node and orders the entity to destroy it's resident.
 			for(auto node : path)
 			{
