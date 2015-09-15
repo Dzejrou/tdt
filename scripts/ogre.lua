@@ -125,7 +125,11 @@ ogre = {
 		resident = game.get_resident(node)
 		hp = game.get_health(resident)
 
-		return hp
+		if hp == 0 then
+			return 1
+		else
+			return hp
+		end
 	end
 }
 
