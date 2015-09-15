@@ -1775,7 +1775,7 @@ game.set_solid(entity_307, true)
 game.set_half_height(entity_307, 50.000000)
 
 game.add_component(entity_307, game.enum.component.health)
-game.buff(entity_307, 2000)
+game.buff(entity_307, 600)
 game.sub_health(entity_307, 0)
 game.add_defense(entity_307, 13)
 game.set_regen(entity_307, 0)
@@ -1835,7 +1835,7 @@ game.set_speed(entity_308, 0.500000)
 
 game.add_component(entity_308, game.enum.component.combat)
 game.set_range(entity_308, 400.000000)
-game.set_dmg_range(entity_308, 15, 30)
+game.set_dmg_range(entity_308, 200, 500)
 game.set_cooldown(entity_308, 3.000000)
 game.set_atk_type(entity_308, 2)
 
