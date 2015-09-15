@@ -44,11 +44,12 @@ namespace pathfinding
 				current = *std::min_element(open.begin(), open.end(),
 											[&estimate](const std::size_t& lhs, const std::size_t& rhs) -> bool
 											{ return estimate[lhs] < estimate[rhs]; });
-				if(current == end)
+				if(current == end && !found_path)
 				{
 					found_path = true;
-				if(found_path && PATH_TYPE::return_path())
-					break;
+					if(PATH_TYPE::return_path())
+						break;
+				}
 				open.erase(current);
 			
 				for(const auto& neighbour : GridNodeHelper::get_neighbours(ents, current))
@@ -67,6 +68,9 @@ namespace pathfinding
 						path_edges[neighbour] = current;
 						score[neighbour] = new_score;
 						estimate[neighbour] = new_score + HEURISTIC::get_cost(ents, neighbour, end);
+
+						if(found_path && PATH_TYPE::return_path())
+							break;
 					
 						open.insert(neighbour);
 					}
