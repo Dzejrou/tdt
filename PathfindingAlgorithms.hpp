@@ -54,8 +54,6 @@ namespace pathfinding
 			
 				for(const auto& neighbour : GridNodeHelper::get_neighbours(ents, current))
 				{
-					// TODO: If this continues when the neighbour is closed, shortest path won't be found!
-					//       Shortest path vs. performance ?
 					bool cannot_pass = !GridNodeHelper::is_free(ents, neighbour) && !PathfindingHelper::can_break(id, *comp, neighbour);
 					if(!Grid::instance().in_board(neighbour) || cannot_pass)
 						continue;
