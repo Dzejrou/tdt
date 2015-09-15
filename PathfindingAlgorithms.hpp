@@ -59,7 +59,7 @@ namespace pathfinding
 					bool cannot_pass = !GridNodeHelper::is_free(ents, neighbour) && !PathfindingHelper::can_break(id, *comp, neighbour);
 					if(!Grid::instance().in_board(neighbour) || cannot_pass)
 						continue;
-					auto s = script.call<std::size_t, std::size_t, std::size_t>(comp->blueprint + ".get_cost", id, current);
+					auto s = PathfindingHelper::get_cost(id, *comp, current, (DIRECTION::VAL)i);
 					auto new_score = score[current] + s;
 
 					// Either unvisited or we found a better path to it.
