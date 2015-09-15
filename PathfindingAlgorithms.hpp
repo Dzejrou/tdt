@@ -24,13 +24,13 @@ namespace pathfinding
 
 			std::map<std::size_t, std::size_t> path_edges{};
 			std::set<std::size_t> open{start};
-			std::map<std::size_t, std::size_t> score;
-			std::map<std::size_t, std::size_t> estimate;
+			std::map<std::size_t, Ogre::Real> score;
+			std::map<std::size_t, Ogre::Real> estimate;
 
 			for(auto& node : ents.get_component_container<GridNodeComponent>())
 			{ // Starting score and estimate is "infinity".
-				score.emplace(node.first, std::numeric_limits<std::size_t>::max());
-				estimate.emplace(node.first, std::numeric_limits<std::size_t>::max());
+				score.emplace(node.first, std::numeric_limits<Ogre::Real>::max());
+				estimate.emplace(node.first, std::numeric_limits<Ogre::Real>::max());
 			}
 			score[start] = 0;
 			estimate[start] = HEURISTIC::get_cost(ents, start, end);
