@@ -35,10 +35,10 @@ namespace PathfindingHelper
 	std::deque<std::size_t>& get_path(EntitySystem&, std::size_t);
 
 	/**
-	 * Brief: Returns true if a given entity can break a given structure.
+	 * Brief: Returns true if a given entity can break a structure residing on a given node (if any).
 	 * Param: ID of the entity.
 	 * Param: Pathfinding component of the entity.
-	 * Param: ID of the structure.
+	 * Param: ID of the node.
 	 */
 	bool can_break(std::size_t, PathfindingComponent&, std::size_t);
 }
