@@ -47,9 +47,8 @@ namespace pathfinding
 				if(current == end)
 				{
 					found_path = true;
-					if(PATH_TYPE::return_path())
-						break;
-				}
+				if(found_path && PATH_TYPE::return_path())
+					break;
 				open.erase(current);
 			
 				for(const auto& neighbour : GridNodeHelper::get_neighbours(ents, current))
