@@ -5,6 +5,7 @@
 #include "EntitySystem.hpp"
 #include "Util.hpp"
 #include "Helpers.hpp"
+#include "Enums.hpp"
 
 namespace util
 {
