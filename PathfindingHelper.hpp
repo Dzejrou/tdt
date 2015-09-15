@@ -1,9 +1,11 @@
 #pragma once
 
+#include <Ogre.h>
 #include <string>
 #include <cstdlib>
 #include <deque>
 #include "lppscript/LppScript.hpp"
+#include "Enums.hpp"
 class EntitySystem;
 struct PathfindingComponent;
 
