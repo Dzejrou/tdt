@@ -52,8 +52,11 @@ namespace pathfinding
 				}
 				open.erase(current);
 			
-				for(const auto& neighbour : GridNodeHelper::get_neighbours(ents, current))
+				auto& neighbours = GridNodeHelper::get_neighbours(ents, current);
+				for(std::size_t i = 0; i < neighbours.size(); ++i)
 				{
+					auto& neighbour = neighbours[i];
+
 					bool cannot_pass = !GridNodeHelper::is_free(ents, neighbour) && !PathfindingHelper::can_break(id, *comp, neighbour);
 					if(!Grid::instance().in_board(neighbour) || cannot_pass)
 						continue;
