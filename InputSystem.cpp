@@ -96,7 +96,7 @@ void InputSystem::set_first_person(bool on_off, std::size_t id)
 		// AIComponent backup.
 		if(ai)
 		{
-			ai_backup_.reset(new AIComponent{*entities_.get_component<AIComponent>(first_person_id_)});
+			ai_backup_.reset(new AIComponent{std::move(*entities_.get_component<AIComponent>(first_person_id_))});
 			entities_.delete_component<AIComponent>(first_person_id_);
 		}
 
@@ -123,9 +123,7 @@ void InputSystem::set_first_person(bool on_off, std::size_t id)
 		{
 			auto& ai_comp = entities_.add_component<AIComponent>(first_person_id_);
 
-			ai_comp.blueprint = ai_backup_->blueprint;
-			ai_comp.state = ai_backup_->state;
-			ai_comp.faction = ai_backup_->faction;
+			ai_comp = std::move(*ai_backup_);
 			ai_backup_.reset(nullptr);
 		}
 
