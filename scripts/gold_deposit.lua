@@ -5,7 +5,8 @@ gold_deposit = {
 		game.enum.component.graphics,
 		game.enum.component.structure,
 		game.enum.component.destructor,
-		game.enum.component.gold
+		game.enum.component.gold,
+		game.enum.component.faction
 	},
 
 	PhysicsComponent = {
@@ -40,6 +41,10 @@ gold_deposit = {
 	GoldComponent = {
 		curr = 50,
 		max = 75
+	},
+
+	FactionComponent = {
+		faction = game.enum.faction.neutral
 	}
 }
 
