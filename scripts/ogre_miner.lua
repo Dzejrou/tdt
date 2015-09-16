@@ -106,7 +106,13 @@ ogre_miner = {
 
 	get_cost = function(id, node)
 		resident = game.get_resident(node)
-		return game.get_health(resident)
+		hp = game.get_health(resident)
+
+		if hp <= 0 then
+			return 1
+		else
+			return hp
+		end
 	end
 }
 
