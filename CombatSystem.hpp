@@ -95,7 +95,7 @@ class CombatSystem : public System
 		 *       all entitites regardless of their components).
 		 */
 		template<typename CONT, typename COND>
-		std::size_t get_closest_entity(std::size_t id, COND condition, bool only_sight = true) const
+		std::size_t get_closest_entity(std::size_t id, COND& condition, bool only_sight = true) const
 		{
 			auto phys_comp = entities_.get_component<PhysicsComponent>(id);
 			std::size_t closest_id = Component::NO_ENTITY;
