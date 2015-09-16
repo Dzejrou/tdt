@@ -25,7 +25,6 @@ utils = {
 }
 
 -- INIT:
-game = game or {}
 game.utils = utils
 
 -- HELPER FUNCTIONS:
