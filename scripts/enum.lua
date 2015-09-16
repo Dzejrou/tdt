@@ -71,7 +71,9 @@ enum = {
 		kill = 4,
 		get_in_range = 5,
 		go_pick_up_gold = 6,
-		pick_up_gold = 7
+		pick_up_gold = 7,
+		go_deposit_gold = 8,
+		deposit_gold = 9
 	},
 
 	atk_type = {
