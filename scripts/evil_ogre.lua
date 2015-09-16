@@ -9,7 +9,8 @@ evil_ogre = {
 		game.enum.component.movement,
 		game.enum.component.combat,
 		game.enum.component.pathfinding,
-		game.enum.component.task_handler
+		game.enum.component.task_handler,
+		game.enum.component.faction
 	},
 
 	PhysicsComponent = {
@@ -24,7 +25,6 @@ evil_ogre = {
 
 	AIComponent = {
 		blueprint = "ogre",
-		faction = game.enum.faction.enemy
 	},
 
 	GraphicsComponent = {
@@ -71,6 +71,10 @@ evil_ogre = {
 	InputComponent = {
 		-- Won't get loaded, but serves as a blueprint if needed.
 		input_handler = "ogre_handler"
+	},
+
+	FactionComponent = {
+		faction = game.enum.faction.enemy
 	},
 
 	init = function(id)
