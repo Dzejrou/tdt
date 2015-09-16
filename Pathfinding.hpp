@@ -55,7 +55,7 @@ namespace util
 			path_comp->last_id = start;
 			path_comp->target_id = end;
 
-			if(path_comp->path_queue.size() >= 2)
+			if(path_comp->path_queue.size() >= 3)
 				path_comp->path_queue.pop_front(); // This will stop the entity from returning when halfway to the second node.
 
 			// In case the entity moves backwards.
