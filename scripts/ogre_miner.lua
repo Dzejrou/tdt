@@ -100,9 +100,6 @@ ogre_miner = {
 		end
 	end,
 
-	finnish = function(id)
-	end,
-
 	can_break = function(id, node)
 		return true
 	end,
