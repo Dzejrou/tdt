@@ -249,6 +249,7 @@ class EntitySystem : public System
 		std::map<std::size_t, EventHandlerComponent> event_handler_{};
 		std::map<std::size_t, DestructorComponent> destructor_{};
 		std::map<std::size_t, GoldComponent> gold_{};
+		std::map<std::size_t, FactionComponent> faction_{};
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -396,12 +397,18 @@ inline std::map<std::size_t, GoldComponent>& EntitySystem::get_component_contain
 	return gold_;
 }
 
+template<>
+inline std::map<std::size_t, FactionComponent>& EntitySystem::get_component_container<FactionComponent>()
+{
+	return faction_;
+}
+
 /**
  * Specializations of the EntitySystem::load_component method.
  * Note: Following components can only be created manually and thus don't have load_component specialization.
  *       GridNodeComponent (created by GridSystem::add_node)
  *       ProductComponent (production id is assigned during runtime)
- *       TaskComponent     (tasks are specified by their types and are added through the TaskSystem)
+ *       TaskComponent     (tasks are specified by their types and are added through the TaskHelper)
  */
 template<>
 inline void EntitySystem::load_component<PhysicsComponent>(std::size_t id, const std::string& table_name)
@@ -426,8 +433,7 @@ inline void EntitySystem::load_component<AIComponent>(std::size_t id, const std:
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string blueprint = script.get<std::string>(table_name + ".AIComponent.blueprint");
-	int faction = script.get<int>(table_name + ".AIComponent.faction");
-	ai_.emplace(id, AIComponent{blueprint, (FACTION)faction});
+	ai_.emplace(id, AIComponent{blueprint});
 
 	// Call init.
 	script.call<void, int>(blueprint + ".init", id);
@@ -611,4 +617,11 @@ inline void EntitySystem::load_component<GoldComponent>(std::size_t id, const st
 	std::size_t curr = script.get<std::size_t>(table_name + ".GoldComponent.curr");
 	std::size_t max = script.get<std::size_t>(table_name + ".GoldComponent.max");
 	gold_.emplace(id, GoldComponent{max, curr});
+}
+
+template<>
+inline void EntitySystem::load_component<FactionComponent>(std::size_t id, const std::string& table_name)
+{
+	FACTION fac =  (FACTION)lpp::Script::get_singleton().get<int>(table_name + ".FactionComponent.faction");
+	faction_.emplace(id, FactionComponent{fac});
 }
