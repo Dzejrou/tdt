@@ -40,11 +40,11 @@ ogre_miner = {
 	},
 
 	CombatComponent = {
-		range = 60,
-		min_dmg = 50,
-		max_dmg = 75,
-		type = game.enum.atk_type.melee,
-		cooldown = 2
+		range = 300,
+		min_dmg = 100,
+		max_dmg = 200,
+		type = game.enum.atk_type.ranged,
+		cooldown = 2.0
 	},
 
 	PathfindingComponent = {
