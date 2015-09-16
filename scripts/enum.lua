@@ -32,7 +32,8 @@ enum = {
 		homing = 18,
 		event_handler = 19,
 		destructor = 20,
-		gold = 21
+		gold = 21,
+		faction = 22
 	},
 
 	event = {
