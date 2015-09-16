@@ -119,6 +119,11 @@ void Grid::create_graph(EntitySystem& ents, Ogre::Vector2 start, std::size_t w, 
 		link_(i, comps);
 }
 
+Ogre::Real Grid::get_distance() const
+{
+	return distance_;
+}
+
 Grid& Grid::instance()
 {
 	static Grid inst{};

@@ -102,6 +102,12 @@ class Grid
 		void create_graph(EntitySystem&, Ogre::Vector2, std::size_t, std::size_t, Ogre::Real);
 
 		/**
+		 * Brief: Returns the distance between two nodes in the four non-diagonal
+		 *        directions.
+		 */
+		Ogre::Real get_distance() const;
+
+		/**
 		 * Brief: Returns a reference to the static instance of this class.
 		 * Note: Handles initialization and safe destruction by itself.
 		 * TODO: Possibly unite this an Lpp::Script under one singleton interface?
