@@ -59,7 +59,9 @@ ogre_miner = {
 			game.enum.task.kill,
 			game.enum.task.get_in_range,
 			game.enum.task.go_pick_up_gold,
-			game.enum.task.pick_up_gold
+			game.enum.task.pick_up_gold,
+			game.enum.task.go_deposit_gold,
+			game.enum.task.deposit_gold
 		},
 		blueprint = "default_task_handler"
 	},
