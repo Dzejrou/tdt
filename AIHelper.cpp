@@ -21,22 +21,6 @@ const std::string & AIHelper::get_blueprint(EntitySystem& ents, std::size_t id)
 		return NO_BLUEPRINT;
 }
 
-void AIHelper::set_faction(EntitySystem& ents, std::size_t id, FACTION val)
-{
-	auto comp = ents.get_component<AIComponent>(id);
-	if(comp)
-		comp->faction = val;
-}
-
-FACTION AIHelper::get_faction(EntitySystem& ents, std::size_t id)
-{
-	auto comp = ents.get_component<AIComponent>(id);
-	if(comp)
-		return comp->faction;
-	else
-		return FACTION::NEUTRAL;
-}
-
 void AIHelper::set_state(EntitySystem& ents, std::size_t id, ENTITY_STATE val)
 {
 	auto comp = ents.get_component<AIComponent>(id);
