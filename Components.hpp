@@ -11,7 +11,7 @@
 
 struct Component
 {
-	static constexpr int count = 22;
+	static constexpr int count = 23;
 	static constexpr std::size_t NO_ENTITY = std::numeric_limits<std::size_t>::max();
 };
 
@@ -448,4 +448,21 @@ struct GoldComponent
 
 	std::size_t max_amount;
 	std::size_t curr_amount;
+};
+
+/**
+ * Represents the faction an entity that has this
+ * component if a member of.
+ */
+struct FactionComponent
+{
+	static constexpr int type = 22;
+
+	FactionComponent(FACTION f = FACTION::NEUTRAL)
+		: faction{f}
+	{ /* DUMMY BODY */ }
+	FactionComponent(const FactionComponent&) = default;
+	FactionComponent(FactionComponent&&) = default;
+
+	FACTION faction;
 };
