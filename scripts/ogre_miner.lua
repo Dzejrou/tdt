@@ -9,7 +9,8 @@ ogre_miner = {
 		game.enum.component.pathfinding,
 		game.enum.component.task_handler,
 		game.enum.component.event_handler,
-		game.enum.component.gold
+		game.enum.component.gold,
+		game.enum.component.faction
 	},
 
 	PhysicsComponent = {
@@ -24,7 +25,6 @@ ogre_miner = {
 
 	AIComponent = {
 		blueprint = "ogre_miner",
-		faction = game.enum.faction.friendly
 	},
 
 	GraphicsComponent = {
@@ -75,6 +75,10 @@ ogre_miner = {
 	GoldComponent = {
 		curr = 0,
 		max = 1000	
+	},
+
+	FactionComponent = {
+		faction = game.enum.faction.friendly
 	},
 
 	handle_event = function(id, evt)
