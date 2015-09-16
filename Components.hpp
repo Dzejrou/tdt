@@ -35,6 +35,8 @@ struct PhysicsComponent
 	{ /* DUMMY BODY */ }
 	PhysicsComponent(const PhysicsComponent&) = default;
 	PhysicsComponent(PhysicsComponent&&) = default;
+	PhysicsComponent& operator=(const PhysicsComponent&) = default;
+	PhysicsComponent& operator=(PhysicsComponent&&) = default;
 
 	bool solid;
 	Ogre::Vector3 position;
@@ -54,6 +56,8 @@ struct HealthComponent
 	{ /* DUMMY BODY */ }
 	HealthComponent(const HealthComponent&) = default;
 	HealthComponent(HealthComponent&&) = default;
+	HealthComponent& operator=(const HealthComponent&) = default;
+	HealthComponent& operator=(HealthComponent&&) = default;
 
 	std::size_t curr_hp;
 	std::size_t max_hp;
@@ -71,16 +75,16 @@ struct AIComponent
 	static constexpr int type = 2;
 
 	AIComponent(const std::string& s = "ERROR",
-				FACTION f = FACTION::NEUTRAL,
 				ENTITY_STATE st = ENTITY_STATE::NORMAL)
-		: blueprint{s}, state{st}, faction(f)
+		: blueprint{s}, state{st}
 	{ /* DUMMY BODY */ }
 	AIComponent(const AIComponent&) = default;
 	AIComponent(AIComponent&&) = default;
+	AIComponent& operator=(const AIComponent&) = default;
+	AIComponent& operator=(AIComponent&&) = default;
 
 	std::string blueprint;
 	ENTITY_STATE state;
-	FACTION faction;
 };
 
 /**
@@ -98,6 +102,8 @@ struct GraphicsComponent
 	{ /* DUMMY BODY */ }
 	GraphicsComponent(const GraphicsComponent&) = default;
 	GraphicsComponent(GraphicsComponent&&) = default;
+	GraphicsComponent& operator=(const GraphicsComponent&) = default;
+	GraphicsComponent& operator=(GraphicsComponent&&) = default;
 
 	std::string mesh;
 	std::string material;
@@ -123,6 +129,8 @@ struct MovementComponent
 	{ /* DUMMY BODY */ }
 	MovementComponent(const MovementComponent&) = default;
 	MovementComponent(MovementComponent&&) = default;
+	MovementComponent& operator=(const MovementComponent&) = default;
+	MovementComponent& operator=(MovementComponent&&) = default;
 
 	Ogre::Real speed_modifier;
 };
@@ -142,6 +150,8 @@ struct CombatComponent
 	{ /* DUMMY BODY */ }
 	CombatComponent(const CombatComponent&) = default;
 	CombatComponent(CombatComponent&&) = default;
+	CombatComponent& operator=(const CombatComponent&) = default;
+	CombatComponent& operator=(CombatComponent&&) = default;
 
 	std::size_t curr_target;
 	std::size_t min_dmg;
@@ -166,6 +176,8 @@ struct EventComponent
 	{ /* DUMMY BODY */ }
 	EventComponent(const EventComponent&) = default;
 	EventComponent(EventComponent&&) = default;
+	EventComponent& operator=(const EventComponent&) = default;
+	EventComponent& operator=(EventComponent&&) = default;
 
 	EVENT_TYPE event_type;
 	std::size_t target;
@@ -186,6 +198,8 @@ struct InputComponent
 	{ /* DUMMY BODY */ }
 	InputComponent(const InputComponent&) = default;
 	InputComponent(InputComponent&&) = default;
+	InputComponent& operator=(const InputComponent&) = default;
+	InputComponent& operator=(InputComponent&&) = default;
 
 	std::string input_handler;
 };
@@ -204,6 +218,8 @@ struct TimeComponent
 	{ /* DUMMY BODY */ }
 	TimeComponent(const TimeComponent&) = default;
 	TimeComponent(TimeComponent&&) = default;
+	TimeComponent& operator=(const TimeComponent&) = default;
+	TimeComponent& operator=(TimeComponent&&) = default;
 
 	Ogre::Real curr_time;
 	Ogre::Real time_limit;
@@ -239,6 +255,8 @@ struct ProductionComponent
 	{ /* DUMMY BODY */ }
 	ProductionComponent(const ProductionComponent&) = default;
 	ProductionComponent(ProductionComponent&&) = default;
+	ProductionComponent& operator=(const ProductionComponent&) = default;
+	ProductionComponent& operator=(ProductionComponent&&) = default;
 
 	std::string product_blueprint;
 	std::size_t curr_produced;
@@ -266,6 +284,8 @@ struct GridNodeComponent
 	}
 	GridNodeComponent(const GridNodeComponent&) = default;
 	GridNodeComponent(GridNodeComponent&&) = default;
+	GridNodeComponent& operator=(const GridNodeComponent&) = default;
+	GridNodeComponent& operator=(GridNodeComponent&&) = default;
 
 	/**
 	 * Note: For more versatility of the game engine, using
@@ -291,6 +311,8 @@ struct ProductComponent
 	{ /* DUMMY BODY */ }
 	ProductComponent(const ProductComponent&) = default;
 	ProductComponent(ProductComponent&&) = default;
+	ProductComponent& operator=(const ProductComponent&) = default;
+	ProductComponent& operator=(ProductComponent&&) = default;
 
 	std::size_t producer;
 };
@@ -308,6 +330,8 @@ struct PathfindingComponent
 	{ /* DUMMY BODY */ }
 	PathfindingComponent(const PathfindingComponent&) = default;
 	PathfindingComponent(PathfindingComponent&&) = default;
+	PathfindingComponent& operator=(const PathfindingComponent&) = default;
+	PathfindingComponent& operator=(PathfindingComponent&&) = default;
 	
 	std::size_t target_id, last_id;
 	std::deque<std::size_t> path_queue;
@@ -329,6 +353,8 @@ struct TaskComponent
 	{ /* DUMMY BODY */ }
 	TaskComponent(const TaskComponent&) = default;
 	TaskComponent(TaskComponent&&) = default;
+	TaskComponent& operator=(const TaskComponent&) = default;
+	TaskComponent& operator=(TaskComponent&&) = default;
 
 	TASK_TYPE task_type;
 	std::size_t source, target;
@@ -348,6 +374,8 @@ struct TaskHandlerComponent
 	{  /* DUMMY BODY */ }
 	TaskHandlerComponent(const TaskHandlerComponent&) = default;
 	TaskHandlerComponent(TaskHandlerComponent&&) = default;
+	TaskHandlerComponent& operator=(const TaskHandlerComponent&) = default;
+	TaskHandlerComponent& operator=(TaskHandlerComponent&&) = default;
 
 	std::size_t curr_task;
 	std::bitset<(int)TASK_TYPE::COUNT> possible_tasks;
@@ -369,6 +397,8 @@ struct StructureComponent
 	{ /* DUMMY BODY */ }
 	StructureComponent(const StructureComponent&) = default;
 	StructureComponent(StructureComponent&&) = default;
+	StructureComponent& operator=(const StructureComponent&) = default;
+	StructureComponent& operator=(StructureComponent&&) = default;
 
 	std::size_t radius;
 	bool walk_through;
@@ -390,6 +420,8 @@ struct HomingComponent
 	{ /* DUMMY BODY */ }
 	HomingComponent(const HomingComponent&) = default;
 	HomingComponent(HomingComponent&&) = default;
+	HomingComponent& operator=(const HomingComponent&) = default;
+	HomingComponent& operator=(HomingComponent&&) = default;
 
 	std::size_t source;
 	std::size_t target;
@@ -410,6 +442,8 @@ struct EventHandlerComponent
 	{ /* DUMMY BODY */ }
 	EventHandlerComponent(const EventHandlerComponent&) = default;
 	EventHandlerComponent(EventHandlerComponent&&) = default;
+	EventHandlerComponent& operator=(const EventHandlerComponent&) = default;
+	EventHandlerComponent& operator=(EventHandlerComponent&&) = default;
 
 	std::string handler;
 	std::bitset<(int)EVENT_TYPE::COUNT> possible_events;
@@ -428,6 +462,8 @@ struct DestructorComponent
 	{ /* DUMMY BODY */ }
 	DestructorComponent(const DestructorComponent&) = default;
 	DestructorComponent(DestructorComponent&&) = default;
+	DestructorComponent& operator=(const DestructorComponent&) = default;
+	DestructorComponent& operator=(DestructorComponent&&) = default;
 
 	std::string blueprint;
 };
@@ -445,6 +481,8 @@ struct GoldComponent
 	{ /* DUMMY BODY */ }
 	GoldComponent(const GoldComponent&) = default;
 	GoldComponent(GoldComponent&&) = default;
+	GoldComponent& operator=(const GoldComponent&) = default;
+	GoldComponent& operator=(GoldComponent&&) = default;
 
 	std::size_t max_amount;
 	std::size_t curr_amount;
@@ -463,6 +501,8 @@ struct FactionComponent
 	{ /* DUMMY BODY */ }
 	FactionComponent(const FactionComponent&) = default;
 	FactionComponent(FactionComponent&&) = default;
+	FactionComponent& operator=(const FactionComponent&) = default;
+	FactionComponent& operator=(FactionComponent&&) = default;
 
 	FACTION faction;
 };
