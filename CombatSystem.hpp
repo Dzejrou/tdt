@@ -76,6 +76,14 @@ class CombatSystem : public System
 		std::size_t get_closest_gold_deposit(std::size_t, bool = false) const;
 
 		/**
+		 * Brief: Returns the ID of the closest gold vault that can store player's gold.
+		 * Param: ID of the entity that looks for the gold vault.
+		 * Param: If true, only vaults in sight will be checked.
+		 * Param: If true, only vaults that have free space for more gold will be checked.
+		 */
+		std::size_t get_closest_gold_vault(std::size_t, bool = false, bool = false) const;
+
+		/**
 		 * Brief: Returns the ID of the closest entity that has a given component, meets
 		 *        a given condition and is accessible.
 		 * Param: ID of the entity that is searching.

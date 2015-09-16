@@ -135,6 +135,20 @@ std::size_t CombatSystem::get_closest_gold_deposit(std::size_t id, bool only_sig
 	return get_closest_entity<StructureComponent>(id, util::HAS_GOLD(entities_), only_sight);
 }
 
+std::size_t CombatSystem::get_closest_gold_vault(std::size_t id, bool only_sight, bool only_free) const
+{
+	if(only_free)
+	{
+		util::IS_GOLD_VAULT cond{entities_};
+		return get_closest_entity<StructureComponent>(
+			id, [&](std::size_t ent) -> bool { return cond(ent) && !GoldHelper::gold_full(entities_, ent); },
+			only_sight
+		);
+	}
+	else
+		return get_closest_entity<StructureComponent>(id, util::IS_GOLD_VAULT(entities_), only_sight);
+}
+
 void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent& combat)
 {
 	std::size_t id = entities_.create_entity("basic_projectile");
