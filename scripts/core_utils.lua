@@ -28,6 +28,7 @@ utils = {
 game = game or {}
 game.utils = utils
 
+-- HELPER FUNCTIONS:
 if show_msg then
 	game.show_msg = show_msg
 elseif game.print then
@@ -44,4 +45,15 @@ end
 
 game.unpause = function()
 	game.set_game_state(game.enum.game_state.running)
+end
+
+game.go_deposit_gold = function(id)
+	vault = game.closest_free_gold_vault(id)
+
+	if vault ~= game.const.no_ent then
+		task = game.create_task(vault, game.enum.task.go_deposit_gold)
+		game.add_task(id, task)
+	else
+		-- TODO: Notify player that he has no free space in gold vaults.
+	end
 end
