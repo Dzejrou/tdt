@@ -55,29 +55,19 @@ int util::get_enum_direction(EntitySystem& ents, std::size_t id, std::size_t tar
 {
 	auto pos1 = PhysicsHelper::get_position(ents, id);
 	auto pos2 = PhysicsHelper::get_position(ents, target);
+	auto dist = Grid::instance().get_distance();
 
 	auto diff_x = pos1.x > pos2.x ? pos1.x - pos2.x : pos2.x - pos1.x;
-	bool same_axis_x = diff_x < 20.f;
+	bool same_axis_x = diff_x < dist;
 	
 	auto diff_z = pos1.z > pos2.z ? pos1.z - pos2.z : pos2.z - pos1.z;
-	bool same_axis_z = diff_z < 20.f;
+	bool same_axis_z = diff_z < dist;
 
 	bool left = pos1.x > pos2.x;
 	bool right = pos1.x <= pos2.x;
 	bool up = pos1.z > pos2.z;
 	bool down = pos1.z <= pos2.z;
 
-	if(up)
-		return DIRECTION::UP;
-	else if(down)
-		return DIRECTION::DOWN;
-	else if(left)
-		return DIRECTION::LEFT;
-	else if(right)
-		return DIRECTION::RIGHT;
-	else
-		return DIRECTION::NONE;
-	/*
 	if(same_axis_x && same_axis_z)
 		return DIRECTION::NONE;
 	else if(same_axis_x && up)
@@ -98,7 +88,6 @@ int util::get_enum_direction(EntitySystem& ents, std::size_t id, std::size_t tar
 		return DIRECTION::DOWN_RIGHT;
 	else
 		return DIRECTION::NONE;
-		*/
 }
 
 std::size_t util::get_random(std::size_t min, std::size_t max)
@@ -113,4 +102,16 @@ std::size_t util::abs(int val)
 		return (std::size_t) -1 * val;
 	else
 		return val;
+}
+
+util::IS_GOLD_VAULT::IS_GOLD_VAULT(EntitySystem& ents)
+	: entities_{ents}
+{ /* DUMMY BODY */ }
+
+bool util::IS_GOLD_VAULT::operator()(std::size_t id)
+{
+	return FactionHelper::get_faction(entities_, id) == FACTION::FRIENDLY
+	       && entities_.has_component<StructureComponent>(id)
+		   && entities_.has_component<GoldComponent>(id);
+
 }

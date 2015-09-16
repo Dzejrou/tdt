@@ -136,6 +136,32 @@ namespace util
 	};
 
 	/**
+	 * Tests if a given entity is of friendly faction,
+	 * has structure component and has gold component
+	 * (that is, it's a gold vault).
+	 */
+	struct IS_GOLD_VAULT
+	{
+		/**
+		 * Constructor.
+		 * Param: Entity system that contains all tested entities.
+		 */
+		IS_GOLD_VAULT(EntitySystem&);
+
+		/**
+		 * Brief: Tests a given entity.
+		 * Param: ID of the entity.
+		 */
+		bool operator()(std::size_t);
+
+		private:
+			/**
+			 * Entity system that contains all tested entities.
+			 */
+			EntitySystem& entities_;
+	};
+
+	/**
 	 * A structure providing the private method EntitySystem::destroy_entity to
 	 * the DestructorHelper::destroy function. The reason for the existence of this
 	 * struct is that it provides only this one method and keeps others private.
