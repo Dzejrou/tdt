@@ -28,7 +28,7 @@ default_task_handler = {
 			game.set_combat_target(id, target)
 			res = true
 		elseif task_type == game.enum.task.go_pick_up_gold then
-			t1 = game.create_task(target, game.enum.task.go_near)
+			t1 = game.create_task(target, game.enum.task.go_to)
 			t2 = game.create_task(target, game.enum.task.pick_up_gold)
 
 			game.add_task(id, t1)
@@ -44,6 +44,26 @@ default_task_handler = {
 				game.set_event_target(evt, target)
 				game.set_handler_of_event(evt, id)
 				game.set_event_type(game.enum.event.gold_dropped)
+			end
+
+			if game.gold_full(id) then
+				game.go_deposit_gold(id)
+			end
+
+			res = false
+		elseif task_type == game.enum.task.go_deposit_gold then
+			t1 = game.create_task(target, game.enum.task.go_to)
+			t2 = game.create_task(target, game.enum.task.deposit_gold)
+
+			game.add_task(id, t1)
+			game.add_task(id, t2)
+
+			res = false
+		elseif task_type == game.enum.task.deposit_gold then
+			game.transfer_all_gold(id, target)
+
+			if game.get_curr_gold(target) > 0 then
+				game.go_deposit_gold(id)
 			end
 
 			res = false
