@@ -10,7 +10,8 @@ ogre = {
 		game.enum.component.combat,
 		game.enum.component.pathfinding,
 		game.enum.component.task_handler,
-		game.enum.component.event_handler
+		game.enum.component.event_handler,
+		game.enum.component.faction
 	},
 
 	PhysicsComponent = {
@@ -25,7 +26,6 @@ ogre = {
 
 	AIComponent = {
 		blueprint = "ogre",
-		faction = game.enum.faction.friendly
 	},
 
 	GraphicsComponent = {
@@ -79,6 +79,10 @@ ogre = {
 		possible_events = {
 			game.enum.event.kill_entity
 		}
+	},
+
+	FactionComponent = {
+		faction = game.enum.faction.friendly
 	},
 
 	handle_event = function(id, evt)
