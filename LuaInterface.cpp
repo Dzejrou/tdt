@@ -257,6 +257,12 @@ void LuaInterface::init(Game* game)
 		{"get_closest_gold_deposit", LuaInterface::lua_get_closest_gold_deposit},
 		{"get_closest_gold_deposit_in_sight", LuaInterface::lua_get_closest_gold_deposit_in_sight},
 		{"gold_full", LuaInterface::lua_gold_full},
+		{"is_gold_vault", LuaInterface::lua_is_gold_vault},
+		{"closest_gold_vault", LuaInterface::closest_gold_vault},
+		{"closest_gold_vault_in_sight", LuaInterface::closest_gold_vault_in_sight},
+		{"closest_free_gold_vault", LuaInterface::closest_free_gold_vault},
+		{"closest_free_gold_vault_in_sight", LuaInterface::closest_free_gold_vault_in_sight},
+		{"exists_free_gold_vault", LuaInterface::exists_free_gold_vault},
 
 		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
@@ -2430,6 +2436,68 @@ int LuaInterface::lua_gold_full(lpp::Script::state L)
 
 	auto res = GoldHelper::gold_full(*ents, id);
 	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_is_gold_vault(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = ents->has_component<StructureComponent>(id) &&
+		       ents->has_component<GoldComponent>(id) &&
+			   FactionHelper::get_faction(*ents, id) == FACTION::FRIENDLY;
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::closest_gold_vault(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_closest_gold_vault(id, false, false);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::closest_gold_vault_in_sight(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_closest_gold_vault(id, true, false);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::closest_free_gold_vault(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_closest_gold_vault(id, false, true);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::closest_free_gold_vault_in_sight(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_closest_gold_vault(id, true, true);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::exists_free_gold_vault(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = lua_this->combat_system_->get_closest_gold_vault(id, true, true);
+	lua_pushinteger(L, res != Component::NO_ENTITY);
 	return 1;
 }
 #pragma endregion

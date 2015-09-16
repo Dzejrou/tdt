@@ -285,4 +285,10 @@ class LuaInterface
 		static int lua_get_closest_gold_deposit(lpp::Script::state);
 		static int lua_get_closest_gold_deposit_in_sight(lpp::Script::state);
 		static int lua_gold_full(lpp::Script::state);
+		static int lua_is_gold_vault(lpp::Script::state);
+		static int closest_gold_vault(lpp::Script::state);
+		static int closest_gold_vault_in_sight(lpp::Script::state);
+		static int closest_free_gold_vault(lpp::Script::state);
+		static int closest_free_gold_vault_in_sight(lpp::Script::state);
+		static int exists_free_gold_vault(lpp::Script::state);
 };
