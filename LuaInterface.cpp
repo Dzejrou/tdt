@@ -1129,7 +1129,7 @@ int LuaInterface::lua_get_faction(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	int res = (int)AIHelper::get_faction(*ents, id);
+	int res = (int)FactionHelper::get_faction(*ents, id);
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -1160,7 +1160,7 @@ int LuaInterface::lua_set_faction(lpp::Script::state L)
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 	lua_pop(L, 2);
 
-	AIHelper::set_faction(*ents, id, faction);
+	FactionHelper::set_faction(*ents, id, faction);
 	return 0;
 }
 

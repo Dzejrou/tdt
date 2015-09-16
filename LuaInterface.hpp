@@ -134,7 +134,7 @@ class LuaInterface
 		static int lua_set_regen_period(lpp::Script::state);
 		static int lua_get_regen_period(lpp::Script::state);
 
-		// AI & updating.
+		// AI, factions & updating.
 		static int lua_get_blueprint(lpp::Script::state);
 		static int lua_get_state(lpp::Script::state);
 		static int lua_get_faction(lpp::Script::state);
