@@ -39,8 +39,8 @@ gold_deposit = {
 	},
 
 	GoldComponent = {
-		curr = 50,
-		max = 75
+		curr = 1500,
+		max = 1500
 	},
 
 	FactionComponent = {
