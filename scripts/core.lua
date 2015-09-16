@@ -6,7 +6,7 @@ scripts = {
 	"barracks.lua", "evil_barracks.lua", "test.lua",
 	"gold_deposit.lua", "blueprints_destructor.lua",
 	"gold_pile.lua", "ogre_miner.lua",
-	"blueprints_task_handler.lua"
+	"blueprints_task_handler.lua", "gold_vault.lua"
 }
 
 if game then
