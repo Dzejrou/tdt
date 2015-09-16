@@ -394,3 +394,15 @@ inline void GameSerializer::save_component<GoldComponent>(std::size_t id, const 
 
 	save_components_.emplace_back(std::move(comm));
 }
+
+template<>
+inline void GameSerializer::save_component<FactionComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<FactionComponent>(id);
+	std::string comm{
+		  "game.add_component(" + tbl_name + ", game.enum.component.faction)\n" 
+		+ "game.set_faction(" + tbl_name + ", " + std::to_string((int)comp->faction) + ")\n"
+	};
+
+	save_components_.emplace_back(std::move(comm));
+}
