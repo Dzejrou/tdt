@@ -126,7 +126,6 @@ inline void GameSerializer::save_component<AIComponent>(std::size_t id, const st
 		  "game.add_component(" + tbl_name + ", game.enum.component.ai)\n"
 		+ "game.set_blueprint(" + tbl_name + ", '" + comp->blueprint + "')\n"
 		+ "game.set_state(" + tbl_name + ", " + std::to_string((int)comp->state) + ")\n"
-		+ "game.set_faction(" + tbl_name + ", " + std::to_string((int)comp->faction) + ")\n"
 	};
 
 	save_components_.emplace_back(std::move(comm));
