@@ -31,6 +31,7 @@
     <ClCompile Include="EventHandlerHelper.cpp" />
     <ClCompile Include="EventHelper.cpp" />
     <ClCompile Include="EventSystem.cpp" />
+    <ClCompile Include="FactionHelper.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameSerializer.cpp" />
     <ClCompile Include="GoldHelper.cpp" />
@@ -77,6 +78,7 @@
     <ClInclude Include="EventHandlerHelper.hpp" />
     <ClInclude Include="EventHelper.hpp" />
     <ClInclude Include="EventSystem.hpp" />
+    <ClInclude Include="FactionHelper.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameSerializer.hpp" />
     <ClInclude Include="GoldHelper.hpp" />
