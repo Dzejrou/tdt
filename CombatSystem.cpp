@@ -132,7 +132,11 @@ std::size_t CombatSystem::get_closest_entity(std::size_t id, bool only_sight, bo
 
 std::size_t CombatSystem::get_closest_gold_deposit(std::size_t id, bool only_sight) const
 {
-	return get_closest_entity<StructureComponent>(id, util::HAS_GOLD(entities_), only_sight);
+	util::HAS_GOLD cond{entities_};
+	return get_closest_entity<StructureComponent>(
+		id, [&](std::size_t ent) -> bool { return cond(ent) && FactionHelper::get_faction(entities_, ent) == FACTION::NEUTRAL; },
+		only_sight
+	);
 }
 
 std::size_t CombatSystem::get_closest_gold_vault(std::size_t id, bool only_sight, bool only_free) const
