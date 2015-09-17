@@ -2,7 +2,6 @@
 -- GAME CONFIGURATION ---------------------------------------------------------
 -------------------------------------------------------------------------------
 
--- GAME CONFIGURATION
 game.config = {
 	-- GENERAL
 	script_directories = { "scripts" },
