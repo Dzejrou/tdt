@@ -90,6 +90,7 @@ class LuaInterface
 		static int lua_place_entity(lpp::Script::state);
 		static int lua_register_entity(lpp::Script::state);
 		static int lua_exists(lpp::Script::state);
+		static int lua_kill_entity(lpp::Script::state);
 
 		// Physics.
 		static int lua_set_position(lpp::Script::state);
