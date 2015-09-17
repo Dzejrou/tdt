@@ -9,6 +9,7 @@ utils = {
 		return res
 	end,
 
+	-- Lists all environment variables to the game console.
 	print_env = function()
 		if game then
 			for k, v in pairs(_G) do
@@ -21,6 +22,20 @@ utils = {
 	get_blueprint_table = function(id)
 		table_name = game.get_blueprint(id)
 		return _G[table_name] -- _G contains all global variables.
+	end,
+
+	-- Returns true if a given value v has a type matching
+	-- one of the type names passed as the remaining arguments.
+	assert_types = function(v, ...)
+		res = false
+
+		for _, t in ipairs{...} do
+			if type(t) == "string" and type(v) == t then
+				res = true
+			end
+		end
+
+		return res
 	end
 }
 
@@ -55,4 +70,9 @@ game.go_deposit_gold = function(id)
 	else
 		-- TODO: Notify player that he has no free space in gold vaults.
 	end
+end
+
+game.attack = function(id, target)
+	task = game.create_task(target, game.enum.task.go_kill)
+	game.add_task(id, task)
 end
