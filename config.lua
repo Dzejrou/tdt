@@ -5,7 +5,7 @@
 -- GAME CONFIGURATION
 game.config = {
 	-- GENERAL
-	script_directory = "scripts",
+	script_directories = { "scripts" },
 
 	-- TIME PERIODS & MULTIPLIERS
 	ai_update_period = 0.5,
