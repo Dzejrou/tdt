@@ -276,9 +276,7 @@ void LuaInterface::init(Game* game)
 	script.execute("game.const.no_ent = " + std::to_string(Component::NO_ENTITY));
 
 	// Load all necessary scripts.
-	script.load("config.lua");
-	std::string script_dir = script.get<std::string>("game.config.script_directory");
-	script.load(script_dir + "/core.lua");
+	script.load("init.lua");
 
 	// InputComponent related enums.
 	script.set("game.enum.input.key_up", OIS::KC_W);
