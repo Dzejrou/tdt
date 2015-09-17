@@ -16,17 +16,3 @@ if game then
 else
 	show_msg("Game table not defined!")
 end
-
--- Returns true if a given value v has a type matching
--- one of the type names passed as the remaining arguments.
-assert_types = function(v, ...)
-	res = false
-
-	for _, t in ipairs{...} do
-		if type(t) == "string" and type(v) == t then
-			res = true
-		end
-	end
-
-	return res
-end
