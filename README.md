@@ -12,4 +12,4 @@ Dzejrou, MFF UK
 ## Abstract:
 The goal of this thesis is to design and implement a real-time strategy game in a 3D world with emphasis on high modifiability using a suitable scripting language. Inspired by the Dungeon Keeper series developed by Bullfrog Studios, the player has to protect his dungeon from endless armies of heroes raiding his domain with intentions to steal his treasures.
 
-Once finnished, the game's scripting engine should offer the ability to change data and logic of entities and systems mechanics to people with atleast a basic understanding of programming and programming principles, leading into easy future extensibility of the game and the possibility to create easily installable modifications.
+Once finnished, the game's scripting engine should offer the ability to change data and logic of entities and systems to people with atleast a basic understanding of programming and programming principles, leading into easy future extensibility of the game and the possibility to create easily installable modifications.
