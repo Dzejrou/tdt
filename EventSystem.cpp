@@ -15,6 +15,7 @@ void EventSystem::update(Ogre::Real delta)
 	else
 		curr_update_time_ = 0.f;
 
+	bool destroy_evt{false};
 	for(auto& evt : entities_.get_component_container<EventComponent>())
 	{
 		if(!evt.second.active)
@@ -24,10 +25,7 @@ void EventSystem::update(Ogre::Real delta)
 		{ // Targeted events.
 			auto handler = entities_.get_component<EventHandlerComponent>(evt.second.handler);
 			if(handler && handler->possible_events.test((int)evt.second.event_type))
-			{
-				if(handle_event_(evt.second.handler, evt.first))
-					DestructorHelper::destroy(entities_, evt.first);
-			}
+				destroy_evt = handle_event_(evt.second.handler, evt.first);
 		}
 		else
 		{ // Area events.
@@ -40,11 +38,13 @@ void EventSystem::update(Ogre::Real delta)
 				   && PhysicsHelper::get_distance(entities_, evt.first, handler.first) <= radius
 				   && handle_event_(handler.first, evt.first))
 				{
-					DestructorHelper::destroy(entities_, evt.first);
+					destroy_evt = true;
 					break;
 				}
 			}
 		}
+		if(destroy_evt)
+			entities_.delete_component<EventComponent>(evt.first); // Will delete the entity if no other components exist.
 	}
 }
 
