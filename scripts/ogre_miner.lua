@@ -87,6 +87,7 @@ ogre_miner = {
 		if game.get_event_type(evt) == game.enum.event.gold_dropped then
 			task = game.create_task(game.get_event_target(evt), game.task.go_pick_up_gold)
 			game.add_task(id, task)
+			return true
 		end
 	end,
 
