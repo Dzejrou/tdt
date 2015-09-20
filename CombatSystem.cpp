@@ -44,6 +44,7 @@ void CombatSystem::update(Ogre::Real delta)
 						HealthHelper::sub_health(entities_, ent.second.curr_target, dmg);
 						if(HealthHelper::get_health(entities_, ent.second.curr_target) <= 0)
 						{
+							DestructorHelper::destroy(entities_, ent.second.curr_target, false, ent.first);
 							ent.second.curr_target = Component::NO_ENTITY;
 							ent.second.cd_time = ent.second.cooldown; // Allows to attack again instantly.
 						}
