@@ -67,7 +67,7 @@ ogre_miner = {
 	},
 
 	EventHandlerComponent = {
-		handler = "ogre",
+		handler = "ogre_miner",
 		possible_events = {
 			game.enum.event.kill_entity,
 			game.enum.event.gold_dropped
