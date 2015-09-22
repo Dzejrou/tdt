@@ -6860,7 +6860,7 @@ game.set_cooldown(entity_462, 2.000000)
 game.set_atk_type(entity_462, 2)
 
 game.add_component(entity_462, game.enum.component.pathfinding)
-game.set_pathfinding_blueprint(entity_462, 'ogre')
+game.set_pathfinding_blueprint(entity_462, 'ogre_miner')
 
 game.add_component(entity_462, game.enum.component.task_handler)
 game.set_task_handling_blueprint(entity_462, 'default_task_handler')
@@ -6875,7 +6875,7 @@ game.add_possible_task(entity_462, 8)
 game.add_possible_task(entity_462, 9)
 
 game.add_component(entity_462, game.enum.component.event_handler)
-game.set_event_handler(entity_462, 'ogre')
+game.set_event_handler(entity_462, 'ogre_miner')
 game.add_possible_event(entity_462, 1)
 game.add_possible_event(entity_462, 2)
 
