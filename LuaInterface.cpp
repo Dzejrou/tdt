@@ -150,6 +150,7 @@ void LuaInterface::init(Game* game)
 
 		// Tasks & task handling.
 		{"add_task", LuaInterface::lua_add_task},
+		{"add_priority_task", LuaInterface::lua_add_priority_task},
 		{"cancel_task", LuaInterface::lua_cancel_task},
 		{"create_task", LuaInterface::lua_create_task},
 		{"list_tasks_of", LuaInterface::lua_list_tasks_of},
@@ -1462,6 +1463,16 @@ int LuaInterface::lua_add_task(lpp::Script::state L)
 	lua_pop(L, 2);
 
 	TaskHelper::add_task(*ents, ent_id, task_id);
+	return 0;
+}
+
+int LuaInterface::lua_add_priority_task(lpp::Script::state L)
+{
+	std::size_t task_id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
+	lua_pop(L, 2);
+
+	TaskHelper::add_task(*ents, ent_id, task_id, true);
 	return 0;
 }
 

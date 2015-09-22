@@ -178,6 +178,7 @@ class LuaInterface
 
 		// Tasks & task handling.
 		static int lua_add_task(lpp::Script::state);
+		static int lua_add_priority_task(lpp::Script::state);
 		static int lua_cancel_task(lpp::Script::state);
 		static int lua_create_task(lpp::Script::state);
 		static int lua_list_tasks_of(lpp::Script::state);
