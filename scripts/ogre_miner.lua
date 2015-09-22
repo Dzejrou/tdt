@@ -89,6 +89,8 @@ ogre_miner = {
 			game.add_task(id, task)
 			return true
 		end
+
+		return true
 	end,
 
 	init = function(id)
