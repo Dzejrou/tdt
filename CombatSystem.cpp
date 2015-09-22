@@ -90,7 +90,7 @@ void CombatSystem::update(Ogre::Real delta)
 			if(graph_comp->entity->getWorldBoundingBox(true).intersects(enemy_graph_comp->entity->getWorldBoundingBox(true)))
 			{ // That's a hit.
 				HealthHelper::sub_health(entities_, ent.second.target, ent.second.dmg);
-				if(HealthHelper::get_health(entities_, ent.second.target <= 0))
+				if(HealthHelper::get_health(entities_, ent.second.target) <= 0)
 					DestructorHelper::destroy(entities_, ent.second.target, false, ent.second.source);
 				DestructorHelper::destroy(entities_, ent.first);
 			}
