@@ -19,8 +19,8 @@ default_task_handler = {
 			t1 = game.create_task(target, game.enum.task.get_in_range)
 			t2 = game.create_task(target, game.enum.task.kill)
 
-			game.add_task(id, t1)
-			game.add_task(id, t2)
+			game.add_priority_task(id, t2)
+			game.add_priority_task(id, t1)
 
 			game.cancel_task(task)
 			res = false
@@ -28,22 +28,26 @@ default_task_handler = {
 			game.set_combat_target(id, target)
 			res = true
 		elseif task_type == game.enum.task.go_pick_up_gold then
-			t1 = game.create_task(target, game.enum.task.go_to)
+			t1 = game.create_task(target, game.enum.task.go_near)
 			t2 = game.create_task(target, game.enum.task.pick_up_gold)
 
-			game.add_task(id, t1)
-			game.add_task(id, t2)
+			game.add_priority_task(id, t2)
+			game.add_priority_task(id, t1)
 
+			if game.gold_full(id) then
+				game.go_deposit_gold(id, true)
+			end
+
+			game.cancel_task(task)
 			res = false
 		elseif task_type == game.enum.task.pick_up_gold then
 			game.transfer_all_gold(target, id)
-
 			if game.get_curr_gold(target) > 0 then
 				evt = game.create_entity("")
 				game.add_component(evt, game.enum.component.event)
 				game.set_event_target(evt, target)
 				game.set_handler_of_event(evt, id)
-				game.set_event_type(game.enum.event.gold_dropped)
+				game.set_event_type(evt, game.enum.event.gold_dropped)
 			end
 
 			if game.gold_full(id) then
@@ -52,17 +56,18 @@ default_task_handler = {
 
 			res = false
 		elseif task_type == game.enum.task.go_deposit_gold then
-			t1 = game.create_task(target, game.enum.task.go_to)
+			t1 = game.create_task(target, game.enum.task.go_near)
 			t2 = game.create_task(target, game.enum.task.deposit_gold)
 
-			game.add_task(id, t1)
-			game.add_task(id, t2)
+			game.add_priority_task(id, t2)
+			game.add_priority_task(id, t1)
 
+			game.cancel_task(task)
 			res = false
 		elseif task_type == game.enum.task.deposit_gold then
 			game.transfer_all_gold(id, target)
 
-			if game.get_curr_gold(target) > 0 then
+			if game.get_curr_gold(id) > 0 then
 				game.go_deposit_gold(id)
 			end
 
