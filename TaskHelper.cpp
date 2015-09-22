@@ -63,7 +63,15 @@ void TaskHelper::add_task(EntitySystem& ents, std::size_t ent_id, std::size_t ta
 		comp2->source = ent_id;
 
 		if(priority)
+		{
+			if(comp1->curr_task != Component::NO_ENTITY)
+			{
+				comp1->task_queue.push_front(comp1->curr_task);
+				comp1->curr_task = Component::NO_ENTITY;
+			}
 			comp1->task_queue.push_front(task_id);
+			comp1->busy = false;
+		}
 		else
 			comp1->task_queue.push_back(task_id);
 	}
