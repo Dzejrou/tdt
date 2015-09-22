@@ -4,7 +4,9 @@ TaskSystem::TaskSystem(EntitySystem& ents, GridSystem& grid, CombatSystem& comb)
 	: entities_{ents}, grid_{grid}, combat_{comb},
 	  task_names_{{TASK_TYPE::NONE, "NONE"}, {TASK_TYPE::GO_TO, "GO_TO"},
 	  {TASK_TYPE::GO_NEAR, "GO_NEAR"}, {TASK_TYPE::GO_KILL, "GO_KILL"},
-	  {TASK_TYPE::KILL, "KILL"}, {TASK_TYPE::GET_IN_RANGE, "GET_IN_RANGE"}}
+	  {TASK_TYPE::KILL, "KILL"}, {TASK_TYPE::GET_IN_RANGE, "GET_IN_RANGE"},
+	  {TASK_TYPE::GO_PICK_UP_GOLD, "GO_PICK_UP_GOLD"}, {TASK_TYPE::PICK_UP_GOLD, "PICK_UP_GOLD"},
+	  {TASK_TYPE::GO_DEPOSIT_GOLD, "GO_DEPOSIT_GOLD"}, {TASK_TYPE::DEPOSIT_GOLD, "DEPOSIT_GOLD"}}
 { /* DUMMY BODY */ }
 
 void TaskSystem::update(Ogre::Real delta)
