@@ -15,6 +15,6 @@ The aim of this thesis is to design and implement a real-time strategy game in a
 Once finished, the game's scripting engine should offer the ability to change data and logic of entities and systems to people with at least a basic understanding of programming. This will lead into easy future extensibility of the game and the possibility to create easily installable modifications.
 
 ## Literature:
- * Programming in Lua, 3rd Edition, Roberto Ierusalimschy, Lua.org 2013
+ * Programming In Lua, 3rd Edition, Roberto Ierusalimschy, Lua.org 2013
  * Game Engine Architecture, Jason Gregory, A K Peters/CRC Press 2014
  * Programming Game AI By Example, Mat Buckland, Wordware Publishing Inc. 2005
