@@ -214,6 +214,11 @@ class EntitySystem : public System
 		void delete_component_now(std::size_t, int);
 
 		/**
+		 *
+		 */
+		void init_function_arrays();
+
+		/**
 		 * Contains bitsets describing component availability.
 		 */
 		std::map<std::size_t, std::bitset<Component::count>> entities_;
