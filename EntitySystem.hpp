@@ -121,11 +121,11 @@ class EntitySystem : public System
 
 		/**
 		 * Brief: Adds a components to the given enetity using it's default constructor (all values have
-		 *        to be set afterwards). Returns reference to the newly created component.
+		 *        to be set afterwards).
 		 * Param: ID of the entity.
 		 */
 		template<typename COMP>
-		COMP& add_component(std::size_t id)
+		void add_component(std::size_t id)
 		{
 			auto res = get_component_container<COMP>().emplace(std::make_pair(id, COMP{}));
 
@@ -133,12 +133,6 @@ class EntitySystem : public System
 			auto it = entities_.find(id);
 			if(it != entities_.end())
 				it->second.set(COMP::type, true);
-
-			if(res.second)
-				return res.first->second;
-			else
-				throw std::runtime_error("[Error][EntitySystem] Could not add component of type " +
-										 std::to_string(COMP::type) + "to entity #" + std::to_string(id) + ".");
 		}
 
 		/**
