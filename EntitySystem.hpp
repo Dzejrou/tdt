@@ -214,6 +214,15 @@ class EntitySystem : public System
 		void init_function_arrays();
 
 		/**
+		 * Brief: Deletes all necessary data when destroying a component (like Ogre
+		 *        related objects, other entities, tasks etc.).
+		 * Param: ID of the entity.
+		 */
+		template<typename COMP>
+		void clean_up_component(std::size_t)
+		{ /* DUMMY BODY */ }
+
+		/**
 		 * Contains bitsets describing component availability.
 		 */
 		std::map<std::size_t, std::bitset<Component::count>> entities_;
@@ -633,4 +642,49 @@ inline void EntitySystem::load_component<FactionComponent>(std::size_t id, const
 {
 	FACTION fac =  (FACTION)lpp::Script::get_singleton().get<int>(table_name + ".FactionComponent.faction");
 	faction_.emplace(id, FactionComponent{fac});
+}
+
+/**
+ * Specializations of the EntitySystem::clean_up_component method.
+ */
+template<>
+inline void EntitySystem::clean_up_component<GraphicsComponent>(std::size_t id)
+{
+	auto graph_comp = get_component<GraphicsComponent>(id);
+	if(graph_comp && graph_comp->node && graph_comp->entity)
+	{
+		graph_comp->node->detachObject(graph_comp->entity);
+		scene_.destroyEntity(graph_comp->entity);
+		if(graph_comp->node->numChildren() != 0)
+			graph_comp->node->removeAndDestroyAllChildren();
+		scene_.destroySceneNode(graph_comp->node);
+	}
+}
+template<>
+inline void EntitySystem::clean_up_component<TaskHandlerComponent>(std::size_t id)
+{
+	auto comp = get_component<TaskHandlerComponent>(id);
+	if(comp)
+	{ // Destroy all assigned tasks.
+		if(comp->curr_task != Component::NO_ENTITY)
+			to_be_destroyed_.push_back(comp->curr_task);
+		for(auto task : comp->task_queue)
+			to_be_destroyed_.push_back(task);
+	}
+}
+
+template<>
+inline void EntitySystem::clean_up_component<StructureComponent>(std::size_t id)
+{
+	auto comp = get_component<StructureComponent>(id);
+	if(comp)
+	{ // Free all obstructed nodes.
+		for(auto& residence : comp->residences)
+		{
+			auto node = get_component<GridNodeComponent>(residence);
+
+			if(node && node->resident == id)
+				GridNodeHelper::set_free(*this, residence, true);
+		}
+	}
 }
