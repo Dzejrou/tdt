@@ -35,7 +35,7 @@ void EntitySystem::update(Ogre::Real)
 }
 
 std::size_t EntitySystem::get_new_id() const
-{
+{ // TODO: Possibly avoid filling ID spaces before the highest ID gets close to the max ID value?
 	std::size_t id{0};
 
 	for(auto it = entities_.begin(); it != entities_.end(); ++it)
