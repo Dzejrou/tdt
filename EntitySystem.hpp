@@ -23,6 +23,7 @@ class EntitySystem : public System
 	friend class util::EntityDestroyer;
 	typedef void (EntitySystem::*LoaderFuncPtr)(std::size_t, const std::string&);
 	typedef void (EntitySystem::*AdderFuncPtr)(std::size_t);
+	typedef void (EntitySystem::*DeleterFuncPtr)(std::size_t);
 	public:
 		/**
 		 * Brief: Constructor.
@@ -281,6 +282,7 @@ class EntitySystem : public System
 		 */
 		std::array<LoaderFuncPtr, Component::count> loaders_{};
 		std::array<AdderFuncPtr, Component::count> adders_{};
+		std::array<DeleterFuncPtr, Component::count> deleters_{};
 };
 
 /**
