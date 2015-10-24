@@ -8,6 +8,11 @@
  */
 #define LOAD_COMPONENT(TYPE, ID, TABLE) ((this)->*loaders_[TYPE])(ID, TABLE)
 
+/**
+ * Brief: Macro that serves as a simplerr way to use the adders_ array when calling it's members.
+ * Param: Type of the component to be added.
+ * Param: ID of the entity that gets the new component.
+ */
 #define ADD_COMPONENT(TYPE, ID) ((this)->*adders_[TYPE])(ID)
 
 EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
