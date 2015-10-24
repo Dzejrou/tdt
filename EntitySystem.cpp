@@ -328,6 +328,30 @@ void EntitySystem::init_function_arrays()
 	deleters_[DestructorComponent::type] = &EntitySystem::delete_component<DestructorComponent>;
 	deleters_[GoldComponent::type] = &EntitySystem::delete_component<GoldComponent>;
 	deleters_[FactionComponent::type] = &EntitySystem::delete_component<FactionComponent>;
+
+	immediate_deleters_[PhysicsComponent::type] = &EntitySystem::delete_component_now<PhysicsComponent>;
+	immediate_deleters_[HealthComponent::type] = &EntitySystem::delete_component_now<HealthComponent>;
+	immediate_deleters_[AIComponent::type] = &EntitySystem::delete_component_now<AIComponent>;
+	immediate_deleters_[GraphicsComponent::type] = &EntitySystem::delete_component_now<GraphicsComponent>;
+	immediate_deleters_[MovementComponent::type] = &EntitySystem::delete_component_now<MovementComponent>;
+	immediate_deleters_[CombatComponent::type] = &EntitySystem::delete_component_now<CombatComponent>;
+	immediate_deleters_[EventComponent::type] = &EntitySystem::delete_component_now<EventComponent>;
+	immediate_deleters_[InputComponent::type] = &EntitySystem::delete_component_now<InputComponent>;
+	immediate_deleters_[TimeComponent::type] = &EntitySystem::delete_component_now<TimeComponent>;
+	immediate_deleters_[ManaComponent::type] = nullptr; // TODO
+	immediate_deleters_[SpellComponent::type] = nullptr; // TODO
+	immediate_deleters_[ProductionComponent::type] = &EntitySystem::delete_component_now<ProductionComponent>;
+	immediate_deleters_[GridNodeComponent::type] = &EntitySystem::delete_component_now<GridNodeComponent>;
+	immediate_deleters_[ProductComponent::type] = &EntitySystem::delete_component_now<ProductComponent>;
+	immediate_deleters_[PathfindingComponent::type] = &EntitySystem::delete_component_now<PathfindingComponent>;
+	immediate_deleters_[TaskComponent::type] = &EntitySystem::delete_component_now<TaskComponent>;
+	immediate_deleters_[TaskHandlerComponent::type] = &EntitySystem::delete_component_now<TaskHandlerComponent>;
+	immediate_deleters_[StructureComponent::type] = &EntitySystem::delete_component_now<StructureComponent>;
+	immediate_deleters_[HomingComponent::type] = &EntitySystem::delete_component_now<HomingComponent>;
+	immediate_deleters_[EventHandlerComponent::type] = &EntitySystem::delete_component_now<EventHandlerComponent>;
+	immediate_deleters_[DestructorComponent::type] = &EntitySystem::delete_component_now<DestructorComponent>;
+	immediate_deleters_[GoldComponent::type] = &EntitySystem::delete_component_now<GoldComponent>;
+	immediate_deleters_[FactionComponent::type] = &EntitySystem::delete_component_now<FactionComponent>;
 }
 
 void EntitySystem::register_entity(const std::string& table_name)
