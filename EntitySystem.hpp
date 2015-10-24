@@ -152,8 +152,6 @@ class EntitySystem : public System
 		{
 			if(has_component<COMP>(id))
 				components_to_be_removed_.push_back(std::make_pair(id, COMP::type));
-			// No need to do anything when the component is non-existent, since that is the
-			// state the caller wants.
 		}
 
 		/**
