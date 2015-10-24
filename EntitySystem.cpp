@@ -137,78 +137,8 @@ void EntitySystem::add_component(std::size_t ent_id, int comp_id)
 
 void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 {
-	switch(comp_id)
-	{
-		case PhysicsComponent::type:
-			delete_component<PhysicsComponent>(ent_id);
-			break;
-		case HealthComponent::type:
-			delete_component<HealthComponent>(ent_id);
-			break;
-		case AIComponent::type:
-			delete_component<AIComponent>(ent_id);
-			break;
-		case GraphicsComponent::type:
-			delete_component<GraphicsComponent>(ent_id);
-			break;
-		case MovementComponent::type:
-			delete_component<MovementComponent>(ent_id);
-			break;
-		case CombatComponent::type:
-			delete_component<CombatComponent>(ent_id);
-			break;
-		case EventComponent::type:
-			delete_component<EventComponent>(ent_id);
-			break;
-		case InputComponent::type:
-			delete_component<InputComponent>(ent_id);
-			break;
-		case TimeComponent::type:
-			delete_component<TimeComponent>(ent_id);
-			break;
-		case ManaComponent::type:
-			delete_component<ManaComponent>(ent_id);
-			break;
-		case SpellComponent::type:
-			delete_component<SpellComponent>(ent_id);
-			break;
-		case ProductionComponent::type:
-			delete_component<ProductionComponent>(ent_id);
-			break;
-		case GridNodeComponent::type:
-			delete_component<GridNodeComponent>(ent_id);
-			break;
-		case ProductComponent::type:
-			delete_component<ProductComponent>(ent_id);
-			break;
-		case PathfindingComponent::type:
-			delete_component<PathfindingComponent>(ent_id);
-			break;
-		case TaskComponent::type:
-			delete_component<TaskComponent>(ent_id);
-			break;
-		case TaskHandlerComponent::type:
-			delete_component<TaskHandlerComponent>(ent_id);
-			break;
-		case StructureComponent::type:
-			delete_component<StructureComponent>(ent_id);
-			break;
-		case HomingComponent::type:
-			delete_component<HomingComponent>(ent_id);
-			break;
-		case EventHandlerComponent::type:
-			delete_component<EventHandlerComponent>(ent_id);
-			break;
-		case DestructorComponent::type:
-			delete_component<DestructorComponent>(ent_id);
-			break;
-		case GoldComponent::type:
-			delete_component<GoldComponent>(ent_id);
-			break;
-		case FactionComponent::type:
-			delete_component<FactionComponent>(ent_id);
-			break;
-	}
+	if(deleters_[comp_id])
+		DELETE_COMPONENT(comp_id, ent_id);
 }
 
 void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
