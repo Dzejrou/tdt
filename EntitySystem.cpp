@@ -154,6 +154,21 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 		DELETE_COMPONENT_NOW(comp_id, ent_id);
 }
 
+void EntitySystem::register_entity(const std::string& table_name)
+{
+	entity_register_.emplace(table_name);
+}
+
+std::set<std::string>& EntitySystem::get_registered_entities()
+{
+	return entity_register_;
+}
+
+bool EntitySystem::exists(std::size_t id) const
+{
+	return entities_.find(id) != entities_.end();
+}
+
 void EntitySystem::init_function_arrays()
 {
 	loaders_[PhysicsComponent::type] = &EntitySystem::load_component<PhysicsComponent>;
@@ -251,19 +266,4 @@ void EntitySystem::init_function_arrays()
 	immediate_deleters_[DestructorComponent::type] = &EntitySystem::delete_component_now<DestructorComponent>;
 	immediate_deleters_[GoldComponent::type] = &EntitySystem::delete_component_now<GoldComponent>;
 	immediate_deleters_[FactionComponent::type] = &EntitySystem::delete_component_now<FactionComponent>;
-}
-
-void EntitySystem::register_entity(const std::string& table_name)
-{
-	entity_register_.emplace(table_name);
-}
-
-std::set<std::string>& EntitySystem::get_registered_entities()
-{
-	return entity_register_;
-}
-
-bool EntitySystem::exists(std::size_t id) const
-{
-	return entities_.find(id) != entities_.end();
 }
