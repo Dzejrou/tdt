@@ -375,6 +375,29 @@ void EntitySystem::init_function_arrays()
 	adders_[GoldComponent::type] = &EntitySystem::add_component<GoldComponent>;
 	adders_[FactionComponent::type] = &EntitySystem::add_component<FactionComponent>;
 
+	deleters_[PhysicsComponent::type] = &EntitySystem::delete_component<PhysicsComponent>;
+	deleters_[HealthComponent::type] = &EntitySystem::delete_component<HealthComponent>;
+	deleters_[AIComponent::type] = &EntitySystem::delete_component<AIComponent>;
+	deleters_[GraphicsComponent::type] = &EntitySystem::delete_component<GraphicsComponent>;
+	deleters_[MovementComponent::type] = &EntitySystem::delete_component<MovementComponent>;
+	deleters_[CombatComponent::type] = &EntitySystem::delete_component<CombatComponent>;
+	deleters_[EventComponent::type] = &EntitySystem::delete_component<EventComponent>;
+	deleters_[InputComponent::type] = &EntitySystem::delete_component<InputComponent>;
+	deleters_[TimeComponent::type] = &EntitySystem::delete_component<TimeComponent>;
+	deleters_[ManaComponent::type] = nullptr; // TODO
+	deleters_[SpellComponent::type] = nullptr; // TODO
+	deleters_[ProductionComponent::type] = &EntitySystem::delete_component<ProductionComponent>;
+	deleters_[GridNodeComponent::type] = &EntitySystem::delete_component<GridNodeComponent>;
+	deleters_[ProductComponent::type] = &EntitySystem::delete_component<ProductComponent>;
+	deleters_[PathfindingComponent::type] = &EntitySystem::delete_component<PathfindingComponent>;
+	deleters_[TaskComponent::type] = &EntitySystem::delete_component<TaskComponent>;
+	deleters_[TaskHandlerComponent::type] = &EntitySystem::delete_component<TaskHandlerComponent>;
+	deleters_[StructureComponent::type] = &EntitySystem::delete_component<StructureComponent>;
+	deleters_[HomingComponent::type] = &EntitySystem::delete_component<HomingComponent>;
+	deleters_[EventHandlerComponent::type] = &EntitySystem::delete_component<EventHandlerComponent>;
+	deleters_[DestructorComponent::type] = &EntitySystem::delete_component<DestructorComponent>;
+	deleters_[GoldComponent::type] = &EntitySystem::delete_component<GoldComponent>;
+	deleters_[FactionComponent::type] = &EntitySystem::delete_component<FactionComponent>;
 }
 
 void EntitySystem::register_entity(const std::string& table_name)
