@@ -447,7 +447,7 @@ inline void EntitySystem::load_component<AIComponent>(std::size_t id, const std:
 
 template<>
 inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, const std::string& table_name)
-{
+{ // TODO: Improve this ... 
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string mesh = script.get<std::string>(table_name + ".GraphicsComponent.mesh");
 	std::string material = script.get<std::string>(table_name + ".GraphicsComponent.material");
