@@ -440,6 +440,11 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 	}
 }
 
+void EntitySystem::init_function_arrays()
+{
+
+}
+
 void EntitySystem::register_entity(const std::string& table_name)
 {
 	entity_register_.emplace(table_name);
