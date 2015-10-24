@@ -442,6 +442,29 @@ void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 
 void EntitySystem::init_function_arrays()
 {
+	loaders_[PhysicsComponent::type] = &EntitySystem::load_component<PhysicsComponent>;
+	loaders_[HealthComponent::type] = &EntitySystem::load_component<HealthComponent>;
+	loaders_[AIComponent::type] = &EntitySystem::load_component<AIComponent>;
+	loaders_[GraphicsComponent::type] = &EntitySystem::load_component<GraphicsComponent>;
+	loaders_[MovementComponent::type] = &EntitySystem::load_component<MovementComponent>;
+	loaders_[CombatComponent::type] = &EntitySystem::load_component<CombatComponent>;
+	loaders_[EventComponent::type] = &EntitySystem::load_component<EventComponent>;
+	loaders_[InputComponent::type] = &EntitySystem::load_component<InputComponent>;
+	loaders_[TimeComponent::type] = &EntitySystem::load_component<TimeComponent>;
+	loaders_[ManaComponent::type] = nullptr; // TODO
+	loaders_[SpellComponent::type] = nullptr; // TODO
+	loaders_[ProductionComponent::type] = &EntitySystem::load_component<ProductionComponent>;
+	loaders_[GridNodeComponent::type] = nullptr;
+	loaders_[ProductComponent::type] = nullptr;
+	loaders_[PathfindingComponent::type] = &EntitySystem::load_component<PathfindingComponent>;
+	loaders_[TaskComponent::type] = nullptr;
+	loaders_[TaskHandlerComponent::type] = &EntitySystem::load_component<TaskHandlerComponent>;
+	loaders_[StructureComponent::type] = &EntitySystem::load_component<StructureComponent>;
+	loaders_[HomingComponent::type] = &EntitySystem::load_component<HomingComponent>;
+	loaders_[EventHandlerComponent::type] = &EntitySystem::load_component<EventHandlerComponent>;
+	loaders_[DestructorComponent::type] = &EntitySystem::load_component<DestructorComponent>;
+	loaders_[GoldComponent::type] = &EntitySystem::load_component<GoldComponent>;
+	loaders_[FactionComponent::type] = &EntitySystem::load_component<FactionComponent>;
 
 }
 
