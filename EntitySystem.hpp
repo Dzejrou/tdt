@@ -215,7 +215,8 @@ class EntitySystem : public System
 		void delete_component_now(std::size_t, int);
 
 		/**
-		 *
+		 * Brief: Initializes all arrays holding pointers to the component
+		 *        manipulating methods.
 		 */
 		void init_function_arrays();
 
@@ -269,7 +270,7 @@ class EntitySystem : public System
 		std::set<std::string> entity_register_;
 
 		/**
-		 *
+		 * Contains pointers to all the load_component specializations.
 		 */
 		std::array<LoaderFuncPtr, Component::count> loaders_{};
 };
