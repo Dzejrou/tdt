@@ -3,7 +3,9 @@
 EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
 	: scene_{mgr}, entities_{}, to_be_destroyed_{},
 	  components_to_be_removed_{}, entity_register_{}
-{ /* DUMMY BODY */ }
+{
+	init_function_arrays();
+}
 
 void EntitySystem::update(Ogre::Real)
 {
