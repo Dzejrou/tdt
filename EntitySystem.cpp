@@ -1,7 +1,7 @@
 #include "EntitySystem.hpp"
 
 /**
- * Brief: Macro that serves as a simpler way to use the loader_ array when calling it's members.
+ * Brief: Macro that serves as a simpler way to use the loaders_ array when calling it's members.
  * Param: Type of the component to be loaded.
  * Param: ID of the entity that loads the component.
  * Param: Name of the table that contains the component data.
