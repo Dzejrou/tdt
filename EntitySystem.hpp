@@ -151,7 +151,10 @@ class EntitySystem : public System
 		void delete_component(std::size_t id)
 		{
 			if(has_component<COMP>(id))
+			{
+				clean_up_component<COMP>(id);
 				components_to_be_removed_.push_back(std::make_pair(id, COMP::type));
+			}
 		}
 
 		/**
