@@ -46,20 +46,24 @@ void GridSystem::create_graphics()
 {
 	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
 	{
-		auto& graph_comp = entities_.add_component<GraphicsComponent>(ent.first);
+		entities_.add_component<GraphicsComponent>(ent.first);
+		auto graph_comp = entities_.get_component<GraphicsComponent>(ent.first);
 
-		graph_comp.mesh = "cube.mesh";
-		graph_comp.material = "colour/blue";
-		GraphicsHelper::init_graphics_component(entities_, entities_.get_scene_manager(), ent.first);
-		graph_comp.entity->setQueryFlags((Ogre::uint32)ENTITY_TYPE::NONE);
+		if(graph_comp)
+		{
+			graph_comp->mesh = "cube.mesh";
+			graph_comp->material = "colour/blue";
+			GraphicsHelper::init_graphics_component(entities_, entities_.get_scene_manager(), ent.first);
+			graph_comp->entity->setQueryFlags((Ogre::uint32)ENTITY_TYPE::NONE);
 
-		graph_comp.entity->setMaterialName(graph_comp.material);
-		graph_comp.node->setScale(5, 10, 5);
-		graph_comp.node->setVisible(false);
+			graph_comp->entity->setMaterialName(graph_comp->material);
+			graph_comp->node->setScale(5, 10, 5);
+			graph_comp->node->setVisible(false);
 
-		auto phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
-		if(phys_comp)
-			graph_comp.node->setPosition(phys_comp->position);
+			auto phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
+			if(phys_comp)
+				graph_comp->node->setPosition(phys_comp->position);
+		}
 	}
 	graphics_loaded_ = true;
 }

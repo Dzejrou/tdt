@@ -25,8 +25,10 @@ void ProductionSystem::update(Ogre::Real delta)
 void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blueprint)
 {
 	std::size_t id = entities_.create_entity(blueprint);
-	auto& prod_comp = entities_.add_component<ProductComponent>(id);
-	prod_comp.producer = producer;
+	entities_.add_component<ProductComponent>(id);
+	auto prod_comp = entities_.get_component<ProductComponent>(id);
+	if(prod_comp)
+		prod_comp->producer = producer;
 
 	auto struct_comp = entities_.get_component<StructureComponent>(producer);
 	auto phys_comp = entities_.get_component<PhysicsComponent>(producer);

@@ -121,21 +121,29 @@ void InputSystem::set_first_person(bool on_off, std::size_t id)
 		// AIComponent restore.
 		if(ai_backup_)
 		{
-			auto& ai_comp = entities_.add_component<AIComponent>(first_person_id_);
+			entities_.add_component<AIComponent>(first_person_id_);
+			auto ai_comp = entities_.get_component<AIComponent>(first_person_id_);
 
-			ai_comp = std::move(*ai_backup_);
-			ai_backup_.reset(nullptr);
+			if(ai_comp)
+			{
+				*ai_comp = std::move(*ai_backup_);
+				ai_backup_.reset(nullptr);
+			}
 		}
 
 		if(task_backup_)
 		{
-			auto& task_comp = entities_.add_component<TaskHandlerComponent>(first_person_id_);
+			entities_.add_component<TaskHandlerComponent>(first_person_id_);
+			auto task_comp = entities_.get_component<TaskHandlerComponent>(first_person_id_);
 			
-			task_comp.busy = task_backup_->busy;
-			task_comp.curr_task = task_backup_->curr_task;
-			task_comp.possible_tasks = task_backup_->possible_tasks;
-			task_comp.task_queue.swap(task_backup_->task_queue);
-			task_backup_.reset(nullptr);
+			if(task_comp)
+			{
+				task_comp->busy = task_backup_->busy;
+				task_comp->curr_task = task_backup_->curr_task;
+				task_comp->possible_tasks = task_backup_->possible_tasks;
+				task_comp->task_queue.swap(task_backup_->task_queue);
+				task_backup_.reset(nullptr);
+			}
 		}
 
 		if(delete_input_)

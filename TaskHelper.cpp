@@ -80,9 +80,14 @@ void TaskHelper::add_task(EntitySystem& ents, std::size_t ent_id, std::size_t ta
 std::size_t TaskHelper::create_task(EntitySystem& ents, std::size_t target, TASK_TYPE type)
 {
 	std::size_t id = ents.create_entity();
-	auto& comp = ents.add_component<TaskComponent>(id);
-	comp.target = target;
-	comp.task_type = type;
+	ents.add_component<TaskComponent>(id);
+	auto comp = ents.get_component<TaskComponent>(id);
+
+	if(comp)
+	{
+		comp->target = target;
+		comp->task_type = type;
+	}
 
 	return id;
 }
