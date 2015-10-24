@@ -407,6 +407,30 @@ void EntitySystem::init_function_arrays()
 	loaders_[GoldComponent::type] = &EntitySystem::load_component<GoldComponent>;
 	loaders_[FactionComponent::type] = &EntitySystem::load_component<FactionComponent>;
 
+	adders_[PhysicsComponent::type] = &EntitySystem::add_component<PhysicsComponent>;
+	adders_[HealthComponent::type] = &EntitySystem::add_component<HealthComponent>;
+	adders_[AIComponent::type] = &EntitySystem::add_component<AIComponent>;
+	adders_[GraphicsComponent::type] = &EntitySystem::add_component<GraphicsComponent>;
+	adders_[MovementComponent::type] = &EntitySystem::add_component<MovementComponent>;
+	adders_[CombatComponent::type] = &EntitySystem::add_component<CombatComponent>;
+	adders_[EventComponent::type] = &EntitySystem::add_component<EventComponent>;
+	adders_[InputComponent::type] = &EntitySystem::add_component<InputComponent>;
+	adders_[TimeComponent::type] = &EntitySystem::add_component<TimeComponent>;
+	adders_[ManaComponent::type] = nullptr; // TODO
+	adders_[SpellComponent::type] = nullptr; // TODO
+	adders_[ProductionComponent::type] = &EntitySystem::add_component<ProductionComponent>;
+	adders_[GridNodeComponent::type] = &EntitySystem::add_component<GridNodeComponent>;
+	adders_[ProductComponent::type] = &EntitySystem::add_component<ProductComponent>;
+	adders_[PathfindingComponent::type] = &EntitySystem::add_component<PathfindingComponent>;
+	adders_[TaskComponent::type] = &EntitySystem::add_component<TaskComponent>;
+	adders_[TaskHandlerComponent::type] = &EntitySystem::add_component<TaskHandlerComponent>;
+	adders_[StructureComponent::type] = &EntitySystem::add_component<StructureComponent>;
+	adders_[HomingComponent::type] = &EntitySystem::add_component<HomingComponent>;
+	adders_[EventHandlerComponent::type] = &EntitySystem::add_component<EventHandlerComponent>;
+	adders_[DestructorComponent::type] = &EntitySystem::add_component<DestructorComponent>;
+	adders_[GoldComponent::type] = &EntitySystem::add_component<GoldComponent>;
+	adders_[FactionComponent::type] = &EntitySystem::add_component<FactionComponent>;
+
 }
 
 void EntitySystem::register_entity(const std::string& table_name)
