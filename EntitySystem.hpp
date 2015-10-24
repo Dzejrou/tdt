@@ -21,6 +21,7 @@
 class EntitySystem : public System
 {
 	friend class util::EntityDestroyer;
+	typedef void (EntitySystem::*LoaderFuncPtr)(std::size_t, const std::string&);
 	public:
 		/**
 		 * Brief: Constructor.
@@ -266,6 +267,11 @@ class EntitySystem : public System
 		 * Contains the names of all loaded entity tables.
 		 */
 		std::set<std::string> entity_register_;
+
+		/**
+		 *
+		 */
+		std::array<LoaderFuncPtr, Component::count> loaders_{};
 };
 
 /**
