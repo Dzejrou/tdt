@@ -22,6 +22,13 @@
  */
 #define DELETE_COMPONENT(TYPE, ID) (((this)->*deleters_[TYPE])(ID))
 
+/**
+ * Brief: Macro that serves as a simpler way to use the immediate_deleters_ array when calling it's members.
+ * Param: Type of the component to be added.
+ * Param: ID of the entity whose component has to be deleted.
+ */
+#define DELETE_COMPONENT_NOW(TYPE, ID) (((this)->*immediate_deleters_[TYPE])(ID))
+
 EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
 	: scene_{mgr}, entities_{}, to_be_destroyed_{},
 	  components_to_be_removed_{}, entity_register_{}
