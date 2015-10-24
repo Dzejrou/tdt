@@ -7,6 +7,7 @@
 #include <vector>
 #include <set>
 #include <cstdlib>
+#include <array>
 #include "System.hpp"
 #include "Components.hpp"
 #include "lppscript/LppScript.hpp"
