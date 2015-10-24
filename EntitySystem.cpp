@@ -124,78 +124,8 @@ const std::map<std::size_t, std::bitset<Component::count>>& EntitySystem::get_co
 
 void EntitySystem::add_component(std::size_t ent_id, int comp_id)
 {
-	switch(comp_id)
-	{
-		case PhysicsComponent::type:
-			add_component<PhysicsComponent>(ent_id);
-			break;
-		case HealthComponent::type:
-			add_component<HealthComponent>(ent_id);
-			break;
-		case AIComponent::type:
-			add_component<AIComponent>(ent_id);
-			break;
-		case GraphicsComponent::type:
-			add_component<GraphicsComponent>(ent_id);
-			break;
-		case MovementComponent::type:
-			add_component<MovementComponent>(ent_id);
-			break;
-		case CombatComponent::type:
-			add_component<CombatComponent>(ent_id);
-			break;
-		case EventComponent::type:
-			add_component<EventComponent>(ent_id);
-			break;
-		case InputComponent::type:
-			add_component<InputComponent>(ent_id);
-			break;
-		case TimeComponent::type:
-			add_component<TimeComponent>(ent_id);
-			break;
-		case ManaComponent::type:
-			add_component<ManaComponent>(ent_id);
-			break;
-		case SpellComponent::type:
-			add_component<SpellComponent>(ent_id);
-			break;
-		case ProductionComponent::type:
-			add_component<ProductionComponent>(ent_id);
-			break;
-		case GridNodeComponent::type:
-			add_component<GridNodeComponent>(ent_id);
-			break;
-		case ProductComponent::type:
-			add_component<ProductComponent>(ent_id);
-			break;
-		case PathfindingComponent::type:
-			add_component<PathfindingComponent>(ent_id);
-			break;
-		case TaskComponent::type:
-			add_component<TaskComponent>(ent_id);
-			break;
-		case TaskHandlerComponent::type:
-			add_component<TaskHandlerComponent>(ent_id);
-			break;
-		case StructureComponent::type:
-			add_component<StructureComponent>(ent_id);
-			break;
-		case HomingComponent::type:
-			add_component<HomingComponent>(ent_id);
-			break;
-		case EventHandlerComponent::type:
-			add_component<EventHandlerComponent>(ent_id);
-			break;
-		case DestructorComponent::type:
-			add_component<DestructorComponent>(ent_id);
-			break;
-		case GoldComponent::type:
-			add_component<GoldComponent>(ent_id);
-			break;
-		case FactionComponent::type:
-			add_component<FactionComponent>(ent_id);
-			break;
-	}
+	if(adders_[comp_id])
+		ADD_COMPONENT(comp_id, ent_id);
 }
 
 void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
