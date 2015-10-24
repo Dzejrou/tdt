@@ -207,6 +207,19 @@ class EntitySystem : public System
 		/**
 		 * Brief: Deletes a component.
 		 * Param: ID of the entity.
+		 */
+		template<typename COMP>
+		void delete_component_now(std::size_t id)
+		{
+			auto ent = entities_.find(id);
+			if(ent != entities_.end())
+				ent->second.set(COMP::type, false);
+			get_component_container<COMP>().erase(id);
+		}
+
+		/**
+		 * Brief: Deletes a component.
+		 * Param: ID of the entity.
 		 * Param: ID of the component.
 		 */
 		void delete_component_now(std::size_t, int);
