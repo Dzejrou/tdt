@@ -92,81 +92,14 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::vector<int> comps = script.get_vector<int>(table_name + ".components");
 
-	for(auto x : comps)
+	for(auto component_type : comps)
 	{
-		if(x < 0 || x >= (int)bits.size())
+		if(component_type < 0 || component_type >= (int)bits.size())
 			continue; // Maybe notify in the console? Make the console a singleton?
 
-		bits.set(x); // Duplicate components will just overwrite, no need for error checking.
-		switch(x)
-		{
-			case PhysicsComponent::type:
-				load_component<PhysicsComponent>(id, table_name);
-				break;
-			case HealthComponent::type:
-				load_component<HealthComponent>(id, table_name);
-				break;
-			case AIComponent::type:
-				load_component<AIComponent>(id, table_name);
-				break;
-			case GraphicsComponent::type:
-				load_component<GraphicsComponent>(id, table_name);
-				break;
-			case MovementComponent::type:
-				load_component<MovementComponent>(id, table_name);
-				break;
-			case CombatComponent::type:
-				load_component<CombatComponent>(id, table_name);
-				break;
-			case EventComponent::type:
-				load_component<EventComponent>(id, table_name);
-				break;
-			case InputComponent::type:
-				load_component<InputComponent>(id, table_name);
-				break;
-			case TimeComponent::type:
-				load_component<TimeComponent>(id, table_name);
-				break;
-			case ManaComponent::type:
-			case SpellComponent::type:
-				break; // TODO: Create these components and their respective system.
-			case ProductionComponent::type:
-				load_component<ProductionComponent>(id, table_name);
-				break;
-			case GridNodeComponent::type:
-				// Cannot be loaded automatically, will be handled by GridSystem.
-				break;
-			case ProductComponent::type:
-				// Nothing to load, the production is assigned during runtime.
-				break;
-			case PathfindingComponent::type:
-				load_component<PathfindingComponent>(id, table_name);
-				break;
-			case TaskComponent::type:
-				// Cannot be loaded automatically, will be handled by TaskSystem.
-				break;
-			case TaskHandlerComponent::type:
-				load_component<TaskHandlerComponent>(id, table_name);
-				break;
-			case StructureComponent::type:
-				load_component<StructureComponent>(id, table_name);
-				break;
-			case HomingComponent::type:
-				load_component<HomingComponent>(id, table_name);
-				break;
-			case EventHandlerComponent::type:
-				load_component<EventHandlerComponent>(id, table_name);
-				break;
-			case DestructorComponent::type:
-				load_component<DestructorComponent>(id, table_name);
-				break;
-			case GoldComponent::type:
-				load_component<GoldComponent>(id, table_name);
-				break;
-			case FactionComponent::type:
-				load_component<FactionComponent>(id, table_name);
-				break;
-		}
+		bits.set(component_type); // Duplicate components will just overwrite, no need for error checking.
+		if(loaders_[component_type])
+			LOAD_COMPONENT(component_type, id, table_name);
 	}
 
 	return id;
