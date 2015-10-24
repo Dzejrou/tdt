@@ -8,6 +8,8 @@
  */
 #define LOAD_COMPONENT(TYPE, ID, TABLE) ((this)->*loaders_[TYPE])(ID, TABLE)
 
+#define ADD_COMPONENT(TYPE, ID) ((this)->*adders_[TYPE])(ID)
+
 EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
 	: scene_{mgr}, entities_{}, to_be_destroyed_{},
 	  components_to_be_removed_{}, entity_register_{}
