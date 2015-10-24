@@ -6,14 +6,14 @@
  * Param: ID of the entity that loads the component.
  * Param: Name of the table that contains the component data.
  */
-#define LOAD_COMPONENT(TYPE, ID, TABLE) ((this)->*loaders_[TYPE])(ID, TABLE)
+#define LOAD_COMPONENT(TYPE, ID, TABLE) (((this)->*loaders_[TYPE])(ID, TABLE))
 
 /**
  * Brief: Macro that serves as a simplerr way to use the adders_ array when calling it's members.
  * Param: Type of the component to be added.
  * Param: ID of the entity that gets the new component.
  */
-#define ADD_COMPONENT(TYPE, ID) ((this)->*adders_[TYPE])(ID)
+#define ADD_COMPONENT(TYPE, ID) (((this)->*adders_[TYPE])(ID))
 
 EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
 	: scene_{mgr}, entities_{}, to_be_destroyed_{},
