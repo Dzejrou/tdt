@@ -265,7 +265,9 @@ class EntitySystem : public System
 		std::set<std::string> entity_register_;
 
 		/**
-		 * Contains pointers to all the load_component specializations.
+		 * These arrays contain pointers to the component managment methods for easier
+		 * use when Lua interacts with C++, since Lua doesn't know anything about C++
+		 * types and templates.
 		 */
 		std::array<LoaderFuncPtr, Component::count> loaders_{};
 		std::array<AdderFuncPtr, Component::count> adders_{};
