@@ -190,6 +190,11 @@ class EntitySystem : public System
 		 *        attached to (if they have a graphics component).
 		 */
 		Ogre::SceneManager& get_scene_manager() { return scene_; }
+
+		/**
+		 * Brief: Deletes all entities int the game, used before loading a new game.
+		 */
+		void delete_entities();
 	private:
 		/**
 		 * Brief: Loads a component from a Lua script.

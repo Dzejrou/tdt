@@ -172,6 +172,13 @@ bool EntitySystem::exists(std::size_t id) const
 	return entities_.find(id) != entities_.end();
 }
 
+void EntitySystem::delete_entities()
+{
+	for(auto& ent : entities_)
+		to_be_destroyed_.emplace_back(ent.first);
+	curr_id_ = 0;
+}
+
 void EntitySystem::init_function_arrays()
 {
 	loaders_[PhysicsComponent::type] = &EntitySystem::load_component<PhysicsComponent>;
