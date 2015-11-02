@@ -61,6 +61,7 @@ namespace TaskHelper
 
 	/**
 	 * Brief: Creates a new task of a given tasks and returns it's ID.
+	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the task's target (goto location, kill target etc.).
 	 * Param: Type of the task.
 	 */
@@ -69,6 +70,7 @@ namespace TaskHelper
 	/**
 	 * Brief: Destroys the TaskComponent of a given task, effectively stopping
 	 *        it's completion.
+	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the task.
 	 */
 	void cancel_task(EntitySystem&, std::size_t);
