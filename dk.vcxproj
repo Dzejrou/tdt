@@ -231,7 +231,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>C:\Users\Dzejrou\Documents\Visual Studio 2015\Projects\dk\lib\cegui\lib;C:\Users\Dzejrou\Documents\Visual Studio 2015\Projects\dk\lib\OgreSDK\lib\$(Configuration);C:\Users\Dzejrou\Documents\Visual Studio 2015\Projects\dk\lib\lua;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>lua53.lib;OgreMain.lib;CEGUIOgreRenderer-0.lib;OIS.lib;CEGUIBase-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <GenerateMapFile>true</GenerateMapFile>
+      <GenerateMapFile>false</GenerateMapFile>
       <MapFileName>lol</MapFileName>
     </Link>
   </ItemDefinitionGroup>
