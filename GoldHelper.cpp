@@ -82,8 +82,17 @@ std::size_t GoldHelper::transfer_all_gold(EntitySystem& ents, std::size_t id_fro
 	if(comp_from && comp_to)
 	{
 		auto diff = comp_to->max_amount - comp_to->curr_amount;
-		comp_from->curr_amount -= diff;
-		comp_to->curr_amount += diff;
+		if(diff >= comp_from->curr_amount)
+		{
+			comp_to->curr_amount += comp_from->curr_amount;
+			diff = comp_from->curr_amount; // For the return value ...
+			comp_from->curr_amount = 0;
+		}
+		else
+		{
+			comp_from->curr_amount -= diff;
+			comp_to->curr_amount += diff;
+		}
 
 		return diff;
 	}
