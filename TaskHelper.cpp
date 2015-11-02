@@ -108,5 +108,6 @@ void TaskHelper::cancel_task(EntitySystem& ents, std::size_t task_id)
 			if(handler->curr_task == task_id)
 				handler->curr_task = Component::NO_ENTITY;
 		}
+		DestructorHelper::destroy(ents, task_id);
 	}
 }
