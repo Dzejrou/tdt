@@ -167,6 +167,8 @@ void LuaInterface::init(Game* game)
 		{"delete_possible_task", LuaInterface::lua_delete_possible_task},
 		{"set_task_handling_blueprint", LuaInterface::lua_set_task_handling_blueprint},
 		{"get_task_handling_blueprint", LuaInterface::lua_get_task_handling_blueprint},
+		{"set_task_complete", LuaInterface::lua_set_task_complete},
+		{"is_task_complete", LuaInterface::lua_is_task_complete},
 
 		// Combat & homing projectiles.
 		{"set_combat_target", LuaInterface::lua_set_combat_target},
@@ -1672,6 +1674,25 @@ int LuaInterface::lua_get_task_handling_blueprint(lpp::Script::state L)
 
 	auto res = TaskHandlerHelper::get_blueprint(*ents, id);
 	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_set_task_complete(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	TaskHelper::set_complete(*ents, id);
+	return 0;
+}
+
+int LuaInterface::lua_is_task_complete(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	auto res = TaskHelper::is_complete(*ents, id);
+	lua_pushboolean(L, res);
 	return 1;
 }
 

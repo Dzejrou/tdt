@@ -53,6 +53,7 @@ namespace TaskHelper
 
 	/**
 	 * Brief: Assigns a new task to an entity (by adding it to the task queue).
+	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the entity.
 	 * Param: ID of the task.
 	 * Param: If true, the task will be added to the fron of the task queue.
@@ -74,4 +75,18 @@ namespace TaskHelper
 	 * Param: ID of the task.
 	 */
 	void cancel_task(EntitySystem&, std::size_t);
+
+	/**
+	 * Brief: Sets a given task to a complete state.
+	 * Param: Reference to the entity system containing components.
+	 * Param: ID of the task.
+	 */
+	void set_complete(EntitySystem&, std::size_t);
+
+	/**
+	 * Brief: Returns true if a given task is complete, false otherwise.
+	 * Param: Reference to the entity system containing components.
+	 * Param: ID of the task.
+	 */
+	bool is_complete(EntitySystem&, std::size_t);
 }

@@ -349,7 +349,8 @@ struct TaskComponent
 	TaskComponent(std::size_t target_id = Component::NO_ENTITY,
 				  std::size_t source_id = Component::NO_ENTITY,
 				  TASK_TYPE t_type = TASK_TYPE::NONE)
-		: task_type{t_type}, source{source_id}, target{target_id}
+		: task_type{t_type}, source{source_id}, target{target_id},
+		  complete{false}
 	{ /* DUMMY BODY */ }
 	TaskComponent(const TaskComponent&) = default;
 	TaskComponent(TaskComponent&&) = default;
@@ -358,6 +359,7 @@ struct TaskComponent
 
 	TASK_TYPE task_type;
 	std::size_t source, target;
+	bool complete;
 };
 
 /**

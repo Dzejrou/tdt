@@ -111,3 +111,19 @@ void TaskHelper::cancel_task(EntitySystem& ents, std::size_t task_id)
 		DestructorHelper::destroy(ents, task_id);
 	}
 }
+
+void TaskHelper::set_complete(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<TaskComponent>(id);
+	if(comp)
+		comp->complete = true;
+}
+
+bool TaskHelper::is_complete(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<TaskComponent>(id);
+	if(comp)
+		return comp->complete;
+	else
+		return false;
+}
