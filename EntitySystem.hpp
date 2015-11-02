@@ -152,11 +152,7 @@ class EntitySystem : public System
 		template<typename COMP>
 		void delete_component(std::size_t id)
 		{
-			if(has_component<COMP>(id))
-			{
-				clean_up_component<COMP>(id);
 				components_to_be_removed_.push_back(std::make_pair(id, COMP::type));
-			}
 		}
 
 		/**
@@ -220,6 +216,7 @@ class EntitySystem : public System
 			auto ent = entities_.find(id);
 			if(ent != entities_.end())
 				ent->second.set(COMP::type, false);
+			clean_up_component<COMP>(id);
 			get_component_container<COMP>().erase(id);
 		}
 
