@@ -2,7 +2,6 @@
 
 #include <Ogre.h>
 #include <cstdlib>
-
 #include "lppscript/LppScript.hpp"
 #include "Helpers.hpp"
 #include "EntitySystem.hpp"
