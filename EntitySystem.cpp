@@ -41,19 +41,22 @@ void EntitySystem::update(Ogre::Real)
 	cleanup();
 }
 
-std::size_t EntitySystem::get_new_id() const
-{ // TODO: Possibly avoid filling ID spaces before the highest ID gets close to the max ID value?
-	std::size_t id{0};
-
-	for(auto it = entities_.begin(); it != entities_.end(); ++it)
-	{
-		if(it->first != id) // First unused id.
-			break;
-		else
-			++id;
+std::size_t EntitySystem::get_new_id()
+{
+	if(curr_id_ < Component::NO_ENTITY)
+		return curr_id_++;
+	else
+	{ // Find first empty ID.
+		std::size_t id{0};
+		for(auto it = entities_.begin(); it != entities_.end(); ++it)
+		{
+			if(it->first != id) // First unused id.
+				break;
+			else
+				++id;
+		}
+		return id;
 	}
-
-	return id;
 }
 
 void EntitySystem::cleanup()

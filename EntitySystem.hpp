@@ -47,7 +47,7 @@ class EntitySystem : public System
 		/**
 		 * Brief: Returns first available entity id.
 		 */
-		std::size_t get_new_id() const;
+		std::size_t get_new_id();
 
 		/**
 		 * Brief: Removes all entities that have no components and individual components marked
@@ -298,6 +298,11 @@ class EntitySystem : public System
 		std::array<AdderFuncPtr, Component::count> adders_{};
 		std::array<DeleterFuncPtr, Component::count> deleters_{};
 		std::array<ImmediateDeleterFuncPtr, Component::count> immediate_deleters_{};
+
+		/**
+		 * Keeps track of the highest ID given to an entity.
+		 */
+		std::size_t curr_id_{};
 };
 
 /**
