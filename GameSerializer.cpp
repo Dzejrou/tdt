@@ -42,7 +42,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 		
 		save_entities_.emplace_back(entity_name + " = game.create_entity()");
 		for(std::size_t i = 0; i < ent.second.size(); ++i)
-		{
+		{ // TODO: Do the same as with ADD/LOAD/DELETE/DELETE_NOW in EntitySystem!
 			if(ent.second.test(i))
 			{
 				switch(i)
