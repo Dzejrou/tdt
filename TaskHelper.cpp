@@ -100,8 +100,13 @@ void TaskHelper::cancel_task(EntitySystem& ents, std::size_t task_id)
 		auto handler = ents.get_component<TaskHandlerComponent>(comp->source);
 		if(handler)
 		{
-			handler->curr_task = Component::NO_ENTITY;
-			DestructorHelper::destroy(ents, task_id);
+			for(auto& task : handler->task_queue)
+			{
+				if(task == task_id)
+					task = Component::NO_ENTITY;
+			}
+			if(handler->curr_task == task_id)
+				handler->curr_task = Component::NO_ENTITY;
 		}
 	}
 }
