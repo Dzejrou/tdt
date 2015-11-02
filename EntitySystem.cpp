@@ -119,7 +119,7 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 			continue; // Maybe notify in the console? Make the console a singleton?
 
 		bits.set(component_type); // Duplicate components will just overwrite, no need for error checking.
-		if(loaders_[component_type])
+		if(component_type > 0 && component_type < Component::count && loaders_[component_type])
 			LOAD_COMPONENT(component_type, id, table_name);
 	}
 
@@ -138,19 +138,19 @@ const std::map<std::size_t, std::bitset<Component::count>>& EntitySystem::get_co
 
 void EntitySystem::add_component(std::size_t ent_id, int comp_id)
 {
-	if(adders_[comp_id])
+	if(comp_id > 0 && comp_id < Component::count && adders_[comp_id])
 		ADD_COMPONENT(comp_id, ent_id);
 }
 
 void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
 {
-	if(deleters_[comp_id])
+	if(comp_id > 0 && comp_id < Component::count && deleters_[comp_id])
 		DELETE_COMPONENT(comp_id, ent_id);
 }
 
 void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
 {
-	if(immediate_deleters_[comp_id])
+	if(comp_id > 0 && comp_id < Component::count && immediate_deleters_[comp_id])
 		DELETE_COMPONENT_NOW(comp_id, ent_id);
 }
 
