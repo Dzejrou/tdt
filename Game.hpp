@@ -4,10 +4,8 @@
 #include <OIS.h>
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
-
 #include <memory>
 #include <vector>
-
 #include "EntitySystem.hpp"
 #include "HealthSystem.hpp"
 #include "MovementSystem.hpp"
@@ -28,12 +26,14 @@
 #include "TimeSystem.hpp"
 #include "EventSystem.hpp"
 #include "Grid.hpp"
+#include "GUI.hpp"
 
 class Game : public Ogre::FrameListener, public OIS::KeyListener,
 			 public OIS::MouseListener, public Ogre::WindowEventListener
 {
 	friend class GameSerializer;
 	friend class LuaInterface;
+	friend class GUI;
 	public:
 		/**
 		 * Constructor.
@@ -108,27 +108,27 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * requires Ogre::SceneManager, so the all have to be instantiated after the ogre_init method
 		 * call and thus cannot be references).
 		 */
-		std::unique_ptr<EntitySystem> entity_system_;
-		std::unique_ptr<HealthSystem> health_system_;
-		std::unique_ptr<MovementSystem> movement_system_;
-		std::unique_ptr<AISystem> ai_system_;
-		std::unique_ptr<InputSystem> input_system_;
-		std::unique_ptr<GridSystem> grid_system_;
-		std::unique_ptr<TaskSystem> task_system_;
-		std::unique_ptr<CombatSystem> combat_system_;
-		std::unique_ptr<ProductionSystem> production_system_;
-		std::unique_ptr<TimeSystem> time_system_;
-		std::unique_ptr<EventSystem> event_system_;
+		std::unique_ptr<EntitySystem> entity_system_{nullptr};
+		std::unique_ptr<HealthSystem> health_system_{nullptr};
+		std::unique_ptr<MovementSystem> movement_system_{nullptr};
+		std::unique_ptr<AISystem> ai_system_{nullptr};
+		std::unique_ptr<InputSystem> input_system_{nullptr};
+		std::unique_ptr<GridSystem> grid_system_{nullptr};
+		std::unique_ptr<TaskSystem> task_system_{nullptr};
+		std::unique_ptr<CombatSystem> combat_system_{nullptr};
+		std::unique_ptr<ProductionSystem> production_system_{nullptr};
+		std::unique_ptr<TimeSystem> time_system_{nullptr};
+		std::unique_ptr<EventSystem> event_system_{nullptr};
 
 		/**
 		 * Used to save the game.
 		 */
-		std::unique_ptr<GameSerializer> game_serializer_;
+		std::unique_ptr<GameSerializer> game_serializer_{nullptr};
 
 		/**
 		 * Vector of all systems used for updating the game's logic.
 		 */
-		std::vector<System*> systems_;
+		std::vector<System*> systems_{};
 
 		/**
 		 * CEGUI renderer.
@@ -145,6 +145,11 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * Ingame console.
 		 */
 		Console console_;
+
+		/**
+		 * Main graphical user interface.
+		 */
+		GUI gui_;
 
 		/**
 		 * Allows to spawn entities with the mouse ingame.

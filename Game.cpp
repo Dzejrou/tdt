@@ -6,12 +6,14 @@ Game::Game() // TODO: Init systems.
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
 	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, placer_{nullptr}, ground_{nullptr},
 	  camera_free_mode_{false}, camera_position_backup_{0, 0, 0},
-	  camera_orientation_backup_{}, selection_box_{}, entity_creator_{nullptr}
+	  camera_orientation_backup_{}, selection_box_{}, entity_creator_{nullptr},
+	  gui_{*this}
 {
 	ogre_init();
 	ois_init();
 	cegui_init();
 	console_.init();
+	gui_.init();
 	windowResized(window_); // Will adjust dimensions for OIS mouse.
 
 	entity_system_.reset(new EntitySystem(*scene_mgr_));
@@ -434,13 +436,8 @@ void Game::cegui_init()
 
 	// Button test.
 	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-	CEGUI::Window* sheet = wmgr.createWindow("DefaultWindow", "TestWindow/Sheet");
-	CEGUI::Window* quit = wmgr.createWindow("AlfiskoSkin/Button", "TestWindow/QuitButton");
-	quit->setText("Q U I T");
-	quit->setSize(CEGUI::USize(CEGUI::UDim(0.15f, 0.f), CEGUI::UDim(0.05f, 0.f)));
-	sheet->addChild(quit);
+	CEGUI::Window* sheet = wmgr.createWindow("DefaultWindow", "MainWindow/Sheet");
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
-	quit->subscribeEvent(CEGUI::PushButton::EventClicked, [&](){ this->set_state(GAME_STATE::ENDED); });
 }
 
 CEGUI::MouseButton Game::ois_to_cegui(OIS::MouseButtonID id)
