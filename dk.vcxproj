@@ -39,6 +39,7 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GridNodeHelper.cpp" />
     <ClCompile Include="GridSystem.cpp" />
+    <ClCompile Include="GUI.cpp" />
     <ClCompile Include="HealthHelper.cpp" />
     <ClCompile Include="HealthSystem.cpp" />
     <ClCompile Include="HomingHelper.cpp" />
@@ -86,6 +87,7 @@
     <ClInclude Include="Grid.hpp" />
     <ClInclude Include="GridNodeHelper.hpp" />
     <ClInclude Include="GridSystem.hpp" />
+    <ClInclude Include="GUI.hpp" />
     <ClInclude Include="HealthHelper.hpp" />
     <ClInclude Include="HealthSystem.hpp" />
     <ClInclude Include="Helpers.hpp" />
