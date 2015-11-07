@@ -147,11 +147,6 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		Console console_;
 
 		/**
-		 * Main graphical user interface.
-		 */
-		GUI gui_;
-
-		/**
 		 * Allows to spawn entities with the mouse ingame.
 		 */
 		std::unique_ptr<EntityPlacer> placer_;
