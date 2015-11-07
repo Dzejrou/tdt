@@ -1,4 +1,5 @@
 #include "SelectionBox.hpp"
+#include "GUI.hpp"
 
 SelectionBox::SelectionBox(const Ogre::String& name, EntitySystem& ents,
 						   Ogre::PlaneBoundedVolumeListSceneQuery& vol_query,
@@ -92,6 +93,7 @@ void SelectionBox::execute_selection(const Ogre::Vector2& end, Ogre::Camera& cam
 	
 	if(!append)
 		clear_selected_entities(); // Previous selection.
+	GUI::instance().clear_entity_view();
 
 	// Adjust coordinates in case of selection in a different direction.
 	if(left > right)
