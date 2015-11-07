@@ -6,14 +6,13 @@ Game::Game() // TODO: Init systems.
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
 	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, placer_{nullptr}, ground_{nullptr},
 	  camera_free_mode_{false}, camera_position_backup_{0, 0, 0},
-	  camera_orientation_backup_{}, selection_box_{}, entity_creator_{nullptr},
-	  gui_{*this}
+	  camera_orientation_backup_{}, selection_box_{}, entity_creator_{nullptr}
 {
 	ogre_init();
 	ois_init();
 	cegui_init();
 	console_.init();
-	gui_.init();
+	GUI::instance().init(this);
 	windowResized(window_); // Will adjust dimensions for OIS mouse.
 
 	entity_system_.reset(new EntitySystem(*scene_mgr_));
@@ -286,6 +285,8 @@ bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 			mouse.getPosition().d_y / (float)event.state.height
 		};
 		selection_box_->execute_selection(end, *main_cam_, keyboard_->isKeyDown(OIS::KC_LSHIFT));
+		if(selection_box_->get_selected_entities().size() == 1)
+			GUI::instance().set_tracked_entity(selection_box_->get_selected_entities()[0], *entity_system_);
 		selection_box_->set_selecting(false);
 	}
 
