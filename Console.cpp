@@ -8,7 +8,7 @@ const CEGUI::Colour Console::BLUE_TEXT = CEGUI::Colour{0.f, 0.f, 1.f};
 
 Console::Console()
 	: window_{nullptr}, list_box_{nullptr}, curr_command_{},
-	  time_since_last_fps_update_{}
+	  time_since_last_fps_update_{}, console_history_{60}
 { /* DUMMY BODY */ }
 
 void Console::init()
@@ -77,7 +77,21 @@ void Console::execute(const CEGUI::EventArgs& args)
 
 void Console::print_text(const std::string& msg, CEGUI::Colour col)
 {
-	CEGUI::ListboxTextItem* text = new CEGUI::ListboxTextItem(msg + "\n");
+	if(msg == "`") // Garbage value from toggling the console.
+		return;
+
+	CEGUI::ListboxTextItem* text;
+
+	if(list_box_->getItemCount() >= console_history_)
+	{ // Little trick, reuse the oldest command entry.
+		text = (CEGUI::ListboxTextItem*)list_box_->getListboxItemFromIndex(0);
+		text->setAutoDeleted(false);
+		list_box_->removeItem(text);
+		text->setAutoDeleted(true);
+		text->setText(msg + "\n");
+	}
+	else
+		text = new CEGUI::ListboxTextItem(msg + "\n");
 	text->setTextColours(col);
 	list_box_->addItem(text);
 	scroll_down();
@@ -97,4 +111,14 @@ void Console::update_fps(Ogre::Real delta, Ogre::Real fps)
 		window_->setText("DEVELOPER CONSOLE (LUA 5.3) FPS: " + std::to_string(fps));
 		time_since_last_fps_update_ = 0.f;
 	}
+}
+
+void Console::set_history(std::size_t val)
+{
+	console_history_ = val;
+}
+
+std::size_t Console::get_history() const
+{
+	return console_history_;
 }

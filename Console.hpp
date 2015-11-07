@@ -73,6 +73,16 @@ class Console
 		 * Param: The new framerate.
 		 */
 		void update_fps(Ogre::Real, Ogre::Real);
+
+		/**
+		 *
+		 */
+		void set_history(std::size_t);
+
+		/**
+		 *
+		 */
+		std::size_t get_history() const;
 	private:
 		/**
 		 * Pointer to the CEGUI widget representing this console.
@@ -95,4 +105,9 @@ class Console
 		 *
 		 */
 		Ogre::Real time_since_last_fps_update_;
+
+		/**
+		 *
+		 */
+		std::size_t console_history_;
 };
