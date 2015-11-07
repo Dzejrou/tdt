@@ -113,6 +113,15 @@ class Grid
 		 * TODO: Possibly unite this an Lpp::Script under one singleton interface?
 		 */
 		static Grid& instance();
+
+		/**
+		 * Since there should be only one grid at all times accesible from the Grid::instance
+		 * method, all copy/move operations are disabled for this class.
+		 */
+		Grid(const Grid&) = delete;
+		Grid& operator=(const Grid&) = delete;
+		Grid(Grid&&) = delete;
+		Grid& operator=(Grid&&) = delete;
 	private:
 		/**
 		 * Constructor. 
@@ -124,15 +133,6 @@ class Grid
 		 * Destructor.
 		 */
 		~Grid() {}
-
-		/**
-		 * Since there should be only one grid at all times accesible from the Grid::instance
-		 * method, all copy/move operations are disabled for this class.
-		 */
-		Grid(const Grid&) = delete;
-		Grid& operator=(const Grid&) = delete;
-		Grid(Grid&&) = delete;
-		Grid& operator=(Grid&&) = delete;
 
 		/**
 		 * Brief: Generates a neighbour list for a given node (thus linking it to the graph).
