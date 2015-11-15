@@ -57,6 +57,8 @@ void EntityCreator::actualize_list(const CEGUI::EventArgs& args)
 void EntityCreator::set_visible(bool on_off)
 {
 	window_->setVisible(on_off);
+	if(on_off)
+		actualize_list(CEGUI::EventArgs{});
 }
 
 bool EntityCreator::is_visible() const
