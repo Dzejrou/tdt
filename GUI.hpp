@@ -82,6 +82,8 @@ class GUI
 		 */
 		static GUI& instance();
 
+		void set_log_history(std::size_t);
+		std::size_t get_log_history() const;
 		GUI(const GUI&) = delete;
 		GUI(GUI&&) = delete;
 		GUI& operator=(const GUI&) = delete;

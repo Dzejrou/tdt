@@ -190,6 +190,16 @@ GUI& GUI::instance()
 	return inst;
 }
 
+void GUI::set_log_history(std::size_t val)
+{
+	log_history_ = val;
+}
+
+std::size_t GUI::get_log_history() const
+{
+	return log_history_;
+}
+
 void GUI::list_directory(const std::string& dir, CEGUI::Listbox& box, bool strip_ext)
 {
 	box.resetList();
