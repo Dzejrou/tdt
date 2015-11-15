@@ -438,6 +438,7 @@ void Game::cegui_init()
 	// Button test.
 	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 	CEGUI::Window* sheet = wmgr.createWindow("DefaultWindow", "MainWindow/Sheet");
+	sheet->setMousePassThroughEnabled(true);
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 }
 
