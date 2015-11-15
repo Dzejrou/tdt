@@ -75,12 +75,13 @@ class Console
 		void update_fps(Ogre::Real, Ogre::Real);
 
 		/**
-		 *
+		 * Brief: Sets the number of entries that will be shown in the console's history.
+		 * Param: The new entry count.
 		 */
 		void set_history(std::size_t);
 
 		/**
-		 *
+		 * Brief: Returns the number of entries that will be shown in the console's history.
 		 */
 		std::size_t get_history() const;
 	private:
@@ -102,12 +103,14 @@ class Console
 		std::string curr_command_;
 
 		/**
-		 *
+		 * Monitors the time passed since the fps label was last updated, used
+		 * to make sure the fps update won't slow down the game as it involves
+		 * float to string conversion.
 		 */
 		Ogre::Real time_since_last_fps_update_;
 
 		/**
-		 *
+		 * Limits the number of console entries that will be shown in it's history.
 		 */
 		std::size_t console_history_;
 };
