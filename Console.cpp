@@ -29,6 +29,8 @@ void Console::init()
 void Console::set_visible(bool visible)
 {
 	window_->setVisible(visible);
+	if(visible)
+		window_->activate();
 }
 
 bool Console::is_visible() const
