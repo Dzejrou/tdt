@@ -245,7 +245,8 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 {
 	auto& gui_context = CEGUI::System::getSingleton().getDefaultGUIContext();
-	gui_context.injectMouseButtonDown(ois_to_cegui(id));
+	if(gui_context.injectMouseButtonDown(ois_to_cegui(id)))
+		return true;
 
 	if(id == OIS::MB_Left && !console_.is_visible() && !placer_->is_visible()) // TODO: State switch!
 	{ // Start selection.
