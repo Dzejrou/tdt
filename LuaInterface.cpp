@@ -31,11 +31,14 @@ void LuaInterface::init(Game* game)
 		{"reload_all", LuaInterface::lua_reload_all},
 		{"save_game", LuaInterface::lua_save_game},
 		{"load_game", LuaInterface::lua_load_game},
-
 		// Util.
 		{"get_enum_direction", LuaInterface::lua_get_enum_direction},
 		{"get_node_in_dir", LuaInterface::lua_get_node_in_dir},
 
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs graph_funcs[] = {
 		// Graphics.
 		{"set_mesh", LuaInterface::lua_set_mesh},
 		{"set_material", LuaInterface::lua_set_material},
@@ -53,19 +56,25 @@ void LuaInterface::init(Game* game)
 		{"set_query_flags", LuaInterface::lua_set_query_flags},
 		{"get_query_flags", LuaInterface::lua_get_query_flags},
 		{"apply_scale", LuaInterface::lua_apply_scale},
+		{nullptr, nullptr}
+	};
 
+	lpp::Script::regs entity_funcs[] = {
 		// Entity manipulation.
 		{"create_entity", LuaInterface::lua_create_entity},
 		{"destroy_entity", LuaInterface::lua_destroy_entity},
 		{"add_component", LuaInterface::lua_add_component},
 		{"delete_component", LuaInterface::lua_delete_component},
 		{"init_graphics_component", LuaInterface::lua_init_graphics_component},
-		{"list_entity_tables", LuaInterface::lua_list_entity_tables},
-		{"place_entity", LuaInterface::lua_place_entity},
-		{"register_entity", LuaInterface::lua_register_entity},
+		{"list_tables", LuaInterface::lua_list_entity_tables},
+		{"place", LuaInterface::lua_place_entity},
+		{"register", LuaInterface::lua_register_entity},
 		{"exists", LuaInterface::lua_exists},
-		{"kill_entity", LuaInterface::lua_kill_entity},
-
+		{"kill", LuaInterface::lua_kill_entity},
+		{nullptr, nullptr}
+	};
+	
+	lpp::Script::regs phys_funcs[] = {
 		// Physics.
 		{"set_position", LuaInterface::lua_set_position},
 		{"get_position", LuaInterface::lua_get_position},
@@ -76,7 +85,10 @@ void LuaInterface::init(Game* game)
 		{"get_distance", LuaInterface::lua_get_distance},
 		{"get_angle", LuaInterface::lua_get_angle},
 		{"get_angle_between", LuaInterface::lua_get_angle_between},
+		{nullptr, nullptr}
+	};
 
+	lpp::Script::regs mov_funcs[] = {
 		// Movement.
 		{"move_to", LuaInterface::lua_move_to},
 		{"move", LuaInterface::lua_move},
@@ -87,12 +99,15 @@ void LuaInterface::init(Game* game)
 		{"get_dir_back", LuaInterface::lua_get_dir_back},
 		{"get_dir_left", LuaInterface::lua_get_dir_left},
 		{"get_dir_right", LuaInterface::lua_get_dir_right},
+		{nullptr, nullptr}
+	};
 
+	lpp::Script::regs hp_funcs[] = {
 		// Health & defense.
-		{"set_health", LuaInterface::lua_set_health},
-		{"get_health", LuaInterface::lua_get_health},
-		{"add_health", LuaInterface::lua_add_health},
-		{"sub_health", LuaInterface::lua_sub_health},
+		{"set", LuaInterface::lua_set_health},
+		{"get", LuaInterface::lua_get_health},
+		{"add", LuaInterface::lua_add_health},
+		{"sub", LuaInterface::lua_sub_health},
 		{"heal", LuaInterface::lua_heal},
 		{"buff", LuaInterface::lua_buff},
 		{"debuff", LuaInterface::lua_debuff},
@@ -106,7 +121,10 @@ void LuaInterface::init(Game* game)
 		{"ubercharge", LuaInterface::lua_ubercharge},
 		{"set_regen_period", LuaInterface::lua_set_regen_period},
 		{"get_regen_period", LuaInterface::lua_get_regen_period},
+		{nullptr, nullptr}
+	};
 
+	lpp::Script::regs ai_funcs[] = {
 		// AI & update.
 		{"get_blueprint", LuaInterface::lua_get_blueprint},
 		{"get_state", LuaInterface::lua_get_state},
@@ -117,29 +135,28 @@ void LuaInterface::init(Game* game)
 		{"set_update_period", LuaInterface::lua_set_update_period},
 		{"get_update_period", LuaInterface::lua_get_update_period},
 		{"force_update", LuaInterface::lua_force_update},
+	};
 
+	lpp::Script::regs input_funcs[] = {
 		// Input handling.
-		{"set_input_handler", LuaInterface::lua_set_input_handler},
-		{"get_input_handler", LuaInterface::lua_get_input_handler},
+		{"set_handler", LuaInterface::lua_set_input_handler},
+		{"get_handler", LuaInterface::lua_get_input_handler},
 		{"toggle_first_person", LuaInterface::lua_toggle_first_person},
+		{nullptr, nullptr}
+	};
 
+	lpp::Script::regs grid_funcs[] = {
 		// Grid system.
 		{"add_node", LuaInterface::lua_add_node},
 		{"get_node", LuaInterface::lua_get_node},
 		{"get_node_from_position", LuaInterface::lua_get_node_from_position},
-		{"create_grid_graphics", LuaInterface::lua_create_grid_graphics},
-		{"delete_grid_graphics", LuaInterface::lua_delete_grid_graphics},
-		{"toggle_grid_visible", LuaInterface::lua_toggle_grid_visible},
+		{"create_graphics", LuaInterface::lua_create_grid_graphics},
+		{"delete_graphics", LuaInterface::lua_delete_grid_graphics},
+		{"toggle_visible", LuaInterface::lua_toggle_grid_visible},
 		{"is_free", LuaInterface::lua_is_free},
 		{"set_free", LuaInterface::lua_set_free},
 		{"set_free_selected", LuaInterface::lua_set_free_selected},
-		{"pathfind", LuaInterface::lua_pathfind},
-		{"pop_first_path_node", LuaInterface::lua_pop_first_path_node},
-		{"pop_last_path_node", LuaInterface::lua_pop_last_path_node},
-		{"path_queue_empty", LuaInterface::lua_path_queue_empty},
-		{"clear_path", LuaInterface::lua_clear_path},
-		{"set_pathfinding_blueprint", LuaInterface::lua_set_pathfinding_blueprint},
-		{"create_graph", LuaInterface::lua_create_graph},
+		{"create", LuaInterface::lua_create_graph},
 		{"set_resident", LuaInterface::lua_set_resident},
 		{"get_resident", LuaInterface::lua_get_resident},
 		{"add_residences", LuaInterface::lua_add_residences},
@@ -147,32 +164,49 @@ void LuaInterface::init(Game* game)
 		{"set_radius", LuaInterface::lua_set_radius},
 		{"set_walk_through", LuaInterface::lua_set_walk_through},
 		{"is_walk_through", LuaInterface::lua_is_walk_throuth},
+		{nullptr, nullptr}
+	};
 
+	lpp::Script::regs path_funcs[] = {
+		{"pathfind", LuaInterface::lua_pathfind},
+		{"pop_first", LuaInterface::lua_pop_first_path_node},
+		{"pop_last", LuaInterface::lua_pop_last_path_node},
+		{"empty", LuaInterface::lua_path_queue_empty},
+		{"set_blueprint", LuaInterface::lua_set_pathfinding_blueprint},
+		{"clear", LuaInterface::lua_clear_path},
+		// TODO: get_blueprint
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs task_funcs[] = {
 		// Tasks & task handling.
-		{"add_task", LuaInterface::lua_add_task},
-		{"add_priority_task", LuaInterface::lua_add_priority_task},
-		{"cancel_task", LuaInterface::lua_cancel_task},
-		{"create_task", LuaInterface::lua_create_task},
-		{"list_tasks_of", LuaInterface::lua_list_tasks_of},
-		{"task_possible", LuaInterface::lua_task_possible},
-		{"task_type_possible", LuaInterface::lua_task_type_possibe},
-		{"clear_task_queue", LuaInterface::lua_clear_task_queue},
-		{"set_task_source", LuaInterface::lua_set_task_source},
-		{"get_task_source", LuaInterface::lua_get_task_source},
-		{"set_task_target", LuaInterface::lua_set_task_target},
-		{"get_task_target", LuaInterface::lua_get_task_target},
-		{"set_task_type", LuaInterface::lua_set_task_type},
-		{"get_task_type", LuaInterface::lua_get_task_type},
-		{"add_possible_task", LuaInterface::lua_add_possible_task},
-		{"delete_possible_task", LuaInterface::lua_delete_possible_task},
-		{"set_task_handling_blueprint", LuaInterface::lua_set_task_handling_blueprint},
-		{"get_task_handling_blueprint", LuaInterface::lua_get_task_handling_blueprint},
-		{"set_task_complete", LuaInterface::lua_set_task_complete},
-		{"is_task_complete", LuaInterface::lua_is_task_complete},
+		{"add", LuaInterface::lua_add_task},
+		{"add_priority", LuaInterface::lua_add_priority_task},
+		{"cancel", LuaInterface::lua_cancel_task},
+		{"create", LuaInterface::lua_create_task},
+		{"list", LuaInterface::lua_list_tasks_of},
+		{"possible", LuaInterface::lua_task_possible},
+		{"type_possible", LuaInterface::lua_task_type_possibe},
+		{"clear_queue", LuaInterface::lua_clear_task_queue},
+		{"set_source", LuaInterface::lua_set_task_source},
+		{"get_source", LuaInterface::lua_get_task_source},
+		{"set_target", LuaInterface::lua_set_task_target},
+		{"get_target", LuaInterface::lua_get_task_target},
+		{"set_type", LuaInterface::lua_set_task_type},
+		{"get_type", LuaInterface::lua_get_task_type},
+		{"add_possible", LuaInterface::lua_add_possible_task},
+		{"delete_possible", LuaInterface::lua_delete_possible_task},
+		{"set_blueprint", LuaInterface::lua_set_task_handling_blueprint},
+		{"get_blueprint", LuaInterface::lua_get_task_handling_blueprint},
+		{"set_complete", LuaInterface::lua_set_task_complete},
+		{"is_complete", LuaInterface::lua_is_task_complete},
+		{nullptr, nullptr}
+	};
 
+	lpp::Script::regs combat_funcs[] = {
 		// Combat & homing projectiles.
-		{"set_combat_target", LuaInterface::lua_set_combat_target},
-		{"get_combat_target", LuaInterface::lua_get_combat_target},
+		{"set_target", LuaInterface::lua_set_combat_target},
+		{"get_target", LuaInterface::lua_get_combat_target},
 		{"set_range", LuaInterface::lua_set_range},
 		{"get_range", LuaInterface::lua_get_range},
 		{"set_dmg_range", LuaInterface::lua_set_dmg_range},
@@ -181,98 +215,162 @@ void LuaInterface::init(Game* game)
 		{"get_cooldown", LuaInterface::lua_get_cooldown},
 		{"set_atk_type", LuaInterface::lua_set_atk_type},
 		{"get_atk_type", LuaInterface::lua_get_atk_type},
-		{"set_homing_source", LuaInterface::lua_set_homing_source},
-		{"get_homing_source", LuaInterface::lua_get_homing_source},
-		{"set_homing_target", LuaInterface::lua_set_homing_target},
-		{"get_homing_target", LuaInterface::lua_get_homing_target},
-		{"set_homing_dmg", LuaInterface::lua_set_homing_dmg},
-		{"get_homing_dmg", LuaInterface::lua_get_homing_dmg},
 		{"closest_enemy_in_sight", LuaInterface::lua_closest_enemy_in_sight},
 		{"closest_friendly_in_sight", LuaInterface::lua_closest_friendly_in_sight},
 		{"closest_enemy", LuaInterface::lua_closest_enemy},
 		{"closest_friendly", LuaInterface::lua_closest_friendly},
 		{"in_sight", LuaInterface::lua_in_sight},
+		{nullptr, nullptr}
+	};
 
+	lpp::Script::regs proj_funcs[] = {
+		{"set_source", LuaInterface::lua_set_homing_source},
+		{"get_source", LuaInterface::lua_get_homing_source},
+		{"set_target", LuaInterface::lua_set_homing_target},
+		{"get_target", LuaInterface::lua_get_homing_target},
+		{"set_dmg", LuaInterface::lua_set_homing_dmg},
+		{"get_dmg", LuaInterface::lua_get_homing_dmg},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs prod_funcs[] = {
 		// Production & products.
-		{"set_production_blueprint", LuaInterface::lua_set_production_blueprint},
-		{"get_production_blueprint", LuaInterface::lua_get_production_blueprint},
-		{"set_production_limit", LuaInterface::lua_set_production_limit},
-		{"get_production_limit", LuaInterface::lua_get_production_limit},
-		{"set_production_cooldown", LuaInterface::lua_set_production_cooldown},
-		{"get_production_cooldown", LuaInterface::lua_get_production_cooldown},
-		{"set_production_progress", LuaInterface::lua_set_production_progress},
-		{"get_production_progress", LuaInterface::lua_get_production_progress},
-		{"set_production_count", LuaInterface::lua_set_production_count},
-		{"get_production_count", LuaInterface::lua_get_production_count},
+		{"set_blueprint", LuaInterface::lua_set_production_blueprint},
+		{"get_blueprint", LuaInterface::lua_get_production_blueprint},
+		{"set_limit", LuaInterface::lua_set_production_limit},
+		{"get_limit", LuaInterface::lua_get_production_limit},
+		{"set_cooldown", LuaInterface::lua_set_production_cooldown},
+		{"get_cooldown", LuaInterface::lua_get_production_cooldown},
+		{"set_progress", LuaInterface::lua_set_production_progress},
+		{"get_progress", LuaInterface::lua_get_production_progress},
+		{"set_count", LuaInterface::lua_set_production_count},
+		{"get_count", LuaInterface::lua_get_production_count},
 		{"set_producer", LuaInterface::lua_set_producer},
 		{"get_producer", LuaInterface::lua_get_producer},
 		{"instant_production", LuaInterface::lua_instant_production},
-		{"set_production_multiplier", LuaInterface::lua_set_production_multiplier},
-		{"get_production_multiplier", LuaInterface::lua_get_production_multiplier},
+		{"set_multiplier", LuaInterface::lua_set_production_multiplier},
+		{"get_multiplier", LuaInterface::lua_get_production_multiplier},
+		{nullptr, nullptr}
+	};
 
+	lpp::Script::regs time_funcs[] = {
 		// Time & time system.
-		{"get_curr_time", LuaInterface::lua_get_curr_time},
-		{"advance_curr_time", LuaInterface::lua_advance_curr_time},
-		{"max_curr_time", LuaInterface::lua_max_curr_time},
-		{"set_time_limit", LuaInterface::lua_set_time_limit},
-		{"get_time_limit", LuaInterface::lua_get_time_limit},
-		{"set_timer_target", LuaInterface::lua_set_timer_target},
-		{"get_timer_target", LuaInterface::lua_get_timer_target},
-		{"set_timer_type", LuaInterface::lua_set_timer_type},
-		{"get_timer_type", LuaInterface::lua_get_timer_type},
-		{"advance_all_timers", LuaInterface::lua_advance_all_timers},
-		{"advance_all_timers_of_type", LuaInterface::lua_advance_all_timers_of_type},
-		{"set_timer_multiplier", LuaInterface::lua_set_timer_multiplier},
-		{"get_timer_multiplier", LuaInterface::lua_get_timer_multiplier},
-
+		{"get_current", LuaInterface::lua_get_curr_time},
+		{"advance_current", LuaInterface::lua_advance_curr_time},
+		{"max_current", LuaInterface::lua_max_curr_time},
+		{"set_limit", LuaInterface::lua_set_time_limit},
+		{"get_limit", LuaInterface::lua_get_time_limit},
+		{"set_target", LuaInterface::lua_set_timer_target},
+		{"get_target", LuaInterface::lua_get_timer_target},
+		{"set_type", LuaInterface::lua_set_timer_type},
+		{"get_type", LuaInterface::lua_get_timer_type},
+		{"advance_all", LuaInterface::lua_advance_all_timers},
+		{"advance_all_of_type", LuaInterface::lua_advance_all_timers_of_type},
+		{"set_multiplier", LuaInterface::lua_set_timer_multiplier},
+		{"get_multiplier", LuaInterface::lua_get_timer_multiplier},
+		{nullptr, nullptr}
+	};
+	
+	lpp::Script::regs event_funcs[] = {
 		// Events & event handling.
-		{"set_event_type", LuaInterface::lua_set_event_type},
-		{"get_event_type", LuaInterface::lua_get_event_type},
-		{"set_event_target", LuaInterface::lua_set_event_target},
-		{"get_event_target", LuaInterface::lua_get_event_target},
-		{"set_event_radius", LuaInterface::lua_set_event_radius},
-		{"get_event_radius", LuaInterface::lua_get_event_radius},
-		{"set_event_active", LuaInterface::lua_set_event_active},
-		{"is_event_active", LuaInterface::lua_is_event_active},
-		{"set_handler_of_event", LuaInterface::lua_set_handler_of_event},
-		{"get_handler_of_event", LuaInterface::lua_get_handler_of_event},
-		{"set_event_handler", LuaInterface::lua_set_event_handler},
-		{"get_event_handler", LuaInterface::lua_get_event_handler},
-		{"can_handle_event", LuaInterface::lua_can_handle_event},
-		{"add_possible_event", LuaInterface::lua_add_possible_event},
-		{"delete_possible_event", LuaInterface::lua_delete_possible_event},
-		{"set_event_update_period", LuaInterface::lua_set_event_update_period},
-		{"get_event_update_period", LuaInterface::lua_get_event_update_period},
-		{"set_event_update_multiplier", LuaInterface::lua_set_event_update_multiplier},
-		{"get_event_update_multiplier", LuaInterface::lua_get_event_update_multiplier},
+		{"set_type", LuaInterface::lua_set_event_type},
+		{"get_type", LuaInterface::lua_get_event_type},
+		{"set_target", LuaInterface::lua_set_event_target},
+		{"get_target", LuaInterface::lua_get_event_target},
+		{"set_radius", LuaInterface::lua_set_event_radius},
+		{"get_radius", LuaInterface::lua_get_event_radius},
+		{"set_active", LuaInterface::lua_set_event_active},
+		{"is_active", LuaInterface::lua_is_event_active},
+		{"set_handler", LuaInterface::lua_set_handler_of_event},
+		{"get_handler", LuaInterface::lua_get_handler_of_event},
+		{"set_update_period", LuaInterface::lua_set_event_update_period},
+		{"get_update_period", LuaInterface::lua_get_event_update_period},
+		{"set_multiplier", LuaInterface::lua_set_event_update_multiplier},
+		{"get_multiplier", LuaInterface::lua_get_event_update_multiplier},
+		{nullptr, nullptr}
+	};
 
+	lpp::Script::regs handling_funcs[] = {
+		{"set_handler", LuaInterface::lua_set_event_handler},
+		{"get_handler", LuaInterface::lua_get_event_handler},
+		{"can_handle", LuaInterface::lua_can_handle_event},
+		{"add_possible", LuaInterface::lua_add_possible_event},
+		{"delete_possible", LuaInterface::lua_delete_possible_event},
+		{nullptr, nullptr}
+	};
+	
+	lpp::Script::regs destr_funcs[] = {
 		// Destructor.
-		{"set_destructor_blueprint", LuaInterface::lua_set_destructor_blueprint},
-		{"get_destructor_blueprint", LuaInterface::lua_get_destructor_blueprint},
+		{"set_blueprint", LuaInterface::lua_set_destructor_blueprint},
+		{"get_blueprint", LuaInterface::lua_get_destructor_blueprint},
+		{nullptr, nullptr}
+	};
 
+	lpp::Script::regs gold_funcs[] = {
 		// Gold.
-		{"set_curr_gold", LuaInterface::lua_set_curr_gold},
-		{"get_curr_gold", LuaInterface::lua_get_curr_gold},
-		{"set_max_gold", LuaInterface::lua_set_max_gold},
-		{"get_max_gold", LuaInterface::lua_get_max_gold},
-		{"add_gold", LuaInterface::lua_add_gold},
-		{"sub_gold", LuaInterface::lua_sub_gold},
-		{"transfer_all_gold", LuaInterface::lua_transfer_all_gold},
+		{"set_current", LuaInterface::lua_set_curr_gold},
+		{"get_current", LuaInterface::lua_get_curr_gold},
+		{"set_max", LuaInterface::lua_set_max_gold},
+		{"get_max", LuaInterface::lua_get_max_gold},
+		{"add", LuaInterface::lua_add_gold},
+		{"sub", LuaInterface::lua_sub_gold},
+		{"transfer_all", LuaInterface::lua_transfer_all_gold},
 		{"get_closest_gold_deposit", LuaInterface::lua_get_closest_gold_deposit},
 		{"get_closest_gold_deposit_in_sight", LuaInterface::lua_get_closest_gold_deposit_in_sight},
-		{"gold_full", LuaInterface::lua_gold_full},
+		{"full", LuaInterface::lua_gold_full},
 		{"is_gold_vault", LuaInterface::lua_is_gold_vault},
 		{"closest_gold_vault", LuaInterface::closest_gold_vault},
 		{"closest_gold_vault_in_sight", LuaInterface::closest_gold_vault_in_sight},
 		{"closest_free_gold_vault", LuaInterface::closest_free_gold_vault},
 		{"closest_free_gold_vault_in_sight", LuaInterface::closest_free_gold_vault_in_sight},
 		{"exists_free_gold_vault", LuaInterface::exists_free_gold_vault},
-
-		// Ending sentinel (required by Lua).
 		{nullptr, nullptr}
 	};
-	luaL_newlib(script.get_state(), game_funcs);
-	lua_setglobal(script.get_state(), "game");
+
+	auto state = script.get_state();
+	luaL_newlib(state, game_funcs);
+	lua_setglobal(state, "game");
+
+	// Set all subtables.
+	lua_getglobal(state, "game");
+	luaL_newlib(state, graph_funcs);
+	lua_setfield(state, -2, "graphics");
+	luaL_newlib(state, entity_funcs);
+	lua_setfield(state, -2, "entity");
+	luaL_newlib(state, phys_funcs);
+	lua_setfield(state, -2, "physics");
+	luaL_newlib(state, mov_funcs);
+	lua_setfield(state, -2, "movement");
+	luaL_newlib(state, hp_funcs);
+	lua_setfield(state, -2, "health");
+	luaL_newlib(state, ai_funcs);
+	lua_setfield(state, -2, "ai");
+	luaL_newlib(state, input_funcs);
+	lua_setfield(state, -2, "input");
+	luaL_newlib(state, grid_funcs);
+	lua_setfield(state, -2, "grid");
+	luaL_newlib(state, path_funcs);
+	lua_setfield(state, -2, "path");
+	luaL_newlib(state, task_funcs);
+	lua_setfield(state, -2, "task");
+	luaL_newlib(state, combat_funcs);
+	lua_setfield(state, -2, "combat");
+	luaL_newlib(state, proj_funcs);
+	lua_setfield(state, -2, "projectile");
+	luaL_newlib(state, prod_funcs);
+	lua_setfield(state, -2, "production");
+	luaL_newlib(state, time_funcs);
+	lua_setfield(state, -2, "time");
+	luaL_newlib(state, event_funcs);
+	lua_setfield(state, -2, "event");
+	luaL_newlib(state, handling_funcs);
+	lua_setfield(state, -2, "event_handling");
+	luaL_newlib(state, destr_funcs);
+	lua_setfield(state, -2, "destructor");
+	luaL_newlib(state, gold_funcs);
+	lua_setfield(state, -2, "gold");
+	lua_pop(state, 1); // Pop game table.
+	
 
 	// Set some C++ constants.
 	script.execute("game.const = {}");

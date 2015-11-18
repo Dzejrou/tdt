@@ -84,13 +84,13 @@ ogre_miner = {
 	},
 
 	handle_event = function(id, evt)
-		if game.get_event_type(evt) == game.enum.event.gold_dropped then
-			if game.gold_full(id) then
-				game.go_deposit_gold(id)
+		if game.event.get_type(evt) == game.enum.event.gold_dropped then
+			if game.gold.full(id) then
+				game.gold.go_deposit(id)
 			end
 
-			task = game.create_task(game.get_event_target(evt), game.enum.task.go_pick_up_gold)
-			game.add_task(id, task)
+			task = game.task.create(game.event.get_target(evt), game.enum.task.go_pick_up_gold)
+			game.task.add(id, task)
 			return true
 		end
 
@@ -101,10 +101,11 @@ ogre_miner = {
 	end,
 
 	update = function(id)
-		deposit = game.get_closest_gold_deposit(id)
+		deposit = game.gold.get_closest_gold_deposit(id)
 		if deposit ~= game.const.no_ent then
-			task = game.create_task(deposit, game.enum.task.go_kill)
-			game.add_task(id, task)
+			game.print("\\[Miner #" .. id .."\\] Gonna mine deposit #" .. deposit .. ".")
+			task = game.task.create(deposit, game.enum.task.go_kill)
+			game.task.add(id, task)
 			return
 		end
 	end,
@@ -114,8 +115,8 @@ ogre_miner = {
 	end,
 
 	get_cost = function(id, node)
-		resident = game.get_resident(node)
-		hp = game.get_health(resident)
+		resident = game.grid.get_resident(node)
+		hp = game.health.get(resident)
 
 		if hp <= 0 then
 			return 1
@@ -126,5 +127,5 @@ ogre_miner = {
 }
 
 if game then
-	game.register_entity("ogre_miner")
+	game.entity.register("ogre_miner")
 end

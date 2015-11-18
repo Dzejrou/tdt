@@ -10,11 +10,11 @@ for _, script_dir in ipairs(game.config.script_directories) do
 end
 
 -- Sets all necessary game variables.
-game.set_update_period(game.config.ai_update_period)
-game.set_production_multiplier(game.config.production_multiplier)
-game.set_timer_multiplier(game.config.timer_multiplier)
-game.set_event_update_multiplier(game.config.event_update_multiplier)
+game.ai.set_update_period(game.config.ai_update_period)
+game.production.set_multiplier(game.config.production_multiplier)
+game.time.set_multiplier(game.config.timer_multiplier)
+game.event.set_multiplier(game.config.event_update_multiplier)
 
 -- Helper commands executed on startup:
 game.toggle_camera_free_mode()
-game.create_grid_graphics()
+game.grid.create_graphics()

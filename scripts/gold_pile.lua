@@ -27,5 +27,5 @@ gold_pile = {
 }
 
 if game then
-	game.register_entity("gold_pile")
+	game.entity.register("gold_pile")
 end

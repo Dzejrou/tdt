@@ -33,5 +33,5 @@ barracks = {
 	}
 }
 if game then
-	game.register_entity("barracks")
+	game.entity.register("barracks")
 end

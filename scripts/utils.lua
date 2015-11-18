@@ -61,16 +61,17 @@ game.unpause = function()
 	game.set_game_state(game.enum.game_state.running)
 end
 
-game.go_deposit_gold = function(id, prio)
+game.gold.go_deposit = function(id, prio)
 	prio = prio or false
-	vault = game.closest_free_gold_vault(id)
+	vault = game.gold.closest_free_gold_vault(id)
+	game.print("Found free gold vault: " .. vault)
 
 	if vault ~= game.const.no_ent then
-		task = game.create_task(vault, game.enum.task.go_deposit_gold)
+		task = game.task.create(vault, game.enum.task.go_deposit_gold)
 		if prio then
-			game.add_priority_task(id, task)
+			game.gold.add_priority(id, task)
 		else
-			game.add_task(id, task)
+			game.gold.add(id, task)
 		end
 	else
 		-- TODO: Notify player that he has no free space in gold vaults.
@@ -78,6 +79,6 @@ game.go_deposit_gold = function(id, prio)
 end
 
 game.attack = function(id, target)
-	task = game.create_task(target, game.enum.task.go_kill)
-	game.add_task(id, task)
+	task = game.task.create(target, game.enum.task.go_kill)
+	game.task.add(id, task)
 end

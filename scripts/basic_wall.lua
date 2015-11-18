@@ -33,5 +33,5 @@ basic_wall = {
 }
 
 if game then
-	game.register_entity("basic_wall")
+	game.entity.register("basic_wall")
 end

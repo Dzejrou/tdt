@@ -83,18 +83,18 @@ evil_ogre = {
 	end,
 
 	update = function(id)
-		enemy = game.closest_enemy_in_sight(id)
+		enemy = game.combat.closest_enemy_in_sight(id)
 		if enemy ~= game.const.no_ent then
-			task = game.create_task(enemy, game.enum.task.go_kill)
-			game.add_task(id, task)
+			task = game.task.create(enemy, game.enum.task.go_kill)
+			game.task.add(id, task)
 			return
 		end
 
 		-- If failed, try enemy not in sight.
-		enemy = game.closest_enemy(id)
+		enemy = game.combat.closest_enemy(id)
 		if enemy ~= game.const.no_ent then
-			task = game.create_task(enemy, game.enum.task.go_kill)
-			game.add_task(id, task)
+			task = game.task.create(enemy, game.enum.task.go_kill)
+			game.task.add(id, task)
 			return
 		end
 	end,
@@ -119,5 +119,5 @@ evil_ogre = {
 }
 
 if game then
-	game.register_entity("evil_ogre")
+	game.entity.register("evil_ogre")
 end

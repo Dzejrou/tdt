@@ -33,5 +33,5 @@ basic_projectile = {
 }
 
 if game then
-	game.register_entity("basic_projectile")
+	game.entity.register("basic_projectile")
 end

@@ -95,18 +95,18 @@ ogre = {
 	end,
 
 	update = function(id)
-		enemy = game.closest_enemy_in_sight(id)
+		enemy = game.combat.closest_enemy_in_sight(id)
 		if enemy ~= game.const.no_ent then
-			task = game.create_task(enemy, game.enum.task.go_kill)
-			game.add_task(id, task)
+			task = game.task.create(enemy, game.enum.task.go_kill)
+			game.task.add(id, task)
 			return
 		end
 
 		-- If failed, try enemy not in sight.
-		enemy = game.closest_enemy(id)
+		enemy = game.combat.closest_enemy(id)
 		if enemy ~= game.const.no_ent then
-			task = game.create_task(enemy, game.enum.task.go_kill)
-			game.add_task(id, task)
+			task = game.task.create(enemy, game.enum.task.go_kill)
+			game.task.add(id, task)
 			return
 		end
 	end,
@@ -126,8 +126,8 @@ ogre = {
 	end,
 
 	get_cost = function(id, node)
-		resident = game.get_resident(node)
-		hp = game.get_health(resident)
+		resident = game.grid.get_resident(node)
+		hp = game.health.get(resident)
 
 		if hp == 0 then
 			return 1
@@ -139,16 +139,16 @@ ogre = {
 
 ogre_handler = function(id, key)
 	if key == game.enum.input.key_up then
-		game.move(id, game.get_dir(id))
+		game.movement.move(id, game.movement.get_dir(id))
 	elseif key == game.enum.input.key_down then
-		game.move(id, game.get_dir_back(id))
+		game.movement.move(id, game.movement.get_dir_back(id))
 	elseif key == game.enum.input.key_left then
-		game.rotate(id, 0.01)
+		game.graphics.rotate(id, 0.01)
 	elseif key == game.enum.input.key_right then
-		game.rotate(id, -0.01)
+		game.graphics.rotate(id, -0.01)
 	end
 end
 
 if game then
-	game.register_entity("ogre")
+	game.entity.register("ogre")
 end

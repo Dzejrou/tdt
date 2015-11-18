@@ -49,5 +49,5 @@ gold_deposit = {
 }
 
 if game then
-	game.register_entity("gold_deposit")
+	game.entity.register("gold_deposit")
 end
