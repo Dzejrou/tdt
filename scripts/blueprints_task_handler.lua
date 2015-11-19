@@ -1,9 +1,9 @@
 default_task_handler = {
 	handle_task = function(id, task)
-		task_type = game.task.get_type(task)
-		target = game.task.get_target(task)
+		local task_type = game.task.get_type(task)
+		local target = game.task.get_target(task)
 
-		res = false
+		local res = false
 		if task_type == game.enum.task.none or
 		   not game.task.possible(id, task) then
 			res = false
@@ -16,11 +16,14 @@ default_task_handler = {
 				game.path.pop_last(id)
 			end
 	   	elseif task_type == game.enum.task.go_kill then
-			t1 = game.task.create(target, game.enum.task.get_in_range)
-			t2 = game.task.create(target, game.enum.task.kill)
+			local t1 = game.task.create(target, game.enum.task.get_in_range)
+			local t2 = game.task.create(target, game.enum.task.kill)
 
-			game.task.add_task(id, t2)
-			game.task.add_task(id, t1)
+			game.task.add_priority(id, t2)
+			game.task.add_priority(id, t1)
+			if id == 348 then
+				game.task.list(id)
+			end
 
 			game.task.cancel(task)
 			res = false
@@ -28,8 +31,8 @@ default_task_handler = {
 			game.combat.set_target(id, target)
 			res = true
 		elseif task_type == game.enum.task.go_pick_up_gold then
-			t1 = game.task.create(target, game.enum.task.go_near)
-			t2 = game.task.create(target, game.enum.task.pick_up_gold)
+			local t1 = game.task.create(target, game.enum.task.go_near)
+			local t2 = game.task.create(target, game.enum.task.pick_up_gold)
 
 			game.task.add_priority(id, t2)
 			game.task.add_priority(id, t1)
@@ -60,8 +63,8 @@ default_task_handler = {
 			game.task.cancel(task)
 			res = false
 		elseif task_type == game.enum.task.go_deposit_gold then
-			t1 = game.task.create(target, game.enum.task.go_near)
-			t2 = game.task.create(target, game.enum.task.deposit_gold)
+			local t1 = game.task.create(target, game.enum.task.go_near)
+			local t2 = game.task.create(target, game.enum.task.deposit_gold)
 
 			game.task.add_priority(id, t2)
 			game.task.add_priority(id, t1)
@@ -83,19 +86,19 @@ default_task_handler = {
 	end,
 
 	task_complete = function(id, task)
-		task_type = game.task.get_type(task)
+		local task_type = game.task.get_type(task)
 		if task_type == game.enum.task.none or
 		   not game.task.type_possible(id, task_type) then
 			return true
 		end
 
-		res = true
+		local res = true
 
 		if task_type == game.enum.task.go or
 		   task_type == game.enum.task.go_near then
 			res = game.path.empty(id)
 		elseif task_type == game.enum.task.get_in_range then
-			range = game.combat.get(id)
+			range = game.combat.get_range(id)
 			range = range - (range / 10)
 			range = range * range
 
