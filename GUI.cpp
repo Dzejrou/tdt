@@ -138,11 +138,10 @@ void GUI::init(Game* game)
 			}
 		);
 
-	window_->getChild("SAVE_LOAD")->subscribeEvent(
+	window_->getChild("SAVE_LOAD/FRAME")->subscribeEvent(
 			CEGUI::FrameWindow::EventCloseClicked,
 			[&](const CEGUI::EventArgs& args){
-				if(((CEGUI::KeyEventArgs&)args).scancode == CEGUI::Key::Scan::Escape)
-					window_->getChild("SAVE_LOAD")->setVisible(false);
+				window_->getChild("SAVE_LOAD")->setVisible(false);
 			}
 		);
 }
