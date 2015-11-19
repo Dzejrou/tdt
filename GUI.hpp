@@ -3,6 +3,7 @@
 #include <CEGUI/CEGUI.h>
 #include <string>
 #include "EntitySystem.hpp"
+#include "Console.hpp"
 #ifdef WIN32
 #include <windows.h>
 #else
