@@ -12,6 +12,7 @@ void GUI::init(Game* game)
 	game_ = game;
 	window_ = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("main_gui.layout");
 	window_->setVisible(true);
+	window_->getChild("SAVE_LOAD")->setVisible(false);
 	CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(window_);
 	log_ = (CEGUI::Listbox*)window_->getChild("GAME_LOG/FRAME/LOG");
 	clear_entity_view();
@@ -59,25 +60,28 @@ void GUI::init(Game* game)
 	window_->getChild("TOOLS/MENU/FRAME/LOAD")->subscribeEvent(
 			CEGUI::PushButton::EventClicked,
 			[&](const CEGUI::EventArgs& args){
-				list_directory("saves/*.lua", *((CEGUI::Listbox*)window_->getChild("GAME_LOG/FRAME/LOG")), true);
+				show_load_save_dialog("LOAD");
 			}
 		);
 
 	window_->getChild("TOOLS/MENU/FRAME/SAVE")->subscribeEvent(
 			CEGUI::PushButton::EventClicked,
 			[&, this](const CEGUI::EventArgs& args){
+				show_load_save_dialog("SAVE");
 			}
 		);
 
 	window_->getChild("TOOLS/MENU/FRAME/OPTIONS")->subscribeEvent(
 			CEGUI::PushButton::EventClicked,
 			[&, this](const CEGUI::EventArgs& args){
+				// TODO:
 			}
 		);
 
 	window_->getChild("TOOLS/MENU/FRAME/NEW_GAME")->subscribeEvent(
 			CEGUI::PushButton::EventClicked,
 			[&, this](const CEGUI::EventArgs& args){
+				// TODO:
 			}
 		);
 
@@ -95,6 +99,51 @@ void GUI::init(Game* game)
 			}
 		);
 
+
+	window_->getChild("SAVE_LOAD/FRAME/BUTT")->subscribeEvent(
+			CEGUI::PushButton::EventClicked,
+			[&](const CEGUI::EventArgs& args){
+				if(window_->getChild("SAVE_LOAD/FRAME/BUTT")->getText() == "LOAD")
+				{
+					game_->game_serializer_->load_game(
+						*game, window_->getChild("SAVE_LOAD/FRAME/INPUT")->getText().c_str()
+					);
+				}
+				else
+				{
+					game_->game_serializer_->save_game(
+						*game, window_->getChild("SAVE_LOAD/FRAME/INPUT")->getText().c_str()
+					);
+				}
+			}
+		);
+
+
+	// When an save file is selected, it's name is copied to the editbox.
+	window_->getChild("SAVE_LOAD/FRAME/ITEMS")->subscribeEvent(
+			CEGUI::Listbox::EventSelectionChanged,
+			[&](const CEGUI::EventArgs& args){
+				window_->getChild("SAVE_LOAD/FRAME/INPUT")->setText(
+					((CEGUI::Listbox*)window_->getChild("SAVE_LOAD/FRAME/ITEMS"))->getFirstSelectedItem()->getText()
+				);
+			}
+		);
+
+	window_->getChild("SAVE_LOAD")->subscribeEvent(
+			CEGUI::Window::EventKeyDown,
+			[&](const CEGUI::EventArgs& args){
+				if(((CEGUI::KeyEventArgs&)args).scancode == CEGUI::Key::Scan::Escape)
+					window_->getChild("SAVE_LOAD")->setVisible(false);
+			}
+		);
+
+	window_->getChild("SAVE_LOAD")->subscribeEvent(
+			CEGUI::FrameWindow::EventCloseClicked,
+			[&](const CEGUI::EventArgs& args){
+				if(((CEGUI::KeyEventArgs&)args).scancode == CEGUI::Key::Scan::Escape)
+					window_->getChild("SAVE_LOAD")->setVisible(false);
+			}
+		);
 }
 
 void GUI::set_visible(bool val)
@@ -198,6 +247,24 @@ void GUI::set_log_history(std::size_t val)
 std::size_t GUI::get_log_history() const
 {
 	return log_history_;
+}
+
+void GUI::show_load_save_dialog(const std::string& type)
+{
+	auto dialog = window_->getChild("SAVE_LOAD");
+	if(dialog->isVisible())
+	{
+		dialog->setVisible(false);
+		return;
+	}
+
+	dialog->setVisible(true);
+	dialog->getChild("FRAME")->setText(type);
+	dialog->getChild("FRAME/BUTT")->setText(type);
+	dialog->getChild("FRAME/INPUT")->setText("");
+	list_directory("saves/*.lua",
+				   *((CEGUI::Listbox*)dialog->getChild("FRAME/ITEMS")),
+				   true); // TODO: Modifiable saves dir?
 }
 
 void GUI::list_directory(const std::string& dir, CEGUI::Listbox& box, bool strip_ext)

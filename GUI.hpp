@@ -111,6 +111,13 @@ class GUI
 		std::size_t get_log_history() const;
 
 		/**
+		 * Brief: Shows the load/save dialog window.
+		 * Param: Either "SAVE" or "LOAD", will determine the
+		 *        functionality of the window.
+		 */
+		void show_load_save_dialog(const std::string&);
+
+		/**
 		 * Note: Since VS2015 seems to have some problems with C++ standard
 		 *       (generates default copy/move constructors and operators even
 		 *        if default constructor is created), these constructors/operators
