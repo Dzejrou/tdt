@@ -4,7 +4,6 @@
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
 #include <Ogre.h>
 #include <string>
-
 #include "lppscript/LppScript.hpp"
 
 /**
