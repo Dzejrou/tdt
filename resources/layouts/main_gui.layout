@@ -416,10 +416,13 @@
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Window type="AlfiskoSkin/FrameWindow" name="FRAME" >
                 <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+                <Property name="SizingEnabled" value="false" />
+                <Property name="DragMovingEnabled" value="false" />
                 <Property name="AutoRenderingSurface" value="true" />
                 <AutoWindow namePath="__auto_titlebar__" >
                     <Property name="NonClient" value="true" />
                     <Property name="AlwaysOnTop" value="false" />
+                    <Property name="DraggingEnabled" value="false" />
                 </AutoWindow>
                 <AutoWindow namePath="__auto_closebutton__" >
                     <Property name="NonClient" value="true" />
