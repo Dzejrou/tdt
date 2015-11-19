@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <fstream>
-
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 #include "lppscript/LppScript.hpp"
