@@ -107,24 +107,6 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 			state_ = (state_ == GAME_STATE::RUNNING ? GAME_STATE::PAUSED : GAME_STATE::RUNNING);
 			return false;
 		case OIS::KC_GRAVE:
-		case OIS::KC_0:
-		{
-			std::string comm{
-				"if id then game.destroy_entity(id) end \
-                 game.clear_path_colour() \
-				 id = game.create_entity('ogre') \
-				 task1 = game.create_task(255, game.enum.task.go_to) \
-				 task2 = game.create_task(15, game.enum.task.go_to) \
-				 task3 = game.create_task(240, game.enum.task.go_to) \
-				 task4 = game.create_task(0, game.enum.task.go_to) \
-				 game.add_task(id, task1) \
-                 game.add_task(id, task2) \
-                 game.add_task(id, task3) \
-                 game.add_task(id, task4)"
-			};
-			lpp::Script::get_singleton().execute(comm);
-			break;
-		}
 			GUI::instance().get_console().set_visible(!GUI::instance().get_console().is_visible());
 			return true;
 	}
