@@ -111,6 +111,13 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 			return true;
 	}
 
+	// Pass to CEGUI.
+	auto& cont = CEGUI::System::getSingleton().getDefaultGUIContext();
+	auto b1 = cont.injectKeyDown((CEGUI::Key::Scan)event.key);
+	auto b2 = cont.injectChar((CEGUI::Key::Scan)event.text);
+	if(b1 || b2) // Guarantees both key and char injection.
+		return true;
+
 	// Allows for free camera movement during debugging.
 	if(camera_free_mode_)
 	{
