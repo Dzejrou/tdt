@@ -715,3 +715,15 @@ inline void EntitySystem::clean_up_component<StructureComponent>(std::size_t id)
 		}
 	}
 }
+
+template<>
+inline void EntitySystem::clean_up_component<ProductComponent>(std::size_t id)
+{
+	auto comp = get_component<ProductComponent>(id);
+	if(comp)
+	{
+		auto producent = get_component<ProductionComponent>(comp->producer);
+		if(producent)
+			--producent->curr_produced;
+	}
+}
