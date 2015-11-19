@@ -1,5 +1,6 @@
 #include "GameSerializer.hpp"
 #include "Game.hpp"
+#include "GUI.hpp"
 
 GameSerializer::GameSerializer(EntitySystem& ents)
 	: entities_{ents}, script_{lpp::Script::get_singleton()},
@@ -159,8 +160,8 @@ void GameSerializer::load_game(Game& game, const std::string& fname)
 	}
 	catch(lpp::Exception& ex)
 	{
-		game.console_.print_text("<FAIL> Could not load from file: " + fname, Console::RED_TEXT);
-		game.console_.print_text(ex.what_lua(), Console::RED_TEXT);
+		GUI::instance().get_console().print_text("<FAIL> Could not load from file: " + fname, Console::RED_TEXT);
+		GUI::instance().get_console().print_text(ex.what_lua(), Console::RED_TEXT);
 	}
 }
 

@@ -118,6 +118,11 @@ class GUI
 		void show_load_save_dialog(const std::string&);
 
 		/**
+		 *
+		 */
+		Console& get_console();
+
+		/**
 		 * Note: Since VS2015 seems to have some problems with C++ standard
 		 *       (generates default copy/move constructors and operators even
 		 *        if default constructor is created), these constructors/operators
@@ -173,4 +178,9 @@ class GUI
 		 * Number of entires kept in the game log.
 		 */
 		std::size_t log_history_;
+
+		/**
+		 *
+		 */
+		Console console_;
 };

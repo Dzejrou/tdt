@@ -14,7 +14,6 @@
 #include "GridSystem.hpp"
 #include "TaskSystem.hpp"
 #include "lppscript/LppScript.hpp"
-#include "Console.hpp"
 #include "SelectionBox.hpp"
 #include "EntityPlacer.hpp"
 #include "EntityCreator.hpp"
@@ -140,11 +139,6 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * Param: OIS key code.
 		 */
 		CEGUI::MouseButton ois_to_cegui(OIS::MouseButtonID);
-
-		/**
-		 * Ingame console.
-		 */
-		Console console_;
 
 		/**
 		 * Allows to spawn entities with the mouse ingame.

@@ -412,7 +412,7 @@ int LuaInterface::lua_print(lpp::Script::state L)
 	std::string msg = luaL_checkstring(L, -1);
 	lua_pop(L, 1);
 
-	lua_this->console_.print_text(msg, Console::ORANGE_TEXT);
+	GUI::instance().get_console().print_text(msg, Console::ORANGE_TEXT);
 	return 0;
 }
 
@@ -447,7 +447,7 @@ int LuaInterface::lua_list_selected(lpp::Script::state)
 	auto& to_be_destroyed = lua_this->selection_box_->get_selected_entities();
 	for(auto& ent : to_be_destroyed)
 	{
-		lua_this->console_.print_text(std::to_string(ent), Console::ORANGE_TEXT);
+		GUI::instance().get_console().print_text(std::to_string(ent), Console::ORANGE_TEXT);
 	}
 
 	return 0;
@@ -481,7 +481,7 @@ int LuaInterface::lua_list_components_of(lpp::Script::state L)
 		}
 	}
 
-	lua_this->console_.print_text(report, Console::ORANGE_TEXT);
+	GUI::instance().get_console().print_text(report, Console::ORANGE_TEXT);
 	return 0;
 }
 
@@ -763,10 +763,10 @@ int LuaInterface::lua_list_entity_tables(lpp::Script::state L)
 	if(!ents.empty())
 	{
 		for(const auto& ent : ents)
-			lua_this->console_.print_text(ent, Console::ORANGE_TEXT);
+			GUI::instance().get_console().print_text(ent, Console::ORANGE_TEXT);
 	}
 	else
-		lua_this->console_.print_text("NO REGISTERED ENTITY TABLES.", Console::ORANGE_TEXT);
+		GUI::instance().get_console().print_text("NO REGISTERED ENTITY TABLES.", Console::ORANGE_TEXT);
 	return 0;
 }
 
@@ -1636,11 +1636,11 @@ int LuaInterface::lua_list_tasks_of(lpp::Script::state L)
 			else
 				report.append(lua_this->task_system_->get_task_name(TASK_TYPE::NONE) + "\n");
 		}
-		lua_this->console_.print_text(report, Console::ORANGE_TEXT);
-		lua_this->console_.scroll_down(task_count);
+		GUI::instance().get_console().print_text(report, Console::ORANGE_TEXT);
+		GUI::instance().get_console().scroll_down(task_count);
 	}
 	else
-		lua_this->console_.print_text("<FAIL> GIVEN ENTITY HAS NO TASKS.", Console::RED_TEXT);
+		GUI::instance().get_console().print_text("<FAIL> GIVEN ENTITY HAS NO TASKS.", Console::RED_TEXT);
 
 	return 0;
 }

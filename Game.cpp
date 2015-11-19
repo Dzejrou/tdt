@@ -4,14 +4,13 @@ Game::Game() // TODO: Init systems.
 	: state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
-	  camera_dir_{0, 0, 0}, renderer_{nullptr}, console_{}, placer_{nullptr}, ground_{nullptr},
+	  camera_dir_{0, 0, 0}, renderer_{nullptr}, placer_{nullptr}, ground_{nullptr},
 	  camera_free_mode_{false}, camera_position_backup_{0, 0, 0},
 	  camera_orientation_backup_{}, selection_box_{}, entity_creator_{nullptr}
 {
 	ogre_init();
 	ois_init();
 	cegui_init();
-	console_.init();
 	GUI::instance().init(this);
 	windowResized(window_); // Will adjust dimensions for OIS mouse.
 
@@ -70,8 +69,8 @@ void Game::update(Ogre::Real delta)
 	if(camera_free_mode_)
 		main_cam_->moveRelative(camera_dir_);
 
-	if(console_.is_visible())
-		console_.update_fps(delta, window_->getLastFPS());
+	if(GUI::instance().get_console().is_visible())
+		GUI::instance().get_console().update_fps(delta, window_->getLastFPS());
 
 	if(state_ == GAME_STATE::RUNNING)
 	{
@@ -102,26 +101,12 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
 
 bool Game::keyPressed(const OIS::KeyEvent& event)
 {
-	// Pass to CEGUI.
-	auto& cont = CEGUI::System::getSingleton().getDefaultGUIContext();
-	cont.injectKeyDown((CEGUI::Key::Scan)event.key);
-	cont.injectChar((CEGUI::Key::Scan)event.text);
-
-	if(console_.is_visible())
-	{
-		if(event.key == OIS::KC_GRAVE)
-			console_.set_visible(false);
-		return true;
-	}
-
 	switch(event.key)
 	{
 		case OIS::KC_ESCAPE:
 			state_ = (state_ == GAME_STATE::RUNNING ? GAME_STATE::PAUSED : GAME_STATE::RUNNING);
 			return false;
 		case OIS::KC_GRAVE:
-			console_.set_visible(true);
-			break;
 		case OIS::KC_0:
 		{
 			std::string comm{
@@ -140,6 +125,8 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 			lpp::Script::get_singleton().execute(comm);
 			break;
 		}
+			GUI::instance().get_console().set_visible(!GUI::instance().get_console().is_visible());
+			return true;
 	}
 
 	// Allows for free camera movement during debugging.
@@ -174,33 +161,31 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 bool Game::keyReleased(const OIS::KeyEvent& event)
 {
 	// Pass to CEGUI.
-	CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp((CEGUI::Key::Scan)event.key);
-
-	if(console_.is_visible())
-		return true;
+	if(CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp((CEGUI::Key::Scan)event.key))
+		return true; // Note: This wont return if editbox was focused!
 
 	// Allows for free camera movement during debbuging.
-	if(camera_free_mode_)
+	if(camera_free_mode_ && !GUI::instance().get_console().is_visible())
 	{
 		switch(event.key)
 		{
 			case OIS::KC_A:
-				camera_dir_.x += 1;
+				camera_dir_.x = 0;
 				break;
 			case OIS::KC_D:
-				camera_dir_.x -= 1;
+				camera_dir_.x = 0;
 				break;
 			case OIS::KC_W:
-				camera_dir_.z += 1;
+				camera_dir_.z = 0;
 				break;
 			case OIS::KC_S:
-				camera_dir_.z -= 1;
+				camera_dir_.z = 0;
 				break;
 			case OIS::KC_SPACE:
-				camera_dir_.y -= 1;
+				camera_dir_.y = 0;
 				break;
 			case OIS::KC_LCONTROL:
-				camera_dir_.y += 1;
+				camera_dir_.y = 0;
 				break;
 		}
 	}
@@ -248,7 +233,7 @@ bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 	if(gui_context.injectMouseButtonDown(ois_to_cegui(id)))
 		return true;
 
-	if(id == OIS::MB_Left && !console_.is_visible() && !placer_->is_visible()) // TODO: State switch!
+	if(id == OIS::MB_Left && !placer_->is_visible()) // TODO: State switch!
 	{ // Start selection.
 		auto& mouse = gui_context.getMouseCursor();
 
@@ -264,7 +249,7 @@ bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 	if(placer_->is_visible())
 	{
 		if(id == OIS::MB_Left)
-			placer_->place(console_);
+			placer_->place(GUI::instance().get_console());
 		else if(id == OIS::MB_Right)
 			placer_->set_visible(false);
 	}

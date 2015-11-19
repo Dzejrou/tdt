@@ -4,7 +4,7 @@
 
 GUI::GUI()
 	: window_{nullptr}, curr_tool_{"TOOLS/MENU"}, game_{nullptr},
-	  curr_tracked_entity_{Component::NO_ENTITY}
+	  curr_tracked_entity_{Component::NO_ENTITY}, console_{}
 { /* DUMMY BODY */ }
 
 void GUI::init(Game* game)
@@ -16,6 +16,7 @@ void GUI::init(Game* game)
 	CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(window_);
 	log_ = (CEGUI::Listbox*)window_->getChild("GAME_LOG/FRAME/LOG");
 	clear_entity_view();
+	console_.init();
 
 	/**
 	 * TOOL SELECTION
@@ -265,6 +266,11 @@ void GUI::show_load_save_dialog(const std::string& type)
 	list_directory("saves/*.lua",
 				   *((CEGUI::Listbox*)dialog->getChild("FRAME/ITEMS")),
 				   true); // TODO: Modifiable saves dir?
+}
+
+Console& GUI::get_console()
+{
+	return console_;
 }
 
 void GUI::list_directory(const std::string& dir, CEGUI::Listbox& box, bool strip_ext)
