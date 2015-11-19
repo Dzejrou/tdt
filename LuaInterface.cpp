@@ -61,8 +61,8 @@ void LuaInterface::init(Game* game)
 
 	lpp::Script::regs entity_funcs[] = {
 		// Entity manipulation.
-		{"create_entity", LuaInterface::lua_create_entity},
-		{"destroy_entity", LuaInterface::lua_destroy_entity},
+		{"create", LuaInterface::lua_create_entity},
+		{"destroy", LuaInterface::lua_destroy_entity},
 		{"add_component", LuaInterface::lua_add_component},
 		{"delete_component", LuaInterface::lua_delete_component},
 		{"init_graphics_component", LuaInterface::lua_init_graphics_component},
