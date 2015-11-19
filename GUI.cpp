@@ -252,7 +252,7 @@ std::size_t GUI::get_log_history() const
 void GUI::show_load_save_dialog(const std::string& type)
 {
 	auto dialog = window_->getChild("SAVE_LOAD");
-	if(dialog->isVisible())
+	if(dialog->isVisible() && dialog->getChild("FRAME/BUTT")->getText() == type)
 	{
 		dialog->setVisible(false);
 		return;
