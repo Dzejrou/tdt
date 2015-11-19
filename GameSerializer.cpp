@@ -16,7 +16,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 
 	// Save the map info.
 	std::string map{
-		  "game.create_graph(" + std::to_string(Grid::instance().width_) + ", "
+		  "game.grid.create(" + std::to_string(Grid::instance().width_) + ", "
 		+ std::to_string(Grid::instance().height_) + ", " + std::to_string(Grid::instance().distance_)
 		+ ", " + std::to_string(Grid::instance().start_.x) + ", " + std::to_string(Grid::instance().start_.y)
 		+ ")\n"
@@ -40,7 +40,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 		entity_name = "entity_" + std::to_string(ent.first);
 		temp_vars.push_back(entity_name);
 		
-		save_entities_.emplace_back(entity_name + " = game.create_entity()");
+		save_entities_.emplace_back(entity_name + " = game.entity.create()");
 		for(std::size_t i = 0; i < ent.second.size(); ++i)
 		{ // TODO: Do the same as with ADD/LOAD/DELETE/DELETE_NOW in EntitySystem!
 			if(ent.second.test(i))
