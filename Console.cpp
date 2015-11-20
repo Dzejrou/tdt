@@ -124,3 +124,8 @@ std::size_t Console::get_history() const
 {
 	return console_history_;
 }
+
+void Console::clear()
+{
+	list_box_->resetList();
+}

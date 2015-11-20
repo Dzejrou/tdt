@@ -84,6 +84,11 @@ class Console
 		 * Brief: Returns the number of entries that will be shown in the console's history.
 		 */
 		std::size_t get_history() const;
+
+		/**
+		 * Brief: Clears the console log.
+		 */
+		void clear();
 	private:
 		/**
 		 * Pointer to the CEGUI widget representing this console.
