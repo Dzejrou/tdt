@@ -69,6 +69,7 @@ class Console
 
 		/**
 		 * Brief: Updates the FPS value next to the console name.
+		 * Param: Time since the last frame.
 		 * Param: The new framerate.
 		 */
 		void update_fps(Ogre::Real, Ogre::Real);
