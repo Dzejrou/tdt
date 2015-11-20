@@ -64,6 +64,12 @@ void Console::execute(const CEGUI::EventArgs& args)
 
 		success = false;
 	}
+	catch(const std::exception& ex)
+	{
+		err_msg = "C++: ";
+		err_msg += ex.what();
+		success = false;
+	}
 	catch(...)
 	{
 		print_text("<FAIL> Caught an unspecified error.", RED_TEXT);
