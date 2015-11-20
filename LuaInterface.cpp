@@ -19,7 +19,7 @@ void LuaInterface::init(Game* game)
 		// Core functions.
 		{"get_avg_fps", LuaInterface::lua_get_avg_fps},
 		{"get_fps", LuaInterface::lua_get_fps},
-		{"print", LuaInterface::lua_print},
+		{"print", LuaInterface::lua_print}, // Alias to game.console.print, can be changed ingame later.
 		{"set_game_state", LuaInterface::lua_set_game_state},
 		{"toggle_bounding_boxes", LuaInterface::lua_toggle_bounding_boxes},
 		{"toggle_camera_free_mode", LuaInterface::lua_toggle_camera_free_mode},
@@ -327,6 +327,43 @@ void LuaInterface::init(Game* game)
 		{nullptr, nullptr}
 	};
 
+	lpp::Script::regs gui_funcs[] = {
+		{"set_visible", LuaInterface::lua_set_gui_visible},
+		{"is_visible", LuaInterface::lua_is_gui_visible},
+		{"set_window_visible", LuaInterface::lua_set_window_visible},
+		{"is_window_visible", LuaInterface::lua_is_window_visible},
+		{"show_load_dialog", LuaInterface::lua_show_load_dialog},
+		{"show_save_dialog", LuaInterface::lua_show_save_dialog},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs log_funcs[] = {
+		{"clear", LuaInterface::lua_clear_log},
+		{"print", LuaInterface::lua_print_to_log},
+		{"set_history", LuaInterface::lua_set_log_history},
+		{"get_history", LuaInterface::lua_get_log_history},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs track_funcs[] = {
+		{"clear", LuaInterface::lua_clear_entity_tracker},
+		{"get_id", LuaInterface::lua_get_tracked_entity},
+		{"set_id", LuaInterface::lua_set_tracked_entity},
+		{"update", LuaInterface::lua_update_tracking},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs console_funcs[] = {
+		{"scroll_down", LuaInterface::lua_console_scroll_down},
+		{"set_history", LuaInterface::lua_set_console_history},
+		{"get_history", LuaInterface::lua_get_console_history},
+		{"clear", LuaInterface::lua_clear_console},
+		{"set_visible", LuaInterface::lua_set_console_visible},
+		{"is_visible", LuaInterface::lua_is_console_visible},
+		{"print", LuaInterface::lua_print},
+		{nullptr, nullptr}
+	};
+
 	auto state = script.get_state();
 	luaL_newlib(state, game_funcs);
 	lua_setglobal(state, "game");
@@ -369,9 +406,22 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "destructor");
 	luaL_newlib(state, gold_funcs);
 	lua_setfield(state, -2, "gold");
-	lua_pop(state, 1); // Pop game table.
-	
 
+	// GUI subtable has it's own subtables.
+	luaL_newlib(state, gui_funcs);
+	lua_setfield(state, -2, "gui");
+	lua_getfield(state, -1, "gui");
+	luaL_newlib(state, log_funcs);
+	lua_setfield(state, -2, "log");
+	luaL_newlib(state, track_funcs);
+	lua_setfield(state, -2, "tracker");
+	luaL_newlib(state, console_funcs);
+	lua_setfield(state, -2, "console");
+	lua_pop(state, 1);
+
+	// Pop the residual game table.
+	lua_pop(state, 1);
+	
 	// Set some C++ constants.
 	script.execute("game.const = {}");
 	script.execute("game.const.no_ent = " + std::to_string(Component::NO_ENTITY));
@@ -2637,5 +2687,160 @@ int LuaInterface::exists_free_gold_vault(lpp::Script::state L)
 	auto res = lua_this->combat_system_->get_closest_gold_vault(id, true, true);
 	lua_pushinteger(L, res != Component::NO_ENTITY);
 	return 1;
+}
+
+int LuaInterface::lua_set_gui_visible(lpp::Script::state L)
+{
+	bool val = lua_toboolean(L, -1) == 1;
+	lua_pop(L, 1);
+
+	GUI::instance().set_visible(val);
+	return 0;
+}
+
+int LuaInterface::lua_is_gui_visible(lpp::Script::state L)
+{
+	auto res = GUI::instance().is_visible();
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_window_visible(lpp::Script::state L)
+{
+	bool val = lua_toboolean(L, -1) == 1;
+	std::string win = luaL_checkstring(L, -2);
+	lua_pop(L, 2);
+
+	GUI::instance().set_visible(win, val);
+	return 0;
+}
+
+int LuaInterface::lua_is_window_visible(lpp::Script::state L)
+{
+	std::string win = luaL_checkstring(L, -1);
+	lua_pop(L, 1);
+
+	auto res = GUI::instance().is_visible(win);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_clear_log(lpp::Script::state L)
+{
+	GUI::instance().clear_log();
+	return 0;
+}
+
+int LuaInterface::lua_print_to_log(lpp::Script::state L)
+{
+	std::string msg = luaL_checkstring(L, -1);
+	lua_pop(L, 1);
+
+	GUI::instance().print_to_log(msg);
+	return 0;
+}
+
+int LuaInterface::lua_set_tracked_entity(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, -1);
+
+	GUI::instance().set_tracked_entity(id, *ents);
+	return 0;
+}
+
+int LuaInterface::lua_get_tracked_entity(lpp::Script::state L)
+{
+	auto res = GUI::instance().get_tracked_entity();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_update_tracking(lpp::Script::state L)
+{
+	std::string val = luaL_checkstring(L, -1);
+	std::string nam = luaL_checkstring(L, -2);
+	lua_pop(L, 2);
+
+	GUI::instance().update_tracking(nam, val);
+	return 0;
+}
+
+int LuaInterface::lua_clear_entity_tracker(lpp::Script::state L)
+{
+	GUI::instance().clear_entity_view(); // TODO: rename to tracker!
+	return 0;
+}
+
+int LuaInterface::lua_set_log_history(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	GUI::instance().set_log_history(val);
+	return 0;
+}
+
+int LuaInterface::lua_get_log_history(lpp::Script::state L)
+{
+	auto res = GUI::instance().get_log_history();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_show_save_dialog(lpp::Script::state L)
+{
+	GUI::instance().show_load_save_dialog("SAVE");
+	return 0;
+}
+
+int LuaInterface::lua_show_load_dialog(lpp::Script::state L)
+{
+	GUI::instance().show_load_save_dialog("LOAD");
+	return 0;
+}
+
+int LuaInterface::lua_console_scroll_down(lpp::Script::state L)
+{
+	GUI::instance().get_console().scroll_down();
+	return 0;
+}
+
+int LuaInterface::lua_set_console_history(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	lua_pop(L, 1);
+
+	GUI::instance().get_console().set_history(val);
+	return 0;
+}
+
+int LuaInterface::lua_get_console_history(lpp::Script::state L)
+{
+	auto res = GUI::instance().get_console().get_history();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_console_visible(lpp::Script::state L)
+{
+	bool val = lua_toboolean(L, -1) == 1;
+	lua_pop(L, 1);
+
+	GUI::instance().get_console().set_visible(val);
+	return 0;
+}
+
+int LuaInterface::lua_is_console_visible(lpp::Script::state L)
+{
+	auto res = GUI::instance().get_console().is_visible();
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_clear_console(lpp::Script::state L)
+{
+	GUI::instance().get_console().clear();
+	return 0;
 }
 #pragma endregion

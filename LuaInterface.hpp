@@ -294,4 +294,26 @@ class LuaInterface
 		static int closest_free_gold_vault(lpp::Script::state);
 		static int closest_free_gold_vault_in_sight(lpp::Script::state);
 		static int exists_free_gold_vault(lpp::Script::state);
+
+		// GUI.
+		static int lua_set_gui_visible(lpp::Script::state);
+		static int lua_is_gui_visible(lpp::Script::state);
+		static int lua_set_window_visible(lpp::Script::state);
+		static int lua_is_window_visible(lpp::Script::state);
+		static int lua_clear_log(lpp::Script::state);
+		static int lua_print_to_log(lpp::Script::state);
+		static int lua_set_tracked_entity(lpp::Script::state);
+		static int lua_get_tracked_entity(lpp::Script::state);
+		static int lua_update_tracking(lpp::Script::state);
+		static int lua_clear_entity_tracker(lpp::Script::state);
+		static int lua_set_log_history(lpp::Script::state);
+		static int lua_get_log_history(lpp::Script::state);
+		static int lua_show_save_dialog(lpp::Script::state);
+		static int lua_show_load_dialog(lpp::Script::state);
+		static int lua_console_scroll_down(lpp::Script::state);
+		static int lua_set_console_history(lpp::Script::state);
+		static int lua_get_console_history(lpp::Script::state);
+		static int lua_set_console_visible(lpp::Script::state);
+		static int lua_is_console_visible(lpp::Script::state);
+		static int lua_clear_console(lpp::Script::state);
 };
