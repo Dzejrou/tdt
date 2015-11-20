@@ -119,7 +119,7 @@ class GUI
 		void show_load_save_dialog(const std::string&);
 
 		/**
-		 *
+		 * Brief: Returns a reference to the game's dev console.
 		 */
 		Console& get_console();
 
@@ -181,7 +181,7 @@ class GUI
 		std::size_t log_history_;
 
 		/**
-		 *
+		 * Game's developer console.
 		 */
 		Console console_;
 };
