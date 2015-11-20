@@ -19,7 +19,7 @@ drop_gold_destructor = {
 		game.event.set_radius(evt, 300.0)
 
 		if killer and killer ~= game.const.no_ent then
-			game.event_handling.set_handler(evt, killer)
+			game.event.set_handler(evt, killer)
 		end
 	end
 }

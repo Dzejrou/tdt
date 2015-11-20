@@ -50,14 +50,14 @@ default_task_handler = {
 				evt = game.entity.create("")
 				game.entity.add_component(evt, game.enum.component.event)
 				game.event.set_target(evt, target)
-				game.event.sethandler(evt, id)
+				game.event.set_handler(evt, id)
 				game.event.set_type(evt, game.enum.event.gold_dropped)
 			else
 				game.entity.destroy(target)
 			end
 
 			if game.gold.full(id) then
-				game.go_deposit(id, true)
+				game.gold.go_deposit(id, true)
 			end
 
 			game.task.cancel(task)
