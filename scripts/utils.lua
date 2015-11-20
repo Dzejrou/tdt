@@ -69,9 +69,9 @@ game.gold.go_deposit = function(id, prio)
 	if vault ~= game.const.no_ent then
 		task = game.task.create(vault, game.enum.task.go_deposit_gold)
 		if prio then
-			game.gold.add_priority(id, task)
+			game.task.add_priority(id, task)
 		else
-			game.gold.add(id, task)
+			game.task.add(id, task)
 		end
 	else
 		-- TODO: Notify player that he has no free space in gold vaults.
