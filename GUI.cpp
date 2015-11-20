@@ -4,7 +4,8 @@
 
 GUI::GUI()
 	: window_{nullptr}, curr_tool_{"TOOLS/MENU"}, game_{nullptr},
-	  curr_tracked_entity_{Component::NO_ENTITY}, console_{}
+	  curr_tracked_entity_{Component::NO_ENTITY}, console_{},
+	  log_history_{60}
 { /* DUMMY BODY */ }
 
 void GUI::init(Game* game)
