@@ -151,9 +151,9 @@ void GUI::set_visible(bool val)
 	window_->setVisible(val);
 }
 
-void GUI::is_visible() const
+bool GUI::is_visible() const
 {
-	window_->isVisible();
+	return window_->isVisible();
 }
 
 void GUI::set_visible(const std::string& wname, bool val)
@@ -161,9 +161,9 @@ void GUI::set_visible(const std::string& wname, bool val)
 	window_->getChild(wname)->setVisible(val);
 }
 
-void GUI::is_visible(const std::string& wname) const
+bool GUI::is_visible(const std::string& wname) const
 {
-	window_->getChild(wname)->isVisible();
+	return window_->getChild(wname)->isVisible();
 }
 
 void GUI::clear_log()

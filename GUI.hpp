@@ -42,7 +42,7 @@ class GUI
 		/**
 		 * Brief: Returns true if the entire GUI is visible, false otherwise.
 		 */
-		void is_visible() const;
+		bool is_visible() const;
 
 		/**
 		 * Brief: Set's the visibility status of a particular window.
@@ -56,7 +56,7 @@ class GUI
 		 * Brief: Returns the visibility status of a particular window.
 		 * Param: Name (path) of the window, without the root window prefix.
 		 */
-		void is_visible(const std::string&) const;
+		bool is_visible(const std::string&) const;
 
 		/**
 		 * Brief: Clears the game's log by deleting all it's entries.
