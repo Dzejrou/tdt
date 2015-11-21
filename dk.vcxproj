@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="AIHelper.cpp" />
     <ClCompile Include="AISystem.cpp" />
+    <ClCompile Include="BuilderWindow.cpp" />
     <ClCompile Include="CombatHelper.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="Console.cpp" />
@@ -28,11 +29,13 @@
     <ClCompile Include="EntityCreator.cpp" />
     <ClCompile Include="EntityPlacer.cpp" />
     <ClCompile Include="EntitySystem.cpp" />
+    <ClCompile Include="EntityTracker.cpp" />
     <ClCompile Include="EventHandlerHelper.cpp" />
     <ClCompile Include="EventHelper.cpp" />
     <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="FactionHelper.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameLog.cpp" />
     <ClCompile Include="GameSerializer.cpp" />
     <ClCompile Include="GoldHelper.cpp" />
     <ClCompile Include="GraphicsHelper.cpp" />
@@ -40,6 +43,7 @@
     <ClCompile Include="GridNodeHelper.cpp" />
     <ClCompile Include="GridSystem.cpp" />
     <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="GUIWindow.cpp" />
     <ClCompile Include="HealthHelper.cpp" />
     <ClCompile Include="HealthSystem.cpp" />
     <ClCompile Include="HomingHelper.cpp" />
@@ -67,6 +71,7 @@
   <ItemGroup>
     <ClInclude Include="AIHelper.hpp" />
     <ClInclude Include="AISystem.hpp" />
+    <ClInclude Include="BuilderWindow.hpp" />
     <ClInclude Include="CombatHelper.hpp" />
     <ClInclude Include="CombatSystem.hpp" />
     <ClInclude Include="Components.hpp" />
@@ -75,12 +80,14 @@
     <ClInclude Include="EntityCreator.hpp" />
     <ClInclude Include="EntityPlacer.hpp" />
     <ClInclude Include="EntitySystem.hpp" />
+    <ClInclude Include="EntityTracker.hpp" />
     <ClInclude Include="Enums.hpp" />
     <ClInclude Include="EventHandlerHelper.hpp" />
     <ClInclude Include="EventHelper.hpp" />
     <ClInclude Include="EventSystem.hpp" />
     <ClInclude Include="FactionHelper.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="GameLog.hpp" />
     <ClInclude Include="GameSerializer.hpp" />
     <ClInclude Include="GoldHelper.hpp" />
     <ClInclude Include="GraphicsHelper.hpp" />
@@ -88,6 +95,7 @@
     <ClInclude Include="GridNodeHelper.hpp" />
     <ClInclude Include="GridSystem.hpp" />
     <ClInclude Include="GUI.hpp" />
+    <ClInclude Include="GUIWindow.hpp" />
     <ClInclude Include="HealthHelper.hpp" />
     <ClInclude Include="HealthSystem.hpp" />
     <ClInclude Include="Helpers.hpp" />
