@@ -4,6 +4,9 @@
 #include <string>
 #include "EntitySystem.hpp"
 #include "Console.hpp"
+#include "EntityTracker.hpp"
+#include "GameLog.hpp"
+#include "BuilderWindow.hpp"
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -59,57 +62,9 @@ class GUI
 		bool is_visible(const std::string&) const;
 
 		/**
-		 * Brief: Clears the game's log by deleting all it's entries.
-		 */
-		void clear_log();
-
-		/**
-		 * Brief: Prints a string to the game's log.
-		 * Param: String to be printed.
-		 */
-		void print_to_log(const std::string&);
-
-		/**
-		 * Brief: Sets the new tracked entity and loads it's data.
-		 * Param: ID of the entity.
-		 * Param: EntitySystem that contains the entity.
-		 */
-		void set_tracked_entity(std::size_t, EntitySystem&);
-
-		/**
-		 * Brief: Returns the ID of the currently tracked entity.
-		 */
-		std::size_t get_tracked_entity() const;
-
-		/**
-		 * Brief: Updates a single stat of the entity tracker.
-		 * Param: Name of the stat label (e.g. "HP_LABEL", "GOLD_LABEL" etc).
-		 * Param: String with the new value.
-		 * Note: The value should have the form "[CURRENT_VALUE]/[MAX_VALUE]".
-		 */
-		void update_tracking(const std::string&, const std::string&);
-
-		/**
-		 * Brief: Clears the entity tracker's window, that is sets all
-		 *        values to 0/0 and the id to UNKNOWN.
-		 */
-		void clear_entity_view();
-
-		/**
 		 * Brief: Returns the singleton instance.
 		 */
 		static GUI& instance();
-
-		/**
-		 * Brief: Sets the amount of entries kept in the game's log.
-		 * Param: The new log history.
-		 */
-		void set_log_history(std::size_t);
-
-		/**
-		 * Brief: Returns the amoung of entries kept in the game's log.
-		 */
-		std::size_t get_log_history() const;
 
 		/**
 		 * Brief: Shows the load/save dialog window.
@@ -122,6 +77,21 @@ class GUI
 		 * Brief: Returns a reference to the game's dev console.
 		 */
 		Console& get_console();
+
+		/**
+		 * Brief: Returns a reference to the entity tracker.
+		 */
+		EntityTracker& get_tracker();
+
+		/**
+		 * Brief: Returns a reference to the game's log.
+		 */
+		GameLog& get_log();
+
+		/**
+		 * Brief: Returns a reference to the builder window.
+		 */
+		BuilderWindow& get_builder();
 
 		/**
 		 * Note: Since VS2015 seems to have some problems with C++ standard
@@ -155,12 +125,6 @@ class GUI
 		CEGUI::Window* window_;
 
 		/**
-		 * Pointer to the log window for easy access (as it might get called quite
-		 * often, this will avoid frequent lookups).
-		 */
-		CEGUI::Listbox* log_;
-
-		/**
 		 * Name of the current tool in the tools subwindow.
 		 */
 		std::string curr_tool_;
@@ -173,15 +137,20 @@ class GUI
 		/**
 		 * ID of the entity that is currently tracked by the entity viewer.
 		 */
-		std::size_t curr_tracked_entity_;
-
-		/**
-		 * Number of entires kept in the game log.
-		 */
-		std::size_t log_history_;
+		EntityTracker tracker_;
 
 		/**
 		 * Game's developer console.
 		 */
 		Console console_;
+
+		/**
+		 * Game's log, used to show messages to the player.
+		 */
+		GameLog log_;
+
+		/**
+		 * Allows the player to place buildings.
+		 */
+		BuilderWindow builder_;
 };
