@@ -1,16 +1,16 @@
 #pragma once
 
-#include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
 #include <Ogre.h>
 #include <string>
+#include "GUIWindow.hpp"
 #include "lppscript/LppScript.hpp"
 
 /**
  * Class representing the ingame developers console that allows for runtime
  * execution of Lua code.
  */
-class Console
+class Console : public GUIWindow
 {
 	public:
 	static const CEGUI::Colour RED_TEXT, GREEN_TEXT, ORANGE_TEXT, BLUE_TEXT;
@@ -25,21 +25,10 @@ class Console
 		~Console() {}
 
 		/**
-		 * Brief: Initializes the console from a predefined CEGUI layout XML file,
-		 *        registers it to the gui system and also registers it's event handlers.
-		 */
-		void init();
-
-		/**
 		 * Brief: Changes the visibility and text capturing of the console window.
 		 * Param: The new visibility state.
 		 */
 		void set_visible(bool);
-
-		/**
-		 * Brief: Returns true if the console window is visible, false otherwise.
-		 */
-		bool is_visible() const;
 
 		/**
 		 * Brief: Event handler that is called by CEGUI whenever a text is entered.
@@ -89,12 +78,12 @@ class Console
 		 * Brief: Clears the console log.
 		 */
 		void clear();
-	private:
+	protected:
 		/**
-		 * Pointer to the CEGUI widget representing this console.
+		 * Brief: Initializes the console and subscribes it to events.
 		 */
-		CEGUI::Window* window_;
-
+		void init_();
+	private:
 		/**
 		 * Pointer to the CEGUI ListBox widget that serves as console output.
 		 */

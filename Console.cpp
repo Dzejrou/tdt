@@ -7,13 +7,12 @@ const CEGUI::Colour Console::ORANGE_TEXT = CEGUI::Colour{1.f, .5f, 0.1f};
 const CEGUI::Colour Console::BLUE_TEXT = CEGUI::Colour{0.f, 0.f, 1.f};
 
 Console::Console()
-	: window_{nullptr}, list_box_{nullptr}, curr_command_{},
+	: list_box_{nullptr}, curr_command_{},
 	  time_since_last_fps_update_{}, console_history_{60}
 { /* DUMMY BODY */ }
 
-void Console::init()
+void Console::init_()
 {
-	window_ = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("console.layout");
 	window_->setVisible(false);
 	CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(window_);
 	
@@ -31,11 +30,6 @@ void Console::set_visible(bool visible)
 	window_->setVisible(visible);
 	if(visible)
 		window_->getChild("INPUT")->activate();
-}
-
-bool Console::is_visible() const
-{
-	return window_->isVisible();
 }
 
 void Console::handle_text(const CEGUI::EventArgs& args)
