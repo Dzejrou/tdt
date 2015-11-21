@@ -11,7 +11,6 @@ Game::Game() // TODO: Init systems.
 	ogre_init();
 	ois_init();
 	cegui_init();
-	GUI::instance().init(this);
 	windowResized(window_); // Will adjust dimensions for OIS mouse.
 
 	entity_system_.reset(new EntitySystem(*scene_mgr_));
@@ -48,6 +47,7 @@ Game::Game() // TODO: Init systems.
 	game_serializer_.reset(new GameSerializer{*entity_system_});
 
 	level_init();
+	GUI::instance().init(this);
 	LuaInterface::init(this);
 }
 
