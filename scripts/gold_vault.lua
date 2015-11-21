@@ -51,4 +51,5 @@ gold_vault = {
 
 if game then
 	game.entity.register("gold_vault")
+	game.gui.builder.register_building("gold_vault")
 end

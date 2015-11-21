@@ -34,4 +34,5 @@ barracks = {
 }
 if game then
 	game.entity.register("barracks")
+	game.gui.builder.register_building("barracks")
 end
