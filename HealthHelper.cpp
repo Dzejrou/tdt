@@ -11,9 +11,10 @@ void HealthHelper::set_health(EntitySystem& ents, std::size_t id, std::size_t va
 		if(val == 0)
 			comp->alive = false;
 		comp->curr_hp = val;
-		if(GUI::instance().get_tracked_entity() == id)
-			GUI::instance().update_tracking("HP_VALUE", std::to_string(comp->curr_hp)
-											+ " / " + std::to_string(comp->max_hp));
+		auto& tracker = GUI::instance().get_tracker();
+		if(tracker.get_tracked_entity() == id)
+			tracker.update_tracking("HP_VALUE", std::to_string(comp->curr_hp)
+									+ " / " + std::to_string(comp->max_hp));
 	}
 }
 
@@ -32,9 +33,10 @@ void HealthHelper::add_health(EntitySystem& ents, std::size_t id, std::size_t va
 	if(comp)
 	{
 		comp->curr_hp = (comp->curr_hp + val >= comp->max_hp ? comp->max_hp : comp->curr_hp + val);
-		if(GUI::instance().get_tracked_entity() == id)
-			GUI::instance().update_tracking("HP_VALUE", std::to_string(comp->curr_hp)
-											+ " / " + std::to_string(comp->max_hp));
+		auto& tracker = GUI::instance().get_tracker();
+		if(tracker.get_tracked_entity() == id)
+			tracker.update_tracking("HP_VALUE", std::to_string(comp->curr_hp)
+					  				+ " / " + std::to_string(comp->max_hp));
 	}
 }
 
@@ -53,9 +55,10 @@ void HealthHelper::sub_health(EntitySystem& ents, std::size_t id, std::size_t va
 		}
 		else
 			comp->curr_hp -= val;
-		if(GUI::instance().get_tracked_entity() == id)
-			GUI::instance().update_tracking("HP_VALUE", std::to_string(comp->curr_hp)
-											+ " / " + std::to_string(comp->max_hp));
+		auto& tracker = GUI::instance().get_tracker();
+		if(tracker.get_tracked_entity() == id)
+			tracker.update_tracking("HP_VALUE", std::to_string(comp->curr_hp)
+									+ " / " + std::to_string(comp->max_hp));
 	}
 }
 
@@ -65,9 +68,10 @@ void HealthHelper::heal(EntitySystem& ents, std::size_t id)
 	if(comp)
 	{
 		comp->curr_hp = comp->max_hp;
-		if(GUI::instance().get_tracked_entity() == id)
-			GUI::instance().update_tracking("HP_VALUE", std::to_string(comp->curr_hp)
-											+ " / " + std::to_string(comp->max_hp));
+		auto& tracker = GUI::instance().get_tracker();
+		if(tracker.get_tracked_entity() == id)
+			tracker.update_tracking("HP_VALUE", std::to_string(comp->curr_hp)
+									+ " / " + std::to_string(comp->max_hp));
 	}
 }
 
@@ -78,9 +82,10 @@ void HealthHelper::buff(EntitySystem& ents, std::size_t id, std::size_t val)
 	{
 		comp->max_hp += val;
 		comp->curr_hp += val;
-		if(GUI::instance().get_tracked_entity() == id)
-			GUI::instance().update_tracking("HP_VALUE", std::to_string(comp->curr_hp)
-											+ " / " + std::to_string(comp->max_hp));
+		auto& tracker = GUI::instance().get_tracker();
+		if(tracker.get_tracked_entity() == id)
+			tracker.update_tracking("HP_VALUE", std::to_string(comp->curr_hp)
+									+ " / " + std::to_string(comp->max_hp));
 	}
 }
 
@@ -99,9 +104,10 @@ void HealthHelper::debuff(EntitySystem& ents, std::size_t id, std::size_t val)
 			comp->max_hp -= val;
 			comp->curr_hp -= val;
 		}
-		if(GUI::instance().get_tracked_entity() == id)
-			GUI::instance().update_tracking("HP_VALUE", std::to_string(comp->curr_hp)
-											+ " / " + std::to_string(comp->max_hp));
+		auto& tracker = GUI::instance().get_tracker();
+		if(tracker.get_tracked_entity() == id)
+			tracker.update_tracking("HP_VALUE", std::to_string(comp->curr_hp)
+									+ " / " + std::to_string(comp->max_hp));
 	}
 }
 
@@ -180,7 +186,8 @@ void HealthHelper::ubercharge(EntitySystem& ents, std::size_t id)
 		comp->curr_hp = Component::NO_ENTITY;
 		comp->max_hp = Component::NO_ENTITY;
 		comp->defense = Component::NO_ENTITY;
-		if(GUI::instance().get_tracked_entity() == id)
-			GUI::instance().update_tracking("HP_VALUE", "UBER");
+		auto& tracker = GUI::instance().get_tracker();
+		if(tracker.get_tracked_entity() == id)
+			tracker.update_tracking("HP_VALUE", "UBER");
 	}
 }
