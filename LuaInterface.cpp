@@ -135,6 +135,7 @@ void LuaInterface::init(Game* game)
 		{"set_update_period", LuaInterface::lua_set_update_period},
 		{"get_update_period", LuaInterface::lua_get_update_period},
 		{"force_update", LuaInterface::lua_force_update},
+		{nullptr, nullptr}
 	};
 
 	lpp::Script::regs input_funcs[] = {
@@ -342,6 +343,8 @@ void LuaInterface::init(Game* game)
 		{"print", LuaInterface::lua_print_to_log},
 		{"set_history", LuaInterface::lua_set_log_history},
 		{"get_history", LuaInterface::lua_get_log_history},
+		{"set_visible", LuaInterface::lua_set_log_visible},
+		{"is_visible", LuaInterface::lua_is_log_visible},
 		{nullptr, nullptr}
 	};
 
@@ -350,6 +353,8 @@ void LuaInterface::init(Game* game)
 		{"get_id", LuaInterface::lua_get_tracked_entity},
 		{"set_id", LuaInterface::lua_set_tracked_entity},
 		{"update", LuaInterface::lua_update_tracking},
+		{"set_visible", LuaInterface::lua_set_tracker_visible},
+		{"is_visible", LuaInterface::lua_is_tracker_visible},
 		{nullptr, nullptr}
 	};
 
@@ -361,6 +366,13 @@ void LuaInterface::init(Game* game)
 		{"set_visible", LuaInterface::lua_set_console_visible},
 		{"is_visible", LuaInterface::lua_is_console_visible},
 		{"print", LuaInterface::lua_print},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs builder_funcs[] = {
+		{"set_visible", LuaInterface::lua_set_builder_visible},
+		{"is_visible", LuaInterface::lua_is_builder_visible},
+		{"register_building", LuaInterface::lua_register_building},
 		{nullptr, nullptr}
 	};
 
@@ -417,8 +429,11 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "tracker");
 	luaL_newlib(state, console_funcs);
 	lua_setfield(state, -2, "console");
+	luaL_newlib(state, builder_funcs);
+	lua_setfield(state, -2, "builder");
 
-	// Pop the residual game table.
+	// Pop the residual tables.
+	lua_pop(state, 2);
 	
 	// Set some C++ constants.
 	script.execute("game.const = {}");
@@ -2524,7 +2539,7 @@ int LuaInterface::lua_is_window_visible(lpp::Script::state L)
 
 int LuaInterface::lua_clear_log(lpp::Script::state L)
 {
-	GUI::instance().clear_log();
+	GUI::instance().get_log().clear();
 	return 0;
 }
 
@@ -2532,7 +2547,7 @@ int LuaInterface::lua_print_to_log(lpp::Script::state L)
 {
 	std::string msg = luaL_checkstring(L, -1);
 
-	GUI::instance().print_to_log(msg);
+	GUI::instance().get_log().print(msg);
 	return 0;
 }
 
@@ -2540,13 +2555,13 @@ int LuaInterface::lua_set_tracked_entity(lpp::Script::state L)
 {
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
 
-	GUI::instance().set_tracked_entity(id, *ents);
+	GUI::instance().get_tracker().set_tracked_entity(id, *ents);
 	return 0;
 }
 
 int LuaInterface::lua_get_tracked_entity(lpp::Script::state L)
 {
-	auto res = GUI::instance().get_tracked_entity();
+	auto res = GUI::instance().get_tracker().get_tracked_entity();
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -2556,13 +2571,13 @@ int LuaInterface::lua_update_tracking(lpp::Script::state L)
 	std::string val = luaL_checkstring(L, -1);
 	std::string nam = luaL_checkstring(L, -2);
 
-	GUI::instance().update_tracking(nam, val);
+	GUI::instance().get_tracker().update_tracking(nam, val);
 	return 0;
 }
 
 int LuaInterface::lua_clear_entity_tracker(lpp::Script::state L)
 {
-	GUI::instance().clear_entity_view(); // TODO: rename to tracker!
+	GUI::instance().get_tracker().clear();
 	return 0;
 }
 
@@ -2570,13 +2585,13 @@ int LuaInterface::lua_set_log_history(lpp::Script::state L)
 {
 	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
 
-	GUI::instance().set_log_history(val);
+	GUI::instance().get_log().set_history(val);
 	return 0;
 }
 
 int LuaInterface::lua_get_log_history(lpp::Script::state L)
 {
-	auto res = GUI::instance().get_log_history();
+	auto res = GUI::instance().get_log().get_history();
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -2633,5 +2648,59 @@ int LuaInterface::lua_clear_console(lpp::Script::state L)
 {
 	GUI::instance().get_console().clear();
 	return 0;
+}
+
+int LuaInterface::lua_set_builder_visible(lpp::Script::state L)
+{
+	bool val = lua_toboolean(L, -1) == 1;
+
+	GUI::instance().get_builder().set_visible(val);
+	return 0;
+}
+
+int LuaInterface::lua_is_builder_visible(lpp::Script::state L)
+{
+	auto res = GUI::instance().get_builder().is_visible();
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_register_building(lpp::Script::state L)
+{
+	std::string val = luaL_checkstring(L, -1);
+
+	GUI::instance().get_builder().register_building(val);
+	return 0;
+}
+
+int LuaInterface::lua_set_tracker_visible(lpp::Script::state L)
+{
+	bool val = lua_toboolean(L, -1) == 1;
+
+	GUI::instance().get_tracker().set_visible(val);
+	return 0;
+}
+
+int LuaInterface::lua_is_tracker_visible(lpp::Script::state L)
+{
+	auto res = GUI::instance().get_tracker().is_visible();
+
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_log_visible(lpp::Script::state L)
+{
+	bool val = lua_toboolean(L, -1) == 1;
+
+	GUI::instance().get_log().set_visible(val);
+	return 0;
+}
+
+int LuaInterface::lua_is_log_visible(lpp::Script::state L)
+{
+	auto res = GUI::instance().get_log().is_visible();
+	lua_pushboolean(L, res);
+	return 1;
 }
 #pragma endregion
