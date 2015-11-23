@@ -82,7 +82,13 @@ void Game::update(Ogre::Real delta)
 void Game::set_state(GAME_STATE state)
 {
 	if(state_ != state)
+	{
+		if(state == GAME_STATE::RUNNING)
+			GUI::instance().set_visible("MESSAGE", false);
+		else if(state == GAME_STATE::PAUSED)
+			GUI::instance().set_visible("MESSAGE", true);
 		state_ = state;
+	}
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
@@ -104,7 +110,7 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 	switch(event.key)
 	{
 		case OIS::KC_ESCAPE:
-			state_ = (state_ == GAME_STATE::RUNNING ? GAME_STATE::PAUSED : GAME_STATE::RUNNING);
+			set_state(state_ == GAME_STATE::RUNNING ? GAME_STATE::PAUSED : GAME_STATE::RUNNING);
 			return false;
 		case OIS::KC_GRAVE:
 			GUI::instance().get_console().set_visible(!GUI::instance().get_console().is_visible());
