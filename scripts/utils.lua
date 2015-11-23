@@ -36,6 +36,13 @@ utils = {
 		end
 
 		return res
+	end,
+
+	-- Calls a function stored in an array.
+	call_array_func = function(array, index, ...)
+		if(type(array) == "function" and array[index] ~= nil) then
+			array[index](...)
+		end
 	end
 }
 
