@@ -195,7 +195,9 @@ void GUI::show_load_save_dialog(const std::string& type)
 				   true);
 }
 
+CEGUI::Window* GUI::get_window(const std::string& name)
 {
+	return window_->getChild(name);
 }
 
 Console& GUI::get_console()
