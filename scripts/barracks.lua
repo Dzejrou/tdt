@@ -3,7 +3,8 @@ barracks = {
 		game.enum.component.physics,
 		game.enum.component.graphics,
 		game.enum.component.production,
-		game.enum.component.structure
+		game.enum.component.structure,
+		game.enum.component.faction
 	},
 
 	PhysicsComponent = {
@@ -30,6 +31,10 @@ barracks = {
 	StructureComponent = {
 		radius = 0,
 		walk_through = true
+	},
+
+	FactionComponent = {
+		faction = game.enum.faction.friendly
 	}
 }
 if game then
