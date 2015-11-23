@@ -67,7 +67,7 @@ void Game::run()
 
 void Game::update(Ogre::Real delta)
 {
-	GUI::instance().update_time(delta);
+	GUI::instance().get_top_bar().update_time(delta);
 	if(camera_free_mode_)
 		main_cam_->moveRelative(camera_dir_);
 

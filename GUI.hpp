@@ -1,15 +1,13 @@
 #pragma once
 
 #include <CEGUI/CEGUI.h>
-#include <Ogre.h>
 #include <string>
-#include <ctime>
-#include <chrono>
 #include "EntitySystem.hpp"
 #include "Console.hpp"
 #include "EntityTracker.hpp"
 #include "GameLog.hpp"
 #include "BuilderWindow.hpp"
+#include "TopBar.hpp"
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -77,9 +75,7 @@ class GUI
 		void show_load_save_dialog(const std::string&);
 
 		/**
-		 *
 		 */
-		void update_time(Ogre::Real);
 
 		/**
 		 * Brief: Returns a reference to the game's dev console.
@@ -100,6 +96,11 @@ class GUI
 		 * Brief: Returns a reference to the builder window.
 		 */
 		BuilderWindow& get_builder();
+
+		/**
+		 * Brief: Returns a reference to the top bar.
+		 */
+		TopBar& get_top_bar();
 
 		/**
 		 * Note: Since VS2015 seems to have some problems with C++ standard
@@ -163,7 +164,7 @@ class GUI
 		BuilderWindow builder_;
 
 		/**
-		 * Time since the last "Current Time" update.
+		 * Shows game info at the top of the screen.
 		 */
-		Ogre::Real tdelta_;
+		TopBar top_bar_;
 };

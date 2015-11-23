@@ -4,7 +4,7 @@
 
 GUI::GUI()
 	: window_{nullptr}, curr_tool_{"TOOLS/MENU"}, game_{nullptr},
-	  console_{}, tracker_{}, builder_{}, tdelta_{0.f}
+	  console_{}, tracker_{}, builder_{}, top_bar_{}
 { /* DUMMY BODY */ }
 
 void GUI::init(Game* game)
@@ -20,6 +20,7 @@ void GUI::init(Game* game)
 	log_.init(window_->getChild("GAME_LOG"));
 	builder_.init(window_->getChild("TOOLS/BUILD"));
 	builder_.set_placer(game_->placer_.get());
+	top_bar_.init(window_->getChild("TOP_BAR"));
 
 	/**
 	 * TOOL SELECTION
@@ -193,17 +194,7 @@ void GUI::show_load_save_dialog(const std::string& type)
 				   true);
 }
 
-void GUI::update_time(Ogre::Real delta)
 {
-	tdelta_ += delta;
-	if(tdelta_ > 1.f)
-	{
-		time_t now = time(0);
-		struct tm* tstruct = localtime(&now);
-		char buf[80];
-		std::strftime(buf, sizeof(buf), "%HH - %MM - %SS", tstruct);
-		window_->getChild("TOP_BAR/FRAME/TIME")->setText(buf);
-	}
 }
 
 Console& GUI::get_console()
@@ -224,6 +215,11 @@ GameLog& GUI::get_log()
 BuilderWindow& GUI::get_builder()
 {
 	return builder_;
+}
+
+TopBar& GUI::get_top_bar()
+{
+	return top_bar_;
 }
 
 void GUI::list_directory(const std::string& dir, CEGUI::Listbox& box, bool strip_ext)
