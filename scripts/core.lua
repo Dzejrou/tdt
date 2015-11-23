@@ -1,7 +1,7 @@
 -- Load all scripts:
 scripts = {
-	"enum.lua", "error.lua",
-	"utils.lua", "ogre.lua", "evil_ogre.lua",
+	"utils.lua", "enum.lua", "error.lua",
+	"ogre.lua", "evil_ogre.lua",
 	"basic_wall.lua", "basic_projectile.lua",
 	"barracks.lua", "evil_barracks.lua", "test.lua",
 	"gold_deposit.lua", "blueprints_destructor.lua",
