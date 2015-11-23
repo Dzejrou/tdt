@@ -115,7 +115,10 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 			set_state(state_ == GAME_STATE::RUNNING ? GAME_STATE::PAUSED : GAME_STATE::RUNNING);
 			return false;
 		case OIS::KC_GRAVE:
-			GUI::instance().get_console().set_visible(!GUI::instance().get_console().is_visible());
+			if(keyboard_->isModifierDown(OIS::Keyboard::Modifier::Shift))
+				entity_creator_->set_visible(!entity_creator_->is_visible());
+			else
+				GUI::instance().get_console().set_visible(!GUI::instance().get_console().is_visible());
 			return true;
 	}
 
