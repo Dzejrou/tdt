@@ -26,6 +26,7 @@ void LuaInterface::init(Game* game)
 		{"toggle_entity_creator", LuaInterface::lua_toggle_entity_creator},
 		{"list_selected", LuaInterface::lua_list_selected},
 		{"destroy_selected", LuaInterface::lua_destroy_selected},
+		{"kill_selected", LuaInterface::lua_kill_selected},
 		{"list_components_of", LuaInterface::lua_list_components_of},
 		{"load", LuaInterface::lua_load},
 		{"reload_all", LuaInterface::lua_reload_all},
@@ -520,6 +521,18 @@ int LuaInterface::lua_destroy_selected(lpp::Script::state)
 	for(auto& ent : to_be_destroyed)
 	{
 		DestructorHelper::destroy(*ents, ent, true);
+	}
+	lua_this->selection_box_->clear_selected_entities();
+
+	return 0;
+}
+
+int LuaInterface::lua_kill_selected(lpp::Script::state)
+{
+	auto& to_be_destroyed = lua_this->selection_box_->get_selected_entities();
+	for(auto& ent : to_be_destroyed)
+	{
+		DestructorHelper::destroy(*ents, ent, false);
 	}
 	lua_this->selection_box_->clear_selected_entities();
 

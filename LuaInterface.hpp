@@ -51,6 +51,7 @@ class LuaInterface
 		static int lua_toggle_entity_creator(lpp::Script::state);
 		static int lua_list_selected(lpp::Script::state);
 		static int lua_destroy_selected(lpp::Script::state);
+		static int lua_kill_selected(lpp::Script::state);
 		static int lua_list_components_of(lpp::Script::state);
 		static int lua_load(lpp::Script::state);
 		static int lua_reload_all(lpp::Script::state);
