@@ -243,7 +243,7 @@ bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 
 	if(placer_->is_visible())
 	{
-		if(id == OIS::MB_Left)
+		if(id == OIS::MB_Left && state_ == GAME_STATE::RUNNING)
 			placer_->place(GUI::instance().get_console());
 		else if(id == OIS::MB_Right)
 			placer_->set_visible(false);
