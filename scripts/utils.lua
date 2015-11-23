@@ -85,7 +85,7 @@ game.gold.go_deposit = function(id, prio)
 	end
 end
 
-game.attack = function(id, target)
+game.combat.attack = function(id, target)
 	task = game.task.create(target, game.enum.task.go_kill)
 	game.task.add(id, task)
 end
