@@ -24,7 +24,7 @@ void GUI::init(Game* game)
 	/**
 	 * TOOL SELECTION
 	 */
-	window_->getChild("TOOLS/TOOL_SELECTION/SPELL_SELECTION")->subscribeEvent(
+	window_->getChild("TOOLS/TOOL_SELECTION/FRAME/SPELL_SELECTION")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
 		[&, this](const CEGUI::EventArgs& args){
 			this->set_visible(curr_tool_, false);
@@ -33,7 +33,7 @@ void GUI::init(Game* game)
 		}
 	);
 
-	window_->getChild("TOOLS/TOOL_SELECTION/MENU_SELECTION")->subscribeEvent(
+	window_->getChild("TOOLS/TOOL_SELECTION/FRAME/MENU_SELECTION")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
 		[&, this](const CEGUI::EventArgs& args){
 			this->set_visible(curr_tool_, false);
@@ -42,7 +42,7 @@ void GUI::init(Game* game)
 		}
 	);
 
-	window_->getChild("TOOLS/TOOL_SELECTION/BUILD_SELECTION")->subscribeEvent(
+	window_->getChild("TOOLS/TOOL_SELECTION/FRAME/BUILD_SELECTION")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
 		[&, this](const CEGUI::EventArgs& args){
 			this->set_visible(curr_tool_, false);
