@@ -2,7 +2,6 @@
 
 #include <CEGUI/CEGUI.h>
 #include <string>
-#include "EntitySystem.hpp"
 #include "Console.hpp"
 #include "EntityTracker.hpp"
 #include "GameLog.hpp"

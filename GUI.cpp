@@ -1,6 +1,7 @@
 #include "GUI.hpp"
 #include "Game.hpp"
 #include "Helpers.hpp"
+#include "EntitySystem.hpp"
 
 GUI::GUI()
 	: window_{nullptr}, curr_tool_{"TOOLS/MENU"}, game_{nullptr},
