@@ -13,6 +13,7 @@ void GUI::init(Game* game)
 	window_ = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("main_gui.layout");
 	window_->setVisible(true);
 	window_->getChild("SAVE_LOAD")->setVisible(false);
+	window_->getChild("MESSAGE")->setVisible(false);
 	CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(window_);
 	console_.init(CEGUI::WindowManager::getSingleton().loadLayoutFromFile("console.layout"));
 	tracker_.init(window_->getChild("ENTITY_VIEW"));
