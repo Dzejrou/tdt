@@ -56,6 +56,14 @@ elseif game.print then
 	game.show_msg = game.print
 end
 
+game.print = function(msg)
+	if(type(msg) == "boolean") then
+		game.print_(tostring(msg))
+	else
+		game.print_(msg)
+	end
+end
+
 game.quit = function()
 	game.set_game_state(game.enum.game_state.ended)
 end
