@@ -23,8 +23,9 @@ class EntityPlacer
 		 * Param: Reference to the game's entity system.
 		 * Param: Reference to the game's grid system, used for node snapping when
 		 *        placing structures (i.e. walls, buildings...).
+		 * Param: Scene manager that will hold the dummy node.
 		 */
-		EntityPlacer(EntitySystem&, GridSystem&);
+		EntityPlacer(EntitySystem&, GridSystem&, Ogre::SceneManager&);
 
 		/**
 		 * Destructor.
@@ -50,6 +51,7 @@ class EntityPlacer
 		 * Brief: Creates a new entity from the blueprint table at the mouse cursor's current
 		 *        position and informs the developer in the developer console.
 		 * Param: Reference to the game's console.
+		 * TODO: Console no longer needed as it's in the GUI singleton, remove this parameter!
 		 */
 		std::size_t place(Console& console);
 
@@ -118,9 +120,12 @@ class EntityPlacer
 		std::size_t structure_radius_;
 
 		/**
-		 * ID of the dummy entity, used to destroy the entity once the visibility status
-		 * is changed to false to avoid placement when the game is saved.
-		 * TODO: What about when the dummy entity is visible?
+		 * Scene manager used to hold the dummy node and manipulate models.
 		 */
-		std::size_t placed_id_;
+		Ogre::SceneManager& mgr_;
+
+		/**
+		 * Entity representing the mesh of the placed object.
+		 */
+		Ogre::Entity* ent_;
 };

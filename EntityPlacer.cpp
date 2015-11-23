@@ -1,60 +1,64 @@
 #include "EntityPlacer.hpp"
 
-EntityPlacer::EntityPlacer(EntitySystem& ents, GridSystem& grid)
+EntityPlacer::EntityPlacer(EntitySystem& ents, GridSystem& grid, Ogre::SceneManager& mgr)
 	: entities_{ents}, grid_{grid}, curr_position_{0, 0, 0},
-	  placing_node_{}, visible_{false}, table_name_{},
-	  half_height_{}, placing_structure_{false}, structure_radius_{0},
-	  placed_id_{Component::NO_ENTITY}
+	  placing_node_{mgr.getRootSceneNode()->createChildSceneNode()}, visible_{false}, table_name_{},
+	  half_height_{}, placing_structure_{false}, structure_radius_{0}, mgr_{mgr},
+	  ent_{nullptr}
 { /* DUMMY BODY */ }
 
 EntityPlacer::~EntityPlacer()
 {
-	if(placed_id_ != Component::NO_ENTITY)
-		DestructorHelper::destroy(entities_, placed_id_, true);
+	if(placing_node_)
+		mgr_.destroySceneNode(placing_node_);
+	if(ent_)
+		mgr_.destroyEntity(ent_);
 }
-
 void EntityPlacer::set_current_entity_table(const std::string& table_name)
 {
+	if(entities_.get_registered_entities().count(table_name) == 0)
+		return;
+
 	auto& script = lpp::Script::get_singleton();
-	if(entities_.get_registered_entities().count(table_name) != 0)
-	{
-		table_name_ = table_name;
-		if(placed_id_ != Component::NO_ENTITY)
-			DestructorHelper::destroy(entities_, placed_id_, true);
+	if(script.is_nil(table_name + ".GraphicsComponent"))
+		return;
 
-		placed_id_ = entities_.create_entity(table_name);
-		auto comp = entities_.get_component<GraphicsComponent>(placed_id_);
-		if(comp)
-		{
-			comp->entity->setQueryFlags(0); // Ignored by selection.
-			placing_node_ = comp->node;
-
-			if(comp->manual_scaling)
-				half_height_ = comp->scale.y;
-			else
-				half_height_ = comp->entity->getBoundingBox().getHalfSize().y;
-		}
-		else
-		{
-			DestructorHelper::destroy(entities_, placed_id_, true);
-			table_name_ = "ERROR";
-			placed_id_ = Component::NO_ENTITY;
-			return;
-		}
-
-		auto struct_comp = entities_.get_component<StructureComponent>(placed_id_);
-		if(struct_comp)
-		{
-			placing_structure_ = true;
-			structure_radius_ = struct_comp->radius;
-		}
-		else
-			placing_structure_ = false;
-
-		// TODO: Revert this back to just model, entity is causing too much problems.
-		entities_.delete_component<AIComponent>(placed_id_);
-		entities_.delete_component<GoldComponent>(placed_id_);
+	table_name_ = table_name;
+	std::string mesh = script.get<std::string>(table_name + ".GraphicsComponent.mesh");
+	std::string mat = script.get<std::string>(table_name + ".GraphicsComponent.material");
+	bool man_scaling = script.get<bool>(table_name + ".GraphicsComponent.manual_scaling");
+	if(ent_)
+	{ // Recreation of the entity is required by Ogre.
+		mgr_.destroyEntity(ent_);
+		placing_node_->detachAllObjects();
+		placing_node_->setScale(1.f, 1.f, 1.f);
 	}
+	ent_ = mgr_.createEntity(mesh);
+	ent_->setQueryFlags(0);
+	placing_node_->attachObject(ent_);
+
+	if(mat != "NO_MAT")
+		ent_->setMaterialName(mat);
+	
+	if(!script.is_nil(table_name + ".StructureComponent"))
+	{
+		placing_structure_ = true;
+		structure_radius_ = script.get<std::size_t>(table_name + ".StructureComponent.radius");
+	}
+	else
+		placing_structure_ = false;
+
+	if(man_scaling)
+	{
+		Ogre::Real x, y, z;
+		x = script.get<Ogre::Real>(table_name + ".GraphicsComponent.scale_x");
+		y = script.get<Ogre::Real>(table_name + ".GraphicsComponent.scale_y");
+		z = script.get<Ogre::Real>(table_name + ".GraphicsComponent.scale_z");
+		placing_node_->setScale(x, y, z);
+		half_height_ = y;
+	}
+	else
+		half_height_ = ent_->getWorldBoundingBox(true).getHalfSize().y;
 }
 
 void EntityPlacer::update_position(const Ogre::Vector3& pos)
@@ -114,25 +118,10 @@ std::size_t EntityPlacer::place(Console& console)
 void EntityPlacer::set_visible(bool on_off)
 {
 	visible_ = on_off;
-
-	if(!on_off)
-	{
+	if(placing_node_)
+		placing_node_->setVisible(visible_);
+	if(placing_structure_ && !on_off)
 		placing_structure_ = false;
-		if(placed_id_ != Component::NO_ENTITY)
-		{
-			DestructorHelper::destroy(entities_, placed_id_, true);
-			entities_.cleanup();
-			placed_id_ = Component::NO_ENTITY;
-			placing_node_ = nullptr;
-		}
-	}
-	else
-	{
-		if(placing_node_)
-			placing_node_->setVisible(true);
-		else
-			visible_ = false;
-	}
 }
 
 bool EntityPlacer::is_visible() const
