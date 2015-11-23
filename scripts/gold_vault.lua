@@ -36,7 +36,7 @@ gold_vault = {
 	},
 
 	DestructorComponent = {
-		blueprint = "drop_gold_destructor"
+		blueprint = "gold_vault_destructor"
 	},
 
 	GoldComponent = {
