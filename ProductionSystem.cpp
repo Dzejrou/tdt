@@ -1,4 +1,6 @@
 #include "ProductionSystem.hpp"
+#include "Player.hpp"
+#include "Helpers.hpp"
 
 ProductionSystem::ProductionSystem(EntitySystem& ents)
 	: entities_{ents}, grid_{Grid::instance()}, time_multiplier_{1.f}
@@ -29,6 +31,9 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 	auto prod_comp = entities_.get_component<ProductComponent>(id);
 	if(prod_comp)
 		prod_comp->producer = producer;
+
+	if(FactionHelper::get_faction(entities_, id) == FACTION::FRIENDLY)
+		Player::instance().add_curr_unit(1);
 
 	auto struct_comp = entities_.get_component<StructureComponent>(producer);
 	auto phys_comp = entities_.get_component<PhysicsComponent>(producer);

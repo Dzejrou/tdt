@@ -13,6 +13,7 @@
 #include "lppscript/LppScript.hpp"
 #include "Helpers.hpp"
 #include "Util.hpp"
+#include "Player.hpp"
 
 /**
  * The EntitySystem class handles everything related to entities, like addition and removal of components,
@@ -590,6 +591,8 @@ inline void EntitySystem::load_component<ProductionComponent>(std::size_t id, co
 	std::size_t limit = script.get<std::size_t>(table_name + ".ProductionComponent.limit");
 	Ogre::Real cd = script.get<Ogre::Real>(table_name + ".ProductionComponent.cooldown");
 	production_.emplace(id, ProductionComponent{blueprint, limit, cd});
+
+	Player::instance().add_max_unit(limit);
 }
 
 template<>
@@ -726,4 +729,17 @@ inline void EntitySystem::clean_up_component<ProductComponent>(std::size_t id)
 		if(producent)
 			--producent->curr_produced;
 	}
+
+	auto fac = get_component<FactionComponent>(id);
+	if(fac && fac->faction == FACTION::FRIENDLY)
+		Player::instance().sub_curr_unit(1);
+}
+
+template<>
+inline void EntitySystem::clean_up_component<ProductionComponent>(std::size_t id)
+{
+	auto comp = get_component<ProductionComponent>(id);
+	auto fac = get_component<FactionComponent>(id);
+	if(comp && fac && fac->faction == FACTION::FRIENDLY)
+		Player::instance().sub_max_unit(comp->max_produced);
 }
