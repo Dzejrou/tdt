@@ -49,6 +49,7 @@ Game::Game() // TODO: Init systems.
 	level_init();
 	GUI::instance().init(this);
 	LuaInterface::init(this);
+	entity_creator_->init(GUI::instance().get_window("ENTITY_MANAGER"));
 }
 
 Game::~Game()

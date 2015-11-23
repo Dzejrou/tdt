@@ -4,7 +4,6 @@
     <Window type="AlfiskoSkin/FrameWindow" name="ENTITY_MANAGER" >
         <Property name="Area" value="{{0,134},{0,113},{0.3,256},{0.3,236}}" />
         <Property name="Text" value="ENTITY MANAGER" />
-        <Property name="CloseButtonEnabled" value="false" />
         <Property name="AutoRenderingSurface" value="true" />
         <AutoWindow namePath="__auto_titlebar__" >
             <Property name="NonClient" value="true" />

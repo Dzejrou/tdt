@@ -2,22 +2,7 @@
 
 EntityCreator::EntityCreator(EntityPlacer& placer, EntitySystem& ents)
 	: placer_{placer}, registered_entities_{ents.get_registered_entities()}
-{
-	window_ = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("entity_creator.layout");
-	window_->setVisible(false);
-	CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(window_);
-
-	// Register handlers.
-	window_->getChild("PLACE")->subscribeEvent(CEGUI::PushButton::EventClicked,
-											   CEGUI::Event::Subscriber(&EntityCreator::change_to_place, this));
-	window_->getChild("CREATE")->subscribeEvent(CEGUI::PushButton::EventClicked,
-											   CEGUI::Event::Subscriber(&EntityCreator::change_to_create, this));
-	window_->getChild("PLACE_BUTT")->subscribeEvent(CEGUI::PushButton::EventClicked,
-											   CEGUI::Event::Subscriber(&EntityCreator::place, this));
-	window_->getChild("ACTUALIZE_LIST")->subscribeEvent(CEGUI::PushButton::EventClicked,
-											   CEGUI::Event::Subscriber(&EntityCreator::actualize_list, this));
-	list_box_ = (CEGUI::Listbox*)window_->getChild("ENTITY_LIST");
-}
+{ /* DUMMY BODY */ }
 
 void EntityCreator::place(const CEGUI::EventArgs& args)
 {
@@ -54,14 +39,20 @@ void EntityCreator::actualize_list(const CEGUI::EventArgs& args)
 	}
 }
 
-void EntityCreator::set_visible(bool on_off)
+void EntityCreator::init_()
 {
-	window_->setVisible(on_off);
-	if(on_off)
-		actualize_list(CEGUI::EventArgs{});
-}
-
-bool EntityCreator::is_visible() const
-{
-	return window_->isVisible();
+	window_->setVisible(false);
+	window_->getChild("PLACE")->subscribeEvent(CEGUI::PushButton::EventClicked,
+											   CEGUI::Event::Subscriber(&EntityCreator::change_to_place, this));
+	window_->getChild("CREATE")->subscribeEvent(CEGUI::PushButton::EventClicked,
+											   CEGUI::Event::Subscriber(&EntityCreator::change_to_create, this));
+	window_->getChild("PLACE_BUTT")->subscribeEvent(CEGUI::PushButton::EventClicked,
+											   CEGUI::Event::Subscriber(&EntityCreator::place, this));
+	window_->getChild("ACTUALIZE_LIST")->subscribeEvent(CEGUI::PushButton::EventClicked,
+											   CEGUI::Event::Subscriber(&EntityCreator::actualize_list, this));
+	window_->subscribeEvent(
+		CEGUI::FrameWindow::EventCloseClicked,
+		[&](const CEGUI::EventArgs&){ this->set_visible(false); }
+	);
+	list_box_ = (CEGUI::Listbox*)window_->getChild("ENTITY_LIST");
 }

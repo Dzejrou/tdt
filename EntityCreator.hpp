@@ -2,19 +2,18 @@
 
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
-
 #include <set>
 #include <string>
-
 #include "EntityPlacer.hpp"
 #include "EntitySystem.hpp"
+#include "GUIWindow.hpp"
 
 /**
  * Class representing the debugging GUI window used to place and create entities
  * during runtime.
  * TODO: Entity creation mode (changing the layout and sub-window visibility).
  */
-class EntityCreator
+class EntityCreator : public GUIWindow
 {
 	public:
 		/**
@@ -57,17 +56,11 @@ class EntityCreator
 		 * Param: Reference to the CEGUI event arguments.
 		 */
 		void actualize_list(const CEGUI::EventArgs&);
-
+	protected:
 		/**
-		 * Brief: Sets the visibility state of the creator's window (and recursively it's children windows).
-		 * Param: True for visible, false for invisible state.
+		 * Brief: Initializes the EntityCreator.
 		 */
-		void set_visible(bool);
-
-		/**
-		 * Brief: Returns true if the creator window is visible, false otherwise.
-		 */
-		bool is_visible() const;
+		void init_();
 	private:
 		/**
 		 * Reference to the game's entity placer, used to set the blueprint table and visibility mode
@@ -79,11 +72,6 @@ class EntityCreator
 		 * Reference to the list of all registered entity blueprint names used for updates.
 		 */
 		std::set<std::string>& registered_entities_;
-
-		/**
-		 * Pointer to the main window of the creator.
-		 */
-		CEGUI::Window* window_;
 
 		/**
 		 * Auxiliary pointer to the list box sub window for easy access when updating the entity
