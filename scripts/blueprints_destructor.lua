@@ -16,10 +16,20 @@ drop_gold_destructor = {
 		game.entity.add_component(evt, game.enum.component.event)
 		game.event.set_target(evt, pile)
 		game.event.set_type(evt, game.enum.event.gold_dropped)
-		game.event.set_radius(evt, 300.0)
+		game.event.set_radius(evt, 3000000.0) -- TODO: This ain't working :(
 
 		if killer and killer ~= game.const.no_ent then
 			game.event.set_handler(evt, killer)
+		end
+	end
+}
+
+gold_vault_destructor = {
+	dtor = function(id, killer)
+		game.gui.log.print("\\[#" .. id .. "\\] Gold vault has been destroyed!")
+		drop_gold_destructor.dtor(id)
+		if not game.player.sub_gold(game.gold.get_current(id)) then
+			game.print("\\[ERROR\\] Cannot remove gold that dropped from vault #" .. id .. "!")
 		end
 	end
 }
