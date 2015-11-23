@@ -332,4 +332,16 @@ class LuaInterface
 		static int lua_set_builder_visible(lpp::Script::state);
 		static int lua_is_builder_visible(lpp::Script::state);
 		static int lua_register_building(lpp::Script::state);
+
+		// Player.
+		static int lua_add_player_gold(lpp::Script::state);
+		static int lua_sub_player_gold(lpp::Script::state);
+		static int lua_add_player_mana(lpp::Script::state);
+		static int lua_sub_player_mana(lpp::Script::state);
+		static int lua_add_player_max_units(lpp::Script::state);
+		static int lua_sub_player_max_units(lpp::Script::state);
+		static int lua_add_player_curr_units(lpp::Script::state);
+		static int lua_sub_player_curr_units(lpp::Script::state);
+		static int lua_get_player_gold(lpp::Script::state);
+		static int lua_get_player_mana(lpp::Script::state);
 };

@@ -1,5 +1,6 @@
 #include "LuaInterface.hpp"
 #include "Game.hpp"
+#include "Player.hpp"
 
 /**
  * Static member initialization, will be set in the
@@ -19,7 +20,7 @@ void LuaInterface::init(Game* game)
 		// Core functions.
 		{"get_avg_fps", LuaInterface::lua_get_avg_fps},
 		{"get_fps", LuaInterface::lua_get_fps},
-		{"print", LuaInterface::lua_print}, // Alias to game.console.print, can be changed ingame later.
+		{"print_", LuaInterface::lua_print}, // Underscore added because it is wrapped in lua as game.print function.
 		{"set_game_state", LuaInterface::lua_set_game_state},
 		{"toggle_bounding_boxes", LuaInterface::lua_toggle_bounding_boxes},
 		{"toggle_camera_free_mode", LuaInterface::lua_toggle_camera_free_mode},
@@ -293,6 +294,7 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs handling_funcs[] = {
+		// Event handling.
 		{"set_handler", LuaInterface::lua_set_event_handler},
 		{"get_handler", LuaInterface::lua_get_event_handler},
 		{"can_handle", LuaInterface::lua_can_handle_event},
@@ -329,7 +331,22 @@ void LuaInterface::init(Game* game)
 		{nullptr, nullptr}
 	};
 
+	lpp::Script::regs player_funcs[] = {
+		{"add_gold", LuaInterface::lua_add_player_gold},
+		{"sub_gold", LuaInterface::lua_sub_player_gold},
+		{"add_mana", LuaInterface::lua_add_player_mana},
+		{"sub_mana", LuaInterface::lua_sub_player_mana},
+		{"add_max_units", LuaInterface::lua_add_player_max_units},
+		{"sub_max_units", LuaInterface::lua_sub_player_max_units},
+		{"add_curr_units", LuaInterface::lua_add_player_curr_units},
+		{"sub_max_units", LuaInterface::lua_sub_player_max_units},
+		{"get_gold", LuaInterface::lua_get_player_gold},
+		{"get_mana", LuaInterface::lua_get_player_mana},
+		{nullptr, nullptr}
+	};
+
 	lpp::Script::regs gui_funcs[] = {
+		// GUI.
 		{"set_visible", LuaInterface::lua_set_gui_visible},
 		{"is_visible", LuaInterface::lua_is_gui_visible},
 		{"set_window_visible", LuaInterface::lua_set_window_visible},
@@ -340,6 +357,7 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs log_funcs[] = {
+		// Game log.
 		{"clear", LuaInterface::lua_clear_log},
 		{"print", LuaInterface::lua_print_to_log},
 		{"set_history", LuaInterface::lua_set_log_history},
@@ -350,6 +368,7 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs track_funcs[] = {
+		// Entity tracker.
 		{"clear", LuaInterface::lua_clear_entity_tracker},
 		{"get_id", LuaInterface::lua_get_tracked_entity},
 		{"set_id", LuaInterface::lua_set_tracked_entity},
@@ -360,6 +379,7 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs console_funcs[] = {
+		// Dev console.
 		{"scroll_down", LuaInterface::lua_console_scroll_down},
 		{"set_history", LuaInterface::lua_set_console_history},
 		{"get_history", LuaInterface::lua_get_console_history},
@@ -371,6 +391,7 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs builder_funcs[] = {
+		// Builder window.
 		{"set_visible", LuaInterface::lua_set_builder_visible},
 		{"is_visible", LuaInterface::lua_is_builder_visible},
 		{"register_building", LuaInterface::lua_register_building},
@@ -419,6 +440,8 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "destructor");
 	luaL_newlib(state, gold_funcs);
 	lua_setfield(state, -2, "gold");
+	luaL_newlib(state, player_funcs);
+	lua_setfield(state, -2, "player");
 
 	// GUI subtable has it's own subtables.
 	luaL_newlib(state, gui_funcs);
@@ -2684,6 +2707,80 @@ int LuaInterface::lua_register_building(lpp::Script::state L)
 
 	GUI::instance().get_builder().register_building(val);
 	return 0;
+}
+
+int LuaInterface::lua_add_player_gold(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	Player::instance().add_gold(val);
+	return 0;
+}
+
+int LuaInterface::lua_sub_player_gold(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	auto res = Player::instance().sub_gold(val);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_add_player_mana(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	Player::instance().add_mana(val);
+	return 0;
+}
+
+int LuaInterface::lua_sub_player_mana(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	auto res = Player::instance().sub_mana(val);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_add_player_max_units(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	Player::instance().add_max_unit(val);
+	return 0;
+}
+
+int LuaInterface::lua_sub_player_max_units(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	auto res = Player::instance().sub_max_unit(val);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_add_player_curr_units(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	Player::instance().add_curr_unit(val);
+	return 0;
+}
+
+int LuaInterface::lua_sub_player_curr_units(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	auto res = Player::instance().sub_curr_unit(val);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_get_player_gold(lpp::Script::state L)
+{
+	auto res = Player::instance().get_gold();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_get_player_mana(lpp::Script::state L)
+{
+	auto res = Player::instance().get_mana();
+	lua_pushinteger(L, res);
+	return 1;
 }
 
 int LuaInterface::lua_set_tracker_visible(lpp::Script::state L)
