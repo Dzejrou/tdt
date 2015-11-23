@@ -56,6 +56,7 @@
     <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="PathfindingHelper.cpp" />
     <ClCompile Include="PhysicsHelper.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProductHelper.cpp" />
     <ClCompile Include="ProductionHelper.cpp" />
     <ClCompile Include="ProductionSystem.cpp" />
@@ -66,6 +67,7 @@
     <ClCompile Include="TaskSystem.cpp" />
     <ClCompile Include="TimeHelper.cpp" />
     <ClCompile Include="TimeSystem.cpp" />
+    <ClCompile Include="TopBar.cpp" />
     <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +112,7 @@
     <ClInclude Include="PathfindingAlgorithms.hpp" />
     <ClInclude Include="PathfindingHelper.hpp" />
     <ClInclude Include="PhysicsHelper.hpp" />
+    <ClInclude Include="Player.hpp" />
     <ClInclude Include="ProductHelper.hpp" />
     <ClInclude Include="ProductionHelper.hpp" />
     <ClInclude Include="ProductionSystem.hpp" />
@@ -121,6 +124,7 @@
     <ClInclude Include="TaskSystem.hpp" />
     <ClInclude Include="TimeHelper.hpp" />
     <ClInclude Include="TimeSystem.hpp" />
+    <ClInclude Include="TopBar.hpp" />
     <ClInclude Include="Util.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
