@@ -4,7 +4,7 @@
 
 GUI::GUI()
 	: window_{nullptr}, curr_tool_{"TOOLS/MENU"}, game_{nullptr},
-	  console_{}, tracker_{}, builder_{}
+	  console_{}, tracker_{}, builder_{}, tdelta_{0.f}
 { /* DUMMY BODY */ }
 
 void GUI::init(Game* game)
@@ -191,6 +191,19 @@ void GUI::show_load_save_dialog(const std::string& type)
 	list_directory("saves/*.lua",
 				   *((CEGUI::Listbox*)dialog->getChild("FRAME/ITEMS")),
 				   true);
+}
+
+void GUI::update_time(Ogre::Real delta)
+{
+	tdelta_ += delta;
+	if(tdelta_ > 1.f)
+	{
+		time_t now = time(0);
+		struct tm* tstruct = localtime(&now);
+		char buf[80];
+		std::strftime(buf, sizeof(buf), "%HH - %MM - %SS", tstruct);
+		window_->getChild("TOP_BAR/FRAME/TIME")->setText(buf);
+	}
 }
 
 Console& GUI::get_console()

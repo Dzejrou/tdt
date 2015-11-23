@@ -1,7 +1,10 @@
 #pragma once
 
 #include <CEGUI/CEGUI.h>
+#include <Ogre.h>
 #include <string>
+#include <ctime>
+#include <chrono>
 #include "EntitySystem.hpp"
 #include "Console.hpp"
 #include "EntityTracker.hpp"
@@ -72,6 +75,11 @@ class GUI
 		 *        functionality of the window.
 		 */
 		void show_load_save_dialog(const std::string&);
+
+		/**
+		 *
+		 */
+		void update_time(Ogre::Real);
 
 		/**
 		 * Brief: Returns a reference to the game's dev console.
@@ -153,4 +161,9 @@ class GUI
 		 * Allows the player to place buildings.
 		 */
 		BuilderWindow builder_;
+
+		/**
+		 * Time since the last "Current Time" update.
+		 */
+		Ogre::Real tdelta_;
 };
