@@ -24,7 +24,8 @@ void GameLog::print(const std::string& msg)
 		text = new CEGUI::ListboxTextItem(msg);
 	text->setTextColours(CEGUI::Colour{0.f, 1.f, 0.f});
 	log_->addItem(text);
-	log_->getVertScrollbar()->scrollForwardsByStep();
+	//log_->getVertScrollbar()->scrollForwardsByStep();
+	log_->getVertScrollbar()->setScrollPosition(log_->getVertScrollbar()->getDocumentSize());
 }
 
 void GameLog::set_history(std::size_t val)
