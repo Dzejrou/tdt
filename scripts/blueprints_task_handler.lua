@@ -98,11 +98,14 @@ default_task_handler = {
 		   task_type == game.enum.task.go_near then
 			res = game.path.empty(id)
 		elseif task_type == game.enum.task.get_in_range then
+			target = game.task.get_target(task)
+			if not game.entity.exists(target) then
+				return true
+			end
 			range = game.combat.get_range(id)
 			range = range - (range / 10)
 			range = range * range
 
-			target = game.task.get_target(task)
 			dist = game.physics.get_distance(id, target)
 			res = dist < range and game.combat.in_sight(id, target)
 			if res then
