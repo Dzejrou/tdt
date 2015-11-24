@@ -4,7 +4,8 @@ barracks = {
 		game.enum.component.graphics,
 		game.enum.component.production,
 		game.enum.component.structure,
-		game.enum.component.faction
+		game.enum.component.faction,
+		game.enum.component.price
 	},
 
 	PhysicsComponent = {
@@ -35,7 +36,11 @@ barracks = {
 
 	FactionComponent = {
 		faction = game.enum.faction.friendly
-	}
+	},
+
+	PriceComponent = {
+		price = 1000
+	},
 }
 if game then
 	game.entity.register("barracks")
