@@ -49,6 +49,18 @@ class MovementSystem : public System
 		 * Param: Directional vector.
 		 * Note: Every vector passed to this method should be normalised and the length of the move will be
 		 *       increased by the entity's speed modifier. This is not enforced though.
+		 * Note: Checks for collisions.
+		 */
+		bool checked_move(std::size_t, Ogre::Vector3);
+
+		/**
+		 * Brief: Sets a given entity to move in a given direction, returns true if such movement is possible and
+		 *        false otherwise. The move will then be applied in the update method.
+		 * Param: ID of the entity.
+		 * Param: Directional vector.
+		 * Note: Every vector passed to this method should be normalised and the length of the move will be
+		 *       increased by the entity's speed modifier. This is not enforced though.
+		 * Note: Does not check for collisions.
 		 */
 		bool move(std::size_t, Ogre::Vector3);
 	private:
@@ -56,4 +68,10 @@ class MovementSystem : public System
 		 * Reference to the game's entity system.
 		 */
 		EntitySystem& entities_;
+
+		/**
+		 * Time between the last frame and this frame, used so that lua calls to the move functions
+		 * still use the time of this frame.
+		 */
+		Ogre::Real last_delta_;
 };

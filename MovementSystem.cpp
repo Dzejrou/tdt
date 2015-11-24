@@ -1,11 +1,12 @@
 #include "MovementSystem.hpp"
 
 MovementSystem::MovementSystem(EntitySystem& ents)
-	: entities_{ents}
+	: entities_{ents}, last_delta_{}
 { /* DUMMY BODY */ }
 
 void MovementSystem::update(Ogre::Real delta)
 { // TODO: Fix this...
+	last_delta_ = delta;
 	for(auto& ent : entities_.get_component_container<PathfindingComponent>())
 	{
 		auto& path_comp = ent.second;
@@ -30,7 +31,7 @@ void MovementSystem::update(Ogre::Real delta)
 
 		auto pos_next = PhysicsHelper::get_position(entities_, next);
 		pos_next.y = phys_comp->half_height; // Ignore the Y distance.
-		if(pos_next.distance(phys_comp->position) < move_comp->speed_modifier)
+		if(pos_next.distance(phys_comp->position) < move_comp->speed_modifier * delta)
 		{
 			PhysicsHelper::move_to(entities_, ent.first, pos_next);
 			path_comp.last_id = next;
@@ -77,7 +78,7 @@ bool MovementSystem::can_move_to(std::size_t id, Ogre::Vector3 pos)
 		return false;
 }
 
-bool MovementSystem::move(std::size_t id, Ogre::Vector3 dir_vector)
+bool MovementSystem::checked_move(std::size_t id, Ogre::Vector3 dir_vector)
 {
 	auto phys_comp = entities_.get_component<PhysicsComponent>(id);
 	auto mov_comp = entities_.get_component<MovementComponent>(id);
@@ -97,6 +98,27 @@ bool MovementSystem::move(std::size_t id, Ogre::Vector3 dir_vector)
 
 			return true;
 		}
+	}
+
+	return false;
+}
+
+bool MovementSystem::move(std::size_t id, Ogre::Vector3 dir_vector)
+{
+	auto phys_comp = entities_.get_component<PhysicsComponent>(id);
+	auto mov_comp = entities_.get_component<MovementComponent>(id);
+	if(phys_comp && mov_comp)
+	{
+		auto new_pos = phys_comp->position;
+		auto dir = dir_vector * mov_comp->speed_modifier * last_delta_; 
+		new_pos += dir;
+		phys_comp->position = new_pos;
+
+		auto graph_comp = entities_.get_component<GraphicsComponent>(id);
+		if(graph_comp)
+			graph_comp->node->setPosition(phys_comp->position);
+
+		return true;
 	}
 
 	return false;
