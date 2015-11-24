@@ -36,7 +36,7 @@ evil_ogre = {
 	},
 
 	MovementComponent = {
-		speed_modifier = 0.5,
+		speed_modifier = 55,
 	},
 
 	CombatComponent = {

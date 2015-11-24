@@ -22,7 +22,7 @@ basic_projectile = {
 	},
 
 	MovementComponent = {
-		speed_modifier = 0.7
+		speed_modifier = 75
 	},
 
 	HomingComponent = {

@@ -36,7 +36,7 @@ ogre_miner = {
 	},
 
 	MovementComponent = {
-		speed_modifier = 0.5,
+		speed_modifier = 45
 	},
 
 	CombatComponent = {
