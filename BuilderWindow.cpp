@@ -31,7 +31,7 @@ void BuilderWindow::init_()
 		[&](const CEGUI::EventArgs&){
 			if(get_building_(selection_number_ - 3) != "UNKNOWN" && placer_)
 			{
-				placer_->set_current_entity_table(buildings_[selection_number_ - 3]);
+				placer_->set_current_entity_table(buildings_[selection_number_ - 3], true);
 				placer_->set_visible(true);
 			}
 		}
@@ -42,7 +42,7 @@ void BuilderWindow::init_()
 		[&](const CEGUI::EventArgs&){
 			if(get_building_(selection_number_ - 2) != "UNKNOWN" && placer_)
 			{
-				placer_->set_current_entity_table(buildings_[selection_number_ - 2]);
+				placer_->set_current_entity_table(buildings_[selection_number_ - 2], true);
 				placer_->set_visible(true);
 			}
 		}
@@ -53,7 +53,7 @@ void BuilderWindow::init_()
 		[&](const CEGUI::EventArgs&){
 			if(get_building_(selection_number_ - 1) != "UNKNOWN" && placer_)
 			{
-				placer_->set_current_entity_table(buildings_[selection_number_ - 1]);
+				placer_->set_current_entity_table(buildings_[selection_number_ - 1], true);
 				placer_->set_visible(true);
 			}
 		}
@@ -64,7 +64,7 @@ void BuilderWindow::init_()
 		[&](const CEGUI::EventArgs&){
 			if(get_building_(selection_number_) != "UNKNOWN" && placer_)
 			{
-				placer_->set_current_entity_table(buildings_[selection_number_]);
+				placer_->set_current_entity_table(buildings_[selection_number_], true);
 				placer_->set_visible(true);
 			}
 		}
