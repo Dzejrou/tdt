@@ -111,6 +111,9 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 					case FactionComponent::type:
 						save_component<FactionComponent>(ent.first, entity_name);
 						break;
+					case PriceComponent::type:
+						save_component<PriceComponent>(ent.first, entity_name);
+						break;
 				}
 			}
 		}	
