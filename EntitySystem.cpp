@@ -204,6 +204,7 @@ void EntitySystem::init_function_arrays()
 	loaders_[DestructorComponent::type] = &EntitySystem::load_component<DestructorComponent>;
 	loaders_[GoldComponent::type] = &EntitySystem::load_component<GoldComponent>;
 	loaders_[FactionComponent::type] = &EntitySystem::load_component<FactionComponent>;
+	loaders_[PriceComponent::type] = &EntitySystem::load_component<PriceComponent>;
 
 	adders_[PhysicsComponent::type] = &EntitySystem::add_component<PhysicsComponent>;
 	adders_[HealthComponent::type] = &EntitySystem::add_component<HealthComponent>;
@@ -228,6 +229,7 @@ void EntitySystem::init_function_arrays()
 	adders_[DestructorComponent::type] = &EntitySystem::add_component<DestructorComponent>;
 	adders_[GoldComponent::type] = &EntitySystem::add_component<GoldComponent>;
 	adders_[FactionComponent::type] = &EntitySystem::add_component<FactionComponent>;
+	adders_[PriceComponent::type] = &EntitySystem::add_component<PriceComponent>;
 
 	deleters_[PhysicsComponent::type] = &EntitySystem::delete_component<PhysicsComponent>;
 	deleters_[HealthComponent::type] = &EntitySystem::delete_component<HealthComponent>;
@@ -252,6 +254,7 @@ void EntitySystem::init_function_arrays()
 	deleters_[DestructorComponent::type] = &EntitySystem::delete_component<DestructorComponent>;
 	deleters_[GoldComponent::type] = &EntitySystem::delete_component<GoldComponent>;
 	deleters_[FactionComponent::type] = &EntitySystem::delete_component<FactionComponent>;
+	deleters_[PriceComponent::type] = &EntitySystem::delete_component<PriceComponent>;
 
 	immediate_deleters_[PhysicsComponent::type] = &EntitySystem::delete_component_now<PhysicsComponent>;
 	immediate_deleters_[HealthComponent::type] = &EntitySystem::delete_component_now<HealthComponent>;
@@ -276,4 +279,5 @@ void EntitySystem::init_function_arrays()
 	immediate_deleters_[DestructorComponent::type] = &EntitySystem::delete_component_now<DestructorComponent>;
 	immediate_deleters_[GoldComponent::type] = &EntitySystem::delete_component_now<GoldComponent>;
 	immediate_deleters_[FactionComponent::type] = &EntitySystem::delete_component_now<FactionComponent>;
+	immediate_deleters_[PriceComponent::type] = &EntitySystem::delete_component_now<PriceComponent>;
 }

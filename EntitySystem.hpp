@@ -281,6 +281,7 @@ class EntitySystem : public System
 		std::map<std::size_t, DestructorComponent> destructor_{};
 		std::map<std::size_t, GoldComponent> gold_{};
 		std::map<std::size_t, FactionComponent> faction_{};
+		std::map<std::size_t, PriceComponent> price_{};
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -447,6 +448,12 @@ template<>
 inline std::map<std::size_t, FactionComponent>& EntitySystem::get_component_container<FactionComponent>()
 {
 	return faction_;
+}
+
+template<>
+inline std::map<std::size_t, PriceComponent>& EntitySystem::get_component_container<PriceComponent>()
+{
+	return price_;
 }
 
 /**
@@ -672,6 +679,13 @@ inline void EntitySystem::load_component<FactionComponent>(std::size_t id, const
 {
 	FACTION fac =  (FACTION)lpp::Script::get_singleton().get<int>(table_name + ".FactionComponent.faction");
 	faction_.emplace(id, FactionComponent{fac});
+}
+
+template<>
+inline void EntitySystem::load_component<PriceComponent>(std::size_t id, const std::string& table_name)
+{
+	std::size_t price = lpp::Script::get_singleton().get<std::size_t>(table_name + ".PriceComponent.price");
+	price_.emplace(id, PriceComponent{price});
 }
 
 /**

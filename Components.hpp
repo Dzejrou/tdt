@@ -11,7 +11,7 @@
 
 struct Component
 {
-	static constexpr int count = 23;
+	static constexpr int count = 24;
 	static constexpr std::size_t NO_ENTITY = std::numeric_limits<std::size_t>::max();
 };
 
@@ -507,4 +507,22 @@ struct FactionComponent
 	FactionComponent& operator=(FactionComponent&&) = default;
 
 	FACTION faction;
+};
+
+/**
+ * Represents either gold or mana cost of an entity.
+ */
+struct PriceComponent
+{
+	static constexpr int type = 23;
+	
+	PriceComponent(std::size_t p = 0)
+		: price{p}
+	{ /* DUMMY BODY */ }
+	PriceComponent(const PriceComponent&) = default;
+	PriceComponent(PriceComponent&&) = default;
+	PriceComponent& operator=(const PriceComponent&) = default;
+	PriceComponent& operator=(PriceComponent&&) = default;
+
+	std::size_t price;
 };
