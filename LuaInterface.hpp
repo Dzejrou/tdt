@@ -344,4 +344,8 @@ class LuaInterface
 		static int lua_sub_player_curr_units(lpp::Script::state);
 		static int lua_get_player_gold(lpp::Script::state);
 		static int lua_get_player_mana(lpp::Script::state);
+
+		// Price.
+		static int lua_set_price(lpp::Script::state);
+		static int lua_get_price(lpp::Script::state);
 };

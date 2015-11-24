@@ -345,6 +345,12 @@ void LuaInterface::init(Game* game)
 		{nullptr, nullptr}
 	};
 
+	lpp::Script::regs price_funcs[] = {
+		{"set", LuaInterface::lua_set_price},
+		{"get", LuaInterface::lua_get_price},
+		{nullptr, nullptr}
+	};
+
 	lpp::Script::regs gui_funcs[] = {
 		// GUI.
 		{"set_visible", LuaInterface::lua_set_gui_visible},
@@ -442,6 +448,8 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "gold");
 	luaL_newlib(state, player_funcs);
 	lua_setfield(state, -2, "player");
+	luaL_newlib(state, price_funcs);
+	lua_setfield(state, -2, "price");
 
 	// GUI subtable has it's own subtables.
 	luaL_newlib(state, gui_funcs);
@@ -2779,6 +2787,24 @@ int LuaInterface::lua_get_player_gold(lpp::Script::state L)
 int LuaInterface::lua_get_player_mana(lpp::Script::state L)
 {
 	auto res = Player::instance().get_mana();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_price(lpp::Script::state L)
+{
+	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	PriceHelper::set_price(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_get_price(lpp::Script::state L)
+{
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+
+	auto res = PriceHelper::get_price(*ents, id);
 	lua_pushinteger(L, res);
 	return 1;
 }
