@@ -1,10 +1,11 @@
 #include "EntityPlacer.hpp"
+#include "GUI.hpp"
 
 EntityPlacer::EntityPlacer(EntitySystem& ents, GridSystem& grid, Ogre::SceneManager& mgr)
 	: entities_{ents}, grid_{grid}, curr_position_{0, 0, 0},
 	  placing_node_{mgr.getRootSceneNode()->createChildSceneNode()}, visible_{false}, table_name_{},
 	  half_height_{}, placing_structure_{false}, structure_radius_{0}, mgr_{mgr},
-	  ent_{nullptr}
+	  ent_{nullptr}, price_{0}
 { /* DUMMY BODY */ }
 
 EntityPlacer::~EntityPlacer()
@@ -14,7 +15,7 @@ EntityPlacer::~EntityPlacer()
 	if(ent_)
 		mgr_.destroyEntity(ent_);
 }
-void EntityPlacer::set_current_entity_table(const std::string& table_name)
+void EntityPlacer::set_current_entity_table(const std::string& table_name, bool use_price)
 {
 	if(entities_.get_registered_entities().count(table_name) == 0)
 		return;
@@ -32,6 +33,7 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 		mgr_.destroyEntity(ent_);
 		placing_node_->detachAllObjects();
 		placing_node_->setScale(1.f, 1.f, 1.f);
+		price_ = 0;
 	}
 	ent_ = mgr_.createEntity(mesh);
 	ent_->setQueryFlags(0);
@@ -47,6 +49,9 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name)
 	}
 	else
 		placing_structure_ = false;
+
+	if(use_price && !script.is_nil(table_name + ".PriceComponent"))
+		price_ = script.get<std::size_t>(table_name + ".PriceComponent.price");
 
 	if(man_scaling)
 	{
@@ -86,6 +91,12 @@ void EntityPlacer::update_position(const Ogre::Vector3& pos)
 
 std::size_t EntityPlacer::place(Console& console)
 {
+	if(!Player::instance().sub_gold(price_))
+	{
+		GUI::instance().get_log().print("\\[ERROR\\] Not enough gold to place that.");
+		return Component::NO_ENTITY;
+	}
+
 	std::size_t node_id = Grid::instance().get_node_from_position(curr_position_.x, curr_position_.z);
 	if(placing_structure_ && !GridNodeHelper::area_free(entities_, node_id, structure_radius_))
 		return Component::NO_ENTITY; // This will prohibit of wall/building stacking.

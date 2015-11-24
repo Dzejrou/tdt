@@ -37,8 +37,10 @@ class EntityPlacer
 		 *        sets it as the currently placed entity by creating a dummy entity following
 		 *        the cursor.
 		 * Param: Name of the blueprint table (describing the placed entity).
+		 * Param: If true, the cost of the entity will be subtracted from the player's gold
+		 *        and the entity won't be placed if the player does not have sufficient funds.
 		 */
-		void set_current_entity_table(const std::string&);
+		void set_current_entity_table(const std::string&, bool = false);
 
 		/**
 		 * Brief: Called every frame when the entity placer is active, adjusts the dummy entity's
@@ -128,4 +130,9 @@ class EntityPlacer
 		 * Entity representing the mesh of the placed object.
 		 */
 		Ogre::Entity* ent_;
+
+		/**
+		 * Price of the currently placed entity.
+		 */
+		std::size_t price_;
 };
