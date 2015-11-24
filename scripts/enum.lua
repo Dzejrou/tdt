@@ -33,7 +33,8 @@ enum = {
 		event_handler = 19,
 		destructor = 20,
 		gold = 21,
-		faction = 22
+		faction = 22,
+		price = 23
 	},
 
 	event = {
