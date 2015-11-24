@@ -21,3 +21,4 @@
 #include "GoldHelper.hpp"
 #include "GridNodeHelper.hpp"
 #include "FactionHelper.hpp"
+#include "PriceHelper.hpp"
