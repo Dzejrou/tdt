@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 class EntitySystem;
+struct GoldComponent;
 
 namespace GoldHelper
 {
@@ -74,4 +75,9 @@ namespace GoldHelper
 	 * Param: ID of the entity.
 	 */
 	bool gold_full(EntitySystem&, std::size_t);
+
+	/**
+	 *
+	 */
+	void register_transaction_(EntitySystem&, GoldComponent&, std::size_t, std::size_t, bool = true);
 };

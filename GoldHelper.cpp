@@ -2,18 +2,20 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 #include "GUI.hpp"
+#include "FactionHelper.hpp"
+#include "Player.hpp"
 
 void GoldHelper::set_curr_gold(EntitySystem& ents, std::size_t id, std::size_t val)
 {
 	auto comp = ents.get_component<GoldComponent>(id);
 	if(comp)
 	{
+		// Stats used for transaction registering.
+		bool positive = comp->curr_amount >= val;
+		auto diff = positive ? comp->curr_amount - val : val - comp->curr_amount - val;
+		register_transaction_(ents, *comp, id, diff, positive);
+		
 		comp->curr_amount = val;
-		auto& tracker = GUI::instance().get_tracker();
-		if(tracker.get_tracked_entity() == id)
-			tracker.update_tracking("GOLD_VALUE",
-									std::to_string(comp->curr_amount) + " / "
-									+ std::to_string(comp->max_amount));
 	}
 }
 
@@ -32,11 +34,7 @@ void GoldHelper::set_max_gold(EntitySystem& ents, std::size_t id, std::size_t va
 	if(comp)
 	{
 		comp->max_amount = val;
-		auto& tracker = GUI::instance().get_tracker();
-		if(tracker.get_tracked_entity() == id)
-			tracker.update_tracking("GOLD_VALUE",
-									std::to_string(comp->curr_amount) + " / "
-									+ std::to_string(comp->max_amount));
+		register_transaction_(ents, *comp, id, 0); // No change to player's gold.
 	}
 }
 
@@ -62,11 +60,7 @@ std::size_t GoldHelper::add_gold(EntitySystem& ents, std::size_t id, std::size_t
 			rem = comp->curr_amount + val - comp->max_amount;
 			comp->curr_amount = comp->max_amount;
 		}
-		auto& tracker = GUI::instance().get_tracker();
-		if(tracker.get_tracked_entity() == id)
-			tracker.update_tracking("GOLD_VALUE",
-									std::to_string(comp->curr_amount) + " / "
-									+ std::to_string(comp->max_amount));
+		register_transaction_(ents, *comp, id, val, true);
 		return rem;
 	}
 	else
@@ -78,21 +72,13 @@ std::size_t GoldHelper::sub_gold(EntitySystem& ents, std::size_t id, std::size_t
 	auto comp = ents.get_component<GoldComponent>(id);
 	if(comp)
 	{
-		if(comp->curr_amount < val)
-		{
-			comp->curr_amount = 0;
-			return val - comp->curr_amount;
-		}
-		else
-		{
-			comp->curr_amount -= val;
-			return val;
-		}
-		auto& tracker = GUI::instance().get_tracker();
-		if(tracker.get_tracked_entity() == id)
-			tracker.update_tracking("GOLD_VALUE",
-									std::to_string(comp->curr_amount) + " / "
-									+ std::to_string(comp->max_amount));
+		bool has_enough = comp->curr_amount >= val;
+		auto diff = has_enough ? val : comp->curr_amount;
+		auto remainder = val - diff; // Gold that could not be subtracted.
+		register_transaction_(ents, *comp, id, diff, false);
+
+		comp->curr_amount -= diff;
+		return remainder;
 	}
 	else
 		return std::size_t{};
@@ -116,15 +102,8 @@ std::size_t GoldHelper::transfer_all_gold(EntitySystem& ents, std::size_t id_fro
 			comp_from->curr_amount -= diff;
 			comp_to->curr_amount += diff;
 		}
-		auto& tracker = GUI::instance().get_tracker();
-		if(tracker.get_tracked_entity() == id_to)
-			tracker.update_tracking("GOLD_VALUE",
-									std::to_string(comp_to->curr_amount) + " / "
-									+ std::to_string(comp_to->max_amount));
-		else if(tracker.get_tracked_entity() == id_from)
-			tracker.update_tracking("GOLD_VALUE",
-									std::to_string(comp_from->curr_amount) + " / "
-									+ std::to_string(comp_from->max_amount));
+		register_transaction_(ents, *comp_to, id_to, diff, true);
+		register_transaction_(ents, *comp_from, id_from, diff, false);
 
 		return diff;
 	}
@@ -140,4 +119,25 @@ bool GoldHelper::gold_full(EntitySystem& ents, std::size_t id)
 		return comp->curr_amount >= comp->max_amount;
 	else
 		return false;
+}
+
+void GoldHelper::register_transaction_(EntitySystem& ents, GoldComponent& comp, std::size_t id, std::size_t val, bool add)
+{
+	// Updates info if the entity is being currently tracked.
+	auto& tracker = GUI::instance().get_tracker();
+	if(tracker.get_tracked_entity() == id)
+		tracker.update_tracking("GOLD_VALUE", std::to_string(comp.curr_amount)
+								+ " / "	+ std::to_string(comp.max_amount));
+
+	// If it was a gold vault, update the player's gold.
+	auto& comp_list = ents.get_component_list();
+	auto ent = comp_list.find(id);
+	if(ent != comp_list.end() && ent->second.test(StructureComponent::type)
+	   && FactionHelper::get_faction(ents, id) == FACTION::FRIENDLY) // It has a gold component if this was called.
+	{
+		if(add)
+			Player::instance().add_gold(val);
+		else
+			Player::instance().sub_gold(val);
+	}
 }
