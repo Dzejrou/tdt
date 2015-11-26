@@ -75,7 +75,8 @@ std::size_t GoldHelper::sub_gold(EntitySystem& ents, std::size_t id, std::size_t
 		bool has_enough = comp->curr_amount >= val;
 		auto diff = has_enough ? val : comp->curr_amount;
 		auto remainder = val - diff; // Gold that could not be subtracted.
-		register_transaction_(ents, *comp, id, diff, false);
+		if(reg)
+			register_transaction_(ents, *comp, id, diff, false);
 
 		comp->curr_amount -= diff;
 		return remainder;
