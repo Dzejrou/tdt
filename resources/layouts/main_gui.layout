@@ -58,10 +58,10 @@
                         <Property name="Font" value="Inconsolata-10" />
                         <Property name="Text" value="QUICKLOAD" />
                     </Window>
-                    <Window type="AlfiskoSkin/Button" name="NEW_GAME" >
+                    <Window type="AlfiskoSkin/Button" name="RESEARCH" >
                         <Property name="Area" value="{{0,0},{0.6,0},{0.3,0},{1,0}}" />
                         <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="NEW GAME" />
+                        <Property name="Text" value="RESEARCH" />
                     </Window>
                     <Window type="AlfiskoSkin/Button" name="QUIT" >
                         <Property name="Area" value="{{0.7,0},{0.6,0},{1,0},{1,0}}" />
@@ -91,130 +91,27 @@
                         <Property name="NonClient" value="true" />
                         <Property name="AlwaysOnTop" value="true" />
                     </AutoWindow>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_1" >
-                        <Property name="Area" value="{{0,0},{0,0},{0.2,0},{0.2,0}}" />
+                    <Window type="AlfiskoSkin/Button" name="LEFT" >
+                        <Property name="Area" value="{{0.2,0},{0.65,0},{0.5,0},{0.9,0}}" />
                         <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="1" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_2" >
-                        <Property name="Area" value="{{0.2,0},{0,0},{0.4,0},{0.2,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="2" />
+                        <Property name="Text" value="&lt;&lt;&lt;" />
                     </Window>
                     <Window type="AlfiskoSkin/Button" name="SPELL_3" >
-                        <Property name="Area" value="{{0.4,0},{0,0},{0.6,0},{0.2,0}}" />
+                        <Property name="Area" value="{{0.5,0},{0,0},{0.75,0},{0.6,0}}" />
+                    </Window>
+                    <Window type="AlfiskoSkin/Button" name="SPELL_1" >
+                        <Property name="Area" value="{{0,0},{0,0},{0.25,0},{0.6,0}}" />
+                    </Window>
+                    <Window type="AlfiskoSkin/Button" name="RIGHT" >
+                        <Property name="Area" value="{{0.5,0},{0.65,0},{0.8,0},{0.9,0}}" />
                         <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="3" />
+                        <Property name="Text" value="&gt;&gt;&gt;" />
                     </Window>
                     <Window type="AlfiskoSkin/Button" name="SPELL_4" >
-                        <Property name="Area" value="{{0.6,0},{0,0},{0.8,0},{0.2,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="4" />
+                        <Property name="Area" value="{{0.75,0},{0,0},{1,0},{0.6,0}}" />
                     </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_5" >
-                        <Property name="Area" value="{{0.8,0},{0,0},{1,0},{0.2,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="5" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_9" >
-                        <Property name="Area" value="{{0.6,0},{0.2,0},{0.8,0},{0.4,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="9" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_6" >
-                        <Property name="Area" value="{{0,0},{0.2,0},{0.2,0},{0.4,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="6" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_8" >
-                        <Property name="Area" value="{{0.4,0},{0.2,0},{0.6,0},{0.4,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="8" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_7" >
-                        <Property name="Area" value="{{0.2,0},{0.2,0},{0.4,0},{0.4,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="7" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_10" >
-                        <Property name="Area" value="{{0.8,0},{0.2,0},{1,0},{0.4,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="10" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_14" >
-                        <Property name="Area" value="{{0.6,0},{0.4,0},{0.8,0},{0.6,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="14" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_11" >
-                        <Property name="Area" value="{{0,0},{0.4,0},{0.2,0},{0.6,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="11" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_12" >
-                        <Property name="Area" value="{{0.2,0},{0.4,0},{0.4,0},{0.6,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="12" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_15" >
-                        <Property name="Area" value="{{0.8,0},{0.4,0},{1,0},{0.6,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="15" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_17" >
-                        <Property name="Area" value="{{0.2,0},{0.6,0},{0.4,0},{0.8,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="17" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_16" >
-                        <Property name="Area" value="{{0,0},{0.6,0},{0.2,0},{0.8,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="16" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_20" >
-                        <Property name="Area" value="{{0.8,0},{0.6,0},{1,0},{0.8,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="20" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_18" >
-                        <Property name="Area" value="{{0.4,0},{0.6,0},{0.6,0},{0.8,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="18" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_19" >
-                        <Property name="Area" value="{{0.6,0},{0.6,0},{0.8,0},{0.8,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="19" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_22" >
-                        <Property name="Area" value="{{0.2,0},{0.8,0},{0.4,0},{1,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="22" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_21" >
-                        <Property name="Area" value="{{0,0},{0.8,0},{0.2,0},{1,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="21" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_25" >
-                        <Property name="Area" value="{{0.8,0},{0.8,0},{1,0},{1,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="25" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_23" >
-                        <Property name="Area" value="{{0.4,0},{0.8,0},{0.6,0},{1,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="23" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_24" >
-                        <Property name="Area" value="{{0.6,0},{0.8,0},{0.8,0},{1,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="24" />
-                    </Window>
-                    <Window type="AlfiskoSkin/Button" name="SPELL_13" >
-                        <Property name="Area" value="{{0.4,0},{0.4,0},{0.6,0},{0.6,0}}" />
-                        <Property name="Font" value="Inconsolata-10" />
-                        <Property name="Text" value="13" />
+                    <Window type="AlfiskoSkin/Button" name="SPELL_2" >
+                        <Property name="Area" value="{{0.25,0},{0,0},{0.5,0},{0.6,0}}" />
                     </Window>
                 </Window>
             </Window>
@@ -433,6 +330,7 @@
         <Window type="DefaultWindow" name="SAVE_LOAD" >
             <Property name="Area" value="{{0.3,0},{0.2,0},{0.7,0},{0.7,0}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Visible" value="false" />
             <Window type="AlfiskoSkin/FrameWindow" name="FRAME" >
                 <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
                 <Property name="SizingEnabled" value="false" />
@@ -547,6 +445,7 @@
         <Window type="AlfiskoSkin/FrameWindow" name="ENTITY_MANAGER" >
             <Property name="Area" value="{{0.05,0},{0.2,0},{0.45,0},{0.7,0}}" />
             <Property name="Text" value="ENTITY MANAGER" />
+            <Property name="Visible" value="false" />
             <Property name="AutoRenderingSurface" value="true" />
             <AutoWindow namePath="__auto_titlebar__" >
                 <Property name="NonClient" value="true" />
@@ -592,6 +491,7 @@
             <Property name="Text" value="DEVELOPER CONSOLE (LUA 5.3)" />
             <Property name="MaxSize" value="{{0.8,0},{0.8,0}}" />
             <Property name="MinSize" value="{{0.2,0},{0.2,0}}" />
+            <Property name="Visible" value="false" />
             <Property name="CloseButtonEnabled" value="false" />
             <Property name="AutoRenderingSurface" value="true" />
             <AutoWindow namePath="__auto_titlebar__" >
@@ -637,6 +537,7 @@
         <Window type="DefaultWindow" name="MESSAGE" >
             <Property name="Area" value="{{0.35,0},{0.4,0},{0.65,0},{0.6,0}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Visible" value="false" />
             <Property name="AlwaysOnTop" value="true" />
             <Window type="AlfiskoSkin/FrameWindow" name="FRAME" >
                 <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
@@ -663,6 +564,231 @@
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="AlwaysOnTop" value="true" />
                     <Property name="DragDropTarget" value="false" />
+                </Window>
+            </Window>
+        </Window>
+        <Window type="DefaultWindow" name="RESEARCH" >
+            <Property name="Area" value="{{0.05,0},{0.1,0},{0.95,0},{0.7,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="AlfiskoSkin/FrameWindow" name="FRAME" >
+                <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="RESEARCH" />
+                <Property name="SizingEnabled" value="false" />
+                <Property name="DragMovingEnabled" value="false" />
+                <Property name="AutoRenderingSurface" value="true" />
+                <AutoWindow namePath="__auto_titlebar__" >
+                    <Property name="NonClient" value="true" />
+                    <Property name="AlwaysOnTop" value="false" />
+                    <Property name="DraggingEnabled" value="false" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_closebutton__" >
+                    <Property name="NonClient" value="true" />
+                    <Property name="AlwaysOnTop" value="true" />
+                </AutoWindow>
+                <Window type="AlfiskoSkin/Button" name="1_1" >
+                    <Property name="Area" value="{{0,0},{0.05,0},{0.1,0},{0.15,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="1_2" >
+                    <Property name="Area" value="{{0.15,0},{0.05,0},{0.25,0},{0.15,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="1_3" >
+                    <Property name="Area" value="{{0.3,0},{0.05,0},{0.4,0},{0.15,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="1_4" >
+                    <Property name="Area" value="{{0.45,0},{0.05,0},{0.55,0},{0.15,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="1_5" >
+                    <Property name="Area" value="{{0.6,0},{0.05,0},{0.7,0},{0.15,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="1_6" >
+                    <Property name="Area" value="{{0.75,0},{0.05,0},{0.85,0},{0.15,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="1_7" >
+                    <Property name="Area" value="{{0.9,0},{0.05,0},{1,0},{0.15,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="2_1" >
+                    <Property name="Area" value="{{0,0},{0.2,0},{0.1,0},{0.3,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="2_2" >
+                    <Property name="Area" value="{{0.15,0},{0.2,0},{0.25,0},{0.3,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="2_3" >
+                    <Property name="Area" value="{{0.3,0},{0.2,0},{0.4,0},{0.3,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="2_4" >
+                    <Property name="Area" value="{{0.45,0},{0.2,0},{0.55,0},{0.3,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="2_5" >
+                    <Property name="Area" value="{{0.6,0},{0.2,0},{0.7,0},{0.3,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="2_6" >
+                    <Property name="Area" value="{{0.75,0},{0.2,0},{0.85,0},{0.3,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="2_7" >
+                    <Property name="Area" value="{{0.9,0},{0.2,0},{1,0},{0.3,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="3_1" >
+                    <Property name="Area" value="{{0,0},{0.35,0},{0.1,0},{0.45,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="3_7" >
+                    <Property name="Area" value="{{0.9,0},{0.35,0},{1,0},{0.45,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="3_3" >
+                    <Property name="Area" value="{{0.3,0},{0.35,0},{0.4,0},{0.45,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="3_2" >
+                    <Property name="Area" value="{{0.15,0},{0.35,0},{0.25,0},{0.45,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="3_4" >
+                    <Property name="Area" value="{{0.45,0},{0.35,0},{0.55,0},{0.45,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="3_6" >
+                    <Property name="Area" value="{{0.75,0},{0.35,0},{0.85,0},{0.45,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="3_5" >
+                    <Property name="Area" value="{{0.6,0},{0.35,0},{0.7,0},{0.45,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="4_5" >
+                    <Property name="Area" value="{{0.6,0},{0.5,0},{0.7,0},{0.6,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="4_2" >
+                    <Property name="Area" value="{{0.15,0},{0.5,0},{0.25,0},{0.6,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="4_1" >
+                    <Property name="Area" value="{{0,0},{0.5,0},{0.1,0},{0.6,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="4_4" >
+                    <Property name="Area" value="{{0.45,0},{0.5,0},{0.55,0},{0.6,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="4_7" >
+                    <Property name="Area" value="{{0.9,0},{0.5,0},{1,0},{0.6,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="4_3" >
+                    <Property name="Area" value="{{0.3,0},{0.5,0},{0.4,0},{0.6,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="4_6" >
+                    <Property name="Area" value="{{0.75,0},{0.5,0},{0.85,0},{0.6,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="5_5" >
+                    <Property name="Area" value="{{0.6,0},{0.65,0},{0.7,0},{0.75,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="5_4" >
+                    <Property name="Area" value="{{0.45,0},{0.65,0},{0.55,0},{0.75,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="5_6" >
+                    <Property name="Area" value="{{0.75,0},{0.65,0},{0.85,0},{0.75,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="5_2" >
+                    <Property name="Area" value="{{0.15,0},{0.65,0},{0.25,0},{0.75,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="5_1" >
+                    <Property name="Area" value="{{0,0},{0.65,0},{0.1,0},{0.75,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="5_3" >
+                    <Property name="Area" value="{{0.3,0},{0.65,0},{0.4,0},{0.75,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="5_7" >
+                    <Property name="Area" value="{{0.9,0},{0.65,0},{1,0},{0.75,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="6_6" >
+                    <Property name="Area" value="{{0.75,0},{0.8,0},{0.85,0},{0.9,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="6_3" >
+                    <Property name="Area" value="{{0.3,0},{0.8,0},{0.4,0},{0.9,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="6_2" >
+                    <Property name="Area" value="{{0.15,0},{0.8,0},{0.25,0},{0.9,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="6_4" >
+                    <Property name="Area" value="{{0.45,0},{0.8,0},{0.55,0},{0.9,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="6_5" >
+                    <Property name="Area" value="{{0.6,0},{0.8,0},{0.7,0},{0.9,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="6_7" >
+                    <Property name="Area" value="{{0.9,0},{0.8,0},{1,0},{0.9,0}}" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="6_1" >
+                    <Property name="Area" value="{{0,0},{0.8,0},{0.1,0},{0.9,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Label" name="TIER_1_LABEL" >
+                    <Property name="Area" value="{{0,0},{0.9,0},{0.1,0},{1,0}}" />
+                    <Property name="Font" value="Inconsolata-10" />
+                    <Property name="Text" value="TIER 1" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Label" name="TIER_2_LABEL" >
+                    <Property name="Area" value="{{0.15,0},{0.9,0},{0.25,0},{1,0}}" />
+                    <Property name="Font" value="Inconsolata-10" />
+                    <Property name="Text" value="TIER 2" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Label" name="TIER_3_LABEL" >
+                    <Property name="Area" value="{{0.3,0},{0.9,0},{0.4,0},{1,0}}" />
+                    <Property name="Font" value="Inconsolata-10" />
+                    <Property name="Text" value="TIER 3" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Label" name="TIER_4_LABEL" >
+                    <Property name="Area" value="{{0.45,0},{0.9,0},{0.55,0},{1,0}}" />
+                    <Property name="Font" value="Inconsolata-10" />
+                    <Property name="Text" value="TIER 4" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Label" name="TIER_5_LABEL" >
+                    <Property name="Area" value="{{0.6,0},{0.9,0},{0.7,0},{1,0}}" />
+                    <Property name="Font" value="Inconsolata-10" />
+                    <Property name="Text" value="TIER 5" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Label" name="TIER_6_LABEL" >
+                    <Property name="Area" value="{{0.75,0},{0.9,0},{0.85,0},{1,0}}" />
+                    <Property name="Font" value="Inconsolata-10" />
+                    <Property name="Text" value="TIER 6" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Label" name="TIER_7_LABEL" >
+                    <Property name="Area" value="{{0.9,0},{0.9,0},{1,0},{1,0}}" />
+                    <Property name="Font" value="Inconsolata-10" />
+                    <Property name="Text" value="TIER 7" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
             </Window>
         </Window>
