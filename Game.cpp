@@ -70,6 +70,7 @@ void Game::run()
 void Game::update(Ogre::Real delta)
 {
 	GUI::instance().get_top_bar().update_time(delta);
+	CEGUI::System::getSingleton().injectTimePulse(delta);
 	if(camera_free_mode_)
 		main_cam_->moveRelative(camera_dir_ * delta * /* atm hardcoded speed, move to lua! */ 180.f);
 
