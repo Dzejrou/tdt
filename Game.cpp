@@ -52,6 +52,7 @@ Game::Game() // TODO: Init systems.
 	LuaInterface::init(this);
 	entity_creator_->init(GUI::instance().get_window("ENTITY_MANAGER"));
 	GUI::instance().get_research().init(GUI::instance().get_window("RESEARCH"));
+	Player::instance().init(entity_system_.get());
 }
 
 Game::~Game()
