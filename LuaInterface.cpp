@@ -33,7 +33,8 @@ void LuaInterface::init(Game* game)
 		{"reload_all", LuaInterface::lua_reload_all},
 		{"save_game", LuaInterface::lua_save_game},
 		{"load_game", LuaInterface::lua_load_game},
-		// Util.
+		{"get_cursor_position", LuaInterface::lua_get_cursor_position},
+		{"get_selected_entity", LuaInterface::lua_get_tracked_entity}, // Alias.
 		{"get_enum_direction", LuaInterface::lua_get_enum_direction},
 		{"get_node_in_dir", LuaInterface::lua_get_node_in_dir},
 
@@ -404,6 +405,19 @@ void LuaInterface::init(Game* game)
 		{nullptr, nullptr}
 	};
 
+	lpp::Script::regs research_funcs[] = {
+		// Research window.
+		{"show", LuaInterface::lua_research_show},
+		{"free_research", LuaInterface::lua_free_research},
+		{"research_all", LuaInterface::lua_research_all},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs spell_funcs[] = {
+		{"register_spell", LuaInterface::lua_register_spell},
+		{nullptr, nullptr}
+	};
+
 	auto state = script.get_state();
 	luaL_newlib(state, game_funcs);
 	lua_setglobal(state, "game");
@@ -450,6 +464,8 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "player");
 	luaL_newlib(state, price_funcs);
 	lua_setfield(state, -2, "price");
+	luaL_newlib(state, spell_funcs);
+	lua_setfield(state, -2, "spell");
 
 	// GUI subtable has it's own subtables.
 	luaL_newlib(state, gui_funcs);
@@ -463,6 +479,8 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "console");
 	luaL_newlib(state, builder_funcs);
 	lua_setfield(state, -2, "builder");
+	luaL_newlib(state, research_funcs);
+	lua_setfield(state, -2, "research");
 
 	// Pop the residual tables.
 	lua_pop(state, 2);
@@ -627,6 +645,15 @@ int LuaInterface::lua_load_game(lpp::Script::state L)
 		lua_this->game_serializer_->load_game(*lua_this);
 
 	return 0;
+}
+
+int LuaInterface::lua_get_cursor_position(lpp::Script::state L)
+{
+	auto pos = lua_this->mouse_position_;
+
+	lua_pushnumber(L, pos.x);
+	lua_pushnumber(L, pos.y);
+	return 2;
 }
 
 int LuaInterface::lua_get_enum_direction(lpp::Script::state L)
@@ -2717,6 +2744,27 @@ int LuaInterface::lua_register_building(lpp::Script::state L)
 	return 0;
 }
 
+int LuaInterface::lua_research_show(lpp::Script::state L)
+{
+	std::size_t j = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t i = (std::size_t)luaL_checkinteger(L, -2);
+
+	GUI::instance().get_research().show(i, j);
+	return 0;
+}
+
+int LuaInterface::lua_free_research(lpp::Script::state)
+{
+	GUI::instance().get_research().free_research();
+	return 0;
+}
+
+int LuaInterface::lua_research_all(lpp::Script::state)
+{
+	GUI::instance().get_research().research_all();
+	return 0;
+}
+
 int LuaInterface::lua_add_player_gold(lpp::Script::state L)
 {
 	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
@@ -2807,6 +2855,14 @@ int LuaInterface::lua_get_price(lpp::Script::state L)
 	auto res = PriceHelper::get_price(*ents, id);
 	lua_pushinteger(L, res);
 	return 1;
+}
+
+int LuaInterface::lua_register_spell(lpp::Script::state L)
+{
+	std::string val = luaL_checkstring(L, -1);
+
+	GUI::instance().get_spell_casting().register_spell(val);
+	return 0;
 }
 
 int LuaInterface::lua_set_tracker_visible(lpp::Script::state L)

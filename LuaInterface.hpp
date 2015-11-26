@@ -57,6 +57,7 @@ class LuaInterface
 		static int lua_reload_all(lpp::Script::state);
 		static int lua_save_game(lpp::Script::state);
 		static int lua_load_game(lpp::Script::state);
+		static int lua_get_cursor_position(lpp::Script::state);
 
 		// Util.
 		static int lua_get_enum_direction(lpp::Script::state);
@@ -333,6 +334,11 @@ class LuaInterface
 		static int lua_is_builder_visible(lpp::Script::state);
 		static int lua_register_building(lpp::Script::state);
 
+		// Research.
+		static int lua_research_show(lpp::Script::state);
+		static int lua_free_research(lpp::Script::state);
+		static int lua_research_all(lpp::Script::state);
+
 		// Player.
 		static int lua_add_player_gold(lpp::Script::state);
 		static int lua_sub_player_gold(lpp::Script::state);
@@ -348,4 +354,7 @@ class LuaInterface
 		// Price.
 		static int lua_set_price(lpp::Script::state);
 		static int lua_get_price(lpp::Script::state);
+
+		// Spells.
+		static int lua_register_spell(lpp::Script::state);
 };
