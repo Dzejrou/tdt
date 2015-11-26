@@ -8,6 +8,7 @@
 #include "BuilderWindow.hpp"
 #include "TopBar.hpp"
 #include "ResearchWindow.hpp"
+#include "SpellCastingWindow.hpp"
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -112,6 +113,11 @@ class GUI
 		ResearchWindow& get_research();
 
 		/**
+		 * Brief: Returns a reference to the spell casting window.
+		 */
+		SpellCastingWindow& get_spell_casting();
+
+		/**
 		 * Note: Since VS2015 seems to have some problems with C++ standard
 		 *       (generates default copy/move constructors and operators even
 		 *        if default constructor is created), these constructors/operators
@@ -182,4 +188,9 @@ class GUI
 		 * buildings, units and spells.
 		 */
 		ResearchWindow research_;
+
+		/**
+		 * Allows the player to cast spells.
+		 */
+		SpellCastingWindow spell_casting_;
 };
