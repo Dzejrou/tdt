@@ -103,7 +103,7 @@ ogre_miner = {
 	update = function(id)
 		deposit = game.gold.get_closest_gold_deposit(id)
 		if deposit ~= game.const.no_ent then
-			game.print("\\[Miner #" .. id .."\\] Gonna mine deposit #" .. deposit .. ".")
+			game.gui.log.print("\\[#" .. id .."\\] Gonna mine deposit #" .. deposit .. ".")
 			task = game.task.create(deposit, game.enum.task.go_kill)
 			game.task.add(id, task)
 			return
