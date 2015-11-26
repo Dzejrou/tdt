@@ -20,10 +20,11 @@ Game::Game() // TODO: Init systems.
 	input_system_.reset(new InputSystem(*entity_system_, *keyboard_, *main_cam_));
 	grid_system_.reset(new GridSystem(*entity_system_, *scene_mgr_));
 	combat_system_.reset(new CombatSystem(*entity_system_, *scene_mgr_, *grid_system_));
+	event_system_.reset(new EventSystem(*entity_system_));
 	task_system_.reset(new TaskSystem(*entity_system_, *grid_system_, *combat_system_));
 	production_system_.reset(new ProductionSystem(*entity_system_));
 	time_system_.reset(new TimeSystem(*entity_system_));
-	event_system_.reset(new EventSystem(*entity_system_));
+	ai_system_.reset(new AISystem(*entity_system_));
 
 	systems_.emplace_back(entity_system_.get());
 	systems_.emplace_back(health_system_.get());
