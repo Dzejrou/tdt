@@ -1,6 +1,15 @@
 #include "Player.hpp"
 #include "GUI.hpp"
+#include "EntitySystem.hpp"
+#include "Util.hpp"
+#include "Components.hpp"
+#include "Util.hpp"
 #include <limits>
+
+void Player::init(EntitySystem* ents)
+{
+	entities_ = ents;
+}
 
 Player::Player()
 	: gold_{1000}, mana_{100}, units_max_{0}, units_curr_{0},
@@ -20,6 +29,18 @@ bool Player::sub_gold(std::size_t val)
 {
 	if(gold_ >= val)
 	{
+		if(entities_)
+		{ // Find first gold vault and remove gold from it, do not register the transaction though.
+			util::IS_GOLD_VAULT cond{*entities_};
+			for(auto& ent : entities_->get_component_container<GoldComponent>())
+			{
+				if(cond(ent.first))
+				{ // TODO: Update if the vault was tracked ^^.
+					GoldHelper::sub_gold(*entities_, ent.first, val, false);
+					break; // Sub from first vault only.
+				}
+			}
+		}
 		gold_ -= val;
 		GUI::instance().get_top_bar().update_label("GOLD_VALUE", std::to_string(gold_));
 		return true;
