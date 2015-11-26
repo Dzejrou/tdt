@@ -228,6 +228,11 @@ TopBar& GUI::get_top_bar()
 	return top_bar_;
 }
 
+ResearchWindow& GUI::get_research()
+{
+	return research_;
+}
+
 SpellCastingWindow& GUI::get_spell_casting()
 {
 	return spell_casting_;
