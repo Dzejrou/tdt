@@ -6,7 +6,8 @@ Game::Game() // TODO: Init systems.
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
 	  camera_dir_{0, 0, 0}, renderer_{nullptr}, placer_{nullptr}, ground_{nullptr},
 	  camera_free_mode_{false}, camera_position_backup_{0, 0, 0},
-	  camera_orientation_backup_{}, selection_box_{}, entity_creator_{nullptr}
+	  camera_orientation_backup_{}, selection_box_{}, entity_creator_{nullptr},
+	  mouse_position_{0.f, 0.f}
 {
 	ogre_init();
 	ois_init();
