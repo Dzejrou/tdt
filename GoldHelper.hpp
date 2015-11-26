@@ -55,8 +55,9 @@ namespace GoldHelper
 	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.
 	 * Param: Amoung of gold to subtract.
+	 * Param: If false, the transaction won't be registered (used when called from Player);
 	 */
-	std::size_t sub_gold(EntitySystem&, std::size_t, std::size_t);
+	std::size_t sub_gold(EntitySystem&, std::size_t, std::size_t, bool = true);
 
 	/**
 	 * Brief: Transfers all gold of an entity to another entity while
