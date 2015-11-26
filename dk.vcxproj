@@ -61,7 +61,9 @@
     <ClCompile Include="ProductHelper.cpp" />
     <ClCompile Include="ProductionHelper.cpp" />
     <ClCompile Include="ProductionSystem.cpp" />
+    <ClCompile Include="ResearchWindow.cpp" />
     <ClCompile Include="SelectionBox.cpp" />
+    <ClCompile Include="SpellCastingWindow.cpp" />
     <ClCompile Include="StructureHelper.cpp" />
     <ClCompile Include="TaskHandlerHelper.cpp" />
     <ClCompile Include="TaskHelper.cpp" />
@@ -118,7 +120,9 @@
     <ClInclude Include="ProductHelper.hpp" />
     <ClInclude Include="ProductionHelper.hpp" />
     <ClInclude Include="ProductionSystem.hpp" />
+    <ClInclude Include="ResearchWindow.hpp" />
     <ClInclude Include="SelectionBox.hpp" />
+    <ClInclude Include="SpellCastingWindow.hpp" />
     <ClInclude Include="StructureHelper.hpp" />
     <ClInclude Include="System.hpp" />
     <ClInclude Include="TaskHandlerHelper.hpp" />
