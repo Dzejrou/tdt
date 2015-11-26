@@ -22,6 +22,7 @@ void GUI::init(Game* game)
 	builder_.init(window_->getChild("TOOLS/BUILD"));
 	builder_.set_placer(game_->placer_.get());
 	top_bar_.init(window_->getChild("TOP_BAR"));
+	spell_casting_.init(window_->getChild("TOOLS/SPELLS"));
 
 	/**
 	 * TOOL SELECTION
@@ -225,6 +226,11 @@ BuilderWindow& GUI::get_builder()
 TopBar& GUI::get_top_bar()
 {
 	return top_bar_;
+}
+
+SpellCastingWindow& GUI::get_spell_casting()
+{
+	return spell_casting_;
 }
 
 void GUI::list_directory(const std::string& dir, CEGUI::Listbox& box, bool strip_ext)
