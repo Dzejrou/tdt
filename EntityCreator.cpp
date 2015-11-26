@@ -55,4 +55,5 @@ void EntityCreator::init_()
 		[&](const CEGUI::EventArgs&){ this->set_visible(false); }
 	);
 	list_box_ = (CEGUI::Listbox*)window_->getChild("ENTITY_LIST");
+	actualize_list(CEGUI::EventArgs{});
 }
