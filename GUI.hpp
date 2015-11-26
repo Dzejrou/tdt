@@ -7,6 +7,7 @@
 #include "GameLog.hpp"
 #include "BuilderWindow.hpp"
 #include "TopBar.hpp"
+#include "ResearchWindow.hpp"
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -106,6 +107,11 @@ class GUI
 		TopBar& get_top_bar();
 
 		/**
+		 * Brief: Returns a reference to the research window.
+		 */
+		ResearchWindow& get_research();
+
+		/**
 		 * Note: Since VS2015 seems to have some problems with C++ standard
 		 *       (generates default copy/move constructors and operators even
 		 *        if default constructor is created), these constructors/operators
@@ -170,4 +176,10 @@ class GUI
 		 * Shows game info at the top of the screen.
 		 */
 		TopBar top_bar_;
+
+		/**
+		 * Game's research window that allows the player to buy
+		 * buildings, units and spells.
+		 */
+		ResearchWindow research_;
 };
