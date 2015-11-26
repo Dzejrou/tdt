@@ -84,10 +84,12 @@ void GUI::init(Game* game)
 		}
 	);
 
-	window_->getChild("TOOLS/MENU/FRAME/NEW_GAME")->subscribeEvent(
+	window_->getChild("TOOLS/MENU/FRAME/RESEARCH")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
 		[&, this](const CEGUI::EventArgs& args){
-			// TODO:
+			window_->getChild("RESEARCH")->setVisible(
+				!window_->getChild("RESEARCH")->isVisible()
+			);
 		}
 	);
 
