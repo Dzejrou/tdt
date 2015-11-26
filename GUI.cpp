@@ -5,7 +5,8 @@
 
 GUI::GUI()
 	: window_{nullptr}, curr_tool_{"TOOLS/MENU"}, game_{nullptr},
-	  console_{}, tracker_{}, builder_{}, top_bar_{}
+	  console_{}, tracker_{}, builder_{}, top_bar_{},
+	  research_{}, spell_casting_{}
 { /* DUMMY BODY */ }
 
 void GUI::init(Game* game)
