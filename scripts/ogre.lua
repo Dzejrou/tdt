@@ -149,7 +149,7 @@ ogre_handler = {
 			game.graphics.rotate(id, -0.01)
 		end
 	end
-end
+}
 
 if game then
 	game.entity.register("ogre")
