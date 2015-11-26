@@ -67,7 +67,7 @@ std::size_t GoldHelper::add_gold(EntitySystem& ents, std::size_t id, std::size_t
 		return std::size_t{};
 }
 
-std::size_t GoldHelper::sub_gold(EntitySystem& ents, std::size_t id, std::size_t val)
+std::size_t GoldHelper::sub_gold(EntitySystem& ents, std::size_t id, std::size_t val, bool reg)
 {
 	auto comp = ents.get_component<GoldComponent>(id);
 	if(comp)
