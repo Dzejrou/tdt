@@ -211,13 +211,15 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 	if(event.state.Z.rel != 0) // Mouse scroll.
 		gui_cont.injectMouseWheelChange(event.state.Z.rel / 120.f); // Note: 120.f is a magic number used by MS, might not be
 																	//       cross-platform.
-
-	if(placer_->is_visible())
-	{
-		auto res = get_mouse_click_position(event);
-		if(res.first)
-			placer_->update_position(res.second);
+	auto pos = get_mouse_click_position(event);
+	if(pos.first)
+	{ // Save mouse position, so that it can be retrieved form Lua.
+		mouse_position_.x = pos.second.x;
+		mouse_position_.y = pos.second.z;
 	}
+
+	if(placer_->is_visible() && pos.first)
+		placer_->update_position(pos.second);
 	else if(selection_box_->is_selecting())
 	{
 		auto& mouse = gui_cont.getMouseCursor();
