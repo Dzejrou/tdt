@@ -21,9 +21,6 @@ default_task_handler = {
 
 			game.task.add_priority(id, t2)
 			game.task.add_priority(id, t1)
-			if id == 348 then
-				game.task.list(id)
-			end
 
 			game.task.cancel(task)
 			res = false
@@ -46,7 +43,7 @@ default_task_handler = {
 		elseif task_type == game.enum.task.pick_up_gold then
 			game.gold.transfer_all(target, id)
 			if game.gold.get_current(target) > 0 then
-				game.print("\\[Miner #" .. id .. "\\] My sack is full!")
+				game.gui.log.print("\\[#" .. id .. "\\] My sack is full!")
 				evt = game.entity.create("")
 				game.entity.add_component(evt, game.enum.component.event)
 				game.event.set_target(evt, target)
