@@ -26,6 +26,7 @@
 #include "EventSystem.hpp"
 #include "Grid.hpp"
 #include "GUI.hpp"
+#include "Player.hpp"
 
 class Game : public Ogre::FrameListener, public OIS::KeyListener,
 			 public OIS::MouseListener, public Ogre::WindowEventListener
