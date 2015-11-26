@@ -43,7 +43,7 @@ ogre_miner = {
 		range = 300,
 		min_dmg = 100,
 		max_dmg = 200,
-		type = game.enum.atk_type.melee,
+		type = game.enum.atk_type.ranged,
 		cooldown = 2.0
 	},
 
