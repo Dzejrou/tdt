@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdlib>
+class EntitySystem;
 
 /**
  * Auxiliary class representing the player's resources, since the nature
@@ -92,6 +93,13 @@ class Player
 			static Player inst{};
 			return inst;
 		}
+
+		/**
+		 * Brief: Initializes the player class.
+		 * Param: EntitySystem used to get gold vaults to
+		 *        subtract gold from.
+		 */
+		void init(EntitySystem*);
 	private:
 		/**
 		 * Constructor.
@@ -123,4 +131,10 @@ class Player
 		 * Helper value for overflow checking, contains std::size_t max value.
 		 */
 		const std::size_t uint_max_;
+
+		/**
+		 * Used to subtract gold from gold vault so that player gold and
+		 * vault gold is synchronized.
+		 */
+		EntitySystem* entities_;
 };
