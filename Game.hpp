@@ -188,4 +188,9 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * (TODO: Allow to create/modify entities.)
 		 */
 		std::unique_ptr<EntityCreator> entity_creator_;
+
+		/**
+		 * Saved position of the mouse cursor (2D).
+		 */
+		Ogre::Vector2 mouse_position_;
 };
