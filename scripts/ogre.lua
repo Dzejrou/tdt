@@ -137,15 +137,17 @@ ogre = {
 	end
 }
 
-ogre_handler = function(id, key)
-	if key == game.enum.input.key_up then
-		game.movement.move(id, game.movement.get_dir(id))
-	elseif key == game.enum.input.key_down then
-		game.movement.move(id, game.movement.get_dir_back(id))
-	elseif key == game.enum.input.key_left then
-		game.graphics.rotate(id, 0.01)
-	elseif key == game.enum.input.key_right then
-		game.graphics.rotate(id, -0.01)
+ogre_handler = {
+	handle = function(id, key)
+		if key == game.enum.input.key_up then
+			game.movement.move(id, game.movement.get_dir(id))
+		elseif key == game.enum.input.key_down then
+			game.movement.move(id, game.movement.get_dir_back(id))
+		elseif key == game.enum.input.key_left then
+			game.graphics.rotate(id, 0.01)
+		elseif key == game.enum.input.key_right then
+			game.graphics.rotate(id, -0.01)
+		end
 	end
 end
 
