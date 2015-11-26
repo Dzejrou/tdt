@@ -252,9 +252,9 @@ class Script
 		std::set<std::string> loaded_scripts_;
 };
 
-	/**
-	 * Exception class used to throw exception from the Script class.
-	 */
+/**
+ * Exception class used to throw exception from the Script class.
+ */
 class Exception
 { // TODO: Add print stack, lua error etc.
 	public:
