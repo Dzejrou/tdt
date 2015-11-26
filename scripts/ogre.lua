@@ -37,7 +37,7 @@ ogre = {
 	},
 
 	MovementComponent = {
-		speed_modifier = 55,
+		speed_modifier = 55
 	},
 
 	CombatComponent = {
