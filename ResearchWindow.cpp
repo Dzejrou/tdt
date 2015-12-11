@@ -52,7 +52,10 @@ void ResearchWindow::init_()
 
 	window_->getChild("FRAME")->subscribeEvent(
 		CEGUI::FrameWindow::EventCloseClicked,
-		[this](const CEGUI::EventArgs&){ this->set_visible(false); }
+		[this](const CEGUI::EventArgs&) -> bool {
+			this->set_visible(false);
+			return true;
+		}
 	);
 
 	/**
@@ -75,7 +78,10 @@ void ResearchWindow::init_()
 			butt = window_->getChild("FRAME/" + row + col);
 			butt->subscribeEvent(
 				CEGUI::PushButton::EventClicked,
-				[this, i, j](const CEGUI::EventArgs&){ this->unlock(i, j); }
+				[this, i, j](const CEGUI::EventArgs&) -> bool {
+					this->unlock(i, j);
+					return true;
+				}
 			);
 			butt->setText(
 				script_->call<std::string, std::size_t, std::size_t>(

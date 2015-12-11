@@ -30,28 +30,31 @@ void GUI::init(Game* game)
 	 */
 	window_->getChild("TOOLS/TOOL_SELECTION/FRAME/SPELL_SELECTION")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&, this](const CEGUI::EventArgs& args){
+		[&, this](const CEGUI::EventArgs&) -> bool {
 			this->set_visible(curr_tool_, false);
 			this->set_visible("TOOLS/SPELLS", true);
 			curr_tool_ = "TOOLS/SPELLS";
+			return true;
 		}
 	);
 
 	window_->getChild("TOOLS/TOOL_SELECTION/FRAME/MENU_SELECTION")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&, this](const CEGUI::EventArgs& args){
+		[&, this](const CEGUI::EventArgs&) -> bool {
 			this->set_visible(curr_tool_, false);
 			this->set_visible("TOOLS/MENU", true);
 			curr_tool_ = "TOOLS/MENU";
+			return true;
 		}
 	);
 
 	window_->getChild("TOOLS/TOOL_SELECTION/FRAME/BUILD_SELECTION")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&, this](const CEGUI::EventArgs& args){
+		[&, this](const CEGUI::EventArgs&) -> bool {
 			this->set_visible(curr_tool_, false);
 			this->set_visible("TOOLS/BUILD", true);
 			curr_tool_ = "TOOLS/BUILD";
+			return true;
 		}
 	);
 
@@ -60,59 +63,66 @@ void GUI::init(Game* game)
 	 */
 	window_->getChild("TOOLS/MENU/FRAME/QUIT")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs& args){
+		[&](const CEGUI::EventArgs&) -> bool {
 			game_->set_state(GAME_STATE::ENDED);
+			return true;
 		}
 	);
 
 	window_->getChild("TOOLS/MENU/FRAME/LOAD")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs& args){
+		[&](const CEGUI::EventArgs&) -> bool {
 			show_load_save_dialog("LOAD");
+			return true;
 		}
 	);
 
 	window_->getChild("TOOLS/MENU/FRAME/SAVE")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&, this](const CEGUI::EventArgs& args){
+		[&, this](const CEGUI::EventArgs&) -> bool {
 			show_load_save_dialog("SAVE");
+			return true;
 		}
 	);
 
 	window_->getChild("TOOLS/MENU/FRAME/OPTIONS")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&, this](const CEGUI::EventArgs& args){
+		[&, this](const CEGUI::EventArgs&) -> bool {
 			// TODO:
+			return true;
 		}
 	);
 
 	window_->getChild("TOOLS/MENU/FRAME/RESEARCH")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&, this](const CEGUI::EventArgs& args){
+		[&, this](const CEGUI::EventArgs&) -> bool {
 			window_->getChild("RESEARCH")->setVisible(
 				!window_->getChild("RESEARCH")->isVisible()
 			);
+			return true;
 		}
 	);
 
 	window_->getChild("TOOLS/MENU/FRAME/QUICK_SAVE")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs& args){
+		[&](const CEGUI::EventArgs&) -> bool {
 			game_->game_serializer_->save_game(*game_, "quick_save");
+			return true;
 		}
 	);
 
 	window_->getChild("TOOLS/MENU/FRAME/QUICK_LOAD")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs& args){
+		[&](const CEGUI::EventArgs&) -> bool {
 			game_->game_serializer_->load_game(*game_, "quick_save");
+			return true;
 		}
 	);
 
 
 	window_->getChild("SAVE_LOAD/FRAME/BUTT")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs& args){
+		[&](const CEGUI::EventArgs&) -> bool {
 			if(window_->getChild("SAVE_LOAD/FRAME/BUTT")->getText() == "LOAD")
 			{
 				game_->game_serializer_->load_game(
@@ -125,6 +135,7 @@ void GUI::init(Game* game)
 					*game, window_->getChild("SAVE_LOAD/FRAME/INPUT")->getText().c_str()
 				);
 			}
+			return true;
 		}
 	);
 
@@ -132,25 +143,28 @@ void GUI::init(Game* game)
 	// When an save file is selected, it's name is copied to the editbox.
 	window_->getChild("SAVE_LOAD/FRAME/ITEMS")->subscribeEvent(
 		CEGUI::Listbox::EventSelectionChanged,
-		[&](const CEGUI::EventArgs& args){
+		[&](const CEGUI::EventArgs&) -> bool {
 			window_->getChild("SAVE_LOAD/FRAME/INPUT")->setText(
 				((CEGUI::Listbox*)window_->getChild("SAVE_LOAD/FRAME/ITEMS"))->getFirstSelectedItem()->getText()
 			);
+			return true;
 		}
 	);
 
 	window_->getChild("SAVE_LOAD")->subscribeEvent(
 		CEGUI::Window::EventKeyDown,
-		[&](const CEGUI::EventArgs& args){
+		[&](const CEGUI::EventArgs& args) -> bool {
 			if(((CEGUI::KeyEventArgs&)args).scancode == CEGUI::Key::Scan::Escape)
 				window_->getChild("SAVE_LOAD")->setVisible(false);
+				return true;
 		}
 	);
 
 	window_->getChild("SAVE_LOAD/FRAME")->subscribeEvent(
 		CEGUI::FrameWindow::EventCloseClicked,
-		[&](const CEGUI::EventArgs& args){
+		[&](const CEGUI::EventArgs&) -> bool {
 			window_->getChild("SAVE_LOAD")->setVisible(false);
+			return true;
 		}
 	);
 }

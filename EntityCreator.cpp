@@ -4,27 +4,31 @@ EntityCreator::EntityCreator(EntityPlacer& placer, EntitySystem& ents)
 	: placer_{placer}, registered_entities_{ents.get_registered_entities()}
 { /* DUMMY BODY */ }
 
-void EntityCreator::place(const CEGUI::EventArgs& args)
+bool EntityCreator::place(const CEGUI::EventArgs& args)
 {
 	auto selected = list_box_->getFirstSelectedItem();
 	if(selected && !lpp::Script::get_singleton().is_nil(selected->getText().c_str()))
 	{
 		placer_.set_current_entity_table(selected->getText().c_str());
 		placer_.set_visible(true);
+		return true;
 	}
+	return false;
 }
 
-void EntityCreator::change_to_place(const CEGUI::EventArgs& args)
+bool EntityCreator::change_to_place(const CEGUI::EventArgs& args)
 {
 	// TODO: Place/Create modes.
+	return false;
 }
 
-void EntityCreator::change_to_create(const CEGUI::EventArgs& args)
+bool EntityCreator::change_to_create(const CEGUI::EventArgs& args)
 {
 	// TODO: Place/Create modes.
+	return false;
 }
 
-void EntityCreator::actualize_list(const CEGUI::EventArgs& args)
+bool EntityCreator::actualize_list(const CEGUI::EventArgs& args)
 {
 	list_box_->resetList();
 	CEGUI::ListboxTextItem* item;
@@ -37,6 +41,8 @@ void EntityCreator::actualize_list(const CEGUI::EventArgs& args)
 		item->setSelectionColours(Console::BLUE_TEXT);
 		list_box_->addItem(item);
 	}
+
+	return true;
 }
 
 void EntityCreator::init_()
@@ -52,7 +58,10 @@ void EntityCreator::init_()
 											   CEGUI::Event::Subscriber(&EntityCreator::actualize_list, this));
 	window_->subscribeEvent(
 		CEGUI::FrameWindow::EventCloseClicked,
-		[&](const CEGUI::EventArgs&){ this->set_visible(false); }
+		[&](const CEGUI::EventArgs&) -> bool {
+			this->set_visible(false);
+			return true;
+		}
 	);
 	list_box_ = (CEGUI::Listbox*)window_->getChild("ENTITY_LIST");
 	actualize_list(CEGUI::EventArgs{});

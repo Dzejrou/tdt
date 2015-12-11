@@ -34,13 +34,13 @@ class Console : public GUIWindow
 		 * Brief: Event handler that is called by CEGUI whenever a text is entered.
 		 * Param: Reference to the CEGUI argument.
 		 */
-		void handle_text(const CEGUI::EventArgs&);
+		bool handle_text(const CEGUI::EventArgs&);
 
 		/**
 		 * Brief: Event handler that is called by CEGUI whenever the EXECUTE button is pressed.
 		 * Param: Reference to the CEGUI argument.
 		 */
-		void execute(const CEGUI::EventArgs&);
+		bool execute(const CEGUI::EventArgs&);
 
 		/**
 		 * Brief: Prints a given message into the console window.

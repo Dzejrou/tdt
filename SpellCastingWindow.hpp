@@ -43,13 +43,13 @@ class SpellCastingWindow : public GUIWindow
 		* Brief: Decrements selection_number_ by one and updates
 		*        the window.
 		*/
-		void dec_selection_();
+		bool dec_selection_();
 
 		/**
 		* Brief: Increments selection_number_ by one and updates
 		*        the window.
 		*/
-		void inc_selection_();
+		bool inc_selection_();
 
 		/**
 		* Brief: Range checked buildings_ index access, returns the name

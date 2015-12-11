@@ -24,44 +24,53 @@ void SpellCastingWindow::init_()
 
 	window_->getChild("FRAME/SPELL_1")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&){
-		if(get_spell_(selection_number_ - 3) != "")
-			cast_(get_spell_(selection_number_ - 3));
-	}
+		[&](const CEGUI::EventArgs&) -> bool {
+			if(get_spell_(selection_number_ - 3) != "")
+				cast_(get_spell_(selection_number_ - 3));
+			return true;
+		}
 	);
 
 	window_->getChild("FRAME/SPELL_2")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&){
-		if(get_spell_(selection_number_ - 2) != "")
-			cast_(get_spell_(selection_number_ - 2));
-	}
+		[&](const CEGUI::EventArgs&) -> bool {
+			if(get_spell_(selection_number_ - 2) != "")
+				cast_(get_spell_(selection_number_ - 2));
+			return true;
+		}
 	);
 
 	window_->getChild("FRAME/SPELL_3")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&){
-		if(get_spell_(selection_number_ - 1) != "")
-			cast_(get_spell_(selection_number_ - 1));
-	}
+		[&](const CEGUI::EventArgs&) -> bool {
+			if(get_spell_(selection_number_ - 1) != "")
+				cast_(get_spell_(selection_number_ - 1));
+		}
 	);
 
 	window_->getChild("FRAME/SPELL_4")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&){
-		if(get_spell_(selection_number_) != "")
-			cast_(get_spell_(selection_number_));
-	}
+		[&](const CEGUI::EventArgs&) -> bool {
+			if(get_spell_(selection_number_) != "")
+				cast_(get_spell_(selection_number_));
+			return true;
+		}
 	);
 
 	window_->getChild("FRAME/LEFT")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		CEGUI::Event::Subscriber(&SpellCastingWindow::dec_selection_, this)
+		[&](const CEGUI::EventArgs&) -> bool {
+			this->dec_selection_();
+			return true;
+		}
 	);
 
 	window_->getChild("FRAME/RIGHT")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		CEGUI::Event::Subscriber(&SpellCastingWindow::inc_selection_, this)
+		[&](const CEGUI::EventArgs&) -> bool {
+			this->dec_selection_();
+			return true;
+		}
 	);
 }
 
@@ -72,16 +81,18 @@ void SpellCastingWindow::cast_(const std::string& name)
 		script_->call<void, std::size_t>("game.spell.spells." + name + ".cast", 0 /* DUMMY VARIABLE */);
 }
 
-void SpellCastingWindow::dec_selection_()
+bool SpellCastingWindow::dec_selection_()
 {
 	if(selection_number_ > 3)
 	{
 		--selection_number_;
 		update_selection_();
 	}
+
+	return true;
 }
 
-void SpellCastingWindow::inc_selection_()
+bool SpellCastingWindow::inc_selection_()
 {
 	if(spells_.size() > 4 && selection_number_ < spells_.size() - 1)
 	{

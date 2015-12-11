@@ -32,15 +32,16 @@ void Console::set_visible(bool visible)
 		window_->getChild("INPUT")->activate();
 }
 
-void Console::handle_text(const CEGUI::EventArgs& args)
+bool Console::handle_text(const CEGUI::EventArgs& args)
 {
 	std::string command = window_->getChild("INPUT")->getText().c_str();
 	curr_command_ += '\n' + command;
 	print_text(command);
 	window_->getChild("INPUT")->setText("");
+	return true;
 }
 
-void Console::execute(const CEGUI::EventArgs& args)
+bool Console::execute(const CEGUI::EventArgs& args)
 {
 	bool success{true};
 	std::string err_msg{};
@@ -75,6 +76,7 @@ void Console::execute(const CEGUI::EventArgs& args)
 		print_text("<FAILURE> " + err_msg, RED_TEXT);
 
 	curr_command_ = "";
+	return true;
 }
 
 void Console::print_text(const std::string& msg, CEGUI::Colour col)

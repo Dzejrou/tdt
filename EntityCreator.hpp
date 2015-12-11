@@ -33,21 +33,21 @@ class EntityCreator : public GUIWindow
 		 *        button, sets the currently selected entity blueprint for placing.
 		 * Param: Reference to the CEGUI event arguments.
 		 */
-		void place(const CEGUI::EventArgs&);
+		bool place(const CEGUI::EventArgs&);
 
 		/**
 		 * Brief: Function that is called when the player/developer presses the "place"
 		 *        button, changing the creator to the placing mode.
 		 * Param: Reference to the CEGUI event arguments.
 		 */
-		void change_to_place(const CEGUI::EventArgs&);
+		bool change_to_place(const CEGUI::EventArgs&);
 
 		/**
 		 * Brief: Function that is called when the player/developer presses the "create"
 		 *        button, changing the creator to the creation mode.
 		 * Param: Reference to the CEGUI event arguments.
 		 */
-		void change_to_create(const CEGUI::EventArgs&);
+		bool change_to_create(const CEGUI::EventArgs&);
 
 		/**
 		 * Brief: Function that is called when the player/developer presses the "actualize
@@ -55,7 +55,7 @@ class EntityCreator : public GUIWindow
 		 *        list box.
 		 * Param: Reference to the CEGUI event arguments.
 		 */
-		void actualize_list(const CEGUI::EventArgs&);
+		bool actualize_list(const CEGUI::EventArgs&);
 	protected:
 		/**
 		 * Brief: Initializes the EntityCreator.

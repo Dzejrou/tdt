@@ -28,56 +28,66 @@ void BuilderWindow::init_()
 
 	window_->getChild("BUILD_1")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&){
-			if(get_building_(selection_number_ - 3) != "" && placer_)
-			{
-				placer_->set_current_entity_table(buildings_[selection_number_ - 3], true);
-				placer_->set_visible(true);
-			}
+		[&](const CEGUI::EventArgs&) -> bool {
+				if(get_building_(selection_number_ - 3) != "" && placer_)
+				{
+					placer_->set_current_entity_table(buildings_[selection_number_ - 3], true);
+					placer_->set_visible(true);
+				}
+				return true;
 		}
 	);
 
 	window_->getChild("BUILD_2")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&){
+		[&](const CEGUI::EventArgs&) -> bool {
 			if(get_building_(selection_number_ - 2) != "" && placer_)
 			{
 				placer_->set_current_entity_table(buildings_[selection_number_ - 2], true);
 				placer_->set_visible(true);
 			}
+			return true;
 		}
 	);
 
 	window_->getChild("BUILD_3")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&){
+		[&](const CEGUI::EventArgs&) -> bool {
 			if(get_building_(selection_number_ - 1) != "" && placer_)
 			{
 				placer_->set_current_entity_table(buildings_[selection_number_ - 1], true);
 				placer_->set_visible(true);
 			}
+			return true;
 		}
 	);
 
 	window_->getChild("BUILD_4")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&){
+		[&](const CEGUI::EventArgs&) -> bool {
 			if(get_building_(selection_number_) != "" && placer_)
 			{
 				placer_->set_current_entity_table(buildings_[selection_number_], true);
 				placer_->set_visible(true);
 			}
+			return true;
 		}
 	);
 
 	window_->getChild("LEFT")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		CEGUI::Event::Subscriber(&BuilderWindow::dec_selection_, this)
+		[&](const CEGUI::EventArgs&) -> bool {
+			this->dec_selection_();
+			return true;
+		}
 	);
 
 	window_->getChild("RIGHT")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		CEGUI::Event::Subscriber(&BuilderWindow::inc_selection_, this)
+		[&](const CEGUI::EventArgs&) -> bool {
+			this->inc_selection_();
+			return true;
+		}
 	);
 }
 

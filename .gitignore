@@ -1,6 +1,10 @@
 # Lua interpreter
 scripts/lua/*
 
+Debug/*
+Release/*
+.vs/*
+*~
 
 
 # Windows image file caches
