@@ -356,7 +356,7 @@ void Game::ogre_init()
 		root_->initialise(false);
 
 	// Window init.
-	window_ = root_->createRenderWindow("Dungeon Keeper", 1366, 768, false);
+	window_ = root_->createRenderWindow("Dungeon Keeper", 1920, 1080, true);
 	window_->setVisible(true);
 
 	// Scene init.
