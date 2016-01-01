@@ -58,3 +58,5 @@ Debug/vc140.idb
 *.pdb
 *.swp
 *.md~
+*.sdf
+dk.VC.opendb
