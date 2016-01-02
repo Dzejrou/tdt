@@ -13,6 +13,7 @@
 #include "GraphicsHelper.hpp"
 #include "GridSystem.hpp"
 #include "Util.hpp"
+#include "RayCaster.hpp"
 
 /**
  * Used for entity container filtering, this represents the entity
@@ -49,7 +50,7 @@ class CombatSystem : public System
 
 		/**
 		 * Brief: Returns true if two given entities can see each other,
-		 *        false otherwise.
+		 *        false otherwise. Tests polygons.
 		 * Param: ID of the first entity.
 		 * Param: ID of the second entity.
 		 * NOTE: Tests only if entities that have query flags of WALL or BUILDING
@@ -57,6 +58,17 @@ class CombatSystem : public System
 		 *       entities.
 		 */
 		bool in_sight(std::size_t, std::size_t) const;
+
+		/**
+		 * Brief: Returns true if two given entities can see each other,
+		 *        false otherwise. Tests only bounding boxes.
+		 * Param: ID of the first entity.
+		 * Param: ID of the second entity.
+		 * NOTE: Tests only if entities that have query flags of WALL or BUILDING
+		 *       are in the way, allows to see through other friendly/enemy/neutral
+		 *       entities.
+		 */
+		bool in_sight_wrt_BB(std::size_t, std::size_t) const;
 
 		/**
 		 * Brief: Returns the ID of the closest entity (from a given entity's
@@ -155,6 +167,11 @@ class CombatSystem : public System
 		 * Used to check if an entity is accessible.
 		 */
 		GridSystem& grid_;
+
+		/**
+		 * Used for polygon precise line of sight checking.
+		 */
+		RayCaster ray_caster_;
 };
 
 /**

@@ -2,7 +2,7 @@
 
 CombatSystem::CombatSystem(EntitySystem& ents, Ogre::SceneManager& scene, GridSystem& grid)
 	: entities_{ents}, ray_query_{*scene.createRayQuery(Ogre::Ray{})},
-	  grid_{grid}
+	  grid_{grid}, ray_caster_{scene}
 {
 	ray_query_.setSortByDistance(true);
 	ray_query_.setQueryMask((int)ENTITY_TYPE::WALL || (int)ENTITY_TYPE::BUILDING);
@@ -99,6 +99,31 @@ void CombatSystem::update(Ogre::Real delta)
 }
 
 bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
+{
+	auto phys_comp = entities_.get_component<PhysicsComponent>(ent_id);
+	auto target_graph_comp = entities_.get_component<GraphicsComponent>(target);
+
+	if(phys_comp && target_graph_comp && target_graph_comp->node && target_graph_comp->entity)
+	{
+		auto target_position = target_graph_comp->node->getPosition();
+		auto direction = target_position - phys_comp->position;
+		direction.normalise();
+		auto res = ray_caster_.cast(phys_comp->position, direction);
+
+		if(res.first)
+		{
+			auto dist = res.second.distance(target_position);
+			dist *= dist;
+			return phys_comp->position.squaredDistance(target_position) < dist;
+		}
+		else
+			return true;
+	}
+	else
+		return false;
+}
+
+bool CombatSystem::in_sight_wrt_BB(std::size_t ent_id, std::size_t target) const
 {
 	auto phys_comp = entities_.get_component<PhysicsComponent>(ent_id);
 	auto target_graph_comp = entities_.get_component<GraphicsComponent>(target);
