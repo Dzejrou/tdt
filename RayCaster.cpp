@@ -1,12 +1,14 @@
 #include "RayCaster.hpp"
+#include "Enums.hpp"
 
 RayCaster::RayCaster(Ogre::SceneManager& mgr)
 	: query_{mgr.createRayQuery(Ogre::Ray{})}
 {
 	query_->setSortByDistance(true);
+	query_->setQueryMask((int)ENTITY_TYPE::WALL || (int)ENTITY_TYPE::BUILDING);
 }
 
-std::pair<bool, Ogre::Vector3> RayCaster::cast(const Ogre::Vector3& start, const Ogre::Vector3& dir)
+std::pair<bool, Ogre::Vector3> RayCaster::cast(const Ogre::Vector3& start, const Ogre::Vector3& dir) const
 {
 	if(!query_)
 		return std::make_pair(false, Ogre::Vector3());
@@ -62,14 +64,15 @@ std::pair<bool, Ogre::Vector3> RayCaster::cast(const Ogre::Vector3& start, const
 }
 
 void RayCaster::get_info(const Ogre::Entity& ent, std::size_t& v_count, std::size_t& i_count, std::vector<Ogre::Vector3>& verts, std::vector<std::size_t>& inds,
-						 const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::Vector3& scale)
+						 const Ogre::Vector3& position, const Ogre::Quaternion& orientation, const Ogre::Vector3& scale) const
 {
 	bool shared{false};
 	std::size_t curr_offset{}, shared_offset{}, next_offset{}, index_offset{};
 	v_count = i_count = 0;
 
 	auto mesh = ent.getMesh();
-	for(std::size_t i = 0; i < mesh->getNumSubMeshes(); ++i)
+	std::size_t sub_count{mesh->getNumSubMeshes()};
+	for(unsigned short i = 0; i < sub_count; ++i)
 	{
 		auto sub = mesh->getSubMesh(i);
 		if(sub->useSharedVertices)
@@ -88,4 +91,53 @@ void RayCaster::get_info(const Ogre::Entity& ent, std::size_t& v_count, std::siz
 	verts.reserve(v_count);
 	inds.reserve(i_count);
 	shared = false;
+
+	for(unsigned short i = 0; i < sub_count; ++i)
+	{
+		auto sub = mesh->getSubMesh(i);
+	
+		auto shared_allowed = sub->useSharedVertices;
+		auto* v_data = shared_allowed ? mesh->sharedVertexData : sub->vertexData;
+
+		if(!shared_allowed || (shared_allowed && !shared))
+		{
+			if(shared_allowed)
+			{
+				shared = true;
+				shared_offset = curr_offset;
+			}
+			const auto* elem = v_data->vertexDeclaration->findElementBySemantic(Ogre::VES_POSITION);
+			auto v_buf = v_data->vertexBufferBinding->getBuffer(elem->getSource());
+			unsigned char* vertex = (unsigned char*)v_buf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY);
+			float* tmp;
+
+			for(std::size_t j = 0; j < v_data->vertexCount; ++j, vertex += v_buf->getVertexSize())
+			{
+				elem->baseVertexPointerToElement(vertex, &tmp);
+				verts[curr_offset + j] = orientation * (Ogre::Vector3{tmp[0], tmp[1], tmp[2]} * scale) + position;
+			}
+			v_buf->unlock();
+			next_offset += v_data->vertexCount;
+		}
+		auto* index_data = sub->indexData;
+		std::size_t tri_count = index_data->indexCount / 3;
+		auto i_buf = index_data->indexBuffer;
+
+		unsigned long* lock_32bit = (unsigned long*)i_buf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY);
+		std::size_t offset = sub->useSharedVertices ? shared_offset : curr_offset;
+		std::size_t last_index = tri_count * 3 + index_data->indexStart;
+
+		if(i_buf->getType() == Ogre::HardwareIndexBuffer::IT_32BIT)
+		{
+			for(std::size_t j = index_data->indexStart; j < last_index; ++j)
+				inds[index_offset++] = lock_32bit[j] + (unsigned long)offset;
+		}
+		else
+		{
+			unsigned short* lock_16bit = (unsigned short*)lock_32bit;
+			for(std::size_t j = index_data->indexStart; j < last_index; ++j)
+				inds[index_offset++] = (unsigned long)lock_16bit[j] + (unsigned long)offset;
+		
+		}
+	}
 }

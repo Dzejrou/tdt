@@ -21,7 +21,7 @@ class RayCaster
 		/**
 		 *
 		 */
-		std::pair<bool, Ogre::Vector3> cast(const Ogre::Vector3&, const Ogre::Vector3&);
+		std::pair<bool, Ogre::Vector3> cast(const Ogre::Vector3&, const Ogre::Vector3&) const;
 	private:
 		/**
 		 *
@@ -33,5 +33,5 @@ class RayCaster
 		 */
 		void get_info(const Ogre::Entity&, std::size_t&, std::size_t&, std::vector<Ogre::Vector3>&,
 					  std::vector<std::size_t>&, const Ogre::Vector3&, const Ogre::Quaternion&,
-					  const Ogre::Vector3&);
+					  const Ogre::Vector3&) const;
 };
