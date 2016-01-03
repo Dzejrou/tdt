@@ -108,13 +108,12 @@ bool CombatSystem::in_sight(std::size_t ent_id, std::size_t target) const
 		auto target_position = target_graph_comp->node->getPosition();
 		auto direction = target_position - phys_comp->position;
 		direction.normalise();
-		auto res = ray_caster_.cast(phys_comp->position, direction);
+		auto res = ray_caster_.cast(phys_comp->position, direction, "entity_" + std::to_string(target));
 
 		if(res.first)
 		{
-			auto dist = res.second.distance(target_position);
-			dist *= dist;
-			return phys_comp->position.squaredDistance(target_position) < dist;
+			res.second *= res.second;
+			return phys_comp->position.squaredDistance(target_position) <= res.second;
 		}
 		else
 			return true;

@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <bitset>
 #include <map>
+#include <string>
 #include "System.hpp"
 #include "Components.hpp"
 #include "EntitySystem.hpp"
