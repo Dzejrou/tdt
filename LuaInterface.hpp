@@ -75,7 +75,9 @@ class LuaInterface
 		static int lua_get_manual_scaling(lpp::Script::state);
 		static int lua_get_scale(lpp::Script::state);
 		static int lua_look_at(lpp::Script::state);
-		static int lua_rotate(lpp::Script::state);
+		static int lua_rotate_x(lpp::Script::state);
+		static int lua_rotate_y(lpp::Script::state);
+		static int lua_rotate_z(lpp::Script::state);
 		static int lua_collide(lpp::Script::state);
 		static int lua_set_query_flags(lpp::Script::state);
 		static int lua_get_query_flags(lpp::Script::state);

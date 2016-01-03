@@ -53,7 +53,9 @@ void LuaInterface::init(Game* game)
 		{"is_visible", LuaInterface::lua_is_visible},
 		{"get_manual_scaling", LuaInterface::lua_get_manual_scaling},
 		{"get_scale", LuaInterface::lua_get_scale},
-		{"rotate", LuaInterface::lua_rotate},
+		{"rotate_x", LuaInterface::lua_rotate_x},
+		{"rotate_y", LuaInterface::lua_rotate_y},
+		{"rotate_z", LuaInterface::lua_rotate_z},
 		{"collide", LuaInterface::lua_collide},
 		{"look_at", LuaInterface::lua_look_at},
 		{"set_query_flags", LuaInterface::lua_set_query_flags},
@@ -933,12 +935,30 @@ int LuaInterface::lua_move(lpp::Script::state L)
 	return 1;
 }
 
-int LuaInterface::lua_rotate(lpp::Script::state L)
+int LuaInterface::lua_rotate_x(lpp::Script::state L)
 {
 	Ogre::Real delta = (Ogre::Real)luaL_checknumber(L, -1);
 	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
 
-	GraphicsHelper::rotate(*ents, id, delta);
+	GraphicsHelper::rotate(*ents, id, delta, GraphicsHelper::PLANE::X);
+	return 0;
+}
+
+int LuaInterface::lua_rotate_y(lpp::Script::state L)
+{
+	Ogre::Real delta = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	GraphicsHelper::rotate(*ents, id, delta, GraphicsHelper::PLANE::Y);
+	return 0;
+}
+
+int LuaInterface::lua_rotate_z(lpp::Script::state L)
+{
+	Ogre::Real delta = (Ogre::Real)luaL_checknumber(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	GraphicsHelper::rotate(*ents, id, delta, GraphicsHelper::PLANE::Z);
 	return 0;
 }
 
