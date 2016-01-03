@@ -19,7 +19,7 @@ bool GridNodeHelper::is_free(EntitySystem& ents, std::size_t id)
 	if(comp)
 		return comp->free;
 	else
-		return false;
+		return true;
 }
 
 bool GridNodeHelper::area_free(EntitySystem& ents, std::size_t center, std::size_t radius)
