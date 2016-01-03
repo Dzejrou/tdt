@@ -92,6 +92,10 @@ void PhysicsHelper::set_2d_position(EntitySystem& ents, std::size_t id, Ogre::Ve
 		comp->position.x = val.x;
 		comp->position.y = comp->half_height;
 		comp->position.z = val.y;
+		
+		auto graph = ents.get_component<GraphicsComponent>(id);
+		if(graph)
+			graph->node->setPosition(comp->position);
 	}
 }
 
