@@ -45,6 +45,7 @@ void SpellCastingWindow::init_()
 		[&](const CEGUI::EventArgs&) -> bool {
 			if(get_spell_(selection_number_ - 1) != "")
 				cast_(get_spell_(selection_number_ - 1));
+			return true;
 		}
 	);
 
