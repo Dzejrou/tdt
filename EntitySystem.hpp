@@ -282,6 +282,7 @@ class EntitySystem : public System
 		std::map<std::size_t, GoldComponent> gold_{};
 		std::map<std::size_t, FactionComponent> faction_{};
 		std::map<std::size_t, PriceComponent> price_{};
+		std::map<std::size_t, AlignComponent> align_{};
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -454,6 +455,12 @@ template<>
 inline std::map<std::size_t, PriceComponent>& EntitySystem::get_component_container<PriceComponent>()
 {
 	return price_;
+}
+
+template<>
+inline std::map<std::size_t, AlignComponent>& EntitySystem::get_component_container<AlignComponent>()
+{
+	return align_;
 }
 
 /**
@@ -652,6 +659,9 @@ inline void EntitySystem::load_component<EventHandlerComponent>(std::size_t id, 
 	std::string handler = script.get<std::string>(table_name + ".EventHandlerComponent.handler");
 	auto res = event_handler_.emplace(id, EventHandlerComponent{handler});
 
+	if(!res.second)
+		return; // TODO: Notify.
+
 	auto& comp = res.first->second;
 	auto possible_events = script.get_vector<int>(table_name + ".EventHandlerComponent.possible_events");
 	for(const auto& evt : possible_events)
@@ -686,6 +696,31 @@ inline void EntitySystem::load_component<PriceComponent>(std::size_t id, const s
 {
 	std::size_t price = lpp::Script::get_singleton().get<std::size_t>(table_name + ".PriceComponent.price");
 	price_.emplace(id, PriceComponent{price});
+}
+
+template<>
+inline void EntitySystem::load_component<AlignComponent>(std::size_t id, const std::string& table_name)
+{
+	auto res = align_.emplace(id, AlignComponent{});
+
+	if(!res.second)
+		return; // TODO: Notify.
+
+	auto& comp = res.first->second;
+	std::string state_table{};
+	auto& script = lpp::Script::get_singleton();
+	for(std::size_t i = 0; i < AlignComponent::state_count; ++i)
+	{
+		state_table = table_name + ".AlignComponent.state_" + std::to_string(i);
+		comp.states[i].material = script.get<std::string>(state_table + ".material");
+		comp.states[i].mesh = script.get<std::string>(state_table + ".mesh");;
+		comp.states[i].position_offset.x = script.get<Ogre::Real>(state_table + ".position_offset_x");;
+		comp.states[i].position_offset.y = script.get<Ogre::Real>(state_table + ".position_offset_y");;
+		comp.states[i].position_offset.z = script.get<Ogre::Real>(state_table + ".position_offset_z");;
+		comp.states[i].scale.x = script.get<Ogre::Real>(state_table + ".scale_x");;
+		comp.states[i].scale.y = script.get<Ogre::Real>(state_table + ".scale_y");;
+		comp.states[i].scale.z = script.get<Ogre::Real>(state_table + ".scale_z");;
+	}
 }
 
 /**
