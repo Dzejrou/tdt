@@ -2,13 +2,16 @@
 -- Each spell table needs two fields: price (integer)
 -- and cast (function that gets called when the spell is cast).
 game.spell.spells = {
-	test_spell = {
-		price = 2,
+	-- Basic player spell, commands the miner with fewest tasks
+	-- to mine every currently selected mineable entity.
+	mine = {
+		price = 0,
 		cast = function()
-			game.gui.log.print("TEST SPELL CASTED!")
+			game.command.mine()
 		end
 	},
 
+	-- Heals a friendly target to full health.
 	heal = {
 		price = 10,
 		cast = function()
@@ -29,4 +32,4 @@ game.spell.refund_ = function(spell)
 	game.player.add_mana(game.spell.spells[spell].price)
 end
 
-game.spell.register_spell("test_spell")
+game.spell.register_spell("mine")
