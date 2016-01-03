@@ -448,3 +448,8 @@ inline void GameSerializer::save_component<AlignComponent>(std::size_t id, const
 
 	save_components_.emplace_back(std::move(comm));
 }
+template<>
+inline void GameSerializer::save_component<AlignComponent>(std::size_t id, const std::string& tbl_name)
+{
+	save_components_.emplace_back("game.add_component(" + tbl_name + ", game.enum.component.mine");
+}

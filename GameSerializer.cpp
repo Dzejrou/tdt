@@ -40,6 +40,7 @@ GameSerializer::GameSerializer(EntitySystem& ents)
 	serializers_[FactionComponent::type] = &GameSerializer::save_component<FactionComponent>;
 	serializers_[PriceComponent::type] = &GameSerializer::save_component<PriceComponent>;
 	serializers_[AlignComponent::type] = &GameSerializer::save_component<AlignComponent>;
+	serializers_[MineComponent::type] = &GameSerializer::save_component<MineComponent>;
 }
 
 void GameSerializer::save_game(Game& game, const std::string& fname)

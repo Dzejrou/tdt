@@ -11,7 +11,7 @@
 
 struct Component
 {
-	static constexpr int count = 25;
+	static constexpr int count = 26;
 	static constexpr std::size_t NO_ENTITY = std::numeric_limits<std::size_t>::max();
 };
 
@@ -552,4 +552,13 @@ struct AlignComponent
 	AlignComponent& operator=(AlignComponent&&) = default;
 
 	std::array<AlignState, state_count> states;
+};
+
+/**
+ * Dummy component that signals that an entity having it can
+ * be mined.
+ */
+struct MineComponent
+{
+	static constexpr int type = 25;
 };

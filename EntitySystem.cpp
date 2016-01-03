@@ -206,6 +206,7 @@ void EntitySystem::init_function_arrays()
 	loaders_[FactionComponent::type] = &EntitySystem::load_component<FactionComponent>;
 	loaders_[PriceComponent::type] = &EntitySystem::load_component<PriceComponent>;
 	loaders_[AlignComponent::type] = &EntitySystem::load_component<AlignComponent>;
+	loaders_[MineComponent::type] = &EntitySystem::load_component<MineComponent>;
 
 	adders_[PhysicsComponent::type] = &EntitySystem::add_component<PhysicsComponent>;
 	adders_[HealthComponent::type] = &EntitySystem::add_component<HealthComponent>;
@@ -232,6 +233,7 @@ void EntitySystem::init_function_arrays()
 	adders_[FactionComponent::type] = &EntitySystem::add_component<FactionComponent>;
 	adders_[PriceComponent::type] = &EntitySystem::add_component<PriceComponent>;
 	adders_[AlignComponent::type] = &EntitySystem::add_component<AlignComponent>;
+	adders_[MineComponent::type] = &EntitySystem::add_component<MineComponent>;
 
 	deleters_[PhysicsComponent::type] = &EntitySystem::delete_component<PhysicsComponent>;
 	deleters_[HealthComponent::type] = &EntitySystem::delete_component<HealthComponent>;
@@ -258,6 +260,7 @@ void EntitySystem::init_function_arrays()
 	deleters_[FactionComponent::type] = &EntitySystem::delete_component<FactionComponent>;
 	deleters_[PriceComponent::type] = &EntitySystem::delete_component<PriceComponent>;
 	deleters_[AlignComponent::type] = &EntitySystem::delete_component<AlignComponent>;
+	deleters_[MineComponent::type] = &EntitySystem::delete_component<MineComponent>;
 
 	immediate_deleters_[PhysicsComponent::type] = &EntitySystem::delete_component_now<PhysicsComponent>;
 	immediate_deleters_[HealthComponent::type] = &EntitySystem::delete_component_now<HealthComponent>;
@@ -284,4 +287,5 @@ void EntitySystem::init_function_arrays()
 	immediate_deleters_[FactionComponent::type] = &EntitySystem::delete_component_now<FactionComponent>;
 	immediate_deleters_[PriceComponent::type] = &EntitySystem::delete_component_now<PriceComponent>;
 	immediate_deleters_[AlignComponent::type] = &EntitySystem::delete_component_now<AlignComponent>;
+	immediate_deleters_[MineComponent::type] = &EntitySystem::delete_component_now<MineComponent>;
 }

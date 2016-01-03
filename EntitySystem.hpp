@@ -283,6 +283,7 @@ class EntitySystem : public System
 		std::map<std::size_t, FactionComponent> faction_{};
 		std::map<std::size_t, PriceComponent> price_{};
 		std::map<std::size_t, AlignComponent> align_{};
+		std::map<std::size_t, MineComponent> mine_{};
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -461,6 +462,12 @@ template<>
 inline std::map<std::size_t, AlignComponent>& EntitySystem::get_component_container<AlignComponent>()
 {
 	return align_;
+}
+
+template<>
+inline std::map<std::size_t, MineComponent>& EntitySystem::get_component_container<MineComponent>()
+{
+	return mine_;
 }
 
 /**
@@ -721,6 +728,11 @@ inline void EntitySystem::load_component<AlignComponent>(std::size_t id, const s
 		comp.states[i].scale.y = script.get<Ogre::Real>(state_table + ".scale_y");;
 		comp.states[i].scale.z = script.get<Ogre::Real>(state_table + ".scale_z");;
 	}
+}
+template<>
+inline void EntitySystem::load_component<MineComponent>(std::size_t id, const std::string& table_name)
+{
+	mine_.emplace(id, MineComponent{});
 }
 
 /**
