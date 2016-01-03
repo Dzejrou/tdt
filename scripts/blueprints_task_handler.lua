@@ -43,6 +43,7 @@ default_task_handler = {
 		elseif task_type == game.enum.task.pick_up_gold then
 			game.gold.transfer_all(target, id)
 			if game.gold.get_current(target) > 0 then
+				-- TODO: Let others pick it up.
 				game.gui.log.print("\\[#" .. id .. "\\] My sack is full!")
 				evt = game.entity.create("")
 				game.entity.add_component(evt, game.enum.component.event)
