@@ -37,7 +37,11 @@ void LuaInterface::init(Game* game)
 		{"get_selected_entity", LuaInterface::lua_get_tracked_entity}, // Alias.
 		{"get_enum_direction", LuaInterface::lua_get_enum_direction},
 		{"get_node_in_dir", LuaInterface::lua_get_node_in_dir},
+		{nullptr, nullptr}
+	};
 
+	lpp::Script::regs command_funcs[] = {
+		{"mine", LuaInterface::lua_command_to_mine},
 		{nullptr, nullptr}
 	};
 
@@ -438,6 +442,8 @@ void LuaInterface::init(Game* game)
 
 	// Set all subtables.
 	lua_getglobal(state, "game");
+	luaL_newlib(state, command_funcs);
+	lua_setfield(state, -2, "command");
 	luaL_newlib(state, graph_funcs);
 	lua_setfield(state, -2, "graphics");
 	luaL_newlib(state, entity_funcs);
@@ -670,6 +676,12 @@ int LuaInterface::lua_get_cursor_position(lpp::Script::state L)
 	lua_pushnumber(L, pos.x);
 	lua_pushnumber(L, pos.y);
 	return 2;
+}
+
+int LuaInterface::lua_command_to_mine(lpp::Script::state L)
+{
+	lua_this->command_to_mine();
+	return 0;
 }
 
 int LuaInterface::lua_get_enum_direction(lpp::Script::state L)

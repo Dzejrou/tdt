@@ -58,6 +58,9 @@ class LuaInterface
 		static int lua_save_game(lpp::Script::state);
 		static int lua_load_game(lpp::Script::state);
 		static int lua_get_cursor_position(lpp::Script::state);
+		
+		// Command.
+		static int lua_command_to_mine(lpp::Script::state);
 
 		// Util.
 		static int lua_get_enum_direction(lpp::Script::state);
