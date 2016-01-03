@@ -84,6 +84,12 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		void cegui_init();
 
 		/**
+		 * Brief: Commands the miner with smalles task queue (if any) to mine
+		 *        all selected mineable entities.
+		 */
+		void command_to_mine();
+
+		/**
 		 * Current game state.
 		 */
 		GAME_STATE state_;

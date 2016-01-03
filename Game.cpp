@@ -435,6 +435,42 @@ void Game::cegui_init()
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 }
 
+void Game::command_to_mine()
+{
+	// Find miner with the smallest task queue.
+	std::size_t id = Component::NO_ENTITY;
+	std::size_t queue_size = std::numeric_limits<std::size_t>::max();
+	for(const auto& ent : entity_system_->get_component_container<TaskHandlerComponent>())
+	{
+		/**
+		 * Note: Even if the mineable structure may not contain gold, only those who can
+		 *       actually mine (this include gold) can mine it, so the ability to fulfill
+		 *       such task is required. (Removing it allows any entity capable
+		 *       of killing to mine.)
+		 */
+		if(ent.second.possible_tasks.test((int)TASK_TYPE::GO_KILL) &&
+		   ent.second.possible_tasks.test((int)TASK_TYPE::GO_PICK_UP_GOLD) &&
+		   ent.second.task_queue.size() < queue_size)
+		{
+			queue_size = ent.second.task_queue.size();
+			id = ent.first;
+		}
+	}
+	if(id != Component::NO_ENTITY)
+	{
+		for(const auto& selected : selection_box_->get_selected_entities())
+		{
+			if(entity_system_->has_component<MineComponent>(selected))
+			{
+				auto task = TaskHelper::create_task(*entity_system_, selected, TASK_TYPE::GO_KILL);
+				TaskHelper::add_task(*entity_system_, id, task);
+			}
+		}
+	}
+	else
+		GUI::instance().get_log().print("[ERROR] You don't have any miners.");
+}
+
 CEGUI::MouseButton Game::ois_to_cegui(OIS::MouseButtonID id)
 {
 	switch(id)
