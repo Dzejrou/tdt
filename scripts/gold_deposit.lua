@@ -7,7 +7,8 @@ gold_deposit = {
 		game.enum.component.destructor,
 		game.enum.component.gold,
 		game.enum.component.faction,
-		game.enum.component.align
+		game.enum.component.align,
+		game.enum.component.mine
 	},
 
 	PhysicsComponent = {
