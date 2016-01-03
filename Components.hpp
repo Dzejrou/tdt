@@ -11,7 +11,7 @@
 
 struct Component
 {
-	static constexpr int count = 24;
+	static constexpr int count = 25;
 	static constexpr std::size_t NO_ENTITY = std::numeric_limits<std::size_t>::max();
 };
 
@@ -524,4 +524,32 @@ struct PriceComponent
 	PriceComponent& operator=(PriceComponent&&) = default;
 
 	std::size_t price;
+};
+
+/**
+ * Holds information about an objects align states, i.e. scale,
+ * model, etc for the different alignments of blocks (e.g. walls).
+ */
+struct AlignComponent
+{
+	static constexpr int type = 24;
+	static constexpr int state_count = 5;
+
+	struct AlignState
+	{
+		Ogre::Vector3 scale;
+		Ogre::Vector3 position_offset;
+		std::string mesh;
+		std::string material;
+	};
+
+	AlignComponent()
+		: states{}
+	{ /* DUMMY BODY */ }
+	AlignComponent(const AlignComponent&) = default;
+	AlignComponent(AlignComponent&&) = default;
+	AlignComponent& operator=(const AlignComponent&) = default;
+	AlignComponent& operator=(AlignComponent&&) = default;
+
+	std::array<AlignState, state_count> states;
 };
