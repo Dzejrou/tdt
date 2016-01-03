@@ -8,6 +8,14 @@ class EntitySystem;
 namespace GraphicsHelper
 {
 	/**
+	 *
+	 */
+	enum class PLANE
+	{
+		X = 0, Y, Z
+	};
+
+	/**
 	 * Brief: Sets the model of a given entity.
 	 * Param: Reference to the entity system that contains components.
 	 * Param: ID of the entity.
@@ -105,7 +113,7 @@ namespace GraphicsHelper
 	 * Param: Rotation angle in radians.
 	 * Note: Ogre3D has conversion functions.
 	 */
-	void rotate(EntitySystem&, std::size_t, Ogre::Real);
+	void rotate(EntitySystem&, std::size_t, Ogre::Real, PLANE = PLANE::Y);
 
 	/**
 	 * Brief: Returns a given entity's bounding box.

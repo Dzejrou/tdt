@@ -107,11 +107,26 @@ void GraphicsHelper::look_at(EntitySystem& ents, std::size_t id1, std::size_t id
 	}
 }
 
-void GraphicsHelper::rotate(EntitySystem& ents, std::size_t id, Ogre::Real delta)
+void GraphicsHelper::rotate(EntitySystem& ents, std::size_t id, Ogre::Real delta, PLANE plane)
 {
 	auto comp = ents.get_component<GraphicsComponent>(id);
 	if(comp)
-		comp->node->rotate(Ogre::Vector3{0, 1, 0}, Ogre::Radian{delta});
+	{
+		Ogre::Vector3 plane_vector{0.f, 0.f, 0.f};
+		switch(plane)
+		{
+			case PLANE::X:
+				plane_vector.x = 1.f;
+				break;
+			case PLANE::Y:
+				plane_vector.y = 1.f;
+				break;
+			case PLANE::Z:
+				plane_vector.z = 1.f;
+				break;
+		}
+		comp->node->rotate(plane_vector, Ogre::Radian{delta});
+	}
 }
 
 const Ogre::AxisAlignedBox& GraphicsHelper::get_bounds(EntitySystem& ents, std::size_t id)
