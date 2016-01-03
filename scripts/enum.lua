@@ -35,7 +35,8 @@ enum = {
 		gold = 21,
 		faction = 22,
 		price = 23,
-		align = 24
+		align = 24,
+		mine =25
 	},
 
 	event = {
