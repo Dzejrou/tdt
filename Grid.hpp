@@ -2,6 +2,7 @@
 
 #include <Ogre.h>
 #include <cstdlib>
+#include <set>
 #include <vector>
 #include <algorithm>
 #include "EntitySystem.hpp"
@@ -30,13 +31,13 @@ class Grid
 		 * Brief: Returns a constant reference to the list of
 		 *        freed nodes.
 		 */
-		const std::vector<std::size_t>& get_freed() const;
+		const std::set<std::size_t>& get_freed() const;
 
 		/**
 		 * Brief: Returns a constant reference to the list of
 		 *        unfreed nodes.
 		 */
-		const std::vector<std::size_t>& get_unfreed() const;
+		const std::set<std::size_t>& get_unfreed() const;
 
 		/**
 		 * Brief: Removes all nodes from the list of freed nodes.
@@ -154,7 +155,7 @@ class Grid
 		 * freed/unfreed on last frame. Used for pathfinding correction
 		 * and structure model changes.
 		 */
-		std::vector<std::size_t> freed_, unfreed_;
+		std::set<std::size_t> freed_, unfreed_;
 
 		/**
 		 * Dimensions of the grid in node count.

@@ -5,12 +5,12 @@ bool Grid::in_board(std::size_t id) const
 	return std::find(nodes_.begin(), nodes_.end(), id) != nodes_.end();
 }
 
-const std::vector<std::size_t>& Grid::get_freed() const
+const std::set<std::size_t>& Grid::get_freed() const
 {
 	return freed_;
 }
 
-const std::vector<std::size_t>& Grid::get_unfreed() const
+const std::set<std::size_t>& Grid::get_unfreed() const
 {
 	return unfreed_;
 }
@@ -44,13 +44,13 @@ std::size_t Grid::add_node(EntitySystem& ents, Ogre::Vector2 pos)
 void Grid::add_freed(std::size_t id)
 {
 	if(in_board(id))
-		freed_.push_back(id);
+		freed_.insert(id);
 }
 
 void Grid::add_unfreed(std::size_t id)
 {
 	if(in_board(id))
-		unfreed_.push_back(id);
+		unfreed_.insert(id);
 }
 
 void Grid::remove_node(std::size_t id)
