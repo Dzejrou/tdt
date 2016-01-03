@@ -285,7 +285,7 @@ bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 	return true;
 }
 
-void Game::windowResized(Ogre::RenderWindow * window)
+void Game::windowResized(Ogre::RenderWindow* window)
 {
 	if(window != window_) // For the possibility of more windows.
 		return;
@@ -299,7 +299,7 @@ void Game::windowResized(Ogre::RenderWindow * window)
 	mouse_state.height = height;
 }
 
-void Game::windowClosed(Ogre::RenderWindow * window)
+void Game::windowClosed(Ogre::RenderWindow* window)
 {
 	if(window != window_)
 		return; // For the possibility of more windows.
