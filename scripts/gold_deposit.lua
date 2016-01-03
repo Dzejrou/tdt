@@ -6,7 +6,8 @@ gold_deposit = {
 		game.enum.component.structure,
 		game.enum.component.destructor,
 		game.enum.component.gold,
-		game.enum.component.faction
+		game.enum.component.faction,
+		game.enum.component.align
 	},
 
 	PhysicsComponent = {
@@ -45,6 +46,63 @@ gold_deposit = {
 
 	FactionComponent = {
 		faction = game.enum.faction.neutral
+	},
+
+	AlignComponent = {
+		state_0 = {
+			material = "colour/gold",
+			mesh = "cube.mesh",
+			position_offset_x = 0.0,
+			position_offset_y = 0.0,
+			position_offset_z = 0.0,
+			scale_x = 25.0,
+			scale_y = 50.0,
+			scale_z = 25.0
+		},
+
+		state_1 = {
+			material = "colour/gold",
+			mesh = "cube.mesh",
+			position_offset_x = 0.0,
+			position_offset_y = 0.0,
+			position_offset_z = 0.0,
+			scale_x = 25.0,
+			scale_y = 50.0,
+			scale_z = 50.0
+		},
+
+		state_2 = {
+			material = "colour/gold",
+			mesh = "half_cube.mesh",
+			position_offset_x = 0.0,
+			position_offset_y = 0.0,
+			position_offset_z = 0.0,
+			scale_x = 50.0,
+			scale_y = 50.0,
+			scale_z = 50.0
+		},
+
+		state_3 = {
+			material = "colour/gold",
+			mesh = "cube.mesh",
+			position_offset_x = 0.0,
+			position_offset_y = 0.0,
+			position_offset_z = 0.0,
+			scale_x = 50.0,
+			scale_y = 50.0,
+			scale_z = 50.0
+		},
+
+		state_4 = {
+			material = "colour/gold",
+			mesh = "cube.mesh",
+			position_offset_x = 0.0,
+			position_offset_y = 0.0,
+			position_offset_z = 0.0,
+			scale_x = 50.0,
+			scale_y = 50.0,
+			scale_z = 50.0
+		}
 	}
 }
 
