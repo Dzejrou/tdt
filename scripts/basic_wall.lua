@@ -4,7 +4,8 @@ basic_wall = {
 		game.enum.component.health,
 		game.enum.component.graphics,
 		game.enum.component.structure,
-		game.enum.component.align
+		game.enum.component.align,
+		game.enum.component.mine
 	},
 
 	PhysicsComponent = {
