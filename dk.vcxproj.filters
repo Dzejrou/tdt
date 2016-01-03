@@ -177,6 +177,9 @@
     <ClCompile Include="RayCaster.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AlignHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lppscript\LppScript.hpp">
@@ -354,6 +357,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RayCaster.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlignHelper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

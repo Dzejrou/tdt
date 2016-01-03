@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="AIHelper.cpp" />
     <ClCompile Include="AISystem.cpp" />
+    <ClCompile Include="AlignHelper.cpp" />
     <ClCompile Include="BuilderWindow.cpp" />
     <ClCompile Include="CombatHelper.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
@@ -77,6 +78,7 @@
   <ItemGroup>
     <ClInclude Include="AIHelper.hpp" />
     <ClInclude Include="AISystem.hpp" />
+    <ClInclude Include="AlignHelper.hpp" />
     <ClInclude Include="BuilderWindow.hpp" />
     <ClInclude Include="CombatHelper.hpp" />
     <ClInclude Include="CombatSystem.hpp" />
