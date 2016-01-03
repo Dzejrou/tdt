@@ -2,6 +2,14 @@
 #include "Game.hpp"
 #include "GUI.hpp"
 
+/**
+ * Brief: Macro that serves as a simpler way to use the serializers_ array when calling it's members.
+ * Param: Type of the component to be loaded.
+ * Param: ID of the entity that loads the component.
+ * Param: Name of the table that contains the component data.
+ */
+#define SAVE_COMPONENT(TYPE, ID, TABLE) (((this)->*serializers_[TYPE])(ID, TABLE))
+
 GameSerializer::GameSerializer(EntitySystem& ents)
 	: entities_{ents}, script_{lpp::Script::get_singleton()},
 	  file_{}, save_entities_{}, save_components_{},
