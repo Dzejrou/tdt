@@ -72,7 +72,7 @@ default_task_handler = {
 			game.gold.transfer_all(id, target)
 
 			if game.gold.get_current(id) > 0 then
-				game.go_deposit(id, true)
+				game.gold.go_deposit(id, true)
 			end
 
 			game.task.cancel(task)
