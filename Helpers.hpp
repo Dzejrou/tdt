@@ -22,3 +22,4 @@
 #include "GridNodeHelper.hpp"
 #include "FactionHelper.hpp"
 #include "PriceHelper.hpp"
+#include "AlignHelper.hpp"
