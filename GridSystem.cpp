@@ -1,4 +1,6 @@
 #include "GridSystem.hpp"
+#include "GUI.hpp"
+#include <set>
 
 GridSystem::GridSystem(EntitySystem& ents, Ogre::SceneManager& scene)
 	: entities_{ents}, scene_mgr_{scene},
@@ -16,6 +18,35 @@ void GridSystem::update(Ogre::Real)
 
 		for(const auto& node : freed)
 			GraphicsHelper::set_material(entities_, node, "colour/blue");
+	}
+
+	std::set<std::size_t> processed_nodes{}; // Makes sure node aren't processed multiple times.
+	for(const auto& node : unfreed)
+	{
+		update_neighbours_(node); // Updates a block when placed, not needed when freed.
+		for(const auto& neighbour : GridNodeHelper::get_neighbours(entities_, node))
+		{
+			if(neighbour == Component::NO_ENTITY)
+				continue;
+			if(processed_nodes.count(neighbour) == 0)
+				processed_nodes.insert(neighbour);
+			else
+				continue;
+			update_neighbours_(neighbour);
+		}
+	}
+	for(const auto& node : freed)
+	{
+		for(const auto& neighbour : GridNodeHelper::get_neighbours(entities_, node))
+		{
+			if(neighbour == Component::NO_ENTITY)
+				continue;
+			if(processed_nodes.count(neighbour) == 0)
+				processed_nodes.insert(neighbour);
+			else
+				continue;
+			update_neighbours_(neighbour);
+		}
 	}
 
 	// Correct pathfinding.
@@ -40,6 +71,7 @@ void GridSystem::update(Ogre::Real)
 		}
 	}
 	Grid::instance().clear_unfreed();
+	Grid::instance().clear_freed();
 }
 
 void GridSystem::create_graphics()
@@ -128,6 +160,93 @@ void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::s
 				GridNodeHelper::set_free(entities_, target_node, false);
 			GridNodeHelper::set_resident(entities_, target_node, ent_id);
 			struct_comp->residences.push_back(target_node);
+		}
+	}
+}
+
+void GridSystem::update_neighbours_(std::size_t id)
+{
+	auto comp = entities_.get_component<GridNodeComponent>(id);
+	
+	if(!comp || comp->resident == Component::NO_ENTITY) // Saves 2 component lookups.
+		return;
+
+	auto node_phys = entities_.get_component<PhysicsComponent>(id);
+	auto graph = entities_.get_component<GraphicsComponent>(comp->resident);
+	auto phys = entities_.get_component<PhysicsComponent>(comp->resident);
+	auto align = entities_.get_component<AlignComponent>(comp->resident);
+	if(comp && graph && phys && graph->node && graph->entity && align && node_phys)
+	{
+
+		auto& neigh = comp->neighbours;
+		int active_main_neighbours{0}; // Main neighbours: UP, DOWN, LEFT, RIGHT.
+		
+		bool up = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::UP]);
+		bool down = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::DOWN]);
+		bool left = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::LEFT]);
+		bool right = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::RIGHT]);
+		if(up)
+			++active_main_neighbours;
+		if(down)
+			++active_main_neighbours;
+		if(left)
+			++active_main_neighbours;
+		if(right)
+			++active_main_neighbours;
+
+		if(up && down || left && right) // This will act like the block is surrounded.
+			active_main_neighbours = 4;
+
+		graph->material = align->states[active_main_neighbours].material;
+		graph->mesh = align->states[active_main_neighbours].mesh;
+		graph->scale = align->states[active_main_neighbours].scale;
+
+		graph->node->setScale(graph->scale);
+		graph->node->detachObject(graph->entity);
+		scene_mgr_.destroyEntity(graph->entity);
+		graph->entity = scene_mgr_.createEntity(graph->mesh);
+		graph->node->attachObject(graph->entity);
+		if(graph->material != "NO_MAT")
+			graph->entity->setMaterialName(graph->material);
+		graph->node->setOrientation(Ogre::Quaternion{}); // Reverses any rotations.
+
+		Ogre::Vector3 pos{node_phys->position};
+		if(active_main_neighbours == 1)
+		{ // Lean to the neighbour.
+			if(up)
+			{
+				pos.z -= graph->scale.x;
+				graph->node->rotate(Ogre::Vector3{0.f, 1.f, 0.f}, Ogre::Degree{90.f});
+			}
+			else if(down)
+			{
+				pos.z += graph->scale.x;
+				graph->node->rotate(Ogre::Vector3{0.f, 1.f, 0.f}, Ogre::Degree{270.f});
+			}
+			else if(left)
+				pos.x -= graph->scale.z / 2;
+			
+			else if(right)
+				pos.x += graph->scale.z / 2;
+		}
+		else
+			pos += align->states[active_main_neighbours].position_offset;
+		phys->half_height = graph->entity->getWorldBoundingBox(true).getHalfSize().y;
+		phys->position.x = pos.x;
+		phys->position.y = phys->half_height;
+		phys->position.z = pos.z;
+		graph->node->setPosition(phys->position);
+
+		if(active_main_neighbours == 2)
+		{ // Apply correct rotation to the half cube.
+			if(up && left)
+				graph->node->rotate(Ogre::Vector3{0.f, 1.f, 0.f}, Ogre::Degree{90.f});
+			else if(up && right)
+				graph->node->rotate(Ogre::Vector3{0.f, 1.f, 0.f}, Ogre::Degree{0.f});
+			else if(down && left)
+				graph->node->rotate(Ogre::Vector3{0.f, 1.f, 0.f}, Ogre::Degree{180.f});
+			else if(down && right)
+				graph->node->rotate(Ogre::Vector3{0.f, 1.f, 0.f}, Ogre::Degree{270.f});
 		}
 	}
 }

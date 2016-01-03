@@ -80,6 +80,13 @@ class GridSystem : public System
 		void place_structure(std::size_t, std::size_t, std::size_t);
 	private:
 		/**
+		 * Brief: Updates the nodes resident's alignment (if possible)
+		 *        when it's neighbour was freed/unfreed.
+		 * Param: ID of the node.
+		 */
+		void update_neighbours_(std::size_t);
+
+		/**
 		 * Reference to the game's entity system.
 		 */
 		EntitySystem& entities_;
