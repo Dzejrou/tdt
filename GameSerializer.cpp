@@ -4,8 +4,34 @@
 
 GameSerializer::GameSerializer(EntitySystem& ents)
 	: entities_{ents}, script_{lpp::Script::get_singleton()},
-	  file_{}, save_entities_{}, save_components_{}
-{ /* DUMMY BODY */ }
+	  file_{}, save_entities_{}, save_components_{},
+	  serializers_{}
+{
+	serializers_[PhysicsComponent::type] = &GameSerializer::save_component<PhysicsComponent>;
+	serializers_[HealthComponent::type] = &GameSerializer::save_component<HealthComponent>;
+	serializers_[AIComponent::type] = &GameSerializer::save_component<AIComponent>;
+	serializers_[GraphicsComponent::type] = &GameSerializer::save_component<GraphicsComponent>;
+	serializers_[MovementComponent::type] = &GameSerializer::save_component<MovementComponent>;
+	serializers_[CombatComponent::type] = &GameSerializer::save_component<CombatComponent>;
+	serializers_[EventComponent::type] = &GameSerializer::save_component<EventComponent>;
+	serializers_[InputComponent::type] = &GameSerializer::save_component<InputComponent>;
+	serializers_[TimeComponent::type] = &GameSerializer::save_component<TimeComponent>;
+	serializers_[ManaComponent::type] = nullptr; // TODO
+	serializers_[SpellComponent::type] = nullptr; // TODO
+	serializers_[ProductionComponent::type] = &GameSerializer::save_component<ProductionComponent>;
+	serializers_[GridNodeComponent::type] = nullptr; // Cannot be saved, is generated with the graph.
+	serializers_[ProductComponent::type] = &GameSerializer::save_component<ProductComponent>;
+	serializers_[PathfindingComponent::type] = &GameSerializer::save_component<PathfindingComponent>;
+	serializers_[TaskComponent::type] = &GameSerializer::save_component<TaskComponent>;
+	serializers_[TaskHandlerComponent::type] = &GameSerializer::save_component<TaskHandlerComponent>;
+	serializers_[StructureComponent::type] = &GameSerializer::save_component<StructureComponent>;
+	serializers_[HomingComponent::type] = &GameSerializer::save_component<HomingComponent>;
+	serializers_[EventHandlerComponent::type] = &GameSerializer::save_component<EventHandlerComponent>;
+	serializers_[DestructorComponent::type] = &GameSerializer::save_component<DestructorComponent>;
+	serializers_[GoldComponent::type] = &GameSerializer::save_component<GoldComponent>;
+	serializers_[FactionComponent::type] = &GameSerializer::save_component<FactionComponent>;
+	serializers_[PriceComponent::type] = &GameSerializer::save_component<PriceComponent>;
+}
 
 void GameSerializer::save_game(Game& game, const std::string& fname)
 {
@@ -43,79 +69,9 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 		
 		save_entities_.emplace_back(entity_name + " = game.entity.create()");
 		for(std::size_t i = 0; i < ent.second.size(); ++i)
-		{ // TODO: Do the same as with ADD/LOAD/DELETE/DELETE_NOW in EntitySystem!
+		{
 			if(ent.second.test(i))
-			{
-				switch(i)
-				{
-					case PhysicsComponent::type:
-						save_component<PhysicsComponent>(ent.first, entity_name);
-						break;
-					case HealthComponent::type:
-						save_component<HealthComponent>(ent.first, entity_name);
-						break;
-					case AIComponent::type:
-						save_component<AIComponent>(ent.first, entity_name);
-						break;
-					case GraphicsComponent::type:
-						save_component<GraphicsComponent>(ent.first, entity_name);
-						break;
-					case MovementComponent::type:
-						save_component<MovementComponent>(ent.first, entity_name);
-						break;
-					case CombatComponent::type:
-						save_component<CombatComponent>(ent.first, entity_name);
-						break;
-					case EventComponent::type:
-						save_component<EventComponent>(ent.first, entity_name);
-						break;
-					case InputComponent::type:
-						save_component<InputComponent>(ent.first, entity_name);
-						break;
-					case TimeComponent::type:
-						save_component<TimeComponent>(ent.first, entity_name);
-						break;
-					case ManaComponent::type:
-						save_component<ManaComponent>(ent.first, entity_name);
-						break;
-					case SpellComponent::type:
-						save_component<SpellComponent>(ent.first, entity_name);
-						break;
-					case ProductionComponent::type:
-						save_component<ProductionComponent>(ent.first, entity_name);
-						break;
-					case PathfindingComponent::type:
-						save_component<PathfindingComponent>(ent.first, entity_name);
-						break;
-					case TaskComponent::type:
-						save_component<TaskComponent>(ent.first, entity_name);
-						break;
-					case TaskHandlerComponent::type:
-						save_component<TaskHandlerComponent>(ent.first, entity_name);
-						break;
-					case StructureComponent::type:
-						save_component<StructureComponent>(ent.first, entity_name);
-						break;
-					case HomingComponent::type:
-						save_component<HomingComponent>(ent.first, entity_name);
-						break;
-					case EventHandlerComponent::type:
-						save_component<EventHandlerComponent>(ent.first, entity_name);
-						break;
-					case DestructorComponent::type:
-						save_component<DestructorComponent>(ent.first, entity_name);
-						break;
-					case GoldComponent::type:
-						save_component<GoldComponent>(ent.first, entity_name);
-						break;
-					case FactionComponent::type:
-						save_component<FactionComponent>(ent.first, entity_name);
-						break;
-					case PriceComponent::type:
-						save_component<PriceComponent>(ent.first, entity_name);
-						break;
-				}
-			}
+				SAVE_COMPONENT(i, ent.first, entity_name);
 		}	
 	}
 	for(auto& ent : save_entities_)

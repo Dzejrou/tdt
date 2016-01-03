@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <array>
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 #include "lppscript/LppScript.hpp"
@@ -16,6 +17,7 @@ class Game;
  */
 class GameSerializer
 {
+	typedef void (GameSerializer::*SerializerFuncPtr)(std::size_t, const std::string&);
 	public:
 		/**
 		 * Constructor.
@@ -84,6 +86,12 @@ class GameSerializer
 		 * variables are nil when loading a game) and component definitions at the bottom.
 		 */
 		std::vector<std::string> save_entities_, save_components_;
+
+		/**
+		 * Pointers to the different save_component instances allowing for easy runtime
+		 * differencing between components.
+		 */
+		std::array<SerializerFuncPtr, Component::count> serializers_;
 };
 
 template <>
