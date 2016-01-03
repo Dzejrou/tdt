@@ -359,4 +359,14 @@ class LuaInterface
 
 		// Spells.
 		static int lua_register_spell(lpp::Script::state);
+
+		// Alignment.
+		static int lua_align_set_material(lpp::Script::state);
+		static int lua_align_get_material(lpp::Script::state);
+		static int lua_align_set_mesh(lpp::Script::state);
+		static int lua_align_get_mesh(lpp::Script::state);
+		static int lua_align_set_position_offset(lpp::Script::state);
+		static int lua_align_get_position_offset(lpp::Script::state);
+		static int lua_align_set_scale(lpp::Script::state);
+		static int lua_align_get_scale(lpp::Script::state);
 };

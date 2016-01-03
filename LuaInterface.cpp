@@ -415,6 +415,18 @@ void LuaInterface::init(Game* game)
 		{nullptr, nullptr}
 	};
 
+	lpp::Script::regs align_funcs[] = {
+		{"set_material", LuaInterface::lua_align_set_material},
+		{"get_material", LuaInterface::lua_align_get_material},
+		{"set_mesh", LuaInterface::lua_align_set_mesh},
+		{"get_mesh", LuaInterface::lua_align_get_mesh},
+		{"set_offset", LuaInterface::lua_align_set_position_offset},
+		{"get_offset", LuaInterface::lua_align_get_position_offset},
+		{"set_scale", LuaInterface::lua_align_set_scale},
+		{"get_scale", LuaInterface::lua_align_get_scale},
+		{nullptr, nullptr}
+	};
+
 	lpp::Script::regs spell_funcs[] = {
 		{"register_spell", LuaInterface::lua_register_spell},
 		{nullptr, nullptr}
@@ -468,6 +480,8 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "price");
 	luaL_newlib(state, spell_funcs);
 	lua_setfield(state, -2, "spell");
+	luaL_newlib(state, align_funcs);
+	lua_setfield(state, -2, "align");
 
 	// GUI subtable has it's own subtables.
 	luaL_newlib(state, gui_funcs);
@@ -2883,6 +2897,94 @@ int LuaInterface::lua_register_spell(lpp::Script::state L)
 
 	GUI::instance().get_spell_casting().register_spell(val);
 	return 0;
+}
+
+int LuaInterface::lua_align_set_material(lpp::Script::state L)
+{
+	std::string val = luaL_checkstring(L, -1);
+	std::size_t state = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -3);
+
+	AlignHelper::set_material(*ents, id, state, val);
+	return 0;
+}
+
+int LuaInterface::lua_align_get_material(lpp::Script::state L)
+{
+	std::size_t state = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	const std::string& res = AlignHelper::get_material(*ents, id, state);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_align_set_mesh(lpp::Script::state L)
+{
+	std::string val = luaL_checkstring(L, -1);
+	std::size_t state = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -3);
+
+	AlignHelper::set_mesh(*ents, id, state, val);
+	return 0;
+}
+
+int LuaInterface::lua_align_get_mesh(lpp::Script::state L)
+{
+	std::size_t state = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	const std::string& res = AlignHelper::get_mesh(*ents, id, state);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_align_set_position_offset(lpp::Script::state L)
+{
+	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
+	std::size_t state = (std::size_t)luaL_checkinteger(L, -4);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -5);
+
+	AlignHelper::set_position_offset(*ents, id, state, Ogre::Vector3{x, y, z});
+	return 0;
+}
+
+int LuaInterface::lua_align_get_position_offset(lpp::Script::state L)
+{
+	std::size_t state = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	const Ogre::Vector3& res = AlignHelper::get_position_offset(*ents, id, state);
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	lua_pushnumber(L, res.z);
+	return 3;
+}
+
+int LuaInterface::lua_align_set_scale(lpp::Script::state L)
+{
+	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
+	std::size_t state = (std::size_t)luaL_checkinteger(L, -4);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -5);
+
+	AlignHelper::set_scale(*ents, id, state, Ogre::Vector3{x, y, z});
+	return 0;
+}
+
+int LuaInterface::lua_align_get_scale(lpp::Script::state L)
+{
+	std::size_t state = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+
+	const Ogre::Vector3& res = AlignHelper::get_scale(*ents, id, state);
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	lua_pushnumber(L, res.z);
+	return 3;
 }
 
 int LuaInterface::lua_set_tracker_visible(lpp::Script::state L)
