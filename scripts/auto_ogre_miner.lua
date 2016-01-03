@@ -1,4 +1,4 @@
-ogre_miner = {
+auto_ogre_miner = {
 	components = {
 		game.enum.component.physics,
 		game.enum.component.health,
@@ -101,7 +101,13 @@ ogre_miner = {
 	end,
 
 	update = function(id)
-		-- TODO: Check for damaged buildings?
+		deposit = game.gold.get_closest_gold_deposit(id)
+		if deposit ~= game.const.no_ent then
+			game.gui.log.print("\\[#" .. id .."\\] Gonna mine deposit #" .. deposit .. ".")
+			task = game.task.create(deposit, game.enum.task.go_kill)
+			game.task.add(id, task)
+			return
+		end
 	end,
 
 	can_break = function(id, node)
@@ -121,5 +127,5 @@ ogre_miner = {
 }
 
 if game then
-	game.entity.register("ogre_miner")
+	game.entity.register("auto_ogre_miner")
 end
