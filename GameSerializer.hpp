@@ -425,3 +425,26 @@ inline void GameSerializer::save_component<PriceComponent>(std::size_t id, const
 
 	save_components_.emplace_back(std::move(comm));
 }
+
+template<>
+inline void GameSerializer::save_component<AlignComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<AlignComponent>(id);
+	std::string comm{
+		"game.entity.add_component(" + tbl_name + ", game.enum.component.align)\n"
+	};
+
+	for(std::size_t i = 0; i < AlignComponent::state_count; ++i)
+	{
+		comm.append(
+			  "game.align.set_material(" + tbl_name + ", " + std::to_string(i) + ", '" + comp->states[i].material + "')\n"
+			+ "game.align.set_mesh(" + tbl_name + ", " + std::to_string(i) + ", '" + comp->states[i].mesh + "')\n"
+			+ "game.align.set_offset(" + tbl_name + ", " + std::to_string(i) + ", " + std::to_string(comp->states[i].position_offset.x) + ", "
+			+ std::to_string(comp->states[i].position_offset.y) + ", " + std::to_string(comp->states[i].position_offset.z) + ")\n"
+			+ "game.align.set_scale(" + tbl_name + ", " + std::to_string(i) + ", " + std::to_string(comp->states[i].scale.x) + ", "
+			+ std::to_string(comp->states[i].scale.y) + ", " + std::to_string(comp->states[i].scale.z) + ")\n"
+		);
+	}
+
+	save_components_.emplace_back(std::move(comm));
+}
