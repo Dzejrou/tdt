@@ -112,7 +112,6 @@ struct GraphicsComponent
 	Ogre::Entity* entity;
 	bool manual_scaling;
 	Ogre::Vector3 scale;
-	// TODO: Animation + set_animation etc. in a system. Possibly a new component?
 };
 
 /**
