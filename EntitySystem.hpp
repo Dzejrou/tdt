@@ -84,6 +84,14 @@ class EntitySystem : public System
 		}
 
 		/**
+		 * Brief: Tests whether a given entity has a component of a given type (used from Lua as
+		 *        it cannot use templates).
+		 * Param: ID of the entity.
+		 * Param: Type of the component.
+		 */
+		bool has_component(std::size_t, std::size_t) const;
+
+		/**
 		 * Brief: Returns a bool-component pointer pair, in which the first bool member determines if the
 		 *        component was found and the second is a pointer to the component.
 		 * Param: ID of the entity whose component we ask for.
@@ -192,6 +200,17 @@ class EntitySystem : public System
 		 * Brief: Deletes all entities int the game, used before loading a new game.
 		 */
 		void delete_entities();
+
+		/**
+		 * Used in helpers when no component exists and we still need to return
+		 * the blueprint name (in this case the ERROR blueprint) by reference.
+		 */
+		std::string NO_BLUEPRINT{"ERROR"};
+
+		/**
+		 * Used in when translating the faction enum to a string in the FactionHelper.
+		 */
+		std::array<std::string, 3> FACTION_NAME{"FRIENDLY", "ENEMY", "NEUTRAL"};
 	private:
 		/**
 		 * Brief: Loads a component from a Lua script.
@@ -284,6 +303,16 @@ class EntitySystem : public System
 		std::map<std::size_t, PriceComponent> price_{};
 		std::map<std::size_t, AlignComponent> align_{};
 		std::map<std::size_t, MineComponent> mine_{};
+		std::map<std::size_t, ManaCrystalComponent> mana_crystal_{};
+		std::map<std::size_t, OnHitComponent> on_hit_{};
+		std::map<std::size_t, ConstructorComponent> constructor_{};
+		std::map<std::size_t, TriggerComponent> trigger_{};
+		std::map<std::size_t, UpgradeComponent> upgrade_{};
+		std::map<std::size_t, NotificationComponent> notification_{};
+		std::map<std::size_t, ExplosionComponent> explosion_{};
+		std::map<std::size_t, LimitedLifeSpanComponent> limited_life_span_{};
+		std::map<std::size_t, NameComponent> name_{};
+		std::map<std::size_t, ExperienceValueComponent> exp_value_{};
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -470,6 +499,66 @@ inline std::map<std::size_t, MineComponent>& EntitySystem::get_component_contain
 	return mine_;
 }
 
+template<>
+inline std::map<std::size_t, ManaCrystalComponent>& EntitySystem::get_component_container<ManaCrystalComponent>()
+{
+	return mana_crystal_;
+}
+
+template<>
+inline std::map<std::size_t, OnHitComponent>& EntitySystem::get_component_container<OnHitComponent>()
+{
+	return on_hit_;
+}
+
+template<>
+inline std::map<std::size_t, ConstructorComponent>& EntitySystem::get_component_container<ConstructorComponent>()
+{
+	return constructor_;
+}
+
+template<>
+inline std::map<std::size_t, TriggerComponent>& EntitySystem::get_component_container<TriggerComponent>()
+{
+	return trigger_;
+}
+
+template<>
+inline std::map<std::size_t, UpgradeComponent>& EntitySystem::get_component_container<UpgradeComponent>()
+{
+	return upgrade_;
+}
+
+template<>
+inline std::map<std::size_t, NotificationComponent>& EntitySystem::get_component_container<NotificationComponent>()
+{
+	return notification_;
+}
+
+template<>
+inline std::map<std::size_t, ExplosionComponent>& EntitySystem::get_component_container<ExplosionComponent>()
+{
+	return explosion_;
+}
+
+template<>
+inline std::map<std::size_t, LimitedLifeSpanComponent>& EntitySystem::get_component_container<LimitedLifeSpanComponent>()
+{
+	return limited_life_span_;
+}
+
+template<>
+inline std::map<std::size_t, NameComponent>& EntitySystem::get_component_container<NameComponent>()
+{
+	return name_;
+}
+
+template<>
+inline std::map<std::size_t, ExperienceValueComponent>& EntitySystem::get_component_container<ExperienceValueComponent>()
+{
+	return exp_value_;
+}
+
 /**
  * Specializations of the EntitySystem::load_component method.
  * Note: Following components can only be created manually and thus don't have load_component specialization.
@@ -500,10 +589,7 @@ inline void EntitySystem::load_component<AIComponent>(std::size_t id, const std:
 {
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string blueprint = script.get<std::string>(table_name + ".AIComponent.blueprint");
-	ai_.emplace(id, AIComponent{blueprint});
-
-	// Call init.
-	script.call<void, int>(blueprint + ".init", id);
+	ai_.emplace(id, AIComponent{std::move(blueprint)});
 }
 
 template<>
@@ -512,7 +598,7 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string mesh = script.get<std::string>(table_name + ".GraphicsComponent.mesh");
 	std::string material = script.get<std::string>(table_name + ".GraphicsComponent.material");
-	auto res = graphics_.emplace(id, GraphicsComponent{mesh, material});
+	auto res = graphics_.emplace(id, GraphicsComponent{std::move(mesh), std::move(material)});
 
 	// Ogre init of the entity and scene node.
 	auto& comp = res.first->second;
@@ -572,8 +658,9 @@ inline void EntitySystem::load_component<CombatComponent>(std::size_t id, const 
 	Ogre::Real cd = script.get<Ogre::Real>(table_name + ".CombatComponent.cooldown");
 	std::size_t min = script.get<std::size_t>(table_name + ".CombatComponent.min_dmg");
 	std::size_t max = script.get<std::size_t>(table_name + ".CombatComponent.max_dmg");
+	bool pursue = script.get<bool>(table_name + ".CombatComponent.pursue");
 	int type = script.get<int>(table_name + ".CombatComponent.type");
-	combat_.emplace(id, CombatComponent(Component::NO_ENTITY, min, max, cd, range, type));
+	combat_.emplace(id, CombatComponent(Component::NO_ENTITY, min, max, cd, range, type, pursue));
 }
 
 template<>
@@ -591,7 +678,7 @@ template<>
 inline void EntitySystem::load_component<InputComponent>(std::size_t id, const std::string& table_name)
 {
 	std::string handler = lpp::Script::get_singleton().get<std::string>(table_name + ".InputComponent.input_handler");
-	input_.emplace(id, InputComponent{handler});
+	input_.emplace(id, InputComponent{std::move(handler)});
 }
 
 template<>
@@ -611,16 +698,18 @@ inline void EntitySystem::load_component<ProductionComponent>(std::size_t id, co
 	std::string blueprint = script.get<std::string>(table_name + ".ProductionComponent.blueprint");
 	std::size_t limit = script.get<std::size_t>(table_name + ".ProductionComponent.limit");
 	Ogre::Real cd = script.get<Ogre::Real>(table_name + ".ProductionComponent.cooldown");
-	production_.emplace(id, ProductionComponent{blueprint, limit, cd});
+	production_.emplace(id, ProductionComponent{std::move(blueprint), limit, cd});
 
-	Player::instance().add_max_unit(limit);
+	if(!script.is_nil(table_name + ".FactionComponent") &&
+	   script.get<std::size_t>(table_name + ".FactionComponent.faction") == (std::size_t)FACTION::FRIENDLY)
+		Player::instance().add_max_unit(limit);
 }
 
 template<>
 inline void EntitySystem::load_component<PathfindingComponent>(std::size_t id, const std::string& table_name)
 {
 	std::string blueprint = lpp::Script::get_singleton().get<std::string>(table_name + ".PathfindingComponent.blueprint");
-	pathfinding_.emplace(id, PathfindingComponent{blueprint});
+	pathfinding_.emplace(id, PathfindingComponent{std::move(blueprint)});
 }
 
 template<>
@@ -629,7 +718,7 @@ inline void EntitySystem::load_component<TaskHandlerComponent>(std::size_t id, c
 	auto& script = lpp::Script::get_singleton();
 	std::vector<int> possible_tasks = script.get_vector<int>(table_name + ".TaskHandlerComponent.possible_tasks");
 	std::string blueprint = script.get<std::string>(table_name + ".TaskHandlerComponent.blueprint");
-	auto res = task_handler_.emplace(id, TaskHandlerComponent{blueprint});
+	auto res = task_handler_.emplace(id, TaskHandlerComponent{std::move(blueprint)});
 
 	// Init possible tasks.
 	auto& tasks = res.first->second.possible_tasks;
@@ -664,7 +753,7 @@ inline void EntitySystem::load_component<EventHandlerComponent>(std::size_t id, 
 {
 	auto& script = lpp::Script::get_singleton();
 	std::string handler = script.get<std::string>(table_name + ".EventHandlerComponent.handler");
-	auto res = event_handler_.emplace(id, EventHandlerComponent{handler});
+	auto res = event_handler_.emplace(id, EventHandlerComponent{std::move(handler)});
 
 	if(!res.second)
 		return; // TODO: Notify.
@@ -729,10 +818,101 @@ inline void EntitySystem::load_component<AlignComponent>(std::size_t id, const s
 		comp.states[i].scale.z = script.get<Ogre::Real>(state_table + ".scale_z");;
 	}
 }
+
 template<>
 inline void EntitySystem::load_component<MineComponent>(std::size_t id, const std::string& table_name)
 {
 	mine_.emplace(id, MineComponent{});
+}
+
+template<>
+inline void EntitySystem::load_component<ManaCrystalComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	std::size_t cap = script.get<std::size_t>(table_name + ".ManaCrystalComponent.cap_increase");
+	std::size_t regen = script.get<std::size_t>(table_name + ".ManaCrystalComponent.regen_increase");
+	mana_crystal_.emplace(id, ManaCrystalComponent{cap, regen});
+
+	Player::instance().add_max_mana(cap);
+	Player::instance().add_mana_regen(regen);
+}
+
+template<>
+inline void EntitySystem::load_component<OnHitComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	std::string blueprint = script.get<std::string>(table_name + ".OnHitComponent.blueprint");
+	Ogre::Real cd = script.get<Ogre::Real>(table_name + ".OnHitComponent.cooldown");
+	on_hit_.emplace(id, OnHitComponent{std::move(blueprint), cd});
+}
+
+template<>
+inline void EntitySystem::load_component<ConstructorComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	std::string blueprint = script.get<std::string>(table_name + ".ConstructorComponent.blueprint");
+	constructor_.emplace(id, ConstructorComponent{std::move(blueprint)});
+}
+
+template<>
+inline void EntitySystem::load_component<TriggerComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	std::string blueprint = script.get<std::string>(table_name + ".TriggerComponent.blueprint");
+	Ogre::Real cd = script.get<Ogre::Real>(table_name + ".TriggerComponent.cooldown");
+	Ogre::Real radius = script.get<Ogre::Real>(table_name + ".TriggerComponent.radius");
+	trigger_.emplace(id, TriggerComponent{std::move(blueprint), cd, radius});
+}
+
+template<>
+inline void EntitySystem::load_component<UpgradeComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	std::string blueprint = script.get<std::string>(table_name + ".UpgradeComponent.blueprint");
+	std::size_t exp = script.get<std::size_t>(table_name + ".UpgradeComponent.exp_needed");
+	std::size_t cap = script.get<std::size_t>(table_name + ".UpgradeComponent.level_cap");
+	upgrade_.emplace(id, UpgradeComponent{std::move(blueprint), exp, cap});
+}
+
+template<>
+inline void EntitySystem::load_component<NotificationComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	Ogre::Real cd = script.get<Ogre::Real>(table_name + ".NotificationComponent.cooldown");
+	notification_.emplace(id, NotificationComponent{cd});
+}
+
+template<>
+inline void EntitySystem::load_component<ExplosionComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	Ogre::Real delta = script.get<Ogre::Real>(table_name + ".ExplosionComponent.delta");
+	Ogre::Real radius = script.get<Ogre::Real>(table_name + ".ExplosionComponent.radius");
+	explosion_.emplace(id, ExplosionComponent{delta, radius});
+}
+
+template<>
+inline void EntitySystem::load_component<LimitedLifeSpanComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	Ogre::Real max = script.get<Ogre::Real>(table_name + ".LimitedLifeSpanComponent.max_time");
+	limited_life_span_.emplace(id, LimitedLifeSpanComponent{max});
+}
+
+template<>
+inline void EntitySystem::load_component<NameComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	std::string name = script.get<std::string>(table_name + ".NameComponent.name");
+	name_.emplace(id, NameComponent{std::move(name)});
+}
+
+template<>
+inline void EntitySystem::load_component<ExperienceValueComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	std::size_t val = script.get<std::size_t>(table_name + ".ExperienceValueComponent.value");
+	exp_value_.emplace(id, ExperienceValueComponent{val});
 }
 
 /**
@@ -803,4 +983,15 @@ inline void EntitySystem::clean_up_component<ProductionComponent>(std::size_t id
 	auto fac = get_component<FactionComponent>(id);
 	if(comp && fac && fac->faction == FACTION::FRIENDLY)
 		Player::instance().sub_max_unit(comp->max_produced);
+}
+
+template<>
+inline void EntitySystem::clean_up_component<ManaCrystalComponent>(std::size_t id)
+{
+	auto comp = get_component<ManaCrystalComponent>(id);
+	if(comp)
+	{
+		Player::instance().sub_max_mana(comp->cap_increase);
+		Player::instance().sub_mana_regen(comp->regen_increase);
+	}
 }

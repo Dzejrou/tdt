@@ -126,6 +126,8 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 			LOAD_COMPONENT(component_type, id, table_name);
 	}
 
+	if(bits.test(ConstructorComponent::type))
+		ConstructorHelper::call(*this, id);
 	return id;
 }
 
@@ -207,6 +209,16 @@ void EntitySystem::init_function_arrays()
 	loaders_[PriceComponent::type] = &EntitySystem::load_component<PriceComponent>;
 	loaders_[AlignComponent::type] = &EntitySystem::load_component<AlignComponent>;
 	loaders_[MineComponent::type] = &EntitySystem::load_component<MineComponent>;
+	loaders_[ManaCrystalComponent::type] = &EntitySystem::load_component<ManaCrystalComponent>;
+	loaders_[OnHitComponent::type] = &EntitySystem::load_component<OnHitComponent>;
+	loaders_[ConstructorComponent::type] = &EntitySystem::load_component<ConstructorComponent>;
+	loaders_[TriggerComponent::type] = &EntitySystem::load_component<TriggerComponent>;
+	loaders_[UpgradeComponent::type] = &EntitySystem::load_component<UpgradeComponent>;
+	loaders_[NotificationComponent::type] = &EntitySystem::load_component<NotificationComponent>;
+	loaders_[ExplosionComponent::type] = &EntitySystem::load_component<ExplosionComponent>;
+	loaders_[LimitedLifeSpanComponent::type] = &EntitySystem::load_component<LimitedLifeSpanComponent>;
+	loaders_[NameComponent::type] = &EntitySystem::load_component<NameComponent>;
+	loaders_[ExperienceValueComponent::type] = &EntitySystem::load_component<ExperienceValueComponent>;
 
 	adders_[PhysicsComponent::type] = &EntitySystem::add_component<PhysicsComponent>;
 	adders_[HealthComponent::type] = &EntitySystem::add_component<HealthComponent>;
@@ -234,6 +246,16 @@ void EntitySystem::init_function_arrays()
 	adders_[PriceComponent::type] = &EntitySystem::add_component<PriceComponent>;
 	adders_[AlignComponent::type] = &EntitySystem::add_component<AlignComponent>;
 	adders_[MineComponent::type] = &EntitySystem::add_component<MineComponent>;
+	adders_[ManaCrystalComponent::type] = &EntitySystem::add_component<ManaCrystalComponent>;
+	adders_[OnHitComponent::type] = &EntitySystem::add_component<OnHitComponent>;
+	adders_[ConstructorComponent::type] = &EntitySystem::add_component<ConstructorComponent>;
+	adders_[TriggerComponent::type] = &EntitySystem::add_component<TriggerComponent>;
+	adders_[UpgradeComponent::type] = &EntitySystem::add_component<UpgradeComponent>;
+	adders_[NotificationComponent::type] = &EntitySystem::add_component<NotificationComponent>;
+	adders_[ExplosionComponent::type] = &EntitySystem::add_component<ExplosionComponent>;
+	adders_[LimitedLifeSpanComponent::type] = &EntitySystem::add_component<LimitedLifeSpanComponent>;
+	adders_[NameComponent::type] = &EntitySystem::add_component<NameComponent>;
+	adders_[ExperienceValueComponent::type] = &EntitySystem::add_component<ExperienceValueComponent>;
 
 	deleters_[PhysicsComponent::type] = &EntitySystem::delete_component<PhysicsComponent>;
 	deleters_[HealthComponent::type] = &EntitySystem::delete_component<HealthComponent>;
@@ -261,6 +283,16 @@ void EntitySystem::init_function_arrays()
 	deleters_[PriceComponent::type] = &EntitySystem::delete_component<PriceComponent>;
 	deleters_[AlignComponent::type] = &EntitySystem::delete_component<AlignComponent>;
 	deleters_[MineComponent::type] = &EntitySystem::delete_component<MineComponent>;
+	deleters_[ManaCrystalComponent::type] = &EntitySystem::delete_component<ManaCrystalComponent>;
+	deleters_[OnHitComponent::type] = &EntitySystem::delete_component<OnHitComponent>;
+	deleters_[ConstructorComponent::type] = &EntitySystem::delete_component<ConstructorComponent>;
+	deleters_[TriggerComponent::type] = &EntitySystem::delete_component<TriggerComponent>;
+	deleters_[UpgradeComponent::type] = &EntitySystem::delete_component<UpgradeComponent>;
+	deleters_[NotificationComponent::type] = &EntitySystem::delete_component<NotificationComponent>;
+	deleters_[ExplosionComponent::type] = &EntitySystem::delete_component<ExplosionComponent>;
+	deleters_[LimitedLifeSpanComponent::type] = &EntitySystem::delete_component<LimitedLifeSpanComponent>;
+	deleters_[NameComponent::type] = &EntitySystem::delete_component<NameComponent>;
+	deleters_[ExperienceValueComponent::type] = &EntitySystem::delete_component<ExperienceValueComponent>;
 
 	immediate_deleters_[PhysicsComponent::type] = &EntitySystem::delete_component_now<PhysicsComponent>;
 	immediate_deleters_[HealthComponent::type] = &EntitySystem::delete_component_now<HealthComponent>;
@@ -288,4 +320,23 @@ void EntitySystem::init_function_arrays()
 	immediate_deleters_[PriceComponent::type] = &EntitySystem::delete_component_now<PriceComponent>;
 	immediate_deleters_[AlignComponent::type] = &EntitySystem::delete_component_now<AlignComponent>;
 	immediate_deleters_[MineComponent::type] = &EntitySystem::delete_component_now<MineComponent>;
+	immediate_deleters_[ManaCrystalComponent::type] = &EntitySystem::delete_component_now<ManaCrystalComponent>;
+	immediate_deleters_[OnHitComponent::type] = &EntitySystem::delete_component_now<OnHitComponent>;
+	immediate_deleters_[ConstructorComponent::type] = &EntitySystem::delete_component_now<ConstructorComponent>;
+	immediate_deleters_[TriggerComponent::type] = &EntitySystem::delete_component_now<TriggerComponent>;
+	immediate_deleters_[UpgradeComponent::type] = &EntitySystem::delete_component_now<UpgradeComponent>;
+	immediate_deleters_[NotificationComponent::type] = &EntitySystem::delete_component_now<NotificationComponent>;
+	immediate_deleters_[ExplosionComponent::type] = &EntitySystem::delete_component_now<ExplosionComponent>;
+	immediate_deleters_[LimitedLifeSpanComponent::type] = &EntitySystem::delete_component_now<LimitedLifeSpanComponent>;
+	immediate_deleters_[NameComponent::type] = &EntitySystem::delete_component_now<NameComponent>;
+	immediate_deleters_[ExperienceValueComponent::type] = &EntitySystem::delete_component_now<ExperienceValueComponent>;
+}
+
+bool EntitySystem::has_component(std::size_t id, std::size_t comp) const
+{
+	auto it = entities_.find(id);
+	if(it != entities_.end())
+		return it->second.test(comp);
+	else
+		return false;
 }
