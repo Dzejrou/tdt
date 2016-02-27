@@ -9,6 +9,10 @@
 #include "Util.hpp"
 class EntitySystem;
 
+/**
+ * Namespace containing auxiliary functions that help with the management of
+ * the combat component.
+ */
 namespace CombatHelper
 {
 	/**
