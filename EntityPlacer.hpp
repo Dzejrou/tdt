@@ -68,6 +68,17 @@ class EntityPlacer
 		 *        false otherwise.
 		 */
 		bool is_visible() const;
+
+		/**
+		 * Brief: Toggles (=negates) the flag for entity placing while the game is paused.
+		 */
+		void toggle_placing_when_game_paused();
+
+		/**
+		 * Brief: Returns true if the placer can place entities when the game is paused,
+		 *        false otherwise.
+		 */
+		bool can_place_when_game_paused() const;
 	private:
 		/**
 		 * Reference to the game's entity system.
@@ -135,4 +146,10 @@ class EntityPlacer
 		 * Price of the currently placed entity.
 		 */
 		std::size_t price_;
+
+		/**
+		 * Used for debugging, allows to place spawners when the game is paused and
+		 * this their production is halted.
+		 */
+		bool can_place_when_game_paused_{false};
 };

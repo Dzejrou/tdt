@@ -139,3 +139,13 @@ bool EntityPlacer::is_visible() const
 {
 	return visible_;
 }
+
+void EntityPlacer::toggle_placing_when_game_paused()
+{
+	can_place_when_game_paused_ = !can_place_when_game_paused_;
+}
+
+bool EntityPlacer::can_place_when_game_paused() const
+{
+	return can_place_when_game_paused_;
+}
