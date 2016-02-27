@@ -24,7 +24,7 @@ auto_ogre_miner = {
 	},
 
 	AIComponent = {
-		blueprint = "ogre_miner",
+		blueprint = "auto_ogre_miner",
 	},
 
 	GraphicsComponent = {
@@ -44,7 +44,8 @@ auto_ogre_miner = {
 		min_dmg = 100,
 		max_dmg = 200,
 		type = game.enum.atk_type.ranged,
-		cooldown = 2.0
+		cooldown = 2.0,
+		pursue = true
 	},
 
 	PathfindingComponent = {
@@ -108,6 +109,9 @@ auto_ogre_miner = {
 			game.task.add(id, task)
 			return
 		end
+	end,
+
+	on_hit = function(id, hitter)
 	end,
 
 	can_break = function(id, node)
