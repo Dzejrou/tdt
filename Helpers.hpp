@@ -1,5 +1,9 @@
 #pragma once
 
+/**
+ * Header file used solely for easier helper inclusion.
+ */
+
 #include "AIHelper.hpp"
 #include "CombatHelper.hpp"
 #include "GraphicsHelper.hpp"
