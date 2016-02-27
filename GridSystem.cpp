@@ -134,7 +134,6 @@ bool GridSystem::is_visible() const
 
 void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::size_t radius)
 {
-	// TODO: Possibly return if the entity has a movement component?
 	auto struct_comp = entities_.get_component<StructureComponent>(ent_id);
 	if(!struct_comp || (struct_comp && struct_comp->walk_through))
 		return;
