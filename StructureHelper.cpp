@@ -48,5 +48,5 @@ bool StructureHelper::is_walk_through(EntitySystem& ents, std::size_t id)
 	if(comp)
 		return comp->walk_through;
 	else
-		return false;
+		return true;
 }
