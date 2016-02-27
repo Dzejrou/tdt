@@ -46,6 +46,33 @@ class Player
 		bool sub_mana(std::size_t);
 
 		/**
+		 * Breif: Increases the mana capacity of the player by a given
+		 *        amount.
+		 * Param: Amount to add.
+		 */
+		void add_max_mana(std::size_t);
+
+		/**
+		 * Brief: Decreases the mana capacity of the player by a given amount
+		 *        if possible. Returns true if the player has enough, false otherwise.
+		 * Param: Amount to decrease by.
+		 */
+		bool sub_max_mana(std::size_t);
+
+		/**
+		 * Brief: Increases the player's mana regeneration by a given amount.
+		 * Param: Amount to increase by.
+		 */
+		void add_mana_regen(std::size_t);
+
+		/**
+		 * Brief: Decreases the player's mana regeneration by a given amount
+		 *        if possible. Returns true if the player has enough, false otherwise.
+		 * Param: Amount to decrease by.
+		 */
+		bool sub_mana_regen(std::size_t);
+
+		/**
 		 *
 		 * Brief: Adds max units to the player's unit amount.
 		 * Param: Amount to add.
@@ -85,6 +112,26 @@ class Player
 		std::size_t get_mana() const;
 
 		/**
+		 * Brief: Returns the mana capacity of the player.
+		 */
+		std::size_t get_max_mana() const;
+
+		/**
+		 * Brief: Returns the value of the player's mana regeneration.
+		 */
+		std::size_t get_mana_regen() const;
+
+		/**
+		 * Brief: Sets all of the player's stats to their default values.
+		 */
+		void reset();
+
+		/**
+		 * Brief: Sets all of the player's stats to zero (used for loading).
+		 */
+		void nulify_all_stats();
+
+		/**
 		 * Brief: Returns a reference to the singleton
 		 *        instance.
 		 */
@@ -116,6 +163,17 @@ class Player
 		 * Amount of mana the player currently has to spend.
 		 */
 		std::size_t mana_;
+
+		/**
+		 * Max amount of mana the player can have.
+		 */
+		std::size_t max_mana_;
+
+		/**
+		 * Amount of mana that is added to the player's mana pool
+		 * on every regen tick.
+		 */
+		std::size_t mana_regen_;
 
 		/**
 		 * Amount of currently alive units.
