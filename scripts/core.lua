@@ -7,7 +7,9 @@ scripts = {
 	"gold_deposit.lua", "blueprints_destructor.lua",
 	"gold_pile.lua", "ogre_miner.lua", "auto_ogre_miner.lua",
 	"mine.lua", "blueprints_task_handler.lua", "gold_vault.lua",
-	"research.lua", "spells.lua"
+	"research.lua", "spells.lua", "indestructible_wall.lua",
+	"walkway.lua", "mana_crystal.lua", "explosion.lua",
+	"lls_ogre.lua"
 }
 
 if game then
