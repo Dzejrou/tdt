@@ -5,6 +5,10 @@
 #include <numeric>
 class EntitySystem;
 
+/**
+ * Auxiliary namespace containing functions that help with the management of
+ * the physics component.
+ */
 namespace PhysicsHelper
 {
 	/**
