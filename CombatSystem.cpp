@@ -15,45 +15,78 @@ void CombatSystem::update(Ogre::Real delta)
 	{
 		if(ent.second.curr_target != Component::NO_ENTITY)
 		{
-			if(!in_sight(ent.first, ent.second.curr_target))
-			{
-				ent.second.curr_target = Component::NO_ENTITY;
-				continue;
-			}
-
-			if(ent.second.cd_time < ent.second.cooldown)
-			{
-				ent.second.cd_time += delta;
-				continue;
-			}
-			else
-				ent.second.cd_time = 0;
-
 			auto phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
 			auto target_phys_comp = entities_.get_component<PhysicsComponent>(ent.second.curr_target);
 
 			auto range = ent.second.range * ent.second.range;
-			if(phys_comp && target_phys_comp &&
-			   phys_comp->position.squaredDistance(target_phys_comp->position) < range)
+			auto task_comp = entities_.get_component<TaskHandlerComponent>(ent.first);
+			if(phys_comp && target_phys_comp)
 			{
-				auto dmg = CombatHelper::get_dmg(ent.second.min_dmg, ent.second.max_dmg);
-				GraphicsHelper::look_at(entities_, ent.first, ent.second.curr_target);
-				switch(ent.second.atk_type)
+				auto dist = phys_comp->position.squaredDistance(target_phys_comp->position);
+				auto path_comp = entities_.get_component<PathfindingComponent>(ent.first);
+
+				/**
+				 * Check if the target is in range and in sight and if so, attack, otherwise
+				 * pursue the target if necessary.
+				 */
+				bool is_in_sight{in_sight(ent.first, ent.second.curr_target)};
+				bool kill_task_assigned{task_comp ? (TaskHelper::get_task_type(entities_, task_comp->curr_task) == TASK_TYPE::KILL) : false};
+				bool on_path{path_comp && !path_comp->path_queue.empty()};
+				bool is_in_range{dist <= range};
+				if((!is_in_range || !is_in_sight) && !on_path && kill_task_assigned)
 				{
-					case ATTACK_TYPE::MELEE:
-						HealthHelper::sub_health(entities_, ent.second.curr_target, dmg);
-						if(HealthHelper::get_health(entities_, ent.second.curr_target) <= 0)
-						{
-							DestructorHelper::destroy(entities_, ent.second.curr_target, false, ent.first);
-							ent.second.curr_target = Component::NO_ENTITY;
-							ent.second.cd_time = ent.second.cooldown; // Allows to attack again instantly.
-						}
-						// TODO: Animation...
-						break;
-					case ATTACK_TYPE::RANGED:
-						create_homing_projectile(ent.first, ent.second);
-						break;
+					if(ent.second.pursue)
+					{ // Order it to go after the target again.
+						TaskHelper::add_task(entities_, ent.first, ent.second.curr_target, true);
+						task_comp->task_queue.push_front(task_comp->curr_task);
+						auto new_task = TaskHelper::create_task(entities_, ent.second.curr_target, TASK_TYPE::GET_IN_RANGE);
+						task_comp->task_queue.push_front(new_task);
+						task_comp->curr_task = Component::NO_ENTITY;
+					}
+					else
+					{ // Just give up.
+						TaskHelper::cancel_task(entities_, task_comp->curr_task);
+						task_comp->busy = false;
+					}
+
+					ent.second.curr_target = Component::NO_ENTITY;
 				}
+				else if(is_in_range && is_in_sight)
+				{
+					if(on_path) // Enemy came to us, just start attacking!
+						path_comp->path_queue.clear();
+
+					if(ent.second.cd_time < ent.second.cooldown)
+					{
+						ent.second.cd_time += delta;
+						continue;
+					}
+					else
+						ent.second.cd_time = 0;
+
+					auto dmg = CombatHelper::get_dmg(ent.second.min_dmg, ent.second.max_dmg);
+					GraphicsHelper::look_at(entities_, ent.first, ent.second.curr_target);
+					switch(ent.second.atk_type)
+					{
+						case ATTACK_TYPE::MELEE:
+							HealthHelper::sub_health(entities_, ent.second.curr_target, dmg);
+							OnHitHelper::call(entities_, ent.second.curr_target, ent.first);
+							if(HealthHelper::get_health(entities_, ent.second.curr_target) <= 0)
+							{
+								DestructorHelper::destroy(entities_, ent.second.curr_target, false, ent.first);
+								ent.second.curr_target = Component::NO_ENTITY;
+								ent.second.cd_time = ent.second.cooldown; // Allows to attack again instantly.
+								if(task_comp && TaskHelper::get_task_type(entities_, task_comp->curr_task) == TASK_TYPE::KILL)
+									TaskHelper::cancel_task(entities_, task_comp->curr_task);
+							}
+							break;
+						case ATTACK_TYPE::RANGED:
+							create_homing_projectile(ent.first, ent.second);
+							break;
+					}
+				}
+				else if(!kill_task_assigned)
+					ent.second.curr_target = Component::NO_ENTITY;
 			}
 			else // Target killed or ran away.
 				ent.second.curr_target = Component::NO_ENTITY;
@@ -87,8 +120,15 @@ void CombatSystem::update(Ogre::Real delta)
 			if(graph_comp->entity->getWorldBoundingBox(true).intersects(enemy_graph_comp->entity->getWorldBoundingBox(true)))
 			{ // That's a hit.
 				HealthHelper::sub_health(entities_, ent.second.target, ent.second.dmg);
+				OnHitHelper::call(entities_, ent.second.target, ent.second.source);
 				if(HealthHelper::get_health(entities_, ent.second.target) <= 0)
+				{
 					DestructorHelper::destroy(entities_, ent.second.target, false, ent.second.source);
+
+					auto task_comp = entities_.get_component<TaskHandlerComponent>(ent.second.source);
+					if(task_comp && TaskHelper::get_task_type(entities_, task_comp->curr_task) == TASK_TYPE::KILL)
+						TaskHelper::cancel_task(entities_, task_comp->curr_task);
+				}
 				DestructorHelper::destroy(entities_, ent.first);
 			}
 		}
