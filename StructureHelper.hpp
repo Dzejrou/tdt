@@ -4,6 +4,10 @@
 #include <vector>
 class EntitySystem;
 
+/**
+ * Auxiliary namespace containing the functions that help with the management
+ * of the structure component.
+ */
 namespace StructureHelper
 {
 	/**
