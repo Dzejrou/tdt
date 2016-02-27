@@ -7,14 +7,40 @@
 #include "Helpers.hpp"
 #include "Enums.hpp"
 
+/**
+ * The utim namespace contains various tools and utilities used by the game's engine.
+ * This part contains the pathfinding algorithms, heuristics and path types.
+ * Also contains the typedefs for DETAULT_PATH_TYPE, DEFAULT_PATHFINDING_ALGORITHM and
+ * DEFAULT_HEURISTIC.
+ */
 namespace util
 {
+
+/**
+ * Forward declarations.
+ */
+namespace heuristic { struct HEURISTIC; }
+
+/**
+ * Contains the pathfinding algorithms used by the util::pathfind function.
+ */
 namespace pathfinding
 {
-	template<typename PATH_TYPE = util::DEFAULT_PATH_TYPE, typename HEURISTIC = util::DEFAULT_HEURISTIC>
+	/**
+	 * Brief: Simple A* pathfinding implementations with path type specified as a template
+	 *        parameter.
+	 * Param: Entity system containing the pathfinding entity and the grid.
+	 * Param: ID of the pathfinding entity.
+	 * Param: ID of the starting node.
+	 * Param: ID of the ending node.
+	 * Param: Heuristic to be used.
+	 * Param: If true, the entity will be allowed to destroy blocks along it's way.
+	 */
+	template<typename PATH_TYPE = util::DEFAULT_PATH_TYPE>
 	struct A_STAR
 	{
-		static std::deque<std::size_t> get_path(EntitySystem& ents, std::size_t id, std::size_t start, std::size_t end)
+		static std::deque<std::size_t> get_path(EntitySystem& ents, std::size_t id, std::size_t start, std::size_t end, util::heuristic::HEURISTIC& heuristic,
+												bool allow_destruction = true)
 		{
 			auto comp = ents.get_component<PathfindingComponent>(id);
 			if(!comp)
@@ -33,7 +59,7 @@ namespace pathfinding
 				estimate.emplace(node.first, std::numeric_limits<Ogre::Real>::max());
 			}
 			score[start] = 0;
-			estimate[start] = HEURISTIC::get_cost(ents, start, end);
+			estimate[start] = heuristic.get_cost(start, end);
 
 			std::size_t current{};
 			bool found_path{false};
@@ -57,7 +83,9 @@ namespace pathfinding
 				{
 					auto& neighbour = neighbours[i];
 
-					bool cannot_pass = !GridNodeHelper::is_free(ents, neighbour) && !PathfindingHelper::can_break(id, *comp, neighbour);
+					bool cannot_pass = !GridNodeHelper::is_free(ents, neighbour) &&
+						              (!allow_destruction || !PathfindingHelper::can_break(id, *comp, neighbour));
+									   //&& !StructureHelper::is_walk_through(ents, GridNodeHelper::get_resident(ents, neighbour));
 					if(!Grid::instance().in_board(neighbour) || cannot_pass)
 						continue;
 					auto s = PathfindingHelper::get_cost(id, *comp, current, (DIRECTION::VAL)i);
@@ -68,7 +96,7 @@ namespace pathfinding
 					{
 						path_edges[neighbour] = current;
 						score[neighbour] = new_score;
-						estimate[neighbour] = new_score + HEURISTIC::get_cost(ents, neighbour, end);
+						estimate[neighbour] = new_score + heuristic.get_cost(neighbour, end);
 
 						if(found_path && PATH_TYPE::return_path())
 							break;
@@ -100,8 +128,15 @@ namespace pathfinding
 	};
 }
 
+/**
+ * Contains different path types, which are used to check if a path should be returned
+ * once found or when an augmenting edge is found to the path.
+ */
 namespace path_type
 {
+	/**
+	 * Finds the best path by refusing any paths found.
+	 */
 	struct BEST_PATH
 	{
 		static bool return_path()
@@ -110,6 +145,9 @@ namespace path_type
 		}
 	};
 
+	/**
+	 * Finds the first path by accepting the first path found.
+	 */
 	struct FIRST_PATH
 	{
 		static bool return_path()
@@ -119,6 +157,11 @@ namespace path_type
 
 	};
 
+	/**
+	 * Finds a random path by returning true only when a random
+	 * number in the range (0, UPPER) is equal to 0. (UPPER is specialized
+	 * as a template parameter.)
+	 */
 	template<int UPPER>
 	struct RANDOM_PATH
 	{
@@ -129,22 +172,76 @@ namespace path_type
 	};
 }
 
+/**
+ * Contains the heuristics used by the pathfinding algorithms.
+ */
 namespace heuristic
 {
-	struct MANHATTAN_DISTANCE
+	/**
+	 * Abstract parent of all heuristics. Inheritance hierarchy used instead
+	 * of static functions (like in the case of PATH_TYPEs) to allow for a
+	 * heuristic to have a state.
+	 */
+	struct HEURISTIC
 	{
-		static Ogre::Real get_cost(EntitySystem& ents, std::size_t id1, std::size_t id2)
+		HEURISTIC(EntitySystem& ents)
+			: entities_{ents}
+		{ /* DUMMY BODY */ }
+
+		virtual Ogre::Real get_cost(std::size_t id1, std::size_t id2) = 0;
+
+		protected:
+			EntitySystem& entities_;
+	};
+
+	/**
+	 * Returns the manhattan distance between two nodes.
+	 * (Well, actually, it's an octal distance :)
+	 */
+	struct MANHATTAN_DISTANCE : public HEURISTIC
+	{
+		MANHATTAN_DISTANCE(EntitySystem& ents)
+			: HEURISTIC{ents}
+		{ /* DUMMY BODY */ }
+
+		Ogre::Real get_cost(std::size_t id1, std::size_t id2) override
 		{
-			return (Ogre::Real)GridNodeHelper::get_manhattan_distance(ents, id1, id2);
+			return (Ogre::Real)GridNodeHelper::get_manhattan_distance(entities_, id1, id2);
 		}
 	};
 
-	struct NO_HEURISTIC
+	/**
+	 * Represents no heuristic by returning 0 all the time.
+	 */
+	struct NO_HEURISTIC : public HEURISTIC
 	{
-		static Ogre::Real get_cost(EntitySystem& ents, std::size_t id1, std::size_t id2)
+		NO_HEURISTIC(EntitySystem& ents)
+			: HEURISTIC{ents}
+		{ /* DUMMY BODY */ }
+
+		Ogre::Real get_cost(std::size_t id1, std::size_t id2) override
 		{
 			return 0.f;
 		}
+	};
+
+	/**
+	 * Used by entities that want to run away from an enemy.
+	 */
+	struct RUN_AWAY_HEURISTIC : public HEURISTIC
+	{
+		RUN_AWAY_HEURISTIC(EntitySystem& ents, std::size_t from)
+			: HEURISTIC{ents}, from_{from}
+		{ /* DUMMY BODY */ }
+
+		Ogre::Real get_cost(std::size_t id1, std::size_t id2) override
+		{
+			return (Ogre::Real)GridNodeHelper::get_manhattan_distance(entities_, id1, id2)
+				- PhysicsHelper::get_distance(entities_, from_, id2);
+		}
+
+		private:
+			std::size_t from_;
 	};
 }
 
@@ -153,5 +250,5 @@ namespace heuristic
  */
 using DEFAULT_PATH_TYPE = path_type::FIRST_PATH;
 using DEFAULT_HEURISTIC = heuristic::MANHATTAN_DISTANCE;
-using DEFAULT_PATHFINDING_ALGORITHM = pathfinding::A_STAR<DEFAULT_PATH_TYPE, DEFAULT_HEURISTIC>;
+using DEFAULT_PATHFINDING_ALGORITHM = pathfinding::A_STAR<DEFAULT_PATH_TYPE>;
 }
