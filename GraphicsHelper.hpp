@@ -12,7 +12,7 @@ class EntitySystem;
 namespace GraphicsHelper
 {
 	/**
-	 *
+	 * Enum representing the planes in a 3D space.
 	 */
 	enum class PLANE
 	{
