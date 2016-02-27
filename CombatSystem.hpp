@@ -135,6 +135,15 @@ class CombatSystem : public System
 			}
 			return closest_id;
 		}
+
+		/**
+		 * Brief: Tries to find a path used by an entity to run away from another entity.
+		 * Param: ID of the entity running away.
+		 * Param: ID of the entity that is ran away from.
+		 * Param: Minimal amount of nodes the path has to have (will be ignored if the amount
+		 *        of attempts surpasses the maximum amount).
+		 */
+		void run_away_from(std::size_t, std::size_t, std::size_t);
 	private:
 		/**
 		 * Brief: Retuns a map containing pairs of IDs and components of a given type, use
