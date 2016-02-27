@@ -3,7 +3,7 @@
 #include <Ogre.h>
 
 /**
- * Parent class of all systems (except for EntitySystem, which does not have any form of updating).
+ * Parent class of all systems.
  */
 class System
 {
@@ -17,5 +17,5 @@ class System
 		/**
 		 * Destructor.
 		 */
-		virtual ~System() {}
+		virtual ~System() = default;
 };
