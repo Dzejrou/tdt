@@ -44,13 +44,19 @@ std::size_t Grid::add_node(EntitySystem& ents, Ogre::Vector2 pos)
 void Grid::add_freed(std::size_t id)
 {
 	if(in_board(id))
+	{
 		freed_.insert(id);
+		free_nodes_.emplace_back(id);
+	}
 }
 
 void Grid::add_unfreed(std::size_t id)
 {
 	if(in_board(id))
+	{
 		unfreed_.insert(id);
+		std::remove(free_nodes_.begin(), free_nodes_.end(), id);
+	}
 }
 
 void Grid::remove_node(std::size_t id)
@@ -60,7 +66,7 @@ void Grid::remove_node(std::size_t id)
 
 std::size_t Grid::get_node(std::size_t x, std::size_t y) const
 {
-	if(in_board(x + y * width_))
+	if(x < width_ && y < height_ && (x + y * width_) < nodes_.size())
 		return nodes_[x + y * width_];
 	else
 		return Component::NO_ENTITY;
@@ -105,18 +111,22 @@ void Grid::create_graph(EntitySystem& ents, Ogre::Vector2 start, std::size_t w, 
 	for(std::size_t i = 0; i < node_count; ++i)
 	{
 		pos.x = (i % width_) * distance_;
-		pos.y = (i / height_) * distance_;
+		pos.y = (i / width_) * distance_;
 		auto id = add_node(ents, pos);
 		auto comp = ents.get_component<GridNodeComponent>(id);
 		if(comp) // Should never be false though as the component is added 2 lines above...
+		{
 			comps[i] = comp;
-		comps[i]->x = i % width_;
-		comps[i]->y = i / height_;
+			comps[i]->x = i % width_;
+			comps[i]->y = i / width_;
+		}
 	}
 
 	// Link nodes.
 	for(std::size_t i = 0; i < node_count; ++i)
 		link_(i, comps);
+
+	free_nodes_ = nodes_;
 }
 
 Ogre::Real Grid::get_distance() const
@@ -129,6 +139,17 @@ Grid& Grid::instance()
 	static Grid inst{};
 
 	return inst;
+}
+
+std::size_t Grid::get_random_free_node() const
+{
+	return free_nodes_[util::get_random(0, free_nodes_.size() - 1)];
+}
+
+Ogre::Vector2 Grid::get_center_position(EntitySystem& ents) const
+{
+	auto center_node = get_node(width_ / 2, height_ / 2);
+	return PhysicsHelper::get_2d_position(ents, center_node);
 }
 
 void Grid::link_(std::size_t index, std::vector<GridNodeComponent*>& comps)

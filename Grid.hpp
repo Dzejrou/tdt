@@ -9,6 +9,7 @@
 #include "Components.hpp"
 #include "Helpers.hpp"
 #include "Enums.hpp"
+#include "Util.hpp"
 
 /**
  * Class representing the pathfinding grid.
@@ -116,6 +117,18 @@ class Grid
 		static Grid& instance();
 
 		/**
+		 * Breif: Returns a random node within the graph.
+		 */
+		std::size_t get_random_free_node() const;
+
+		/**
+		 * Brief: Returns the 2D position of the central node of the grid (or one of them
+		 *        if the grid has even dimensions).
+		 * Param: EntitySystem that contains components of the nodes.
+		 */
+		Ogre::Vector2 get_center_position(EntitySystem&) const;
+
+		/**
 		 * Since there should be only one grid at all times accesible from the Grid::instance
 		 * method, all copy/move operations are disabled for this class.
 		 */
@@ -180,4 +193,9 @@ class Grid
 		 *  being names Y).
 		 */
 		Ogre::Vector2 start_;
+
+		/**
+		 * Used for easier returning of a random free node.
+		 */
+		std::vector<std::size_t> free_nodes_;
 };
