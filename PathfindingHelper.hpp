@@ -9,6 +9,10 @@
 class EntitySystem;
 struct PathfindingComponent;
 
+/**
+ * Auxiliary namespace containing functions that help with the management of
+ * the pathfinding component.
+ */
 namespace PathfindingHelper
 {
 	/**
