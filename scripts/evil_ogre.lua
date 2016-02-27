@@ -24,7 +24,7 @@ evil_ogre = {
 	},
 
 	AIComponent = {
-		blueprint = "ogre",
+		blueprint = "evil_ogre",
 	},
 
 	GraphicsComponent = {
@@ -44,7 +44,8 @@ evil_ogre = {
 		min_dmg = 15,
 		max_dmg = 30,
 		type = game.enum.atk_type.ranged,
-		cooldown = 3
+		cooldown = 3,
+		pursue = true
 	},
 
 	EventComponent = {
@@ -97,6 +98,9 @@ evil_ogre = {
 			game.task.add(id, task)
 			return
 		end
+	end,
+
+	on_hit = function(id, hitter)
 	end,
 
 	finnish = function(id)
