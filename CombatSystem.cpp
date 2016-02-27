@@ -220,6 +220,16 @@ void CombatSystem::run_away_from(std::size_t id, std::size_t from_id, std::size_
 	}
 }
 
+void CombatSystem::set_max_run_away_attempts(std::size_t val)
+{
+	max_run_away_attempts_ = val;
+}
+
+std::size_t CombatSystem::get_max_run_away_attempts()
+{
+	return max_run_away_attempts_;
+}
+
 void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent& combat)
 {
 	std::size_t id = entities_.create_entity("basic_projectile");
