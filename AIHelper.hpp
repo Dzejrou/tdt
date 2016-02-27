@@ -5,6 +5,10 @@
 #include "Enums.hpp"
 class EntitySystem;
 
+/**
+ * Namespace containing auxiliary functions that help with the management of
+ * the ai component.
+ */
 namespace AIHelper
 {
 	/**
