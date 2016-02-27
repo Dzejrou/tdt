@@ -19,10 +19,25 @@ void EntityTracker::set_tracked_entity(std::size_t id, EntitySystem& ents)
 		auto health = ents.get_component<HealthComponent>(id);
 		if(health)
 			update_tracking("HP_VALUE", std::to_string(health->curr_hp) + " / " + std::to_string(health->max_hp));
+
+		auto name = ents.get_component<NameComponent>(id);
+		if(name)
+			update_tracking("NAME_VALUE", name->name);
 		
 		// TODO: MANA
-		// TODO: EXP
-		// TODO: LVL
+
+		auto upgrade = ents.get_component<UpgradeComponent>(id);
+		if(upgrade)
+		{
+			update_tracking("EXP_VALUE", std::to_string(upgrade->experience) + " / " + std::to_string(upgrade->exp_needed));
+			update_tracking("LVL_VALUE", std::to_string(upgrade->level) + " / " + std::to_string(upgrade->level_cap));
+			if(upgrade->experience >= upgrade->exp_needed)
+				view->getChild("UPGRADE")->setVisible(true);
+		}
+
+		auto faction = ents.get_component<FactionComponent>(id);
+		if(faction)
+			update_tracking("FACTION_VALUE", FactionHelper::get_faction_name(ents, id));
 
 		auto gold = ents.get_component<GoldComponent>(id);
 		if(gold)
@@ -44,10 +59,12 @@ void EntityTracker::clear()
 {
 	auto view = window_->getChild("FRAME");
 	view->getChild("ID_VALUE")->setText("NONE");
+	view->getChild("NAME_VALUE")->setText("UNKNOWN");
 	view->getChild("HP_VALUE")->setText("0 / 0");
 	view->getChild("MANA_VALUE")->setText("0 / 0");
 	view->getChild("EXP_VALUE")->setText("0 / 0");
 	view->getChild("LVL_VALUE")->setText("0");
+	view->getChild("FACTION_VALUE")->setText("NEUTRAL");
 	view->getChild("GOLD_VALUE")->setText("0 / 0");
 }
 
