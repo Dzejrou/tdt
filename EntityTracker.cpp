@@ -1,14 +1,16 @@
 #include "EntityTracker.hpp"
 #include "Components.hpp"
+#include "Helpers.hpp"
 
 EntityTracker::EntityTracker()
-	: curr_tracked_entity_{Component::NO_ENTITY}
+	: curr_tracked_entity_{Component::NO_ENTITY}, entities_{nullptr}
 { /* DUMMY BODY */ }
 
 void EntityTracker::set_tracked_entity(std::size_t id, EntitySystem& ents)
 {
 	curr_tracked_entity_ = id;
 	auto view = window_->getChild("FRAME");
+	view->getChild("UPGRADE")->setVisible(false);
 	if(id == Component::NO_ENTITY)
 		clear();
 	else
@@ -47,6 +49,20 @@ void EntityTracker::clear()
 	view->getChild("EXP_VALUE")->setText("0 / 0");
 	view->getChild("LVL_VALUE")->setText("0");
 	view->getChild("GOLD_VALUE")->setText("0 / 0");
+}
+
+void EntityTracker::init_upgrade_butt(EntitySystem* ents)
+{
+	if(!window_)
+		return;
+
+	window_->getChild("FRAME/UPGRADE")->subscribeEvent(
+		CEGUI::PushButton::EventClicked,
+		[ents, this](const CEGUI::EventArgs&) -> bool {
+			UpgradeHelper::upgrade(*ents, curr_tracked_entity_);
+			return true;
+		}
+	);
 }
 
 void EntityTracker::init_()

@@ -44,6 +44,12 @@ class EntityTracker : public GUIWindow
 		 *        values to 0/0 and the id to UNKNOWN.
 		 */
 		void clear();
+
+		/**
+		 * Brief: Adds a callback to the UPGRADE button that upgrades an entity.
+		 * Param: Entity system containing entities that will be upgraded by this button.
+		 */
+		void init_upgrade_butt(EntitySystem*);
 	protected:
 		/**
 		 * Brief: Initializes the window and sets all event subscribers.
@@ -54,4 +60,9 @@ class EntityTracker : public GUIWindow
 		 * ID of the currently tracked entity.
 		 */
 		std::size_t curr_tracked_entity_;
+
+		/**
+		 * Used for upgrading.
+		 */
+		EntitySystem* entities_;
 };
