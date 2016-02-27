@@ -36,7 +36,17 @@ enum = {
 		faction = 22,
 		price = 23,
 		align = 24,
-		mine =25
+		mine =25,
+		mana_crystal = 26,
+		on_hit = 27,
+		constructor = 28,
+		trigger = 29,
+		upgrade = 30,
+		notification = 31,
+		explosion = 32,
+		lls = 33,
+		name = 34,
+		exp_val = 35
 	},
 
 	event = {
