@@ -8,7 +8,8 @@ gold_deposit = {
 		game.enum.component.gold,
 		game.enum.component.faction,
 		game.enum.component.align,
-		game.enum.component.mine
+		game.enum.component.mine,
+		game.enum.component.exp_val
 	},
 
 	PhysicsComponent = {
@@ -104,6 +105,10 @@ gold_deposit = {
 			scale_y = 50.0,
 			scale_z = 50.0
 		}
+	},
+
+	ExperienceValueComponent = {
+		value = 20
 	}
 }
 
