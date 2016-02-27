@@ -5,6 +5,10 @@
 #include "Enums.hpp"
 class EntitySystem;
 
+/**
+ * Auxiliary namespace containing functions that help with the management of
+ * the task handler component.
+ */
 namespace TaskHandlerHelper
 {
 	/**
