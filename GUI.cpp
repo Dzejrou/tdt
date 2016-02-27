@@ -253,6 +253,28 @@ SpellCastingWindow& GUI::get_spell_casting()
 	return spell_casting_;
 }
 
+bool GUI::escape_pressed()
+{
+	bool res{false};
+
+	// Note: Console and EntityCreator have their own hotkeys.
+	std::string sub_windows[] {
+		"MAIN_MENU/NEW_GAME_DIALOG",
+		"RESEARCH", "SAVE_LOAD"
+	};
+
+	for(const auto& sub_window : sub_windows)
+	{
+		if(window_->getChild(sub_window)->isVisible())
+		{
+			window_->getChild(sub_window)->setVisible(false);
+			res = true;
+		}
+	}
+
+	return res;
+}
+
 void GUI::list_directory(const std::string& dir, CEGUI::Listbox& box, bool strip_ext)
 {
 	box.resetList();

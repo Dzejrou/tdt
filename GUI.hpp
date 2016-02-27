@@ -118,6 +118,14 @@ class GUI
 		SpellCastingWindow& get_spell_casting();
 
 		/**
+		 * Brief: Notifies the GUI that the escape key was pressed so that
+		 *        it can close windows if needed. Returns true if anything
+		 *        has been closed, false otherwise.
+		 * Note: CEGUI event system does not seem to work properly :/
+		 */
+		bool escape_pressed();
+
+		/**
 		 * Note: Since VS2015 seems to have some problems with C++ standard
 		 *       (generates default copy/move constructors and operators even
 		 *        if default constructor is created), these constructors/operators
