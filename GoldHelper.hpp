@@ -4,6 +4,10 @@
 class EntitySystem;
 struct GoldComponent;
 
+/**
+ * Auxiliary namespace containing functions that help with the management of
+ * the gold component.
+ */
 namespace GoldHelper
 {
 	/**
