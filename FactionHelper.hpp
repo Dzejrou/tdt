@@ -4,6 +4,10 @@
 #include "Enums.hpp"
 class EntitySystem;
 
+/**
+ * Auxiliary namespace containing functions that help with the management
+ * of the faction component.
+ */
 namespace FactionHelper
 {
 	/**
