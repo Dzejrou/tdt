@@ -60,9 +60,6 @@ void CombatSystem::update(Ogre::Real delta)
 		}
 	}
 
-	// TODO: Spells.
-
-
 	// Homing projectiles.
 	for(auto& ent : entities_.get_component_container<HomingComponent>())
 	{
