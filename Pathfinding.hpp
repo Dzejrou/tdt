@@ -4,10 +4,26 @@
 #include "Helpers.hpp"
 #include "PathfindingAlgorithms.hpp"
 
+/**
+ * Util namespace contains general tools and utilities used by the game's
+ * engine. This part of the namespace contains functions used for pathfinding.
+ */
 namespace util
 {
+	/**
+	 * Brief: Finds a path using a given algorithm (specified as a template parameter)
+	 *        and heuristic and adds the path to the pathfinding entity if needed.
+	 * Param: Entity system containing the entity and the pathfinding grid.
+	 * Param: ID of the pathfinding entity.
+	 * Param: Target of the pathfinding.
+	 * Param: Heuristic used by the pathfinding algorithm.
+	 * Param: If true, the path will be added to the pathdinding entity's pathfinding
+	 *        component.
+	 * Param: If true, the entity will be allowed to destroy blocks on it's way.
+	 */
 	template<typename ALGORITHM = util::DEFAULT_PATHFINDING_ALGORITHM>
-	bool pathfind(EntitySystem& ents, std::size_t id, std::size_t target, bool add_path = true)
+	bool pathfind(EntitySystem& ents, std::size_t id, std::size_t target,
+				  util::heuristic::HEURISTIC& heuristic, bool add_path = true, bool allow_destruction = true)
 	{
 		auto path_comp = ents.get_component<PathfindingComponent>(id);
 		if(!path_comp || !ents.has_component<PhysicsComponent>(id)
@@ -19,20 +35,22 @@ namespace util
 		std::size_t start{Grid::instance().get_node_from_position(pos_start.x, pos_start.z)},
 			        end{Grid::instance().get_node_from_position(pos_end.x, pos_end.z)};
 
-		auto path = ALGORITHM::get_path(ents, id, start, end);
+		auto path = ALGORITHM::get_path(ents, id, start, end, heuristic, allow_destruction);
 		bool destruction{false};
-		if(add_path && !path.empty())
+		if(allow_destruction && add_path && !path.empty())
 		{ // Finds the first blocked node and orders the entity to destroy it's resident.
 			for(auto node : path)
 			{
 				if(!GridNodeHelper::is_free(ents, node)) // can_break can be assumed as the node wouldn't be added without it.
 				{
 					auto resident = GridNodeHelper::get_resident(ents, node);
+					if(StructureHelper::is_walk_through(ents, resident))
+						continue;
 					if(resident != target)
 					{
 						auto comp = ents.get_component<TaskHandlerComponent>(id);
 						if(comp)
-						{
+						{ // TODO: Just cut the path and add kill task?
 							auto task_get_in_range = TaskHelper::create_task(ents, resident, TASK_TYPE::GET_IN_RANGE);
 							auto task_kill = TaskHelper::create_task(ents, resident, TASK_TYPE::KILL);
 							TaskHelper::add_task(ents, id, comp->curr_task, true);
