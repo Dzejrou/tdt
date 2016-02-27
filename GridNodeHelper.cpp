@@ -34,7 +34,7 @@ bool GridNodeHelper::area_free(EntitySystem& ents, std::size_t center, std::size
 		for(std::size_t j = 0; j < radius; ++j)
 		{
 			auto id = Grid::instance().get_node(x + i, y + j);
-			if(!is_free(ents, id))
+			if(!is_free(ents, id) || get_resident(ents, id) != Component::NO_ENTITY)
 				return false;
 		}
 	}
