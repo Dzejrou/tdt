@@ -34,6 +34,8 @@ namespace GridNodeHelper
 	 * Param: EntitySystem containing the nodes in the area.
 	 * Param: ID of the center node.
 	 * Param: Radius of the area.
+	 * Note: This counts also walkthrough buildings, as it's only used for building
+	 *       placing and not pathfinding.
 	 */
 	bool area_free(EntitySystem&, std::size_t, std::size_t = 1);
 
