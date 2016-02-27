@@ -1,10 +1,21 @@
+-- TODO:
+give_experience_destructor = {
+	dtor = function(id, killer)
+		local exp_val = game.exp_val.get(id)
+		if exp_val > 0 then
+			game.upgrade.add_experience(killer, exp_val)
+		end
+	end
+}
+
 -- Creates a pile of gold after an entity is killed, contains
 -- all of the entity's gold. Also creates an event announcing
 -- the appearance of a new gold pile on the ground so that minions
 -- in range can pick it up.
 drop_gold_destructor = {
 	dtor = function(id, killer)
-		-- TODO: Add experience to the killer?
+		give_experience_destructor.dtor(id, killer)
+
 		local pile = game.entity.create("gold_pile")
 		game.gold.set_current(pile, game.gold.get_current(id))
 		game.gold.set_max(pile, game.gold.get_max(id))
@@ -24,6 +35,7 @@ drop_gold_destructor = {
 	end
 }
 
+-- TODO:
 gold_vault_destructor = {
 	dtor = function(id, killer)
 		game.gui.log.print("\\[#" .. id .. "\\] Gold vault has been destroyed!")
