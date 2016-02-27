@@ -102,3 +102,48 @@ material colour/gold
 		}
 	}
 }
+
+material colour/dark_gray
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+
+			ambient 0.1 0.1 0.1 1
+			diffuse 0.1 0.1 0.1 1
+			emissive 0.1 0.1 0.1 1
+		}
+	}
+}
+
+material colour/orange
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+
+			ambient 1 0.4647 0 1
+			diffuse 1 0.4647 0 1
+			emissive 1 0.4647 0 1
+		}
+	}
+}
+
+material colour/light_blue
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+
+			ambient 0 0.886 1 1
+			diffuse 0 0.886 1 1
+			emissive 0 0.886 1 1
+		}
+	}
+}
