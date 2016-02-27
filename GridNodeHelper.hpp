@@ -8,6 +8,10 @@
 class EntitySystem;
 class SelectionBox;
 
+/**
+ * Auxiliary namespace containing functions that help with the management of
+ * the grid node component.
+ */
 namespace GridNodeHelper
 {
 	/**
