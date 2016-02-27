@@ -162,6 +162,7 @@
     <ClInclude Include="TopBar.hpp" />
     <ClInclude Include="TriggerHelper.hpp" />
     <ClInclude Include="TriggerSystem.hpp" />
+    <ClInclude Include="Typedefs.hpp" />
     <ClInclude Include="UpgradeHelper.hpp" />
     <ClInclude Include="Util.hpp" />
   </ItemGroup>
