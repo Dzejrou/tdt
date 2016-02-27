@@ -152,10 +152,10 @@ game.gui.research.research_ = {
 
 	-- 3x1
 	{
-		name = "TODO",
-		price = 0,
+		name = "MANA CRYSTAL",
+		price = 400,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("mana_crystal")
 		end
 	},
 
