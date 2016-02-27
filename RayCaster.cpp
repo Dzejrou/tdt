@@ -1,5 +1,6 @@
 #include "RayCaster.hpp"
 #include "Enums.hpp"
+#include "GUI.hpp"
 
 RayCaster::RayCaster(Ogre::SceneManager& mgr)
 	: query_{mgr.createRayQuery(Ogre::Ray{})}
@@ -93,8 +94,8 @@ void RayCaster::get_info(const Ogre::Entity& ent, std::size_t& v_count, std::siz
 		i_count += sub->indexData->indexCount;
 	}
 
-	verts.reserve(v_count);
-	inds.reserve(i_count);
+	verts.resize(v_count);
+	inds.resize(i_count);
 	shared = false;
 
 	for(unsigned short i = 0; i < sub_count; ++i)
@@ -144,5 +145,8 @@ void RayCaster::get_info(const Ogre::Entity& ent, std::size_t& v_count, std::siz
 				inds[index_offset++] = (unsigned long)lock_16bit[j] + (unsigned long)offset;
 		
 		}
+
+		i_buf->unlock();
+		curr_offset = next_offset;
 	}
 }
