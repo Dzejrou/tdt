@@ -111,7 +111,7 @@ class Grid
 		/**
 		 * Brief: Returns a reference to the static instance of this class.
 		 * Note: Handles initialization and safe destruction by itself.
-		 * TODO: Possibly unite this an Lpp::Script under one singleton interface?
+		 * TODO: Possibly unite this and Lpp::Script under one singleton interface?
 		 */
 		static Grid& instance();
 
