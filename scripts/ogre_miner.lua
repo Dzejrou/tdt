@@ -10,7 +10,11 @@ ogre_miner = {
 		game.enum.component.task_handler,
 		game.enum.component.event_handler,
 		game.enum.component.gold,
-		game.enum.component.faction
+		game.enum.component.faction,
+		game.enum.component.notification,
+		game.enum.component.on_hit,
+		game.enum.component.name,
+		game.enum.component.upgrade
 	},
 
 	PhysicsComponent = {
@@ -44,11 +48,12 @@ ogre_miner = {
 		min_dmg = 100,
 		max_dmg = 200,
 		type = game.enum.atk_type.ranged,
-		cooldown = 2.0
+		cooldown = 2.0,
+		pursue = true
 	},
 
 	PathfindingComponent = {
-		blueprint = "ogre"
+		blueprint = "ogre_miner"
 	},
 
 	TaskHandlerComponent = {
@@ -83,6 +88,29 @@ ogre_miner = {
 		faction = game.enum.faction.friendly
 	},
 
+	OnHitComponent = {
+		blueprint = "ogre_miner",
+		cooldown = 1.0
+	},
+
+	NotificationComponent = {
+		cooldown = 10.0
+	},
+
+	NameComponent = {
+		name = "Ogre Miner"
+	},
+
+	UpgradeComponent = {
+		blueprint = "ogre_miner",
+		exp_needed = 100,
+		level_cap = 10
+	},
+
+
+
+
+
 	handle_event = function(id, evt)
 		if game.event.get_type(evt) == game.enum.event.gold_dropped then
 			if game.gold.full(id) then
@@ -97,15 +125,22 @@ ogre_miner = {
 		return true
 	end,
 
-	init = function(id)
-	end,
-
 	update = function(id)
 		-- TODO: Check for damaged buildings?
 	end,
 
+	on_hit = function(id, hitter)
+		game.notification.notify(id, "I'm under attack!")
+		if game.path.empty(id) then
+			game.task.clear_queue(id)
+			game.combat.run_away_from(id, hitter, 3)
+		end
+	end,
+
 	can_break = function(id, node)
-		return true
+		resident = game.grid.get_resident(node)
+		return game.entity.has_component(resident,
+				game.enum.component.mine)
 	end,
 
 	get_cost = function(id, node)
@@ -117,6 +152,13 @@ ogre_miner = {
 		else
 			return hp
 		end
+	end,
+
+	upgrade = function(id)
+		game.health.heal(id)
+		game.health.buff(id, 500)
+		min, max = game.combat.get_dmg_range(id)
+		game.combat.set_dmg_range(id, min + 20, max + 30)
 	end
 }
 
