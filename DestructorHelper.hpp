@@ -6,6 +6,10 @@
 #include "Components.hpp"
 class EntitySystem;
 
+/**
+ * Namespace containing auxiliary functions that help with the management of
+ * the destructor component.
+ */
 namespace DestructorHelper
 {
 	/**
