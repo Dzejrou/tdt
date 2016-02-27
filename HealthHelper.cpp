@@ -24,7 +24,7 @@ std::size_t HealthHelper::get_health(EntitySystem& ents, std::size_t id)
 	if(comp)
 		return comp->curr_hp;
 	else
-		return std::size_t{};
+		return 1;
 }
 
 void HealthHelper::add_health(EntitySystem& ents, std::size_t id, std::size_t val)
