@@ -2,6 +2,12 @@
 #include "Game.hpp"
 #include "Player.hpp"
 
+#define GET_REAL(state, position) ((Ogre::Real)luaL_checknumber(state, position))
+#define GET_UINT(state, position) ((std::size_t)luaL_checkinteger(state, position))
+#define GET_SINT(state, position) ((int)luaL_checkinteger(state, position))
+#define GET_BOOL(state, position) (lua_toboolean(state, position))
+#define GET_STR(state, position) (luaL_checkstring(state, position))
+
 /**
  * Static member initialization, will be set in the
  * init method.
@@ -37,6 +43,10 @@ void LuaInterface::init(Game* game)
 		{"get_selected_entity", LuaInterface::lua_get_tracked_entity}, // Alias.
 		{"get_enum_direction", LuaInterface::lua_get_enum_direction},
 		{"get_node_in_dir", LuaInterface::lua_get_node_in_dir},
+		{"can_place_when_game_paused", LuaInterface::lua_can_place_when_game_paused},
+		{"toggle_placing_when_game_paused", LuaInterface::lua_toggle_placing_when_game_paused},
+		{"new_game", LuaInterface::lua_new_game},
+		{"create_empty_level", LuaInterface::lua_create_empty_level},
 		{nullptr, nullptr}
 	};
 
@@ -65,6 +75,8 @@ void LuaInterface::init(Game* game)
 		{"set_query_flags", LuaInterface::lua_set_query_flags},
 		{"get_query_flags", LuaInterface::lua_get_query_flags},
 		{"apply_scale", LuaInterface::lua_apply_scale},
+		{"set_update_period", LuaInterface::lua_set_graphics_update_period},
+		{"get_update_period", LuaInterface::lua_get_graphics_update_period},
 		{nullptr, nullptr}
 	};
 
@@ -80,6 +92,7 @@ void LuaInterface::init(Game* game)
 		{"register", LuaInterface::lua_register_entity},
 		{"exists", LuaInterface::lua_exists},
 		{"kill", LuaInterface::lua_kill_entity},
+		{"has_component", LuaInterface::lua_has_component},
 		{nullptr, nullptr}
 	};
 	
@@ -144,6 +157,7 @@ void LuaInterface::init(Game* game)
 		{"set_update_period", LuaInterface::lua_set_update_period},
 		{"get_update_period", LuaInterface::lua_get_update_period},
 		{"force_update", LuaInterface::lua_force_update},
+		{"get_faction_name", LuaInterface::lua_get_faction_name},
 		{nullptr, nullptr}
 	};
 
@@ -178,6 +192,7 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs path_funcs[] = {
+		// Pathfinding.
 		{"pathfind", LuaInterface::lua_pathfind},
 		{"pop_first", LuaInterface::lua_pop_first_path_node},
 		{"pop_last", LuaInterface::lua_pop_last_path_node},
@@ -230,6 +245,9 @@ void LuaInterface::init(Game* game)
 		{"closest_enemy", LuaInterface::lua_closest_enemy},
 		{"closest_friendly", LuaInterface::lua_closest_friendly},
 		{"in_sight", LuaInterface::lua_in_sight},
+		{"run_away_from", LuaInterface::lua_run_away_from},
+		{"set_max_run_away_attempts", LuaInterface::lua_set_max_run_away_attempts},
+		{"get_max_run_away_attempts", LuaInterface::lua_get_max_run_away_attempts},
 		{nullptr, nullptr}
 	};
 
@@ -339,6 +357,7 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs player_funcs[] = {
+		// Player stats.
 		{"add_gold", LuaInterface::lua_add_player_gold},
 		{"sub_gold", LuaInterface::lua_sub_player_gold},
 		{"add_mana", LuaInterface::lua_add_player_mana},
@@ -349,6 +368,11 @@ void LuaInterface::init(Game* game)
 		{"sub_max_units", LuaInterface::lua_sub_player_max_units},
 		{"get_gold", LuaInterface::lua_get_player_gold},
 		{"get_mana", LuaInterface::lua_get_player_mana},
+		{"reset", LuaInterface::lua_player_reset},
+		{"nulify_stats", LuaInterface::lua_nulify_player_stats},
+		{"add_max_mana", LuaInterface::lua_add_player_max_mana},
+		{"sub_max_mana", LuaInterface::lua_sub_player_max_mana},
+		{"get_max_mana", LuaInterface::lua_get_player_max_mana},
 		{nullptr, nullptr}
 	};
 
@@ -436,6 +460,108 @@ void LuaInterface::init(Game* game)
 		{nullptr, nullptr}
 	};
 
+	lpp::Script::regs mana_crystal_funcs[] = {
+		{"set_capacity", LuaInterface::lua_mana_crystal_set_cap},
+		{"get_capacity", LuaInterface::lua_mana_crystal_get_cap},
+		{"set_regen", LuaInterface::lua_mana_crystal_set_regen},
+		{"get_regen", LuaInterface::lua_mana_crystal_get_regen},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs on_hit_funcs[] = {
+		{"set_blueprint", LuaInterface::lua_on_hit_set_blueprint},
+		{"get_blueprint", LuaInterface::lua_on_hit_get_blueprint},
+		{"call", LuaInterface::lua_on_hit_call},
+		{"set_cooldown", LuaInterface::lua_on_hit_set_cooldown},
+		{"get_cooldown", LuaInterface::lua_on_hit_get_cooldown},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs constructor_funcs[] = {
+		{"set_blueprint", LuaInterface::lua_constructor_set_blueprint},
+		{"get_blueprint", LuaInterface::lua_constructor_get_blueprint},
+		{"call", LuaInterface::lua_constructor_call},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs trigger_funcs[] = {
+		{"set_blueprint", LuaInterface::lua_trigger_set_blueprint},
+		{"get_blueprint", LuaInterface::lua_trigger_get_blueprint},
+		{"set_linked_entity", LuaInterface::lua_trigger_set_linked_entity},
+		{"get_linked_entity", LuaInterface::lua_trigger_get_linked_entity},
+		{"set_cooldown", LuaInterface::lua_trigger_set_cooldown},
+		{"get_cooldown", LuaInterface::lua_trigger_get_cooldown},
+		{"trigger", LuaInterface::lua_trigger_trigger},
+		{"set_check_period", LuaInterface::lua_trigger_set_check_period},
+		{"get_check_period", LuaInterface::lua_trigger_get_check_period},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs upgrade_funcs[] = {
+		{"set_blueprint", LuaInterface::lua_upgrade_set_blueprint},
+		{"get_blueprint", LuaInterface::lua_upgrade_get_blueprint},
+		{"set_experience", LuaInterface::lua_upgrade_set_experience},
+		{"get_experience", LuaInterface::lua_upgrade_get_experience},
+		{"add_experience", LuaInterface::lua_upgrade_add_experience},
+		{"set_exp_needed", LuaInterface::lua_upgrade_set_exp_needed},
+		{"get_exp_needed", LuaInterface::lua_upgrade_get_exp_needed},
+		{"set_level", LuaInterface::lua_upgrade_set_level},
+		{"get_level", LuaInterface::lua_upgrade_get_level},
+		{"set_level_cap", LuaInterface::lua_upgrade_set_level_cap},
+		{"get_level_cap", LuaInterface::lua_upgrade_get_level_cap},
+		{"can_level_up", LuaInterface::lua_upgrade_can_level_up},
+		{"upgrade", LuaInterface::lua_upgrade_upgrade},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs notification_funcs[] = {
+		{"set_cooldown", LuaInterface::lua_notification_set_cooldown},
+		{"get_cooldown", LuaInterface::lua_notification_get_cooldown},
+		{"reset", LuaInterface::lua_notification_reset},
+		{"notify", LuaInterface::lua_notification_notify},
+		{"get_curr_time", LuaInterface::lua_notification_get_curr_time},
+		{"advance_curr_time", LuaInterface::lua_notification_advance_curr_time},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs explosion_funcs[] = {
+		{"set_delta", LuaInterface::lua_explosion_set_delta},
+		{"get_delta", LuaInterface::lua_explosion_get_delta},
+		{"set_max_radius", LuaInterface::lua_explosion_set_max_radius},
+		{"get_max_radius", LuaInterface::lua_explosion_get_max_radius},
+		{"get_curr_radius", LuaInterface::lua_explosion_get_curr_radius},
+		{"increase_curr_radius", LuaInterface::lua_explosion_increase_curr_radius},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs lls_funcs[] = {
+		{"set_max_time", LuaInterface::lua_lls_set_max_time},
+		{"get_max_time", LuaInterface::lua_lls_get_max_time},
+		{"get_curr_time", LuaInterface::lua_lls_get_curr_time},
+		{"advance_curr_time", LuaInterface::lua_lls_advance_curr_time},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs name_funcs[] = {
+		{"set", LuaInterface::lua_name_set},
+		{"get", LuaInterface::lua_name_get},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs exp_val_funcs[] = {
+		{"set", LuaInterface::lua_exp_val_set},
+		{"get", LuaInterface::lua_exp_val_get},
+		{"increase", LuaInterface::lua_exp_val_inc},
+		{"decrease", LuaInterface::lua_exp_val_dec},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs mana_funcs[] = {
+		{"set_regen_period", LuaInterface::lua_mana_set_regen_period},
+		{"get_regen_period", LuaInterface::lua_mana_get_regen_period},
+		{nullptr, nullptr}
+	};
+
 	auto state = script.get_state();
 	luaL_newlib(state, game_funcs);
 	lua_setglobal(state, "game");
@@ -488,6 +614,28 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "spell");
 	luaL_newlib(state, align_funcs);
 	lua_setfield(state, -2, "align");
+	luaL_newlib(state, mana_crystal_funcs);
+	lua_setfield(state, -2, "mana_crystal");
+	luaL_newlib(state, on_hit_funcs);
+	lua_setfield(state, -2, "on_hit");
+	luaL_newlib(state, constructor_funcs);
+	lua_setfield(state, -2, "constructor");
+	luaL_newlib(state, trigger_funcs);
+	lua_setfield(state, -2, "trigger");
+	luaL_newlib(state, upgrade_funcs);
+	lua_setfield(state, -2, "upgrade");
+	luaL_newlib(state, notification_funcs);
+	lua_setfield(state, -2, "notification");
+	luaL_newlib(state, explosion_funcs);
+	lua_setfield(state, -2, "explosion");
+	luaL_newlib(state, lls_funcs);
+	lua_setfield(state, -2, "lls");
+	luaL_newlib(state, name_funcs);
+	lua_setfield(state, -2, "name");
+	luaL_newlib(state, exp_val_funcs);
+	lua_setfield(state, -2, "exp_val");
+	luaL_newlib(state, mana_funcs);
+	lua_setfield(state, -2, "mana");
 
 	// GUI subtable has it's own subtables.
 	luaL_newlib(state, gui_funcs);
@@ -544,7 +692,7 @@ int LuaInterface::lua_get_fps(lpp::Script::state L)
 
 int LuaInterface::lua_print(lpp::Script::state L)
 {
-	std::string msg = luaL_checkstring(L, -1);
+	std::string msg = GET_STR(L, -1);
 
 	GUI::instance().get_console().print_text(msg, Console::ORANGE_TEXT);
 	return 0;
@@ -612,7 +760,7 @@ int LuaInterface::lua_kill_selected(lpp::Script::state)
 
 int LuaInterface::lua_list_components_of(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	std::string report{};
 	auto& ent = lua_this->entity_system_->get_component_list().find(id);
@@ -631,7 +779,7 @@ int LuaInterface::lua_list_components_of(lpp::Script::state L)
 
 int LuaInterface::lua_load(lpp::Script::state L)
 {
-	std::string script = luaL_checkstring(L, -1);
+	std::string script = GET_STR(L, -1);
 
 	lpp::Script::get_singleton().load(script);
 	return 0;
@@ -647,7 +795,7 @@ int LuaInterface::lua_save_game(lpp::Script::state L)
 {
 	if(lua_gettop(L) > 0)
 	{
-		std::string fname = luaL_checkstring(L, -1);
+		std::string fname = GET_STR(L, -1);
 		lua_this->game_serializer_->save_game(*lua_this, fname);
 	}
 	else
@@ -660,7 +808,7 @@ int LuaInterface::lua_load_game(lpp::Script::state L)
 {
 	if(lua_gettop(L) > 0)
 	{
-		std::string fname = luaL_checkstring(L, -1);
+		std::string fname = GET_STR(L, -1);
 		lua_this->game_serializer_->load_game(*lua_this, fname);
 	}
 	else
@@ -678,6 +826,37 @@ int LuaInterface::lua_get_cursor_position(lpp::Script::state L)
 	return 2;
 }
 
+int LuaInterface::lua_can_place_when_game_paused(lpp::Script::state L)
+{
+	auto res = lua_this->placer_->can_place_when_game_paused();
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_toggle_placing_when_game_paused(lpp::Script::state L)
+{
+	lua_this->placer_->toggle_placing_when_game_paused();
+	return 0;
+}
+
+int LuaInterface::lua_new_game(lpp::Script::state L)
+{
+	std::size_t height = GET_UINT(L, -1);
+	std::size_t width = GET_UINT(L, -2);
+
+	lua_this->new_game(width, height);
+	return 0;
+}
+
+int LuaInterface::lua_create_empty_level(lpp::Script::state L)
+{
+	std::size_t height = GET_UINT(L, -1);
+	std::size_t width = GET_UINT(L, -2);
+
+	lua_this->create_empty_level(width, height);
+	return 0;
+}
+
 int LuaInterface::lua_command_to_mine(lpp::Script::state L)
 {
 	lua_this->command_to_mine();
@@ -686,8 +865,8 @@ int LuaInterface::lua_command_to_mine(lpp::Script::state L)
 
 int LuaInterface::lua_get_enum_direction(lpp::Script::state L)
 {
-	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t source = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t target = GET_UINT(L, -1);
+	std::size_t source = GET_UINT(L, -2);
 
 	auto res = util::get_enum_direction(*ents, source, target);
 	lua_pushinteger(L, res);
@@ -696,8 +875,8 @@ int LuaInterface::lua_get_enum_direction(lpp::Script::state L)
 
 int LuaInterface::lua_get_node_in_dir(lpp::Script::state L)
 {
-	int dir = (int)luaL_checkinteger(L, -1);
-	std::size_t source = (std::size_t)luaL_checkinteger(L, -2);
+	int dir = GET_SINT(L, -1);
+	std::size_t source = GET_UINT(L, -2);
 
 	auto res = GridNodeHelper::get_node_in_dir(*ents, source, dir);
 	lua_pushinteger(L, res);
@@ -706,8 +885,8 @@ int LuaInterface::lua_get_node_in_dir(lpp::Script::state L)
 
 int LuaInterface::lua_set_mesh(lpp::Script::state L)
 {
-	std::string mesh = luaL_checkstring(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::string mesh = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	GraphicsHelper::set_mesh(*ents, id, mesh);
 	return 0;
@@ -715,8 +894,8 @@ int LuaInterface::lua_set_mesh(lpp::Script::state L)
 
 int LuaInterface::lua_set_material(lpp::Script::state L)
 {
-	std::string mat = luaL_checkstring(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::string mat = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	GraphicsHelper::set_material(*ents, id, mat);
 	return 0;
@@ -724,8 +903,8 @@ int LuaInterface::lua_set_material(lpp::Script::state L)
 
 int LuaInterface::lua_set_visible(lpp::Script::state L)
 {
-	bool vis = lua_toboolean(L, -1) == 1;
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	bool vis = GET_BOOL(L, -1) == 1;
+	std::size_t id = GET_UINT(L, -2);
 
 	GraphicsHelper::set_visible(*ents, id, vis);
 	return 0;
@@ -733,8 +912,8 @@ int LuaInterface::lua_set_visible(lpp::Script::state L)
 
 int LuaInterface::lua_set_manual_scaling(lpp::Script::state L)
 {
-	bool on_off = lua_toboolean(L, -1) == 1;
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	bool on_off = GET_BOOL(L, -1) == 1;
+	std::size_t id = GET_UINT(L, -2);
 
 	GraphicsHelper::set_manual_scaling(*ents, id, on_off);
 	return 0;
@@ -742,10 +921,10 @@ int LuaInterface::lua_set_manual_scaling(lpp::Script::state L)
 
 int LuaInterface::lua_set_scale(lpp::Script::state L)
 {
-	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+	Ogre::Real z = GET_REAL(L, -1);
+	Ogre::Real y = GET_REAL(L, -2);
+	Ogre::Real x = GET_REAL(L, -3);
+	std::size_t id = GET_UINT(L, -4);
 
 	GraphicsHelper::set_scale(*ents, id, Ogre::Vector3{x, y, z});
 	return 0;
@@ -753,7 +932,7 @@ int LuaInterface::lua_set_scale(lpp::Script::state L)
 
 int LuaInterface::lua_get_mesh(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto& res = GraphicsHelper::get_mesh(*ents, id);
 	lua_pushstring(L, res.c_str());
@@ -762,7 +941,7 @@ int LuaInterface::lua_get_mesh(lpp::Script::state L)
 
 int LuaInterface::lua_get_material(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto& res = GraphicsHelper::get_material(*ents, id);
 	lua_pushstring(L, res.c_str());
@@ -771,7 +950,7 @@ int LuaInterface::lua_get_material(lpp::Script::state L)
 
 int LuaInterface::lua_is_visible(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = GraphicsHelper::is_visible(*ents, id);
 	lua_pushboolean(L, res);
@@ -780,7 +959,7 @@ int LuaInterface::lua_is_visible(lpp::Script::state L)
 
 int LuaInterface::lua_get_manual_scaling(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = GraphicsHelper::get_manual_scaling(*ents, id);
 	lua_pushboolean(L, res);
@@ -789,7 +968,7 @@ int LuaInterface::lua_get_manual_scaling(lpp::Script::state L)
 
 int LuaInterface::lua_get_scale(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto& res = GraphicsHelper::get_scale(*ents, id);
 	lua_pushnumber(L, res.x);
@@ -800,8 +979,8 @@ int LuaInterface::lua_get_scale(lpp::Script::state L)
 
 int LuaInterface::lua_collide(lpp::Script::state L)
 {
-	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id2 = GET_UINT(L, -1);
+	std::size_t id1 = GET_UINT(L, -2);
 
 	bool res = GraphicsHelper::collide(*ents, id1, id2);
 	lua_pushboolean(L, res);
@@ -810,8 +989,8 @@ int LuaInterface::lua_collide(lpp::Script::state L)
 
 int LuaInterface::lua_set_query_flags(lpp::Script::state L)
 {
-	std::size_t flags = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t flags = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	GraphicsHelper::set_query_flags(*ents, id, flags);
 	return 0;
@@ -819,7 +998,7 @@ int LuaInterface::lua_set_query_flags(lpp::Script::state L)
 
 int LuaInterface::lua_get_query_flags(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = GraphicsHelper::get_query_flags(*ents, id);
 	lua_pushinteger(L, res);
@@ -828,16 +1007,31 @@ int LuaInterface::lua_get_query_flags(lpp::Script::state L)
 
 int LuaInterface::lua_apply_scale(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	GraphicsHelper::apply_scale(*ents, id);
 	return 0;
 }
 
+int LuaInterface::lua_set_graphics_update_period(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+
+	lua_this->graphics_system_->set_update_period(val);
+	return 0;
+}
+
+int LuaInterface::lua_get_graphics_update_period(lpp::Script::state L)
+{
+	auto res = lua_this->graphics_system_->get_update_period();
+	lua_pushnumber(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_look_at(lpp::Script::state L)
 {
-	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id2 = GET_UINT(L, -1);
+	std::size_t id1 = GET_UINT(L, -2);
 
 	GraphicsHelper::look_at(*ents, id1, id2);
 	return 0;
@@ -848,7 +1042,7 @@ int LuaInterface::lua_create_entity(lpp::Script::state L)
 	std::string table_name{""};
 	if(lua_gettop(L) >= 1)
 	{
-		table_name = luaL_checkstring(L, 1);
+		table_name = GET_STR(L, -1);
 	}
 
 	std::size_t id = lua_this->entity_system_->create_entity(table_name);
@@ -858,7 +1052,7 @@ int LuaInterface::lua_create_entity(lpp::Script::state L)
 
 int LuaInterface::lua_destroy_entity(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	DestructorHelper::destroy(*ents, id, true);
 	return 0;
@@ -866,8 +1060,8 @@ int LuaInterface::lua_destroy_entity(lpp::Script::state L)
 
 int LuaInterface::lua_add_component(lpp::Script::state L)
 {
-	int comp = (int)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	int comp = GET_SINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	lua_this->entity_system_->add_component(id, comp);
 	return 0;
@@ -875,8 +1069,8 @@ int LuaInterface::lua_add_component(lpp::Script::state L)
 
 int LuaInterface::lua_delete_component(lpp::Script::state L)
 {
-	int comp = (int)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	int comp = GET_SINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	lua_this->entity_system_->delete_component(id, comp);
 	return 0;
@@ -884,7 +1078,7 @@ int LuaInterface::lua_delete_component(lpp::Script::state L)
 
 int LuaInterface::lua_init_graphics_component(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	GraphicsHelper::init_graphics_component(*ents, *lua_this->scene_mgr_, id);
 	return 0;
@@ -906,7 +1100,7 @@ int LuaInterface::lua_list_entity_tables(lpp::Script::state L)
 
 int LuaInterface::lua_place_entity(lpp::Script::state L)
 {
-	std::string table_name = luaL_checkstring(L, -1);
+	std::string table_name = GET_STR(L, -1);
 
 	lua_this->placer_->set_current_entity_table(table_name);
 	lua_this->placer_->set_visible(true);
@@ -915,7 +1109,7 @@ int LuaInterface::lua_place_entity(lpp::Script::state L)
 
 int LuaInterface::lua_register_entity(lpp::Script::state L)
 {
-	std::string table_name = luaL_checkstring(L, -1);
+	std::string table_name = GET_STR(L, -1);
 
 	lua_this->entity_system_->register_entity(table_name);
 	return 0;
@@ -923,7 +1117,7 @@ int LuaInterface::lua_register_entity(lpp::Script::state L)
 
 int LuaInterface::lua_exists(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = lua_this->entity_system_->exists(id);
 	lua_pushboolean(L, res);
@@ -932,18 +1126,28 @@ int LuaInterface::lua_exists(lpp::Script::state L)
 
 int LuaInterface::lua_kill_entity(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	DestructorHelper::destroy(*ents, id);
 	return 0;
 }
 
+int LuaInterface::lua_has_component(lpp::Script::state L)
+{
+	std::size_t type = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	auto res = ents->has_component(id, type);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_move_to(lpp::Script::state L)
 {
-	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+	Ogre::Real z = GET_REAL(L, -1);
+	Ogre::Real y = GET_REAL(L, -2);
+	Ogre::Real x = GET_REAL(L, -3);
+	std::size_t id = GET_UINT(L, -4);
 
 	PhysicsHelper::move_to(*ents, id, Ogre::Vector3{x, y, z});
 	return 0;
@@ -951,10 +1155,10 @@ int LuaInterface::lua_move_to(lpp::Script::state L)
 
 int LuaInterface::lua_move(lpp::Script::state L)
 {
-	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+	Ogre::Real z = GET_REAL(L, -1);
+	Ogre::Real y = GET_REAL(L, -2);
+	Ogre::Real x = GET_REAL(L, -3);
+	std::size_t id = GET_UINT(L, -4);
 
 	bool res = lua_this->movement_system_->move(id, Ogre::Vector3{x, y, z});
 	lua_pushboolean(L, res);
@@ -963,8 +1167,8 @@ int LuaInterface::lua_move(lpp::Script::state L)
 
 int LuaInterface::lua_rotate_x(lpp::Script::state L)
 {
-	Ogre::Real delta = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	Ogre::Real delta = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	GraphicsHelper::rotate(*ents, id, delta, GraphicsHelper::PLANE::X);
 	return 0;
@@ -972,8 +1176,8 @@ int LuaInterface::lua_rotate_x(lpp::Script::state L)
 
 int LuaInterface::lua_rotate_y(lpp::Script::state L)
 {
-	Ogre::Real delta = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	Ogre::Real delta = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	GraphicsHelper::rotate(*ents, id, delta, GraphicsHelper::PLANE::Y);
 	return 0;
@@ -981,8 +1185,8 @@ int LuaInterface::lua_rotate_y(lpp::Script::state L)
 
 int LuaInterface::lua_rotate_z(lpp::Script::state L)
 {
-	Ogre::Real delta = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	Ogre::Real delta = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	GraphicsHelper::rotate(*ents, id, delta, GraphicsHelper::PLANE::Z);
 	return 0;
@@ -990,7 +1194,7 @@ int LuaInterface::lua_rotate_z(lpp::Script::state L)
 
 int LuaInterface::lua_is_solid(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	bool res = PhysicsHelper::is_solid(*ents, id);
 	lua_pushboolean(L, res);
@@ -999,10 +1203,10 @@ int LuaInterface::lua_is_solid(lpp::Script::state L)
 
 int LuaInterface::lua_can_move_to(lpp::Script::state L)
 {
-	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+	Ogre::Real z = GET_REAL(L, -1);
+	Ogre::Real y = GET_REAL(L, -2);
+	Ogre::Real x = GET_REAL(L, -3);
+	std::size_t id = GET_UINT(L, -4);
 
 	bool res = lua_this->movement_system_->can_move_to(id, Ogre::Vector3{x, y, z});
 	lua_pushboolean(L, res);
@@ -1011,8 +1215,8 @@ int LuaInterface::lua_can_move_to(lpp::Script::state L)
 
 int LuaInterface::lua_get_distance(lpp::Script::state L)
 {
-	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id2 = GET_UINT(L, -1);
+	std::size_t id1 = GET_UINT(L, -2);
 
 	Ogre::Real res = PhysicsHelper::get_distance(*ents, id1, id2);
 	lua_pushnumber(L, res);
@@ -1021,7 +1225,7 @@ int LuaInterface::lua_get_distance(lpp::Script::state L)
 
 int LuaInterface::lua_get_position(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	Ogre::Vector3 res = PhysicsHelper::get_position(*ents, id);
 	lua_pushnumber(L, res.x);
@@ -1032,7 +1236,7 @@ int LuaInterface::lua_get_position(lpp::Script::state L)
 
 int LuaInterface::lua_get_speed_modifier(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	Ogre::Real res = MovementHelper::get_speed_modifier(*ents, id);
 	lua_pushnumber(L, res);
@@ -1041,8 +1245,8 @@ int LuaInterface::lua_get_speed_modifier(lpp::Script::state L)
 
 int LuaInterface::lua_set_speed_modifier(lpp::Script::state L)
 {
-	Ogre::Real speed = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	Ogre::Real speed = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	MovementHelper::set_speed_modifier(*ents, id, speed);
 	return 0;
@@ -1050,8 +1254,8 @@ int LuaInterface::lua_set_speed_modifier(lpp::Script::state L)
 
 int LuaInterface::lua_dir_to(lpp::Script::state L)
 {
-	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id2 = GET_UINT(L, -1);
+	std::size_t id1 = GET_UINT(L, -2);
 
 	auto res = MovementHelper::dir_to(*ents, id1, id2);
 	lua_pushnumber(L, res.x);
@@ -1062,7 +1266,7 @@ int LuaInterface::lua_dir_to(lpp::Script::state L)
 
 int LuaInterface::lua_get_dir(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = MovementHelper::get_dir(*ents, id);
 	lua_pushnumber(L, res.x);
@@ -1073,7 +1277,7 @@ int LuaInterface::lua_get_dir(lpp::Script::state L)
 
 int LuaInterface::lua_get_dir_back(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = MovementHelper::get_dir_back(*ents, id);
 	lua_pushnumber(L, res.x);
@@ -1084,7 +1288,7 @@ int LuaInterface::lua_get_dir_back(lpp::Script::state L)
 
 int LuaInterface::lua_get_dir_left(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = MovementHelper::get_dir_left(*ents, id);
 	lua_pushnumber(L, res.x);
@@ -1095,7 +1299,7 @@ int LuaInterface::lua_get_dir_left(lpp::Script::state L)
 
 int LuaInterface::lua_get_dir_right(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = MovementHelper::get_dir_right(*ents, id);
 	lua_pushnumber(L, res.x);
@@ -1106,10 +1310,10 @@ int LuaInterface::lua_get_dir_right(lpp::Script::state L)
 
 int LuaInterface::lua_get_angle(lpp::Script::state L)
 {
-	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+	Ogre::Real z = GET_REAL(L, -1);
+	Ogre::Real y = GET_REAL(L, -2);
+	Ogre::Real x = GET_REAL(L, -3);
+	std::size_t id = GET_UINT(L, -4);
 
 	auto dir = MovementHelper::get_dir(*ents, id);
 	auto res = PhysicsHelper::get_angle(dir, Ogre::Vector3{x, y, z});
@@ -1119,12 +1323,12 @@ int LuaInterface::lua_get_angle(lpp::Script::state L)
 
 int LuaInterface::lua_get_angle_between(lpp::Script::state L)
 {
-	Ogre::Real z2 = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real y2 = (Ogre::Real)luaL_checknumber(L, -2);
-	Ogre::Real x2 = (Ogre::Real)luaL_checknumber(L, -3);
-	Ogre::Real z1 = (Ogre::Real)luaL_checknumber(L, -4);
-	Ogre::Real y1 = (Ogre::Real)luaL_checknumber(L, -5);
-	Ogre::Real x1 = (Ogre::Real)luaL_checknumber(L, -6);
+	Ogre::Real z2 = GET_REAL(L, -1);
+	Ogre::Real y2 = GET_REAL(L, -2);
+	Ogre::Real x2 = GET_REAL(L, -3);
+	Ogre::Real z1 = GET_REAL(L, -4);
+	Ogre::Real y1 = GET_REAL(L, -5);
+	Ogre::Real x1 = GET_REAL(L, -6);
 
 	auto res = PhysicsHelper::get_angle(Ogre::Vector3{x1, y1, z1}, Ogre::Vector3{x2, y2, z2});
 	lua_pushnumber(L, res);
@@ -1133,8 +1337,8 @@ int LuaInterface::lua_get_angle_between(lpp::Script::state L)
 
 int LuaInterface::lua_set_solid(lpp::Script::state L)
 {
-	bool solid = lua_toboolean(L, -1) == 1;
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	bool solid = GET_BOOL(L, -1) == 1;
+	std::size_t id = GET_UINT(L, -2);
 
 	PhysicsHelper::set_solid(*ents, id, solid);
 	return 0;
@@ -1142,8 +1346,8 @@ int LuaInterface::lua_set_solid(lpp::Script::state L)
 
 int LuaInterface::lua_set_half_height(lpp::Script::state L)
 {
-	Ogre::Real hh = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	Ogre::Real hh = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 	
 	PhysicsHelper::set_half_height(*ents, id, hh);
 	return 0;
@@ -1151,7 +1355,7 @@ int LuaInterface::lua_set_half_height(lpp::Script::state L)
 
 int LuaInterface::lua_get_half_height(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = PhysicsHelper::get_half_height(*ents, id);
 	lua_pushnumber(L, res);
@@ -1160,10 +1364,10 @@ int LuaInterface::lua_get_half_height(lpp::Script::state L)
 
 int LuaInterface::lua_set_position(lpp::Script::state L)
 {
-	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -4);
+	Ogre::Real z = GET_REAL(L, -1);
+	Ogre::Real y = GET_REAL(L, -2);
+	Ogre::Real x = GET_REAL(L, -3);
+	std::size_t id = GET_UINT(L, -4);
 
 	PhysicsHelper::set_position(*ents, id, Ogre::Vector3{x, y, z});
 	return 0;
@@ -1171,8 +1375,8 @@ int LuaInterface::lua_set_position(lpp::Script::state L)
 
 int LuaInterface::lua_set_health(lpp::Script::state L)
 {
-	std::size_t hp = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t hp = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	HealthHelper::set_health(*ents, id, hp);
 	return 0;
@@ -1180,7 +1384,7 @@ int LuaInterface::lua_set_health(lpp::Script::state L)
 
 int LuaInterface::lua_get_health(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	std::size_t res = HealthHelper::get_health(*ents, id);
 	lua_pushinteger(L, res);
@@ -1189,8 +1393,8 @@ int LuaInterface::lua_get_health(lpp::Script::state L)
 
 int LuaInterface::lua_add_health(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	HealthHelper::add_health(*ents, id, val);
 	return 0;
@@ -1198,8 +1402,8 @@ int LuaInterface::lua_add_health(lpp::Script::state L)
 
 int LuaInterface::lua_sub_health(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	HealthHelper::sub_health(*ents, id, val);
 	return 0;
@@ -1207,7 +1411,7 @@ int LuaInterface::lua_sub_health(lpp::Script::state L)
 
 int LuaInterface::lua_heal(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	HealthHelper::heal(*ents, id);
 	return 0;
@@ -1215,8 +1419,8 @@ int LuaInterface::lua_heal(lpp::Script::state L)
 
 int LuaInterface::lua_buff(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	HealthHelper::buff(*ents, id, val);
 	return 0;
@@ -1224,8 +1428,8 @@ int LuaInterface::lua_buff(lpp::Script::state L)
 
 int LuaInterface::lua_debuff(lpp::Script::state L)
 {
-	std::size_t hp = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t hp = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	HealthHelper::debuff(*ents, id, hp);
 	return 0;
@@ -1233,8 +1437,8 @@ int LuaInterface::lua_debuff(lpp::Script::state L)
 
 int LuaInterface::lua_set_defense(lpp::Script::state L)
 {
-	std::size_t def = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t def = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	HealthHelper::set_defense(*ents, id, def);
 	return 0;
@@ -1242,7 +1446,7 @@ int LuaInterface::lua_set_defense(lpp::Script::state L)
 
 int LuaInterface::lua_get_defense(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	std::size_t res = HealthHelper::get_defense(*ents, id);
 	lua_pushinteger(L, res);
@@ -1251,8 +1455,8 @@ int LuaInterface::lua_get_defense(lpp::Script::state L)
 
 int LuaInterface::lua_add_defense(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	HealthHelper::add_defense(*ents, id, val);
 	return 0;
@@ -1260,8 +1464,8 @@ int LuaInterface::lua_add_defense(lpp::Script::state L)
 
 int LuaInterface::lua_sub_defense(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	HealthHelper::sub_defense(*ents, id, val);
 	return 0;
@@ -1269,8 +1473,8 @@ int LuaInterface::lua_sub_defense(lpp::Script::state L)
 
 int LuaInterface::lua_set_regen(lpp::Script::state L)
 {
-	std::size_t regen = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t regen = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	HealthHelper::set_regen(*ents, id, regen);
 	return 0;
@@ -1278,7 +1482,7 @@ int LuaInterface::lua_set_regen(lpp::Script::state L)
 
 int LuaInterface::lua_get_regen(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = HealthHelper::get_regen(*ents, id);
 	lua_pushinteger(L, res);
@@ -1287,8 +1491,8 @@ int LuaInterface::lua_get_regen(lpp::Script::state L)
 
 int LuaInterface::lua_set_alive(lpp::Script::state L)
 {
-	bool alive = lua_toboolean(L, -1) == 1;
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	bool alive = GET_BOOL(L, -1) == 1;
+	std::size_t id = GET_UINT(L, -2);
 
 	HealthHelper::set_alive(*ents, id, alive);
 	return 0;
@@ -1296,7 +1500,7 @@ int LuaInterface::lua_set_alive(lpp::Script::state L)
 
 int LuaInterface::lua_is_alive(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = HealthHelper::is_alive(*ents, id);
 	lua_pushboolean(L, res);
@@ -1305,7 +1509,7 @@ int LuaInterface::lua_is_alive(lpp::Script::state L)
 
 int LuaInterface::lua_ubercharge(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	HealthHelper::ubercharge(*ents, id);
 	return 0;
@@ -1313,7 +1517,7 @@ int LuaInterface::lua_ubercharge(lpp::Script::state L)
 
 int LuaInterface::lua_set_regen_period(lpp::Script::state L)
 {
-	Ogre::Real t = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real t = GET_REAL(L, -1);
 
 	lua_this->health_system_->set_regen_period(t);
 	return 0;
@@ -1328,7 +1532,7 @@ int LuaInterface::lua_get_regen_period(lpp::Script::state L)
 
 int LuaInterface::lua_get_blueprint(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	std::string res = AIHelper::get_blueprint(*ents, id);
 	lua_pushstring(L, res.c_str());
@@ -1337,7 +1541,7 @@ int LuaInterface::lua_get_blueprint(lpp::Script::state L)
 
 int LuaInterface::lua_get_state(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	int res = (int)AIHelper::get_state(*ents, id);
 	lua_pushinteger(L, res);
@@ -1346,7 +1550,7 @@ int LuaInterface::lua_get_state(lpp::Script::state L)
 
 int LuaInterface::lua_get_faction(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	int res = (int)FactionHelper::get_faction(*ents, id);
 	lua_pushinteger(L, res);
@@ -1355,8 +1559,8 @@ int LuaInterface::lua_get_faction(lpp::Script::state L)
 
 int LuaInterface::lua_set_blueprint(lpp::Script::state L)
 {
-	std::string blueprint = luaL_checkstring(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::string blueprint = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	AIHelper::set_blueprint(*ents, id, blueprint);
 	return 0;
@@ -1365,7 +1569,7 @@ int LuaInterface::lua_set_blueprint(lpp::Script::state L)
 int LuaInterface::lua_set_state(lpp::Script::state L)
 {
 	ENTITY_STATE state = (ENTITY_STATE)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = GET_UINT(L, -2);
 
 	AIHelper::set_state(*ents, id, state);
 	return 0;
@@ -1374,7 +1578,7 @@ int LuaInterface::lua_set_state(lpp::Script::state L)
 int LuaInterface::lua_set_faction(lpp::Script::state L)
 {
 	FACTION faction = (FACTION)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = GET_UINT(L, -2);
 
 	FactionHelper::set_faction(*ents, id, faction);
 	return 0;
@@ -1382,7 +1586,7 @@ int LuaInterface::lua_set_faction(lpp::Script::state L)
 
 int LuaInterface::lua_set_update_period(lpp::Script::state L)
 {
-	Ogre::Real t = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real t = GET_REAL(L, -1);
 
 	lua_this->ai_system_->set_update_period(t);
 	return 0;
@@ -1401,10 +1605,18 @@ int LuaInterface::lua_force_update(lpp::Script::state L)
 	return 0;
 }
 
+int LuaInterface::lua_get_faction_name(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto& res = FactionHelper::get_faction_name(*ents, id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
 int LuaInterface::lua_set_input_handler(lpp::Script::state L)
 {
-	std::string handler = luaL_checkstring(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::string handler = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	InputHelper::set_input_handler(*ents, id, handler);
 	return 0;
@@ -1412,7 +1624,7 @@ int LuaInterface::lua_set_input_handler(lpp::Script::state L)
 
 int LuaInterface::lua_get_input_handler(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto& res = InputHelper::get_input_handler(*ents, id);
 	lua_pushstring(L, res.c_str());
@@ -1424,7 +1636,7 @@ int LuaInterface::lua_toggle_first_person(lpp::Script::state L)
 	std::size_t id{Component::NO_ENTITY};
 	if(lua_gettop(L) >= 1) // Allow for easy exit.
 	{
-		id = (std::size_t)luaL_checkinteger(L, -1);
+		id = GET_UINT(L, -1);
 	}
 
 	lua_this->input_system_->set_first_person(!lua_this->input_system_->is_first_person(), id);
@@ -1433,8 +1645,8 @@ int LuaInterface::lua_toggle_first_person(lpp::Script::state L)
 
 int LuaInterface::lua_add_node(lpp::Script::state L)
 {
-	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real z = GET_REAL(L, -1);
+	Ogre::Real x = GET_REAL(L, -2);
 
 	auto res = Grid::instance().add_node(*ents, Ogre::Vector2{x, z});
 	lua_pushnumber(L, res);
@@ -1443,8 +1655,8 @@ int LuaInterface::lua_add_node(lpp::Script::state L)
 
 int LuaInterface::lua_get_node(lpp::Script::state L)
 {
-	std::size_t y = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t x = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t y = GET_UINT(L, -1);
+	std::size_t x = GET_UINT(L, -2);
 
 	std::size_t res = Grid::instance().get_node(x, y);
 	lua_pushinteger(L, res);
@@ -1453,8 +1665,8 @@ int LuaInterface::lua_get_node(lpp::Script::state L)
 
 int LuaInterface::lua_get_node_from_position(lpp::Script::state L)
 {
-	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -2);
+	Ogre::Real z = GET_REAL(L, -1);
+	Ogre::Real x = GET_REAL(L, -2);
 
 	std::size_t res = Grid::instance().get_node_from_position(x, z);
 	lua_pushinteger(L, res);
@@ -1481,7 +1693,7 @@ int LuaInterface::lua_toggle_grid_visible(lpp::Script::state)
 
 int LuaInterface::lua_is_free(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	bool res = GridNodeHelper::is_free(*ents, id);
 	lua_pushboolean(L, res);
@@ -1490,8 +1702,8 @@ int LuaInterface::lua_is_free(lpp::Script::state L)
 
 int LuaInterface::lua_set_free(lpp::Script::state L)
 {
-	bool free = lua_toboolean(L, -1) == 1;
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	bool free = GET_BOOL(L, -1) == 1;
+	std::size_t id = GET_UINT(L, -2);
 
 	GridNodeHelper::set_free(*ents, id, free);
 	return 0;
@@ -1499,7 +1711,7 @@ int LuaInterface::lua_set_free(lpp::Script::state L)
 
 int LuaInterface::lua_set_free_selected(lpp::Script::state L)
 {
-	bool free = lua_toboolean(L, -1) == 1;
+	bool free = GET_BOOL(L, -1) == 1;
 
 	GridNodeHelper::set_free_selected(*ents, *lua_this->selection_box_, free);
 	return 0;
@@ -1507,17 +1719,17 @@ int LuaInterface::lua_set_free_selected(lpp::Script::state L)
 
 int LuaInterface::lua_pathfind(lpp::Script::state L)
 {
-	std::size_t end = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t end = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
-	bool res = util::pathfind<util::DEFAULT_PATHFINDING_ALGORITHM>(*ents, id, end);
+	bool res = util::pathfind<util::DEFAULT_PATHFINDING_ALGORITHM>(*ents, id, end, util::heuristic::MANHATTAN_DISTANCE{*ents});
 	lua_pushboolean(L, res);
 	return 1;
 }
 
 int LuaInterface::lua_pop_first_path_node(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto& path = PathfindingHelper::get_path(*ents, id);
 	if(!path.empty())
@@ -1527,7 +1739,7 @@ int LuaInterface::lua_pop_first_path_node(lpp::Script::state L)
 
 int LuaInterface::lua_pop_last_path_node(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto& path = PathfindingHelper::get_path(*ents, id);
 	if(!path.empty())
@@ -1537,7 +1749,7 @@ int LuaInterface::lua_pop_last_path_node(lpp::Script::state L)
 
 int LuaInterface::lua_path_queue_empty(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = PathfindingHelper::get_path(*ents, id).empty();
 	lua_pushboolean(L, res);
@@ -1546,7 +1758,7 @@ int LuaInterface::lua_path_queue_empty(lpp::Script::state L)
 
 int LuaInterface::lua_clear_path(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto& queue = PathfindingHelper::get_path(*ents, id);
 	if(!queue.empty())
@@ -1556,8 +1768,8 @@ int LuaInterface::lua_clear_path(lpp::Script::state L)
 
 int LuaInterface::lua_set_pathfinding_blueprint(lpp::Script::state L)
 {
-	std::string blueprint = luaL_checkstring(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::string blueprint = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	PathfindingHelper::set_pathfinding_blueprint(*ents, id, blueprint);
 	return 0;
@@ -1565,11 +1777,11 @@ int LuaInterface::lua_set_pathfinding_blueprint(lpp::Script::state L)
 
 int LuaInterface::lua_create_graph(lpp::Script::state L)
 {
-	Ogre::Real start_y = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real start_x = (Ogre::Real)luaL_checknumber(L, -2);
-	Ogre::Real dist = (Ogre::Real)luaL_checknumber(L, -3);
-	std::size_t height = (std::size_t)luaL_checkinteger(L, -4);
-	std::size_t width = (std::size_t)luaL_checkinteger(L, -5);
+	Ogre::Real start_y = GET_REAL(L, -1);
+	Ogre::Real start_x = GET_REAL(L, -2);
+	Ogre::Real dist = GET_REAL(L, -3);
+	std::size_t height = GET_UINT(L, -4);
+	std::size_t width = GET_UINT(L, -5);
 
 	Grid::instance().create_graph(*ents, Ogre::Vector2{start_x, start_y}, width, height, dist);
 	return 0;
@@ -1577,8 +1789,8 @@ int LuaInterface::lua_create_graph(lpp::Script::state L)
 
 int LuaInterface::lua_set_resident(lpp::Script::state L)
 {
-	std::size_t res_id = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t res_id = GET_UINT(L, -1);
+	std::size_t ent_id = GET_UINT(L, -2);
 
 	GridNodeHelper::set_resident(*ents, ent_id, res_id);
 	return 0;
@@ -1586,7 +1798,7 @@ int LuaInterface::lua_set_resident(lpp::Script::state L)
 
 int LuaInterface::lua_get_resident(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = GridNodeHelper::get_resident(*ents, id);
 	lua_pushinteger(L, res);
@@ -1595,8 +1807,8 @@ int LuaInterface::lua_get_resident(lpp::Script::state L)
 
 int LuaInterface::lua_add_residences(lpp::Script::state L)
 {
-	std::string residences = luaL_checkstring(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::string residences = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	auto nodes = lpp::Script::get_singleton().get_vector<std::size_t>(residences);
 	StructureHelper::add_residences(*ents, id, nodes);
@@ -1605,8 +1817,8 @@ int LuaInterface::lua_add_residences(lpp::Script::state L)
 
 int LuaInterface::lua_add_residence(lpp::Script::state L)
 {
-	std::size_t res_id = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t res_id = GET_UINT(L, -1);
+	std::size_t ent_id = GET_UINT(L, -2);
 
 	StructureHelper::add_residence(*ents, ent_id, res_id);
 	return 0;
@@ -1614,8 +1826,8 @@ int LuaInterface::lua_add_residence(lpp::Script::state L)
 
 int LuaInterface::lua_set_radius(lpp::Script::state L)
 {
-	std::size_t radius = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t radius = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	StructureHelper::set_radius(*ents, id, radius);
 	return 0;
@@ -1623,8 +1835,8 @@ int LuaInterface::lua_set_radius(lpp::Script::state L)
 
 int LuaInterface::lua_set_walk_through(lpp::Script::state L)
 {
-	bool on_off = lua_toboolean(L, -1) == 1;
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	bool on_off = GET_BOOL(L, -1) == 1;
+	std::size_t id = GET_UINT(L, -2);
 
 	StructureHelper::set_walk_through(*ents, id, on_off);
 	return 0;
@@ -1632,17 +1844,17 @@ int LuaInterface::lua_set_walk_through(lpp::Script::state L)
 
 int LuaInterface::lua_is_walk_throuth(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = StructureHelper::is_walk_through(*ents, id);
 	lua_pushboolean(L, res);
-	return 0;
+	return 1;
 }
 
 int LuaInterface::lua_add_task(lpp::Script::state L)
 {
-	std::size_t task_id = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t task_id = GET_UINT(L, -1);
+	std::size_t ent_id = GET_UINT(L, -2);
 
 	TaskHelper::add_task(*ents, ent_id, task_id);
 	return 0;
@@ -1650,8 +1862,8 @@ int LuaInterface::lua_add_task(lpp::Script::state L)
 
 int LuaInterface::lua_add_priority_task(lpp::Script::state L)
 {
-	std::size_t task_id = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t task_id = GET_UINT(L, -1);
+	std::size_t ent_id = GET_UINT(L, -2);
 
 	TaskHelper::add_task(*ents, ent_id, task_id, true);
 	return 0;
@@ -1659,7 +1871,7 @@ int LuaInterface::lua_add_priority_task(lpp::Script::state L)
 
 int LuaInterface::lua_cancel_task(lpp::Script::state L)
 {
-	std::size_t task_id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t task_id = GET_UINT(L, -1);
 
 	TaskHelper::cancel_task(*ents, task_id);
 	return 0;
@@ -1668,7 +1880,7 @@ int LuaInterface::lua_cancel_task(lpp::Script::state L)
 int LuaInterface::lua_create_task(lpp::Script::state L)
 {
 	TASK_TYPE task = (TASK_TYPE)luaL_checkinteger(L, -1);
-	std::size_t target = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t target = GET_UINT(L, -2);
 
 	auto id = TaskHelper::create_task(*ents, target, task);
 	lua_pushinteger(L, id);
@@ -1677,7 +1889,7 @@ int LuaInterface::lua_create_task(lpp::Script::state L)
 
 int LuaInterface::lua_list_tasks_of(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 	
 	auto comp = lua_this->entity_system_->get_component<TaskHandlerComponent>(id);
 	if(comp)
@@ -1725,8 +1937,8 @@ int LuaInterface::lua_list_tasks_of(lpp::Script::state L)
 
 int LuaInterface::lua_task_possible(lpp::Script::state L)
 {
-	std::size_t task_id = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t ent_id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t task_id = GET_UINT(L, -1);
+	std::size_t ent_id = GET_UINT(L, -2);
 
 	bool res = TaskHandlerHelper::task_possible(*ents, ent_id, task_id);
 	lua_pushboolean(L, res);
@@ -1736,7 +1948,7 @@ int LuaInterface::lua_task_possible(lpp::Script::state L)
 int LuaInterface::lua_task_type_possibe(lpp::Script::state L)
 {
 	TASK_TYPE type = (TASK_TYPE)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = GET_UINT(L, -2);
 
 	auto res = TaskHandlerHelper::task_possible(*ents, id, type);
 	lua_pushboolean(L, res);
@@ -1745,7 +1957,7 @@ int LuaInterface::lua_task_type_possibe(lpp::Script::state L)
 
 int LuaInterface::lua_clear_task_queue(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	TaskHandlerHelper::clear_task_queue(*ents, id);
 	return 0;
@@ -1753,8 +1965,8 @@ int LuaInterface::lua_clear_task_queue(lpp::Script::state L)
 
 int LuaInterface::lua_set_task_source(lpp::Script::state L)
 {
-	std::size_t source = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t source = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	TaskHelper::set_task_source(*ents, id, source);
 	return 0;
@@ -1762,7 +1974,7 @@ int LuaInterface::lua_set_task_source(lpp::Script::state L)
 
 int LuaInterface::lua_get_task_source(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = TaskHelper::get_task_source(*ents, id);
 	lua_pushinteger(L, res);
@@ -1771,8 +1983,8 @@ int LuaInterface::lua_get_task_source(lpp::Script::state L)
 
 int LuaInterface::lua_set_task_target(lpp::Script::state L)
 {
-	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t target = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	TaskHelper::set_task_target(*ents, id, target);
 	return 0;
@@ -1780,7 +1992,7 @@ int LuaInterface::lua_set_task_target(lpp::Script::state L)
 
 int LuaInterface::lua_get_task_target(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = TaskHelper::get_task_target(*ents, id);
 	lua_pushinteger(L, res);
@@ -1790,7 +2002,7 @@ int LuaInterface::lua_get_task_target(lpp::Script::state L)
 int LuaInterface::lua_set_task_type(lpp::Script::state L)
 {
 	TASK_TYPE type = (TASK_TYPE)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = GET_UINT(L, -2);
 
 	TaskHelper::set_task_type(*ents, id, type);
 	return 0;
@@ -1798,7 +2010,7 @@ int LuaInterface::lua_set_task_type(lpp::Script::state L)
 
 int LuaInterface::lua_get_task_type(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = TaskHelper::get_task_type(*ents, id);
 	lua_pushinteger(L, (int)res);
@@ -1808,7 +2020,7 @@ int LuaInterface::lua_get_task_type(lpp::Script::state L)
 int LuaInterface::lua_add_possible_task(lpp::Script::state L)
 {
 	TASK_TYPE type = (TASK_TYPE)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = GET_UINT(L, -2);
 
 	TaskHandlerHelper::add_possible_task(*ents, id, type);
 	return 0;
@@ -1816,7 +2028,7 @@ int LuaInterface::lua_add_possible_task(lpp::Script::state L)
 int LuaInterface::lua_delete_possible_task(lpp::Script::state L)
 {
 	TASK_TYPE type = (TASK_TYPE)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = GET_UINT(L, -2);
 
 	TaskHandlerHelper::delete_possible_task(*ents, id, type);
 	return 0;
@@ -1824,8 +2036,8 @@ int LuaInterface::lua_delete_possible_task(lpp::Script::state L)
 
 int LuaInterface::lua_set_task_handling_blueprint(lpp::Script::state L)
 {
-	std::string val = luaL_checkstring(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::string val = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	TaskHandlerHelper::set_blueprint(*ents, id, val);
 	return 0;
@@ -1833,7 +2045,7 @@ int LuaInterface::lua_set_task_handling_blueprint(lpp::Script::state L)
 
 int LuaInterface::lua_get_task_handling_blueprint(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = TaskHandlerHelper::get_blueprint(*ents, id);
 	lua_pushstring(L, res.c_str());
@@ -1842,7 +2054,7 @@ int LuaInterface::lua_get_task_handling_blueprint(lpp::Script::state L)
 
 int LuaInterface::lua_set_task_complete(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	TaskHelper::set_complete(*ents, id);
 	return 0;
@@ -1850,7 +2062,7 @@ int LuaInterface::lua_set_task_complete(lpp::Script::state L)
 
 int LuaInterface::lua_is_task_complete(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = TaskHelper::is_complete(*ents, id);
 	lua_pushboolean(L, res);
@@ -1859,8 +2071,8 @@ int LuaInterface::lua_is_task_complete(lpp::Script::state L)
 
 int LuaInterface::lua_set_combat_target(lpp::Script::state L)
 {
-	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t target = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	CombatHelper::set_target(*ents, id, target);
 	return 0;
@@ -1868,7 +2080,7 @@ int LuaInterface::lua_set_combat_target(lpp::Script::state L)
 
 int LuaInterface::lua_get_combat_target(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = CombatHelper::get_target(*ents, id);
 	lua_pushinteger(L, res);
@@ -1877,8 +2089,8 @@ int LuaInterface::lua_get_combat_target(lpp::Script::state L)
 
 int LuaInterface::lua_set_range(lpp::Script::state L)
 {
-	Ogre::Real range = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	Ogre::Real range = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	CombatHelper::set_range(*ents, id, range);
 	return 0;
@@ -1886,7 +2098,7 @@ int LuaInterface::lua_set_range(lpp::Script::state L)
 
 int LuaInterface::lua_get_range(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = CombatHelper::get_range(*ents, id);
 	lua_pushnumber(L, res);
@@ -1895,9 +2107,9 @@ int LuaInterface::lua_get_range(lpp::Script::state L)
 
 int LuaInterface::lua_set_dmg_range(lpp::Script::state L)
 {
-	std::size_t max = (std::size_t)luaL_checknumber(L, -1);
-	std::size_t min = (std::size_t)luaL_checknumber(L, -2);
-	std::size_t id = (std::size_t)luaL_checknumber(L, -3);
+	std::size_t max = GET_UINT(L, -1);
+	std::size_t min = GET_UINT(L, -2);
+	std::size_t id = GET_UINT(L, -3);
 
 	CombatHelper::set_dmg_range(*ents, id, min, max);
 	return 0;
@@ -1905,7 +2117,7 @@ int LuaInterface::lua_set_dmg_range(lpp::Script::state L)
 
 int LuaInterface::lua_get_dmg_range(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	std::size_t min{}, max{};
 	std::tie(min, max) = CombatHelper::get_dmg_range(*ents, id);
@@ -1916,8 +2128,8 @@ int LuaInterface::lua_get_dmg_range(lpp::Script::state L)
 
 int LuaInterface::lua_set_cooldown(lpp::Script::state L)
 {
-	Ogre::Real cd = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	Ogre::Real cd = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	CombatHelper::set_cooldown(*ents, id, cd);
 	return 0;
@@ -1925,7 +2137,7 @@ int LuaInterface::lua_set_cooldown(lpp::Script::state L)
 
 int LuaInterface::lua_get_cooldown(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = CombatHelper::get_cooldown(*ents, id);
 	lua_pushnumber(L, res);
@@ -1934,8 +2146,8 @@ int LuaInterface::lua_get_cooldown(lpp::Script::state L)
 
 int LuaInterface::lua_set_atk_type(lpp::Script::state L)
 {
-	int atk_type = (int)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	int atk_type = GET_SINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	CombatHelper::set_atk_type(*ents, id, (ATTACK_TYPE)atk_type);
 	return 0;
@@ -1943,7 +2155,7 @@ int LuaInterface::lua_set_atk_type(lpp::Script::state L)
 
 int LuaInterface::lua_get_atk_type(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = CombatHelper::get_atk_type(*ents, id);
 	lua_pushnumber(L, (int)res);
@@ -1952,8 +2164,8 @@ int LuaInterface::lua_get_atk_type(lpp::Script::state L)
 
 int LuaInterface::lua_set_homing_source(lpp::Script::state L)
 {
-	std::size_t source = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t source = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	HomingHelper::set_source(*ents, id, source);
 	return 0;
@@ -1961,7 +2173,7 @@ int LuaInterface::lua_set_homing_source(lpp::Script::state L)
 
 int LuaInterface::lua_get_homing_source(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = HomingHelper::get_source(*ents, id);
 	lua_pushinteger(L, res);
@@ -1970,8 +2182,8 @@ int LuaInterface::lua_get_homing_source(lpp::Script::state L)
 
 int LuaInterface::lua_set_homing_target(lpp::Script::state L)
 {
-	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t target = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	HomingHelper::set_target(*ents, id, target);
 	return 0;
@@ -1979,7 +2191,7 @@ int LuaInterface::lua_set_homing_target(lpp::Script::state L)
 
 int LuaInterface::lua_get_homing_target(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = HomingHelper::get_target(*ents, id);
 	lua_pushinteger(L, res);
@@ -1988,8 +2200,8 @@ int LuaInterface::lua_get_homing_target(lpp::Script::state L)
 
 int LuaInterface::lua_set_homing_dmg(lpp::Script::state L)
 {
-	std::size_t dmg = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t dmg = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	HomingHelper::set_dmg(*ents, id, dmg);
 	return 0;
@@ -1997,7 +2209,7 @@ int LuaInterface::lua_set_homing_dmg(lpp::Script::state L)
 
 int LuaInterface::lua_get_homing_dmg(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = HomingHelper::get_dmg(*ents, id);
 	lua_pushinteger(L, res);
@@ -2006,7 +2218,7 @@ int LuaInterface::lua_get_homing_dmg(lpp::Script::state L)
 
 int LuaInterface::lua_closest_enemy_in_sight(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = lua_this->combat_system_->get_closest_entity(id, true);
 	lua_pushinteger(L, res);
@@ -2015,7 +2227,7 @@ int LuaInterface::lua_closest_enemy_in_sight(lpp::Script::state L)
 
 int LuaInterface::lua_closest_friendly_in_sight(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = lua_this->combat_system_->get_closest_entity(id, true, true);
 	lua_pushinteger(L, res);
@@ -2024,7 +2236,7 @@ int LuaInterface::lua_closest_friendly_in_sight(lpp::Script::state L)
 
 int LuaInterface::lua_closest_enemy(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = lua_this->combat_system_->get_closest_entity(id, false);
 	lua_pushinteger(L, res);
@@ -2033,7 +2245,7 @@ int LuaInterface::lua_closest_enemy(lpp::Script::state L)
 
 int LuaInterface::lua_closest_friendly(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = lua_this->combat_system_->get_closest_entity(id, false, true);
 	lua_pushinteger(L, res);
@@ -2042,18 +2254,44 @@ int LuaInterface::lua_closest_friendly(lpp::Script::state L)
 
 int LuaInterface::lua_in_sight(lpp::Script::state L)
 {
-	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id2 = GET_UINT(L, -1);
+	std::size_t id1 = GET_UINT(L, -2);
 
 	auto res = lua_this->combat_system_->in_sight(id1, id2);
 	lua_pushboolean(L, res);
 	return 1;
 }
 
+int LuaInterface::lua_run_away_from(lpp::Script::state L)
+{
+	std::size_t min_node_count = GET_UINT(L, -1);
+	std::size_t from_id = GET_UINT(L, -2);
+	std::size_t id = GET_UINT(L, -3);
+
+	lua_this->combat_system_->run_away_from(id, from_id, min_node_count);
+	return 0;
+}
+
+int LuaInterface::lua_set_max_run_away_attempts(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+
+	lua_this->combat_system_->set_max_run_away_attempts(val);
+	return 0;
+}
+
+int LuaInterface::lua_get_max_run_away_attempts(lpp::Script::state L)
+{
+	auto res = lua_this->combat_system_->get_max_run_away_attempts();
+
+	lua_pushinteger(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_set_production_blueprint(lpp::Script::state L)
 {
-	std::string blueprint = luaL_checkstring(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::string blueprint = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	ProductionHelper::set_production_blueprint(*ents, id, blueprint);
 	return 0;
@@ -2061,7 +2299,7 @@ int LuaInterface::lua_set_production_blueprint(lpp::Script::state L)
 
 int LuaInterface::lua_get_production_blueprint(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto& res = ProductionHelper::get_production_blueprint(*ents, id);
 	lua_pushstring(L, res.c_str());
@@ -2070,8 +2308,8 @@ int LuaInterface::lua_get_production_blueprint(lpp::Script::state L)
 
 int LuaInterface::lua_set_production_limit(lpp::Script::state L)
 {
-	std::size_t limit = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t limit = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	ProductionHelper::set_production_limit(*ents, id, limit);
 	return 0;
@@ -2079,7 +2317,7 @@ int LuaInterface::lua_set_production_limit(lpp::Script::state L)
 
 int LuaInterface::lua_get_production_limit(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = ProductionHelper::get_production_limit(*ents, id);
 	lua_pushinteger(L, res);
@@ -2088,8 +2326,8 @@ int LuaInterface::lua_get_production_limit(lpp::Script::state L)
 
 int LuaInterface::lua_set_production_cooldown(lpp::Script::state L)
 {
-	Ogre::Real cd = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	Ogre::Real cd = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	ProductionHelper::set_production_cooldown(*ents, id, cd);
 	return 0;
@@ -2097,7 +2335,7 @@ int LuaInterface::lua_set_production_cooldown(lpp::Script::state L)
 
 int LuaInterface::lua_get_production_cooldown(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = ProductionHelper::get_production_cooldown(*ents, id);
 	lua_pushnumber(L, res);
@@ -2106,8 +2344,8 @@ int LuaInterface::lua_get_production_cooldown(lpp::Script::state L)
 
 int LuaInterface::lua_set_production_progress(lpp::Script::state L)
 {
-	Ogre::Real prog = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	Ogre::Real prog = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	ProductionHelper::set_production_progress(*ents, id, prog);
 	return 0;
@@ -2115,7 +2353,7 @@ int LuaInterface::lua_set_production_progress(lpp::Script::state L)
 
 int LuaInterface::lua_get_production_progress(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 	
 	auto res = ProductionHelper::get_production_progress(*ents, id);
 	lua_pushnumber(L, res);
@@ -2124,8 +2362,8 @@ int LuaInterface::lua_get_production_progress(lpp::Script::state L)
 
 int LuaInterface::lua_set_production_count(lpp::Script::state L)
 {
-	std::size_t prog = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t prog = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	ProductionHelper::set_production_count(*ents, id, prog);
 	return 0;
@@ -2133,7 +2371,7 @@ int LuaInterface::lua_set_production_count(lpp::Script::state L)
 
 int LuaInterface::lua_get_production_count(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = ProductionHelper::get_production_count(*ents, id);
 	lua_pushinteger(L, res);
@@ -2142,8 +2380,8 @@ int LuaInterface::lua_get_production_count(lpp::Script::state L)
 
 int LuaInterface::lua_set_producer(lpp::Script::state L)
 {
-	std::size_t producer = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t producer = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	ProductHelper::set_producer(*ents, id, producer);
 	return 0;
@@ -2151,7 +2389,7 @@ int LuaInterface::lua_set_producer(lpp::Script::state L)
 
 int LuaInterface::lua_get_producer(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = ProductHelper::get_producer(*ents, id);
 	lua_pushinteger(L, res);
@@ -2167,7 +2405,7 @@ int LuaInterface::lua_instant_production(lpp::Script::state L)
 
 int LuaInterface::lua_set_production_multiplier(lpp::Script::state L)
 {
-	Ogre::Real multiplier = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real multiplier = GET_REAL(L, -1);
 
 	lua_this->production_system_->set_time_multiplier(multiplier);
 	return 0;
@@ -2182,7 +2420,7 @@ int LuaInterface::lua_get_production_multiplier(lpp::Script::state L)
 
 int LuaInterface::lua_get_curr_time(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = TimeHelper::get_curr_time(*ents, id);
 	lua_pushnumber(L, res);
@@ -2191,8 +2429,8 @@ int LuaInterface::lua_get_curr_time(lpp::Script::state L)
 
 int LuaInterface::lua_advance_curr_time(lpp::Script::state L)
 {
-	Ogre::Real time = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checknumber(L, -2);
+	Ogre::Real time = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	TimeHelper::advance_curr_time(*ents, id, time);
 	return 0;
@@ -2200,7 +2438,7 @@ int LuaInterface::lua_advance_curr_time(lpp::Script::state L)
 
 int LuaInterface::lua_max_curr_time(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	TimeHelper::max_curr_time(*ents, id);
 	return 0;
@@ -2208,8 +2446,8 @@ int LuaInterface::lua_max_curr_time(lpp::Script::state L)
 
 int LuaInterface::lua_set_time_limit(lpp::Script::state L)
 {
-	Ogre::Real limit = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	Ogre::Real limit = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	TimeHelper::set_time_limit(*ents, id, limit);
 	return 0;
@@ -2217,7 +2455,7 @@ int LuaInterface::lua_set_time_limit(lpp::Script::state L)
 
 int LuaInterface::lua_get_time_limit(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = TimeHelper::get_time_limit(*ents, id);
 	lua_pushnumber(L, res);
@@ -2226,8 +2464,8 @@ int LuaInterface::lua_get_time_limit(lpp::Script::state L)
 
 int LuaInterface::lua_set_timer_target(lpp::Script::state L)
 {
-	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t target = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	TimeHelper::set_target(*ents, id, target);
 	return 0;
@@ -2235,7 +2473,7 @@ int LuaInterface::lua_set_timer_target(lpp::Script::state L)
 
 int LuaInterface::lua_get_timer_target(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = TimeHelper::get_target(*ents, id);
 	lua_pushinteger(L, res);
@@ -2245,7 +2483,7 @@ int LuaInterface::lua_get_timer_target(lpp::Script::state L)
 int LuaInterface::lua_set_timer_type(lpp::Script::state L)
 {
 	TIME_EVENT type = (TIME_EVENT)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = GET_UINT(L, -2);
 
 	TimeHelper::set_type(*ents, id, type);
 	return 0;
@@ -2253,7 +2491,7 @@ int LuaInterface::lua_set_timer_type(lpp::Script::state L)
 
 int LuaInterface::lua_get_timer_type(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = TimeHelper::get_type(*ents, id);
 	lua_pushinteger(L, (int)res);
@@ -2262,7 +2500,7 @@ int LuaInterface::lua_get_timer_type(lpp::Script::state L)
 
 int LuaInterface::lua_advance_all_timers(lpp::Script::state L)
 {
-	Ogre::Real time = (Ogre::Real)luaL_checkinteger(L, -1);
+	Ogre::Real time = GET_REAL(L, -1);
 
 	lua_this->time_system_->advance_all_timers(time);
 	return 0;
@@ -2271,7 +2509,7 @@ int LuaInterface::lua_advance_all_timers(lpp::Script::state L)
 int LuaInterface::lua_advance_all_timers_of_type(lpp::Script::state L)
 {
 	TIME_EVENT type = (TIME_EVENT)luaL_checkinteger(L, -1);
-	Ogre::Real time = (Ogre::Real)luaL_checkinteger(L, -2);
+	Ogre::Real time = GET_REAL(L, -2);
 
 	lua_this->time_system_->advance_all_timers_of_type(time, type);
 	return 0;
@@ -2279,7 +2517,7 @@ int LuaInterface::lua_advance_all_timers_of_type(lpp::Script::state L)
 
 int LuaInterface::lua_set_timer_multiplier(lpp::Script::state L)
 {
-	Ogre::Real multiplier = (Ogre::Real)luaL_checkinteger(L, -1);
+	Ogre::Real multiplier = GET_REAL(L, -1);
 
 	lua_this->time_system_->set_time_multiplier(multiplier);
 	return 0;
@@ -2295,7 +2533,7 @@ int LuaInterface::lua_get_timer_multiplier(lpp::Script::state L)
 int LuaInterface::lua_set_event_type(lpp::Script::state L)
 {
 	EVENT_TYPE type = (EVENT_TYPE)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = GET_UINT(L, -2);
 
 	EventHelper::set_event_type(*ents, id, type);
 	return 0;
@@ -2303,7 +2541,7 @@ int LuaInterface::lua_set_event_type(lpp::Script::state L)
 
 int LuaInterface::lua_get_event_type(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = EventHelper::get_event_type(*ents, id);
 	lua_pushinteger(L, (int)res);
@@ -2312,8 +2550,8 @@ int LuaInterface::lua_get_event_type(lpp::Script::state L)
 
 int LuaInterface::lua_set_event_target(lpp::Script::state L)
 {
-	std::size_t target = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t target = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	EventHelper::set_target(*ents, id, target);
 	return 0;
@@ -2321,7 +2559,7 @@ int LuaInterface::lua_set_event_target(lpp::Script::state L)
 
 int LuaInterface::lua_get_event_target(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = EventHelper::get_target(*ents, id);
 	lua_pushinteger(L, res);
@@ -2330,8 +2568,8 @@ int LuaInterface::lua_get_event_target(lpp::Script::state L)
 
 int LuaInterface::lua_set_event_radius(lpp::Script::state L)
 {
-	Ogre::Real radius = (Ogre::Real)luaL_checknumber(L, -1);
-	std::size_t id = (std::size_t)luaL_checknumber(L, -2);
+	Ogre::Real radius = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	EventHelper::set_radius(*ents, id, radius);
 	return 0;
@@ -2339,7 +2577,7 @@ int LuaInterface::lua_set_event_radius(lpp::Script::state L)
 
 int LuaInterface::lua_get_event_radius(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = EventHelper::get_radius(*ents, id);
 	lua_pushnumber(L, res);
@@ -2348,8 +2586,8 @@ int LuaInterface::lua_get_event_radius(lpp::Script::state L)
 
 int LuaInterface::lua_set_event_active(lpp::Script::state L)
 {
-	bool active = lua_toboolean(L, -1) == 1;
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	bool active = GET_BOOL(L, -1) == 1;
+	std::size_t id = GET_UINT(L, -2);
 
 	EventHelper::set_active(*ents, id, active);
 	return 0;
@@ -2357,7 +2595,7 @@ int LuaInterface::lua_set_event_active(lpp::Script::state L)
 
 int LuaInterface::lua_is_event_active(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = EventHelper::is_active(*ents, id);
 	lua_pushboolean(L, res);
@@ -2366,8 +2604,8 @@ int LuaInterface::lua_is_event_active(lpp::Script::state L)
 
 int LuaInterface::lua_set_handler_of_event(lpp::Script::state L)
 {
-	std::size_t handler = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t evt = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t handler = GET_UINT(L, -1);
+	std::size_t evt = GET_UINT(L, -2);
 
 	EventHelper::set_event_handler(*ents, evt, handler);
 	return 0;
@@ -2375,7 +2613,7 @@ int LuaInterface::lua_set_handler_of_event(lpp::Script::state L)
 
 int LuaInterface::lua_get_handler_of_event(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = EventHelper::get_event_handler(*ents, id);
 	lua_pushinteger(L, res);
@@ -2384,8 +2622,8 @@ int LuaInterface::lua_get_handler_of_event(lpp::Script::state L)
 
 int LuaInterface::lua_set_event_handler(lpp::Script::state L)
 {
-	std::string handler = luaL_checkstring(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::string handler = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	EventHandlerHelper::set_handler(*ents, id, handler);
 	return 0;
@@ -2393,7 +2631,7 @@ int LuaInterface::lua_set_event_handler(lpp::Script::state L)
 
 int LuaInterface::lua_get_event_handler(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto& res = EventHandlerHelper::get_handler(*ents, id);
 	lua_pushstring(L, res.c_str());
@@ -2403,7 +2641,7 @@ int LuaInterface::lua_get_event_handler(lpp::Script::state L)
 int LuaInterface::lua_can_handle_event(lpp::Script::state L)
 {
 	EVENT_TYPE type = (EVENT_TYPE)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = GET_UINT(L, -2);
 
 	auto res = EventHandlerHelper::can_handle(*ents, id, type);
 	lua_pushboolean(L, res);
@@ -2413,7 +2651,7 @@ int LuaInterface::lua_can_handle_event(lpp::Script::state L)
 int LuaInterface::lua_add_possible_event(lpp::Script::state L)
 {
 	EVENT_TYPE type = (EVENT_TYPE)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = GET_UINT(L, -2);
 
 	EventHandlerHelper::add_possible_event(*ents, id, type);
 	return 0;
@@ -2422,7 +2660,7 @@ int LuaInterface::lua_add_possible_event(lpp::Script::state L)
 int LuaInterface::lua_delete_possible_event(lpp::Script::state L)
 {
 	EVENT_TYPE type = (EVENT_TYPE)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id = GET_UINT(L, -2);
 
 	EventHandlerHelper::delete_possible_event(*ents, id, type);
 	return 0;
@@ -2430,7 +2668,7 @@ int LuaInterface::lua_delete_possible_event(lpp::Script::state L)
 
 int LuaInterface::lua_set_event_update_period(lpp::Script::state L)
 {
-	Ogre::Real t = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real t = GET_REAL(L, -1);
 
 	lua_this->event_system_->set_update_period(t);
 	return 0;
@@ -2444,7 +2682,7 @@ int LuaInterface::lua_get_event_update_period(lpp::Script::state L)
 }
 int LuaInterface::lua_set_event_update_multiplier(lpp::Script::state L)
 {
-	Ogre::Real multiplier = (Ogre::Real)luaL_checknumber(L, -1);
+	Ogre::Real multiplier = GET_REAL(L, -1);
 
 	lua_this->event_system_->set_update_time_multiplier(multiplier);
 	return 0;
@@ -2459,8 +2697,8 @@ int LuaInterface::lua_get_event_update_multiplier(lpp::Script::state L)
 
 int LuaInterface::lua_set_destructor_blueprint(lpp::Script::state L)
 {
-	std::string  blueprint = luaL_checkstring(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::string  blueprint = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	DestructorHelper::set_blueprint(*ents, id, blueprint);
 	return 0;
@@ -2468,7 +2706,7 @@ int LuaInterface::lua_set_destructor_blueprint(lpp::Script::state L)
 
 int LuaInterface::lua_get_destructor_blueprint(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto& res = DestructorHelper::get_blueprint(*ents, id);
 	lua_pushstring(L, res.c_str());
@@ -2477,8 +2715,8 @@ int LuaInterface::lua_get_destructor_blueprint(lpp::Script::state L)
 
 int LuaInterface::lua_set_curr_gold(lpp::Script::state L)
 {
-	std::size_t gold = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t gold = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	GoldHelper::set_curr_gold(*ents, id, gold);
 	return 0;
@@ -2486,7 +2724,7 @@ int LuaInterface::lua_set_curr_gold(lpp::Script::state L)
 
 int LuaInterface::lua_get_curr_gold(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = GoldHelper::get_curr_gold(*ents, id);
 	lua_pushinteger(L, res);
@@ -2495,8 +2733,8 @@ int LuaInterface::lua_get_curr_gold(lpp::Script::state L)
 
 int LuaInterface::lua_set_max_gold(lpp::Script::state L)
 {
-	std::size_t gold = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t gold = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	GoldHelper::set_max_gold(*ents, id, gold);
 	return 0;
@@ -2504,7 +2742,7 @@ int LuaInterface::lua_set_max_gold(lpp::Script::state L)
 
 int LuaInterface::lua_get_max_gold(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = GoldHelper::get_max_gold(*ents, id);
 	lua_pushinteger(L, res);
@@ -2513,8 +2751,8 @@ int LuaInterface::lua_get_max_gold(lpp::Script::state L)
 
 int LuaInterface::lua_add_gold(lpp::Script::state L)
 {
-	std::size_t gold = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t gold = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	GoldHelper::add_gold(*ents, id, gold);
 	return 0;
@@ -2522,8 +2760,8 @@ int LuaInterface::lua_add_gold(lpp::Script::state L)
 
 int LuaInterface::lua_sub_gold(lpp::Script::state L)
 {
-	std::size_t gold = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t gold = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	GoldHelper::sub_gold(*ents, id, gold);
 	return 0;
@@ -2531,8 +2769,8 @@ int LuaInterface::lua_sub_gold(lpp::Script::state L)
 
 int LuaInterface::lua_transfer_all_gold(lpp::Script::state L)
 {
-	std::size_t id2 = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id1 = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t id2 = GET_UINT(L, -1);
+	std::size_t id1 = GET_UINT(L, -2);
 
 	GoldHelper::transfer_all_gold(*ents, id1, id2);
 	return 0;
@@ -2540,7 +2778,7 @@ int LuaInterface::lua_transfer_all_gold(lpp::Script::state L)
 
 int LuaInterface::lua_get_closest_gold_deposit(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = lua_this->combat_system_->get_closest_gold_deposit(id);
 	lua_pushinteger(L, res);
@@ -2549,7 +2787,7 @@ int LuaInterface::lua_get_closest_gold_deposit(lpp::Script::state L)
 
 int LuaInterface::lua_get_closest_gold_deposit_in_sight(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = lua_this->combat_system_->get_closest_gold_deposit(id, true);
 	lua_pushinteger(L, res);
@@ -2558,7 +2796,7 @@ int LuaInterface::lua_get_closest_gold_deposit_in_sight(lpp::Script::state L)
 
 int LuaInterface::lua_gold_full(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = GoldHelper::gold_full(*ents, id);
 	lua_pushboolean(L, res);
@@ -2567,7 +2805,7 @@ int LuaInterface::lua_gold_full(lpp::Script::state L)
 
 int LuaInterface::lua_is_gold_vault(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = ents->has_component<StructureComponent>(id) &&
 		       ents->has_component<GoldComponent>(id) &&
@@ -2578,7 +2816,7 @@ int LuaInterface::lua_is_gold_vault(lpp::Script::state L)
 
 int LuaInterface::closest_gold_vault(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = lua_this->combat_system_->get_closest_gold_vault(id, false, false);
 	lua_pushinteger(L, res);
@@ -2587,7 +2825,7 @@ int LuaInterface::closest_gold_vault(lpp::Script::state L)
 
 int LuaInterface::closest_gold_vault_in_sight(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = lua_this->combat_system_->get_closest_gold_vault(id, true, false);
 	lua_pushinteger(L, res);
@@ -2596,7 +2834,7 @@ int LuaInterface::closest_gold_vault_in_sight(lpp::Script::state L)
 
 int LuaInterface::closest_free_gold_vault(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = lua_this->combat_system_->get_closest_gold_vault(id, false, true);
 	lua_pushinteger(L, res);
@@ -2605,7 +2843,7 @@ int LuaInterface::closest_free_gold_vault(lpp::Script::state L)
 
 int LuaInterface::closest_free_gold_vault_in_sight(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = lua_this->combat_system_->get_closest_gold_vault(id, true, true);
 	lua_pushinteger(L, res);
@@ -2614,7 +2852,7 @@ int LuaInterface::closest_free_gold_vault_in_sight(lpp::Script::state L)
 
 int LuaInterface::exists_free_gold_vault(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = lua_this->combat_system_->get_closest_gold_vault(id, true, true);
 	lua_pushinteger(L, res != Component::NO_ENTITY);
@@ -2623,7 +2861,7 @@ int LuaInterface::exists_free_gold_vault(lpp::Script::state L)
 
 int LuaInterface::lua_set_gui_visible(lpp::Script::state L)
 {
-	bool val = lua_toboolean(L, -1) == 1;
+	bool val = GET_BOOL(L, -1) == 1;
 
 	GUI::instance().set_visible(val);
 	return 0;
@@ -2638,8 +2876,8 @@ int LuaInterface::lua_is_gui_visible(lpp::Script::state L)
 
 int LuaInterface::lua_set_window_visible(lpp::Script::state L)
 {
-	bool val = lua_toboolean(L, -1) == 1;
-	std::string win = luaL_checkstring(L, -2);
+	bool val = GET_BOOL(L, -1) == 1;
+	std::string win = GET_STR(L, -2);
 
 	GUI::instance().set_visible(win, val);
 	return 0;
@@ -2647,7 +2885,7 @@ int LuaInterface::lua_set_window_visible(lpp::Script::state L)
 
 int LuaInterface::lua_is_window_visible(lpp::Script::state L)
 {
-	std::string win = luaL_checkstring(L, -1);
+	std::string win = GET_STR(L, -1);
 
 	auto res = GUI::instance().is_visible(win);
 	lua_pushboolean(L, res);
@@ -2662,7 +2900,7 @@ int LuaInterface::lua_clear_log(lpp::Script::state L)
 
 int LuaInterface::lua_print_to_log(lpp::Script::state L)
 {
-	std::string msg = luaL_checkstring(L, -1);
+	std::string msg = GET_STR(L, -1);
 
 	GUI::instance().get_log().print(msg);
 	return 0;
@@ -2670,7 +2908,7 @@ int LuaInterface::lua_print_to_log(lpp::Script::state L)
 
 int LuaInterface::lua_set_tracked_entity(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	GUI::instance().get_tracker().set_tracked_entity(id, *ents);
 	return 0;
@@ -2685,8 +2923,8 @@ int LuaInterface::lua_get_tracked_entity(lpp::Script::state L)
 
 int LuaInterface::lua_update_tracking(lpp::Script::state L)
 {
-	std::string val = luaL_checkstring(L, -1);
-	std::string nam = luaL_checkstring(L, -2);
+	std::string val = GET_STR(L, -1);
+	std::string nam = GET_STR(L, -2);
 
 	GUI::instance().get_tracker().update_tracking(nam, val);
 	return 0;
@@ -2700,7 +2938,7 @@ int LuaInterface::lua_clear_entity_tracker(lpp::Script::state L)
 
 int LuaInterface::lua_set_log_history(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t val = GET_UINT(L, -1);
 
 	GUI::instance().get_log().set_history(val);
 	return 0;
@@ -2733,7 +2971,7 @@ int LuaInterface::lua_console_scroll_down(lpp::Script::state L)
 
 int LuaInterface::lua_set_console_history(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t val = GET_UINT(L, -1);
 
 	GUI::instance().get_console().set_history(val);
 	return 0;
@@ -2748,7 +2986,7 @@ int LuaInterface::lua_get_console_history(lpp::Script::state L)
 
 int LuaInterface::lua_set_console_visible(lpp::Script::state L)
 {
-	bool val = lua_toboolean(L, -1) == 1;
+	bool val = GET_BOOL(L, -1) == 1;
 
 	GUI::instance().get_console().set_visible(val);
 	return 0;
@@ -2769,7 +3007,7 @@ int LuaInterface::lua_clear_console(lpp::Script::state L)
 
 int LuaInterface::lua_set_builder_visible(lpp::Script::state L)
 {
-	bool val = lua_toboolean(L, -1) == 1;
+	bool val = GET_BOOL(L, -1) == 1;
 
 	GUI::instance().get_builder().set_visible(val);
 	return 0;
@@ -2784,7 +3022,7 @@ int LuaInterface::lua_is_builder_visible(lpp::Script::state L)
 
 int LuaInterface::lua_register_building(lpp::Script::state L)
 {
-	std::string val = luaL_checkstring(L, -1);
+	std::string val = GET_STR(L, -1);
 
 	GUI::instance().get_builder().register_building(val);
 	return 0;
@@ -2792,8 +3030,8 @@ int LuaInterface::lua_register_building(lpp::Script::state L)
 
 int LuaInterface::lua_research_show(lpp::Script::state L)
 {
-	std::size_t j = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t i = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t j = GET_UINT(L, -1);
+	std::size_t i = GET_UINT(L, -2);
 
 	GUI::instance().get_research().show(i, j);
 	return 0;
@@ -2813,14 +3051,14 @@ int LuaInterface::lua_research_all(lpp::Script::state)
 
 int LuaInterface::lua_add_player_gold(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t val = GET_UINT(L, -1);
 	Player::instance().add_gold(val);
 	return 0;
 }
 
 int LuaInterface::lua_sub_player_gold(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t val = GET_UINT(L, -1);
 	auto res = Player::instance().sub_gold(val);
 	lua_pushboolean(L, res);
 	return 1;
@@ -2828,14 +3066,14 @@ int LuaInterface::lua_sub_player_gold(lpp::Script::state L)
 
 int LuaInterface::lua_add_player_mana(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t val = GET_UINT(L, -1);
 	Player::instance().add_mana(val);
 	return 0;
 }
 
 int LuaInterface::lua_sub_player_mana(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t val = GET_UINT(L, -1);
 	auto res = Player::instance().sub_mana(val);
 	lua_pushboolean(L, res);
 	return 1;
@@ -2843,14 +3081,14 @@ int LuaInterface::lua_sub_player_mana(lpp::Script::state L)
 
 int LuaInterface::lua_add_player_max_units(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t val = GET_UINT(L, -1);
 	Player::instance().add_max_unit(val);
 	return 0;
 }
 
 int LuaInterface::lua_sub_player_max_units(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t val = GET_UINT(L, -1);
 	auto res = Player::instance().sub_max_unit(val);
 	lua_pushboolean(L, res);
 	return 1;
@@ -2858,14 +3096,14 @@ int LuaInterface::lua_sub_player_max_units(lpp::Script::state L)
 
 int LuaInterface::lua_add_player_curr_units(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t val = GET_UINT(L, -1);
 	Player::instance().add_curr_unit(val);
 	return 0;
 }
 
 int LuaInterface::lua_sub_player_curr_units(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t val = GET_UINT(L, -1);
 	auto res = Player::instance().sub_curr_unit(val);
 	lua_pushboolean(L, res);
 	return 1;
@@ -2885,10 +3123,66 @@ int LuaInterface::lua_get_player_mana(lpp::Script::state L)
 	return 1;
 }
 
+int LuaInterface::lua_player_reset(lpp::Script::state L)
+{
+	Player::instance().reset();
+	return 0;
+}
+
+int LuaInterface::lua_nulify_player_stats(lpp::Script::state L)
+{
+	Player::instance().nulify_all_stats();
+	return 0;
+}
+
+int LuaInterface::lua_add_player_max_mana(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	Player::instance().add_max_mana(val);
+	return 0;
+}
+
+int LuaInterface::lua_sub_player_max_mana(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	auto res = Player::instance().sub_max_mana(val);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_get_player_max_mana(lpp::Script::state L)
+{
+	auto res = Player::instance().get_max_mana();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_add_player_mana_regen(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	Player::instance().add_mana_regen(val);
+	return 0;
+}
+
+int LuaInterface::lua_sub_player_mana_regen(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	auto res = Player::instance().sub_mana_regen(val);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_get_player_mana_regen(lpp::Script::state L)
+{
+	auto res = Player::instance().get_mana_regen();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_set_price(lpp::Script::state L)
 {
-	std::size_t val = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	PriceHelper::set_price(*ents, id, val);
 	return 0;
@@ -2896,7 +3190,7 @@ int LuaInterface::lua_set_price(lpp::Script::state L)
 
 int LuaInterface::lua_get_price(lpp::Script::state L)
 {
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -1);
+	std::size_t id = GET_UINT(L, -1);
 
 	auto res = PriceHelper::get_price(*ents, id);
 	lua_pushinteger(L, res);
@@ -2905,7 +3199,7 @@ int LuaInterface::lua_get_price(lpp::Script::state L)
 
 int LuaInterface::lua_register_spell(lpp::Script::state L)
 {
-	std::string val = luaL_checkstring(L, -1);
+	std::string val = GET_STR(L, -1);
 
 	GUI::instance().get_spell_casting().register_spell(val);
 	return 0;
@@ -2913,9 +3207,9 @@ int LuaInterface::lua_register_spell(lpp::Script::state L)
 
 int LuaInterface::lua_align_set_material(lpp::Script::state L)
 {
-	std::string val = luaL_checkstring(L, -1);
-	std::size_t state = (std::size_t)luaL_checkinteger(L, -2);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -3);
+	std::string val = GET_STR(L, -1);
+	std::size_t state = GET_UINT(L, -2);
+	std::size_t id = GET_UINT(L, -3);
 
 	AlignHelper::set_material(*ents, id, state, val);
 	return 0;
@@ -2923,8 +3217,8 @@ int LuaInterface::lua_align_set_material(lpp::Script::state L)
 
 int LuaInterface::lua_align_get_material(lpp::Script::state L)
 {
-	std::size_t state = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t state = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	const std::string& res = AlignHelper::get_material(*ents, id, state);
 	lua_pushstring(L, res.c_str());
@@ -2933,9 +3227,9 @@ int LuaInterface::lua_align_get_material(lpp::Script::state L)
 
 int LuaInterface::lua_align_set_mesh(lpp::Script::state L)
 {
-	std::string val = luaL_checkstring(L, -1);
-	std::size_t state = (std::size_t)luaL_checkinteger(L, -2);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -3);
+	std::string val = GET_STR(L, -1);
+	std::size_t state = GET_UINT(L, -2);
+	std::size_t id = GET_UINT(L, -3);
 
 	AlignHelper::set_mesh(*ents, id, state, val);
 	return 0;
@@ -2943,8 +3237,8 @@ int LuaInterface::lua_align_set_mesh(lpp::Script::state L)
 
 int LuaInterface::lua_align_get_mesh(lpp::Script::state L)
 {
-	std::size_t state = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t state = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	const std::string& res = AlignHelper::get_mesh(*ents, id, state);
 	lua_pushstring(L, res.c_str());
@@ -2953,11 +3247,11 @@ int LuaInterface::lua_align_get_mesh(lpp::Script::state L)
 
 int LuaInterface::lua_align_set_position_offset(lpp::Script::state L)
 {
-	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
-	std::size_t state = (std::size_t)luaL_checkinteger(L, -4);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -5);
+	Ogre::Real z = GET_REAL(L, -1);
+	Ogre::Real y = GET_REAL(L, -2);
+	Ogre::Real x = GET_REAL(L, -3);
+	std::size_t state = GET_UINT(L, -4);
+	std::size_t id = GET_UINT(L, -5);
 
 	AlignHelper::set_position_offset(*ents, id, state, Ogre::Vector3{x, y, z});
 	return 0;
@@ -2965,8 +3259,8 @@ int LuaInterface::lua_align_set_position_offset(lpp::Script::state L)
 
 int LuaInterface::lua_align_get_position_offset(lpp::Script::state L)
 {
-	std::size_t state = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t state = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	const Ogre::Vector3& res = AlignHelper::get_position_offset(*ents, id, state);
 	lua_pushnumber(L, res.x);
@@ -2977,11 +3271,11 @@ int LuaInterface::lua_align_get_position_offset(lpp::Script::state L)
 
 int LuaInterface::lua_align_set_scale(lpp::Script::state L)
 {
-	Ogre::Real z = (Ogre::Real)luaL_checknumber(L, -1);
-	Ogre::Real y = (Ogre::Real)luaL_checknumber(L, -2);
-	Ogre::Real x = (Ogre::Real)luaL_checknumber(L, -3);
-	std::size_t state = (std::size_t)luaL_checkinteger(L, -4);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -5);
+	Ogre::Real z = GET_REAL(L, -1);
+	Ogre::Real y = GET_REAL(L, -2);
+	Ogre::Real x = GET_REAL(L, -3);
+	std::size_t state = GET_UINT(L, -4);
+	std::size_t id = GET_UINT(L, -5);
 
 	AlignHelper::set_scale(*ents, id, state, Ogre::Vector3{x, y, z});
 	return 0;
@@ -2989,8 +3283,8 @@ int LuaInterface::lua_align_set_scale(lpp::Script::state L)
 
 int LuaInterface::lua_align_get_scale(lpp::Script::state L)
 {
-	std::size_t state = (std::size_t)luaL_checkinteger(L, -1);
-	std::size_t id = (std::size_t)luaL_checkinteger(L, -2);
+	std::size_t state = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
 	const Ogre::Vector3& res = AlignHelper::get_scale(*ents, id, state);
 	lua_pushnumber(L, res.x);
@@ -2999,9 +3293,501 @@ int LuaInterface::lua_align_get_scale(lpp::Script::state L)
 	return 3;
 }
 
+int LuaInterface::lua_mana_crystal_set_cap(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ManaCrystalHelper::set_capacity(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_mana_crystal_get_cap(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = ManaCrystalHelper::get_capacity(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_mana_crystal_set_regen(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ManaCrystalHelper::set_regen(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_mana_crystal_get_regen(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = ManaCrystalHelper::get_regen(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_on_hit_set_blueprint(lpp::Script::state L)
+{
+	std::string val = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	OnHitHelper::set_blueprint(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_on_hit_get_blueprint(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto& res = OnHitHelper::get_blueprint(*ents, id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_on_hit_call(lpp::Script::state L)
+{
+	std::size_t hitter = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	OnHitHelper::call(*ents, id, hitter);
+	return 0;
+}
+
+int LuaInterface::lua_on_hit_set_cooldown(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	OnHitHelper::set_cooldown(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_on_hit_get_cooldown(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = OnHitHelper::get_cooldown(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_constructor_set_blueprint(lpp::Script::state L)
+{
+	std::string val = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ConstructorHelper::set_blueprint(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_constructor_get_blueprint(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto& res = ConstructorHelper::get_blueprint(*ents, id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_constructor_call(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	ConstructorHelper::call(*ents, id);
+	return 0;
+}
+
+int LuaInterface::lua_trigger_set_blueprint(lpp::Script::state L)
+{
+	std::string blueprint = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	TriggerHelper::set_blueprint(*ents, id, blueprint);
+	return 0;
+}
+
+int LuaInterface::lua_trigger_get_blueprint(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto& res = TriggerHelper::get_blueprint(*ents, id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_trigger_set_linked_entity(lpp::Script::state L)
+{
+	std::size_t target = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	TriggerHelper::set_linked_entity(*ents, id, target);
+	return 0;
+}
+
+int LuaInterface::lua_trigger_get_linked_entity(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = TriggerHelper::get_linked_entity(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_trigger_set_cooldown(lpp::Script::state L)
+{
+	Ogre::Real cd = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	TriggerHelper::set_cooldown(*ents, id, cd);
+	return 0;
+}
+
+int LuaInterface::lua_trigger_get_cooldown(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = TriggerHelper::get_cooldown(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_trigger_trigger(lpp::Script::state L)
+{
+	std::size_t target = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	TriggerHelper::trigger(*ents, id, target);
+	return 0;
+}
+
+int LuaInterface::lua_trigger_set_check_period(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+
+	lua_this->trigger_system_->set_check_period(val);
+	return 0;
+}
+
+int LuaInterface::lua_trigger_get_check_period(lpp::Script::state L)
+{
+	auto res = lua_this->trigger_system_->get_check_period();
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_upgrade_set_blueprint(lpp::Script::state L)
+{
+	std::string blueprint = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	UpgradeHelper::set_blueprint(*ents, id, blueprint);
+	return 0;
+}
+
+int LuaInterface::lua_upgrade_get_blueprint(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto& res = UpgradeHelper::get_blueprint(*ents, id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_upgrade_set_experience(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	auto res = UpgradeHelper::set_experience(*ents, id, val);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_upgrade_get_experience(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = UpgradeHelper::get_experience(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_upgrade_add_experience(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	auto res = UpgradeHelper::add_experience(*ents, id, val);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_upgrade_set_exp_needed(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	UpgradeHelper::set_exp_needed(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_upgrade_get_exp_needed(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = UpgradeHelper::get_exp_needed(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_upgrade_set_level(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	UpgradeHelper::set_level(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_upgrade_get_level(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = UpgradeHelper::get_level(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_upgrade_set_level_cap(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	UpgradeHelper::set_level_cap(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_upgrade_get_level_cap(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = UpgradeHelper::get_level_cap(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_upgrade_can_level_up(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = UpgradeHelper::can_level_up(*ents, id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_upgrade_upgrade(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	UpgradeHelper::upgrade(*ents, id);
+	return 0;
+}
+
+int LuaInterface::lua_notification_set_cooldown(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	NotificationHelper::set_cooldown(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_notification_get_cooldown(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = NotificationHelper::get_cooldown(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_notification_reset(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	NotificationHelper::reset(*ents, id);
+	return 0;
+}
+
+int LuaInterface::lua_notification_notify(lpp::Script::state L)
+{
+	std::string msg = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	auto res = NotificationHelper::notify(*ents, id, msg);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_notification_get_curr_time(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = NotificationHelper::get_curr_time(*ents, id);
+	lua_pushnumber(L, -1);
+	return 1;
+}
+
+int LuaInterface::lua_notification_advance_curr_time(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	NotificationHelper::advance_curr_time(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_explosion_set_delta(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ExplosionHelper::set_delta(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_explosion_get_delta(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = ExplosionHelper::get_delta(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_explosion_set_max_radius(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ExplosionHelper::set_max_radius(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_explosion_get_max_radius(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = ExplosionHelper::get_max_radius(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_explosion_get_curr_radius(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = ExplosionHelper::get_curr_radius(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_explosion_increase_curr_radius(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ExplosionHelper::increase_curr_radius(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_lls_set_max_time(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	LimitedLifeSpanHelper::set_max_time(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_lls_get_max_time(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = LimitedLifeSpanHelper::get_max_time(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_lls_get_curr_time(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = LimitedLifeSpanHelper::get_curr_time(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_lls_advance_curr_time(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	LimitedLifeSpanHelper::advance_curr_time(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_name_set(lpp::Script::state L)
+{
+	std::string val = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	NameHelper::set_name(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_name_get(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto& res = NameHelper::get_name(*ents, id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_exp_val_set(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ExperienceValueHelper::set(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_exp_val_get(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = ExperienceValueHelper::get(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_exp_val_inc(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ExperienceValueHelper::increase(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_exp_val_dec(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ExperienceValueHelper::decrease(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_mana_set_regen_period(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+
+	lua_this->mana_spell_system_->set_regen_period(val);
+	return 0;
+}
+
+int LuaInterface::lua_mana_get_regen_period(lpp::Script::state L)
+{
+	auto res = lua_this->mana_spell_system_->get_regen_period();
+	lua_pushnumber(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_set_tracker_visible(lpp::Script::state L)
 {
-	bool val = lua_toboolean(L, -1) == 1;
+	bool val = GET_BOOL(L, -1) == 1;
 
 	GUI::instance().get_tracker().set_visible(val);
 	return 0;
@@ -3017,7 +3803,7 @@ int LuaInterface::lua_is_tracker_visible(lpp::Script::state L)
 
 int LuaInterface::lua_set_log_visible(lpp::Script::state L)
 {
-	bool val = lua_toboolean(L, -1) == 1;
+	bool val = GET_BOOL(L, -1) == 1;
 
 	GUI::instance().get_log().set_visible(val);
 	return 0;

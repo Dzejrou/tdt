@@ -58,6 +58,10 @@ class LuaInterface
 		static int lua_save_game(lpp::Script::state);
 		static int lua_load_game(lpp::Script::state);
 		static int lua_get_cursor_position(lpp::Script::state);
+		static int lua_can_place_when_game_paused(lpp::Script::state);
+		static int lua_toggle_placing_when_game_paused(lpp::Script::state);
+		static int lua_new_game(lpp::Script::state);
+		static int lua_create_empty_level(lpp::Script::state);
 		
 		// Command.
 		static int lua_command_to_mine(lpp::Script::state);
@@ -85,6 +89,8 @@ class LuaInterface
 		static int lua_set_query_flags(lpp::Script::state);
 		static int lua_get_query_flags(lpp::Script::state);
 		static int lua_apply_scale(lpp::Script::state);
+		static int lua_set_graphics_update_period(lpp::Script::state);
+		static int lua_get_graphics_update_period(lpp::Script::state);
 
 		// Entity system.
 		static int lua_create_entity(lpp::Script::state);
@@ -97,6 +103,7 @@ class LuaInterface
 		static int lua_register_entity(lpp::Script::state);
 		static int lua_exists(lpp::Script::state);
 		static int lua_kill_entity(lpp::Script::state);
+		static int lua_has_component(lpp::Script::state);
 
 		// Physics.
 		static int lua_set_position(lpp::Script::state);
@@ -151,6 +158,7 @@ class LuaInterface
 		static int lua_set_update_period(lpp::Script::state);
 		static int lua_get_update_period(lpp::Script::state);
 		static int lua_force_update(lpp::Script::state);
+		static int lua_get_faction_name(lpp::Script::state);
 
 		// Input handling.
 		static int lua_set_input_handler(lpp::Script::state);
@@ -226,6 +234,9 @@ class LuaInterface
 		static int lua_closest_enemy(lpp::Script::state);
 		static int lua_closest_friendly(lpp::Script::state);
 		static int lua_in_sight(lpp::Script::state);
+		static int lua_run_away_from(lpp::Script::state);
+		static int lua_set_max_run_away_attempts(lpp::Script::state);
+		static int lua_get_max_run_away_attempts(lpp::Script::state);
 
 		// Production & products.
 		static int lua_set_production_blueprint(lpp::Script::state);
@@ -355,6 +366,14 @@ class LuaInterface
 		static int lua_sub_player_curr_units(lpp::Script::state);
 		static int lua_get_player_gold(lpp::Script::state);
 		static int lua_get_player_mana(lpp::Script::state);
+		static int lua_player_reset(lpp::Script::state);
+		static int lua_nulify_player_stats(lpp::Script::state);
+		static int lua_add_player_max_mana(lpp::Script::state);
+		static int lua_sub_player_max_mana(lpp::Script::state);
+		static int lua_get_player_max_mana(lpp::Script::state);
+		static int lua_add_player_mana_regen(lpp::Script::state);
+		static int lua_sub_player_mana_regen(lpp::Script::state);
+		static int lua_get_player_mana_regen(lpp::Script::state);
 
 		// Price.
 		static int lua_set_price(lpp::Script::state);
@@ -372,4 +391,84 @@ class LuaInterface
 		static int lua_align_get_position_offset(lpp::Script::state);
 		static int lua_align_set_scale(lpp::Script::state);
 		static int lua_align_get_scale(lpp::Script::state);
+
+		// Mana crystal.
+		static int lua_mana_crystal_set_cap(lpp::Script::state);
+		static int lua_mana_crystal_get_cap(lpp::Script::state);
+		static int lua_mana_crystal_set_regen(lpp::Script::state);
+		static int lua_mana_crystal_get_regen(lpp::Script::state);
+
+		// OnHit.
+		static int lua_on_hit_set_blueprint(lpp::Script::state);
+		static int lua_on_hit_get_blueprint(lpp::Script::state);
+		static int lua_on_hit_call(lpp::Script::state);
+		static int lua_on_hit_set_cooldown(lpp::Script::state);
+		static int lua_on_hit_get_cooldown(lpp::Script::state);
+
+		// Constructor.
+		static int lua_constructor_set_blueprint(lpp::Script::state);
+		static int lua_constructor_get_blueprint(lpp::Script::state);
+		static int lua_constructor_call(lpp::Script::state);
+
+		// Trigger.
+		static int lua_trigger_set_blueprint(lpp::Script::state);
+		static int lua_trigger_get_blueprint(lpp::Script::state);
+		static int lua_trigger_set_linked_entity(lpp::Script::state);
+		static int lua_trigger_get_linked_entity(lpp::Script::state);
+		static int lua_trigger_set_cooldown(lpp::Script::state);
+		static int lua_trigger_get_cooldown(lpp::Script::state);
+		static int lua_trigger_trigger(lpp::Script::state);
+		static int lua_trigger_set_check_period(lpp::Script::state);
+		static int lua_trigger_get_check_period(lpp::Script::state);
+
+		// Upgrade.
+		static int lua_upgrade_set_blueprint(lpp::Script::state);
+		static int lua_upgrade_get_blueprint(lpp::Script::state);
+		static int lua_upgrade_set_experience(lpp::Script::state);
+		static int lua_upgrade_get_experience(lpp::Script::state);
+		static int lua_upgrade_add_experience(lpp::Script::state);
+		static int lua_upgrade_set_exp_needed(lpp::Script::state);
+		static int lua_upgrade_get_exp_needed(lpp::Script::state);
+		static int lua_upgrade_set_level(lpp::Script::state);
+		static int lua_upgrade_get_level(lpp::Script::state);
+		static int lua_upgrade_set_level_cap(lpp::Script::state);
+		static int lua_upgrade_get_level_cap(lpp::Script::state);
+		static int lua_upgrade_can_level_up(lpp::Script::state);
+		static int lua_upgrade_upgrade(lpp::Script::state);
+
+		// Notification.
+		static int lua_notification_set_cooldown(lpp::Script::state);
+		static int lua_notification_get_cooldown(lpp::Script::state);
+		static int lua_notification_reset(lpp::Script::state);
+		static int lua_notification_notify(lpp::Script::state);
+		static int lua_notification_get_curr_time(lpp::Script::state);
+		static int lua_notification_advance_curr_time(lpp::Script::state);
+
+		// Explosion.
+		static int lua_explosion_set_delta(lpp::Script::state);
+		static int lua_explosion_get_delta(lpp::Script::state);
+		static int lua_explosion_set_max_radius(lpp::Script::state);
+		static int lua_explosion_get_max_radius(lpp::Script::state);
+		static int lua_explosion_get_curr_radius(lpp::Script::state);
+		static int lua_explosion_increase_curr_radius(lpp::Script::state);
+
+		// Limited life span.
+		static int lua_lls_set_max_time(lpp::Script::state);
+		static int lua_lls_get_max_time(lpp::Script::state);
+		static int lua_lls_get_curr_time(lpp::Script::state);
+		static int lua_lls_advance_curr_time(lpp::Script::state);
+
+		// Name.
+		static int lua_name_set(lpp::Script::state);
+		static int lua_name_get(lpp::Script::state);
+
+		// Experience value.
+		static int lua_exp_val_set(lpp::Script::state);
+		static int lua_exp_val_get(lpp::Script::state);
+		static int lua_exp_val_inc(lpp::Script::state);
+		static int lua_exp_val_dec(lpp::Script::state);
+
+		// Mana and spell system.
+		static int lua_mana_set_regen_period(lpp::Script::state);
+		static int lua_mana_get_regen_period(lpp::Script::state);
 };
