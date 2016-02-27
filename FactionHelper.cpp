@@ -17,3 +17,12 @@ FACTION FactionHelper::get_faction(EntitySystem& ents, std::size_t id)
 	else
 		return FACTION::NEUTRAL;
 }
+
+const std::string& FactionHelper::get_faction_name(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<FactionComponent>(id);
+	if(comp)
+		return ents.FACTION_NAME[(int)comp->faction];
+	else
+		return ents.FACTION_NAME[2]; // Neutral is the default.
+}
