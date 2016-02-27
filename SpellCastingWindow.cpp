@@ -100,6 +100,7 @@ bool SpellCastingWindow::inc_selection_()
 		++selection_number_;
 		update_selection_();
 	}
+	return true;
 }
 
 const std::string& SpellCastingWindow::get_spell_(std::size_t index)
