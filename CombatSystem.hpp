@@ -144,6 +144,17 @@ class CombatSystem : public System
 		 *        of attempts surpasses the maximum amount).
 		 */
 		void run_away_from(std::size_t, std::size_t, std::size_t);
+
+		/**
+		 * Brief: Sets the maximum amount of pathfinding attempts for running away.
+		 * Param: The new maximum amount.
+		 */
+		void set_max_run_away_attempts(std::size_t);
+
+		/**
+		 * Brief: Returns the maximum amount of pathfinding attempts for running away.
+		 */
+		std::size_t get_max_run_away_attempts();
 	private:
 		/**
 		 * Brief: Retuns a map containing pairs of IDs and components of a given type, use
@@ -182,6 +193,11 @@ class CombatSystem : public System
 		 * Used for polygon precise line of sight checking.
 		 */
 		RayCaster ray_caster_;
+
+		/**
+		 * Maximum amount of pathfindings performed when running away from an enemy.
+		 */
+		std::size_t max_run_away_attempts_{10};
 };
 
 /**
