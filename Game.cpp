@@ -1,30 +1,33 @@
 #include "Game.hpp"
 
 Game::Game() // TODO: Init systems.
-	: state_{GAME_STATE::RUNNING}, root_{nullptr}, window_{nullptr},
+	: state_{GAME_STATE::INTRO_MENU}, root_{nullptr}, window_{nullptr},
 	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
 	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
 	  camera_dir_{0, 0, 0}, renderer_{nullptr}, placer_{nullptr}, ground_{nullptr},
 	  camera_free_mode_{false}, camera_position_backup_{0, 0, 0},
 	  camera_orientation_backup_{}, selection_box_{}, entity_creator_{nullptr},
-	  mouse_position_{0.f, 0.f}
+      mouse_position_{0.f, 0.f}, level_generator_{nullptr}
 {
 	ogre_init();
 	ois_init();
 	cegui_init();
 	windowResized(window_); // Will adjust dimensions for OIS mouse.
 
-	entity_system_.reset(new EntitySystem(*scene_mgr_));
-	health_system_.reset(new HealthSystem(*entity_system_));
-	movement_system_.reset(new MovementSystem(*entity_system_));
-	input_system_.reset(new InputSystem(*entity_system_, *keyboard_, *main_cam_));
-	grid_system_.reset(new GridSystem(*entity_system_, *scene_mgr_));
-	combat_system_.reset(new CombatSystem(*entity_system_, *scene_mgr_, *grid_system_));
-	event_system_.reset(new EventSystem(*entity_system_));
-	task_system_.reset(new TaskSystem(*entity_system_, *grid_system_, *combat_system_));
-	production_system_.reset(new ProductionSystem(*entity_system_));
-	time_system_.reset(new TimeSystem(*entity_system_));
-	ai_system_.reset(new AISystem(*entity_system_));
+	entity_system_.reset(new EntitySystem{*scene_mgr_});
+	health_system_.reset(new HealthSystem{*entity_system_});
+	movement_system_.reset(new MovementSystem{*entity_system_});
+	input_system_.reset(new InputSystem{*entity_system_, *keyboard_, *main_cam_});
+	grid_system_.reset(new GridSystem{*entity_system_, *scene_mgr_});
+	combat_system_.reset(new CombatSystem{*entity_system_, *scene_mgr_, *grid_system_});
+	event_system_.reset(new EventSystem{*entity_system_});
+	task_system_.reset(new TaskSystem{*entity_system_, *grid_system_, *combat_system_});
+	production_system_.reset(new ProductionSystem{*entity_system_});
+	time_system_.reset(new TimeSystem{*entity_system_});
+	ai_system_.reset(new AISystem{*entity_system_});
+	graphics_system_.reset(new GraphicsSystem{*entity_system_});
+	trigger_system_.reset(new TriggerSystem{*entity_system_});
+	mana_spell_system_.reset(new ManaSpellSystem{*entity_system_});
 
 	systems_.emplace_back(entity_system_.get());
 	systems_.emplace_back(health_system_.get());
@@ -37,6 +40,9 @@ Game::Game() // TODO: Init systems.
 	systems_.emplace_back(production_system_.get());
 	systems_.emplace_back(time_system_.get());
 	systems_.emplace_back(event_system_.get());
+	systems_.emplace_back(graphics_system_.get());
+	systems_.emplace_back(trigger_system_.get());
+	systems_.emplace_back(mana_spell_system_.get());
 
 	selection_box_.reset(new SelectionBox{"MainSelectionBox",
 						                  *entity_system_,
@@ -47,7 +53,8 @@ Game::Game() // TODO: Init systems.
 	entity_creator_.reset(new EntityCreator{*placer_, *entity_system_});
 	game_serializer_.reset(new GameSerializer{*entity_system_});
 
-	level_init();
+	level_generator_.reset(new level_generators::DEFAULT_LEVEL_GENERATOR(*entity_system_, 10));
+	create_empty_level(16, 16); // In case initial load fails.
 	GUI::instance().init(this);
 	LuaInterface::init(this);
 	entity_creator_->init(GUI::instance().get_window("ENTITY_MANAGER"));
@@ -65,6 +72,7 @@ void Game::run()
 {
 	scene_mgr_->setAmbientLight(Ogre::ColourValue(.5, .5, .5));
 
+	game_serializer_->load_game(*this, "intro_dummy_level");
 	root_->startRendering();
 }
 
@@ -78,7 +86,7 @@ void Game::update(Ogre::Real delta)
 	if(GUI::instance().get_console().is_visible())
 		GUI::instance().get_console().update_fps(delta, window_->getLastFPS());
 
-	if(state_ == GAME_STATE::RUNNING)
+	if(state_ == GAME_STATE::RUNNING || state_ == GAME_STATE::INTRO_MENU)
 	{
 		for(auto& sys : systems_)
 			sys->update(delta);
@@ -87,14 +95,75 @@ void Game::update(Ogre::Real delta)
 
 void Game::set_state(GAME_STATE state)
 {
+	if((state_ == GAME_STATE::INTRO_MENU || state_ == GAME_STATE::MENU)
+	   && state != GAME_STATE::RUNNING && state != GAME_STATE::ENDED)
+		return; // Invalid transition.
+
 	if(state_ != state)
 	{
 		if(state == GAME_STATE::RUNNING)
+		{
 			GUI::instance().set_visible("MESSAGE", false);
+		}
 		else if(state == GAME_STATE::PAUSED)
 			GUI::instance().set_visible("MESSAGE", true);
 		state_ = state;
 	}
+}
+
+void Game::new_game(std::size_t width, std::size_t height)
+{
+	GUI::instance().get_log().clear();
+	create_empty_level(width, height);
+	level_generator_->generate(width, height);
+}
+
+void Game::create_empty_level(std::size_t width, std::size_t height)
+{
+	entity_system_->delete_entities();
+	entity_system_->cleanup();
+
+	Ogre::SceneNode* ground_node{};
+	if(ground_entity_)
+	{ // Recreate if already exists.
+		ground_node = ground_entity_->getParentSceneNode();
+		ground_node->detachObject(ground_entity_);
+		scene_mgr_->destroyEntity(ground_entity_);
+		scene_mgr_->destroySceneNode(ground_node);
+
+		auto& mesh_mgr = Ogre::MeshManager::getSingleton();
+		if(mesh_mgr.resourceExists("ground"))
+		{
+			//auto plane = mesh_mgr.getByName("ground");
+			mesh_mgr.unload("ground");
+			mesh_mgr.remove("ground");
+		}
+		mesh_mgr.unloadUnreferencedResources();
+	}
+
+	Ogre::Real actual_width{width * 100.f - 100.f}, actual_height{height * 100.f - 100.f};
+	ground_.reset(new Ogre::Plane{Ogre::Vector3::UNIT_Y, 0});
+	Ogre::MeshManager::getSingleton().createPlane(
+		"ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+		*ground_, actual_width, actual_height, 20, 20, true, 1, (Ogre::Real)width, (Ogre::Real)height, Ogre::Vector3::UNIT_Z
+	);
+
+	ground_entity_ = scene_mgr_->createEntity("ground");
+	ground_node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
+
+	ground_entity_->setCastShadows(false);
+	ground_node->attachObject(ground_entity_);
+	ground_node->setPosition((width * 100.f - 100.f) / 2.f, 0.f, (height * 100.f - 100.f) / 2.f);
+	ground_entity_->setMaterialName("rocky_ground");
+	ground_entity_->setQueryFlags(0);
+	Grid::instance().create_graph(*entity_system_, Ogre::Vector2{0, 0}, width, height, 100.f);
+}
+
+void Game::reset_camera()
+{
+	main_cam_->setPosition(0.f, 600.f, 0.f);
+	auto target = Grid::instance().get_center_position(*entity_system_);
+	main_cam_->lookAt(target.x, 0.f, target.y);
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
@@ -116,8 +185,11 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 	switch(event.key)
 	{
 		case OIS::KC_ESCAPE:
-			set_state(state_ == GAME_STATE::RUNNING ? GAME_STATE::PAUSED : GAME_STATE::RUNNING);
-			return false;
+			if(GUI::instance().escape_pressed())
+				return true;
+			if(state_ != GAME_STATE::MENU && state_ != GAME_STATE::INTRO_MENU)
+				set_state(state_ == GAME_STATE::RUNNING ? GAME_STATE::PAUSED : GAME_STATE::RUNNING);
+			return true;
 		case OIS::KC_GRAVE:
 			if(keyboard_->isModifierDown(OIS::Keyboard::Modifier::Shift))
 				entity_creator_->set_visible(!entity_creator_->is_visible());
@@ -130,7 +202,7 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 	auto& cont = CEGUI::System::getSingleton().getDefaultGUIContext();
 	auto b1 = cont.injectKeyDown((CEGUI::Key::Scan)event.key);
 	auto b2 = cont.injectChar((CEGUI::Key::Scan)event.text);
-	if(b1 || b2) // Guarantees both key and char injection.
+	if(b1 || b2 || state_ == GAME_STATE::MENU) // Guarantees both key and char injection.
 		return true;
 
 	// Allows for free camera movement during debugging.
@@ -165,7 +237,8 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 bool Game::keyReleased(const OIS::KeyEvent& event)
 {
 	// Pass to CEGUI.
-	if(CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp((CEGUI::Key::Scan)event.key))
+	if(CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp((CEGUI::Key::Scan)event.key)
+	   || state_ == GAME_STATE::ENDED)
 		return true; // Note: This wont return if editbox was focused!
 
 	// Allows for free camera movement during debbuging.
@@ -236,7 +309,7 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 {
 	auto& gui_context = CEGUI::System::getSingleton().getDefaultGUIContext();
-	if(gui_context.injectMouseButtonDown(ois_to_cegui(id)))
+	if(gui_context.injectMouseButtonDown(ois_to_cegui(id)) || state_ == GAME_STATE::MENU)
 		return true;
 
 	if(id == OIS::MB_Left && !placer_->is_visible()) // TODO: State switch!
@@ -254,7 +327,8 @@ bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 
 	if(placer_->is_visible())
 	{
-		if(id == OIS::MB_Left && state_ == GAME_STATE::RUNNING)
+		if(id == OIS::MB_Left && ((placer_->can_place_when_game_paused() && state_ == GAME_STATE::PAUSED)
+		   || state_ == GAME_STATE::RUNNING))
 			placer_->place(GUI::instance().get_console());
 		else if(id == OIS::MB_Right)
 			placer_->set_visible(false);
@@ -268,6 +342,8 @@ bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 {
 	auto& gui_context = CEGUI::System::getSingleton().getDefaultGUIContext();
 	gui_context.injectMouseButtonUp(ois_to_cegui(id));
+	if(state_ == GAME_STATE::MENU)
+		return true;
 
 	if(id == OIS::MB_Left && selection_box_->is_selecting())
 	{
@@ -356,15 +432,19 @@ void Game::ogre_init()
 		root_->initialise(false);
 
 	// Window init.
+#ifdef _DEBUG
+	window_ = root_->createRenderWindow("Dungeon Keeper", 1920, 1080, false);
+#else
 	window_ = root_->createRenderWindow("Dungeon Keeper", 1920, 1080, true);
+#endif
 	window_->setVisible(true);
 
 	// Scene init.
 	// TODO: Research different types of scene managers!
 	scene_mgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
 	main_cam_ = scene_mgr_->createCamera("MainCam");
-	main_cam_->setPosition(300, 300, 300);
-	main_cam_->lookAt(100, 100, 100);
+	main_cam_->setPosition(0, 300, 0);
+	main_cam_->lookAt(300, 0, 300);
 	main_cam_->setNearClipDistance(5);
 	main_view_ = window_->addViewport(main_cam_);
 	main_cam_->setAspectRatio(Ogre::Real(main_view_->getActualWidth()) /
@@ -393,25 +473,6 @@ void Game::ois_init()
 
 	keyboard_->setEventCallback(this);
 	mouse_->setEventCallback(this);
-}
-
-void Game::level_init()
-{
-	// Create floor.
-	ground_.reset(new Ogre::Plane{Ogre::Vector3::UNIT_Y, 0});
-	Ogre::MeshManager::getSingleton().createPlane(
-		"ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-		*ground_, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z
-		);
-	Ogre::Entity* ground_entity = scene_mgr_->createEntity("ground");
-	ground_entity->setCastShadows(false);
-	auto ground_node = scene_mgr_->getRootSceneNode()->createChildSceneNode();
-	ground_node->attachObject(ground_entity);
-	ground_node->setPosition(750.f, 0.f, 750.f);
-	ground_entity->setMaterialName("rocky_ground");
-	ground_entity->setQueryFlags(0);
-
-	Grid::instance().create_graph(*entity_system_, Ogre::Vector2{0, 0}, 16, 16, 100.f);
 }
 
 void Game::cegui_init()

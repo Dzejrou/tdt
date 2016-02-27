@@ -27,6 +27,10 @@
 #include "Grid.hpp"
 #include "GUI.hpp"
 #include "Player.hpp"
+#include "LevelGenerators.hpp"
+#include "GraphicsSystem.hpp"
+#include "TriggerSystem.hpp"
+#include "ManaSpellSystem.hpp"
 
 class Game : public Ogre::FrameListener, public OIS::KeyListener,
 			 public OIS::MouseListener, public Ogre::WindowEventListener
@@ -61,6 +65,21 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * Param: The new state.
 		 */
 		void set_state(GAME_STATE);
+
+		/**
+		 *
+		 */
+		void new_game(std::size_t, std::size_t);
+
+		/**
+		 *
+		 */
+		void create_empty_level(std::size_t, std::size_t);
+
+		/**
+		 * Brief: Resets the main camera's position and orientation to it's original state.
+		 */
+		void reset_camera();
 	protected:
 		/**
 		 * Inherited methods (callbacks).
@@ -80,7 +99,6 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 */
 		void ogre_init();
 		void ois_init();
-		void level_init();
 		void cegui_init();
 
 		/**
@@ -125,6 +143,9 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<ProductionSystem> production_system_{nullptr};
 		std::unique_ptr<TimeSystem> time_system_{nullptr};
 		std::unique_ptr<EventSystem> event_system_{nullptr};
+		std::unique_ptr<GraphicsSystem> graphics_system_{nullptr};
+		std::unique_ptr<TriggerSystem> trigger_system_{nullptr};
+		std::unique_ptr<ManaSpellSystem> mana_spell_system_{nullptr};
 
 		/**
 		 * Used to save the game.
@@ -156,6 +177,11 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * The game's ground represented by a plane, used for ray intersections.
 		 */
 		std::unique_ptr<Ogre::Plane> ground_;
+
+		/**
+		 * Entity holding the ground plane. Used for easier plane switching.
+		 */
+		Ogre::Entity* ground_entity_;
 
 		/**
 		 * Indicates whether the camera is in a free movement mode.
@@ -199,4 +225,10 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * Saved position of the mouse cursor (2D).
 		 */
 		Ogre::Vector2 mouse_position_;
+
+		/**
+		 * Used to create new levels (that is, to distribute walls and
+		 * gold deposits).
+		 */
+		std::unique_ptr<level_generators::LevelGenerator> level_generator_;
 };
