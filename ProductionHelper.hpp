@@ -5,6 +5,10 @@
 #include <cstdlib>
 class EntitySystem;
 
+/**
+ * Auxiliary namespace containing functions that help with the management of the
+ * production component.
+ */
 namespace ProductionHelper
 {
 	/**
