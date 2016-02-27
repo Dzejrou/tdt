@@ -100,7 +100,7 @@ std::size_t util::get_random(std::size_t min, std::size_t max)
 std::size_t util::abs(int val)
 {
 	if(val < 0)
-		return (std::size_t) -1 * val;
+		return (std::size_t) (-1 * val);
 	else
 		return val;
 }
