@@ -26,6 +26,7 @@
     <ClCompile Include="CombatHelper.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="ConstructorHelper.cpp" />
     <ClCompile Include="DestructorHelper.cpp" />
     <ClCompile Include="EntityCreator.cpp" />
     <ClCompile Include="EntityPlacer.cpp" />
@@ -34,12 +35,15 @@
     <ClCompile Include="EventHandlerHelper.cpp" />
     <ClCompile Include="EventHelper.cpp" />
     <ClCompile Include="EventSystem.cpp" />
+    <ClCompile Include="ExperienceValueHelper.cpp" />
+    <ClCompile Include="ExplosionHelper.cpp" />
     <ClCompile Include="FactionHelper.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameLog.cpp" />
     <ClCompile Include="GameSerializer.cpp" />
     <ClCompile Include="GoldHelper.cpp" />
     <ClCompile Include="GraphicsHelper.cpp" />
+    <ClCompile Include="GraphicsSystem.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GridNodeHelper.cpp" />
     <ClCompile Include="GridSystem.cpp" />
@@ -50,11 +54,18 @@
     <ClCompile Include="HomingHelper.cpp" />
     <ClCompile Include="InputHelper.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="LevelGenerators.cpp" />
+    <ClCompile Include="LimitedLifeSpanHelper.cpp" />
     <ClCompile Include="lppscript\LppScript.cpp" />
     <ClCompile Include="LuaInterface.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ManaCrystalHelper.cpp" />
+    <ClCompile Include="ManaSpellSystem.cpp" />
     <ClCompile Include="MovementHelper.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
+    <ClCompile Include="NameHelper.cpp" />
+    <ClCompile Include="NotificationHelper.cpp" />
+    <ClCompile Include="OnHitHelper.cpp" />
     <ClCompile Include="PathfindingHelper.cpp" />
     <ClCompile Include="PhysicsHelper.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -73,6 +84,9 @@
     <ClCompile Include="TimeHelper.cpp" />
     <ClCompile Include="TimeSystem.cpp" />
     <ClCompile Include="TopBar.cpp" />
+    <ClCompile Include="TriggerHelper.cpp" />
+    <ClCompile Include="TriggerSystem.cpp" />
+    <ClCompile Include="UpgradeHelper.cpp" />
     <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +98,7 @@
     <ClInclude Include="CombatSystem.hpp" />
     <ClInclude Include="Components.hpp" />
     <ClInclude Include="Console.hpp" />
+    <ClInclude Include="ConstructorHelper.hpp" />
     <ClInclude Include="DestructorHelper.hpp" />
     <ClInclude Include="EntityCreator.hpp" />
     <ClInclude Include="EntityPlacer.hpp" />
@@ -93,12 +108,15 @@
     <ClInclude Include="EventHandlerHelper.hpp" />
     <ClInclude Include="EventHelper.hpp" />
     <ClInclude Include="EventSystem.hpp" />
+    <ClInclude Include="ExperienceValueHelper.hpp" />
+    <ClInclude Include="ExplosionHelper.hpp" />
     <ClInclude Include="FactionHelper.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameLog.hpp" />
     <ClInclude Include="GameSerializer.hpp" />
     <ClInclude Include="GoldHelper.hpp" />
     <ClInclude Include="GraphicsHelper.hpp" />
+    <ClInclude Include="GraphicsSystem.hpp" />
     <ClInclude Include="Grid.hpp" />
     <ClInclude Include="GridNodeHelper.hpp" />
     <ClInclude Include="GridSystem.hpp" />
@@ -110,10 +128,17 @@
     <ClInclude Include="HomingHelper.hpp" />
     <ClInclude Include="InputHelper.hpp" />
     <ClInclude Include="InputSystem.hpp" />
+    <ClInclude Include="LevelGenerators.hpp" />
+    <ClInclude Include="LimitedLifeSpanHelper.hpp" />
     <ClInclude Include="lppscript\LppScript.hpp" />
     <ClInclude Include="LuaInterface.hpp" />
+    <ClInclude Include="ManaCrystalHelper.hpp" />
+    <ClInclude Include="ManaSpellSystem.hpp" />
     <ClInclude Include="MovementHelper.hpp" />
     <ClInclude Include="MovementSystem.hpp" />
+    <ClInclude Include="NameHelper.hpp" />
+    <ClInclude Include="NotificationHelper.hpp" />
+    <ClInclude Include="OnHitHelper.hpp" />
     <ClInclude Include="Pathfinding.hpp" />
     <ClInclude Include="PathfindingAlgorithms.hpp" />
     <ClInclude Include="PathfindingHelper.hpp" />
@@ -135,6 +160,9 @@
     <ClInclude Include="TimeHelper.hpp" />
     <ClInclude Include="TimeSystem.hpp" />
     <ClInclude Include="TopBar.hpp" />
+    <ClInclude Include="TriggerHelper.hpp" />
+    <ClInclude Include="TriggerSystem.hpp" />
+    <ClInclude Include="UpgradeHelper.hpp" />
     <ClInclude Include="Util.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
