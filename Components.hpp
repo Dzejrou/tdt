@@ -7,11 +7,12 @@
 #include <bitset>
 #include <memory>
 #include <numeric>
+#include <utility>
 #include "Enums.hpp"
 
 struct Component
 {
-	static constexpr int count = 26;
+	static constexpr int count = 36;
 	static constexpr std::size_t NO_ENTITY = std::numeric_limits<std::size_t>::max();
 };
 
@@ -20,6 +21,9 @@ struct Component
  * Note: To be able to manually create components without blueprints, all components must have
  *       either default constructors or constructors with default values for all parameters, to be able
  *       to back components up, they need to provide a copy constructor.
+ * Note: As constructors are called in the EntitySystem::load_component function, strings will be read
+ *       from Lua and immediately discarded. Hence it was decided to make the string parameters
+ *       accepted as rvalues for faster construction.
  */
 
 /**
@@ -37,6 +41,7 @@ struct PhysicsComponent
 	PhysicsComponent(PhysicsComponent&&) = default;
 	PhysicsComponent& operator=(const PhysicsComponent&) = default;
 	PhysicsComponent& operator=(PhysicsComponent&&) = default;
+	~PhysicsComponent() = default;
 
 	bool solid;
 	Ogre::Vector3 position;
@@ -58,6 +63,7 @@ struct HealthComponent
 	HealthComponent(HealthComponent&&) = default;
 	HealthComponent& operator=(const HealthComponent&) = default;
 	HealthComponent& operator=(HealthComponent&&) = default;
+	~HealthComponent() = default;
 
 	std::size_t curr_hp;
 	std::size_t max_hp;
@@ -74,14 +80,15 @@ struct AIComponent
 {
 	static constexpr int type = 2;
 
-	AIComponent(const std::string& s = "ERROR",
+	AIComponent(std::string&& s = "ERROR",
 				ENTITY_STATE st = ENTITY_STATE::NORMAL)
-		: blueprint{s}, state{st}
+		: blueprint{std::move(s)}, state{st}
 	{ /* DUMMY BODY */ }
 	AIComponent(const AIComponent&) = default;
 	AIComponent(AIComponent&&) = default;
 	AIComponent& operator=(const AIComponent&) = default;
 	AIComponent& operator=(AIComponent&&) = default;
+	~AIComponent() = default;
 
 	std::string blueprint;
 	ENTITY_STATE state;
@@ -94,16 +101,18 @@ struct GraphicsComponent
 {
 	static constexpr int type = 3;
 
-	GraphicsComponent(const std::string& me = "ogrehead.mesh",
-					  const std::string& ma = "Ogre", bool v = true,
+	GraphicsComponent(std::string&& me = "ogrehead.mesh",
+					  std::string&& ma = "Ogre", bool v = true,
 					  bool manual = false, Ogre::Vector3 sc = Ogre::Vector3{0, 0, 0})
-		: mesh{me}, material{ma}, visible{v}, node{nullptr}, entity{nullptr},
+		: mesh{std::move(me)}, material{std::move(ma)},
+		  visible{v}, node{nullptr}, entity{nullptr},
 		  manual_scaling{manual}, scale{sc}
 	{ /* DUMMY BODY */ }
 	GraphicsComponent(const GraphicsComponent&) = default;
 	GraphicsComponent(GraphicsComponent&&) = default;
 	GraphicsComponent& operator=(const GraphicsComponent&) = default;
 	GraphicsComponent& operator=(GraphicsComponent&&) = default;
+	~GraphicsComponent() = default;
 
 	std::string mesh;
 	std::string material;
@@ -130,6 +139,7 @@ struct MovementComponent
 	MovementComponent(MovementComponent&&) = default;
 	MovementComponent& operator=(const MovementComponent&) = default;
 	MovementComponent& operator=(MovementComponent&&) = default;
+	~MovementComponent() = default;
 
 	Ogre::Real speed_modifier;
 };
@@ -143,14 +153,16 @@ struct CombatComponent
 	static constexpr int type = 5;
 
 	CombatComponent(std::size_t target = Component::NO_ENTITY, std::size_t mi = 0,
-					std::size_t ma = 0, Ogre::Real cd = 0, Ogre::Real r = 0.f, int type = 0)
+					std::size_t ma = 0, Ogre::Real cd = 0, Ogre::Real r = 0.f, int type = 0,
+					bool p = false)
 		: curr_target{target}, min_dmg{mi},	max_dmg{ma}, cooldown{cd}, cd_time{cd},
-		  range{r}, atk_type((ATTACK_TYPE)type)
+		  range{r}, atk_type((ATTACK_TYPE)type), pursue{p}
 	{ /* DUMMY BODY */ }
 	CombatComponent(const CombatComponent&) = default;
 	CombatComponent(CombatComponent&&) = default;
 	CombatComponent& operator=(const CombatComponent&) = default;
 	CombatComponent& operator=(CombatComponent&&) = default;
+	~CombatComponent() = default;
 
 	std::size_t curr_target;
 	std::size_t min_dmg;
@@ -159,6 +171,7 @@ struct CombatComponent
 	Ogre::Real cooldown;
 	Ogre::Real range;
 	ATTACK_TYPE atk_type;
+	bool pursue;
 };
 
 /**
@@ -177,6 +190,7 @@ struct EventComponent
 	EventComponent(EventComponent&&) = default;
 	EventComponent& operator=(const EventComponent&) = default;
 	EventComponent& operator=(EventComponent&&) = default;
+	~EventComponent() = default;
 
 	EVENT_TYPE event_type;
 	std::size_t target;
@@ -192,13 +206,15 @@ struct InputComponent
 {
 	static constexpr int type = 7;
 
-	InputComponent(const std::string& handler = "ERROR.input_handler")
-		: input_handler{handler}
+	// TODO: Should it be ERROR or ERROR.input_handler?
+	InputComponent(std::string&& handler = "ERROR.input_handler")
+		: input_handler{std::move(handler)}
 	{ /* DUMMY BODY */ }
 	InputComponent(const InputComponent&) = default;
 	InputComponent(InputComponent&&) = default;
 	InputComponent& operator=(const InputComponent&) = default;
 	InputComponent& operator=(InputComponent&&) = default;
+	~InputComponent() = default;
 
 	std::string input_handler;
 };
@@ -219,6 +235,7 @@ struct TimeComponent
 	TimeComponent(TimeComponent&&) = default;
 	TimeComponent& operator=(const TimeComponent&) = default;
 	TimeComponent& operator=(TimeComponent&&) = default;
+	~TimeComponent() = default;
 
 	Ogre::Real curr_time;
 	Ogre::Real time_limit;
@@ -243,19 +260,22 @@ struct SpellComponent
 };
 
 /**
- * TODO:
+ * Allows scheduled production of new entities (spawners) of a given type
+ * up to a maximum amount.
  */
 struct ProductionComponent
 {
 	static constexpr int type = 11;
 
-	ProductionComponent(const std::string& b = "ERROR", std::size_t l = 1, Ogre::Real cd = 0.f)
-		: product_blueprint{b}, curr_produced{0}, max_produced{l}, cooldown{cd}, curr_cd{0}
+	ProductionComponent(std::string&& b = "ERROR", std::size_t l = 1, Ogre::Real cd = 0.f)
+		: product_blueprint{std::move(b)}, curr_produced{0},
+		  max_produced{l}, cooldown{cd}, curr_cd{0}
 	{ /* DUMMY BODY */ }
 	ProductionComponent(const ProductionComponent&) = default;
 	ProductionComponent(ProductionComponent&&) = default;
 	ProductionComponent& operator=(const ProductionComponent&) = default;
 	ProductionComponent& operator=(ProductionComponent&&) = default;
+	~ProductionComponent() = default;
 
 	std::string product_blueprint;
 	std::size_t curr_produced;
@@ -285,12 +305,8 @@ struct GridNodeComponent
 	GridNodeComponent(GridNodeComponent&&) = default;
 	GridNodeComponent& operator=(const GridNodeComponent&) = default;
 	GridNodeComponent& operator=(GridNodeComponent&&) = default;
+	~GridNodeComponent() = default;
 
-	/**
-	 * Note: For more versatility of the game engine, using
-	 * a std::vector instead would allow for non grid-like
-	 * pathfinding graphs.
-	 */
 	std::array<std::size_t, neighbour_count> neighbours;
 	bool free;
 	std::size_t x, y; // Position in the grid.
@@ -312,6 +328,7 @@ struct ProductComponent
 	ProductComponent(ProductComponent&&) = default;
 	ProductComponent& operator=(const ProductComponent&) = default;
 	ProductComponent& operator=(ProductComponent&&) = default;
+	~ProductComponent() = default;
 
 	std::size_t producer;
 };
@@ -323,14 +340,15 @@ struct PathfindingComponent
 {
 	static constexpr int type = 14;
 
-	PathfindingComponent(const std::string& cost = "ERROR", std::size_t tar = 0,
+	PathfindingComponent(std::string&& b = "ERROR", std::size_t tar = 0,
 						 std::size_t last = 0)
-		: target_id{tar}, last_id{last}, path_queue{}, blueprint{cost}
+		: target_id{tar}, last_id{last}, path_queue{}, blueprint{std::move(b)}
 	{ /* DUMMY BODY */ }
 	PathfindingComponent(const PathfindingComponent&) = default;
 	PathfindingComponent(PathfindingComponent&&) = default;
 	PathfindingComponent& operator=(const PathfindingComponent&) = default;
 	PathfindingComponent& operator=(PathfindingComponent&&) = default;
+	~PathfindingComponent() = default;
 	
 	std::size_t target_id, last_id;
 	std::deque<std::size_t> path_queue;
@@ -355,6 +373,7 @@ struct TaskComponent
 	TaskComponent(TaskComponent&&) = default;
 	TaskComponent& operator=(const TaskComponent&) = default;
 	TaskComponent& operator=(TaskComponent&&) = default;
+	~TaskComponent() = default;
 
 	TASK_TYPE task_type;
 	std::size_t source, target;
@@ -369,14 +388,15 @@ struct TaskHandlerComponent
 {
 	static constexpr int type = 16;
 
-	TaskHandlerComponent(const std::string& b = "ERROR")
+	TaskHandlerComponent(std::string&& b = "ERROR")
 		: curr_task{Component::NO_ENTITY}, possible_tasks{}, task_queue{},
-		  busy{false}, blueprint{b}
+		  busy{false}, blueprint{std::move(b)}
 	{  /* DUMMY BODY */ }
 	TaskHandlerComponent(const TaskHandlerComponent&) = default;
 	TaskHandlerComponent(TaskHandlerComponent&&) = default;
 	TaskHandlerComponent& operator=(const TaskHandlerComponent&) = default;
 	TaskHandlerComponent& operator=(TaskHandlerComponent&&) = default;
+	~TaskHandlerComponent() = default;
 
 	std::size_t curr_task;
 	std::bitset<(int)TASK_TYPE::COUNT> possible_tasks;
@@ -400,6 +420,7 @@ struct StructureComponent
 	StructureComponent(StructureComponent&&) = default;
 	StructureComponent& operator=(const StructureComponent&) = default;
 	StructureComponent& operator=(StructureComponent&&) = default;
+	~StructureComponent() = default;
 
 	std::size_t radius;
 	bool walk_through;
@@ -423,6 +444,7 @@ struct HomingComponent
 	HomingComponent(HomingComponent&&) = default;
 	HomingComponent& operator=(const HomingComponent&) = default;
 	HomingComponent& operator=(HomingComponent&&) = default;
+	~HomingComponent() = default;
 
 	std::size_t source;
 	std::size_t target;
@@ -438,13 +460,14 @@ struct EventHandlerComponent
 {
 	static constexpr int type = 19;
 
-	EventHandlerComponent(const std::string& h = "ERROR")
-		: handler{h}, possible_events{}
+	EventHandlerComponent(std::string&& h = "ERROR")
+		: handler{std::move(h)}, possible_events{}
 	{ /* DUMMY BODY */ }
 	EventHandlerComponent(const EventHandlerComponent&) = default;
 	EventHandlerComponent(EventHandlerComponent&&) = default;
 	EventHandlerComponent& operator=(const EventHandlerComponent&) = default;
 	EventHandlerComponent& operator=(EventHandlerComponent&&) = default;
+	~EventHandlerComponent() = default;
 
 	std::string handler;
 	std::bitset<(int)EVENT_TYPE::COUNT> possible_events;
@@ -459,12 +482,13 @@ struct DestructorComponent
 	static constexpr int type = 20;
 
 	DestructorComponent(std::string b = "ERROR")
-		: blueprint{b}
+		: blueprint{std::move(b)}
 	{ /* DUMMY BODY */ }
 	DestructorComponent(const DestructorComponent&) = default;
 	DestructorComponent(DestructorComponent&&) = default;
 	DestructorComponent& operator=(const DestructorComponent&) = default;
 	DestructorComponent& operator=(DestructorComponent&&) = default;
+	~DestructorComponent() = default;
 
 	std::string blueprint;
 };
@@ -484,6 +508,7 @@ struct GoldComponent
 	GoldComponent(GoldComponent&&) = default;
 	GoldComponent& operator=(const GoldComponent&) = default;
 	GoldComponent& operator=(GoldComponent&&) = default;
+	~GoldComponent() = default;
 
 	std::size_t max_amount;
 	std::size_t curr_amount;
@@ -504,6 +529,7 @@ struct FactionComponent
 	FactionComponent(FactionComponent&&) = default;
 	FactionComponent& operator=(const FactionComponent&) = default;
 	FactionComponent& operator=(FactionComponent&&) = default;
+	~FactionComponent() = default;
 
 	FACTION faction;
 };
@@ -522,6 +548,7 @@ struct PriceComponent
 	PriceComponent(PriceComponent&&) = default;
 	PriceComponent& operator=(const PriceComponent&) = default;
 	PriceComponent& operator=(PriceComponent&&) = default;
+	~PriceComponent() = default;
 
 	std::size_t price;
 };
@@ -550,6 +577,7 @@ struct AlignComponent
 	AlignComponent(AlignComponent&&) = default;
 	AlignComponent& operator=(const AlignComponent&) = default;
 	AlignComponent& operator=(AlignComponent&&) = default;
+	~AlignComponent() = default;
 
 	std::array<AlignState, state_count> states;
 };
@@ -561,4 +589,220 @@ struct AlignComponent
 struct MineComponent
 {
 	static constexpr int type = 25;
+};
+
+/**
+ * Allows an entity to increase the player's mana capacity and
+ * regeneration rate while it's alive.
+ */
+struct ManaCrystalComponent
+{
+	static constexpr int type = 26;
+
+	ManaCrystalComponent(std::size_t cap = 0, std::size_t regen = 0)
+		: cap_increase{cap}, regen_increase{regen}
+	{ /* DUMMY BODY */ }
+	ManaCrystalComponent(const ManaCrystalComponent&) = default;
+	ManaCrystalComponent(ManaCrystalComponent&&) = default;
+	ManaCrystalComponent& operator=(const ManaCrystalComponent&) = default;
+	ManaCrystalComponent& operator=(ManaCrystalComponent&&) = default;
+	~ManaCrystalComponent() = default;
+
+	std::size_t cap_increase;
+	std::size_t regen_increase;
+};
+
+/**
+ * Contains the blueprint table which gets called when an entity
+ * that has this component gets hit.
+ */
+struct OnHitComponent
+{
+	static constexpr int type = 27;
+
+	OnHitComponent(std::string&& b = "ERROR", Ogre::Real cd = 0.f)
+		: blueprint{std::move(b)}, curr_time{cd}, cooldown{cd}
+	{ /* DUMMY BODY */ }
+	OnHitComponent(const OnHitComponent&) = default;
+	OnHitComponent(OnHitComponent&&) = default;
+	OnHitComponent& operator=(const OnHitComponent&) = default;
+	OnHitComponent& operator=(OnHitComponent&&) = default;
+	~OnHitComponent() = default;
+
+	std::string blueprint;
+	Ogre::Real curr_time;
+	Ogre::Real cooldown;
+};
+
+/**
+ * Contains the blueprint that gets called when an entity that has this
+ * component is created.
+ */
+struct ConstructorComponent
+{
+	static constexpr int type = 28;
+
+	ConstructorComponent(std::string&& b = "ERROR")
+		: blueprint{std::move(b)}
+	{ /* DUMMY BODY */ }
+	ConstructorComponent(const ConstructorComponent&) = default;
+	ConstructorComponent(ConstructorComponent&&) = default;
+	ConstructorComponent& operator=(const ConstructorComponent&) = default;
+	ConstructorComponent& operator=(ConstructorComponent&&) = default;
+	~ConstructorComponent() = default;
+
+	std::string blueprint;
+};
+
+/**
+ * Allows an entity to cause an effect (by calling it's blueprint) when
+ * its triggered (stepped on) or can notify a linked entity which causes the effect.
+ */
+struct TriggerComponent
+{
+	static constexpr int type = 29;
+
+	TriggerComponent(std::string&& b = "ERROR", Ogre::Real cd = 0.f, Ogre::Real rad = 0.f)
+		: blueprint{std::move(b)}, linked_entity{Component::NO_ENTITY},
+		  curr_time{0.f}, cooldown{cd}, radius{rad}
+	{ /* DUMMY BODY */ }
+	TriggerComponent(const TriggerComponent&) = default;
+	TriggerComponent(TriggerComponent&&) = default;
+	TriggerComponent& operator=(const TriggerComponent&) = default;
+	TriggerComponent& operator=(TriggerComponent&&) = default;
+	~TriggerComponent() = default;
+
+	std::string blueprint;
+	std::size_t linked_entity;
+	Ogre::Real curr_time;
+	Ogre::Real cooldown;
+	Ogre::Real radius;
+};
+
+/**
+ * Represents the game's leveling system component, contains info about experience
+ * and leveling progression as well as the blueprint that gets called on level up.
+ */
+struct UpgradeComponent
+{
+	static constexpr int type = 30;
+
+	UpgradeComponent(std::string&& b = "ERROR", std::size_t exp = 100, std::size_t cap = 5)
+		: blueprint{std::move(b)}, experience{0}, exp_needed{exp}, level{0}, level_cap{cap}
+	{ /* DUMMY BODY */ }
+	UpgradeComponent(const UpgradeComponent&) = default;
+	UpgradeComponent(UpgradeComponent&&) = default;
+	UpgradeComponent& operator=(const UpgradeComponent&) = default;
+	UpgradeComponent& operator=(UpgradeComponent&&) = default;
+	~UpgradeComponent() = default;
+
+	std::string blueprint;
+	std::size_t experience;
+	std::size_t exp_needed;
+	std::size_t level;
+	std::size_t level_cap;
+};
+
+/**
+ * Allows to keep track about notification cooldown, so that an entity
+ * doesn't spam the player with messages on reoccuring events in a short
+ * time period.
+ */
+struct NotificationComponent
+{
+	static constexpr int type = 31;
+
+	NotificationComponent(Ogre::Real cd = 0.f)
+		: curr_time{0.f}, cooldown{cd}
+	{ /* DUMMY BODY */ }
+	NotificationComponent(const NotificationComponent&) = default;
+	NotificationComponent(NotificationComponent&&) = default;
+	NotificationComponent& operator=(const NotificationComponent&) = default;
+	NotificationComponent& operator=(NotificationComponent&&) = default;
+	~NotificationComponent() = default;
+
+	Ogre::Real curr_time;
+	Ogre::Real cooldown;
+};
+
+/**
+ * Component used to create the visual effect of an explosion, the
+ * damage should be done in the explosion's constructor so that it's not
+ * applied on each frame.
+ */
+struct ExplosionComponent
+{
+	static constexpr int type = 32;
+
+	ExplosionComponent(Ogre::Real d = 0.f, Ogre::Real rad = 0.f)
+		: delta{d}, max_radius{rad}, curr_radius{0.f}
+	{ /* DUMMY BODY */ }
+	ExplosionComponent(const ExplosionComponent&) = default;
+	ExplosionComponent(ExplosionComponent&&) = default;
+	ExplosionComponent& operator=(const ExplosionComponent&) = default;
+	ExplosionComponent& operator=(ExplosionComponent&&) = default;
+	~ExplosionComponent() = default;
+
+	Ogre::Real delta;
+	Ogre::Real max_radius;
+	Ogre::Real curr_radius;
+};
+
+/**
+ * Allows to create entities that are automatically killed (summons)
+ * after a certain amount of time has passed (lifespan).
+ */
+struct LimitedLifeSpanComponent
+{
+	static constexpr int type = 33;
+
+	LimitedLifeSpanComponent(Ogre::Real max = 0.f)
+		: max_time{max}, curr_time{0.}
+	{ /* DUMMY BODY */ }
+	LimitedLifeSpanComponent(const LimitedLifeSpanComponent&) = default;
+	LimitedLifeSpanComponent(LimitedLifeSpanComponent&&) = default;
+	LimitedLifeSpanComponent& operator=(const LimitedLifeSpanComponent&) = default;
+	LimitedLifeSpanComponent& operator=(LimitedLifeSpanComponent&&) = default;
+	~LimitedLifeSpanComponent() = default;
+
+	Ogre::Real curr_time;
+	Ogre::Real max_time;
+};
+
+/**
+ * Name of the entity shown in the entity viewer.
+ */
+struct NameComponent
+{
+	static constexpr int type = 34;
+
+	NameComponent(std::string&& n = "ERROR")
+		: name{std::move(n)}
+	{ /* DUMMY BODY */ }
+	NameComponent(const NameComponent&) = default;
+	NameComponent(NameComponent&&) = default;
+	NameComponent& operator=(const NameComponent&) = default;
+	NameComponent& operator=(NameComponent&&) = default;
+	~NameComponent() = default;
+
+	std::string name;
+};
+
+/**
+ * The amount of experience the entity yields when killed.
+ */
+struct ExperienceValueComponent
+{
+	static constexpr int type = 35;
+
+	ExperienceValueComponent(std::size_t v = 0)
+		: value{v}
+	{ /* DUMMY BODY */ }
+	ExperienceValueComponent(const ExperienceValueComponent&) = default;
+	ExperienceValueComponent(ExperienceValueComponent&&) = default;
+	ExperienceValueComponent& operator=(const ExperienceValueComponent&) = default;
+	ExperienceValueComponent& operator=(ExperienceValueComponent&&) = default;
+	~ExperienceValueComponent() = default;
+
+	std::size_t value;
 };
