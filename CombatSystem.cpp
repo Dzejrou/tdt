@@ -180,6 +180,46 @@ std::size_t CombatSystem::get_closest_gold_vault(std::size_t id, bool only_sight
 		return get_closest_entity<StructureComponent>(id, util::IS_GOLD_VAULT(entities_), only_sight);
 }
 
+void CombatSystem::run_away_from(std::size_t id, std::size_t from_id, std::size_t min_node_count)
+{
+	auto phys = entities_.get_component<PhysicsComponent>(id);
+	auto path = entities_.get_component<PathfindingComponent>(id);
+	if(phys && path)
+	{
+		std::size_t attempts{0};
+		std::size_t start_node{Grid::instance().get_node_from_position(phys->position.x, phys->position.z)};
+		std::size_t target{Component::NO_ENTITY}, target_node_count{0};
+
+		std::deque<std::size_t> path{};
+		Ogre::Real min_distance{}; // Closest node from the path to the enemy.
+		util::heuristic::RUN_AWAY_HEURISTIC heuristic{entities_, from_id};
+
+		while(attempts < max_run_away_attempts_)
+		{ // Check different random nodes to find the furthest one.
+			std::size_t new_target{Grid::instance().get_random_free_node()};
+			path = util::pathfinding::A_STAR<util::DEFAULT_PATH_TYPE>::get_path(entities_, id, start_node, new_target, heuristic, false);
+
+			Ogre::Real new_min_distance{std::numeric_limits<Ogre::Real>::max()};
+			for(const auto& node : path)
+			{
+				Ogre::Real dist = PhysicsHelper::get_distance(entities_, node, from_id);
+				new_min_distance = (dist < new_min_distance) ? dist : new_min_distance;
+			}
+
+			if(new_min_distance > min_distance && path.size() > target_node_count
+			   && path.size() > min_node_count)
+			{
+				target = new_target;
+				min_distance = new_min_distance;
+			}
+			++attempts;
+		}
+
+		if(!path.empty()) // Perform the actual pathfinding for the best target found.
+			util::pathfind<util::pathfinding::A_STAR<util::DEFAULT_PATH_TYPE>>(entities_, id, target, heuristic, true, false);
+	}
+}
+
 void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent& combat)
 {
 	std::size_t id = entities_.create_entity("basic_projectile");
