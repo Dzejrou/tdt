@@ -193,4 +193,9 @@ class GUI
 		 * Allows the player to cast spells.
 		 */
 		SpellCastingWindow spell_casting_;
+
+		/**
+		 * Allows easier access to the menu subwindow.
+		 */
+		CEGUI::Window* menu_;
 };
