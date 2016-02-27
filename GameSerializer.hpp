@@ -259,6 +259,12 @@ inline void GameSerializer::save_component<ProductionComponent>(std::size_t id, 
 		+ "game.production.set_progress(" + tbl_name + ", " + std::to_string(comp->curr_cd) + ")\n"
 	};
 
+	if(FactionHelper::get_faction(entities_, id) == FACTION::FRIENDLY)
+	{
+		comm += "game.player.add_max_units(" + std::to_string(comp->max_produced)
+			  + ")\ngame.player.add_curr_units(" + std::to_string(comp->curr_produced) + ")\n";
+	}
+
 	save_components_.emplace_back(std::move(comm));
 }
 
@@ -448,8 +454,124 @@ inline void GameSerializer::save_component<AlignComponent>(std::size_t id, const
 
 	save_components_.emplace_back(std::move(comm));
 }
+
 template<>
 inline void GameSerializer::save_component<MineComponent>(std::size_t id, const std::string& tbl_name)
 {
-	save_components_.emplace_back("game.add_component(" + tbl_name + ", game.enum.component.mine");
+	save_components_.emplace_back("game.entity.add_component(" + tbl_name + ", game.enum.component.mine)\n");
+}
+
+template<>
+inline void GameSerializer::save_component<ManaCrystalComponent>(std::size_t id, const std::string& tbl_name)
+{
+	// TODO: Skip comm string where possible when saving previous components!
+	auto comp = entities_.get_component<ManaCrystalComponent>(id);
+	save_components_.emplace_back(
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.mana_crystal)\n"
+		+ "game.mana_crystal.set_cap(" + tbl_name + ", " + std::to_string(comp->cap_increase)
+		+ ")\n game.mana_crystal.set_regen(" + tbl_name + ", " + std::to_string(comp->regen_increase) + ")\n"
+	);
+}
+
+template<>
+inline void GameSerializer::save_component<OnHitComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<OnHitComponent>(id);
+	save_components_.emplace_back(
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.on_hit)\n"
+		+ "game.on_hit.set_blueprint(" + tbl_name + ", " + comp->blueprint
+		+ ")\ngame.on_hit.set_cooldown(" + tbl_name + ", " + std::to_string(comp->cooldown) + ")\n"
+	);
+}
+
+template<>
+inline void GameSerializer::save_component<ConstructorComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<ConstructorComponent>(id);
+	save_components_.emplace_back(
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.constructor)\n"
+		+ "game.constructor.set_blueprint(" + tbl_name + ", " + comp->blueprint + ")\n"
+	);
+}
+
+template<>
+inline void GameSerializer::save_component<TriggerComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<TriggerComponent>(id);
+	save_components_.emplace_back(
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.trigger)\n"
+		+ "game.trigger.set_blueprint(" + tbl_name + ", " + comp->blueprint + ")\n"
+		+ "game.trigger.set_linked_entity(" + tbl_name + ", " + std::to_string(comp->linked_entity)
+		+ ")\ngame.trigger.set_cooldown(" + tbl_name + ", " + std::to_string(comp->cooldown) + ")\n"
+	);
+}
+
+template<>
+inline void GameSerializer::save_component<UpgradeComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<UpgradeComponent>(id);
+	save_components_.emplace_back(
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.upgrade)\n"
+		+ "game.upgrade.set_blueprint(" + tbl_name + ", " + comp->blueprint + ")\n"
+		+ "game.upgrade.set_experience(" + tbl_name + ", " + std::to_string(comp->experience)
+		+ ")\ngame.upgrade.set_exp_needed(" + tbl_name + ", " + std::to_string(comp->exp_needed)
+		+ ")\ngame.upgrade.set_level(" + tbl_name + ", " + std::to_string(comp->level)
+		+ ")\ngame.upgrade.set_level_cap(" + tbl_name + ", " + std::to_string(comp->level_cap) + ")\n"
+	);
+}
+
+template<>
+inline void GameSerializer::save_component<NotificationComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<NotificationComponent>(id);
+	save_components_.emplace_back(
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.notification)\n"
+		+ "game.notification.set_cooldown(" + tbl_name + ", " + std::to_string(comp->cooldown) + ")\n"
+		+ "game.notification.advance_curr_time(" + tbl_name + ", " + std::to_string(comp->curr_time) + ")\n"
+	);
+}
+
+template<>
+inline void GameSerializer::save_component<ExplosionComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<ExplosionComponent>(id);
+	save_components_.emplace_back(
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.explosion)\n"
+		+ "game.explosion.set_delta(" + tbl_name + ", " + std::to_string(comp->delta) + ")\n"
+		+ "game.explosion.set_max_radius(" + tbl_name + ", " + std::to_string(comp->max_radius) + ")\n"
+		+ "game.explosion.increase_curr_radius(" + tbl_name + ", " + std::to_string(comp->curr_radius) + ")\n"
+	);
+}
+
+template<>
+inline void GameSerializer::save_component<LimitedLifeSpanComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<LimitedLifeSpanComponent>(id);
+	save_components_.emplace_back(
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.lls)\n"
+		+ "game.lls.set_max_time(" + tbl_name + ", " + std::to_string(comp->max_time) + ")\n"
+		+ "game.lls.advance_curr_time(" + tbl_name + ", " + std::to_string(comp->curr_time) + ")\n"
+	);
+}
+
+template<>
+inline void GameSerializer::save_component<NameComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<NameComponent>(id);
+	save_components_.emplace_back(
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.name)\n"
+		+ "game.name.set(" + tbl_name + ", " + comp->name + ")\n"
+	);
+
+}
+
+template<>
+inline void GameSerializer::save_component<ExperienceValueComponent>(std::size_t id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<ExperienceValueComponent>(id);
+	save_components_.emplace_back(
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.exp_val)\n"
+		+ "game.exp_val.set(" + tbl_name + ", " + std::to_string(comp->value) + ")\n"
+	);
+
 }

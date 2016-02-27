@@ -41,6 +41,14 @@ GameSerializer::GameSerializer(EntitySystem& ents)
 	serializers_[PriceComponent::type] = &GameSerializer::save_component<PriceComponent>;
 	serializers_[AlignComponent::type] = &GameSerializer::save_component<AlignComponent>;
 	serializers_[MineComponent::type] = &GameSerializer::save_component<MineComponent>;
+	serializers_[ManaCrystalComponent::type] = &GameSerializer::save_component<ManaCrystalComponent>;
+	serializers_[OnHitComponent::type] = &GameSerializer::save_component<OnHitComponent>;
+	serializers_[ConstructorComponent::type] = &GameSerializer::save_component<ConstructorComponent>;
+	serializers_[TriggerComponent::type] = &GameSerializer::save_component<TriggerComponent>;
+	serializers_[UpgradeComponent::type] = &GameSerializer::save_component<UpgradeComponent>;
+	serializers_[NotificationComponent::type] = &GameSerializer::save_component<NotificationComponent>;
+	serializers_[ExplosionComponent::type] = &GameSerializer::save_component<ExplosionComponent>;
+	serializers_[LimitedLifeSpanComponent::type] = &GameSerializer::save_component<LimitedLifeSpanComponent>;
 }
 
 void GameSerializer::save_game(Game& game, const std::string& fname)
@@ -49,7 +57,17 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 	file_.open(file_name);
 	std::vector<std::string> temp_vars{};
 
-	// TODO: Things like player info etc.
+	std::string header{
+		"game.gui.log.clear()\n"
+	};
+
+	auto& player = Player::instance();
+	std::string plr{
+		  "game.player.nulify_stats()\ngame.player.add_gold(" + std::to_string(player.get_gold())
+		+ ")\ngame.player.add_mana(" + std::to_string(player.get_mana())
+		+ ")\ngame.player.add_max_mana(" + std::to_string(player.get_max_mana())
+		+ ")\ngame.player.add_mana_regen(" + std::to_string(player.get_mana_regen()) + ")\n\n"
+	};
 
 	// Save the map info.
 	std::string map{
@@ -64,7 +82,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 		nodes.append("entity_" + std::to_string(ent.first) + "=" +  std::to_string(ent.first) + "\n");
 		temp_vars.emplace_back("entity_" + std::to_string(ent.first));
 	}
-	file_ << map << nodes << "\n\n-- ENTITIES:\n";
+	file_ << header << plr << map << nodes << "\n\n-- ENTITIES:\n";
 
 	// Save individual entities.
 	std::string entity_name{};
@@ -126,6 +144,8 @@ void GameSerializer::load_game(Game& game, const std::string& fname)
 			 to_be_deleted = nil \
 			 collectgarbage()"
 			);
+
+		game.reset_camera();
 	}
 	catch(lpp::Exception& ex)
 	{
