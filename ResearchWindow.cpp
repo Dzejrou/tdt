@@ -23,6 +23,24 @@ void ResearchWindow::unlock(std::size_t i, std::size_t j)
 		script_->call<void, std::size_t, std::size_t>("game.gui.research.unlock", i, j);
 }
 
+void ResearchWindow::dummy_unlock(std::size_t i, std::size_t j)
+{
+	if(i > rows_ || j > cols_ || is_unlocked_(i, j))
+		return;
+	unlocked_[cols_ * (i - 1) + (j - 1)] = true;
+
+	std::string butt = "FRAME/" + std::to_string(i) + "_" + std::to_string(j);
+	window_->getChild(butt)->setText("+" + window_->getChild(butt)->getText());
+
+	if(j < cols_)
+		show(i, j + 1);
+}
+
+const std::array<bool, 42>& ResearchWindow::get_unlocked() const
+{
+	return unlocked_;
+}
+
 void ResearchWindow::show(std::size_t i, std::size_t j, bool val)
 {
 	window_->getChild("FRAME/" + std::to_string(i) + "_" + std::to_string(j))->setVisible(val);
@@ -41,6 +59,33 @@ void ResearchWindow::research_all()
 		for(std::size_t j = 1; j <= cols_; ++j)
 		{
 			unlock(i, j);
+		}
+	}
+}
+
+void ResearchWindow::reset_research()
+{
+	for(auto& u : unlocked_)
+		u = false;
+
+	CEGUI::Window* butt{nullptr};
+	std::string row{""}, col{""};
+	for(std::size_t i = 1; i <= rows_; ++i)
+	{
+		row = std::to_string(i) + "_";
+		for(std::size_t j = 1; j <= cols_; ++j)
+		{
+			col = std::to_string(j);
+			butt = window_->getChild("FRAME/" + row + col);
+
+			// Remove the researched '+' marker.
+			if(butt->getText().size() > 0 && butt->getText()[0] == '+')
+				butt->setText(butt->getText().substr(1));
+
+			if(j == 1)
+				butt->setVisible(true);
+			else
+				butt->setVisible(false);
 		}
 	}
 }

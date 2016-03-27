@@ -13,6 +13,7 @@
  */
 class ResearchWindow : public GUIWindow
 {
+	friend class GameSerializer;
 	public:
 		/**
 		 * Constructor.
@@ -33,6 +34,20 @@ class ResearchWindow : public GUIWindow
 		void unlock(std::size_t, std::size_t);
 
 		/**
+		 * Brief: Unlocks a single research point without activating it.
+		 *        Used for serialization.
+		 * Param: Row number.
+		 * Param: Column number.
+		 */
+		void dummy_unlock(std::size_t, std::size_t);
+
+		/**
+		 * Brief: Returns a reference to the unlock table, used
+		 *        for serialization.
+		 */
+		const std::array<bool, 42>& get_unlocked() const;
+
+		/**
 		 * Brief: Shows a single research point at a given position
 		 *        in the research table.
 		 * Param: Row number.
@@ -50,11 +65,19 @@ class ResearchWindow : public GUIWindow
 		 * Brief: Cheat that unlocks all research points.
 		 */
 		void research_all();
+
+		/**
+		 * Brief: Resets the research state so that all items
+		 *        can be unlocked again.
+		 */
+		void reset_research();
+
 	protected:
 		/**
 		 * Brief: Initializes this window.
 		 */
 		void init_();
+
 	private:
 		/**
 		 * Brief: Returns the price in gold of a research point at the
