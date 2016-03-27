@@ -22,6 +22,29 @@ void BuilderWindow::set_placer(EntityPlacer* p)
 	placer_ = p;
 }
 
+const std::vector<std::string>& BuilderWindow::get_buildings() const
+{
+	return buildings_;
+}
+
+void BuilderWindow::clear_buildings()
+{
+	buildings_.clear();
+	selection_number_ = 3;
+	update_selection_();
+}
+
+void BuilderWindow::build(int build_num)
+{
+	if(build_num < 1 || build_num > 4)
+		return;
+	if(get_building_(selection_number_ - (4 - build_num)) != "" && placer_)
+	{
+		placer_->set_current_entity_table(buildings_[selection_number_ - (4 - build_num)], true);
+		placer_->set_visible(true);
+	}
+}
+
 void BuilderWindow::init_()
 {
 	update_selection_();
@@ -29,11 +52,7 @@ void BuilderWindow::init_()
 	window_->getChild("BUILD_1")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
 		[&](const CEGUI::EventArgs&) -> bool {
-				if(get_building_(selection_number_ - 3) != "" && placer_)
-				{
-					placer_->set_current_entity_table(buildings_[selection_number_ - 3], true);
-					placer_->set_visible(true);
-				}
+				build(1);
 				return true;
 		}
 	);
@@ -41,11 +60,7 @@ void BuilderWindow::init_()
 	window_->getChild("BUILD_2")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
 		[&](const CEGUI::EventArgs&) -> bool {
-			if(get_building_(selection_number_ - 2) != "" && placer_)
-			{
-				placer_->set_current_entity_table(buildings_[selection_number_ - 2], true);
-				placer_->set_visible(true);
-			}
+			build(2);
 			return true;
 		}
 	);
@@ -53,11 +68,7 @@ void BuilderWindow::init_()
 	window_->getChild("BUILD_3")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
 		[&](const CEGUI::EventArgs&) -> bool {
-			if(get_building_(selection_number_ - 1) != "" && placer_)
-			{
-				placer_->set_current_entity_table(buildings_[selection_number_ - 1], true);
-				placer_->set_visible(true);
-			}
+			build(3);
 			return true;
 		}
 	);
@@ -65,11 +76,7 @@ void BuilderWindow::init_()
 	window_->getChild("BUILD_4")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
 		[&](const CEGUI::EventArgs&) -> bool {
-			if(get_building_(selection_number_) != "" && placer_)
-			{
-				placer_->set_current_entity_table(buildings_[selection_number_], true);
-				placer_->set_visible(true);
-			}
+			build(4);
 			return true;
 		}
 	);

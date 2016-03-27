@@ -34,11 +34,30 @@ class BuilderWindow : public GUIWindow
 		 * Param: The new entity placer.
 		 */
 		void set_placer(EntityPlacer*);
+
+		/**
+		 * Brief: Returns a vector containing all the names of the
+		 *        registered buildings. (Used for serialization.)
+		 */
+		const std::vector<std::string>& get_buildings() const;
+
+		/**
+		 * Brief: Removes all unlocked buildings.
+		 */
+		void clear_buildings();
+
+		/**
+		 * Brief: Places the building on a given position.
+		 * Param: The button position. (1-4)
+		 */
+		void build(int);
+
 	protected:
 		/**
 		 * Brief: Initializes the window and subscribes events.
 		 */
 		void init_();
+
 	private:
 		/**
 		 * Brief: Decrements selection_number_ by one and updates
