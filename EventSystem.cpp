@@ -41,6 +41,10 @@ void EventSystem::update(Ogre::Real delta)
 					destroy_evt = true;
 					break;
 				}
+
+				// No handler found, increase radius.
+				if(evt.second.radius * evt.second.radius < std::numeric_limits<Ogre::Real>::max() - 100.f)
+					evt.second.radius += 5.f;
 			}
 		}
 		if(destroy_evt)
@@ -78,7 +82,14 @@ bool EventSystem::handle_event_(std::size_t handler, std::size_t evt)
 		case EVENT_TYPE::KILL_ENTITY:
 			DestructorHelper::destroy(entities_, handler);
 			return true;
-		default:
+		case EVENT_TYPE::RESTORE_SPEED:
+		{
+			auto comp = entities_.get_component<MovementComponent>(handler);
+			if(comp)
+				comp->speed_modifier = comp->original_speed;
+			return true;
+		}
+		default: // Allows custom events handled in scripts.
 			return lpp::Script::get_singleton().call<bool, std::size_t, std::size_t>(
 				EventHandlerHelper::get_handler(entities_, handler) + ".handle_event",
 				handler, evt
