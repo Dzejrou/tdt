@@ -113,6 +113,14 @@
                     <Window type="AlfiskoSkin/Button" name="SPELL_2" >
                         <Property name="Area" value="{{0.25,0},{0,0},{0.5,0},{0.6,0}}" />
                     </Window>
+                    <Window type="AlfiskoSkin/Label" name="ACTIVE" >
+                        <Property name="Area" value="{{0,0},{0.4,0},{0.25,0},{0.6,0}}" />
+                        <Property name="Font" value="Inconsolata-10" />
+                        <Property name="Text" value="ACTIVE" />
+                        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                        <Property name="Visible" value="false" />
+                        <Property name="AlwaysOnTop" value="true" />
+                    </Window>
                 </Window>
             </Window>
             <Window type="AlfiskoSkin/FrameWindow" name="BUILD" >
@@ -310,9 +318,10 @@
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="AlfiskoSkin/Button" name="UPGRADE" >
-                    <Property name="Area" value="{{0.5,0},{0,0},{1,0},{0.2,0}}" />
+                    <Property name="Area" value="{{0.5,0},{0,0},{0.75,0},{0.2,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="Text" value="UPGRADE!" />
+                    <Property name="Visible" value="false" />
                 </Window>
                 <Window type="AlfiskoSkin/Label" name="GOLD_LABEL" >
                     <Property name="Area" value="{{0.5,0},{0.8,0},{0.7,0},{1,0}}" />
@@ -346,6 +355,18 @@
                     <Property name="Area" value="{{0.2,0},{0.8,0},{0.5,0},{1,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="DELETE" >
+                    <Property name="Area" value="{{0.75,0},{0,0},{1,0},{0.2,0}}" />
+                    <Property name="Font" value="Inconsolata-10" />
+                    <Property name="Text" value="DELETE!" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="GOLD_TO_EXP" >
+                    <Property name="Area" value="{{0.5,0},{0,0},{0.75,0},{0.2,0}}" />
+                    <Property name="Font" value="Inconsolata-10" />
+                    <Property name="Text" value="50G -&gt; 10EXP" />
+                    <Property name="Visible" value="false" />
                 </Window>
             </Window>
         </Window>
@@ -932,6 +953,72 @@
                     <Property name="Text" value="H" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
+            </Window>
+        </Window>
+        <Window type="AlfiskoSkin/FrameWindow" name="NEXT_WAVE" >
+            <Property name="Area" value="{{0.75,0},{0.675,0},{0.95,0},{0.725,0}}" />
+            <Property name="Alpha" value="0.9" />
+            <Property name="Visible" value="false" />
+            <Property name="FrameEnabled" value="false" />
+            <Property name="SizingEnabled" value="false" />
+            <Property name="TitlebarEnabled" value="false" />
+            <Property name="DragMovingEnabled" value="false" />
+            <Property name="CloseButtonEnabled" value="false" />
+            <Property name="AutoRenderingSurface" value="true" />
+            <AutoWindow namePath="__auto_titlebar__" >
+                <Property name="NonClient" value="true" />
+                <Property name="AlwaysOnTop" value="false" />
+                <Property name="DraggingEnabled" value="false" />
+            </AutoWindow>
+            <AutoWindow namePath="__auto_closebutton__" >
+                <Property name="NonClient" value="true" />
+                <Property name="AlwaysOnTop" value="true" />
+            </AutoWindow>
+            <Window type="AlfiskoSkin/Label" name="NEXT_LABEL" >
+                <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NEXT WAVE IN: HH - MM - SS" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+        </Window>
+        <Window type="AlfiskoSkin/FrameWindow" name="MESSAGE_TO_PLAYER" >
+            <Property name="Area" value="{{0.25,0},{0.5,0},{0.75,0},{0.75,0}}" />
+            <Property name="Visible" value="false" />
+            <Property name="RollUpEnabled" value="false" />
+            <Property name="SizingEnabled" value="false" />
+            <Property name="TitlebarEnabled" value="false" />
+            <Property name="DragMovingEnabled" value="false" />
+            <Property name="CloseButtonEnabled" value="false" />
+            <Property name="AutoRenderingSurface" value="true" />
+            <AutoWindow namePath="__auto_titlebar__" >
+                <Property name="NonClient" value="true" />
+                <Property name="AlwaysOnTop" value="false" />
+                <Property name="DraggingEnabled" value="false" />
+            </AutoWindow>
+            <AutoWindow namePath="__auto_closebutton__" >
+                <Property name="NonClient" value="true" />
+                <Property name="AlwaysOnTop" value="true" />
+            </AutoWindow>
+            <Window type="AlfiskoSkin/Button" name="OK" >
+                <Property name="Area" value="{{0.8,0},{0.8,0},{1,0},{1,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="OK" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="YES" >
+                <Property name="Area" value="{{0.25,0},{0.8,0},{0.45,0},{1,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="YES" />
+                <Property name="Visible" value="false" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="NO" >
+                <Property name="Area" value="{{0,0},{0.8,0},{0.2,0},{1,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NO" />
+                <Property name="Visible" value="false" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="MESSAGE" >
+                <Property name="Area" value="{{0,0},{0,0},{1,0},{0.8,0}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
             </Window>
         </Window>
     </Window>
