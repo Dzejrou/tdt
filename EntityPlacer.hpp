@@ -1,11 +1,8 @@
 #pragma once
 
 #include <Ogre.h>
-
 #include <string>
-
 #include "EntitySystem.hpp"
-#include "Console.hpp"
 #include "GridSystem.hpp"
 #include "Helpers.hpp"
 
@@ -52,10 +49,8 @@ class EntityPlacer
 		/**
 		 * Brief: Creates a new entity from the blueprint table at the mouse cursor's current
 		 *        position and informs the developer in the developer console.
-		 * Param: Reference to the game's console.
-		 * TODO: Console no longer needed as it's in the GUI singleton, remove this parameter!
 		 */
-		std::size_t place(Console& console);
+		std::size_t place();
 
 		/**
 		 * Brief: Sets the visibility status of the placer (and it's dummy entity).

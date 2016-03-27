@@ -89,7 +89,7 @@ void EntityPlacer::update_position(const Ogre::Vector3& pos)
 	placing_node_->setPosition(curr_position_);
 }
 
-std::size_t EntityPlacer::place(Console& console)
+std::size_t EntityPlacer::place()
 {
 	if(!Player::instance().sub_gold(price_))
 	{
@@ -101,7 +101,8 @@ std::size_t EntityPlacer::place(Console& console)
 	if(placing_structure_ && !GridNodeHelper::area_free(entities_, node_id, structure_radius_))
 		return Component::NO_ENTITY; // This will prohibit of wall/building stacking.
 
-	std::size_t id = entities_.create_entity(table_name_);
+	auto position = Ogre::Vector3{curr_position_.x, 0.f, curr_position_.z}; // Used to trigger constrcutors.
+	std::size_t id = entities_.create_entity(table_name_, position);
 	auto comp = entities_.get_component<PhysicsComponent>(id);
 	if(comp)
 	{
@@ -120,9 +121,10 @@ std::size_t EntityPlacer::place(Console& console)
 	if(placing_structure_)
 		grid_.place_structure(id, node_id, structure_radius_);
 
-	console.print_text("Placed entity #" + std::to_string(id) + " at (" + std::to_string(curr_position_.x)
-					   + ", " + std::to_string(curr_position_.z) + ")\nTable: " + table_name_);
-	console.scroll_down();
+	GUI::instance().get_console().print_text("Placed entity #" + std::to_string(id)
+										   + " at (" + std::to_string(curr_position_.x)
+										   + ", " + std::to_string(curr_position_.z)
+										   + ")\nTable: " + table_name_);
 	return id;
 }
 
