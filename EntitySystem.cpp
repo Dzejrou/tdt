@@ -99,9 +99,14 @@ void EntitySystem::cleanup()
 		}
 		entities_.erase(id);
 	}
+
+	// Call constructors.
+	for(const auto& id : constructors_to_be_called_)
+		ConstructorHelper::call(*this, id);
+	constructors_to_be_called_.clear();
 }
 
-std::size_t EntitySystem::create_entity(std::string table_name)
+std::size_t EntitySystem::create_entity(const std::string& table_name, const Ogre::Vector3& position)
 {
 	std::size_t id = get_new_id();
 	entities_.emplace(std::make_pair(id, std::bitset<Component::count>{}));
@@ -126,8 +131,13 @@ std::size_t EntitySystem::create_entity(std::string table_name)
 			LOAD_COMPONENT(component_type, id, table_name);
 	}
 
+	if(bits.test(GraphicsComponent::type)) // Y coordinate already set as half height.
+		PhysicsHelper::set_2d_position(*this, id, Ogre::Vector2{position.x, position.z});
+	else
+		PhysicsHelper::set_position(*this, id, position);
+
 	if(bits.test(ConstructorComponent::type))
-		ConstructorHelper::call(*this, id);
+		constructors_to_be_called_.emplace_back(id);
 	return id;
 }
 
@@ -192,8 +202,8 @@ void EntitySystem::init_function_arrays()
 	loaders_[EventComponent::type] = &EntitySystem::load_component<EventComponent>;
 	loaders_[InputComponent::type] = &EntitySystem::load_component<InputComponent>;
 	loaders_[TimeComponent::type] = &EntitySystem::load_component<TimeComponent>;
-	loaders_[ManaComponent::type] = nullptr; // TODO
-	loaders_[SpellComponent::type] = nullptr; // TODO
+	loaders_[ManaComponent::type] = &EntitySystem::load_component<ManaComponent>;
+	loaders_[SpellComponent::type] = &EntitySystem::load_component<SpellComponent>;
 	loaders_[ProductionComponent::type] = &EntitySystem::load_component<ProductionComponent>;
 	loaders_[GridNodeComponent::type] = nullptr;
 	loaders_[ProductComponent::type] = nullptr;
@@ -219,6 +229,9 @@ void EntitySystem::init_function_arrays()
 	loaders_[LimitedLifeSpanComponent::type] = &EntitySystem::load_component<LimitedLifeSpanComponent>;
 	loaders_[NameComponent::type] = &EntitySystem::load_component<NameComponent>;
 	loaders_[ExperienceValueComponent::type] = &EntitySystem::load_component<ExperienceValueComponent>;
+	loaders_[LightComponent::type] = &EntitySystem::load_component<LightComponent>;
+	loaders_[CommandComponent::type] = &EntitySystem::load_component<CommandComponent>;
+	loaders_[CounterComponent::type] = &EntitySystem::load_component<CounterComponent>;
 
 	adders_[PhysicsComponent::type] = &EntitySystem::add_component<PhysicsComponent>;
 	adders_[HealthComponent::type] = &EntitySystem::add_component<HealthComponent>;
@@ -229,8 +242,8 @@ void EntitySystem::init_function_arrays()
 	adders_[EventComponent::type] = &EntitySystem::add_component<EventComponent>;
 	adders_[InputComponent::type] = &EntitySystem::add_component<InputComponent>;
 	adders_[TimeComponent::type] = &EntitySystem::add_component<TimeComponent>;
-	adders_[ManaComponent::type] = nullptr; // TODO
-	adders_[SpellComponent::type] = nullptr; // TODO
+	adders_[ManaComponent::type] = &EntitySystem::add_component<ManaComponent>;
+	adders_[SpellComponent::type] = &EntitySystem::add_component<SpellComponent>;
 	adders_[ProductionComponent::type] = &EntitySystem::add_component<ProductionComponent>;
 	adders_[GridNodeComponent::type] = &EntitySystem::add_component<GridNodeComponent>;
 	adders_[ProductComponent::type] = &EntitySystem::add_component<ProductComponent>;
@@ -256,6 +269,9 @@ void EntitySystem::init_function_arrays()
 	adders_[LimitedLifeSpanComponent::type] = &EntitySystem::add_component<LimitedLifeSpanComponent>;
 	adders_[NameComponent::type] = &EntitySystem::add_component<NameComponent>;
 	adders_[ExperienceValueComponent::type] = &EntitySystem::add_component<ExperienceValueComponent>;
+	adders_[LightComponent::type] = &EntitySystem::add_component<LightComponent>;
+	adders_[CommandComponent::type] = &EntitySystem::add_component<CommandComponent>;
+	adders_[CounterComponent::type] = &EntitySystem::add_component<CounterComponent>;
 
 	deleters_[PhysicsComponent::type] = &EntitySystem::delete_component<PhysicsComponent>;
 	deleters_[HealthComponent::type] = &EntitySystem::delete_component<HealthComponent>;
@@ -266,8 +282,8 @@ void EntitySystem::init_function_arrays()
 	deleters_[EventComponent::type] = &EntitySystem::delete_component<EventComponent>;
 	deleters_[InputComponent::type] = &EntitySystem::delete_component<InputComponent>;
 	deleters_[TimeComponent::type] = &EntitySystem::delete_component<TimeComponent>;
-	deleters_[ManaComponent::type] = nullptr; // TODO
-	deleters_[SpellComponent::type] = nullptr; // TODO
+	deleters_[ManaComponent::type] = &EntitySystem::delete_component<ManaComponent>;
+	deleters_[SpellComponent::type] = &EntitySystem::delete_component<SpellComponent>;
 	deleters_[ProductionComponent::type] = &EntitySystem::delete_component<ProductionComponent>;
 	deleters_[GridNodeComponent::type] = &EntitySystem::delete_component<GridNodeComponent>;
 	deleters_[ProductComponent::type] = &EntitySystem::delete_component<ProductComponent>;
@@ -293,6 +309,9 @@ void EntitySystem::init_function_arrays()
 	deleters_[LimitedLifeSpanComponent::type] = &EntitySystem::delete_component<LimitedLifeSpanComponent>;
 	deleters_[NameComponent::type] = &EntitySystem::delete_component<NameComponent>;
 	deleters_[ExperienceValueComponent::type] = &EntitySystem::delete_component<ExperienceValueComponent>;
+	deleters_[LightComponent::type] = &EntitySystem::delete_component<LightComponent>;
+	deleters_[CommandComponent::type] = &EntitySystem::delete_component<CommandComponent>;
+	deleters_[CounterComponent::type] = &EntitySystem::delete_component<CounterComponent>;
 
 	immediate_deleters_[PhysicsComponent::type] = &EntitySystem::delete_component_now<PhysicsComponent>;
 	immediate_deleters_[HealthComponent::type] = &EntitySystem::delete_component_now<HealthComponent>;
@@ -303,8 +322,8 @@ void EntitySystem::init_function_arrays()
 	immediate_deleters_[EventComponent::type] = &EntitySystem::delete_component_now<EventComponent>;
 	immediate_deleters_[InputComponent::type] = &EntitySystem::delete_component_now<InputComponent>;
 	immediate_deleters_[TimeComponent::type] = &EntitySystem::delete_component_now<TimeComponent>;
-	immediate_deleters_[ManaComponent::type] = nullptr; // TODO
-	immediate_deleters_[SpellComponent::type] = nullptr; // TODO
+	immediate_deleters_[ManaComponent::type] = &EntitySystem::delete_component_now<ManaComponent>;
+	immediate_deleters_[SpellComponent::type] = &EntitySystem::delete_component_now<SpellComponent>;
 	immediate_deleters_[ProductionComponent::type] = &EntitySystem::delete_component_now<ProductionComponent>;
 	immediate_deleters_[GridNodeComponent::type] = &EntitySystem::delete_component_now<GridNodeComponent>;
 	immediate_deleters_[ProductComponent::type] = &EntitySystem::delete_component_now<ProductComponent>;
@@ -330,6 +349,9 @@ void EntitySystem::init_function_arrays()
 	immediate_deleters_[LimitedLifeSpanComponent::type] = &EntitySystem::delete_component_now<LimitedLifeSpanComponent>;
 	immediate_deleters_[NameComponent::type] = &EntitySystem::delete_component_now<NameComponent>;
 	immediate_deleters_[ExperienceValueComponent::type] = &EntitySystem::delete_component_now<ExperienceValueComponent>;
+	immediate_deleters_[LightComponent::type] = &EntitySystem::delete_component_now<LightComponent>;
+	immediate_deleters_[CommandComponent::type] = &EntitySystem::delete_component_now<CommandComponent>;
+	immediate_deleters_[CounterComponent::type] = &EntitySystem::delete_component_now<CounterComponent>;
 }
 
 bool EntitySystem::has_component(std::size_t id, std::size_t comp) const

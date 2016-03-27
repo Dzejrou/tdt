@@ -60,8 +60,9 @@ class EntitySystem : public System
 		/**
 		 * Brief: Creates a new entity from a blueprint.
 		 * Param: Name of the Lua table containing the entity blueprint.
+		 * Param: Optional position of the entity.
 		 */
-		std::size_t create_entity(std::string = "");
+		std::size_t create_entity(const std::string& = "", const Ogre::Vector3& = Ogre::Vector3{0.f, 0.f, 0.f});
 
 		/**
 		 * Breif: Returns const reference to the component list, so that it can
@@ -139,12 +140,12 @@ class EntitySystem : public System
 		template<typename COMP>
 		void add_component(std::size_t id)
 		{
-			auto res = get_component_container<COMP>().emplace(std::make_pair(id, COMP{}));
-
-			// Set the flag.
 			auto it = entities_.find(id);
-			if(it != entities_.end())
+			if(it != entities_.end() && !it->second.test(COMP::type))
+			{
 				it->second.set(COMP::type, true);
+				get_component_container<COMP>().emplace(id, COMP{});
+			}
 		}
 
 		/**
@@ -313,6 +314,9 @@ class EntitySystem : public System
 		std::map<std::size_t, LimitedLifeSpanComponent> limited_life_span_{};
 		std::map<std::size_t, NameComponent> name_{};
 		std::map<std::size_t, ExperienceValueComponent> exp_value_{};
+		std::map<std::size_t, LightComponent> light_{};
+		std::map<std::size_t, CommandComponent> command_{};
+		std::map<std::size_t, CounterComponent> counter_{};
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -338,6 +342,14 @@ class EntitySystem : public System
 		 * Keeps track of the highest ID given to an entity.
 		 */
 		std::size_t curr_id_{};
+
+		/**
+		 * Entities that should have their constructors called on the next
+		 * update (freshly created), this will allow the creator of the entity to
+		 * set it's position if he could not pass that position to the create_entity
+		 * function.
+		 */
+		std::vector<std::size_t> constructors_to_be_called_{};
 };
 
 /**
@@ -559,6 +571,24 @@ inline std::map<std::size_t, ExperienceValueComponent>& EntitySystem::get_compon
 	return exp_value_;
 }
 
+template<>
+inline std::map<std::size_t, LightComponent>& EntitySystem::get_component_container<LightComponent>()
+{
+	return light_;
+}
+
+template<>
+inline std::map<std::size_t, CommandComponent>& EntitySystem::get_component_container<CommandComponent>()
+{
+	return command_;
+}
+
+template<>
+inline std::map<std::size_t, CounterComponent>& EntitySystem::get_component_container<CounterComponent>()
+{
+	return counter_;
+}
+
 /**
  * Specializations of the EntitySystem::load_component method.
  * Note: Following components can only be created manually and thus don't have load_component specialization.
@@ -594,7 +624,7 @@ inline void EntitySystem::load_component<AIComponent>(std::size_t id, const std:
 
 template<>
 inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, const std::string& table_name)
-{ // TODO: Improve this ... 
+{ 
 	lpp::Script& script = lpp::Script::get_singleton();
 	std::string mesh = script.get<std::string>(table_name + ".GraphicsComponent.mesh");
 	std::string material = script.get<std::string>(table_name + ".GraphicsComponent.material");
@@ -621,7 +651,7 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 		y = script.get<Ogre::Real>(table_name + ".GraphicsComponent.scale_y");
 		z = script.get<Ogre::Real>(table_name + ".GraphicsComponent.scale_z");
 		comp.scale = Ogre::Vector3{x, y, z};
-		comp.node->setScale(comp.scale); // TODO: Apply to entity placer!
+		comp.node->setScale(comp.scale);
 	}
 
 	if(comp.material != "NO_MAT")
@@ -640,6 +670,13 @@ inline void EntitySystem::load_component<GraphicsComponent>(std::size_t id, cons
 	// This will allow specific querying.
 	if(!script.is_nil(table_name + ".GraphicsComponent.query_flags"))
 		comp.entity->setQueryFlags(script.get<int>(table_name + ".GraphicsComponent.query_flags"));
+
+	// Attach a light if a light component was loaded before the graphics one.
+	auto light = get_component<LightComponent>(id);
+	if(light && light->light && comp.node)
+		comp.node->attachObject(light->light); 
+
+	comp.entity->setRenderingDistance(4000.f);
 }
 
 template<>
@@ -660,7 +697,13 @@ inline void EntitySystem::load_component<CombatComponent>(std::size_t id, const 
 	std::size_t max = script.get<std::size_t>(table_name + ".CombatComponent.max_dmg");
 	bool pursue = script.get<bool>(table_name + ".CombatComponent.pursue");
 	int type = script.get<int>(table_name + ".CombatComponent.type");
-	combat_.emplace(id, CombatComponent(Component::NO_ENTITY, min, max, cd, range, type, pursue));
+	if(type == (int)ATTACK_TYPE::RANGED)
+	{
+		std::string proj = script.get<std::string>(table_name + ".CombatComponent.projectile_blueprint");
+		combat_.emplace(id, CombatComponent(Component::NO_ENTITY, min, max, cd, range, type, pursue, std::move(proj)));
+	}
+	else
+		combat_.emplace(id, CombatComponent(Component::NO_ENTITY, min, max, cd, range, type, pursue));
 }
 
 template<>
@@ -689,6 +732,24 @@ inline void EntitySystem::load_component<TimeComponent>(std::size_t id, const st
 	Ogre::Real time_limit = script.get<Ogre::Real>(table_name + ".TimeComponent.time_limit");
 	std::size_t target = script.get<std::size_t>(table_name + ".TimeComponent.target");
 	time_.emplace(id, TimeComponent{(TIME_EVENT)type, time_limit, target});
+}
+
+template<>
+inline void EntitySystem::load_component<ManaComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	std::size_t max = script.get<std::size_t>(table_name + ".ManaComponent.max_mana");
+	std::size_t regen = script.get<std::size_t>(table_name + ".ManaComponent.regen");
+	mana_.emplace(id, ManaComponent{max, regen});
+}
+
+template<>
+inline void EntitySystem::load_component<SpellComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	std::string blueprint = script.get<std::string>(table_name + ".SpellComponent.blueprint");
+	Ogre::Real cooldown = script.get<Ogre::Real>(table_name + ".SpellComponent.cooldown");
+	spell_.emplace(id, SpellComponent{std::move(blueprint), cooldown});
 }
 
 template<>
@@ -756,7 +817,7 @@ inline void EntitySystem::load_component<EventHandlerComponent>(std::size_t id, 
 	auto res = event_handler_.emplace(id, EventHandlerComponent{std::move(handler)});
 
 	if(!res.second)
-		return; // TODO: Notify.
+		return;
 
 	auto& comp = res.first->second;
 	auto possible_events = script.get_vector<int>(table_name + ".EventHandlerComponent.possible_events");
@@ -915,6 +976,54 @@ inline void EntitySystem::load_component<ExperienceValueComponent>(std::size_t i
 	exp_value_.emplace(id, ExperienceValueComponent{val});
 }
 
+template<>
+inline void EntitySystem::load_component<LightComponent>(std::size_t id, const std::string& table_name)
+{
+	auto res = light_.emplace(id, LightComponent{});
+	
+	if(res.second)
+	{
+		auto& comp = res.first->second;
+		comp.light = scene_.createLight("entity_" + std::to_string(id) + "_light");
+		comp.light->setType(Ogre::Light::LT_POINT);
+		comp.light->setVisible(true);
+		comp.light->setPosition(comp.light->getPosition() + Ogre::Vector3{0.f, 45.f, 0.f});
+		comp.light->setDiffuseColour(1.f, .5f, 0.f);
+		comp.light->setSpecularColour(1.f, 1.f, 0.f);
+		comp.light->setAttenuation(3250.f, 1.f, .0014f, .000007f);
+
+		auto graph = get_component<GraphicsComponent>(id);
+		if(graph)
+		{
+			comp.node = graph->node;
+			comp.node->attachObject(comp.light);
+		}
+	}
+}
+
+template<>
+inline void EntitySystem::load_component<CommandComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	auto res = command_.emplace(id, CommandComponent{});
+
+	if(res.second)
+	{
+		auto& comp = res.first->second;
+		auto possible_commands = script.get_vector<int>(table_name + ".CommandComponent.possible_commands");
+		for(const auto& command : possible_commands)
+			comp.possible_commands.set(command);
+	}
+}
+
+template<>
+inline void EntitySystem::load_component<CounterComponent>(std::size_t id, const std::string& table_name)
+{
+	auto& script = lpp::Script::get_singleton();
+	std::size_t max = script.get<std::size_t>(table_name + ".CounterComponent.max_value");
+	counter_.emplace(id, CounterComponent{max});
+}
+
 /**
  * Specializations of the EntitySystem::clean_up_component method.
  */
@@ -994,4 +1103,12 @@ inline void EntitySystem::clean_up_component<ManaCrystalComponent>(std::size_t i
 		Player::instance().sub_max_mana(comp->cap_increase);
 		Player::instance().sub_mana_regen(comp->regen_increase);
 	}
+}
+
+template<>
+inline void EntitySystem::clean_up_component<LightComponent>(std::size_t id)
+{
+	auto comp = get_component<LightComponent>(id);
+	if(comp && comp->light)
+		scene_.destroyLight(comp->light);
 }
