@@ -31,7 +31,7 @@ bool NotificationHelper::notify(EntitySystem& ents, std::size_t id, const std::s
 	auto comp = ents.get_component<NotificationComponent>(id);
 	if(comp && comp->curr_time >= comp->cooldown)
 	{
-		GUI::instance().get_log().print("\\[" + std::to_string(id) + "\\] " + msg);
+		GUI::instance().get_log().print("\\[#" + std::to_string(id) + "\\] " + msg);
 		comp->curr_time = 0.f;
 		return true;
 	}
