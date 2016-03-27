@@ -46,7 +46,18 @@ void Grid::add_freed(std::size_t id)
 	if(in_board(id))
 	{
 		freed_.insert(id);
-		free_nodes_.emplace_back(id);
+
+		bool already_free{false};
+		for(const auto& node : free_nodes_)
+		{
+			if(node == id)
+			{
+				already_free = true;
+				break;
+			}
+		}
+		if(!already_free)
+			free_nodes_.emplace_back(id);
 	}
 }
 
@@ -55,13 +66,15 @@ void Grid::add_unfreed(std::size_t id)
 	if(in_board(id))
 	{
 		unfreed_.insert(id);
-		std::remove(free_nodes_.begin(), free_nodes_.end(), id);
+		free_nodes_.erase(std::remove(free_nodes_.begin(), free_nodes_.end(), id),
+						  free_nodes_.end());
 	}
 }
 
 void Grid::remove_node(std::size_t id)
 {
 	std::remove(nodes_.begin(), nodes_.end(), id);
+	std::remove(free_nodes_.begin(), free_nodes_.end(), id);
 }
 
 std::size_t Grid::get_node(std::size_t x, std::size_t y) const
@@ -143,13 +156,57 @@ Grid& Grid::instance()
 
 std::size_t Grid::get_random_free_node() const
 {
-	return free_nodes_[util::get_random(0, free_nodes_.size() - 1)];
+	if(free_nodes_.size() > 0)
+		return free_nodes_[util::get_random(0, free_nodes_.size() - 1)];
+	else
+		return Component::NO_ENTITY;
 }
 
 Ogre::Vector2 Grid::get_center_position(EntitySystem& ents) const
 {
 	auto center_node = get_node(width_ / 2, height_ / 2);
 	return PhysicsHelper::get_2d_position(ents, center_node);
+}
+
+bool Grid::place_at_random_free_node(EntitySystem& ents, std::size_t id)
+{
+	auto node = get_random_free_node();
+	if(node != Component::NO_ENTITY)
+		PhysicsHelper::set_2d_position(ents, id, PhysicsHelper::get_2d_position(ents, node));
+
+	return node != Component::NO_ENTITY;
+}
+
+bool Grid::distribute_to_adjacent_free_nodes(EntitySystem& ents, std::size_t node, const std::vector<std::size_t>& ids)
+{
+	if(!GridNodeHelper::is_free(ents, node))
+		return false;
+
+	std::deque<std::size_t> queue{};
+	std::set<std::size_t> visited{};
+	std::size_t distribution_count{};
+
+	queue.push_back(node);
+	while(!queue.empty() && distribution_count < ids.size())
+	{
+		auto current = queue.front();
+		queue.pop_front();
+		if(!visited.insert(current).second)
+			continue; // Already visited.
+
+		// It's free because of check on neighbours and node at the top.
+		PhysicsHelper::set_2d_position(ents, ids[distribution_count++],
+									   PhysicsHelper::get_2d_position(ents, current));
+	
+		const auto& neighbours = GridNodeHelper::get_neighbours(ents, current);
+		for(const auto& neighbour : neighbours)
+		{
+			if(visited.count(neighbour) == 0 && GridNodeHelper::is_free(ents, neighbour))
+				queue.push_back(neighbour);
+		}
+	}
+
+	return distribution_count == ids.size();
 }
 
 void Grid::link_(std::size_t index, std::vector<GridNodeComponent*>& comps)

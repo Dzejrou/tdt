@@ -112,7 +112,6 @@ class Grid
 		/**
 		 * Brief: Returns a reference to the static instance of this class.
 		 * Note: Handles initialization and safe destruction by itself.
-		 * TODO: Possibly unite this and Lpp::Script under one singleton interface?
 		 */
 		static Grid& instance();
 
@@ -136,6 +135,24 @@ class Grid
 		Grid& operator=(const Grid&) = delete;
 		Grid(Grid&&) = delete;
 		Grid& operator=(Grid&&) = delete;
+
+		/**
+		 * Brief: Places a given entity at a random node that is not obstructed by a building.
+		 *		  Returns true if the placement was possible, false otherwise.
+		 * Param: Entity system containing the entity.
+		 * Param: ID of the entity.
+		 */
+		bool place_at_random_free_node(EntitySystem&, std::size_t);
+
+		/**
+		 * Brief: Distributes a given set of entities on free nodes adjacent to a given central node.
+		 *		  Returns true if the placement was possible, false otherwise.
+		 * Param: Entity system containing the entitites.
+		 * Param: ID of the central node.
+		 * Param: Vector of IDs of the entities.
+		 */
+		bool distribute_to_adjacent_free_nodes(EntitySystem&, std::size_t, const std::vector<std::size_t>&);
+
 	private:
 		/**
 		 * Constructor. 
