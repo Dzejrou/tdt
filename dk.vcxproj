@@ -23,11 +23,15 @@
     <ClCompile Include="AISystem.cpp" />
     <ClCompile Include="AlignHelper.cpp" />
     <ClCompile Include="BuilderWindow.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CombatHelper.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
+    <ClCompile Include="CommandHelper.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="ConstructorHelper.cpp" />
+    <ClCompile Include="CounterHelper.cpp" />
     <ClCompile Include="DestructorHelper.cpp" />
+    <ClCompile Include="Effects.cpp" />
     <ClCompile Include="EntityCreator.cpp" />
     <ClCompile Include="EntityPlacer.cpp" />
     <ClCompile Include="EntitySystem.cpp" />
@@ -55,17 +59,21 @@
     <ClCompile Include="InputHelper.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="LevelGenerators.cpp" />
+    <ClCompile Include="LightHelper.cpp" />
     <ClCompile Include="LimitedLifeSpanHelper.cpp" />
     <ClCompile Include="lppscript\LppScript.cpp" />
     <ClCompile Include="LuaInterface.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ManaCrystalHelper.cpp" />
+    <ClCompile Include="ManaHelper.cpp" />
     <ClCompile Include="ManaSpellSystem.cpp" />
+    <ClCompile Include="MessageToPlayerWindow.cpp" />
     <ClCompile Include="MovementHelper.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="NameHelper.cpp" />
     <ClCompile Include="NotificationHelper.cpp" />
     <ClCompile Include="OnHitHelper.cpp" />
+    <ClCompile Include="OptionsWindow.cpp" />
     <ClCompile Include="PathfindingHelper.cpp" />
     <ClCompile Include="PhysicsHelper.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -76,7 +84,9 @@
     <ClCompile Include="RayCaster.cpp" />
     <ClCompile Include="ResearchWindow.cpp" />
     <ClCompile Include="SelectionBox.cpp" />
+    <ClCompile Include="Spellcaster.cpp" />
     <ClCompile Include="SpellCastingWindow.cpp" />
+    <ClCompile Include="SpellHelper.cpp" />
     <ClCompile Include="StructureHelper.cpp" />
     <ClCompile Include="TaskHandlerHelper.cpp" />
     <ClCompile Include="TaskHelper.cpp" />
@@ -88,18 +98,23 @@
     <ClCompile Include="TriggerSystem.cpp" />
     <ClCompile Include="UpgradeHelper.cpp" />
     <ClCompile Include="Util.cpp" />
+    <ClCompile Include="WaveSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIHelper.hpp" />
     <ClInclude Include="AISystem.hpp" />
     <ClInclude Include="AlignHelper.hpp" />
     <ClInclude Include="BuilderWindow.hpp" />
+    <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CombatHelper.hpp" />
     <ClInclude Include="CombatSystem.hpp" />
+    <ClInclude Include="CommandHelper.hpp" />
     <ClInclude Include="Components.hpp" />
     <ClInclude Include="Console.hpp" />
     <ClInclude Include="ConstructorHelper.hpp" />
+    <ClInclude Include="CounterHelper.hpp" />
     <ClInclude Include="DestructorHelper.hpp" />
+    <ClInclude Include="Effects.hpp" />
     <ClInclude Include="EntityCreator.hpp" />
     <ClInclude Include="EntityPlacer.hpp" />
     <ClInclude Include="EntitySystem.hpp" />
@@ -129,16 +144,20 @@
     <ClInclude Include="InputHelper.hpp" />
     <ClInclude Include="InputSystem.hpp" />
     <ClInclude Include="LevelGenerators.hpp" />
+    <ClInclude Include="LightHelper.hpp" />
     <ClInclude Include="LimitedLifeSpanHelper.hpp" />
     <ClInclude Include="lppscript\LppScript.hpp" />
     <ClInclude Include="LuaInterface.hpp" />
     <ClInclude Include="ManaCrystalHelper.hpp" />
+    <ClInclude Include="ManaHelper.hpp" />
     <ClInclude Include="ManaSpellSystem.hpp" />
+    <ClInclude Include="MessageToPlayerWindow.hpp" />
     <ClInclude Include="MovementHelper.hpp" />
     <ClInclude Include="MovementSystem.hpp" />
     <ClInclude Include="NameHelper.hpp" />
     <ClInclude Include="NotificationHelper.hpp" />
     <ClInclude Include="OnHitHelper.hpp" />
+    <ClInclude Include="OptionsWindow.hpp" />
     <ClInclude Include="Pathfinding.hpp" />
     <ClInclude Include="PathfindingAlgorithms.hpp" />
     <ClInclude Include="PathfindingHelper.hpp" />
@@ -151,7 +170,9 @@
     <ClInclude Include="RayCaster.hpp" />
     <ClInclude Include="ResearchWindow.hpp" />
     <ClInclude Include="SelectionBox.hpp" />
+    <ClInclude Include="Spellcaster.hpp" />
     <ClInclude Include="SpellCastingWindow.hpp" />
+    <ClInclude Include="SpellHelper.hpp" />
     <ClInclude Include="StructureHelper.hpp" />
     <ClInclude Include="System.hpp" />
     <ClInclude Include="TaskHandlerHelper.hpp" />
@@ -165,6 +186,7 @@
     <ClInclude Include="Typedefs.hpp" />
     <ClInclude Include="UpgradeHelper.hpp" />
     <ClInclude Include="Util.hpp" />
+    <ClInclude Include="WaveSystem.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D88489E-16AD-492B-BEF7-FE61AEACA92B}</ProjectGuid>
