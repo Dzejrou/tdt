@@ -113,6 +113,26 @@ class Script
 		}
 
 		/**
+		 * Brief: Calls a given Lua function.
+		 * Param: Name of the function.
+		 */
+		template<typename Result>
+		Result call(const std::string& fname)
+		{
+			// Allows to call function that are stored in tables.
+			std::string fname2{fname};
+			if(fname2.find('.') != std::string::npos)
+				fname2 = get_field_to_stack(fname);
+			else
+				lua_getglobal(L, fname2.c_str());
+
+			if(lua_pcall(L, 0, 1, 0))
+				throw Exception("[Error][Lua] Error while calling a Lua function: " + fname + ".", L);
+
+			return get_<Result>();
+		}
+
+		/**
 		 * Brief: Sets a given variable to a given value.
 		 * Param: Variable to be changed.
 		 * Param: Value that the variable should be changed to.
