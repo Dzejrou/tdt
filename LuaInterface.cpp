@@ -1,11 +1,13 @@
 #include "LuaInterface.hpp"
 #include "Game.hpp"
 #include "Player.hpp"
+#include "Pathfinding.hpp"
+#include "PathfindingAlgorithms.hpp"
 
 #define GET_REAL(state, position) ((Ogre::Real)luaL_checknumber(state, position))
 #define GET_UINT(state, position) ((std::size_t)luaL_checkinteger(state, position))
 #define GET_SINT(state, position) ((int)luaL_checkinteger(state, position))
-#define GET_BOOL(state, position) (lua_toboolean(state, position))
+#define GET_BOOL(state, position) (lua_toboolean(state, position) == 1)
 #define GET_STR(state, position) (luaL_checkstring(state, position))
 
 /**
@@ -47,11 +49,26 @@ void LuaInterface::init(Game* game)
 		{"toggle_placing_when_game_paused", LuaInterface::lua_toggle_placing_when_game_paused},
 		{"new_game", LuaInterface::lua_new_game},
 		{"create_empty_level", LuaInterface::lua_create_empty_level},
+		{"reset_unlocks", LuaInterface::lua_reset_unlocks},
+		{"get_random", LuaInterface::lua_get_random},
+		{"set_key_bind", LuaInterface::lua_set_key_bind},
+		{"get_first_selected", LuaInterface::lua_get_first_selected},
+		{"get_enemies", LuaInterface::lua_get_enemies},
+		{"get_friends", LuaInterface::lua_get_friends},
+		{"set_throne_id", LuaInterface::lua_set_throne_id},
+		{"get_throne_id", LuaInterface::lua_get_throne_id},
 		{nullptr, nullptr}
 	};
 
 	lpp::Script::regs command_funcs[] = {
+		// Commands.
 		{"mine", LuaInterface::lua_command_to_mine},
+		{"attack", LuaInterface::lua_command_to_attack},
+		{"reposition", LuaInterface::lua_command_to_reposition},
+		{"return_gold", LuaInterface::lua_command_to_return_gold},
+		{"fall_back", LuaInterface::lua_command_to_fall_back},
+		{"set", LuaInterface::lua_command_set},
+		{"test", LuaInterface::lua_command_test},
 		{nullptr, nullptr}
 	};
 
@@ -93,6 +110,7 @@ void LuaInterface::init(Game* game)
 		{"exists", LuaInterface::lua_exists},
 		{"kill", LuaInterface::lua_kill_entity},
 		{"has_component", LuaInterface::lua_has_component},
+		{"reset", LuaInterface::lua_entity_reset_state},
 		{nullptr, nullptr}
 	};
 	
@@ -107,6 +125,8 @@ void LuaInterface::init(Game* game)
 		{"get_distance", LuaInterface::lua_get_distance},
 		{"get_angle", LuaInterface::lua_get_angle},
 		{"get_angle_between", LuaInterface::lua_get_angle_between},
+		{"set_2d_position", LuaInterface::lua_set_2d_position},
+		{"get_2d_position", LuaInterface::lua_get_2d_position},
 		{nullptr, nullptr}
 	};
 
@@ -121,6 +141,9 @@ void LuaInterface::init(Game* game)
 		{"get_dir_back", LuaInterface::lua_get_dir_back},
 		{"get_dir_left", LuaInterface::lua_get_dir_left},
 		{"get_dir_right", LuaInterface::lua_get_dir_right},
+		{"set_original_speed", LuaInterface::lua_set_original_speed},
+		{"get_original_speed", LuaInterface::lua_get_original_speed},
+		{"reset_speed", LuaInterface::lua_reset_speed},
 		{nullptr, nullptr}
 	};
 
@@ -188,6 +211,10 @@ void LuaInterface::init(Game* game)
 		{"set_radius", LuaInterface::lua_set_radius},
 		{"set_walk_through", LuaInterface::lua_set_walk_through},
 		{"is_walk_through", LuaInterface::lua_is_walk_throuth},
+		{"place_at_random_free_node", LuaInterface::lua_place_at_random_free_node},
+		{"distribute_to_adjacent_free_nodes", LuaInterface::lua_distribute_to_adjacent_free_nodes},
+		{"get_random_free_node", LuaInterface::lua_get_random_free_node},
+		{"set_portal_neighbour", LuaInterface::lua_set_portal_neighbour},
 		{nullptr, nullptr}
 	};
 
@@ -198,8 +225,11 @@ void LuaInterface::init(Game* game)
 		{"pop_last", LuaInterface::lua_pop_last_path_node},
 		{"empty", LuaInterface::lua_path_queue_empty},
 		{"set_blueprint", LuaInterface::lua_set_pathfinding_blueprint},
+		{"get_blueprint", LuaInterface::lua_get_pathfinding_blueprint},
 		{"clear", LuaInterface::lua_clear_path},
-		// TODO: get_blueprint
+		{"next_node", LuaInterface::lua_get_next_pathfinding_node},
+		{"target", LuaInterface::lua_get_target_pathfinding_node},
+		{"skip", LuaInterface::lua_pathfinding_skip_next_node},
 		{nullptr, nullptr}
 	};
 
@@ -225,6 +255,7 @@ void LuaInterface::init(Game* game)
 		{"get_blueprint", LuaInterface::lua_get_task_handling_blueprint},
 		{"set_complete", LuaInterface::lua_set_task_complete},
 		{"is_complete", LuaInterface::lua_is_task_complete},
+		{"clear", LuaInterface::lua_task_clear},
 		{nullptr, nullptr}
 	};
 
@@ -236,6 +267,7 @@ void LuaInterface::init(Game* game)
 		{"get_range", LuaInterface::lua_get_range},
 		{"set_dmg_range", LuaInterface::lua_set_dmg_range},
 		{"get_dmg_range", LuaInterface::lua_get_dmg_range},
+		{"get_dmg", LuaInterface::lua_get_dmg},
 		{"set_cooldown", LuaInterface::lua_set_cooldown},
 		{"get_cooldown", LuaInterface::lua_get_cooldown},
 		{"set_atk_type", LuaInterface::lua_set_atk_type},
@@ -244,14 +276,33 @@ void LuaInterface::init(Game* game)
 		{"closest_friendly_in_sight", LuaInterface::lua_closest_friendly_in_sight},
 		{"closest_enemy", LuaInterface::lua_closest_enemy},
 		{"closest_friendly", LuaInterface::lua_closest_friendly},
+		{"closest_enemy_in_sight_thats_not", LuaInterface::lua_closest_enemy_in_sight_thats_not},
+		{"closest_friendly_in_sight_thats_not", LuaInterface::lua_closest_friendly_in_sight_thats_not},
+		{"closest_enemy_thats_not", LuaInterface::lua_closest_enemy_thats_not},
+		{"closest_friendly_thats_not", LuaInterface::lua_closest_friendly_thats_not},
 		{"in_sight", LuaInterface::lua_in_sight},
 		{"run_away_from", LuaInterface::lua_run_away_from},
 		{"set_max_run_away_attempts", LuaInterface::lua_set_max_run_away_attempts},
 		{"get_max_run_away_attempts", LuaInterface::lua_get_max_run_away_attempts},
+		{"apply_heal_to_entities_in_range", LuaInterface::lua_apply_heal_to_entities_in_range},
+		{"apply_damage_to_entities_in_range", LuaInterface::lua_apply_damage_to_entities_in_range},
+		{"apply_slow_to_entities_in_range", LuaInterface::lua_apply_slow_to_entities_in_range},
+		{"apply_freeze_to_entities_in_range", LuaInterface::lua_apply_freeze_to_entities_in_range},
+		{"in_range", LuaInterface::lua_in_range},
+		{"set_projectile_blueprint", LuaInterface::lua_set_projectile_blueprint},
+		{"get_projectile_blueprint", LuaInterface::lua_get_projectile_blueprint},
+		{"apply_slow_to", LuaInterface::lua_apply_slow_to},
+		{"apply_freeze_to", LuaInterface::lua_apply_freeze_to},
+		{"enemy_in_range", LuaInterface::lua_enemy_in_range},
+		{"closest_friendly_structure", LuaInterface::lua_closest_friendly_structure},
+		{"closest_enemy_structure", LuaInterface::lua_closest_enemy_structure},
+		{"closest_friendly_structure_in_sight", LuaInterface::lua_closest_friendly_structure_in_sight},
+		{"closest_enemy_structure_in_sight", LuaInterface::lua_closest_enemy_structure_in_sight},
 		{nullptr, nullptr}
 	};
 
 	lpp::Script::regs proj_funcs[] = {
+		// Homing projectile.
 		{"set_source", LuaInterface::lua_set_homing_source},
 		{"get_source", LuaInterface::lua_get_homing_source},
 		{"set_target", LuaInterface::lua_set_homing_target},
@@ -278,6 +329,8 @@ void LuaInterface::init(Game* game)
 		{"instant_production", LuaInterface::lua_instant_production},
 		{"set_multiplier", LuaInterface::lua_set_production_multiplier},
 		{"get_multiplier", LuaInterface::lua_get_production_multiplier},
+		{"double_production", LuaInterface::lua_double_production},
+		{"increase_production", LuaInterface::lua_increase_production},
 		{nullptr, nullptr}
 	};
 
@@ -348,11 +401,11 @@ void LuaInterface::init(Game* game)
 		{"get_closest_gold_deposit_in_sight", LuaInterface::lua_get_closest_gold_deposit_in_sight},
 		{"full", LuaInterface::lua_gold_full},
 		{"is_gold_vault", LuaInterface::lua_is_gold_vault},
-		{"closest_gold_vault", LuaInterface::closest_gold_vault},
-		{"closest_gold_vault_in_sight", LuaInterface::closest_gold_vault_in_sight},
-		{"closest_free_gold_vault", LuaInterface::closest_free_gold_vault},
-		{"closest_free_gold_vault_in_sight", LuaInterface::closest_free_gold_vault_in_sight},
-		{"exists_free_gold_vault", LuaInterface::exists_free_gold_vault},
+		{"closest_gold_vault", LuaInterface::lua_get_closest_gold_vault},
+		{"closest_gold_vault_in_sight", LuaInterface::lua_get_closest_gold_vault_in_sight},
+		{"closest_free_gold_vault", LuaInterface::lua_get_closest_free_gold_vault},
+		{"closest_free_gold_vault_in_sight", LuaInterface::lua_get_closest_free_gold_vault_in_sight},
+		{"exists_free_gold_vault", LuaInterface::lua_exists_free_gold_vault},
 		{nullptr, nullptr}
 	};
 
@@ -373,10 +426,14 @@ void LuaInterface::init(Game* game)
 		{"add_max_mana", LuaInterface::lua_add_player_max_mana},
 		{"sub_max_mana", LuaInterface::lua_sub_player_max_mana},
 		{"get_max_mana", LuaInterface::lua_get_player_max_mana},
+		{"add_mana_regen", LuaInterface::lua_add_player_mana_regen},
+		{"sub_mana_regen", LuaInterface::lua_sub_player_mana_regen},
+		{"get_mana_regen", LuaInterface::lua_get_player_mana_regen},
 		{nullptr, nullptr}
 	};
 
 	lpp::Script::regs price_funcs[] = {
+		// Price.
 		{"set", LuaInterface::lua_set_price},
 		{"get", LuaInterface::lua_get_price},
 		{nullptr, nullptr}
@@ -440,10 +497,13 @@ void LuaInterface::init(Game* game)
 		{"show", LuaInterface::lua_research_show},
 		{"free_research", LuaInterface::lua_free_research},
 		{"research_all", LuaInterface::lua_research_all},
+		{"dummy_unlock", LuaInterface::lua_dummy_unlock},
+		{"reset", LuaInterface::lua_research_reset},
 		{nullptr, nullptr}
 	};
 
 	lpp::Script::regs align_funcs[] = {
+		// Alignment.
 		{"set_material", LuaInterface::lua_align_set_material},
 		{"get_material", LuaInterface::lua_align_get_material},
 		{"set_mesh", LuaInterface::lua_align_set_mesh},
@@ -456,11 +516,23 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs spell_funcs[] = {
+		// Spells.
 		{"register_spell", LuaInterface::lua_register_spell},
+		{"set_type", LuaInterface::lua_spellcaster_set_type},
+		{"get_type", LuaInterface::lua_spellcaster_get_type},
+		{"set_spell", LuaInterface::lua_spellcaster_set_spell},
+		{"get_spell", LuaInterface::lua_spellcaster_get_type},
+		{"get_last_type", LuaInterface::lua_spellcaster_get_last_type},
+		{"get_last_spell", LuaInterface::lua_spellcaster_get_last_spell},
+		{"set_last_id", LuaInterface::lua_spellcaster_set_last_spell_id},
+		{"get_last_id", LuaInterface::lua_spellcaster_get_last_spell_id},
+		{"is_casting", LuaInterface::lua_spellcaster_is_casting},
+		{"stop_casting", LuaInterface::lua_spellcaster_stop_casting},
 		{nullptr, nullptr}
 	};
 
 	lpp::Script::regs mana_crystal_funcs[] = {
+		// Mana crystal.
 		{"set_capacity", LuaInterface::lua_mana_crystal_set_cap},
 		{"get_capacity", LuaInterface::lua_mana_crystal_get_cap},
 		{"set_regen", LuaInterface::lua_mana_crystal_set_regen},
@@ -469,6 +541,7 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs on_hit_funcs[] = {
+		// On hit.
 		{"set_blueprint", LuaInterface::lua_on_hit_set_blueprint},
 		{"get_blueprint", LuaInterface::lua_on_hit_get_blueprint},
 		{"call", LuaInterface::lua_on_hit_call},
@@ -478,6 +551,7 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs constructor_funcs[] = {
+		// Constructor.
 		{"set_blueprint", LuaInterface::lua_constructor_set_blueprint},
 		{"get_blueprint", LuaInterface::lua_constructor_get_blueprint},
 		{"call", LuaInterface::lua_constructor_call},
@@ -485,6 +559,7 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs trigger_funcs[] = {
+		// Trigger.
 		{"set_blueprint", LuaInterface::lua_trigger_set_blueprint},
 		{"get_blueprint", LuaInterface::lua_trigger_get_blueprint},
 		{"set_linked_entity", LuaInterface::lua_trigger_set_linked_entity},
@@ -494,10 +569,15 @@ void LuaInterface::init(Game* game)
 		{"trigger", LuaInterface::lua_trigger_trigger},
 		{"set_check_period", LuaInterface::lua_trigger_set_check_period},
 		{"get_check_period", LuaInterface::lua_trigger_get_check_period},
+		{"can_be_triggered_by", LuaInterface::lua_trigger_can_be_triggered_by},
+		{"reset_timer", LuaInterface::lua_trigger_reset_timer},
+		{"set_radius", LuaInterface::lua_trigger_set_radius},
+		{"get_radius", LuaInterface::lua_trigger_get_radius},
 		{nullptr, nullptr}
 	};
 
 	lpp::Script::regs upgrade_funcs[] = {
+		// Upgrade.
 		{"set_blueprint", LuaInterface::lua_upgrade_set_blueprint},
 		{"get_blueprint", LuaInterface::lua_upgrade_get_blueprint},
 		{"set_experience", LuaInterface::lua_upgrade_set_experience},
@@ -511,10 +591,12 @@ void LuaInterface::init(Game* game)
 		{"get_level_cap", LuaInterface::lua_upgrade_get_level_cap},
 		{"can_level_up", LuaInterface::lua_upgrade_can_level_up},
 		{"upgrade", LuaInterface::lua_upgrade_upgrade},
+		{"all_level_up", LuaInterface::lua_upgrade_all_level_up},
 		{nullptr, nullptr}
 	};
 
 	lpp::Script::regs notification_funcs[] = {
+		// Notification.
 		{"set_cooldown", LuaInterface::lua_notification_set_cooldown},
 		{"get_cooldown", LuaInterface::lua_notification_get_cooldown},
 		{"reset", LuaInterface::lua_notification_reset},
@@ -525,6 +607,7 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs explosion_funcs[] = {
+		// Explosion.
 		{"set_delta", LuaInterface::lua_explosion_set_delta},
 		{"get_delta", LuaInterface::lua_explosion_get_delta},
 		{"set_max_radius", LuaInterface::lua_explosion_set_max_radius},
@@ -535,6 +618,7 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs lls_funcs[] = {
+		// Limited life span.
 		{"set_max_time", LuaInterface::lua_lls_set_max_time},
 		{"get_max_time", LuaInterface::lua_lls_get_max_time},
 		{"get_curr_time", LuaInterface::lua_lls_get_curr_time},
@@ -543,12 +627,14 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs name_funcs[] = {
+		// Name.
 		{"set", LuaInterface::lua_name_set},
 		{"get", LuaInterface::lua_name_get},
 		{nullptr, nullptr}
 	};
 
 	lpp::Script::regs exp_val_funcs[] = {
+		// Experience value.
 		{"set", LuaInterface::lua_exp_val_set},
 		{"get", LuaInterface::lua_exp_val_get},
 		{"increase", LuaInterface::lua_exp_val_inc},
@@ -557,8 +643,99 @@ void LuaInterface::init(Game* game)
 	};
 
 	lpp::Script::regs mana_funcs[] = {
+		// Mana.
 		{"set_regen_period", LuaInterface::lua_mana_set_regen_period},
 		{"get_regen_period", LuaInterface::lua_mana_get_regen_period},
+		{"add", LuaInterface::lua_mana_add},
+		{"sub", LuaInterface::lua_mana_sub},
+		{"set", LuaInterface::lua_mana_set},
+		{"get", LuaInterface::lua_mana_get},
+		{"set_max", LuaInterface::lua_mana_set_max},
+		{"get_max", LuaInterface::lua_mana_get_max},
+		{"set_regen", LuaInterface::lua_mana_set_regen},
+		{"get_regen", LuaInterface::lua_mana_get_regen},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs wave_funcs[] = {
+		// Wave system.
+		{"next", LuaInterface::lua_wave_next_wave},
+		{"advance_countdown", LuaInterface::lua_wave_advance_countdown},
+		{"entity_died", LuaInterface::lua_wave_entity_died},
+		{"start", LuaInterface::lua_wave_start},
+		{"pause", LuaInterface::lua_wave_pause},
+		{"set_entity_total", LuaInterface::lua_wave_set_entity_total},
+		{"get_entity_total", LuaInterface::lua_wave_get_entity_total},
+		{"set_wave_count", LuaInterface::lua_wave_set_wave_count},
+		{"get_wave_count", LuaInterface::lua_wave_get_wave_count},
+		{"add_spawn_node", LuaInterface::lua_wave_add_spawn_node},
+		{"clear_spawn_nodes", LuaInterface::lua_wave_clear_spawn_nodes},
+		{"set_spawn_cooldown", LuaInterface::lua_wave_set_spawn_cooldown},
+		{"get_spawn_cooldown", LuaInterface::lua_wave_get_spawn_cooldown},
+		{"add_entity_blueprint", LuaInterface::lua_wave_add_entity_blueprint},
+		{"set_table", LuaInterface::lua_wave_set_table},
+		{"get_table", LuaInterface::lua_wave_get_table},
+		{"set_curr_wave_number", LuaInterface::lua_wave_set_curr_wave_number},
+		{"get_curr_wave_number", LuaInterface::lua_wave_get_curr_wave_number},
+		{"set_countdown", LuaInterface::lua_wave_set_countdown},
+		{"get_countdown", LuaInterface::lua_wave_get_countdown},
+		{"set_state", LuaInterface::lua_wave_set_state},
+		{"get_state", LuaInterface::lua_wave_get_state},
+		{"update_label_text", LuaInterface::lua_wave_update_label_text},
+		{"set_spawn_timer", LuaInterface::lua_wave_set_spawn_timer},
+		{"get_spawn_timer", LuaInterface::lua_wave_get_spawn_timer},
+		{"set_wave_entities", LuaInterface::lua_wave_set_wave_entities},
+		{"get_wave_entities", LuaInterface::lua_wave_get_wave_entities},
+		{"set_entities_spawned", LuaInterface::lua_wave_set_entities_spawned},
+		{"get_entities_spawned", LuaInterface::lua_wave_get_entities_spawned},
+		{"clear_entity_blueprints", LuaInterface::lua_wave_clear_entity_blueprints},
+		{"list", LuaInterface::lua_wave_list},
+		{"set_endless_mode", LuaInterface::lua_wave_set_endless_mode},
+		{"get_endless_mode", LuaInterface::lua_wave_get_endless_mode},
+		{"turn_endless_mode_on", LuaInterface::lua_wave_turn_endless_on},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs msg_funcs[] = {
+		// Message to the player.
+		{"show", LuaInterface::lua_msg_to_plr_show},
+		{"show_ok", LuaInterface::lua_msg_to_plr_show_ok},
+		{"show_yes_no", LuaInterface::lua_msg_to_plr_show_yes_no},
+		{"set_butt_label", LuaInterface::lua_msg_set_butt_label},
+		{"reset_butt_labels", LuaInterface::lua_msg_reset_butt_labels},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs ent_spell_funcs[] = {
+		// Entity spells.
+		{"set_blueprint", LuaInterface::lua_ent_spell_set_blueprint},
+		{"get_blueprint", LuaInterface::lua_ent_spell_get_blueprint},
+		{"set_cooldown", LuaInterface::lua_ent_spell_set_cooldown},
+		{"get_cooldown", LuaInterface::lua_ent_spell_get_cooldown},
+		{"advance_curr_time", LuaInterface::lua_ent_spell_advance_curr_time},
+		{"set_curr_time", LuaInterface::lua_ent_spell_set_curr_time},
+		{"get_curr_time", LuaInterface::lua_ent_spell_get_curr_time},
+		{"cast", LuaInterface::lua_ent_spell_cast},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs light_funcs[] = {
+		// Light.
+		{"set_visible", LuaInterface::lua_light_set_visible},
+		{"toggle_visible", LuaInterface::lua_light_toggle_visible},
+		{"is_visible", LuaInterface::lua_light_is_visible},
+		{"init", LuaInterface::lua_light_init},
+		{nullptr, nullptr}
+	};
+
+	lpp::Script::regs counter_funcs[] = {
+		// Counter.
+		{"increment", LuaInterface::lua_counter_increment},
+		{"decrement", LuaInterface::lua_counter_decrement},
+		{"set", LuaInterface::lua_counter_set_curr_value},
+		{"get", LuaInterface::lua_counter_get_curr_value},
+		{"set_max", LuaInterface::lua_counter_set_max_value},
+		{"get_max", LuaInterface::lua_counter_get_max_value},
 		{nullptr, nullptr}
 	};
 
@@ -636,6 +813,14 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "exp_val");
 	luaL_newlib(state, mana_funcs);
 	lua_setfield(state, -2, "mana");
+	luaL_newlib(state, wave_funcs);
+	lua_setfield(state, -2, "wave");
+	luaL_newlib(state, ent_spell_funcs);
+	lua_setfield(state, -2, "ent_spell");
+	luaL_newlib(state, light_funcs);
+	lua_setfield(state, -2, "light");
+	luaL_newlib(state, counter_funcs);
+	lua_setfield(state, -2, "counter");
 
 	// GUI subtable has it's own subtables.
 	luaL_newlib(state, gui_funcs);
@@ -651,6 +836,8 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "builder");
 	luaL_newlib(state, research_funcs);
 	lua_setfield(state, -2, "research");
+	luaL_newlib(state, msg_funcs);
+	lua_setfield(state, -2, "message");
 
 	// Pop the residual tables.
 	lua_pop(state, 2);
@@ -723,7 +910,7 @@ int LuaInterface::lua_toggle_entity_creator(lpp::Script::state L)
 	return 0;
 }
 
-int LuaInterface::lua_list_selected(lpp::Script::state)
+int LuaInterface::lua_list_selected(lpp::Script::state L)
 {
 	auto& to_be_destroyed = lua_this->selection_box_->get_selected_entities();
 	for(auto& ent : to_be_destroyed)
@@ -734,25 +921,21 @@ int LuaInterface::lua_list_selected(lpp::Script::state)
 	return 0;
 }
 
-int LuaInterface::lua_destroy_selected(lpp::Script::state)
+int LuaInterface::lua_destroy_selected(lpp::Script::state L)
 {
 	auto& to_be_destroyed = lua_this->selection_box_->get_selected_entities();
 	for(auto& ent : to_be_destroyed)
-	{
 		DestructorHelper::destroy(*ents, ent, true);
-	}
 	lua_this->selection_box_->clear_selected_entities();
 
 	return 0;
 }
 
-int LuaInterface::lua_kill_selected(lpp::Script::state)
+int LuaInterface::lua_kill_selected(lpp::Script::state L)
 {
 	auto& to_be_destroyed = lua_this->selection_box_->get_selected_entities();
 	for(auto& ent : to_be_destroyed)
-	{
 		DestructorHelper::destroy(*ents, ent, false);
-	}
 	lua_this->selection_box_->clear_selected_entities();
 
 	return 0;
@@ -857,9 +1040,130 @@ int LuaInterface::lua_create_empty_level(lpp::Script::state L)
 	return 0;
 }
 
+int LuaInterface::lua_reset_unlocks(lpp::Script::state L)
+{
+	lua_this->reset_unlocks();
+	return 0;
+}
+
+int LuaInterface::lua_get_random(lpp::Script::state L)
+{
+	std::size_t ub = GET_UINT(L, -1);
+	std::size_t lb = GET_UINT(L, -2);
+
+	auto res = util::get_random(lb, ub);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_key_bind(lpp::Script::state L)
+{
+	CEGUI::Key::Scan key = (CEGUI::Key::Scan)GET_SINT(L, -1);
+	KEY_BIND_ACTION::VAL action = (KEY_BIND_ACTION::VAL)GET_SINT(L, -2);
+
+	GUI::instance().get_options().set_key_bind(action, key);
+	return 0;
+}
+
+int LuaInterface::lua_get_first_selected(lpp::Script::state L)
+{
+	if(!lua_this->selection_box_->get_selected_entities().empty())
+	{
+		lua_pushinteger(L, lua_this->selection_box_->get_selected_entities()[0]);
+		return 1;
+	}
+	else
+		return 0;
+}
+
+int LuaInterface::lua_get_enemies(lpp::Script::state L)
+{
+	std::vector<std::size_t> res{};
+	for(auto& ent : ents->get_component_container<FactionComponent>())
+	{
+		if(ent.second.faction == FACTION::ENEMY)
+			res.emplace_back(ent.first);
+	}
+
+	lua_createtable(L, res.size(), 0);
+	int table = lua_gettop(L);
+	int i = 1;
+	for(const auto& ent : res)
+	{
+		lua_pushinteger(L, ent);
+		lua_rawseti(L, table, i);
+		++i;
+	}
+	return 1;
+}
+
+int LuaInterface::lua_get_friends(lpp::Script::state L)
+{
+	std::vector<std::size_t> res{};
+	for(auto& ent : ents->get_component_container<FactionComponent>())
+	{
+		if(ent.second.faction == FACTION::FRIENDLY)
+			res.emplace_back(ent.first);
+	}
+
+	lua_createtable(L, res.size(), 0);
+	int table = lua_gettop(L);
+	int i = 1;
+	for(const auto& ent : res)
+	{
+		lua_pushinteger(L, ent);
+		lua_rawseti(L, table, i);
+		++i;
+	}
+	return 1;
+}
+
+int LuaInterface::lua_set_throne_id(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	lua_this->set_throne_id(id);
+	return 0;
+}
+
+int LuaInterface::lua_get_throne_id(lpp::Script::state L)
+{
+	auto res = lua_this->get_throne_id();
+	
+	lua_pushinteger(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_command_to_mine(lpp::Script::state L)
 {
-	lua_this->command_to_mine();
+	CommandHelper::command_to_mine(*ents, *lua_this->selection_box_);
+	return 0;
+}
+
+int LuaInterface::lua_command_to_attack(lpp::Script::state L)
+{
+	CommandHelper::command_to_attack(*ents, *lua_this->selection_box_);
+	return 0;
+}
+
+int LuaInterface::lua_command_to_reposition(lpp::Script::state L)
+{
+	Ogre::Real y = GET_REAL(L, -1);
+	Ogre::Real x = GET_REAL(L, -2);
+
+	CommandHelper::command_to_reposition(*ents, x, y);
+	return 0;
+}
+
+int LuaInterface::lua_command_to_return_gold(lpp::Script::state L)
+{
+	CommandHelper::command_to_return_gold(*ents, *lua_this->combat_system_);
+	return 0;
+}
+
+int LuaInterface::lua_command_to_fall_back(lpp::Script::state L)
+{
+	CommandHelper::command_to_fall_back(*ents);
 	return 0;
 }
 
@@ -903,7 +1207,7 @@ int LuaInterface::lua_set_material(lpp::Script::state L)
 
 int LuaInterface::lua_set_visible(lpp::Script::state L)
 {
-	bool vis = GET_BOOL(L, -1) == 1;
+	bool vis = GET_BOOL(L, -1);
 	std::size_t id = GET_UINT(L, -2);
 
 	GraphicsHelper::set_visible(*ents, id, vis);
@@ -912,7 +1216,7 @@ int LuaInterface::lua_set_visible(lpp::Script::state L)
 
 int LuaInterface::lua_set_manual_scaling(lpp::Script::state L)
 {
-	bool on_off = GET_BOOL(L, -1) == 1;
+	bool on_off = GET_BOOL(L, -1);
 	std::size_t id = GET_UINT(L, -2);
 
 	GraphicsHelper::set_manual_scaling(*ents, id, on_off);
@@ -1126,9 +1430,10 @@ int LuaInterface::lua_exists(lpp::Script::state L)
 
 int LuaInterface::lua_kill_entity(lpp::Script::state L)
 {
-	std::size_t id = GET_UINT(L, -1);
+	std::size_t killer = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
 
-	DestructorHelper::destroy(*ents, id);
+	DestructorHelper::destroy(*ents, id, false, killer);
 	return 0;
 }
 
@@ -1140,6 +1445,33 @@ int LuaInterface::lua_has_component(lpp::Script::state L)
 	auto res = ents->has_component(id, type);
 	lua_pushboolean(L, res);
 	return 1;
+}
+
+int LuaInterface::lua_entity_reset_state(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto comp = ents->get_component<TaskHandlerComponent>(id);
+	if(comp)
+	{
+		TaskHelper::cancel_task(*ents, comp->curr_task);
+		comp->curr_task = Component::NO_ENTITY;
+		for(const auto& task : comp->task_queue)
+		{
+			TaskHelper::cancel_task(*ents, task);
+		}
+		comp->task_queue.clear();
+		comp->busy = false;
+	}
+
+	auto path = ents->get_component<PathfindingComponent>(id);
+	if(path)
+	{
+		path->path_queue.clear();
+		path->target_id = Component::NO_ENTITY;
+		path->last_id = Component::NO_ENTITY;
+	}
+	return 0;
 }
 
 int LuaInterface::lua_move_to(lpp::Script::state L)
@@ -1308,6 +1640,31 @@ int LuaInterface::lua_get_dir_right(lpp::Script::state L)
 	return 3;
 }
 
+int LuaInterface::lua_set_original_speed(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	MovementHelper::set_original_speed(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_get_original_speed(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = MovementHelper::get_original_speed(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_reset_speed(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	MovementHelper::reset_speed(*ents, id);
+	return 0;
+}
+
 int LuaInterface::lua_get_angle(lpp::Script::state L)
 {
 	Ogre::Real z = GET_REAL(L, -1);
@@ -1335,9 +1692,28 @@ int LuaInterface::lua_get_angle_between(lpp::Script::state L)
 	return 3;
 }
 
+int LuaInterface::lua_set_2d_position(lpp::Script::state L)
+{
+	Ogre::Real y = GET_REAL(L, -1);
+	Ogre::Real x = GET_REAL(L, -2);
+	std::size_t id = GET_UINT(L, -3);
+
+	PhysicsHelper::set_2d_position(*ents, id, Ogre::Vector2{x, y});
+	return 0;
+}
+
+int LuaInterface::lua_get_2d_position(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = PhysicsHelper::get_2d_position(*ents, id);
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	return 2;
+}
+
 int LuaInterface::lua_set_solid(lpp::Script::state L)
 {
-	bool solid = GET_BOOL(L, -1) == 1;
+	bool solid = GET_BOOL(L, -1);
 	std::size_t id = GET_UINT(L, -2);
 
 	PhysicsHelper::set_solid(*ents, id, solid);
@@ -1491,7 +1867,7 @@ int LuaInterface::lua_get_regen(lpp::Script::state L)
 
 int LuaInterface::lua_set_alive(lpp::Script::state L)
 {
-	bool alive = GET_BOOL(L, -1) == 1;
+	bool alive = GET_BOOL(L, -1);
 	std::size_t id = GET_UINT(L, -2);
 
 	HealthHelper::set_alive(*ents, id, alive);
@@ -1702,7 +2078,7 @@ int LuaInterface::lua_is_free(lpp::Script::state L)
 
 int LuaInterface::lua_set_free(lpp::Script::state L)
 {
-	bool free = GET_BOOL(L, -1) == 1;
+	bool free = GET_BOOL(L, -1);
 	std::size_t id = GET_UINT(L, -2);
 
 	GridNodeHelper::set_free(*ents, id, free);
@@ -1711,7 +2087,7 @@ int LuaInterface::lua_set_free(lpp::Script::state L)
 
 int LuaInterface::lua_set_free_selected(lpp::Script::state L)
 {
-	bool free = GET_BOOL(L, -1) == 1;
+	bool free = GET_BOOL(L, -1);
 
 	GridNodeHelper::set_free_selected(*ents, *lua_this->selection_box_, free);
 	return 0;
@@ -1775,6 +2151,14 @@ int LuaInterface::lua_set_pathfinding_blueprint(lpp::Script::state L)
 	return 0;
 }
 
+int LuaInterface::lua_get_pathfinding_blueprint(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto& res = PathfindingHelper::get_pathpfinding_blueprint(*ents, id);
+	lua_pushstring(L, res.c_str());
+	return 0;
+}
+
 int LuaInterface::lua_create_graph(lpp::Script::state L)
 {
 	Ogre::Real start_y = GET_REAL(L, -1);
@@ -1835,7 +2219,7 @@ int LuaInterface::lua_set_radius(lpp::Script::state L)
 
 int LuaInterface::lua_set_walk_through(lpp::Script::state L)
 {
-	bool on_off = GET_BOOL(L, -1) == 1;
+	bool on_off = GET_BOOL(L, -1);
 	std::size_t id = GET_UINT(L, -2);
 
 	StructureHelper::set_walk_through(*ents, id, on_off);
@@ -1849,6 +2233,88 @@ int LuaInterface::lua_is_walk_throuth(lpp::Script::state L)
 	auto res = StructureHelper::is_walk_through(*ents, id);
 	lua_pushboolean(L, res);
 	return 1;
+}
+
+int LuaInterface::lua_place_at_random_free_node(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	auto res = Grid::instance().place_at_random_free_node(*ents, id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_distribute_to_adjacent_free_nodes(lpp::Script::state L)
+{
+	int stack_size = lua_gettop(L);
+	int stack_idx = 1;
+	bool res{false};
+	std::vector<std::size_t> ids{};
+
+	if(stack_size > 1)
+	{
+		std::size_t id = GET_UINT(L, stack_idx++);
+		for(; stack_idx <= stack_size; ++stack_idx)
+		{
+			ids.push_back(GET_UINT(L, stack_idx));
+		}
+
+		res = Grid::instance().distribute_to_adjacent_free_nodes(*ents, id, ids);
+	}
+
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_get_random_free_node(lpp::Script::state L)
+{
+	auto res = Grid::instance().get_random_free_node();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_portal_neighbour(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	GridNodeHelper::set_portal_neighbour(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_get_next_pathfinding_node(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	std::size_t res{Component::NO_ENTITY};
+	auto comp = ents->get_component<PathfindingComponent>(id);
+	if(comp && !comp->path_queue.empty())
+		res = comp->path_queue[0];
+
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_get_target_pathfinding_node(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	std::size_t res{Component::NO_ENTITY};
+	auto comp = ents->get_component<PathfindingComponent>(id);
+	if(comp && !comp->path_queue.empty())
+		res = comp->path_queue[comp->path_queue.size() - 1];
+
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_pathfinding_skip_next_node(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto comp = ents->get_component<PathfindingComponent>(id);
+	if(comp && !comp->path_queue.empty())
+		comp->path_queue.pop_front();
+	return 0;
 }
 
 int LuaInterface::lua_add_task(lpp::Script::state L)
@@ -1898,6 +2364,7 @@ int LuaInterface::lua_list_tasks_of(lpp::Script::state L)
 		auto& task_queue = comp->task_queue;
 		int task_count{};
 
+		report.append(comp->busy ? "State: BUSY\n" : "State: FREE\n");
 		if(comp->curr_task != Component::NO_ENTITY)
 		{ // Current task.
 			++task_count;
@@ -2069,6 +2536,24 @@ int LuaInterface::lua_is_task_complete(lpp::Script::state L)
 	return 1;
 }
 
+int LuaInterface::lua_task_clear(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto comp = ents->get_component<TaskHandlerComponent>(id);
+	if(comp)
+	{
+		TaskHelper::cancel_task(*ents, comp->curr_task);
+		comp->curr_task = Component::NO_ENTITY;
+		for(const auto& task : comp->task_queue)
+		{
+			TaskHelper::cancel_task(*ents, task);
+		}
+		comp->task_queue.clear();
+	}
+	return 0;
+}
+
 int LuaInterface::lua_set_combat_target(lpp::Script::state L)
 {
 	std::size_t target = GET_UINT(L, -1);
@@ -2124,6 +2609,17 @@ int LuaInterface::lua_get_dmg_range(lpp::Script::state L)
 	lua_pushinteger(L, min);
 	lua_pushinteger(L, max);
 	return 2;
+}
+
+int LuaInterface::lua_get_dmg(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+	std::size_t min{}, max{};
+
+	std::tie(min, max) = CombatHelper::get_dmg_range(*ents, id);
+	auto res = CombatHelper::get_dmg(min, max);
+	lua_pushinteger(L, res);
+	return 1;
 }
 
 int LuaInterface::lua_set_cooldown(lpp::Script::state L)
@@ -2252,6 +2748,46 @@ int LuaInterface::lua_closest_friendly(lpp::Script::state L)
 	return 1;
 }
 
+int LuaInterface::lua_closest_enemy_in_sight_thats_not(lpp::Script::state L)
+{
+	std::size_t ignored = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	auto res = lua_this->combat_system_->get_closest_entity_thats_not(id, ignored, true);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_closest_friendly_in_sight_thats_not(lpp::Script::state L)
+{
+	std::size_t ignored = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	auto res = lua_this->combat_system_->get_closest_entity_thats_not(id, ignored, true, true);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_closest_enemy_thats_not(lpp::Script::state L)
+{
+	std::size_t ignored = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	auto res = lua_this->combat_system_->get_closest_entity_thats_not(id, ignored, false);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_closest_friendly_thats_not(lpp::Script::state L)
+{
+	std::size_t ignored = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	auto res = lua_this->combat_system_->get_closest_entity_thats_not(id, ignored, false, true);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_in_sight(lpp::Script::state L)
 {
 	std::size_t id2 = GET_UINT(L, -1);
@@ -2284,6 +2820,136 @@ int LuaInterface::lua_get_max_run_away_attempts(lpp::Script::state L)
 {
 	auto res = lua_this->combat_system_->get_max_run_away_attempts();
 
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_apply_heal_to_entities_in_range(lpp::Script::state L)
+{
+	Ogre::Real range = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	lua_this->combat_system_->apply_heal_to_entities_in_range(id, range);
+	return 0;
+}
+
+int LuaInterface::lua_apply_damage_to_entities_in_range(lpp::Script::state L)
+{
+	std::size_t max = GET_UINT(L, -1);
+	std::size_t min = GET_UINT(L, -2);
+	Ogre::Real range = GET_REAL(L, -3);
+	std::size_t id = GET_UINT(L, -4);
+
+	lua_this->combat_system_->apply_damage_to_entities_in_range(id, range, min, max);
+	return 0;
+}
+
+int LuaInterface::lua_apply_slow_to_entities_in_range(lpp::Script::state L)
+{
+	Ogre::Real time = GET_REAL(L, -1);
+	Ogre::Real range = GET_REAL(L, -2);
+	std::size_t id = GET_UINT(L, -3);
+
+	lua_this->combat_system_->apply_slow_to_entities_in_range(id, range, time);
+	return 0;
+}
+
+int LuaInterface::lua_apply_freeze_to_entities_in_range(lpp::Script::state L)
+{
+	Ogre::Real time = GET_REAL(L, -1);
+	Ogre::Real range = GET_REAL(L, -2);
+	std::size_t id = GET_UINT(L, -3);
+
+	lua_this->combat_system_->apply_freeze_to_entities_in_range(id, range, time);
+	return 0;
+}
+
+int LuaInterface::lua_in_range(lpp::Script::state L)
+{
+	std::size_t id2 = GET_UINT(L, -1);
+	std::size_t id1 = GET_UINT(L, -2);
+	auto res = CombatHelper::in_range(*ents, id1, id2);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_set_projectile_blueprint(lpp::Script::state L)
+{
+	std::string blueprint = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	CombatHelper::set_projectile_blueprint(*ents, id, blueprint);
+	return 0;
+}
+
+int LuaInterface::lua_get_projectile_blueprint(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto& res = CombatHelper::get_projectile_blueprint(*ents, id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_apply_slow_to(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	lua_this->combat_system_->apply_slow_to(id, val);
+	return 0;
+}
+
+int LuaInterface::lua_apply_freeze_to(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	lua_this->combat_system_->apply_freeze_to(id, val);
+	return 0;
+}
+
+int LuaInterface::lua_enemy_in_range(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = lua_this->combat_system_->enemy_in_range(id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_closest_friendly_structure(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = lua_this->combat_system_->get_closest_structure(id, false, true);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_closest_enemy_structure(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = lua_this->combat_system_->get_closest_structure(id, false, false);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_closest_friendly_structure_in_sight(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = lua_this->combat_system_->get_closest_structure(id, true, true);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_closest_enemy_structure_in_sight(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = lua_this->combat_system_->get_closest_structure(id, true, false);
 	lua_pushinteger(L, res);
 	return 1;
 }
@@ -2416,6 +3082,38 @@ int LuaInterface::lua_get_production_multiplier(lpp::Script::state L)
 	auto res = lua_this->production_system_->get_time_multiplier();
 	lua_pushnumber(L, res);
 	return 1;
+}
+
+int LuaInterface::lua_double_production(lpp::Script::state L)
+{
+	std::size_t added{};
+	for(auto& ent : ents->get_component_container<ProductionComponent>())
+	{
+		if(FactionHelper::get_faction(*ents, ent.first) == FACTION::FRIENDLY)
+		{
+			added += ent.second.max_produced;
+			ent.second.max_produced *= 2;
+		}
+	}
+
+	Player::instance().add_max_unit(added);
+	return 0;
+}
+
+int LuaInterface::lua_increase_production(lpp::Script::state L)
+{
+	std::size_t added{};
+	for(auto& ent : ents->get_component_container<ProductionComponent>())
+	{
+		if(FactionHelper::get_faction(*ents, ent.first) == FACTION::FRIENDLY)
+		{
+			++added;
+			ent.second.max_produced += 1;
+		}
+	}
+
+	Player::instance().add_max_unit(added);
+	return 0;
 }
 
 int LuaInterface::lua_get_curr_time(lpp::Script::state L)
@@ -2586,7 +3284,7 @@ int LuaInterface::lua_get_event_radius(lpp::Script::state L)
 
 int LuaInterface::lua_set_event_active(lpp::Script::state L)
 {
-	bool active = GET_BOOL(L, -1) == 1;
+	bool active = GET_BOOL(L, -1);
 	std::size_t id = GET_UINT(L, -2);
 
 	EventHelper::set_active(*ents, id, active);
@@ -2814,7 +3512,7 @@ int LuaInterface::lua_is_gold_vault(lpp::Script::state L)
 	return 1;
 }
 
-int LuaInterface::closest_gold_vault(lpp::Script::state L)
+int LuaInterface::lua_get_closest_gold_vault(lpp::Script::state L)
 {
 	std::size_t id = GET_UINT(L, -1);
 
@@ -2823,7 +3521,7 @@ int LuaInterface::closest_gold_vault(lpp::Script::state L)
 	return 1;
 }
 
-int LuaInterface::closest_gold_vault_in_sight(lpp::Script::state L)
+int LuaInterface::lua_get_closest_gold_vault_in_sight(lpp::Script::state L)
 {
 	std::size_t id = GET_UINT(L, -1);
 
@@ -2832,7 +3530,7 @@ int LuaInterface::closest_gold_vault_in_sight(lpp::Script::state L)
 	return 1;
 }
 
-int LuaInterface::closest_free_gold_vault(lpp::Script::state L)
+int LuaInterface::lua_get_closest_free_gold_vault(lpp::Script::state L)
 {
 	std::size_t id = GET_UINT(L, -1);
 
@@ -2841,7 +3539,7 @@ int LuaInterface::closest_free_gold_vault(lpp::Script::state L)
 	return 1;
 }
 
-int LuaInterface::closest_free_gold_vault_in_sight(lpp::Script::state L)
+int LuaInterface::lua_get_closest_free_gold_vault_in_sight(lpp::Script::state L)
 {
 	std::size_t id = GET_UINT(L, -1);
 
@@ -2850,7 +3548,7 @@ int LuaInterface::closest_free_gold_vault_in_sight(lpp::Script::state L)
 	return 1;
 }
 
-int LuaInterface::exists_free_gold_vault(lpp::Script::state L)
+int LuaInterface::lua_exists_free_gold_vault(lpp::Script::state L)
 {
 	std::size_t id = GET_UINT(L, -1);
 
@@ -2861,7 +3559,7 @@ int LuaInterface::exists_free_gold_vault(lpp::Script::state L)
 
 int LuaInterface::lua_set_gui_visible(lpp::Script::state L)
 {
-	bool val = GET_BOOL(L, -1) == 1;
+	bool val = GET_BOOL(L, -1);
 
 	GUI::instance().set_visible(val);
 	return 0;
@@ -2876,7 +3574,7 @@ int LuaInterface::lua_is_gui_visible(lpp::Script::state L)
 
 int LuaInterface::lua_set_window_visible(lpp::Script::state L)
 {
-	bool val = GET_BOOL(L, -1) == 1;
+	bool val = GET_BOOL(L, -1);
 	std::string win = GET_STR(L, -2);
 
 	GUI::instance().set_visible(win, val);
@@ -2986,7 +3684,7 @@ int LuaInterface::lua_get_console_history(lpp::Script::state L)
 
 int LuaInterface::lua_set_console_visible(lpp::Script::state L)
 {
-	bool val = GET_BOOL(L, -1) == 1;
+	bool val = GET_BOOL(L, -1);
 
 	GUI::instance().get_console().set_visible(val);
 	return 0;
@@ -3007,7 +3705,7 @@ int LuaInterface::lua_clear_console(lpp::Script::state L)
 
 int LuaInterface::lua_set_builder_visible(lpp::Script::state L)
 {
-	bool val = GET_BOOL(L, -1) == 1;
+	bool val = GET_BOOL(L, -1);
 
 	GUI::instance().get_builder().set_visible(val);
 	return 0;
@@ -3046,6 +3744,21 @@ int LuaInterface::lua_free_research(lpp::Script::state)
 int LuaInterface::lua_research_all(lpp::Script::state)
 {
 	GUI::instance().get_research().research_all();
+	return 0;
+}
+
+int LuaInterface::lua_dummy_unlock(lpp::Script::state L)
+{
+	std::size_t j = GET_UINT(L, -1);
+	std::size_t i = GET_UINT(L, -2);
+
+	GUI::instance().get_research().dummy_unlock(i, j);
+	return 0;
+}
+
+int LuaInterface::lua_research_reset(lpp::Script::state L)
+{
+	GUI::instance().get_research().reset_research();
 	return 0;
 }
 
@@ -3202,6 +3915,78 @@ int LuaInterface::lua_register_spell(lpp::Script::state L)
 	std::string val = GET_STR(L, -1);
 
 	GUI::instance().get_spell_casting().register_spell(val);
+	return 0;
+}
+
+int LuaInterface::lua_spellcaster_set_type(lpp::Script::state L)
+{
+	SPELL_TYPE val = (SPELL_TYPE)GET_SINT(L, -1);
+
+	lua_this->spell_caster_->set_spell_type(val);
+	return 0;
+}
+
+int LuaInterface::lua_spellcaster_get_type(lpp::Script::state L)
+{
+	auto res = lua_this->spell_caster_->get_spell_type();
+	lua_pushinteger(L, (int)res);
+	return 1;
+}
+
+int LuaInterface::lua_spellcaster_set_spell(lpp::Script::state L)
+{
+	std::string val = GET_STR(L, -1);
+
+	lua_this->spell_caster_->set_spell(val);
+	return 0;
+}
+
+int LuaInterface::lua_spellcaster_get_spell(lpp::Script::state L)
+{
+	auto& res = lua_this->spell_caster_->get_spell();
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_spellcaster_get_last_type(lpp::Script::state L)
+{
+	auto res = lua_this->spell_caster_->get_last_spell_type();
+	lua_pushinteger(L, (int)res);
+	return 1;
+}
+
+int LuaInterface::lua_spellcaster_get_last_spell(lpp::Script::state L)
+{
+	auto& res = lua_this->spell_caster_->get_last_spell();
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_spellcaster_set_last_spell_id(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+
+	lua_this->spell_caster_->set_last_spell_id(val);
+	return 0;
+}
+
+int LuaInterface::lua_spellcaster_get_last_spell_id(lpp::Script::state L)
+{
+	auto res = lua_this->spell_caster_->get_last_spell_id();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_spellcaster_is_casting(lpp::Script::state L)
+{
+	auto res = lua_this->spell_caster_->is_casting();
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_spellcaster_stop_casting(lpp::Script::state L)
+{
+	lua_this->spell_caster_->stop_casting();
 	return 0;
 }
 
@@ -3469,6 +4254,42 @@ int LuaInterface::lua_trigger_get_check_period(lpp::Script::state L)
 	return 1;
 }
 
+int LuaInterface::lua_trigger_can_be_triggered_by(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	auto res = TriggerHelper::can_be_triggered_by(*ents, id, val);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_trigger_reset_timer(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	TriggerHelper::reset_timer(*ents, id);
+	return 0;
+}
+
+int LuaInterface::lua_trigger_set_radius(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	TriggerHelper::set_radius(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_trigger_get_radius(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = TriggerHelper::get_radius(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_upgrade_set_blueprint(lpp::Script::state L)
 {
 	std::string blueprint = GET_STR(L, -1);
@@ -3578,6 +4399,14 @@ int LuaInterface::lua_upgrade_upgrade(lpp::Script::state L)
 	std::size_t id = GET_UINT(L, -1);
 
 	UpgradeHelper::upgrade(*ents, id);
+	return 0;
+}
+
+int LuaInterface::lua_upgrade_all_level_up(lpp::Script::state L)
+{
+	for(auto& ent : ents->get_component_container<UpgradeComponent>())
+		ent.second.experience = ent.second.exp_needed;
+
 	return 0;
 }
 
@@ -3785,9 +4614,553 @@ int LuaInterface::lua_mana_get_regen_period(lpp::Script::state L)
 	return 1;
 }
 
+int LuaInterface::lua_wave_next_wave(lpp::Script::state L)
+{
+	lua_this->wave_system_->next_wave();
+	return 0;
+}
+
+int LuaInterface::lua_wave_advance_countdown(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+
+	lua_this->wave_system_->advance_wave_countdown(val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_entity_died(lpp::Script::state L)
+{
+	lua_this->wave_system_->wave_entity_died();
+	return 0;
+}
+
+int LuaInterface::lua_wave_start(lpp::Script::state L)
+{
+	lua_this->wave_system_->start();
+	return 0;
+}
+
+int LuaInterface::lua_wave_pause(lpp::Script::state L)
+{
+	bool val = GET_BOOL(L, -1);
+
+	lua_this->wave_system_->pause(val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_set_entity_total(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+
+	lua_this->wave_system_->set_entity_total(val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_get_entity_total(lpp::Script::state L)
+{
+	auto res = lua_this->wave_system_->get_entity_total();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_wave_set_wave_count(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+
+	lua_this->wave_system_->set_wave_count(val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_get_wave_count(lpp::Script::state L)
+{
+	auto res = lua_this->wave_system_->get_wave_count();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_wave_add_spawn_node(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+
+	lua_this->wave_system_->add_spawn_node(val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_clear_spawn_nodes(lpp::Script::state L)
+{
+	lua_this->wave_system_->clear_spawn_nodes();
+	return 0;
+}
+
+int LuaInterface::lua_wave_set_spawn_cooldown(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+
+	lua_this->wave_system_->set_spawn_cooldown(val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_get_spawn_cooldown(lpp::Script::state L)
+{
+	auto res = lua_this->wave_system_->get_spawn_cooldown();
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_wave_add_entity_blueprint(lpp::Script::state L)
+{
+	std::string blueprint = GET_STR(L, -1);
+
+	lua_this->wave_system_->add_entity_blueprint(blueprint);
+	return 0;
+}
+
+int LuaInterface::lua_wave_set_table(lpp::Script::state L)
+{
+	std::string table = GET_STR(L, -1);
+
+	lua_this->wave_system_->set_wave_table(table);
+	return 0;
+}
+
+int LuaInterface::lua_wave_get_table(lpp::Script::state L)
+{
+	auto& res = lua_this->wave_system_->get_wave_table();
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_wave_set_curr_wave_number(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	
+	lua_this->wave_system_->set_curr_wave_number(val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_get_curr_wave_number(lpp::Script::state L)
+{
+	auto res = lua_this->wave_system_->get_curr_wave_number();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_wave_set_countdown(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+
+	lua_this->wave_system_->set_countdown_value(val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_get_countdown(lpp::Script::state L)
+{
+	auto res = lua_this->wave_system_->get_countdown_value();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_wave_set_state(lpp::Script::state L)
+{
+	int val = GET_SINT(L, -1);
+
+	lua_this->wave_system_->set_state((WAVE_STATE)val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_get_state(lpp::Script::state L)
+{
+	auto res = lua_this->wave_system_->get_state();
+	lua_pushinteger(L, (int)res);
+	return 1;
+}
+
+int LuaInterface::lua_wave_update_label_text(lpp::Script::state L)
+{
+	lua_this->wave_system_->update_label_text();
+	return 0;
+}
+
+int LuaInterface::lua_wave_set_spawn_timer(lpp::Script::state L)
+{
+	tdt::real val = GET_REAL(L, -1);
+
+	lua_this->wave_system_->set_spawn_timer(val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_get_spawn_timer(lpp::Script::state L)
+{
+	auto res = lua_this->wave_system_->get_spawn_timer();
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_wave_set_wave_entities(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+
+	lua_this->wave_system_->set_wave_entities(val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_get_wave_entities(lpp::Script::state L)
+{
+	auto res = lua_this->wave_system_->get_wave_entities();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_wave_set_entities_spawned(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	
+	lua_this->wave_system_->set_entities_spawned(val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_get_entities_spawned(lpp::Script::state L)
+{
+	auto res = lua_this->wave_system_->get_entities_spawned();
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_wave_clear_entity_blueprints(lpp::Script::state L)
+{
+	lua_this->wave_system_->clear_entity_blueprints();
+	return 0;
+}
+
+int LuaInterface::lua_wave_list(lpp::Script::state L)
+{
+	auto& console = GUI::instance().get_console();
+	for(const auto& ent : lua_this->wave_system_->get_entity_blueprints())
+		console.print_text(ent, Console::ORANGE_TEXT);
+	return 0;
+}
+
+int LuaInterface::lua_wave_set_endless_mode(lpp::Script::state L)
+{
+	bool val = GET_BOOL(L, -1);
+
+	lua_this->wave_system_->set_endless_mode(val);
+	return 0;
+}
+
+int LuaInterface::lua_wave_get_endless_mode(lpp::Script::state L)
+{
+	auto res = lua_this->wave_system_->get_endless_mode();
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_wave_turn_endless_on(lpp::Script::state L)
+{
+	lua_this->wave_system_->set_endless_mode(true);
+	return 0;
+}
+
+int LuaInterface::lua_msg_to_plr_show(lpp::Script::state L)
+{
+	std::string no = GET_STR(L, -1);
+	std::string yes = GET_STR(L, -2);
+	std::string ok = GET_STR(L, -3);
+	std::string msg = GET_STR(L, -4);
+
+	GUI::instance().get_message().show(msg, ok, yes, no);
+	return 0;
+}
+
+int LuaInterface::lua_msg_to_plr_show_ok(lpp::Script::state L)
+{
+	std::string ok = GET_STR(L, -1);
+	std::string msg = GET_STR(L, -2);
+
+	GUI::instance().get_message().show(msg, ok);
+	return 0;
+}
+
+int LuaInterface::lua_msg_to_plr_show_yes_no(lpp::Script::state L)
+{
+	std::string no = GET_STR(L, -1);
+	std::string yes = GET_STR(L, -2);
+	std::string msg = GET_STR(L, -3);
+
+	GUI::instance().get_message().show(msg, "NONE", yes, no);
+	return 0;
+}
+
+int LuaInterface::lua_msg_set_butt_label(lpp::Script::state L)
+{
+	std::string val = GET_STR(L, -1);
+	std::string butt = GET_STR(L, -2);
+
+	GUI::instance().get_message().set_butt_label(butt, val);
+	return 0;
+}
+
+int LuaInterface::lua_msg_reset_butt_labels(lpp::Script::state L)
+{
+	GUI::instance().get_message().reset_butt_labels();
+	return 0;
+}
+
+int LuaInterface::lua_mana_add(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ManaHelper::add_mana(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_mana_sub(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	auto res = ManaHelper::sub_mana(*ents, id, val);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_mana_set(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ManaHelper::set_mana(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_mana_get(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = ManaHelper::get_mana(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_mana_set_max(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ManaHelper::set_max_mana(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_mana_get_max(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = ManaHelper::get_max_mana(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_mana_set_regen(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	ManaHelper::set_regen(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_mana_get_regen(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = ManaHelper::get_regen(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_ent_spell_set_blueprint(lpp::Script::state L)
+{
+	std::string blueprint = GET_STR(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	SpellHelper::set_blueprint(*ents, id, blueprint);
+	return 0;
+}
+
+int LuaInterface::lua_ent_spell_get_blueprint(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto& res = SpellHelper::get_blueprint(*ents, id);
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_ent_spell_set_cooldown(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	SpellHelper::set_cooldown(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_ent_spell_get_cooldown(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = SpellHelper::get_cooldown(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_ent_spell_advance_curr_time(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	SpellHelper::advance_curr_time(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_ent_spell_set_curr_time(lpp::Script::state L)
+{
+	Ogre::Real val = GET_REAL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	SpellHelper::set_curr_time(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_ent_spell_get_curr_time(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = SpellHelper::get_curr_time(*ents, id);
+	lua_pushnumber(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_ent_spell_cast(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	SpellHelper::cast(*ents, id);
+	return 0;
+}
+
+int LuaInterface::lua_light_set_visible(lpp::Script::state L)
+{
+	bool val = GET_BOOL(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	LightHelper::set_visible(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_light_toggle_visible(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	LightHelper::toggle_visible(*ents, id);
+	return 0;
+}
+
+int LuaInterface::lua_light_is_visible(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = LightHelper::is_visible(*ents, id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_light_init(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	LightHelper::init(*ents, id);
+	return 0;
+}
+
+int LuaInterface::lua_command_set(lpp::Script::state L)
+{
+	bool val = GET_BOOL(L, -1);
+	COMMAND_TYPE comm = (COMMAND_TYPE)GET_SINT(L, -2);
+	std::size_t id = GET_UINT(L, -3);
+
+	CommandHelper::set_command(*ents, id, comm, val);
+	return 0;
+}
+
+int LuaInterface::lua_command_test(lpp::Script::state L)
+{
+	COMMAND_TYPE comm = (COMMAND_TYPE)GET_SINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	auto res = CommandHelper::test_command(*ents, id, comm);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_counter_increment(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = CounterHelper::increment(*ents, id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_counter_decrement(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = CounterHelper::decrement(*ents, id);
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_counter_set_curr_value(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	CounterHelper::set_curr_value(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_counter_get_curr_value(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = CounterHelper::get_curr_value(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_counter_set_max_value(lpp::Script::state L)
+{
+	std::size_t val = GET_UINT(L, -1);
+	std::size_t id = GET_UINT(L, -2);
+
+	CounterHelper::set_max_value(*ents, id, val);
+	return 0;
+}
+
+int LuaInterface::lua_counter_get_max_value(lpp::Script::state L)
+{
+	std::size_t id = GET_UINT(L, -1);
+
+	auto res = CounterHelper::get_max_value(*ents, id);
+	lua_pushinteger(L, res);
+	return 1;
+}
+
 int LuaInterface::lua_set_tracker_visible(lpp::Script::state L)
 {
-	bool val = GET_BOOL(L, -1) == 1;
+	bool val = GET_BOOL(L, -1);
 
 	GUI::instance().get_tracker().set_visible(val);
 	return 0;
@@ -3803,7 +5176,7 @@ int LuaInterface::lua_is_tracker_visible(lpp::Script::state L)
 
 int LuaInterface::lua_set_log_visible(lpp::Script::state L)
 {
-	bool val = GET_BOOL(L, -1) == 1;
+	bool val = GET_BOOL(L, -1);
 
 	GUI::instance().get_log().set_visible(val);
 	return 0;
