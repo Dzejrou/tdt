@@ -119,3 +119,10 @@ std::size_t GridNodeHelper::get_node_in_dir(EntitySystem& ents, std::size_t id, 
 	else
 		return Component::NO_ENTITY;
 }
+
+void GridNodeHelper::set_portal_neighbour(EntitySystem& ents, std::size_t id, std::size_t portal)
+{
+	auto comp = ents.get_component<GridNodeComponent>(id);
+	if(comp)
+		comp->neighbours[DIRECTION::PORTAL] = portal;
+}

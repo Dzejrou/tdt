@@ -95,4 +95,12 @@ namespace GridNodeHelper
 	 * Param: The direction represented by the DIRECTION::VAL enum.
 	 */
 	std::size_t get_node_in_dir(EntitySystem&, std::size_t, int);
+
+	/**
+	 * Brief: Sets the portal node linked to this node. 
+	 * Param: EntitySystem containing the node.
+	 * Param: ID of this node.
+	 * Param: ID of the portal node.
+	 */
+	void set_portal_neighbour(EntitySystem&, std::size_t, std::size_t);
 }
