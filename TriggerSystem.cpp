@@ -1,5 +1,6 @@
 #include "TriggerSystem.hpp"
 #include "Helpers.hpp"
+#include "GUI.hpp"
 
 TriggerSystem::TriggerSystem(EntitySystem& ents)
 	: entities_{ents}, check_timer_{}, check_period_{1.f}
@@ -26,20 +27,22 @@ void TriggerSystem::update(Ogre::Real delta)
 					case FACTION::NEUTRAL: // Trigger with both factions.
 						for(auto& other : entities_.get_component_container<PhysicsComponent>())
 						{
-							if(faction == FactionHelper::get_faction(entities_, other.first)
-							   && phys_comp->position.squaredDistance(other.second.position) < ent.second.radius * ent.second.radius)
+							if(entities_.has_component<StructureComponent>(other.first))
+								continue;
+							if(phys_comp->position.squaredDistance(other.second.position) < ent.second.radius * ent.second.radius)
 							{
 								TriggerHelper::trigger(entities_, ent.first, other.first);
 								ent.second.curr_time = 0.f;
 							}
-						
 						}
 						break;
-					case FACTION::FRIENDLY: // Trigger only same faction.
+					case FACTION::FRIENDLY: // Trigger only the opposite faction.
 					case FACTION::ENEMY:
 						for(auto& other : entities_.get_component_container<FactionComponent>())
 						{
-							if(faction == FactionHelper::get_faction(entities_, other.first)
+							if(entities_.has_component<StructureComponent>(other.first))
+								continue;
+							if(faction != FactionHelper::get_faction(entities_, other.first)
 							   && PhysicsHelper::get_distance(entities_, ent.first, other.first) < ent.second.radius * ent.second.radius)
 							{
 								TriggerHelper::trigger(entities_, ent.first, other.first);
