@@ -15,8 +15,6 @@
 #include "Console.hpp"
 #include "SelectionBox.hpp"
 #include "Helpers.hpp"
-#include "Pathfinding.hpp"
-#include "PathfindingAlgorithms.hpp"
 #include "Grid.hpp"
 
 /**

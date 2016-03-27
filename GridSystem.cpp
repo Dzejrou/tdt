@@ -1,5 +1,7 @@
 #include "GridSystem.hpp"
-#include "GUI.hpp"
+#include "Components.hpp"
+#include "Pathfinding.hpp"
+#include "PathfindingAlgorithms.hpp"
 #include <set>
 
 GridSystem::GridSystem(EntitySystem& ents, Ogre::SceneManager& scene)
@@ -28,9 +30,7 @@ void GridSystem::update(Ogre::Real)
 		{
 			if(neighbour == Component::NO_ENTITY)
 				continue;
-			if(processed_nodes.count(neighbour) == 0)
-				processed_nodes.insert(neighbour);
-			else
+			if(!processed_nodes.insert(neighbour).second)
 				continue;
 			update_neighbours_(neighbour);
 		}
@@ -41,9 +41,7 @@ void GridSystem::update(Ogre::Real)
 		{
 			if(neighbour == Component::NO_ENTITY)
 				continue;
-			if(processed_nodes.count(neighbour) == 0)
-				processed_nodes.insert(neighbour);
-			else
+			if(!processed_nodes.insert(neighbour).second)
 				continue;
 			update_neighbours_(neighbour);
 		}
@@ -135,7 +133,7 @@ bool GridSystem::is_visible() const
 void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::size_t radius)
 {
 	auto struct_comp = entities_.get_component<StructureComponent>(ent_id);
-	if(!struct_comp || (struct_comp && struct_comp->walk_through))
+	if(!struct_comp)
 		return;
 
 	Grid& grid = Grid::instance();
@@ -155,8 +153,7 @@ void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::s
 		for(std::size_t j = 0; j < radius; ++j)
 		{
 			target_node = grid.get_node(x + i, y + j);
-			if(!struct_comp->walk_through)
-				GridNodeHelper::set_free(entities_, target_node, false);
+			GridNodeHelper::set_free(entities_, target_node, false);
 			GridNodeHelper::set_resident(entities_, target_node, ent_id);
 			struct_comp->residences.push_back(target_node);
 		}
@@ -180,10 +177,15 @@ void GridSystem::update_neighbours_(std::size_t id)
 		auto& neigh = comp->neighbours;
 		int active_main_neighbours{0}; // Main neighbours: UP, DOWN, LEFT, RIGHT.
 		
-		bool up = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::UP]);
-		bool down = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::DOWN]);
-		bool left = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::LEFT]);
-		bool right = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::RIGHT]);
+		// Only align to other blocks with align component.
+		bool up = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::UP])
+			      && entities_.has_component<AlignComponent>(GridNodeHelper::get_resident(entities_, neigh[DIRECTION::UP]));
+		bool down = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::DOWN])
+			      && entities_.has_component<AlignComponent>(GridNodeHelper::get_resident(entities_, neigh[DIRECTION::DOWN]));
+		bool left = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::LEFT])
+			      && entities_.has_component<AlignComponent>(GridNodeHelper::get_resident(entities_, neigh[DIRECTION::LEFT]));
+		bool right = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::RIGHT])
+			      && entities_.has_component<AlignComponent>(GridNodeHelper::get_resident(entities_, neigh[DIRECTION::RIGHT]));
 		if(up)
 			++active_main_neighbours;
 		if(down)
@@ -208,6 +210,7 @@ void GridSystem::update_neighbours_(std::size_t id)
 		if(graph->material != "NO_MAT")
 			graph->entity->setMaterialName(graph->material);
 		graph->node->setOrientation(Ogre::Quaternion{}); // Reverses any rotations.
+		graph->entity->setRenderingDistance(4000.f);
 
 		Ogre::Vector3 pos{node_phys->position};
 		if(active_main_neighbours == 1)
