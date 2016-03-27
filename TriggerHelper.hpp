@@ -61,10 +61,40 @@ namespace TriggerHelper
 	Ogre::Real get_cooldown(EntitySystem&, std::size_t);
 
 	/**
-	 * Param: Triggers an entity.
+	 * Brief: Triggers an entity.
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the triggered entity.
 	 * Param: ID of the entity that triggered the triggered entity.
 	 */
 	void trigger(EntitySystem&, std::size_t, std::size_t);
+
+	/**
+	 * Brief: Returns true if a given entity can be triggered by another
+	 *        given entity.
+	 * Param: Entity system containing the entity.
+	 * Param: ID of the entity that is supposed to get triggered.
+	 * Param: ID of the triggering entity.
+	 */
+	bool can_be_triggered_by(EntitySystem&, std::size_t, std::size_t);
+
+	/**
+	 * Brief: Sets the trigger cooldown timer of a given entity to zero. 
+	 * Param: Entity system containing the entity.
+	 * Param: ID of the entity.
+	 */
+	void reset_timer(EntitySystem&, std::size_t);
+
+	/**
+	 * Brief: Sets the trigger radius of a given entity.
+	 * Param: Entity system containing the entity.
+	 * Param: ID of the entity.
+	 */
+	void set_radius(EntitySystem&, std::size_t, Ogre::Real);
+
+	/**
+	 * Brief: Returns the trigger radius of a given entity.
+	 * Param: Entity system containing the entity.
+	 * Param: ID of the entity.
+	 */
+	Ogre::Real get_radius(EntitySystem&, std::size_t);
 }
