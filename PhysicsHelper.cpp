@@ -22,7 +22,12 @@ void PhysicsHelper::set_position(EntitySystem& ents, std::size_t id, const Ogre:
 {
 	auto comp = ents.get_component<PhysicsComponent>(id);
 	if(comp)
+	{
 		comp->position = val;
+		auto graph = ents.get_component<GraphicsComponent>(id);
+		if(graph && graph->node)
+			graph->node->setPosition(val);
+	}
 }
 
 const Ogre::Vector3& PhysicsHelper::get_position(EntitySystem& ents, std::size_t id)
