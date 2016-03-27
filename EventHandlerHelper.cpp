@@ -24,7 +24,7 @@ bool EventHandlerHelper::can_handle(EntitySystem& ents, std::size_t id, EVENT_TY
 {
 	auto comp = ents.get_component<EventHandlerComponent>(id);
 	if(comp)
-		return comp->possible_events.test((int)val);
+		return comp->possible_events.test((std::size_t)val);
 	else
 		return false;
 }
@@ -33,12 +33,12 @@ void EventHandlerHelper::add_possible_event(EntitySystem& ents, std::size_t id, 
 {
 	auto comp = ents.get_component<EventHandlerComponent>(id);
 	if(comp)
-		comp->possible_events.set((int)val);
+		comp->possible_events.set((std::size_t)val);
 }
 
 void EventHandlerHelper::delete_possible_event(EntitySystem& ents, std::size_t id, EVENT_TYPE val)
 {
 	auto comp = ents.get_component<EventHandlerComponent>(id);
 	if(comp)
-		comp->possible_events.set((int)val, false);
+		comp->possible_events.set((std::size_t)val, false);
 }
