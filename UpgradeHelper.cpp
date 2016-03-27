@@ -35,8 +35,12 @@ std::size_t UpgradeHelper::set_experience(EntitySystem& ents, std::size_t id, st
 		}
 		auto& tracker = GUI::instance().get_tracker();
 		if(tracker.get_tracked_entity() == id)
+		{
 			tracker.update_tracking("EXP_VALUE", std::to_string(comp->experience)
 									+ " / " + std::to_string(comp->exp_needed));
+			if(comp->experience >= comp->exp_needed)
+				tracker.show_upgrade_butt(true);
+		}
 		return remainder;
 	}
 	else
@@ -67,8 +71,12 @@ std::size_t UpgradeHelper::add_experience(EntitySystem& ents, std::size_t id, st
 		}
 		auto& tracker = GUI::instance().get_tracker();
 		if(tracker.get_tracked_entity() == id)
+		{
 			tracker.update_tracking("EXP_VALUE", std::to_string(comp->experience)
 									+ " / " + std::to_string(comp->exp_needed));
+			if(comp->experience >= comp->exp_needed)
+				tracker.show_upgrade_butt(true);
+		}
 		return remainder;
 	}
 	else
@@ -86,8 +94,12 @@ void UpgradeHelper::set_exp_needed(EntitySystem& ents, std::size_t id, std::size
 
 		auto& tracker = GUI::instance().get_tracker();
 		if(tracker.get_tracked_entity() == id)
+		{
 			tracker.update_tracking("EXP_VALUE", std::to_string(comp->experience)
 									+ " / " + std::to_string(comp->exp_needed));
+			if(comp->experience >= comp->exp_needed)
+				tracker.show_upgrade_butt(true);
+		}
 	}
 }
 
