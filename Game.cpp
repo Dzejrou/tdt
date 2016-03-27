@@ -1,14 +1,14 @@
 #include "Game.hpp"
 
 Game::Game() // TODO: Init systems.
-	: state_{GAME_STATE::INTRO_MENU}, root_{nullptr}, window_{nullptr},
-	  scene_mgr_{nullptr}, main_cam_{nullptr}, main_light_{nullptr},
-	  main_view_{nullptr}, input_{nullptr}, keyboard_{nullptr}, mouse_{nullptr},
-	  camera_dir_{0, 0, 0}, renderer_{nullptr}, placer_{nullptr}, ground_{nullptr},
-	  camera_free_mode_{false}, camera_position_backup_{0, 0, 0},
-	  camera_orientation_backup_{}, selection_box_{}, entity_creator_{nullptr},
-      mouse_position_{0.f, 0.f}, level_generator_{nullptr}
+	: state_{GAME_STATE::INTRO_MENU}, root_{}, window_{},
+	  scene_mgr_{}, main_cam_{}, main_light_{},
+	  main_view_{}, input_{}, keyboard_{}, mouse_{},
+	  renderer_{}, placer_{}, ground_{},
+	  selection_box_{}, entity_creator_{},
+	  mouse_position_{}, level_generator_{}, spell_caster_{}
 {
+	main_cam_.reset(new Camera{});
 	ogre_init();
 	ois_init();
 	cegui_init();
@@ -17,7 +17,7 @@ Game::Game() // TODO: Init systems.
 	entity_system_.reset(new EntitySystem{*scene_mgr_});
 	health_system_.reset(new HealthSystem{*entity_system_});
 	movement_system_.reset(new MovementSystem{*entity_system_});
-	input_system_.reset(new InputSystem{*entity_system_, *keyboard_, *main_cam_});
+	input_system_.reset(new InputSystem{*entity_system_, *keyboard_, *(main_cam_->camera_)});
 	grid_system_.reset(new GridSystem{*entity_system_, *scene_mgr_});
 	combat_system_.reset(new CombatSystem{*entity_system_, *scene_mgr_, *grid_system_});
 	event_system_.reset(new EventSystem{*entity_system_});
@@ -28,6 +28,7 @@ Game::Game() // TODO: Init systems.
 	graphics_system_.reset(new GraphicsSystem{*entity_system_});
 	trigger_system_.reset(new TriggerSystem{*entity_system_});
 	mana_spell_system_.reset(new ManaSpellSystem{*entity_system_});
+	wave_system_.reset(new WaveSystem{*entity_system_});
 
 	systems_.emplace_back(entity_system_.get());
 	systems_.emplace_back(health_system_.get());
@@ -43,23 +44,33 @@ Game::Game() // TODO: Init systems.
 	systems_.emplace_back(graphics_system_.get());
 	systems_.emplace_back(trigger_system_.get());
 	systems_.emplace_back(mana_spell_system_.get());
+	systems_.emplace_back(wave_system_.get());
 
-	selection_box_.reset(new SelectionBox{"MainSelectionBox",
-						                  *entity_system_,
+	selection_box_.reset(new SelectionBox{"MainSelectionBox", *entity_system_,
 						                  *scene_mgr_->createPlaneBoundedVolumeQuery(Ogre::PlaneBoundedVolumeList{}),
-						                  *scene_mgr_->createRayQuery(Ogre::Ray{}),
-						                  *scene_mgr_});
+						                  *scene_mgr_->createRayQuery(Ogre::Ray{}), *scene_mgr_});
 	placer_.reset(new EntityPlacer{*entity_system_, *grid_system_, *scene_mgr_});
 	entity_creator_.reset(new EntityCreator{*placer_, *entity_system_});
 	game_serializer_.reset(new GameSerializer{*entity_system_});
 
 	level_generator_.reset(new level_generators::DEFAULT_LEVEL_GENERATOR(*entity_system_, 10));
-	create_empty_level(16, 16); // In case initial load fails.
-	GUI::instance().init(this);
+
+	auto& gui = GUI::instance();
+	gui.init(this);
 	LuaInterface::init(this);
-	entity_creator_->init(GUI::instance().get_window("ENTITY_MANAGER"));
-	GUI::instance().get_research().init(GUI::instance().get_window("RESEARCH"));
+	entity_creator_->init(gui.get_window("ENTITY_MANAGER"));
+	gui.get_research().init(gui.get_window("RESEARCH"));
 	Player::instance().init(entity_system_.get());
+	spell_caster_.reset(new Spellcaster(*placer_, *selection_box_));
+	gui.get_spell_casting().set_caster(spell_caster_.get());
+	Player::instance().set_initial_unlocks(gui.get_spell_casting().get_spells(),
+										   gui.get_builder().get_buildings());
+
+	// Wave system has it's countdown label directly wired to the GUI.
+	wave_system_->set_countdown_window(GUI::instance().get_window("NEXT_WAVE/NEXT_LABEL"));
+
+	create_empty_level(16, 16); // In case initial load fails.
+	main_cam_->look_at(Grid::instance().get_center_position(*entity_system_));
 }
 
 Game::~Game()
@@ -80,8 +91,6 @@ void Game::update(Ogre::Real delta)
 {
 	GUI::instance().get_top_bar().update_time(delta);
 	CEGUI::System::getSingleton().injectTimePulse(delta);
-	if(camera_free_mode_)
-		main_cam_->moveRelative(camera_dir_ * delta * /* atm hardcoded speed, move to lua! */ 180.f);
 
 	if(GUI::instance().get_console().is_visible())
 		GUI::instance().get_console().update_fps(delta, window_->getLastFPS());
@@ -91,6 +100,27 @@ void Game::update(Ogre::Real delta)
 		for(auto& sys : systems_)
 			sys->update(delta);
 	}
+
+	// Camera movement caused by mouse.
+	if(!main_cam_->get_free_mode())
+	{
+		auto& mouse = CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor();
+		auto width = main_view_->getActualWidth();
+		auto height = main_view_->getActualHeight();
+		auto pos = mouse.getPosition();
+
+		if(pos.d_x < 10.f)
+			main_cam_->move(DIRECTION::LEFT, delta);
+		else if(pos.d_x > width - 10.f)
+			main_cam_->move(DIRECTION::RIGHT, delta);
+		else if(pos.d_y < 10.f)
+			main_cam_->move(DIRECTION::DOWN, delta);
+		else if(pos.d_y > height - 10.f)
+			main_cam_->move(DIRECTION::UP, delta);
+		main_cam_->update(delta); // Additional movement caused by keys.
+	}
+	else // Movement cause by keys (this one includes elevation).
+		main_cam_->update(delta);
 }
 
 void Game::set_state(GAME_STATE state)
@@ -114,8 +144,15 @@ void Game::set_state(GAME_STATE state)
 void Game::new_game(std::size_t width, std::size_t height)
 {
 	GUI::instance().get_log().clear();
+	GUI::instance().get_message().set_visible(false);
 	create_empty_level(width, height);
-	level_generator_->generate(width, height);
+
+	wave_system_->clear_spawn_nodes();
+	if(lpp::Script::get_singleton().call<bool, std::size_t, std::size_t>("game.init_level", width, height))
+		level_generator_->generate(width, height, *wave_system_);
+	wave_system_->start();
+	reset_unlocks();
+	Player::instance().reset();
 }
 
 void Game::create_empty_level(std::size_t width, std::size_t height)
@@ -134,7 +171,6 @@ void Game::create_empty_level(std::size_t width, std::size_t height)
 		auto& mesh_mgr = Ogre::MeshManager::getSingleton();
 		if(mesh_mgr.resourceExists("ground"))
 		{
-			//auto plane = mesh_mgr.getByName("ground");
 			mesh_mgr.unload("ground");
 			mesh_mgr.remove("ground");
 		}
@@ -157,13 +193,44 @@ void Game::create_empty_level(std::size_t width, std::size_t height)
 	ground_entity_->setMaterialName("rocky_ground");
 	ground_entity_->setQueryFlags(0);
 	Grid::instance().create_graph(*entity_system_, Ogre::Vector2{0, 0}, width, height, 100.f);
+
+	// Adjust camera.
+	main_cam_->set_start(Ogre::Vector2{actual_width / 2 - 300.f, actual_height / 2 - 300.f},
+						 Grid::instance().get_center_position(*entity_system_), 400.f);
+	main_cam_->reset();
 }
 
 void Game::reset_camera()
 {
-	main_cam_->setPosition(0.f, 600.f, 0.f);
-	auto target = Grid::instance().get_center_position(*entity_system_);
-	main_cam_->lookAt(target.x, 0.f, target.y);
+	main_cam_->reset();
+}
+
+void Game::reset_unlocks()
+{
+	auto& spellcaster = GUI::instance().get_spell_casting();
+	auto& builder = GUI::instance().get_builder();
+	auto& player = Player::instance();
+
+	spellcaster.clear_spells();
+	builder.clear_buildings();
+
+	for(const auto& spell : player.get_initial_spells())
+		spellcaster.register_spell(spell);
+
+	for(const auto& building : player.get_initial_buildings())
+		builder.register_building(building);
+
+	GUI::instance().get_research().reset_research();
+}
+
+void Game::set_throne_id(std::size_t id)
+{
+	throne_id_ = id;
+}
+
+std::size_t Game::get_throne_id() const
+{
+	return throne_id_;
 }
 
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
@@ -189,6 +256,8 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 				return true;
 			if(state_ != GAME_STATE::MENU && state_ != GAME_STATE::INTRO_MENU)
 				set_state(state_ == GAME_STATE::RUNNING ? GAME_STATE::PAUSED : GAME_STATE::RUNNING);
+			placer_->set_visible(false);
+			spell_caster_->stop_casting();
 			return true;
 		case OIS::KC_GRAVE:
 			if(keyboard_->isModifierDown(OIS::Keyboard::Modifier::Shift))
@@ -196,75 +265,53 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 			else
 				GUI::instance().get_console().set_visible(!GUI::instance().get_console().is_visible());
 			return true;
+		case OIS::KC_NUMPAD0:
+			toggle_camera_free_mode();
+			return true;
 	}
 
 	// Pass to CEGUI.
 	auto& cont = CEGUI::System::getSingleton().getDefaultGUIContext();
 	auto b1 = cont.injectKeyDown((CEGUI::Key::Scan)event.key);
 	auto b2 = cont.injectChar((CEGUI::Key::Scan)event.text);
-	if(b1 || b2 || state_ == GAME_STATE::MENU) // Guarantees both key and char injection.
+	if(b1 || b2) // Guarantees both key and char injection.
 		return true;
 
-	// Allows for free camera movement during debugging.
-	if(camera_free_mode_)
-	{
-		switch(event.key)
-		{
-			case OIS::KC_A:
-				camera_dir_.x -= 1;
-				break;
-			case OIS::KC_D:
-				camera_dir_.x += 1;
-				break;
-			case OIS::KC_W:
-				camera_dir_.z -= 1;
-				break;
-			case OIS::KC_S:
-				camera_dir_.z += 1;
-				break;
-			case OIS::KC_SPACE:
-				camera_dir_.y += 1;
-				break;
-			case OIS::KC_LCONTROL:
-				camera_dir_.y -= 1;
-				break;
-		}
-	}
+	if(state_ != GAME_STATE::RUNNING)
+		return true;
+
+	// Camera movement.
+	if(!GUI::instance().get_console().is_visible())
+		main_cam_->key_pressed((CEGUI::Key::Scan)event.key);
 
 	return true;
 }
 
 bool Game::keyReleased(const OIS::KeyEvent& event)
 {
-	// Pass to CEGUI.
-	if(CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp((CEGUI::Key::Scan)event.key)
-	   || state_ == GAME_STATE::ENDED)
-		return true; // Note: This wont return if editbox was focused!
+	// Pass to CEGUI and Options (for key bindings).
+	if(CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp((CEGUI::Key::Scan)event.key))
+		return true;
 
-	// Allows for free camera movement during debbuging.
-	if(camera_free_mode_ && !GUI::instance().get_console().is_visible())
+	if(state_ != GAME_STATE::RUNNING)
+		return true;
+
+	// Camera movement.
+	if(!GUI::instance().get_console().is_visible())
 	{
-		switch(event.key)
-		{
-			case OIS::KC_A:
-				camera_dir_.x = 0;
-				break;
-			case OIS::KC_D:
-				camera_dir_.x = 0;
-				break;
-			case OIS::KC_W:
-				camera_dir_.z = 0;
-				break;
-			case OIS::KC_S:
-				camera_dir_.z = 0;
-				break;
-			case OIS::KC_SPACE:
-				camera_dir_.y = 0;
-				break;
-			case OIS::KC_LCONTROL:
-				camera_dir_.y = 0;
-				break;
-		}
+		main_cam_->key_released((CEGUI::Key::Scan)event.key);
+		GUI::instance().get_options().key_pressed((CEGUI::Key::Scan)event.key);
+	}
+
+	/**
+	 * This will make sure global and targeted spells go off even when
+	 * a hotkey is used.
+	 */
+	if(spell_caster_->get_spell_type() == SPELL_TYPE::GLOBAL ||
+	   (spell_caster_->get_spell_type() == SPELL_TYPE::TARGETED &&
+	   selection_box_->get_selected_entities().size() == 1))
+	{
+		spell_caster_->cast();
 	}
 
 	return true;
@@ -272,7 +319,7 @@ bool Game::keyReleased(const OIS::KeyEvent& event)
 
 bool Game::mouseMoved(const OIS::MouseEvent& event)
 {
-	if(event.state.buttonDown(OIS::MB_Right))
+	if(main_cam_->get_free_mode() && event.state.buttonDown(OIS::MB_Right))
 	{
 		main_cam_->yaw(Ogre::Degree(-.13f * event.state.X.rel));
 		main_cam_->pitch(Ogre::Degree(-.13f * event.state.Y.rel));
@@ -312,28 +359,47 @@ bool Game::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 	if(gui_context.injectMouseButtonDown(ois_to_cegui(id)) || state_ == GAME_STATE::MENU)
 		return true;
 
-	if(id == OIS::MB_Left && !placer_->is_visible()) // TODO: State switch!
+	if(id == OIS::MB_Left && !placer_->is_visible())
 	{ // Start selection.
 		auto& mouse = gui_context.getMouseCursor();
-
-		Ogre::Vector2 start{
+		Ogre::Vector2 position_screen{ // Mouse position on the screen -> NOT IN GRID!
 			mouse.getPosition().d_x / (float)event.state.width,
 			mouse.getPosition().d_y / (float)event.state.height
 		};
-		selection_box_->set_starting_point(start);
+		selection_box_->set_starting_point(position_screen);
 		selection_box_->clear();
 		selection_box_->set_selecting(true);
 	}
 
-	if(placer_->is_visible())
+	if(spell_caster_->is_casting())
+	{
+		if(id == OIS::MB_Left && state_ == GAME_STATE::RUNNING
+		   && !(spell_caster_->get_spell_type() == SPELL_TYPE::TARGETED &&
+				selection_box_->get_selected_entities().size() != 1))
+		{
+			/**
+			 * Note: If the spell is targeted and not one entity is selected, the spell shall be casted
+			 *       on mouse button release that makes sufficient selection.
+			 */
+			auto position_grid = get_mouse_click_position(event); // This is position wrt to the grid.
+			if(position_grid.first)
+				spell_caster_->cast(Ogre::Vector2{position_grid.second.x, position_grid.second.z});
+
+		}
+		else if(id == OIS::MB_Right)
+		{
+			placer_->set_visible(false);
+			spell_caster_->stop_casting();
+		}
+	}
+	else if(placer_->is_visible())
 	{
 		if(id == OIS::MB_Left && ((placer_->can_place_when_game_paused() && state_ == GAME_STATE::PAUSED)
 		   || state_ == GAME_STATE::RUNNING))
-			placer_->place(GUI::instance().get_console());
+			placer_->place();
 		else if(id == OIS::MB_Right)
 			placer_->set_visible(false);
 	}
-
 
 	return true;
 }
@@ -352,10 +418,21 @@ bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 			mouse.getPosition().d_x / (float)event.state.width,
 			mouse.getPosition().d_y / (float)event.state.height
 		};
-		selection_box_->execute_selection(end, *main_cam_, keyboard_->isKeyDown(OIS::KC_LSHIFT));
+		selection_box_->execute_selection(end, *(main_cam_->camera_), keyboard_->isKeyDown(OIS::KC_LSHIFT));
 		if(selection_box_->get_selected_entities().size() == 1)
 			GUI::instance().get_tracker().set_tracked_entity(selection_box_->get_selected_entities()[0], *entity_system_);
 		selection_box_->set_selecting(false);
+	}
+
+	/**
+	 * Note: Selected the spell without a target, so when we select
+	 *       one target, apply the effect on him.
+	 *		 This will also cause global spells to be casted immediately after clicking the button.
+	 */
+	if(selection_box_->get_selected_entities().size() == 1 && spell_caster_->get_spell_type() == SPELL_TYPE::TARGETED ||
+	   spell_caster_->get_spell_type() == SPELL_TYPE::GLOBAL)
+	{
+		spell_caster_->cast();
 	}
 
 	return true;
@@ -435,25 +512,27 @@ void Game::ogre_init()
 #ifdef _DEBUG
 	window_ = root_->createRenderWindow("Dungeon Keeper", 1920, 1080, false);
 #else
-	window_ = root_->createRenderWindow("Dungeon Keeper", 1920, 1080, true);
+	window_ = root_->createRenderWindow("Dungeon Keeper", 1920, 1080, false);
 #endif
 	window_->setVisible(true);
 
 	// Scene init.
 	// TODO: Research different types of scene managers!
 	scene_mgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
-	main_cam_ = scene_mgr_->createCamera("MainCam");
-	main_cam_->setPosition(0, 300, 0);
-	main_cam_->lookAt(300, 0, 300);
-	main_cam_->setNearClipDistance(5);
-	main_view_ = window_->addViewport(main_cam_);
-	main_cam_->setAspectRatio(Ogre::Real(main_view_->getActualWidth()) /
+	auto main_cam = scene_mgr_->createCamera("MainCam");
+	main_cam->setPosition(0, 300, 0);
+	main_cam->lookAt(300, 0, 300);
+	main_cam->setNearClipDistance(5);
+	main_view_ = window_->addViewport(main_cam);
+	main_cam->setAspectRatio(Ogre::Real(main_view_->getActualWidth()) /
 							  Ogre::Real(main_view_->getActualHeight()));
 	main_light_ = scene_mgr_->createLight("MainLight");
 	main_light_->setPosition(20, 80, 50);
+	main_light_->setVisible(false); // Currently using Light Crystals.
 
 	Ogre::WindowEventUtilities::addWindowEventListener(window_, this);
 	root_->addFrameListener(this);
+	main_cam_->init(main_cam);
 }
 
 void Game::ois_init()
@@ -496,42 +575,6 @@ void Game::cegui_init()
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 }
 
-void Game::command_to_mine()
-{
-	// Find miner with the smallest task queue.
-	std::size_t id = Component::NO_ENTITY;
-	std::size_t queue_size = std::numeric_limits<std::size_t>::max();
-	for(const auto& ent : entity_system_->get_component_container<TaskHandlerComponent>())
-	{
-		/**
-		 * Note: Even if the mineable structure may not contain gold, only those who can
-		 *       actually mine (this include gold) can mine it, so the ability to fulfill
-		 *       such task is required. (Removing it allows any entity capable
-		 *       of killing to mine.)
-		 */
-		if(ent.second.possible_tasks.test((int)TASK_TYPE::GO_KILL) &&
-		   ent.second.possible_tasks.test((int)TASK_TYPE::GO_PICK_UP_GOLD) &&
-		   ent.second.task_queue.size() < queue_size)
-		{
-			queue_size = ent.second.task_queue.size();
-			id = ent.first;
-		}
-	}
-	if(id != Component::NO_ENTITY)
-	{
-		for(const auto& selected : selection_box_->get_selected_entities())
-		{
-			if(entity_system_->has_component<MineComponent>(selected))
-			{
-				auto task = TaskHelper::create_task(*entity_system_, selected, TASK_TYPE::GO_KILL);
-				TaskHelper::add_task(*entity_system_, id, task);
-			}
-		}
-	}
-	else
-		GUI::instance().get_log().print("[ERROR] You don't have any miners.");
-}
-
 CEGUI::MouseButton Game::ois_to_cegui(OIS::MouseButtonID id)
 {
 	switch(id)
@@ -549,18 +592,7 @@ CEGUI::MouseButton Game::ois_to_cegui(OIS::MouseButtonID id)
 
 void Game::toggle_camera_free_mode()
 {
-	if(camera_free_mode_)
-	{
-		camera_free_mode_ = false;
-		main_cam_->setPosition(camera_position_backup_);
-		main_cam_->setOrientation(camera_orientation_backup_);
-	}
-	else
-	{
-		camera_free_mode_ = true;
-		camera_position_backup_ = main_cam_->getPosition();
-		camera_orientation_backup_ = main_cam_->getOrientation();
-	}
+	main_cam_->set_free_mode(!main_cam_->get_free_mode());
 }
 
 std::pair<bool, Ogre::Vector3> Game::get_mouse_click_position(const OIS::MouseEvent& event) const
@@ -568,7 +600,7 @@ std::pair<bool, Ogre::Vector3> Game::get_mouse_click_position(const OIS::MouseEv
 	auto& mouse = CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor();
 	float screen_x = mouse.getPosition().d_x / (float)event.state.width;
 	float screen_y = mouse.getPosition().d_y / (float)event.state.height;
-	Ogre::Ray ray = main_cam_->getCameraToViewportRay(screen_x, screen_y);
+	Ogre::Ray ray = main_cam_->camera_->getCameraToViewportRay(screen_x, screen_y);
 
 	auto res = ray.intersects(*ground_);
 	auto pos = ray.getPoint(res.second);

@@ -31,6 +31,10 @@
 #include "GraphicsSystem.hpp"
 #include "TriggerSystem.hpp"
 #include "ManaSpellSystem.hpp"
+#include "WaveSystem.hpp"
+#include "Spellcaster.hpp"
+#include "OptionsWindow.hpp"
+#include "Camera.hpp"
 
 class Game : public Ogre::FrameListener, public OIS::KeyListener,
 			 public OIS::MouseListener, public Ogre::WindowEventListener
@@ -38,6 +42,9 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 	friend class GameSerializer;
 	friend class LuaInterface;
 	friend class GUI;
+	friend void action::QUICK_LOAD();
+	friend void action::QUICK_SAVE();
+	friend void action::RESET_CAMERA();
 	public:
 		/**
 		 * Constructor.
@@ -67,12 +74,16 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		void set_state(GAME_STATE);
 
 		/**
-		 *
+		 * Brief: Creates a new game with the given dimensions.
+		 * Param: Width of the level.
+		 * Param: Height of the level.
 		 */
 		void new_game(std::size_t, std::size_t);
 
 		/**
-		 *
+		 * Brief: Creates an empty level with the given dimensions.
+		 * Param: Width of the level.
+		 * Param: Height of the level.
 		 */
 		void create_empty_level(std::size_t, std::size_t);
 
@@ -80,6 +91,25 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * Brief: Resets the main camera's position and orientation to it's original state.
 		 */
 		void reset_camera();
+
+		/**
+		 * Brief: Restores the unlocks to their initial state.
+		 */
+		void reset_unlocks();
+
+		/**
+		 * Brief: Sets the ID of the entity that represents the
+		 *        Dungeon Throne.
+		 * Param: The new ID.
+		 */
+		void set_throne_id(std::size_t);
+
+		/**
+		 * Brief: Returns the ID of the entity that represents
+		 *        the Dungeon Throne
+		 */
+		std::size_t get_throne_id() const;
+
 	protected:
 		/**
 		 * Inherited methods (callbacks).
@@ -93,6 +123,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		bool mouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID) override;
 		void windowResized(Ogre::RenderWindow* rw) override;
 		void windowClosed(Ogre::RenderWindow* rw) override;
+
 	private:
 		/**
 		 * Init methods.
@@ -100,12 +131,6 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		void ogre_init();
 		void ois_init();
 		void cegui_init();
-
-		/**
-		 * Brief: Commands the miner with smalles task queue (if any) to mine
-		 *        all selected mineable entities.
-		 */
-		void command_to_mine();
 
 		/**
 		 * Current game state.
@@ -118,14 +143,17 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<Ogre::Root> root_;
 		Ogre::SceneManager* scene_mgr_;
 		Ogre::RenderWindow* window_;
-		Ogre::Camera* main_cam_;
 		Ogre::Viewport* main_view_;
 		Ogre::Light* main_light_;
 
 		OIS::InputManager* input_;
 		OIS::Keyboard* keyboard_;
 		OIS::Mouse* mouse_;
-		Ogre::Vector3 camera_dir_;
+
+		/**
+		 * Camera rendering to the window.
+		 */
+		std::unique_ptr<Camera> main_cam_;
 
 		/**
 		 * Unique pointers to systems (sadly all systems require the EntitySystem, which
@@ -146,6 +174,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<GraphicsSystem> graphics_system_{nullptr};
 		std::unique_ptr<TriggerSystem> trigger_system_{nullptr};
 		std::unique_ptr<ManaSpellSystem> mana_spell_system_{nullptr};
+		std::unique_ptr<WaveSystem> wave_system_{nullptr};
 
 		/**
 		 * Used to save the game.
@@ -184,21 +213,6 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		Ogre::Entity* ground_entity_;
 
 		/**
-		 * Indicates whether the camera is in a free movement mode.
-		 */
-		bool camera_free_mode_;
-
-		/**
-		 * Backup of the camera position before going to free mode.
-		 */
-		Ogre::Vector3 camera_position_backup_;
-
-		/**
-		 * Backup of the camera orientation before going to free mode.
-		 */
-		Ogre::Quaternion camera_orientation_backup_;
-
-		/**
 		 * Brief: Toggles the free camera movement mode.
 		 */
 		void toggle_camera_free_mode();
@@ -231,4 +245,15 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * gold deposits).
 		 */
 		std::unique_ptr<level_generators::LevelGenerator> level_generator_;
+
+		/**
+		 * Allows the player to cast spells of different types (positional, targeted etc.).
+		 */
+		std::unique_ptr<Spellcaster> spell_caster_;
+
+		/**
+		 * ID of the entity representing the Dungeon Throne, losing which ends
+		 * the game.
+		 */
+		std::size_t throne_id_;
 };
