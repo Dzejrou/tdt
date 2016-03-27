@@ -17,7 +17,9 @@ void AISystem::update(Ogre::Real delta)
 		auto task_comp = entities_.get_component<TaskHandlerComponent>(ent.first);
 		if(task_comp && (task_comp->busy || !task_comp->task_queue.empty()
 						 || task_comp->curr_task != Component::NO_ENTITY))
-			continue; // TODO: Callbacks on_hit etc.
+		{
+			continue;
+		}
 
 		const std::string& blueprint  = ent.second.blueprint;
 		lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".update", ent.first);
