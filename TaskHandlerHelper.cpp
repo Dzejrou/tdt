@@ -18,7 +18,7 @@ bool TaskHandlerHelper::task_possible(EntitySystem& ents, std::size_t ent_id, st
 	auto comp2 = ents.get_component<TaskComponent>(task_id);
 	if(comp1 && comp2)
 	{
-		return comp1->possible_tasks.test((int)comp2->task_type);
+		return comp1->possible_tasks.test((std::size_t)comp2->task_type);
 	}
 	else
 		return false;
@@ -27,8 +27,8 @@ bool TaskHandlerHelper::task_possible(EntitySystem& ents, std::size_t ent_id, st
 bool TaskHandlerHelper::task_possible(EntitySystem& ents, std::size_t id, TASK_TYPE val)
 {
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
-	if(comp && (int)val > 0 && (int)val < (int)TASK_TYPE::COUNT)
-		return comp->possible_tasks.test((int)val);
+	if(comp && (std::size_t)val > 0 && (std::size_t)val < (std::size_t)TASK_TYPE::COUNT)
+		return comp->possible_tasks.test((std::size_t)val);
 	else
 		return false;
 }
@@ -52,14 +52,14 @@ void TaskHandlerHelper::add_possible_task(EntitySystem& ents, std::size_t id, TA
 {
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
 	if(comp)
-		comp->possible_tasks.set((int)type);
+		comp->possible_tasks.set((std::size_t)type);
 }
 
 void TaskHandlerHelper::delete_possible_task(EntitySystem& ents, std::size_t id, TASK_TYPE type)
 {
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
 	if(comp)
-		comp->possible_tasks.set((int)type, false);
+		comp->possible_tasks.set((std::size_t)type, false);
 }
 
 void TaskHandlerHelper::set_blueprint(EntitySystem& ents, std::size_t id, const std::string& val)
