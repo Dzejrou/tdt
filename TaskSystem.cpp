@@ -13,13 +13,15 @@ void TaskSystem::update(Ogre::Real delta)
 {
 	for(auto& ent : entities_.get_component_container<TaskHandlerComponent>())
 	{
-		if(ent.second.busy && current_task_completed_(ent.first, ent.second))
+		if((ent.second.busy && current_task_completed_(ent.first, ent.second)) ||
+		   (!ent.second.busy && ent.second.curr_task != Component::NO_ENTITY))
 		{
 			DestructorHelper::destroy(entities_, ent.second.curr_task);
 			ent.second.curr_task = Component::NO_ENTITY;
 			ent.second.busy = false;
 		}
-		else if(!ent.second.busy)
+		
+		if(!ent.second.busy)
 		{
 			// Get next valid task if necessary.
 			while(!ent.second.task_queue.empty() &&
