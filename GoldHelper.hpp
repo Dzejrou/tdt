@@ -55,10 +55,11 @@ namespace GoldHelper
 	/**
 	 * Brief: Removes a given amount of gold from a given entity, but
 	 *        does not subtract past zero. Returns amount of gold
-	 *        actually removed.
+	 *        that could not be removed (remainder from the given amount
+	 *        after subtracting).
 	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.
-	 * Param: Amoung of gold to subtract.
+	 * Param: Amount of gold to subtract.
 	 * Param: If false, the transaction won't be registered (used when called from Player);
 	 */
 	std::size_t sub_gold(EntitySystem&, std::size_t, std::size_t, bool = true);
