@@ -35,55 +35,57 @@ game.gui.research.research_ = {
 
 	-- 1x2
 	{
-		name = "TODO",
-		price = 0,
+		name = "ATTACK",
+		price = 400,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("attack")
 		end
 	},
 
 	-- 1x3
 	{
-		name = "TODO",
-		price = 0,
+		name = "REPOSITION",
+		price = 600,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("reposition")
 		end
 	},
 
 	-- 1x4
 	{
-		name = "TODO",
-		price = 0,
+		name = "ICE TOWER",
+		price = 800,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("ice_tower")
 		end
 	},
 
 	-- 1x5
 	{
-		name = "TODO",
-		price = 0,
+		name = "THUNDER TOWER",
+		price = 1000,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("thunder_tower")
 		end
 	},
 
 	-- 1x6
 	{
-		name = "TODO",
-		price = 0,
+		name = "FIRE TOWER",
+		price = 1500,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("fire_tower")
 		end
 	},
 
 	-- 1x7
 	{
-		name = "TODO",
-		price = 0,
+		name = "KILL ALL ENEMIES",
+		price = 2000,
 		unlock = function()
-			-- TODO:
+			for _, enemy in ipairs(game.get_enemies()) do
+				game.entity.kill(enemy, game.const.no_ent)
+			end
 		end
 	},
 
@@ -98,62 +100,62 @@ game.gui.research.research_ = {
 
 	-- 2x2
 	{
-		name = "TODO",
-		price = 0,
+		name = "RETURN GOLD",
+		price = 400,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("return_gold")
 		end
 	},
 
 	-- 2x3
 	{
-		name = "TODO",
-		price = 0,
+		name = "FALL BACK",
+		price = 600,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("fall_back")
 		end
 	},
 
 	-- 2x4
 	{
-		name = "TODO",
-		price = 0,
+		name = "HEALING WAVE",
+		price = 800,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("healing_wave")
 		end
 	},
 
 	-- 2x5
 	{
-		name = "TODO",
-		price = 0,
+		name = "INCREASE PROD.",
+		price = 1000,
 		unlock = function()
-			-- TODO:
+			game.production.increase_production()
 		end
 	},
 
 	-- 2x6
 	{
-		name = "TODO",
-		price = 0,
+		name = "DOUBLE PROD.",
+		price = 1500,
 		unlock = function()
-			-- TODO:
+			game.production.double_production()
 		end
 	},
 
 	-- 2x7
 	{
-		name = "TODO",
-		price = 0,
+		name = "CHURCH",
+		price = 2000,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("church")
 		end
 	},
 
 	-- 3x1
 	{
 		name = "MANA CRYSTAL",
-		price = 400,
+		price = 200,
 		unlock = function()
 			game.gui.builder.register_building("mana_crystal")
 		end
@@ -161,244 +163,247 @@ game.gui.research.research_ = {
 
 	-- 3x2
 	{
-		name = "TODO",
-		price = 0,
+		name = "WALL",
+		price = 400,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("wall")
 		end
 	},
 
 	-- 3x3
 	{
-		name = "TODO",
-		price = 0,
+		name = "SPAWN RANDOM",
+		price = 600,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("spawn_random")
 		end
 	},
 
 	-- 3x4
 	{
-		name = "TODO",
-		price = 0,
+		name = "LIGHT MANA CRYS.",
+		price = 800,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("light_mana_crystal")
 		end
 	},
 
 	-- 3x5
 	{
-		name = "TODO",
-		price = 0,
+		name = "FORTIFIED WALL",
+		price = 1000,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("fortified_wall")
 		end
 	},
 
 	-- 3x6
 	{
-		name = "TODO",
-		price = 0,
+		name = "PORTAL",
+		price = 1500,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("portal")
 		end
 	},
 
 	-- 3x7
 	{
-		name = "TODO",
-		price = 0,
+		name = "CHAOS TOWER",
+		price = 2000,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("chaos_tower")
 		end
 	},
 
 	-- 4x1
 	{
-		name = "TODO",
-		price = 0,
+		name = "LIGHTNING",
+		price = 200,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("lightning")
 		end
 	},
 
 	-- 4x2
 	{
-		name = "TODO",
-		price = 0,
+		name = "CHAIN LIGHTNING",
+		price = 400,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("chain_lightning")
 		end
 	},
 
 	-- 4x3
 	{
-		name = "TODO",
-		price = 0,
+		name = "LEVEL UP",
+		price = 600,
 		unlock = function()
-			-- TODO:
+			game.upgrade.all_level_up()
 		end
 	},
 
 	-- 4x4
 	{
-		name = "TODO",
-		price = 0,
+		name = "METEOR",
+		price = 800,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("meteor")
 		end
 	},
 
 	-- 4x5
 	{
-		name = "TODO",
-		price = 0,
+		name = "FREEZE TRAP",
+		price = 1000,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("freeze_trap")
 		end
 	},
 
 	-- 4x6
 	{
-		name = "TODO",
-		price = 0,
+		name = "LIGHTNING STORM",
+		price = 2000,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("lightning_storm")
 		end
 	},
 
 	-- 4x7
 	{
-		name = "TODO",
-		price = 0,
+		name = "METEOR SHOWER",
+		price = 3000,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("meteor_shower")
 		end
 	},
 
 	-- 5x1
 	{
-		name = "TODO",
-		price = 0,
+		name = "SPAWN IMP",
+		price = 200,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("spawn_imp")
 		end
 	},
 
 	-- 5x2
 	{
-		name = "TODO",
-		price = 0,
+		name = "TELEPORT TRAP",
+		price = 400,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("teleport_trap")
 		end
 	},
 
 	-- 5x3
 	{
-		name = "TODO",
-		price = 0,
+		name = "SPAWN IMP GANG",
+		price = 600,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("spawn_imp_gang")
 		end
 	},
 
 	-- 5x4
 	{
-		name = "TODO",
-		price = 0,
+		name = "DAMAGE TRAP",
+		price = 800,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("damage_trap")
 		end
 	},
 
 	-- 5x5
 	{
-		name = "TODO",
-		price = 0,
+		name = "DESTROY BLOCK",
+		price = 1000,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("destroy_block")
 		end
 	},
 
 	-- 5x6
 	{
-		name = "TODO",
-		price = 0,
+		name = "UBER THRONE",
+		price = 1500,
 		unlock = function()
-			-- TODO:
+			local id = game.get_throne_id()
+			game.health.buff(id, 5000)
+			game.health.add_defense(id, 50)
+			game.health.heal(id)
 		end
 	},
 
 	-- 5x7
 	{
-		name = "TODO",
-		price = 0,
+		name = "INSTANT PROD.",
+		price = 2000,
 		unlock = function()
-			-- TODO:
+			game.production.instant_production()
 		end
 	},
 
 	-- 6x1
 	{
-		name = "TODO",
-		price = 0,
+		name = "SLOW",
+		price = 200,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("slow")
 		end
 	},
 
 	-- 6x2
 	{
-		name = "TODO",
-		price = 0,
+		name = "FREEZE",
+		price = 400,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("freeze")
 		end
 	},
 
 	-- 6x3
 	{
-		name = "TODO",
-		price = 0,
+		name = "SLOW TRAP",
+		price = 600,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("slow_trap")
 		end
 	},
 
 	-- 6x4
 	{
-		name = "TODO",
-		price = 0,
+		name = "SLOWING WAVE",
+		price = 800,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("slowing_wave")
 		end
 	},
 
 	-- 6x5
 	{
-		name = "TODO",
-		price = 0,
+		name = "FREEZING WAVE",
+		price = 1000,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("freezing_wave")
 		end
 	},
 
 	-- 6x6
 	{
-		name = "TODO",
-		price = 0,
+		name = "TELEPORT",
+		price = 1500,
 		unlock = function()
-			-- TODO:
+			game.spell.register_spell("teleport")
 		end
 	},
 
 	-- 6x7
 	{
-		name = "TODO",
-		price = 0,
+		name = "KILL TRAP",
+		price = 2000,
 		unlock = function()
-			-- TODO:
+			game.gui.builder.register_building("kill_trap")
 		end
 	}
 }

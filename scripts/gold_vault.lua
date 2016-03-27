@@ -7,7 +7,8 @@ gold_vault = {
 		game.enum.component.destructor,
 		game.enum.component.gold,
 		game.enum.component.faction,
-		game.enum.component.price
+		game.enum.component.price,
+		game.enum.component.name
 	},
 
 	PhysicsComponent = {
@@ -51,6 +52,10 @@ gold_vault = {
 
 	PriceComponent = {
 		price = 500
+	},
+
+	NameComponent = {
+		name = "GOLD VAULT"
 	}
 }
 

@@ -1,19 +1,30 @@
-indestructible_wall = {
+wall = {
 	components = {
 		game.enum.component.physics,
+		game.enum.component.health,
 		game.enum.component.graphics,
 		game.enum.component.structure,
 		game.enum.component.align,
-		game.enum.component.name
+		game.enum.component.mine,
+		game.enum.component.exp_val,
+		game.enum.component.price,
+		game.enum.component.name,
+		game.enum.component.faction
 	},
 
 	PhysicsComponent = {
 		solid = true
 	},
 
+	HealthComponent = {
+		max_hp = 2000,
+		regen = 1,
+		defense = 13
+	},
+
 	GraphicsComponent = {
 		mesh = "cube.mesh",
-		material = "colour/dark_gray",
+		material = "colour/brown",
 		visible = true,
 		manual_scaling = true,
 		scale_x = 50.0,
@@ -28,7 +39,7 @@ indestructible_wall = {
 
 	AlignComponent = {
 		state_0 = {
-			material = "colour/dark_gray",
+			material = "colour/brown",
 			mesh = "cube.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
@@ -39,7 +50,7 @@ indestructible_wall = {
 		},
 
 		state_1 = {
-			material = "colour/dark_gray",
+			material = "colour/brown",
 			mesh = "cube.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
@@ -50,7 +61,7 @@ indestructible_wall = {
 		},
 
 		state_2 = {
-			material = "colour/dark_gray",
+			material = "colour/brown",
 			mesh = "half_cube.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
@@ -61,7 +72,7 @@ indestructible_wall = {
 		},
 
 		state_3 = {
-			material = "colour/dark_gray",
+			material = "colour/brown",
 			mesh = "cube.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
@@ -72,7 +83,7 @@ indestructible_wall = {
 		},
 
 		state_4 = {
-			material = "colour/dark_gray",
+			material = "colour/brown",
 			mesh = "cube.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
@@ -84,11 +95,23 @@ indestructible_wall = {
 
 	},
 
+	PriceComponent = {
+		price = 300
+	},
+
+	ExperienceValueComponent = {
+		value = 10
+	},
+
 	NameComponent = {
-		name = "INDESTRUCTIBLE WALL"
+		name = "WALL"
+	},
+
+	FactionComponent = {
+		faction = game.enum.faction.friendly
 	}
 }
 
 if game then
-	game.entity.register("indestructible_wall")
+	game.entity.register("wall")
 end

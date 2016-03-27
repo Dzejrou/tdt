@@ -9,7 +9,8 @@ gold_deposit = {
 		game.enum.component.faction,
 		game.enum.component.align,
 		game.enum.component.mine,
-		game.enum.component.exp_val
+		game.enum.component.exp_val,
+		game.enum.component.name
 	},
 
 	PhysicsComponent = {
@@ -109,7 +110,11 @@ gold_deposit = {
 
 	ExperienceValueComponent = {
 		value = 20
-	}
+	},
+
+	NameComponent = {
+		name = "GOLD DEPOSIT"
+	},
 }
 
 if game then

@@ -5,7 +5,9 @@ basic_wall = {
 		game.enum.component.graphics,
 		game.enum.component.structure,
 		game.enum.component.align,
-		game.enum.component.mine
+		game.enum.component.mine,
+		game.enum.component.exp_val,
+		game.enum.component.name,
 	},
 
 	PhysicsComponent = {
@@ -89,6 +91,14 @@ basic_wall = {
 			scale_z = 50.0
 		}
 
+	},
+
+	ExperienceValueComponent = {
+		value = 10
+	},
+
+	NameComponent = {
+		name = "BASIC WALL"
 	}
 }
 

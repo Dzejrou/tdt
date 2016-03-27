@@ -45,11 +45,12 @@ auto_ogre_miner = {
 		max_dmg = 200,
 		type = game.enum.atk_type.ranged,
 		cooldown = 2.0,
-		pursue = true
+		pursue = true,
+		projectile_blueprint = "basic_projectile"
 	},
 
 	PathfindingComponent = {
-		blueprint = "ogre"
+		blueprint = "can_break_blocks"
 	},
 
 	TaskHandlerComponent = {
@@ -68,7 +69,7 @@ auto_ogre_miner = {
 	},
 
 	EventHandlerComponent = {
-		handler = "ogre_miner",
+		handler = "smart_friendly_mining_unit_evt_handling",
 		possible_events = {
 			game.enum.event.kill_entity,
 			game.enum.event.gold_dropped

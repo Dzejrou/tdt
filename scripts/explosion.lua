@@ -4,7 +4,8 @@ explosion = {
 		game.enum.component.graphics,
 		game.enum.component.combat,
 		game.enum.component.faction,
-		game.enum.component.explosion
+		game.enum.component.explosion,
+		game.enum.component.constructor
 	},
 
 	PhysicsComponent = {
@@ -13,7 +14,7 @@ explosion = {
 
 	GraphicsComponent = {
 		mesh = "sphere.mesh",
-		material = "colour/orange",
+		material = "colour/transparent_orange",
 		visible = true,
 		manual_scaling = true,
 		scale_x = 0,
@@ -23,7 +24,7 @@ explosion = {
 	},
 
 	CombatComponent = {
-		range = 300,
+		range = 200,
 		min_dmg = 100,
 		max_dmg = 600,
 		type = game.enum.atk_type.melee,
@@ -36,9 +37,13 @@ explosion = {
 	},
 
 	ExplosionComponent = {
-		delta = 15,
-		radius = 100.0
+		delta = 20,
+		radius = 150.0
 	},
+
+	ConstructorComponent = {
+		blueprint = "damage_entities_constructor"
+	}
 }
 
 if game then

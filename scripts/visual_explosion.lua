@@ -1,9 +1,8 @@
-gold_pile = {
+visual_explosion = {
 	components = {
 		game.enum.component.physics,
 		game.enum.component.graphics,
-		game.enum.component.gold,
-		game.enum.component.name
+		game.enum.component.explosion
 	},
 
 	PhysicsComponent = {
@@ -12,25 +11,21 @@ gold_pile = {
 
 	GraphicsComponent = {
 		mesh = "sphere.mesh",
-		material = "colour/gold",
+		material = "colour/transparent_orange",
 		visible = true,
 		manual_scaling = true,
-		scale_x = 15,
-		scale_y = 10,
-		scale_z = 15,
+		scale_x = 0,
+		scale_y = 0,
+		scale_z = 0,
 		query_flags = game.enum.entity_type.misc
 	},
 
-	GoldComponent = {
-		curr = 100,
-		max = 100
-	},
-
-	NameComponent = {
-		name = "GOLD PILE"
+	ExplosionComponent = {
+		delta = 20,
+		radius = 150.0
 	}
 }
 
 if game then
-	game.entity.register("gold_pile")
+	game.entity.register("visual_explosion")
 end

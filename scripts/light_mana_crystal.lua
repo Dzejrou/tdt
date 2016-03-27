@@ -1,4 +1,4 @@
-mana_crystal = {
+light_mana_crystal = {
 	components = {
 		game.enum.component.physics,
 		game.enum.component.health,
@@ -7,7 +7,8 @@ mana_crystal = {
 		game.enum.component.mana_crystal,
 		game.enum.component.price,
 		game.enum.component.faction,
-		game.enum.component.name
+		game.enum.component.name,
+		game.enum.component.light
 	},
 
 	PhysicsComponent = {
@@ -36,7 +37,7 @@ mana_crystal = {
 	},
 
 	PriceComponent = {
-		price = 500
+		price = 1500
 	},
 
 	FactionComponent = {
@@ -44,15 +45,15 @@ mana_crystal = {
 	},
 
 	ManaCrystalComponent = {
-		cap_increase = 20,
-		regen_increase = 1
+		cap_increase = 40,
+		regen_increase = 5
 	},
 
 	NameComponent = {
-		name = "MANA CRYSTAL"
+		name = "LIGH MANA CRYSTAL"
 	}
 }
 
 if game then
-	game.entity.register("mana_crystal")
+	game.entity.register("light_mana_crystal")
 end

@@ -1,5 +1,5 @@
 -- Represents C++ enums.
-enum = {
+game.enum = {
 	entity_type = {
 		none = 0,
 		wall = 1,
@@ -46,13 +46,18 @@ enum = {
 		explosion = 32,
 		lls = 33,
 		name = 34,
-		exp_val = 35
+		exp_val = 35,
+		light = 36,
+		command = 37,
+		counter = 38
 	},
 
 	event = {
 		none = 0,
 		kill_entity = 1,
-		gold_dropped = 2
+		gold_dropped = 2,
+		restore_speed = 3,
+		meteor_falling = 4
 	},
 
 	faction = {
@@ -73,7 +78,8 @@ enum = {
 		running = 0,
 		ended = 1,
 		paused = 2,
-		menu = 3
+		menu = 3,
+		intro_menu = 4
 	},
 
 	task = {
@@ -110,10 +116,29 @@ enum = {
 		up_right = 5,
 		down_left = 6,
 		down_right = 7,
-		none = 8
+		portal = 8,
+		none = 9
+	},
+
+	spell_type = {
+		none = 0,
+		targeted = 1,
+		positional = 2,
+		global = 3,
+		placing = 4
+	},
+
+	command = {
+		mine = 0,
+		attack = 1,
+		reposition = 2,
+		return_gold = 3,
+		fall_back = 4
+	},
+
+	wave_state = {
+		active = 0,
+		waiting = 1,
+		inactive = 2
 	}
 }
-
--- INIT:
-game = game or {}
-game.enum = enum

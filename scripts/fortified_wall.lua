@@ -1,9 +1,14 @@
-indestructible_wall = {
+fortified_wall = {
 	components = {
 		game.enum.component.physics,
+		game.enum.component.health,
 		game.enum.component.graphics,
 		game.enum.component.structure,
 		game.enum.component.align,
+		game.enum.component.mine,
+		game.enum.component.exp_val,
+		game.enum.component.price,
+		game.enum.component.faction,
 		game.enum.component.name
 	},
 
@@ -11,9 +16,15 @@ indestructible_wall = {
 		solid = true
 	},
 
+	HealthComponent = {
+		max_hp = 3500,
+		regen = 1,
+		defense = 20
+	},
+
 	GraphicsComponent = {
 		mesh = "cube.mesh",
-		material = "colour/dark_gray",
+		material = "colour/dark_brown",
 		visible = true,
 		manual_scaling = true,
 		scale_x = 50.0,
@@ -28,7 +39,7 @@ indestructible_wall = {
 
 	AlignComponent = {
 		state_0 = {
-			material = "colour/dark_gray",
+			material = "colour/dark_brown",
 			mesh = "cube.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
@@ -39,7 +50,7 @@ indestructible_wall = {
 		},
 
 		state_1 = {
-			material = "colour/dark_gray",
+			material = "colour/dark_brown",
 			mesh = "cube.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
@@ -50,7 +61,7 @@ indestructible_wall = {
 		},
 
 		state_2 = {
-			material = "colour/dark_gray",
+			material = "colour/dark_brown",
 			mesh = "half_cube.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
@@ -61,7 +72,7 @@ indestructible_wall = {
 		},
 
 		state_3 = {
-			material = "colour/dark_gray",
+			material = "colour/dark_brown",
 			mesh = "cube.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
@@ -72,7 +83,7 @@ indestructible_wall = {
 		},
 
 		state_4 = {
-			material = "colour/dark_gray",
+			material = "colour/dark_brown",
 			mesh = "cube.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
@@ -84,11 +95,23 @@ indestructible_wall = {
 
 	},
 
+	PriceComponent = {
+		price = 600
+	},
+
+	ExperienceValueComponent = {
+		value = 50
+	},
+
+	FactionComponent = {
+		faction = game.enum.faction.friendly
+	},
+
 	NameComponent = {
-		name = "INDESTRUCTIBLE WALL"
+		name = "FORTIFIED WALL"
 	}
 }
 
 if game then
-	game.entity.register("indestructible_wall")
+	game.entity.register("fortified_wall")
 end

@@ -1,10 +1,10 @@
-mana_crystal = {
+light_crystal = {
 	components = {
 		game.enum.component.physics,
 		game.enum.component.health,
 		game.enum.component.graphics,
 		game.enum.component.structure,
-		game.enum.component.mana_crystal,
+		game.enum.component.light,
 		game.enum.component.price,
 		game.enum.component.faction,
 		game.enum.component.name
@@ -22,7 +22,7 @@ mana_crystal = {
 
 	GraphicsComponent = {
 		mesh = "cube.mesh",
-		material = "colour/light_blue",
+		material = "colour/transparent_yellow",
 		visible = true,
 		manual_scaling = true,
 		scale_x = 10.0,
@@ -43,16 +43,12 @@ mana_crystal = {
 		faction = game.enum.faction.friendly
 	},
 
-	ManaCrystalComponent = {
-		cap_increase = 20,
-		regen_increase = 1
-	},
-
 	NameComponent = {
-		name = "MANA CRYSTAL"
+		name = "LIGHT CRYSTAL"
 	}
 }
 
 if game then
-	game.entity.register("mana_crystal")
+	game.entity.register("light_crystal")
+	game.gui.builder.register_building("light_crystal")
 end

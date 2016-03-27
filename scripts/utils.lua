@@ -43,6 +43,13 @@ utils = {
 		if(type(array) == "function" and array[index] ~= nil) then
 			array[index](...)
 		end
+	end,
+
+	testing_stats = function()
+		game.player.add_gold(1000000)
+		game.player.add_max_mana(9999)
+		game.player.add_mana(9900)
+		game.player.add_mana_regen(1000)
 	end
 }
 
@@ -50,18 +57,18 @@ utils = {
 game.utils = utils
 
 -- HELPER FUNCTIONS:
-if show_msg then
-	game.show_msg = show_msg
-elseif game.print then
-	game.show_msg = game.print
-end
-
 game.print = function(msg)
 	if(type(msg) == "boolean") then
 		game.print_(tostring(msg))
 	else
 		game.print_(msg)
 	end
+end
+
+if show_msg then
+	game.show_msg = show_msg
+elseif game.print then
+	game.show_msg = game.print
 end
 
 game.quit = function()
@@ -79,7 +86,6 @@ end
 game.gold.go_deposit = function(id, prio)
 	prio = prio or false
 	vault = game.gold.closest_free_gold_vault(id)
-	game.print("Found free gold vault: " .. vault)
 
 	if vault ~= game.const.no_ent then
 		task = game.task.create(vault, game.enum.task.go_deposit_gold)
@@ -89,7 +95,7 @@ game.gold.go_deposit = function(id, prio)
 			game.task.add(id, task)
 		end
 	else
-		-- TODO: Notify player that he has no free space in gold vaults.
+		game.notification.notify(id, "No free vaults!")
 	end
 end
 

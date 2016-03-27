@@ -5,7 +5,8 @@ mine = {
 		game.enum.component.production,
 		game.enum.component.structure,
 		game.enum.component.faction,
-		game.enum.component.price
+		game.enum.component.price,
+		game.enum.component.name
 	},
 
 	PhysicsComponent = {
@@ -41,6 +42,10 @@ mine = {
 	PriceComponent = {
 		price = 400
 	},
+
+	NameComponent = {
+		name = "MINE"
+	}
 }
 if game then
 	game.entity.register("mine")
