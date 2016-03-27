@@ -1,4 +1,7 @@
 #include "CombatSystem.hpp"
+#include "PathfindingAlgorithms.hpp"
+#include "Pathfinding.hpp"
+#include "Effects.hpp"
 
 CombatSystem::CombatSystem(EntitySystem& ents, Ogre::SceneManager& scene, GridSystem& grid)
 	: entities_{ents}, ray_query_{*scene.createRayQuery(Ogre::Ray{})},
@@ -46,7 +49,6 @@ void CombatSystem::update(Ogre::Real delta)
 					else
 					{ // Just give up.
 						TaskHelper::cancel_task(entities_, task_comp->curr_task);
-						task_comp->busy = false;
 					}
 
 					ent.second.curr_target = Component::NO_ENTITY;
@@ -114,7 +116,7 @@ void CombatSystem::update(Ogre::Real delta)
 			auto dir = enemy_pos - pos;
 			dir.normalise();
 
-			pos += dir;
+			pos += dir * mov_comp->speed_modifier;
 			graph_comp->node->setPosition(pos);
 
 			if(graph_comp->entity->getWorldBoundingBox(true).intersects(enemy_graph_comp->entity->getWorldBoundingBox(true)))
@@ -129,7 +131,7 @@ void CombatSystem::update(Ogre::Real delta)
 					if(task_comp && TaskHelper::get_task_type(entities_, task_comp->curr_task) == TASK_TYPE::KILL)
 						TaskHelper::cancel_task(entities_, task_comp->curr_task);
 				}
-				DestructorHelper::destroy(entities_, ent.first);
+				DestructorHelper::destroy(entities_, ent.first, false, ent.second.target);
 			}
 		}
 	}
@@ -194,6 +196,28 @@ std::size_t CombatSystem::get_closest_entity(std::size_t id, bool only_sight, bo
 		return get_closest_entity<AIComponent>(id, util::IS_ENEMY(entities_, id), only_sight);
 }
 
+std::size_t CombatSystem::get_closest_structure(std::size_t id, bool only_sight, bool friendly) const
+{
+	if(friendly)
+		return get_closest_entity<StructureComponent>(id, util::IS_FRIENDLY(entities_, id), only_sight);
+	else
+		return get_closest_entity<StructureComponent>(id, util::IS_ENEMY(entities_, id), only_sight);
+}
+
+std::size_t CombatSystem::get_closest_entity_thats_not(std::size_t id, std::size_t ignored, bool only_sight, bool friendly) const
+{
+	if(friendly)
+	{
+		util::IS_FRIENDLY condition{entities_, id};
+		return get_closest_entity<AIComponent>(id, [&condition, ignored](std::size_t i) -> bool { return i != ignored && condition(i); }, only_sight);
+	}
+	else
+	{
+		util::IS_ENEMY condition{entities_, id};
+		return get_closest_entity<AIComponent>(id, [&condition, ignored](std::size_t i) -> bool { return i != ignored && condition(i); }, only_sight);
+	}
+}
+
 std::size_t CombatSystem::get_closest_gold_deposit(std::size_t id, bool only_sight) const
 {
 	util::HAS_GOLD cond{entities_};
@@ -215,6 +239,46 @@ std::size_t CombatSystem::get_closest_gold_vault(std::size_t id, bool only_sight
 	}
 	else
 		return get_closest_entity<StructureComponent>(id, util::IS_GOLD_VAULT(entities_), only_sight);
+}
+
+void CombatSystem::apply_heal_to_entities_in_range(std::size_t id, Ogre::Real range)
+{
+	util::IS_FRIENDLY condition{entities_, id};
+	util::effect::HEAL_EFFECT effect{entities_};
+	apply_effect_to_entities_in_range<HealthComponent>(id, condition, effect, range);
+}
+
+void CombatSystem::apply_damage_to_entities_in_range(std::size_t id, Ogre::Real range, std::size_t min, std::size_t max)
+{
+	util::IS_ENEMY condition{entities_, id};
+	util::effect::DAMAGE_EFFECT effect{entities_, min, max};
+	apply_effect_to_entities_in_range<HealthComponent>(id, condition, effect, range);
+}
+
+void CombatSystem::apply_slow_to_entities_in_range(std::size_t id, Ogre::Real range, Ogre::Real time)
+{
+	util::IS_ENEMY condition{entities_, id};
+	util::effect::LOWER_SPEED_EFFECT effect{entities_, time};
+	apply_effect_to_entities_in_range<MovementComponent>(id, condition, effect, range);
+}
+
+void CombatSystem::apply_freeze_to_entities_in_range(std::size_t id, Ogre::Real range, Ogre::Real time)
+{
+	util::IS_ENEMY condition{entities_, id};
+	util::effect::FREEZE_EFFECT effect{entities_, time};
+	apply_effect_to_entities_in_range<MovementComponent>(id, condition, effect, range);
+}
+
+void CombatSystem::apply_slow_to(std::size_t id, Ogre::Real time)
+{
+	util::effect::LOWER_SPEED_EFFECT effect{entities_, time};
+	effect(id);
+}
+
+void CombatSystem::apply_freeze_to(std::size_t id, Ogre::Real time)
+{
+	util::effect::FREEZE_EFFECT effect{entities_, time};
+	effect(id);
 }
 
 void CombatSystem::run_away_from(std::size_t id, std::size_t from_id, std::size_t min_node_count)
@@ -267,9 +331,40 @@ std::size_t CombatSystem::get_max_run_away_attempts()
 	return max_run_away_attempts_;
 }
 
+bool CombatSystem::enemy_in_range(std::size_t id)
+{
+	FACTION friendly_faction = FactionHelper::get_faction(entities_, id);
+	FACTION enemy_faction{};
+
+	switch(friendly_faction)
+	{
+		case FACTION::FRIENDLY:
+			enemy_faction = FACTION::ENEMY;
+			break;
+		case FACTION::ENEMY:
+			enemy_faction = FACTION::FRIENDLY;
+			break;
+		case FACTION::NEUTRAL:
+			return false;
+	}
+
+	auto range = CombatHelper::get_range(entities_, id);
+	range *= range;
+	auto position = PhysicsHelper::get_2d_position(entities_, id);
+	for(const auto& ent : entities_.get_component_container<FactionComponent>())
+	{
+		if(ent.second.faction == enemy_faction &&
+		   position.squaredDistance(PhysicsHelper::get_2d_position(entities_, ent.first)) <= range)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void CombatSystem::create_homing_projectile(std::size_t caster, CombatComponent& combat)
 {
-	std::size_t id = entities_.create_entity("basic_projectile");
+	std::size_t id = entities_.create_entity(combat.projectile_blueprint);
 	auto comp = entities_.get_component<HomingComponent>(id);
 	if(comp)
 	{

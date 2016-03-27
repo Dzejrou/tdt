@@ -20,6 +20,8 @@
  * Used for entity container filtering, this represents the entity
  * component list. (Allows to iterate over all entities in the get entity
  * methods.)
+ * Also contains functions used to apply negative/positive effects to entities
+ * and finding an entity having given properties.
  */
 using ALL_COMPONENTS = std::bitset<Component::count>;
 
@@ -78,7 +80,26 @@ class CombatSystem : public System
 		 * Param: If true, will return only entities in sight.
 		 * Param: If true, will return only friendly entities (enemies otherwise).
 		 */
-		std::size_t get_closest_entity(std::size_t,bool = true, bool = false) const;
+		std::size_t get_closest_entity(std::size_t, bool = true, bool = false) const;
+
+		/**
+		 * Brief: Returns the ID of the closest structure (from a given entity's
+		 *        position), Component::NO_ENTITY otherwise.
+		 * Param: ID of the entity from whose position the search is performed.
+		 * Param: If true, will return only structures in sight.
+		 * Param: If true, will return friendly structures (enemies otherwise).
+		 */
+		std::size_t get_closest_structure(std::size_t, bool = true, bool = false) const;
+
+		/**
+		 * Brief: Returns the ID of the closest entity (from a given entity's
+		 *        position) ignoring a given entity, Component::NO_ENTITY otherwise.
+		 * Param: ID of the entity from whose position the search is performed.
+		 * Param: ID of the entity that's ignored in the search.
+		 * Param: If true, will return only entities in sight.
+		 * Param: If true, will return only friendly entities (enemies otherwise).
+		 */
+		std::size_t get_closest_entity_thats_not(std::size_t, std::size_t, bool = true, bool = false) const;
 
 		/**
 		 * Brief: Returns the ID of the closest gold deposit (entity with both structure
@@ -137,6 +158,85 @@ class CombatSystem : public System
 		}
 
 		/**
+		 * Brief: Applies a given effect (functor given by the template argument EFFECT) to all
+		 *        entities conforming the condition (functor given by the template argument COND)
+		 *        in a given range from a given entity.
+		 * Param: ID of the entity.
+		 * Param: Instance of the condition functor.
+		 * Param: Instance of the effect functor.
+		 * Param: The radius.
+		 * Note: The explicit template specialization determines over which component container
+		 *       this method will iterate, use a component name for a specific components only
+		 *       or ALL_COMPONENTS for the component bitset map (which allows to iterate over
+		 *       all entitites regardless of their components).
+		 */
+		template<typename CONT, typename COND, typename EFFECT>
+		void apply_effect_to_entities_in_range(std::size_t id, COND& condition, EFFECT& effect, Ogre::Real range)
+		{
+			auto comp = entities_.get_component<PhysicsComponent>(id);
+			if(comp)
+			{
+				Ogre::Vector2 pos{comp->position.x, comp->position.z};
+				for(auto& ent : get_container<CONT>())
+				{
+					if(condition(ent.first) &&
+					   pos.distance(PhysicsHelper::get_2d_position(entities_, ent.first)) < range)
+					{ // Sqrt used in distance calculation should not be a bottleneck here.
+						effect(ent.first);
+					}
+				}
+			}
+		}
+
+		/**
+		 * Brief: Heals all friendly entities within a given range from a given entity.
+		 * Param: ID of the entity.
+		 * Param: The range.
+		 */
+		void apply_heal_to_entities_in_range(std::size_t, Ogre::Real);
+
+		/**
+		 * Brief: Damages all friendly entities within a given range from a given entity.
+		 * Param: ID of the entity.
+		 * Param: The range.
+		 * Param: Minimal damage value.
+		 * Param: Maximal damage value.
+		 */
+		void apply_damage_to_entities_in_range(std::size_t, Ogre::Real, std::size_t, std::size_t);
+
+		/**
+		 * Brief: Slows all enemy entities within a given range from a given entity for a
+		 *        given time period.
+		 * Param: ID of the entity.
+		 * Param: The range.
+		 * Param: The time period for which the slow is active.
+		 */
+		void apply_slow_to_entities_in_range(std::size_t, Ogre::Real, Ogre::Real);
+
+		/**
+		 * Brief: Freezes all enemy entities within a given range from a given entity for a
+		 *        given time period.
+		 * Param: ID of the entity.
+		 * Param: The range.
+		 * Param: The time period for which the freeze is active.
+		 */
+		void apply_freeze_to_entities_in_range(std::size_t, Ogre::Real, Ogre::Real);
+
+		/**
+		 * Brief: Slows a given entity for a given time period.
+		 * Param: ID of the entity.
+		 * Param: The time period for which the freeze is active.
+		 */
+		void apply_slow_to(std::size_t, Ogre::Real);
+
+		/**
+		 * Brief: Freezes a given entity for a given time period.
+		 * Param: ID of the entity.
+		 * Param: The time period for which the freeze is active.
+		 */
+		void apply_freeze_to(std::size_t, Ogre::Real);
+
+		/**
 		 * Brief: Tries to find a path used by an entity to run away from another entity.
 		 * Param: ID of the entity running away.
 		 * Param: ID of the entity that is ran away from.
@@ -155,6 +255,13 @@ class CombatSystem : public System
 		 * Brief: Returns the maximum amount of pathfinding attempts for running away.
 		 */
 		std::size_t get_max_run_away_attempts();
+
+		/**
+		 * Brief: Returns true if an enemy is in range from a given entity, false
+		 *        otherwise.
+		 * Param: ID of the entity.
+		 */
+		bool enemy_in_range(std::size_t);
 	private:
 		/**
 		 * Brief: Retuns a map containing pairs of IDs and components of a given type, use
