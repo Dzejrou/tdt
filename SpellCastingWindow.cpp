@@ -3,18 +3,57 @@
 #include "Player.hpp"
 
 SpellCastingWindow::SpellCastingWindow()
-	: spells_{}, selection_number_{3}
+	: spells_{}, selection_number_{3}, curr_active_spell_{-1}
 { /* DUMMY BODY */ }
 
-void SpellCastingWindow::register_spell(const std::string& tname)
+void SpellCastingWindow::register_spell(const std::string& name)
 {
 	for(const auto& s : spells_)
 	{
-		if(s == tname) // Prevents multiple entries of a spell.
+		if(s == name) // Prevents multiple entries of a spell.
 			return;
 	}
-	spells_.push_back(tname);
+	spells_.push_back(name);
 	update_selection_();
+}
+
+void SpellCastingWindow::set_caster(Spellcaster* caster)
+{
+	caster_ = caster;
+}
+
+void SpellCastingWindow::deactivate_current_spell()
+{
+	window_->getChild("FRAME/ACTIVE")->setVisible(false);
+	curr_active_spell_ = -1;
+}
+
+const std::vector<std::string>& SpellCastingWindow::get_spells() const
+{
+	return spells_;
+}
+
+void SpellCastingWindow::clear_spells()
+{
+	spells_.clear();
+	selection_number_ = 3;
+	curr_active_spell_ = -1;
+	update_selection_();
+
+	if(caster_)
+		caster_->stop_casting();
+}
+
+void SpellCastingWindow::cast(int spell_num)
+{
+	if(spell_num < 1 || spell_num > 4)
+		return;
+	if(caster_ && get_spell_(selection_number_ - (4 - spell_num)) != "")
+	{
+		caster_->set_spell(get_spell_(selection_number_ - (4 - spell_num)));
+		curr_active_spell_ = spell_num - 1;
+		update_selection_();
+	}
 }
 
 void SpellCastingWindow::init_()
@@ -24,80 +63,75 @@ void SpellCastingWindow::init_()
 
 	window_->getChild("FRAME/SPELL_1")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&) -> bool {
-			if(get_spell_(selection_number_ - 3) != "")
-				cast_(get_spell_(selection_number_ - 3));
+		[this](const CEGUI::EventArgs&) -> bool {
+			cast(1);
 			return true;
 		}
 	);
 
 	window_->getChild("FRAME/SPELL_2")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&) -> bool {
-			if(get_spell_(selection_number_ - 2) != "")
-				cast_(get_spell_(selection_number_ - 2));
+		[this](const CEGUI::EventArgs&) -> bool {
+			cast(2);
 			return true;
 		}
 	);
 
 	window_->getChild("FRAME/SPELL_3")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&) -> bool {
-			if(get_spell_(selection_number_ - 1) != "")
-				cast_(get_spell_(selection_number_ - 1));
+		[this](const CEGUI::EventArgs&) -> bool {
+			cast(3);
 			return true;
 		}
 	);
 
 	window_->getChild("FRAME/SPELL_4")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&) -> bool {
-			if(get_spell_(selection_number_) != "")
-				cast_(get_spell_(selection_number_));
+		[this](const CEGUI::EventArgs&) -> bool {
+			cast(4);
 			return true;
 		}
 	);
 
 	window_->getChild("FRAME/LEFT")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&) -> bool {
-			this->dec_selection_();
+		[this](const CEGUI::EventArgs&) -> bool {
+			dec_selection();
 			return true;
 		}
 	);
 
 	window_->getChild("FRAME/RIGHT")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[&](const CEGUI::EventArgs&) -> bool {
-			this->dec_selection_();
+		[this](const CEGUI::EventArgs&) -> bool {
+			inc_selection();
 			return true;
 		}
 	);
 }
 
-void SpellCastingWindow::cast_(const std::string& name)
-{
-	std::size_t price = script_->get<std::size_t>("game.spell.spells." + name + ".price");
-	if(Player::instance().sub_mana(price))
-		script_->call<void, std::size_t>("game.spell.spells." + name + ".cast", 0 /* DUMMY VARIABLE */);
-}
-
-bool SpellCastingWindow::dec_selection_()
+bool SpellCastingWindow::dec_selection()
 {
 	if(selection_number_ > 3)
 	{
 		--selection_number_;
+
+		if(curr_active_spell_ != -1)
+			++curr_active_spell_;
 		update_selection_();
 	}
 
 	return true;
 }
 
-bool SpellCastingWindow::inc_selection_()
+bool SpellCastingWindow::inc_selection()
 {
 	if(spells_.size() > 4 && selection_number_ < spells_.size() - 1)
 	{
 		++selection_number_;
+
+		if(curr_active_spell_ != -1)
+			--curr_active_spell_;
 		update_selection_();
 	}
 	return true;
@@ -119,4 +153,31 @@ void SpellCastingWindow::update_selection_()
 	window_->getChild("FRAME/SPELL_2")->setText(get_spell_(selection_number_ - 2));
 	window_->getChild("FRAME/SPELL_3")->setText(get_spell_(selection_number_ - 1));
 	window_->getChild("FRAME/SPELL_4")->setText(get_spell_(selection_number_));
+
+	auto* active = window_->getChild("FRAME/ACTIVE");
+	if(curr_active_spell_ >= 0 && curr_active_spell_ <= 3)
+		active->setVisible(true);
+	switch(curr_active_spell_)
+	{
+		case 0:
+			active->setPosition(CEGUI::UVector2{CEGUI::UDim{0.f, 0.f}, CEGUI::UDim{0.4f, 0.f}});
+			break;
+		case 1:
+			active->setPosition(CEGUI::UVector2{CEGUI::UDim{0.25f, 0.f}, CEGUI::UDim{0.4f, 0.f}});
+			break;
+		case 2:
+			active->setPosition(CEGUI::UVector2{CEGUI::UDim{0.5f, 0.f}, CEGUI::UDim{0.4f, 0.f}});
+			break;
+		case 3:
+			active->setPosition(CEGUI::UVector2{CEGUI::UDim{0.75f, 0.f}, CEGUI::UDim{0.4f, 0.f}});
+			break;
+		default:
+			active->setVisible(false);
+			break;
+	}
+}
+
+void SpellCastingWindow::set_spell_active(int val)
+{
+	curr_active_spell_ = val;
 }
