@@ -6,6 +6,8 @@
 #include "Util.hpp"
 #include "Helpers.hpp"
 #include "Enums.hpp"
+#include "Grid.hpp"
+#include "GUI.hpp"
 
 /**
  * The utim namespace contains various tools and utilities used by the game's engine.
@@ -83,12 +85,41 @@ namespace pathfinding
 				{
 					auto& neighbour = neighbours[i];
 
-					bool cannot_pass = !GridNodeHelper::is_free(ents, neighbour) &&
-						              (!allow_destruction || !PathfindingHelper::can_break(id, *comp, neighbour));
-									   //&& !StructureHelper::is_walk_through(ents, GridNodeHelper::get_resident(ents, neighbour));
-					if(!Grid::instance().in_board(neighbour) || cannot_pass)
-						continue;
-					auto s = PathfindingHelper::get_cost(id, *comp, current, (DIRECTION::VAL)i);
+					/**
+					 * This will allow the concept of portals to be integrated into the
+					 * pathfinding process (because paths will ignore distance between portals).
+					 */
+					Ogre::Real s{};
+					Ogre::Real h{};
+					bool portal{false};
+					if(i == DIRECTION::PORTAL)
+					{
+						auto resident = GridNodeHelper::get_resident(ents, neighbour);
+						if(resident != Component::NO_ENTITY && TriggerHelper::can_be_triggered_by(ents, resident, id))
+						{
+							s = 0.f;
+
+							auto other_end = TriggerHelper::get_linked_entity(ents, resident);
+							auto pos = PhysicsHelper::get_2d_position(ents, other_end);
+							auto other_node = Grid::instance().get_node_from_position(pos.x, pos.y);
+							h = heuristic.get_cost(other_node, end);
+							portal = true;
+						}
+						else
+							continue;
+					}
+
+					if(!portal)
+					{
+						bool cannot_pass = !GridNodeHelper::is_free(ents, neighbour) &&
+										  (!allow_destruction || !PathfindingHelper::can_break(id, *comp, neighbour))
+										   && !StructureHelper::is_walk_through(ents, GridNodeHelper::get_resident(ents, neighbour));
+						if(!Grid::instance().in_board(neighbour) || cannot_pass)
+							continue;
+
+						s = PathfindingHelper::get_cost(id, *comp, current, (DIRECTION::VAL)i);
+						h = heuristic.get_cost(neighbour, end);
+					}
 					auto new_score = score[current] + s;
 
 					// Either unvisited or we found a better path to it.
@@ -96,14 +127,13 @@ namespace pathfinding
 					{
 						path_edges[neighbour] = current;
 						score[neighbour] = new_score;
-						estimate[neighbour] = new_score + heuristic.get_cost(neighbour, end);
+						estimate[neighbour] = new_score + h;
 
 						if(found_path && PATH_TYPE::return_path())
 							break;
 					
 						open.insert(neighbour);
 					}
-				
 				}
 			}
 
@@ -248,7 +278,7 @@ namespace heuristic
 /**
  * Default types for the different pathfinding functors.
  */
-using DEFAULT_PATH_TYPE = path_type::FIRST_PATH;
+using DEFAULT_PATH_TYPE = path_type::BEST_PATH;
 using DEFAULT_HEURISTIC = heuristic::MANHATTAN_DISTANCE;
 using DEFAULT_PATHFINDING_ALGORITHM = pathfinding::A_STAR<DEFAULT_PATH_TYPE>;
 }
