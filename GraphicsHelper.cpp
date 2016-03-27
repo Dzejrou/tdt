@@ -24,7 +24,11 @@ void GraphicsHelper::set_material(EntitySystem& ents, std::size_t id, const std:
 {
 	auto comp = ents.get_component<GraphicsComponent>(id);
 	if(comp)
+	{
 		comp->material = material;
+		if(comp->entity)
+			comp->entity->setMaterialName(comp->material);
+	}
 }
 
 const std::string& GraphicsHelper::get_material(EntitySystem& ents, std::size_t id)
@@ -160,6 +164,7 @@ void GraphicsHelper::init_graphics_component(EntitySystem& ents, Ogre::SceneMana
 		comp->node = scene.getRootSceneNode()->createChildSceneNode("entity_" + std::to_string(id));
 	
 	comp->entity = scene.createEntity(comp->mesh);
+	comp->entity->setRenderingDistance(4000.f);
 	comp->node->attachObject(comp->entity);
 	comp->node->setVisible(comp->visible);
 
@@ -177,6 +182,13 @@ void GraphicsHelper::init_graphics_component(EntitySystem& ents, Ogre::SceneMana
 		phys_comp->position = Ogre::Vector3{phys_comp->position.x,
 												   half_height, phys_comp->position.z};
 		comp->node->setPosition(phys_comp->position);
+	}
+
+	auto light = ents.get_component<LightComponent>(id);
+	if(light && light->light)
+	{
+		light->node = comp->node;
+		light->node->attachObject(light->light);
 	}
 }
 
