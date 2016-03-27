@@ -94,7 +94,9 @@ std::size_t util::get_random(std::size_t min, std::size_t max)
 {
 	static std::uniform_int_distribution<std::size_t> dist{0, std::numeric_limits<std::size_t>::max()};
 	static std::mt19937 mt{std::random_device{}()};
-	return dist(mt) % max + min;
+
+	auto res = dist(mt) % max;
+	return (res >= min) ? res : res + min;
 }
 
 std::size_t util::abs(int val)
