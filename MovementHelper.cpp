@@ -66,3 +66,26 @@ Ogre::Vector3 MovementHelper::get_dir_right(EntitySystem& ents, std::size_t id)
 	else
 		return Ogre::Vector3{0, 0, 0};
 }
+
+void MovementHelper::set_original_speed(EntitySystem& ents, std::size_t id, Ogre::Real val)
+{
+	auto comp = ents.get_component<MovementComponent>(id);
+	if(comp)
+		comp->original_speed = val;
+}
+
+Ogre::Real MovementHelper::get_original_speed(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<MovementComponent>(id);
+	if(comp)
+		return comp->original_speed;
+	else
+		return Ogre::Real{};
+}
+
+void MovementHelper::reset_speed(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<MovementComponent>(id);
+	if(comp)
+		comp->speed_modifier = comp->original_speed;
+}
