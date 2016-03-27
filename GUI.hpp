@@ -9,6 +9,8 @@
 #include "TopBar.hpp"
 #include "ResearchWindow.hpp"
 #include "SpellCastingWindow.hpp"
+#include "MessageToPlayerWindow.hpp"
+#include "OptionsWindow.hpp"
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -23,6 +25,9 @@ class Game;
  */
 class GUI
 {
+	friend void action::QUICK_LOAD();
+	friend void action::QUICK_SAVE();
+	friend void action::RESET_CAMERA();
 	public:
 		/**
 		 * Destructor.
@@ -118,12 +123,39 @@ class GUI
 		SpellCastingWindow& get_spell_casting();
 
 		/**
+		 * Brief: Returns a reference to the message to player window.
+		 */
+		MessageToPlayerWindow& get_message();
+
+		/**
+		 * Brief: Returns a reference to the options window.
+		 */
+		OptionsWindow& get_options();
+
+		/**
 		 * Brief: Notifies the GUI that the escape key was pressed so that
 		 *        it can close windows if needed. Returns true if anything
 		 *        has been closed, false otherwise.
 		 * Note: CEGUI event system does not seem to work properly :/
 		 */
 		bool escape_pressed();
+
+		/**
+		 * Brief: Sets the visibility status of the current tool window.
+		 * Param: The new visibility status.
+		 */
+		void set_curr_tool_visible(bool);
+
+		/**
+		 * Brief: Sets the current tool window.
+		 * Param: The name of the tool. (MENU, SPELL, BUILD)
+		 */
+		void set_curr_tool(const std::string&);
+
+		/**
+		 * Brief: Returns the name of the current tool window.
+		 */
+		const std::string& get_curr_tool();
 
 		/**
 		 * Note: Since VS2015 seems to have some problems with C++ standard
@@ -135,6 +167,7 @@ class GUI
 		GUI(GUI&&) = delete;
 		GUI& operator=(const GUI&) = delete;
 		GUI& operator=(GUI&&) = delete;
+
 	private:
 		/**
 		 * Constructor, private because of the singleton pattern.
@@ -206,4 +239,16 @@ class GUI
 		 * Allows easier access to the menu subwindow.
 		 */
 		CEGUI::Window* menu_;
+
+		/**
+		 * Allows the game to show a message to the player with any
+		 * of the following buttons: OK, YES, NO.
+		 */
+		MessageToPlayerWindow message_;
+
+		/**
+		 * Allows to change the resolution, window mode and
+		 * key bindings.
+		 */
+		OptionsWindow options_;
 };

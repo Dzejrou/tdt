@@ -4,9 +4,10 @@
 #include "EntitySystem.hpp"
 
 GUI::GUI()
-	: window_{nullptr}, curr_tool_{"TOOLS/MENU"}, game_{nullptr},
+	: window_{}, curr_tool_{"TOOLS/MENU"}, game_{},
 	  console_{}, tracker_{}, builder_{}, top_bar_{},
-	  research_{}, spell_casting_{}, menu_{}
+	  research_{}, spell_casting_{}, menu_{}, message_{},
+	  options_{}
 { /* DUMMY BODY */ }
 
 void GUI::init(Game* game)
@@ -25,6 +26,16 @@ void GUI::init(Game* game)
 	builder_.set_placer(game_->placer_.get());
 	top_bar_.init(window_->getChild("TOP_BAR"));
 	spell_casting_.init(window_->getChild("TOOLS/SPELLS"));
+	message_.init(window_->getChild("MESSAGE_TO_PLAYER"));
+	
+	/**
+	 * The options menu was stored in it's own separate file
+	 * for easier design.
+	 */
+	auto opts = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("options_menu.layout");
+	options_.add_start_parameters(game_->window_, game_->main_view_, game_->renderer_);
+	options_.init(opts);
+	window_->addChild(opts);
 
 	/**
 	 * MAIN MENU
@@ -34,6 +45,7 @@ void GUI::init(Game* game)
 	window_->getChild("TOOLS")->setVisible(false);
 	window_->getChild("ENTITY_VIEW")->setVisible(false);
 	window_->getChild("GAME_LOG")->setVisible(false);
+	window_->getChild("NEXT_WAVE")->setVisible(false);
 	
 	menu->getChild("LOAD_GAME")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
@@ -55,8 +67,8 @@ void GUI::init(Game* game)
 
 	menu->getChild("OPTIONS")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
-		[](const CEGUI::EventArgs&) -> bool {
-			// TODO:
+		[this](const CEGUI::EventArgs&) -> bool {
+			options_.set_visible(true);
 			return true;
 		}
 	);
@@ -131,6 +143,7 @@ void GUI::init(Game* game)
 			window_->getChild("TOOLS")->setVisible(true);
 			window_->getChild("ENTITY_VIEW")->setVisible(true);
 			window_->getChild("GAME_LOG")->setVisible(true);
+			window_->getChild("NEXT_WAVE")->setVisible(true);
 			game_->set_state(GAME_STATE::RUNNING);
 			return true;
 		}
@@ -199,7 +212,7 @@ void GUI::init(Game* game)
 	window_->getChild("TOOLS/MENU/FRAME/OPTIONS")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
 		[this](const CEGUI::EventArgs&) -> bool {
-			// TODO:
+			options_.set_visible(true);
 			return true;
 		}
 	);
@@ -221,7 +234,9 @@ void GUI::init(Game* game)
 			window_->getChild("TOOLS")->setVisible(false);
 			window_->getChild("ENTITY_VIEW")->setVisible(false);
 			window_->getChild("GAME_LOG")->setVisible(false);
-			game_->set_state(GAME_STATE::MENU);
+			window_->getChild("NEXT_WAVE")->setVisible(false);
+			if(game_->state_ != GAME_STATE::ENDED)
+				game_->set_state(GAME_STATE::MENU);
 			return true;
 		}
 	);
@@ -257,6 +272,7 @@ void GUI::init(Game* game)
 				window_->getChild("TOOLS")->setVisible(true);
 				window_->getChild("ENTITY_VIEW")->setVisible(true);
 				window_->getChild("GAME_LOG")->setVisible(true);
+				window_->getChild("NEXT_WAVE")->setVisible(true);
 				game_->set_state(GAME_STATE::RUNNING);
 			}
 			else
@@ -275,9 +291,9 @@ void GUI::init(Game* game)
 	window_->getChild("SAVE_LOAD/FRAME/ITEMS")->subscribeEvent(
 		CEGUI::Listbox::EventSelectionChanged,
 		[this](const CEGUI::EventArgs&) -> bool {
-			window_->getChild("SAVE_LOAD/FRAME/INPUT")->setText(
-				((CEGUI::Listbox*)window_->getChild("SAVE_LOAD/FRAME/ITEMS"))->getFirstSelectedItem()->getText()
-			);
+			auto selected = ((CEGUI::Listbox*)window_->getChild("SAVE_LOAD/FRAME/ITEMS"))->getFirstSelectedItem();
+			if(selected)
+				window_->getChild("SAVE_LOAD/FRAME/INPUT")->setText(selected->getText());
 			return true;
 		}
 	);
@@ -375,6 +391,16 @@ SpellCastingWindow& GUI::get_spell_casting()
 	return spell_casting_;
 }
 
+MessageToPlayerWindow& GUI::get_message()
+{
+	return message_;
+}
+
+OptionsWindow& GUI::get_options()
+{
+	return options_;
+}
+
 bool GUI::escape_pressed()
 {
 	bool res{false};
@@ -382,8 +408,25 @@ bool GUI::escape_pressed()
 	// Note: Console and EntityCreator have their own hotkeys.
 	std::string sub_windows[] {
 		"MAIN_MENU/NEW_GAME_DIALOG",
-		"RESEARCH", "SAVE_LOAD"
+		"RESEARCH", "SAVE_LOAD", "OPTIONS"
 	};
+
+	/**
+	 * This will allow the return from the main menu (which does not
+	 * happend when a submenu window is visible).
+	 */
+	if(window_->getChild("MAIN_MENU")->isVisible() &&
+	   !window_->getChild("MAIN_MENU/NEW_GAME_DIALOG")->isVisible() &&
+	   !window_->getChild("OPTIONS")->isVisible() &&
+	   game_->state_ != GAME_STATE::ENDED && game_->state_ != GAME_STATE::INTRO_MENU)
+	{
+		game_->set_state(GAME_STATE::RUNNING);
+		window_->getChild("MAIN_MENU")->setVisible(false);
+		window_->getChild("TOOLS")->setVisible(true);
+		window_->getChild("ENTITY_VIEW")->setVisible(true);
+		window_->getChild("GAME_LOG")->setVisible(true);
+		window_->getChild("NEXT_WAVE")->setVisible(true);
+	}
 
 	for(const auto& sub_window : sub_windows)
 	{
@@ -397,6 +440,22 @@ bool GUI::escape_pressed()
 	return res;
 }
 
+void GUI::set_curr_tool_visible(bool val)
+{
+	set_visible(curr_tool_, val);
+}
+
+void GUI::set_curr_tool(const std::string& val)
+{
+	if(curr_tool_ != val)
+		curr_tool_ = val;
+}
+
+const std::string& GUI::get_curr_tool()
+{
+	return curr_tool_;
+}
+
 void GUI::list_directory(const std::string& dir, CEGUI::Listbox& box, bool strip_ext)
 {
 	box.resetList();
@@ -407,11 +466,7 @@ void GUI::list_directory(const std::string& dir, CEGUI::Listbox& box, bool strip
 
 	handle = FindFirstFile(dir.c_str(), &fdata);
 	std::string tmp;
-	if(handle == INVALID_HANDLE_VALUE)
-	{
-		// TODO: Handle missing directory.
-	}
-	else
+	if(handle != INVALID_HANDLE_VALUE)
 	{
 		do
 		{
@@ -425,6 +480,8 @@ void GUI::list_directory(const std::string& dir, CEGUI::Listbox& box, bool strip
 		while(FindNextFile(handle, &fdata));
 		FindClose(handle);
 	}
+	else
+		FindClose(handle);
 #else
 	// TODO: Use dirent on POSIX compliant systems.
 #endif
