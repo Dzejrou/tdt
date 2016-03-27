@@ -37,3 +37,8 @@
 #include "LimitedLifeSpanHelper.hpp"
 #include "NameHelper.hpp"
 #include "ExperienceValueHelper.hpp"
+#include "ManaHelper.hpp"
+#include "SpellHelper.hpp"
+#include "CommandHelper.hpp"
+#include "CounterHelper.hpp"
+#include "LightHelper.hpp"
