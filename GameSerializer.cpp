@@ -24,8 +24,8 @@ GameSerializer::GameSerializer(EntitySystem& ents)
 	serializers_[EventComponent::type] = &GameSerializer::save_component<EventComponent>;
 	serializers_[InputComponent::type] = &GameSerializer::save_component<InputComponent>;
 	serializers_[TimeComponent::type] = &GameSerializer::save_component<TimeComponent>;
-	serializers_[ManaComponent::type] = nullptr; // TODO
-	serializers_[SpellComponent::type] = nullptr; // TODO
+	serializers_[ManaComponent::type] = &GameSerializer::save_component<ManaComponent>;
+	serializers_[SpellComponent::type] = &GameSerializer::save_component<SpellComponent>;
 	serializers_[ProductionComponent::type] = &GameSerializer::save_component<ProductionComponent>;
 	serializers_[GridNodeComponent::type] = nullptr; // Cannot be saved, is generated with the graph.
 	serializers_[ProductComponent::type] = &GameSerializer::save_component<ProductComponent>;
@@ -49,6 +49,11 @@ GameSerializer::GameSerializer(EntitySystem& ents)
 	serializers_[NotificationComponent::type] = &GameSerializer::save_component<NotificationComponent>;
 	serializers_[ExplosionComponent::type] = &GameSerializer::save_component<ExplosionComponent>;
 	serializers_[LimitedLifeSpanComponent::type] = &GameSerializer::save_component<LimitedLifeSpanComponent>;
+	serializers_[NameComponent::type] = &GameSerializer::save_component<NameComponent>;
+	serializers_[ExperienceValueComponent::type] = &GameSerializer::save_component<ExperienceValueComponent>;
+	serializers_[LightComponent::type] = &GameSerializer::save_component<LightComponent>;
+	serializers_[CommandComponent::type] = &GameSerializer::save_component<CommandComponent>;
+	serializers_[CounterComponent::type] = &GameSerializer::save_component<CounterComponent>;
 }
 
 void GameSerializer::save_game(Game& game, const std::string& fname)
@@ -58,14 +63,15 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 	std::vector<std::string> temp_vars{};
 
 	std::string header{
-		"game.gui.log.clear()\n"
+		  "game.gui.log.clear()\nentity_" + std::to_string(Component::NO_ENTITY)
+		+ " = " + std::to_string(Component::NO_ENTITY) + "\n"
 	};
 
 	auto& player = Player::instance();
 	std::string plr{
 		  "game.player.nulify_stats()\ngame.player.add_gold(" + std::to_string(player.get_gold())
-		+ ")\ngame.player.add_mana(" + std::to_string(player.get_mana())
 		+ ")\ngame.player.add_max_mana(" + std::to_string(player.get_max_mana())
+		+ ")\ngame.player.add_mana(" + std::to_string(player.get_mana())
 		+ ")\ngame.player.add_mana_regen(" + std::to_string(player.get_mana_regen()) + ")\n\n"
 	};
 
@@ -98,7 +104,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 		save_entities_.emplace_back(entity_name + " = game.entity.create()");
 		for(std::size_t i = 0; i < ent.second.size(); ++i)
 		{
-			if(ent.second.test(i))
+			if(ent.second.test(i) && i < serializers_.size() && serializers_[i])
 				SAVE_COMPONENT(i, ent.first, entity_name);
 		}	
 	}
@@ -109,6 +115,10 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 		file_ << comp << "\n";
 	file_ << "\n";
 	save_tasks();
+
+	// Wave system serialization, requires nodes so might be a bit higher,
+	// but just in case is left till the end of the save file.
+	file_ << save_wave_system(game) << "\n" << save_unlocks();
 
 	file_ << "\n\n-- AUXILIARY VARIABLES TO BE DELETED:\nto_be_deleted = {\n";
 	std::size_t count{0}; // Saves vertical space.
@@ -130,6 +140,7 @@ void GameSerializer::load_game(Game& game, const std::string& fname)
 	// Clean current game.
 	entities_.delete_entities();
 	entities_.cleanup();
+	game.reset_unlocks();
 
 	std::string file_name{"saves/" + fname + ".lua"};
 	try
@@ -159,8 +170,61 @@ void GameSerializer::save_tasks()
 	file_ << "\n-- TASKS: --\n";
 	for(auto& task_pair : task_pairs_)
 	{
-		file_ << "game.add_task(entity_" + std::to_string(task_pair.first) + ", entity_"
+		file_ << "game.task.add(entity_" + std::to_string(task_pair.first) + ", entity_"
 			   + std::to_string(task_pair.second) + ")\n";
 	}
 	task_pairs_.clear();
+}
+
+std::string GameSerializer::save_wave_system(Game& game)
+{
+	if(!game.wave_system_)
+		return "-- NO ENTITY SYSTEM PRESENT!";
+
+	auto& wsys = *game.wave_system_;
+
+	std::string comm{
+		  "-- WAVE SYSTEM\ngame.wave.set_table('" + wsys.get_wave_table() + "')\n"
+		+ "game.wave.set_state(" + std::to_string((int)wsys.get_state()) + ")\n"
+		+ "game.wave.set_wave_count(" + std::to_string(wsys.get_wave_count()) + ")\n"
+		+ "game.wave.set_curr_wave_number(" + std::to_string(wsys.get_curr_wave_number()) + ")\n"
+		+ "game.wave.set_countdown(" + std::to_string(wsys.get_countdown_value()) + ")\n"
+		+ "game.wave.set_spawn_cooldown(" + std::to_string(wsys.get_spawn_cooldown()) + ")\n"
+		+ "game.wave.set_spawn_timer(" + std::to_string(wsys.get_spawn_timer()) + ")\n"
+		+ "game.wave.set_entities_spawned(" + std::to_string(wsys.get_entities_spawned()) + ")\n"
+		+ "game.wave.set_wave_entities(" + std::to_string(wsys.get_wave_entities()) + ")\n"
+		+ "game.wave.set_entity_total(" + std::to_string(wsys.get_entity_total()) + ")\n"
+	};
+
+	for(const auto& blueprint : wsys.get_entity_blueprints())
+		comm.append("game.wave.add_entity_blueprint('" + blueprint + "')\n");
+
+	for(const auto& node : wsys.get_spawning_nodes())
+		comm.append("game.wave.add_spawn_node(entity_" + std::to_string(node) + ")\n");
+	comm.append("game.wave.update_label_text()\n");
+
+	return comm;
+}
+
+std::string GameSerializer::save_unlocks()
+{
+	std::string comm{};
+
+	for(const auto& spell : GUI::instance().get_spell_casting().get_spells())
+		comm.append("game.spell.register_spell('" + spell + "')\n");
+
+	for(const auto& building : GUI::instance().get_builder().get_buildings())
+		comm.append("game.gui.builder.register_building('" + building + "')\n");
+
+	auto& research = GUI::instance().get_research();
+	const auto& unlocked = research.get_unlocked();
+	for(std::size_t i = 0; i < unlocked.size(); ++i)
+	{
+		if(!unlocked[i])
+			continue;
+		comm.append("game.gui.research.dummy_unlock(" + std::to_string(i / research.cols_ + 1) + ", "
+					+ std::to_string(i % research.cols_ + 1) + ")\n");
+	}
+
+	return comm;
 }
