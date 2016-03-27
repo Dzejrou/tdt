@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdlib>
+#include <vector>
+#include <string>
 class EntitySystem;
 
 /**
@@ -147,6 +149,26 @@ class Player
 		 *        subtract gold from.
 		 */
 		void init(EntitySystem*);
+
+		/**
+		 * Brief: Sets the spells and buildings that are unlocked from the start.
+		 * Param: Spell unlocks.
+		 * Param: Building unlocks.
+		 */
+		void set_initial_unlocks(const std::vector<std::string>&, const std::vector<std::string>&);
+
+		/**
+		 * Brief: Returns a vector of all spells that are unlocked at the start
+		 *        of a new game.
+		 */
+		const std::vector<std::string>& get_initial_spells() const;
+
+		/**
+		 * Brief: Returns a vector of all buildings that are unlocked at the start
+		 *        of a new game.
+		 */
+		const std::vector<std::string>& get_initial_buildings() const;
+
 	private:
 		/**
 		 * Constructor.
@@ -195,4 +217,18 @@ class Player
 		 * vault gold is synchronized.
 		 */
 		EntitySystem* entities_;
+
+		/**
+		 * Holds the names of the spells that are available to the
+		 * player from the beggining. (That is, they are unlocked
+		 * in the Lua script they are defined.)
+		 */
+		std::vector<std::string> initial_spell_unlocks_;
+
+		/**
+		 * Holds the names of the buildings that are available to the
+		 * player from the beggining. (That is, they are unlocked
+		 * in the Lua script they are defined.)
+		 */
+		std::vector<std::string> initial_building_unlocks_;
 };

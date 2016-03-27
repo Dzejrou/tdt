@@ -12,6 +12,22 @@ void Player::init(EntitySystem* ents)
 	reset();
 }
 
+void Player::set_initial_unlocks(const std::vector<std::string>& spells, const std::vector<std::string>& buildings)
+{ // Copy is necessary here.
+	initial_spell_unlocks_ = spells;
+	initial_building_unlocks_ = buildings;
+}
+
+const std::vector<std::string>& Player::get_initial_spells() const
+{
+	return initial_spell_unlocks_;
+}
+
+const std::vector<std::string>& Player::get_initial_buildings() const
+{
+	return initial_building_unlocks_;
+}
+
 Player::Player()
 	: gold_{1000}, mana_{100}, max_mana_{500}, mana_regen_(1), units_max_{0}, units_curr_{0},
 	  uint_max_{std::numeric_limits<std::size_t>::max()}
@@ -33,12 +49,15 @@ bool Player::sub_gold(std::size_t val)
 		if(entities_)
 		{ // Find first gold vault and remove gold from it, do not register the transaction though.
 			util::IS_GOLD_VAULT cond{*entities_};
+			std::size_t to_sub{val};
 			for(auto& ent : entities_->get_component_container<GoldComponent>())
 			{
 				if(cond(ent.first))
 				{ // TODO: Update if the vault was tracked ^^.
-					GoldHelper::sub_gold(*entities_, ent.first, val, false);
-					break; // Sub from first vault only.
+					to_sub = GoldHelper::sub_gold(*entities_, ent.first, to_sub, false);
+					
+					if(to_sub == 0)
+						break; // This will distribute the gold loss if needed.
 				}
 			}
 		}
@@ -55,10 +74,15 @@ void Player::add_mana(std::size_t val)
 	if(mana_ + val <= max_mana_)
 	{
 		mana_ += val;
-		GUI::instance().get_top_bar().update_label("MANA_VALUE", std::to_string(mana_) + " / "
-												   + std::to_string(max_mana_) + " ("
-												   + std::to_string(mana_regen_) + ")");
 	}
+	else
+	{
+		mana_ = max_mana_;
+	}
+
+	GUI::instance().get_top_bar().update_label("MANA_VALUE", std::to_string(mana_) + " / "
+											   + std::to_string(max_mana_) + " ("
+											   + std::to_string(mana_regen_) + ")");
 }
 
 bool Player::sub_mana(std::size_t val)
@@ -208,6 +232,7 @@ void Player::nulify_all_stats()
 	gold_ = 0;
 	mana_ = 0;
 	max_mana_ = 0;
+	mana_regen_ = 0;
 	units_curr_ = 0;
 	units_max_ = 0;
 	GUI::instance().get_top_bar().update_label("GOLD_VALUE", "0");
