@@ -4,7 +4,8 @@
 #include "GUIWindow.hpp"
 
 /**
- *
+ * A window that monitors the stats of the currently selected entity and
+ * allows for it's upgrading once it has enough experience.
  */
 class EntityTracker : public GUIWindow
 {
@@ -50,6 +51,12 @@ class EntityTracker : public GUIWindow
 		 * Param: Entity system containing entities that will be upgraded by this button.
 		 */
 		void init_upgrade_butt(EntitySystem*);
+
+		/**
+		 * Brief: Sets the visibility status of the UPGRADE button.
+		 * Param: True for visible, false for invisible.
+		 */
+		void show_upgrade_butt(bool);
 	protected:
 		/**
 		 * Brief: Initializes the window and sets all event subscribers.
