@@ -8,7 +8,6 @@ material colour/green
 
 			ambient 0 1 0 1
 			diffuse 0 1 0 1
-			emissive 0 1 0 1
 		}
 	}
 }
@@ -23,7 +22,6 @@ material colour/red
 
 			ambient 1 0 0 1
 			diffuse 1 0 0 1
-			emissive 1 0 0 1
 		}
 	}
 }
@@ -38,7 +36,6 @@ material colour/blue
 
 			ambient 0 0 1 1
 			diffuse 0 0 1 1
-			emissive 0 0 1 1
 		}
 	}
 }
@@ -53,7 +50,6 @@ material colour/gray
 
 			ambient 0.33 0.33 0.33 1
 			diffuse 0.33 0.33 0.33 1
-			emissive 0.33 0.33 0.33 1
 		}
 	}
 }
@@ -68,7 +64,6 @@ material colour/brown
 
 			ambient 0.2 0.1 0.0 1
 			diffuse 0.2 0.1 0.0 1
-			emissive 0.2 0.1 0.0 1
 		}
 	}
 }
@@ -83,7 +78,6 @@ material colour/pink
 
 			ambient 1 0.078 0.5764 1
 			diffuse 1 0.078 0.5764 1
-			emissive 1 0.078 0.5764 1
 		}
 	}
 }
@@ -98,7 +92,6 @@ material colour/gold
 
 			ambient 1 0.8431 0 1
 			diffuse 1 0.8431 0 1
-			emissive 1 0.8431 0 1
 		}
 	}
 }
@@ -113,7 +106,6 @@ material colour/dark_gray
 
 			ambient 0.1 0.1 0.1 1
 			diffuse 0.1 0.1 0.1 1
-			emissive 0.1 0.1 0.1 1
 		}
 	}
 }
@@ -128,7 +120,6 @@ material colour/orange
 
 			ambient 1 0.4647 0 1
 			diffuse 1 0.4647 0 1
-			emissive 1 0.4647 0 1
 		}
 	}
 }
@@ -143,7 +134,120 @@ material colour/light_blue
 
 			ambient 0 0.886 1 1
 			diffuse 0 0.886 1 1
-			emissive 0 0.886 1 1
+		}
+	}
+}
+
+material colour/dark_brown
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+
+			ambient 0.1 0.05 0.0 1
+			diffuse 0.1 0.05 0.0 1
+		}
+	}
+}
+
+material colour/transparent_white
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 0.5
+			diffuse 1 1 1 0.5
+			emissive 1 1 1 0.5
+			specular 1 1 1 20
+
+			scene_blend alpha_blend
+			depth_write off
+		}
+	}
+}
+
+material colour/transparent_blue
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 1 0.5
+			diffuse 0 0 1 0.5
+			emissive 0 0 1 0.5
+			specular 0 0 1 20
+
+			scene_blend alpha_blend
+			depth_write off
+		}
+	}
+}
+
+material colour/transparent_yellow
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 0 0.5
+			diffuse 1 1 0 0.75
+			emissive 1 1 0 0.5
+			specular 1 1 0 20
+
+			scene_blend alpha_blend
+			depth_write off
+		}
+	}
+}
+
+material colour/transparent_orange
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 0.4647 0 0.75
+			diffuse 1 0.4647 0 0.75
+			emissive 1 0.4647 0 0.75
+			specular 1 0.4647 0 20
+
+			scene_blend alpha_blend
+			depth_write off
+		}
+	}
+}
+
+material colour/transparent_pink
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 0.078 0.5764 0.5
+			diffuse 1 0.078 0.5764 0.75
+			emissive 1 0.078 0.5764 0.75
+			specular 1 0.078 0.5764 20
+
+			scene_blend alpha_blend
+			depth_write off
+		}
+	}
+}
+
+material colour/yellow
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+
+			ambient 1 1 0 1
+			diffuse 1 1 0 1
+			emissive 1 1 0 1
 		}
 	}
 }
