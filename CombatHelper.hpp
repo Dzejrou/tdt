@@ -100,4 +100,28 @@ namespace CombatHelper
 	 * Param: ID of the entity.
 	 */
 	ATTACK_TYPE get_atk_type(EntitySystem&, std::size_t);
+
+	/**
+	 * Brief: Returns true if a given entity is in attack range from
+	 *        another entity.
+	 * Param: EntitySystem containing the entity.
+	 * Param: ID of the entity checking range.
+	 * Param: ID of the second entity.
+	 */
+	bool in_range(EntitySystem&, std::size_t, std::size_t);
+
+	/**
+	 * Brief: Sets the projectile table used when a given entity shoots.
+	 * Param: EntitySystem containing the entity.
+	 * Param: ID of the entity.
+	 * Param: Name of the projectile table.
+	 */
+	void set_projectile_blueprint(EntitySystem&, std::size_t, const std::string&);
+
+	/**
+	 * Brief: Returns the projectile table used when a given entity shoots.
+	 * Param: EntitySystem containing the entity.
+	 * Param: ID of the entity.
+	 */
+	const std::string& get_projectile_blueprint(EntitySystem&, std::size_t);
 }

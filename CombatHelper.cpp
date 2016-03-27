@@ -89,3 +89,31 @@ ATTACK_TYPE CombatHelper::get_atk_type(EntitySystem& ents, std::size_t id)
 	else
 		return ATTACK_TYPE::NONE;
 }
+
+bool CombatHelper::in_range(EntitySystem& ents, std::size_t id1, std::size_t id2)
+{
+	auto phys1 = ents.get_component<PhysicsComponent>(id1);
+	auto phys2 = ents.get_component<PhysicsComponent>(id2);
+	auto comb = ents.get_component<CombatComponent>(id1);
+
+	if(phys1 && phys2 && comb)
+		return phys1->position.squaredDistance(phys2->position) <= comb->range * comb->range;
+	else
+		return false;
+}
+
+void CombatHelper::set_projectile_blueprint(EntitySystem& ents, std::size_t id, const std::string& val)
+{
+	auto comp = ents.get_component<CombatComponent>(id);
+	if(comp)
+		comp->projectile_blueprint = val;
+}
+
+const std::string& CombatHelper::get_projectile_blueprint(EntitySystem& ents, std::size_t id)
+{
+	auto comp = ents.get_component<CombatComponent>(id);
+	if(comp)
+		return comp->projectile_blueprint;
+	else
+		return ents.NO_BLUEPRINT;
+}
