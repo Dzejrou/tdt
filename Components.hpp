@@ -12,7 +12,7 @@
 
 struct Component
 {
-	static constexpr int count = 36;
+	static constexpr int count = 39;
 	static constexpr std::size_t NO_ENTITY = std::numeric_limits<std::size_t>::max();
 };
 
@@ -133,7 +133,7 @@ struct MovementComponent
 	static constexpr int type = 4;
 
 	MovementComponent(Ogre::Real speed = 0.f)
-		: speed_modifier{speed}
+		: speed_modifier{speed}, original_speed{speed}
 	{ /* DUMMY BODY */ }
 	MovementComponent(const MovementComponent&) = default;
 	MovementComponent(MovementComponent&&) = default;
@@ -142,11 +142,11 @@ struct MovementComponent
 	~MovementComponent() = default;
 
 	Ogre::Real speed_modifier;
+	Ogre::Real original_speed;
 };
 
 /**
  * Holds info about an entity's attack types and damage.
- * TODO: Reseach the entire combat mechanism.
  */
 struct CombatComponent
 {
@@ -154,9 +154,9 @@ struct CombatComponent
 
 	CombatComponent(std::size_t target = Component::NO_ENTITY, std::size_t mi = 0,
 					std::size_t ma = 0, Ogre::Real cd = 0, Ogre::Real r = 0.f, int type = 0,
-					bool p = false)
+					bool p = false, std::string&& proj = "ERROR")
 		: curr_target{target}, min_dmg{mi},	max_dmg{ma}, cooldown{cd}, cd_time{cd},
-		  range{r}, atk_type((ATTACK_TYPE)type), pursue{p}
+		  range{r}, atk_type((ATTACK_TYPE)type), pursue{p}, projectile_blueprint{std::move(proj)}
 	{ /* DUMMY BODY */ }
 	CombatComponent(const CombatComponent&) = default;
 	CombatComponent(CombatComponent&&) = default;
@@ -172,6 +172,7 @@ struct CombatComponent
 	Ogre::Real range;
 	ATTACK_TYPE atk_type;
 	bool pursue;
+	std::string projectile_blueprint;
 };
 
 /**
@@ -244,19 +245,45 @@ struct TimeComponent
 };
 
 /**
- * TODO:
+ * Allows an entity to cast spell by providing the mana resource.
  */
 struct ManaComponent
 {
 	static constexpr int type = 9;
+
+	ManaComponent(std::size_t max = 0, std::size_t regen = 0)
+		: curr_mana{max}, max_mana{max}, mana_regen{regen}
+	{ /* DUMMY BODY */ }
+	ManaComponent(const ManaComponent&) = default;
+	ManaComponent(ManaComponent&&) = default;
+	ManaComponent& operator=(const ManaComponent&) = default;
+	ManaComponent& operator=(ManaComponent&&) = default;
+	~ManaComponent() = default;
+
+	std::size_t curr_mana;
+	std::size_t max_mana;
+	std::size_t mana_regen;
 };
 
 /**
- * TODO:
+ * Allows an entity to periodically cast a spell.
  */
 struct SpellComponent
 {
 	static constexpr int type = 10;
+
+	SpellComponent(std::string&& b = "ERROR", Ogre::Real cd = 0.f)
+		: blueprint{std::move(b)}, cd_time{}, cooldown{cd}
+	{ /* DUMMY BODY */ }
+	SpellComponent(const SpellComponent&) = default;
+	SpellComponent(SpellComponent&&) = default;
+	SpellComponent& operator=(const SpellComponent&) = default;
+	SpellComponent& operator=(SpellComponent&&) = default;
+	~SpellComponent() = default;
+
+	std::string blueprint;
+	Ogre::Real cd_time;
+	Ogre::Real cooldown;
 };
 
 /**
@@ -293,7 +320,7 @@ struct ProductionComponent
 struct GridNodeComponent
 {
 	static constexpr int type = 12;
-	static constexpr std::size_t neighbour_count = 8;
+	static constexpr std::size_t neighbour_count = 9;
 
 	GridNodeComponent(std::array<std::size_t, neighbour_count> neigh = std::array<std::size_t, neighbour_count>{},
 					  bool f = true, std::size_t pos_x = 0, std::size_t pos_y = 0, std::size_t res = Component::NO_ENTITY)
@@ -805,4 +832,61 @@ struct ExperienceValueComponent
 	~ExperienceValueComponent() = default;
 
 	std::size_t value;
+};
+
+/**
+ * Allows an entity to emit light to it's surrounding area.
+ */
+struct LightComponent
+{
+	static constexpr int type = 36;
+
+	LightComponent() = default;
+	LightComponent(const LightComponent&) = default;
+	LightComponent(LightComponent&&) = default;
+	LightComponent& operator=(const LightComponent&) = default;
+	LightComponent& operator=(LightComponent&&) = default;
+	~LightComponent() = default;
+
+	Ogre::SceneNode* node;
+	Ogre::Light* light;
+};
+
+/**
+ * Contains a list of commands an entity can respond to.
+ */
+struct CommandComponent
+{
+	static constexpr int type = 37;
+
+	CommandComponent() = default;
+	CommandComponent(const CommandComponent&) = default;
+	CommandComponent(CommandComponent&&) = default;
+	CommandComponent& operator=(const CommandComponent&) = default;
+	CommandComponent& operator=(CommandComponent&&) = default;
+	~CommandComponent() = default;
+
+	std::bitset<(int)COMMAND_TYPE::COUNT> possible_commands;
+};
+
+/**
+ * A simple incrementing counter.
+ * Note: The max value is not enforced and serves
+ *       only for manual checking.
+ */
+struct CounterComponent
+{
+	static constexpr int type = 38;
+
+	CounterComponent(std::size_t max = 0)
+		: curr_value{}, max_value{max}
+	{ /* DUMMY BODY */ }
+	CounterComponent(const CounterComponent&) = default;
+	CounterComponent(CounterComponent&&) = default;
+	CounterComponent& operator=(const CounterComponent&) = default;
+	CounterComponent& operator=(CounterComponent&&) = default;
+	~CounterComponent() = default;
+
+	std::size_t curr_value;
+	std::size_t max_value;
 };
