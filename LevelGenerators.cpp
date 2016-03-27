@@ -14,7 +14,7 @@ RandomLevelGenerator::RandomLevelGenerator(EntitySystem& ents, std::size_t c)
 	: LevelGenerator{ents, c}
 { /* DUMMY BODY */ }
 
-void RandomLevelGenerator::generate(std::size_t width, std::size_t height)
+void RandomLevelGenerator::generate(std::size_t width, std::size_t height, WaveSystem& wsystem)
 {
 	/**
 	 * 0 == free space
@@ -22,6 +22,8 @@ void RandomLevelGenerator::generate(std::size_t width, std::size_t height)
 	 * 2 == gold deposit
 	 * 3 == border
 	 * 4 == walkway
+	 * 5 == light source
+	 * 6 == throne
 	 */
 	std::vector<std::vector<std::size_t>> level{};
 	level.resize(width);
@@ -69,9 +71,15 @@ void RandomLevelGenerator::generate(std::size_t width, std::size_t height)
 
 	for(std::size_t i = mid_w - rad_w; i < mid_w + rad_w; ++i)
 	{
-		for(std::size_t j = mid_w - rad_w; j < mid_w + rad_w; ++j)
+		for(std::size_t j = mid_h - rad_h; j < mid_h + rad_h; ++j)
 			level[i][j] = 0;
 	}
+
+	// Light sources in the corners.
+	level[mid_w + rad_w - 1][mid_h + rad_h - 1] = 5;
+	level[mid_w - rad_w][mid_h - rad_h] = 5;
+	level[mid_w + rad_w - 1][mid_h - rad_h] = 5;
+	level[mid_w - rad_w][mid_h + rad_h - 1] = 5;
 
 	// Left/Right borders.
 	for(std::size_t i = 0; i < height; ++i)
@@ -87,29 +95,71 @@ void RandomLevelGenerator::generate(std::size_t width, std::size_t height)
 		level[i][height - 1] = 3;
 	}
 
+	// Enemy spawn points and walkway.
+	std::size_t side = util::get_random(0, 2);
+	std::size_t walkway_w = (mid_w - rad_w) / 2;
+	std::size_t walkway_h = (mid_h - rad_h) / 2;
+	auto& grid = Grid::instance();
+	switch(side)
+	{
+		case 0:
+			level[1][mid_h] = 4; // Makes sure there are atleast 2.
+			level[1][mid_h - 1] = 4;
+			
+			for(std::size_t i = 2; i < walkway_h; ++i)
+			{
+				level[i][mid_h] = 4;
+				level[i][mid_h - 1] = 4;
+			}
+			wsystem.add_spawn_node(grid.get_node(1, mid_h));
+			wsystem.add_spawn_node(grid.get_node(1, mid_h - 1));
+			break;
+		case 1:
+			level[mid_w][1] = 4;
+			level[mid_w - 1][1] = 4;
+
+			for(std::size_t i = 2; i < walkway_w; ++i)
+			{
+				level[mid_w][i] = 4;
+				level[mid_w - 1][i] = 4;
+			}
+			wsystem.add_spawn_node(grid.get_node(mid_w, 1));
+			wsystem.add_spawn_node(grid.get_node(mid_w - 1, 1));
+			break;
+	}
+
+	// The dungeon throne.
+	level[mid_w][mid_h] = 6;
+
 	// Actual structure placing.
 	auto& script = lpp::Script::get_singleton();
-	auto& grid = Grid::instance();
 	std::string wall_table{script.get<std::string>("game.config.default_wall_table")};
 	std::string gold_table{script.get<std::string>("game.config.default_gold_table")};
 	std::string border_table{script.get<std::string>("game.config.default_border_table")};
 	std::string walkway_table{script.get<std::string>("game.config.default_walkway_table")};
+	std::string light_table{script.get<std::string>("game.config.default_light_table")};
+	std::string throne_table{script.get<std::string>("game.config.default_throne_table")};
 	for(std::size_t i = 0; i < width; ++i)
 	{
 		for(std::size_t j = 0; j < height; ++j)
 		{
 			std::size_t id{Component::NO_ENTITY};
 			if(level[i][j] == 1)
-			{
 				id = entities_.create_entity(wall_table);
-			}
 			else if(level[i][j] == 2)
 				id = entities_.create_entity(gold_table);
 			else if(level[i][j] == 3)
 				id = entities_.create_entity(border_table);
+			else if(level[i][j] == 4)
+				id = entities_.create_entity(walkway_table);
+			else if(level[i][j] == 5)
+				id = entities_.create_entity(light_table);
+			else if(level[i][j] == 6)
+				id = entities_.create_entity(throne_table);
 
 			if(level[i][j] == 1 || level[i][j] == 2 ||
-			   level[i][j] == 3 || level[i][j] == 4)
+			   level[i][j] == 3 || level[i][j] == 4 ||
+			   level[i][j] == 5 || level[i][j] == 6)
 			{
 				auto node = grid.get_node(i,j);
 				PhysicsHelper::set_2d_position(entities_, id,

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "WaveSystem.hpp"
 class EntitySystem;
 
 /**
@@ -34,8 +35,9 @@ class LevelGenerator
 		 * Brief: Generates a level with the given dimensions.
 		 * Param: Width of the level.
 		 * Param: Height of the level.
+		 * Param: Wave system that will have it's spawn nodes set.
 		 */
-		virtual void generate(std::size_t, std::size_t) = 0;
+		virtual void generate(std::size_t, std::size_t, WaveSystem&) = 0;
 	protected:
 		/**
 		 * Entity system that contains the level's entities.
@@ -68,8 +70,9 @@ class RandomLevelGenerator : public LevelGenerator
 		 *        using an RNG approach.
 		 * Param: Width of the level.
 		 * Param: Height of the level.
+		 * Param: Wave system that will have it's spawn nodes set.
 		 */
-		void generate(std::size_t, std::size_t) override;
+		void generate(std::size_t, std::size_t, WaveSystem&) override;
 };
 
 /**
