@@ -27,6 +27,11 @@ namespace util
 		IS_ENEMY(EntitySystem&, std::size_t);
 
 		/**
+		 * Destructor.
+		 */
+		~IS_ENEMY() = default;
+
+		/**
 		 * Brief: Tests if a given entity is an enemy of the entity specified
 		 *        in the constructor.
 		 * Param: ID of the entity.
@@ -58,6 +63,11 @@ namespace util
 		 *        for the friendly status.
 		 */
 		IS_FRIENDLY(EntitySystem&, std::size_t);
+
+		/**
+		 * Destructor.
+		 */
+		~IS_FRIENDLY() = default;
 
 		/**
 		 * Brief: Tests if a given entity is a friend of the entity specified
@@ -93,6 +103,11 @@ namespace util
 		IS_FRIENDLY_OR_NEUTRAL(EntitySystem&, std::size_t);
 
 		/**
+		 * Destructor.
+		 */
+		~IS_FRIENDLY_OR_NEUTRAL() = default;
+
+		/**
 		 * Brief: Tests if a given entity is a friend of or neutral to the entity specified
 		 *        in the constructor.
 		 * Param: ID of the entity.
@@ -123,6 +138,11 @@ namespace util
 		HAS_GOLD(EntitySystem&);
 
 		/**
+		 * Destructor.
+		 */
+		~HAS_GOLD() = default;
+
+		/**
 		 * Brief: Tests if a given entity has a gold component.
 		 * Param: ID of the entity.
 		 */
@@ -147,6 +167,11 @@ namespace util
 		 * Param: Entity system that contains all tested entities.
 		 */
 		IS_GOLD_VAULT(EntitySystem&);
+
+		/**
+		 * Destructor.
+		 */
+		~IS_GOLD_VAULT() = default;
 
 		/**
 		 * Brief: Tests a given entity.
