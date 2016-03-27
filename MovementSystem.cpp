@@ -5,7 +5,7 @@ MovementSystem::MovementSystem(EntitySystem& ents)
 { /* DUMMY BODY */ }
 
 void MovementSystem::update(Ogre::Real delta)
-{ // TODO: Fix this...
+{
 	last_delta_ = delta;
 	for(auto& ent : entities_.get_component_container<PathfindingComponent>())
 	{
@@ -26,7 +26,7 @@ void MovementSystem::update(Ogre::Real delta)
 
 		if(!move(ent.first, dir_to_next))
 		{
-			// TODO: perform a*? Or wait and then perform a*?
+			// TODO: Perform a*? Or wait and then perform a*?
 		}
 
 		auto pos_next = PhysicsHelper::get_position(entities_, next);
