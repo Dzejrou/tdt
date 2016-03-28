@@ -1,4 +1,4 @@
--- TODO:
+-- Constructor that heals enemies in the constructed entity's range.
 heal_entities_constructor = {
 	construct = function(id)
 		local range = game.combat.get_range(id)
@@ -6,7 +6,8 @@ heal_entities_constructor = {
 	end
 }
 
--- TODO:
+-- Costructor that deals damage to enemies in the constructed
+-- entity's range.
 damage_entities_constructor = {
 	construct = function(id)
 		local range = game.combat.get_range(id)
@@ -16,7 +17,7 @@ damage_entities_constructor = {
 	end
 }
 
--- TODO:
+-- Constructor that slows all entities in the constructed entity's range.
 slow_entities_constructor = {
 	construct = function(id)
 		local range = game.combat.get_range(id)
@@ -24,7 +25,7 @@ slow_entities_constructor = {
 	end
 }
 
--- TODO:
+-- Constructor that freezes all entities in the constructed entity's range.
 freeze_entities_constructor = {
 	construct = function(id)
 		local range = game.combat.get_range(id)
@@ -32,7 +33,8 @@ freeze_entities_constructor = {
 	end
 }
 
--- TODO:
+-- Constructor that sets the constructed entity to be the dungeon throne.
+-- (-> it will be the structure target of enemy entities.)
 throne_constructor = {
 	construct = function(id)
 		game.set_throne_id(id)

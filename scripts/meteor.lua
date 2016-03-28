@@ -1,4 +1,5 @@
--- TODO:
+-- Used by the meteor spell, spawns a projectile that impacts it, triggering
+-- the explosion destructor that damages enemies.
 meteor = {
 	components = {
 		game.enum.component.physics,
@@ -83,7 +84,8 @@ meteor = {
 	end
 }
 
--- TODO:
+-- Used by the meteor spell, spawns a projectile that impacts it, triggering
+-- the explosion destructor that damages friendlies.
 enemy_meteor = {
 	components = {
 		game.enum.component.physics,

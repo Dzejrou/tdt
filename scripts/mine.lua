@@ -1,3 +1,4 @@
+-- Player's default building used to spawn miners.
 mine = {
 	components = {
 		game.enum.component.physics,

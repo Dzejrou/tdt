@@ -1,3 +1,4 @@
+-- Basic wall that the player can place.
 wall = {
 	components = {
 		game.enum.component.physics,

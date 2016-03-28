@@ -1,3 +1,4 @@
+-- Standard light source.
 light_crystal = {
 	components = {
 		game.enum.component.physics,

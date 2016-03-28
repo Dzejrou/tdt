@@ -1,3 +1,4 @@
+-- Building representing the player's life, it's death ends the game.
 dungeon_throne = {
 	components = {
 		game.enum.component.physics,

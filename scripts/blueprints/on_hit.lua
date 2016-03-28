@@ -1,4 +1,5 @@
--- TODO:
+-- Runs away from the attacker if it has no path assigned
+-- and notifies the player if possible.
 run_away_on_hit_with_notification = {
 	on_hit = function(id, hitter)
 		game.notification.notify(id, "I'm under attack!")
@@ -9,7 +10,8 @@ run_away_on_hit_with_notification = {
 	end
 }
 
--- TODO:
+-- Silently runs away from the attacker if it has no path
+-- assigned.
 run_away_on_hit_without_notification = {
 	on_hit = function(id, hitter)
 		game.notification.notify(id, "I'm under attack!")
@@ -20,7 +22,7 @@ run_away_on_hit_without_notification = {
 	end
 }
 
--- TODO:
+-- Attacks any attacker back.
 attack_on_hit = {
 	on_hit = function(id, hitter)
 		game.combat.attack(id, hitter)

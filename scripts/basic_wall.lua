@@ -1,3 +1,4 @@
+-- Destructible wall used by the level generators.
 basic_wall = {
 	components = {
 		game.enum.component.physics,

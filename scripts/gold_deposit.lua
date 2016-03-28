@@ -1,3 +1,4 @@
+-- Represents a mineable block containing gold in the game.
 gold_deposit = {
 	components = {
 		game.enum.component.physics,

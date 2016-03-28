@@ -1,4 +1,7 @@
+-- Default task handler used by most friendly entities in the game.
 default_task_handler = {
+	-- Called from the C++ engine to handle a task, it returns true
+	-- if the task has made the handling entity busy, false otherwise.
 	handle_task = function(id, task)
 		local task_type = game.task.get_type(task)
 		local target = game.task.get_target(task)
@@ -81,6 +84,9 @@ default_task_handler = {
 		return res
 	end,
 
+	-- Called from the C++ engine to check if a task has been
+	-- completed. The TaskComponent has an auxiliary boolean field
+	-- TaskComponent::complete that can be used for this.
 	task_complete = function(id, task)
 		local task_type = game.task.get_type(task)
 		if task_type == game.enum.task.none or

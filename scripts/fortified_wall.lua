@@ -1,3 +1,4 @@
+-- Stronger wall that can be built by the player.
 fortified_wall = {
 	components = {
 		game.enum.component.physics,

@@ -1,4 +1,4 @@
--- TODO:
+-- Explosion that slows the enemies.
 slowing_wave = {
 	components = {
 		game.enum.component.physics,
@@ -47,7 +47,7 @@ slowing_wave = {
 	}
 }
 
--- TODO:
+-- Explosion that slows friendlies.
 enemy_slowing_wave = {
 	components = {
 		game.enum.component.physics,

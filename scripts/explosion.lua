@@ -1,3 +1,5 @@
+-- A damaging explosion, can be used instead of the
+-- visual explosion + manual damage deal combo.
 explosion = {
 	components = {
 		game.enum.component.physics,

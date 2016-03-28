@@ -1,4 +1,4 @@
--- TODO:
+-- Explosion that freezes enemies in range.
 freezing_wave = {
 	components = {
 		game.enum.component.physics,
@@ -47,7 +47,7 @@ freezing_wave = {
 	}
 }
 
--- TODO:
+-- Explosion that freezes friendlies in range.
 enemy_freezing_wave = {
 	components = {
 		game.enum.component.physics,

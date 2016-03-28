@@ -1,4 +1,4 @@
--- TODO:
+-- Default upgrade blueprint for miners, upgrades health and damage.
 friendly_miner_upgrade = {
 	upgrade = function(id)
 		game.health.heal(id)
@@ -8,7 +8,8 @@ friendly_miner_upgrade = {
 	end
 }
 
--- TODO:
+-- Default upgrade blueprint for warriors, upgrades health, defense
+-- and damage.
 friendly_warrior_upgrade = {
 	upgrade = function(id)
 		game.health.heal(id)
@@ -19,7 +20,8 @@ friendly_warrior_upgrade = {
 	end
 }
 
--- TODO:
+-- Default upgrade blueprint for mages, upgrades health, defense,
+-- mana and damage.
 friendly_mage_upgrade = {
 	upgrade = function(id)
 		game.health.heal(id)

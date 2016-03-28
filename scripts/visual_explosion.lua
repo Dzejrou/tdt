@@ -1,3 +1,5 @@
+-- Visual explosion that does nothing and can be used along with manual
+-- damage dealing (or slowing, freezing etc.) of entities in range.
 visual_explosion = {
 	components = {
 		game.enum.component.physics,

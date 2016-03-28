@@ -1,3 +1,5 @@
+-- Used to prevent the player from placing structure on some nodes, like
+-- the wave spawning ones.
 walkway = {
 	components = {
 		game.enum.component.physics,

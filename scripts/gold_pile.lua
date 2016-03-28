@@ -1,3 +1,5 @@
+-- Gets dropped by the gold deposits when they are killed, can be picked
+-- up by miners.
 gold_pile = {
 	components = {
 		game.enum.component.physics,

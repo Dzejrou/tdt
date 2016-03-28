@@ -1,3 +1,4 @@
+-- Can be placed by the player to increase his mana pool and mana regeneration.
 mana_crystal = {
 	components = {
 		game.enum.component.physics,

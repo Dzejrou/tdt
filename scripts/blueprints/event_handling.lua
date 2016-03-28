@@ -1,4 +1,4 @@
--- TODO:
+-- Event handler that collects dropped gold and avoids meteors.
 smart_friendly_mining_unit_evt_handling = {
 	handle_event = function(id, evt)
 		local evt_type = game.event.get_type(evt)
@@ -21,7 +21,7 @@ smart_friendly_mining_unit_evt_handling = {
 	end
 }
 
--- TODO:
+-- Event handler that avoids meteors.
 smart_friendly_combat_unit_evt_handling = {
 	handle_event = function(id, evt)
 		local evt_type = game.event.get_type(evt)
@@ -36,14 +36,14 @@ smart_friendly_combat_unit_evt_handling = {
 	end
 }
 
--- TODO:
+-- Dumb event handler that ignores events.
 dumb_friendly_combat_unit_evt_handling = {
 	handle_event = function(id, evt)
 		return false
 	end
 }
 
--- TODO:
+-- Event handler that avoids meteors.
 smart_enemy_combat_unit_evt_handling = {
 	handle_event = function(id, evt)
 		local evt_type = game.event.get_type(evt)
@@ -58,7 +58,7 @@ smart_enemy_combat_unit_evt_handling = {
 	end
 }
 
--- TODO:
+-- Dumb event handler that ignores events.
 dumb_enemy_combat_unit_evt_handling = {
 	handle_event = function(id, evt)
 		return false

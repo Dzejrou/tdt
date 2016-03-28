@@ -1,3 +1,4 @@
+-- Used by the player to store his gold.
 gold_vault = {
 	components = {
 		game.enum.component.physics,

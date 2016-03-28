@@ -1,3 +1,5 @@
+-- Smart miner that mines on it's own, used for the intro dummy
+-- level.
 auto_ogre_miner = {
 	components = {
 		game.enum.component.physics,

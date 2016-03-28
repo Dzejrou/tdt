@@ -1,3 +1,4 @@
+-- A light source that acts as a mana crystal.
 light_mana_crystal = {
 	components = {
 		game.enum.component.physics,

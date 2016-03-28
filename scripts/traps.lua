@@ -1,3 +1,4 @@
+-- Trigger that teleports enemies to a random place in the level.
 teleport_trap = {
 	components = {
 		game.enum.component.physics,
@@ -48,6 +49,7 @@ teleport_trap = {
 	}
 }
 
+-- Trigger that slows the enemies.
 slow_trap = {
 	components = {
 		game.enum.component.physics,
@@ -98,6 +100,7 @@ slow_trap = {
 	}
 }
 
+-- Trigger that freezes the enemies.
 freeze_trap = {
 	components = {
 		game.enum.component.physics,
@@ -148,6 +151,7 @@ freeze_trap = {
 	}
 }
 
+-- Trigger that damages the enemies.
 damage_trap = {
 	components = {
 		game.enum.component.physics,
@@ -198,6 +202,7 @@ damage_trap = {
 	}
 }
 
+-- Trigger that instantly kills the enemies.
 kill_trap = {
 	components = {
 		game.enum.component.physics,
@@ -248,6 +253,7 @@ kill_trap = {
 	}
 }
 
+-- Trigger placed in pairs that transports friendlies.
 portal = {
 	components = {
 		game.enum.component.physics,

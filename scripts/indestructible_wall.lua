@@ -1,3 +1,5 @@
+-- Indestructible wall used by the level generators to create borders for the
+-- level.
 indestructible_wall = {
 	components = {
 		game.enum.component.physics,

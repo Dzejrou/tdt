@@ -1,4 +1,4 @@
--- TODO:
+-- Explosion that fully heals friendlies.
 healing_wave = {
 	components = {
 		game.enum.component.physics,
@@ -47,7 +47,7 @@ healing_wave = {
 	}
 }
 
--- TODO:
+-- Explosion that fully heals enemies.
 enemy_healing_wave = {
 	components = {
 		game.enum.component.physics,

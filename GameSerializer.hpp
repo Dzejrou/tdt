@@ -6,7 +6,7 @@
 #include <array>
 #include "Components.hpp"
 #include "Typedefs.hpp"
-#include "EntitySystem.hpp";
+#include "EntitySystem.hpp"
 
 // Forward declaration.
 class Game;

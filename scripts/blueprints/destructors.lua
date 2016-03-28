@@ -1,4 +1,5 @@
--- TODO:
+-- Simple destructor that awards the killer with experience equal
+-- to the experience value of the destructed entity.
 give_experience_destructor = {
 	dtor = function(id, killer)
 		local exp_val = game.exp_val.get(id)
@@ -37,7 +38,8 @@ drop_gold_destructor = {
 	end
 }
 
--- TODO:
+-- Destructor that drops the vault's gold on the floor and subtracts that amount
+-- of gold from the player's gold reserves.
 gold_vault_destructor = {
 	dtor = function(id, killer)
 		game.gui.log.print("\\[#" .. id .. "\\] Gold vault has been destroyed!")
@@ -48,7 +50,8 @@ gold_vault_destructor = {
 	end
 }
 
--- TODO:
+-- Destructor used by entities in the wave system, it awards experience (if
+-- possible) and tells the wave system that a wave entity has died.
 wave_entity_destructor = {
 	dtor = function(id, killer)
 		give_experience_destructor.dtor(id, killer)
@@ -57,7 +60,8 @@ wave_entity_destructor = {
 	end
 }
 
--- TODO:
+-- Destructor that creates an explosion at the destroyed entity's
+-- position and deals damage to enemies in range.
 explosion_destructor = {
 	dtor = function(id, killer)
 		local range = game.combat.get_range(id)
@@ -71,21 +75,24 @@ explosion_destructor = {
 	end
 }
 
--- TODO:
+-- Destructor that slows enemies within range of the destroyed entity.
 apply_slow_destructor = {
 	dtor = function(id, killer)
 		game.combat.apply_slow_to(killer, 5.0)
 	end
 }
 
--- TODO:
+-- Destructor that freezes enemies within range of the destroyed entity.
 apply_freeze_destructor = {
 	dtor = function(id, killer)
 		game.combat.apply_freeze_to(killer, 5.0)
 	end
 }
 
--- TODO:
+-- Destructor that increments the counter of the destroyed entity and if
+-- it hasn't reached it's max value yet, creates it's clone and tries to
+-- send it to a closest friend of the killer.
+-- Chain lightning variant.
 chain_destructor = {
 	dtor = function(id, killer)
 		if not game.counter.increment(id) then
@@ -107,7 +114,10 @@ chain_destructor = {
 	end
 }
 
--- TODO:
+-- Destructor that increments the counter of the destroyed entity and if
+-- it hasn't reached it's max value yet, creates it's clone and tries to
+-- send it to a closest friend of the killer.
+-- Lightning variant.
 lightning_destructor = {
 	dtor = function(id, killer)
 		if not game.counter.increment(id) then
@@ -129,7 +139,7 @@ lightning_destructor = {
 	end
 }
 
--- TODO:
+-- Destructor used by the dungeon throne, loses the game.
 lose_game_destructor = {
 	dtor = function(id, killer)
 		game.lose()
