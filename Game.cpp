@@ -176,7 +176,7 @@ void Game::new_game(tdt::uint width, tdt::uint height)
 	create_empty_level(width, height);
 
 	wave_system_->clear_spawn_nodes();
-	if(lpp::Script::get_singleton().call<bool, tdt::uint, tdt::uint>("game.init_level", width, height))
+	if(lpp::Script::instance().call<bool, tdt::uint, tdt::uint>("game.init_level", width, height))
 		level_generator_->generate(width, height, *wave_system_);
 	wave_system_->start();
 	reset_unlocks();

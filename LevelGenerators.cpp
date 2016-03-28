@@ -133,7 +133,7 @@ void RandomLevelGenerator::generate(tdt::uint width, tdt::uint height, WaveSyste
 	level[mid_w][mid_h] = 6;
 
 	// Actual structure placing.
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	std::string wall_table{script.get<std::string>("game.config.default_wall_table")};
 	std::string gold_table{script.get<std::string>("game.config.default_gold_table")};
 	std::string border_table{script.get<std::string>("game.config.default_border_table")};

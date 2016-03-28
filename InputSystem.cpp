@@ -15,7 +15,7 @@ void InputSystem::update(tdt::real delta)
 	{
 		bool moved{false}, rotated{false};
 
-		lpp::Script& script = lpp::Script::get_singleton();
+		lpp::Script& script = lpp::Script::instance();
 		auto& in_comp = *entities_.get_component<InputComponent>(first_person_id_);
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_UP))
 		{
@@ -90,7 +90,7 @@ void InputSystem::set_first_person(bool on_off, tdt::uint id)
 			auto& ai_comp = *entities_.get_component<AIComponent>(first_person_id_);
 			auto& in_comp = *entities_.get_component<InputComponent>(first_person_id_);
 
-			auto& script = lpp::Script::get_singleton();
+			auto& script = lpp::Script::instance();
 			if(!script.is_nil(ai_comp.blueprint + ".InputComponent.input_handler"))
 				in_comp.input_handler = script.get<std::string>(ai_comp.blueprint + ".InputComponent.input_handler");
 		}
@@ -159,7 +159,7 @@ void InputSystem::set_first_person(bool on_off, tdt::uint id)
 
 void InputSystem::rebind(int key, int new_key)
 {
-	lpp::Script& script = lpp::Script::get_singleton();
+	lpp::Script& script = lpp::Script::instance();
 	switch(key)
 	{
 		case OIS::KC_W:

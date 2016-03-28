@@ -599,7 +599,7 @@ inline std::map<tdt::uint, CounterComponent>& EntitySystem::get_component_contai
 template<>
 inline void EntitySystem::load_component<PhysicsComponent>(tdt::uint id, const std::string& table_name)
 {
-	lpp::Script& script = lpp::Script::get_singleton();
+	lpp::Script& script = lpp::Script::instance();
 	bool solid = script.get<bool>(table_name + ".PhysicsComponent.solid");
 	physics_.emplace(id, PhysicsComponent{solid});
 }
@@ -607,7 +607,7 @@ inline void EntitySystem::load_component<PhysicsComponent>(tdt::uint id, const s
 template<>
 inline void EntitySystem::load_component<HealthComponent>(tdt::uint id, const std::string& table_name)
 {
-	lpp::Script& script = lpp::Script::get_singleton();
+	lpp::Script& script = lpp::Script::instance();
 	int max = script.get<int>(table_name + ".HealthComponent.max_hp");
 	int reg = script.get<int>(table_name + ".HealthComponent.regen");
 	int def = script.get<int>(table_name + ".HealthComponent.defense");
@@ -617,7 +617,7 @@ inline void EntitySystem::load_component<HealthComponent>(tdt::uint id, const st
 template<>
 inline void EntitySystem::load_component<AIComponent>(tdt::uint id, const std::string& table_name)
 {
-	lpp::Script& script = lpp::Script::get_singleton();
+	lpp::Script& script = lpp::Script::instance();
 	std::string blueprint = script.get<std::string>(table_name + ".AIComponent.blueprint");
 	ai_.emplace(id, AIComponent{std::move(blueprint)});
 }
@@ -625,7 +625,7 @@ inline void EntitySystem::load_component<AIComponent>(tdt::uint id, const std::s
 template<>
 inline void EntitySystem::load_component<GraphicsComponent>(tdt::uint id, const std::string& table_name)
 { 
-	lpp::Script& script = lpp::Script::get_singleton();
+	lpp::Script& script = lpp::Script::instance();
 	std::string mesh = script.get<std::string>(table_name + ".GraphicsComponent.mesh");
 	std::string material = script.get<std::string>(table_name + ".GraphicsComponent.material");
 	auto res = graphics_.emplace(id, GraphicsComponent{std::move(mesh), std::move(material)});
@@ -682,7 +682,7 @@ inline void EntitySystem::load_component<GraphicsComponent>(tdt::uint id, const 
 template<>
 inline void EntitySystem::load_component<MovementComponent>(tdt::uint id, const std::string& table_name)
 {
-	lpp::Script& script = lpp::Script::get_singleton();
+	lpp::Script& script = lpp::Script::instance();
 	float speed = script.get<float>(table_name + ".MovementComponent.speed_modifier");
 	movement_.emplace(id, MovementComponent{speed});
 }
@@ -690,7 +690,7 @@ inline void EntitySystem::load_component<MovementComponent>(tdt::uint id, const 
 template<>
 inline void EntitySystem::load_component<CombatComponent>(tdt::uint id, const std::string& table_name)
 {
-	lpp::Script& script = lpp::Script::get_singleton();
+	lpp::Script& script = lpp::Script::instance();
 	tdt::real range = script.get<tdt::real>(table_name + ".CombatComponent.range");
 	tdt::real cd = script.get<tdt::real>(table_name + ".CombatComponent.cooldown");
 	tdt::uint min = script.get<tdt::uint>(table_name + ".CombatComponent.min_dmg");
@@ -709,7 +709,7 @@ inline void EntitySystem::load_component<CombatComponent>(tdt::uint id, const st
 template<>
 inline void EntitySystem::load_component<EventComponent>(tdt::uint id, const std::string& table_name)
 {
-	lpp::Script& script = lpp::Script::get_singleton();
+	lpp::Script& script = lpp::Script::instance();
 	EVENT_TYPE type = (EVENT_TYPE)script.get<int>(table_name + ".EventComponent.type");
 	tdt::uint target = script.get<tdt::uint>(table_name + ".EventComponent.target");
 	tdt::real radius = script.get<tdt::real>(table_name + ".EventComponent.radius");
@@ -720,14 +720,14 @@ inline void EntitySystem::load_component<EventComponent>(tdt::uint id, const std
 template<>
 inline void EntitySystem::load_component<InputComponent>(tdt::uint id, const std::string& table_name)
 {
-	std::string handler = lpp::Script::get_singleton().get<std::string>(table_name + ".InputComponent.input_handler");
+	std::string handler = lpp::Script::instance().get<std::string>(table_name + ".InputComponent.input_handler");
 	input_.emplace(id, InputComponent{std::move(handler)});
 }
 
 template<>
 inline void EntitySystem::load_component<TimeComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	int type = script.get<int>(table_name + ".TimeComponent.type");
 	tdt::real time_limit = script.get<tdt::real>(table_name + ".TimeComponent.time_limit");
 	tdt::uint target = script.get<tdt::uint>(table_name + ".TimeComponent.target");
@@ -737,7 +737,7 @@ inline void EntitySystem::load_component<TimeComponent>(tdt::uint id, const std:
 template<>
 inline void EntitySystem::load_component<ManaComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	tdt::uint max = script.get<tdt::uint>(table_name + ".ManaComponent.max_mana");
 	tdt::uint regen = script.get<tdt::uint>(table_name + ".ManaComponent.regen");
 	mana_.emplace(id, ManaComponent{max, regen});
@@ -746,7 +746,7 @@ inline void EntitySystem::load_component<ManaComponent>(tdt::uint id, const std:
 template<>
 inline void EntitySystem::load_component<SpellComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	std::string blueprint = script.get<std::string>(table_name + ".SpellComponent.blueprint");
 	tdt::real cooldown = script.get<tdt::real>(table_name + ".SpellComponent.cooldown");
 	spell_.emplace(id, SpellComponent{std::move(blueprint), cooldown});
@@ -755,7 +755,7 @@ inline void EntitySystem::load_component<SpellComponent>(tdt::uint id, const std
 template<>
 inline void EntitySystem::load_component<ProductionComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	std::string blueprint = script.get<std::string>(table_name + ".ProductionComponent.blueprint");
 	tdt::uint limit = script.get<tdt::uint>(table_name + ".ProductionComponent.limit");
 	tdt::real cd = script.get<tdt::real>(table_name + ".ProductionComponent.cooldown");
@@ -769,14 +769,14 @@ inline void EntitySystem::load_component<ProductionComponent>(tdt::uint id, cons
 template<>
 inline void EntitySystem::load_component<PathfindingComponent>(tdt::uint id, const std::string& table_name)
 {
-	std::string blueprint = lpp::Script::get_singleton().get<std::string>(table_name + ".PathfindingComponent.blueprint");
+	std::string blueprint = lpp::Script::instance().get<std::string>(table_name + ".PathfindingComponent.blueprint");
 	pathfinding_.emplace(id, PathfindingComponent{std::move(blueprint)});
 }
 
 template<>
 inline void EntitySystem::load_component<TaskHandlerComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	std::vector<int> possible_tasks = script.get_vector<int>(table_name + ".TaskHandlerComponent.possible_tasks");
 	std::string blueprint = script.get<std::string>(table_name + ".TaskHandlerComponent.blueprint");
 	auto res = task_handler_.emplace(id, TaskHandlerComponent{std::move(blueprint)});
@@ -790,7 +790,7 @@ inline void EntitySystem::load_component<TaskHandlerComponent>(tdt::uint id, con
 template<>
 inline void EntitySystem::load_component<StructureComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	tdt::uint radius = script.get<tdt::uint>(table_name + ".StructureComponent.radius");
 
 	bool walk_through{false};
@@ -802,7 +802,7 @@ inline void EntitySystem::load_component<StructureComponent>(tdt::uint id, const
 template<>
 inline void EntitySystem::load_component<HomingComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	tdt::uint source = script.get<tdt::uint>(table_name + ".HomingComponent.source");
 	tdt::uint target = script.get<tdt::uint>(table_name + ".HomingComponent.target");
 	tdt::uint dmg = script.get<tdt::uint>(table_name + ".HomingComponent.damage");
@@ -812,7 +812,7 @@ inline void EntitySystem::load_component<HomingComponent>(tdt::uint id, const st
 template<>
 inline void EntitySystem::load_component<EventHandlerComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	std::string handler = script.get<std::string>(table_name + ".EventHandlerComponent.handler");
 	auto res = event_handler_.emplace(id, EventHandlerComponent{std::move(handler)});
 
@@ -828,14 +828,14 @@ inline void EntitySystem::load_component<EventHandlerComponent>(tdt::uint id, co
 template<>
 inline void EntitySystem::load_component<DestructorComponent>(tdt::uint id, const std::string& table_name)
 {
-	std::string blueprint = lpp::Script::get_singleton().get<std::string>(table_name + ".DestructorComponent.blueprint");
+	std::string blueprint = lpp::Script::instance().get<std::string>(table_name + ".DestructorComponent.blueprint");
 	destructor_.emplace(id, DestructorComponent{blueprint});
 }
 
 template<>
 inline void EntitySystem::load_component<GoldComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	tdt::uint curr = script.get<tdt::uint>(table_name + ".GoldComponent.curr");
 	tdt::uint max = script.get<tdt::uint>(table_name + ".GoldComponent.max");
 	gold_.emplace(id, GoldComponent{max, curr});
@@ -844,14 +844,14 @@ inline void EntitySystem::load_component<GoldComponent>(tdt::uint id, const std:
 template<>
 inline void EntitySystem::load_component<FactionComponent>(tdt::uint id, const std::string& table_name)
 {
-	FACTION fac =  (FACTION)lpp::Script::get_singleton().get<int>(table_name + ".FactionComponent.faction");
+	FACTION fac =  (FACTION)lpp::Script::instance().get<int>(table_name + ".FactionComponent.faction");
 	faction_.emplace(id, FactionComponent{fac});
 }
 
 template<>
 inline void EntitySystem::load_component<PriceComponent>(tdt::uint id, const std::string& table_name)
 {
-	tdt::uint price = lpp::Script::get_singleton().get<tdt::uint>(table_name + ".PriceComponent.price");
+	tdt::uint price = lpp::Script::instance().get<tdt::uint>(table_name + ".PriceComponent.price");
 	price_.emplace(id, PriceComponent{price});
 }
 
@@ -865,7 +865,7 @@ inline void EntitySystem::load_component<AlignComponent>(tdt::uint id, const std
 
 	auto& comp = res.first->second;
 	std::string state_table{};
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	for(tdt::uint i = 0; i < AlignComponent::state_count; ++i)
 	{
 		state_table = table_name + ".AlignComponent.state_" + std::to_string(i);
@@ -889,7 +889,7 @@ inline void EntitySystem::load_component<MineComponent>(tdt::uint id, const std:
 template<>
 inline void EntitySystem::load_component<ManaCrystalComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	tdt::uint cap = script.get<tdt::uint>(table_name + ".ManaCrystalComponent.cap_increase");
 	tdt::uint regen = script.get<tdt::uint>(table_name + ".ManaCrystalComponent.regen_increase");
 	mana_crystal_.emplace(id, ManaCrystalComponent{cap, regen});
@@ -901,7 +901,7 @@ inline void EntitySystem::load_component<ManaCrystalComponent>(tdt::uint id, con
 template<>
 inline void EntitySystem::load_component<OnHitComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	std::string blueprint = script.get<std::string>(table_name + ".OnHitComponent.blueprint");
 	tdt::real cd = script.get<tdt::real>(table_name + ".OnHitComponent.cooldown");
 	on_hit_.emplace(id, OnHitComponent{std::move(blueprint), cd});
@@ -910,7 +910,7 @@ inline void EntitySystem::load_component<OnHitComponent>(tdt::uint id, const std
 template<>
 inline void EntitySystem::load_component<ConstructorComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	std::string blueprint = script.get<std::string>(table_name + ".ConstructorComponent.blueprint");
 	constructor_.emplace(id, ConstructorComponent{std::move(blueprint)});
 }
@@ -918,7 +918,7 @@ inline void EntitySystem::load_component<ConstructorComponent>(tdt::uint id, con
 template<>
 inline void EntitySystem::load_component<TriggerComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	std::string blueprint = script.get<std::string>(table_name + ".TriggerComponent.blueprint");
 	tdt::real cd = script.get<tdt::real>(table_name + ".TriggerComponent.cooldown");
 	tdt::real radius = script.get<tdt::real>(table_name + ".TriggerComponent.radius");
@@ -928,7 +928,7 @@ inline void EntitySystem::load_component<TriggerComponent>(tdt::uint id, const s
 template<>
 inline void EntitySystem::load_component<UpgradeComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	std::string blueprint = script.get<std::string>(table_name + ".UpgradeComponent.blueprint");
 	tdt::uint exp = script.get<tdt::uint>(table_name + ".UpgradeComponent.exp_needed");
 	tdt::uint cap = script.get<tdt::uint>(table_name + ".UpgradeComponent.level_cap");
@@ -938,7 +938,7 @@ inline void EntitySystem::load_component<UpgradeComponent>(tdt::uint id, const s
 template<>
 inline void EntitySystem::load_component<NotificationComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	tdt::real cd = script.get<tdt::real>(table_name + ".NotificationComponent.cooldown");
 	notification_.emplace(id, NotificationComponent{cd});
 }
@@ -946,7 +946,7 @@ inline void EntitySystem::load_component<NotificationComponent>(tdt::uint id, co
 template<>
 inline void EntitySystem::load_component<ExplosionComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	tdt::real delta = script.get<tdt::real>(table_name + ".ExplosionComponent.delta");
 	tdt::real radius = script.get<tdt::real>(table_name + ".ExplosionComponent.radius");
 	explosion_.emplace(id, ExplosionComponent{delta, radius});
@@ -955,7 +955,7 @@ inline void EntitySystem::load_component<ExplosionComponent>(tdt::uint id, const
 template<>
 inline void EntitySystem::load_component<LimitedLifeSpanComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	tdt::real max = script.get<tdt::real>(table_name + ".LimitedLifeSpanComponent.max_time");
 	limited_life_span_.emplace(id, LimitedLifeSpanComponent{max});
 }
@@ -963,7 +963,7 @@ inline void EntitySystem::load_component<LimitedLifeSpanComponent>(tdt::uint id,
 template<>
 inline void EntitySystem::load_component<NameComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	std::string name = script.get<std::string>(table_name + ".NameComponent.name");
 	name_.emplace(id, NameComponent{std::move(name)});
 }
@@ -971,7 +971,7 @@ inline void EntitySystem::load_component<NameComponent>(tdt::uint id, const std:
 template<>
 inline void EntitySystem::load_component<ExperienceValueComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	tdt::uint val = script.get<tdt::uint>(table_name + ".ExperienceValueComponent.value");
 	exp_value_.emplace(id, ExperienceValueComponent{val});
 }
@@ -1004,7 +1004,7 @@ inline void EntitySystem::load_component<LightComponent>(tdt::uint id, const std
 template<>
 inline void EntitySystem::load_component<CommandComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	auto res = command_.emplace(id, CommandComponent{});
 
 	if(res.second)
@@ -1019,7 +1019,7 @@ inline void EntitySystem::load_component<CommandComponent>(tdt::uint id, const s
 template<>
 inline void EntitySystem::load_component<CounterComponent>(tdt::uint id, const std::string& table_name)
 {
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	tdt::uint max = script.get<tdt::uint>(table_name + ".CounterComponent.max_value");
 	counter_.emplace(id, CounterComponent{max});
 }

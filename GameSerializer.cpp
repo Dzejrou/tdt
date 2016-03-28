@@ -13,7 +13,7 @@
 #define SAVE_COMPONENT(TYPE, ID, TABLE) (((this)->*serializers_[TYPE])(ID, TABLE))
 
 GameSerializer::GameSerializer(EntitySystem& ents)
-	: entities_{ents}, script_{lpp::Script::get_singleton()},
+	: entities_{ents}, script_{lpp::Script::instance()},
 	  file_{}, save_entities_{}, save_components_{},
 	  serializers_{}
 {

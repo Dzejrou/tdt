@@ -93,7 +93,7 @@ bool EventSystem::handle_event_(tdt::uint handler, tdt::uint evt)
 			return true;
 		}
 		default: // Allows custom events handled in scripts.
-			return lpp::Script::get_singleton().call<bool, tdt::uint, tdt::uint>(
+			return lpp::Script::instance().call<bool, tdt::uint, tdt::uint>(
 				EventHandlerHelper::get_handler(entities_, handler) + ".handle_event",
 				handler, evt
 			);

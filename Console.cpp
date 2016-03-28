@@ -49,7 +49,7 @@ bool Console::execute(const CEGUI::EventArgs& args)
 
 	try
 	{
-		lpp::Script::get_singleton().execute(curr_command_);
+		lpp::Script::instance().execute(curr_command_);
 	}
 	catch(const lpp::Exception& ex)
 	{

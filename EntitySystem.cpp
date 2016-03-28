@@ -118,7 +118,7 @@ tdt::uint EntitySystem::create_entity(const std::string& table_name, const Ogre:
 
 	auto& bits = entities_.find(id)->second;
 
-	lpp::Script& script = lpp::Script::get_singleton();
+	lpp::Script& script = lpp::Script::instance();
 	std::vector<int> comps = script.get_vector<int>(table_name + ".components");
 
 	for(auto component_type : comps)

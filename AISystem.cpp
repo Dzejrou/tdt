@@ -25,7 +25,7 @@ void AISystem::update(tdt::real delta)
 		}
 
 		const std::string& blueprint  = ent.second.blueprint;
-		lpp::Script::get_singleton().call<void, tdt::uint>(blueprint + ".update", ent.first);
+		lpp::Script::instance().call<void, tdt::uint>(blueprint + ".update", ent.first);
 	}
 }
 

@@ -23,7 +23,7 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name, bool 
 	if(entities_.get_registered_entities().count(table_name) == 0)
 		return;
 
-	auto& script = lpp::Script::get_singleton();
+	auto& script = lpp::Script::instance();
 	if(script.is_nil(table_name + ".GraphicsComponent"))
 		return;
 

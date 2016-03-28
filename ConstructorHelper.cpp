@@ -23,5 +23,5 @@ void ConstructorHelper::call(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<ConstructorComponent>(id);
 	if(comp)
-		lpp::Script::get_singleton().call<void, tdt::uint>(comp->blueprint + ".construct", id);
+		lpp::Script::instance().call<void, tdt::uint>(comp->blueprint + ".construct", id);
 }
