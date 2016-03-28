@@ -5,6 +5,7 @@
 #include <string>
 #include "GUIWindow.hpp"
 class EntitySystem;
+class EntityPlacer;
 
 /**
  * Class representing the debugging GUI window used to place and create entities

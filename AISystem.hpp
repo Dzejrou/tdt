@@ -19,14 +19,14 @@ class AISystem : public System
 		/**
 		 * Destructor.
 		 */
-		~AISystem() = default
+		~AISystem() = default;
 
 		/**
 		 * Brief: Updates all valid entities by calling their update function stored in the
 		 *        AIComponent::blueprint table.
 		 * Param: Time since the last frame.
 		 */
-		void update(tdt::real) = override;
+		void update(tdt::real) override;
 
 		/**
 		 * Brief: Sets the amount of seconds it takes before the next AI

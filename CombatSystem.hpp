@@ -8,8 +8,8 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 #include "Util.hpp"
+#include "RayCaster.hpp"
 class GridSystem;
-class RayCaster;
 
 /**
  * Used for entity container filtering, this represents the entity

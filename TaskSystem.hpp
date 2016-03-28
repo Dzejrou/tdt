@@ -5,9 +5,11 @@
 #include <string>
 #include "System.hpp"
 #include "Typedefs.hpp"
+#include "Enums.hpp"
 class GridSystem;
 class CombatSystem;
 class EntitySystem;
+struct TaskHandlerComponent;
 
 /**
  * System managing all entities with the TaskComponent, their creation, assignment,

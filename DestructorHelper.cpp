@@ -4,14 +4,14 @@
 #include "Util.hpp"
 #include "lppscript/LppScript.hpp"
 
-void DestructorHelper::set_blueprint(EntitySystem& ents, std::size_t id, const std::string& val)
+void DestructorHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {
 	auto comp = ents.get_component<DestructorComponent>(id);
 	if(comp)
 		comp->blueprint = val;
 }
 
-const std::string & DestructorHelper::get_blueprint(EntitySystem& ents, std::size_t id)
+const std::string & DestructorHelper::get_blueprint(EntitySystem& ents, tdt::uint id)
 {
 	static std::string NO_BLUEPRINT{"ERROR"};
 
@@ -22,10 +22,10 @@ const std::string & DestructorHelper::get_blueprint(EntitySystem& ents, std::siz
 		return NO_BLUEPRINT;
 }
 
-void DestructorHelper::destroy(EntitySystem& ents, std::size_t id, bool supress_dtor, std::size_t killer)
+void DestructorHelper::destroy(EntitySystem& ents, tdt::uint id, bool supress_dtor, tdt::uint killer)
 {
 	auto comp = ents.get_component<DestructorComponent>(id);
 	if(comp && !supress_dtor)
-		lpp::Script::instance().call<void, std::size_t, std::size_t>(comp->blueprint + ".dtor", id, killer);
+		lpp::Script::instance().call<void, tdt::uint, tdt::uint>(comp->blueprint + ".dtor", id, killer);
 	util::EntityDestroyer::destroy(ents, id);
 }

@@ -21,7 +21,6 @@
 #include "Player.hpp"
 #include "LevelGenerators.hpp"
 #include "Spellcaster.hpp"
-#include "OptionsWindow.hpp"
 #include "Camera.hpp"
 #include "SelectionBox.hpp"
 #include "EntityPlacer.hpp"

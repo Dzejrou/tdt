@@ -1,5 +1,6 @@
 #pragma once
 
+#include "lppscript/LppScript.hpp"
 #include "Typedefs.hpp"
 class EntitySystem;
 class Game;

@@ -22,6 +22,11 @@
 #include "EventSystem.hpp"
 #include "TimeSystem.hpp"
 #include "ManaSpellSystem.hpp"
+#include "GUI.hpp"
+#include "Spellcaster.hpp"
+#include "SelectionBox.hpp"
+#include "EntityPlacer.hpp"
+#include "GridSystem.hpp"
 
 #define GET_REAL(state, position) ((tdt::real)luaL_checknumber(state, position))
 #define GET_UINT(state, position) ((tdt::uint)luaL_checkinteger(state, position))

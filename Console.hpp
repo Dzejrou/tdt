@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <CEGUI/CEGUI.h>
 #include "GUIWindow.hpp"
 #include "Typedefs.hpp"
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Ogre.h>
+#include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
 #include <string>
 #include <map>

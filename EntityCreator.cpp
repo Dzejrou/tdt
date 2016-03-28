@@ -1,6 +1,7 @@
 #include "EntityCreator.hpp"
 #include "EntityPlacer.hpp"
 #include "EntitySystem.hpp"
+#include "Console.hpp"
 
 EntityCreator::EntityCreator(EntityPlacer& placer, EntitySystem& ents)
 	: placer_{placer}, registered_entities_{ents.get_registered_entities()}

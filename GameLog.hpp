@@ -2,6 +2,10 @@
 
 #include "GUIWindow.hpp"
 #include "Typedefs.hpp"
+namespace CEGUI
+{
+	class Listbox;
+}
 
 /**
  * Class representing the log window used to show messages to the player.

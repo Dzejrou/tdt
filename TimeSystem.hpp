@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Enums.hpp"
 #include "System.hpp"
 #include "Typedefs.hpp"
 class EntitySystem;
+struct TimeComponent;
 
 class TimeSystem : public System
 {

@@ -7,7 +7,7 @@ namespace lpp
 {
 	class Script;
 }
-class SpellCaster;
+class Spellcaster;
 
 /**
  * Class representing the spell selection window, allows the player to cast

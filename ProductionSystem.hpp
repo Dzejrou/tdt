@@ -4,6 +4,7 @@
 #include "System.hpp"
 #include "Typedefs.hpp"
 class EntitySystem;
+class Grid;
 
 /**
  * System taking care of entities spawned by buildings and the spawn counts

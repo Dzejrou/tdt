@@ -1,10 +1,11 @@
 #pragma once
 
+#include <Ogre.h>
 #include <set>
 #include <vector>
 #include "Typedefs.hpp"
 class EntitySystem;
-class GridNodeComponent;
+struct GridNodeComponent;
 
 /**
  * Class representing the pathfinding grid.

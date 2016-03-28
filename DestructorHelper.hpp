@@ -18,7 +18,7 @@ namespace DestructorHelper
 	 * Param: ID of the entity.
 	 * Param: The new blueprint table's name.
 	 */
-	void set_blueprint(EntitySystem&, std::size_t, const std::string&);
+	void set_blueprint(EntitySystem&, tdt::uint, const std::string&);
 
 	/**
 	 * Brief: Returns the name of the table that contains the "dtor" function
@@ -26,7 +26,7 @@ namespace DestructorHelper
 	 * Param: EntitySystem containing the entity.
 	 * Param: ID of the entity.
 	 */
-	const std::string& get_blueprint(EntitySystem&, std::size_t);
+	const std::string& get_blueprint(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Destroys a given entity and if possible calls it's destructor.
@@ -35,5 +35,5 @@ namespace DestructorHelper
 	 * Param: If true, the destructor won't be called.
 	 * Param: ID of the killer (if any).
 	 */
-	void destroy(EntitySystem&, std::size_t, bool = false, std::size_t = Component::NO_ENTITY);
+	void destroy(EntitySystem&, tdt::uint, bool = false, tdt::uint = Component::NO_ENTITY);
 }

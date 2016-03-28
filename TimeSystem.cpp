@@ -2,6 +2,7 @@
 #include "EntitySystem.hpp"
 #include "Helpers.hpp"
 #include "lppscript/LppScript.hpp"
+#include "Components.hpp"
 
 TimeSystem::TimeSystem(EntitySystem& ents)
 	: entities_{ents}, time_multiplier_{1.f}

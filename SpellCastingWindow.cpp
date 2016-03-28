@@ -61,7 +61,7 @@ void SpellCastingWindow::cast(int spell_num)
 void SpellCastingWindow::init_()
 {
 	update_selection_();
-	script_ = lpp::Script::get_singleton_ptr();
+	script_ = &lpp::Script::instance();
 
 	window_->getChild("FRAME/SPELL_1")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,

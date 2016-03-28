@@ -3,6 +3,7 @@
 #include "GridSystem.hpp"
 #include "GUI.hpp"
 #include "Helpers.hpp"
+#include "Grid.hpp"
 
 EntityPlacer::EntityPlacer(EntitySystem& ents, GridSystem& grid, Ogre::SceneManager& mgr)
 	: entities_{ents}, grid_{grid}, curr_position_{0, 0, 0},

@@ -3,7 +3,6 @@
 #include "Grid.hpp"
 #include "SelectionBox.hpp"
 #include "Util.hpp"
-#include "Components.hpp"
 
 const std::array<tdt::uint, GridNodeComponent::neighbour_count>& GridNodeHelper::get_neighbours(EntitySystem& ents, tdt::uint id)
 {

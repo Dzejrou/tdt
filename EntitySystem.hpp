@@ -12,7 +12,7 @@
 #include "Helpers.hpp"
 #include "Util.hpp"
 #include "Player.hpp"
-#include <Typedefs.hpp>
+#include "Typedefs.hpp"
 
 /**
  * The EntitySystem class handles everything related to entities, like addition and removal of components,

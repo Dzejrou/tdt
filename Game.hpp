@@ -8,6 +8,12 @@
 #include <vector>
 #include "Enums.hpp"
 #include "Typedefs.hpp"
+#include "OptionsWindow.hpp"
+namespace level_generators
+{
+	class LevelGenerator;
+}
+class System;
 class EntitySystem;
 class HealthSystem;
 class MovementSystem;

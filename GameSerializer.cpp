@@ -3,6 +3,8 @@
 #include "GUI.hpp"
 #include "EntitySystem.hpp"
 #include "lppscript/LppScript.hpp"
+#include "WaveSystem.hpp"
+#include "Grid.hpp"
 
 /**
  * Brief: Macro that serves as a simpler way to use the serializers_ array when calling it's members.

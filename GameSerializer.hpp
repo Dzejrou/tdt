@@ -6,10 +6,10 @@
 #include <array>
 #include "Components.hpp"
 #include "Typedefs.hpp"
+#include "EntitySystem.hpp";
 
 // Forward declaration.
 class Game;
-class EntitySystem;
 namespace lpp
 {
 	class Script;

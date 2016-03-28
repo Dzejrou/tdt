@@ -1,10 +1,13 @@
 #pragma once
 
+#include <Ogre.h>
 #include <OIS.h>
 #include <memory>
 #include "System.hpp"
 #include "Typedefs.hpp"
 class EntitySystem;
+struct AIComponent;
+struct TaskHandlerComponent;
 
 /**
  * System handling entities controlled by the player's keyboard input and changing

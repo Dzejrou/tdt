@@ -3,6 +3,7 @@
 #include <array>
 #include <tuple>
 #include "Typedefs.hpp"
+#include "Components.hpp"
 class EntitySystem;
 class SelectionBox;
 
