@@ -2,15 +2,10 @@
 #include <sstream>
 
 /**
- * Static member (singleton) initialization.
- */
-std::unique_ptr<lpp::Script> lpp::Script::script_{nullptr};
-
-/**
  * lpp::Script definitions:
  */
 lpp::Script::Script()
-	: loaded_scripts_{}, L{nullptr}
+	: loaded_scripts_{}, L{}
 {
 	L = luaL_newstate();
 	luaL_openlibs(L);
@@ -107,18 +102,10 @@ void lpp::Script::reload_all_scripts()
 		load(script);
 }
 
-lpp::Script& lpp::Script::get_singleton()
+lpp::Script& lpp::Script::instance()
 {
-	if(!script_)
-		script_.reset(new Script());
-	return *script_;
-}
-
-lpp::Script* lpp::Script::get_singleton_ptr()
-{
-	if(!script_)
-		script_.reset(new Script());
-	return script_.get();
+	static Script instance{};
+	return instance;
 }
 
 /**

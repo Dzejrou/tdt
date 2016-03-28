@@ -1,8 +1,7 @@
 #pragma once
 
-#include <Ogre.h>
-#include <cstdlib>
 #include "Enums.hpp"
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -17,14 +16,14 @@ namespace EventHelper
 	 * Param: ID of the event.
 	 * Param: The new type.
 	 */
-	void set_event_type(EntitySystem&, std::size_t, EVENT_TYPE);
+	void set_event_type(EntitySystem&, tdt::uint, EVENT_TYPE);
 
 	/**
 	 * Brief: Returns the type of a given event.
 	 * Param: Entity system that contains the entity.
 	 * Param: ID of the event.
 	 */
-	EVENT_TYPE get_event_type(EntitySystem&, std::size_t);
+	EVENT_TYPE get_event_type(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the target entity (the subject of the event) of
@@ -33,7 +32,7 @@ namespace EventHelper
 	 * Param: ID of the event.
 	 * Param: ID of the target.
 	 */
-	void set_target(EntitySystem&, std::size_t, std::size_t);
+	void set_target(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns the target entity (the subject of the event) of
@@ -41,7 +40,7 @@ namespace EventHelper
 	 * Param: Entity system that contains the entity.
 	 * Param: ID of the event.
 	 */
-	std::size_t get_target(EntitySystem&, std::size_t);
+	tdt::uint get_target(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the radius handlers have to be in in order to be
@@ -50,7 +49,7 @@ namespace EventHelper
 	 * Param: ID of the event.
 	 * Param: The new radius.
 	 */
-	void set_radius(EntitySystem&, std::size_t, Ogre::Real);
+	void set_radius(EntitySystem&, tdt::uint, tdt::real);
 
 	/**
 	 * Brief: Returns the radius handlers have to be in in order to be
@@ -58,7 +57,7 @@ namespace EventHelper
 	 * Param: Entity system that contains the entity.
 	 * Param: ID of the event.
 	 */
-	Ogre::Real get_radius(EntitySystem&, std::size_t);
+	tdt::real get_radius(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the activity state of a given event.
@@ -66,7 +65,7 @@ namespace EventHelper
 	 * Param: ID of the event.
 	 * Param: ID for active, false for inactive.
 	 */
-	void set_active(EntitySystem&, std::size_t, bool = true);
+	void set_active(EntitySystem&, tdt::uint, bool = true);
 
 	/**
 	 * Brief: Returns true if a given event is active,
@@ -74,7 +73,7 @@ namespace EventHelper
 	 * Param: Entity system that contains the entity.
 	 * Param: ID of the event.
 	 */
-	bool is_active(EntitySystem&, std::size_t);
+	bool is_active(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the entity that handles a given event.
@@ -82,12 +81,12 @@ namespace EventHelper
 	 * Param: ID of the event.
 	 * Param: ID of the handling entity.
 	 */
-	void set_event_handler(EntitySystem&, std::size_t, std::size_t);
+	void set_event_handler(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns the entity that handles a given event.
 	 * Param: Entity system containing both the entity and the event.
 	 * Param: ID of the event.
 	 */
-	std::size_t get_event_handler(EntitySystem&, std::size_t);
+	tdt::uint get_event_handler(EntitySystem&, tdt::uint);
 }

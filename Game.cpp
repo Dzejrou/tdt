@@ -1,4 +1,32 @@
 #include "Game.hpp"
+#include "lppscript/LppScript.hpp"
+#include "EntitySystem.hpp"
+#include "HealthSystem.hpp"
+#include "MovementSystem.hpp"
+#include "AISystem.hpp"
+#include "InputSystem.hpp"
+#include "GridSystem.hpp"
+#include "TaskSystem.hpp"
+#include "CombatSystem.hpp"
+#include "ProductionSystem.hpp"
+#include "TimeSystem.hpp"
+#include "EventSystem.hpp"
+#include "GraphicsSystem.hpp"
+#include "TriggerSystem.hpp"
+#include "ManaSpellSystem.hpp"
+#include "WaveSystem.hpp"
+#include "LuaInterface.hpp"
+#include "Grid.hpp"
+#include "GUI.hpp"
+#include "Player.hpp"
+#include "LevelGenerators.hpp"
+#include "Spellcaster.hpp"
+#include "OptionsWindow.hpp"
+#include "Camera.hpp"
+#include "SelectionBox.hpp"
+#include "EntityPlacer.hpp"
+#include "EntityCreator.hpp"
+#include "GameSerializer.hpp"
 
 Game::Game() // TODO: Init systems.
 	: state_{GAME_STATE::INTRO_MENU}, root_{}, window_{},
@@ -87,7 +115,7 @@ void Game::run()
 	root_->startRendering();
 }
 
-void Game::update(Ogre::Real delta)
+void Game::update(tdt::real delta)
 {
 	GUI::instance().get_top_bar().update_time(delta);
 	CEGUI::System::getSingleton().injectTimePulse(delta);
@@ -141,21 +169,21 @@ void Game::set_state(GAME_STATE state)
 	}
 }
 
-void Game::new_game(std::size_t width, std::size_t height)
+void Game::new_game(tdt::uint width, tdt::uint height)
 {
 	GUI::instance().get_log().clear();
 	GUI::instance().get_message().set_visible(false);
 	create_empty_level(width, height);
 
 	wave_system_->clear_spawn_nodes();
-	if(lpp::Script::get_singleton().call<bool, std::size_t, std::size_t>("game.init_level", width, height))
+	if(lpp::Script::get_singleton().call<bool, tdt::uint, tdt::uint>("game.init_level", width, height))
 		level_generator_->generate(width, height, *wave_system_);
 	wave_system_->start();
 	reset_unlocks();
 	Player::instance().reset();
 }
 
-void Game::create_empty_level(std::size_t width, std::size_t height)
+void Game::create_empty_level(tdt::uint width, tdt::uint height)
 {
 	entity_system_->delete_entities();
 	entity_system_->cleanup();
@@ -177,11 +205,11 @@ void Game::create_empty_level(std::size_t width, std::size_t height)
 		mesh_mgr.unloadUnreferencedResources();
 	}
 
-	Ogre::Real actual_width{width * 100.f - 100.f}, actual_height{height * 100.f - 100.f};
+	tdt::real actual_width{width * 100.f - 100.f}, actual_height{height * 100.f - 100.f};
 	ground_.reset(new Ogre::Plane{Ogre::Vector3::UNIT_Y, 0});
 	Ogre::MeshManager::getSingleton().createPlane(
 		"ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-		*ground_, actual_width, actual_height, 20, 20, true, 1, (Ogre::Real)width, (Ogre::Real)height, Ogre::Vector3::UNIT_Z
+		*ground_, actual_width, actual_height, 20, 20, true, 1, (tdt::real)width, (tdt::real)height, Ogre::Vector3::UNIT_Z
 	);
 
 	ground_entity_ = scene_mgr_->createEntity("ground");
@@ -223,12 +251,12 @@ void Game::reset_unlocks()
 	GUI::instance().get_research().reset_research();
 }
 
-void Game::set_throne_id(std::size_t id)
+void Game::set_throne_id(tdt::uint id)
 {
 	throne_id_ = id;
 }
 
-std::size_t Game::get_throne_id() const
+tdt::uint Game::get_throne_id() const
 {
 	return throne_id_;
 }
@@ -442,7 +470,7 @@ void Game::windowResized(Ogre::RenderWindow* window)
 {
 	if(window != window_) // For the possibility of more windows.
 		return;
-	std::size_t width, height, depth;
+	tdt::uint width, height, depth;
 	int left, top;
 	window->getMetrics(width, height, depth, left, top);
 
@@ -524,8 +552,8 @@ void Game::ogre_init()
 	main_cam->lookAt(300, 0, 300);
 	main_cam->setNearClipDistance(5);
 	main_view_ = window_->addViewport(main_cam);
-	main_cam->setAspectRatio(Ogre::Real(main_view_->getActualWidth()) /
-							  Ogre::Real(main_view_->getActualHeight()));
+	main_cam->setAspectRatio(tdt::real(main_view_->getActualWidth()) /
+							  tdt::real(main_view_->getActualHeight()));
 	main_light_ = scene_mgr_->createLight("MainLight");
 	main_light_->setPosition(20, 80, 50);
 	main_light_->setVisible(false); // Currently using Light Crystals.
@@ -538,7 +566,7 @@ void Game::ogre_init()
 void Game::ois_init()
 {
 	OIS::ParamList pl;
-	std::size_t whnd = 0;
+	tdt::uint whnd = 0;
 	std::string whnd_str{};
 
 	window_->getCustomAttribute("WINDOW", &whnd);

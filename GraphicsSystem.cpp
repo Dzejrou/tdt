@@ -1,16 +1,17 @@
 #include "GraphicsSystem.hpp"
+#include "EntitySystem.hpp"
 
 GraphicsSystem::GraphicsSystem(EntitySystem& ents)
 	: entities_{ents}, update_timer_{}, update_period_{1.f}
 { /* DUMMY BODY */ }
 
-void GraphicsSystem::update(Ogre::Real delta)
+void GraphicsSystem::update(tdt::real delta)
 {
 	if(update_timer_ < update_period_)
 		update_timer_ += delta;
 	else
 	{
-		update_timer_ = 0.f;
+		update_timer_ = REAL_ZERO;
 
 		for(auto& ent : entities_.get_component_container<ExplosionComponent>())
 		{
@@ -36,12 +37,12 @@ void GraphicsSystem::update(Ogre::Real delta)
 	}
 }
 
-void GraphicsSystem::set_update_period(Ogre::Real val)
+void GraphicsSystem::set_update_period(tdt::real val)
 {
 	update_period_ = val;
 }
 
-Ogre::Real GraphicsSystem::get_update_period() const
+tdt::real GraphicsSystem::get_update_period() const
 {
 	return update_period_;
 }

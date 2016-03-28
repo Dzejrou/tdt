@@ -3,7 +3,7 @@
 #include "EntitySystem.hpp"
 #include "Player.hpp"
 
-void ManaCrystalHelper::set_capacity(EntitySystem& ents, std::size_t id, std::size_t val)
+void ManaCrystalHelper::set_capacity(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<ManaCrystalComponent>(id);
 	if(comp)
@@ -16,16 +16,16 @@ void ManaCrystalHelper::set_capacity(EntitySystem& ents, std::size_t id, std::si
 	}
 }
 
-std::size_t ManaCrystalHelper::get_capacity(EntitySystem& ents, std::size_t id)
+tdt::uint ManaCrystalHelper::get_capacity(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<ManaCrystalComponent>(id);
 	if(comp)
 		return comp->cap_increase;
 	else
-		return std::size_t();
+		return tdt::uint();
 }
 
-void ManaCrystalHelper::set_regen(EntitySystem& ents, std::size_t id, std::size_t val)
+void ManaCrystalHelper::set_regen(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<ManaCrystalComponent>(id);
 	if(comp)
@@ -38,11 +38,11 @@ void ManaCrystalHelper::set_regen(EntitySystem& ents, std::size_t id, std::size_
 	}
 }
 
-std::size_t ManaCrystalHelper::get_regen(EntitySystem& ents, std::size_t id)
+tdt::uint ManaCrystalHelper::get_regen(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<ManaCrystalComponent>(id);
 	if(comp)
 		return comp->regen_increase;
 	else
-		return std::size_t();
+		return tdt::uint();
 }

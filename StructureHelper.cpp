@@ -2,7 +2,7 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 
-void StructureHelper::add_residences(EntitySystem& ents, std::size_t ent_id, const std::vector<std::size_t>& residences)
+void StructureHelper::add_residences(EntitySystem& ents, tdt::uint ent_id, const std::vector<tdt::uint>& residences)
 {
 	auto comp = ents.get_component<StructureComponent>(ent_id);
 	if(comp)
@@ -12,37 +12,37 @@ void StructureHelper::add_residences(EntitySystem& ents, std::size_t ent_id, con
 	}
 }
 
-void StructureHelper::add_residence(EntitySystem& ents, std::size_t ent_id, std::size_t node_id)
+void StructureHelper::add_residence(EntitySystem& ents, tdt::uint ent_id, tdt::uint node_id)
 {
 	auto comp = ents.get_component<StructureComponent>(ent_id);
 	if(comp)
 		comp->residences.push_back(node_id);
 }
 
-void StructureHelper::set_radius(EntitySystem& ents, std::size_t id, std::size_t radius)
+void StructureHelper::set_radius(EntitySystem& ents, tdt::uint id, tdt::uint radius)
 {
 	auto comp = ents.get_component<StructureComponent>(id);
 	if(comp)
 		comp->radius = radius;
 }
 
-std::size_t StructureHelper::get_radius(EntitySystem& ents, std::size_t id)
+tdt::uint StructureHelper::get_radius(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<StructureComponent>(id);
 	if(comp)
 		return comp->radius;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-void StructureHelper::set_walk_through(EntitySystem& ents, std::size_t id, bool on_off)
+void StructureHelper::set_walk_through(EntitySystem& ents, tdt::uint id, bool on_off)
 {
 	auto comp = ents.get_component<StructureComponent>(id);
 	if(comp)
 		comp->walk_through = on_off;
 }
 
-bool StructureHelper::is_walk_through(EntitySystem& ents, std::size_t id)
+bool StructureHelper::is_walk_through(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<StructureComponent>(id);
 	if(comp)

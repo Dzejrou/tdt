@@ -1,8 +1,9 @@
 #pragma once
 
 #include <vector>
-#include "WaveSystem.hpp"
+#include "Typedefs.hpp"
 class EntitySystem;
+class WaveSystem;
 
 /**
  * Namespace that contains different level generators that can be used in the game
@@ -24,7 +25,7 @@ class LevelGenerator
 		 * Param: Entity system that contains the level's entities.
 		 * Param: Number of iterations done while generating.
 		 */
-		LevelGenerator(EntitySystem&, std::size_t);
+		LevelGenerator(EntitySystem&, tdt::uint);
 
 		/**
 		 * Destructor.
@@ -37,7 +38,8 @@ class LevelGenerator
 		 * Param: Height of the level.
 		 * Param: Wave system that will have it's spawn nodes set.
 		 */
-		virtual void generate(std::size_t, std::size_t, WaveSystem&) = 0;
+		virtual void generate(tdt::uint, tdt::uint, WaveSystem&) = 0;
+
 	protected:
 		/**
 		 * Entity system that contains the level's entities.
@@ -47,7 +49,7 @@ class LevelGenerator
 		/**
 		 * Number of cycles done while generating the world.
 		 */
-		std::size_t cycles_;
+		tdt::uint cycles_;
 };
 
 /**
@@ -63,7 +65,7 @@ class RandomLevelGenerator : public LevelGenerator
 		 * Param: Entity system that contains the level's entities.
 		 * Param: Number of iterations done while generating.
 		 */
-		RandomLevelGenerator(EntitySystem&, std::size_t);
+		RandomLevelGenerator(EntitySystem&, tdt::uint);
 
 		/**
 		 * Brief: Generates a level with the given dimensions
@@ -72,7 +74,7 @@ class RandomLevelGenerator : public LevelGenerator
 		 * Param: Height of the level.
 		 * Param: Wave system that will have it's spawn nodes set.
 		 */
-		void generate(std::size_t, std::size_t, WaveSystem&) override;
+		void generate(tdt::uint, tdt::uint, WaveSystem&) override;
 };
 
 /**

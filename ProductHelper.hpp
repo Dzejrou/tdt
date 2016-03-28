@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdlib>
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -16,12 +16,12 @@ namespace ProductHelper
 	 * Param: ID of the entity.
 	 * Param: ID of the producer.
 	 */
-	void set_producer(EntitySystem&, std::size_t, std::size_t);
+	void set_producer(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns the producer of a given entity.
 	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the entity.
 	 */
-	std::size_t get_producer(EntitySystem&, std::size_t);
+	tdt::uint get_producer(EntitySystem&, tdt::uint);
 }

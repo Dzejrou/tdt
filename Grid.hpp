@@ -1,15 +1,10 @@
 #pragma once
 
-#include <Ogre.h>
-#include <cstdlib>
 #include <set>
 #include <vector>
-#include <algorithm>
-#include "EntitySystem.hpp"
-#include "Components.hpp"
-#include "Helpers.hpp"
-#include "Enums.hpp"
-#include "Util.hpp"
+#include "Typedefs.hpp"
+class EntitySystem;
+class GridNodeComponent;
 
 /**
  * Class representing the pathfinding grid.
@@ -26,19 +21,19 @@ class Grid
 		 * Brief: Returns true if a given node is in the grid.
 		 * Param: ID of the node.
 		 */
-		bool in_board(std::size_t) const;
+		bool in_board(tdt::uint) const;
 
 		/**
 		 * Brief: Returns a constant reference to the list of
 		 *        freed nodes.
 		 */
-		const std::set<std::size_t>& get_freed() const;
+		const std::set<tdt::uint>& get_freed() const;
 
 		/**
 		 * Brief: Returns a constant reference to the list of
 		 *        unfreed nodes.
 		 */
-		const std::set<std::size_t>& get_unfreed() const;
+		const std::set<tdt::uint>& get_unfreed() const;
 
 		/**
 		 * Brief: Removes all nodes from the list of freed nodes.
@@ -55,33 +50,33 @@ class Grid
 		 * Param: EntitySystem that contains the node.
 		 * Param: 2D position of the node.
 		 */
-		std::size_t add_node(EntitySystem&, Ogre::Vector2);
+		tdt::uint add_node(EntitySystem&, Ogre::Vector2);
 
 		/**
 		 * Brief: Adds a given node to the list of the freed nodes.
 		 * Param: ID of the node.
 		 */
-		void add_freed(std::size_t);
+		void add_freed(tdt::uint);
 
 		/**
 		 * Brief: Adds a given node to the list of the unfreed nodes.
 		 * Param: ID of the node.
 		 */
-		void add_unfreed(std::size_t);
+		void add_unfreed(tdt::uint);
 
 		/**
 		 * Brief: Removes a given node from the node list.
 		 * Param: ID of the node.
 		 * TODO: Possibly implement "unlink"?
 		 */
-		void remove_node(std::size_t);
+		void remove_node(tdt::uint);
 
 		/**
 		 * Brief: Returns the ID of a node at a given position in the grid.
 		 * Param: Column number.
 		 * Param: Row number.
 		 */
-		std::size_t get_node(std::size_t, std::size_t) const;
+		tdt::uint get_node(tdt::uint, tdt::uint) const;
 		
 		/**
 		 * Brief: Returns the ID of a node that is closed to a given world coorinate.
@@ -90,7 +85,7 @@ class Grid
 		 * Note: Adding the ability to specify in what direction the node must be might
 		 *       be beneficial for pathfinding.
 		 */
-		std::size_t get_node_from_position(Ogre::Real, Ogre::Real) const;
+		tdt::uint get_node_from_position(tdt::real, tdt::real) const;
 
 		/**
 		 * Brief: Generates a grid graph with the given parameters to be used for
@@ -101,13 +96,13 @@ class Grid
 		 * Param: Height of the graph (in node count).
 		 * Param: Distance between adjascent nodes.
 		 */
-		void create_graph(EntitySystem&, Ogre::Vector2, std::size_t, std::size_t, Ogre::Real);
+		void create_graph(EntitySystem&, Ogre::Vector2, tdt::uint, tdt::uint, tdt::real);
 
 		/**
 		 * Brief: Returns the distance between two nodes in the four non-diagonal
 		 *        directions.
 		 */
-		Ogre::Real get_distance() const;
+		tdt::real get_distance() const;
 
 		/**
 		 * Brief: Returns a reference to the static instance of this class.
@@ -118,7 +113,7 @@ class Grid
 		/**
 		 * Breif: Returns a random node within the graph.
 		 */
-		std::size_t get_random_free_node() const;
+		tdt::uint get_random_free_node() const;
 
 		/**
 		 * Brief: Returns the 2D position of the central node of the grid (or one of them
@@ -142,7 +137,7 @@ class Grid
 		 * Param: Entity system containing the entity.
 		 * Param: ID of the entity.
 		 */
-		bool place_at_random_free_node(EntitySystem&, std::size_t);
+		bool place_at_random_free_node(EntitySystem&, tdt::uint);
 
 		/**
 		 * Brief: Distributes a given set of entities on free nodes adjacent to a given central node.
@@ -151,7 +146,7 @@ class Grid
 		 * Param: ID of the central node.
 		 * Param: Vector of IDs of the entities.
 		 */
-		bool distribute_to_adjacent_free_nodes(EntitySystem&, std::size_t, const std::vector<std::size_t>&);
+		bool distribute_to_adjacent_free_nodes(EntitySystem&, tdt::uint, const std::vector<tdt::uint>&);
 
 	private:
 		/**
@@ -172,37 +167,37 @@ class Grid
 		 *       (This method will ever be called only in the GridSystem::create_graph method,
 		 *        which already has such a vector and so it's used here too.)
 		 */
-		void link_(std::size_t, std::vector<GridNodeComponent*>&);
+		void link_(tdt::uint, std::vector<GridNodeComponent*>&);
 
 		/**
 		 * Vector containing the IDs of the nodes in the grid, basically
 		 * representing a 2D matrix stored in a 1D container.
 		 */
-		std::vector<std::size_t> nodes_;
+		std::vector<tdt::uint> nodes_;
 
 		/**
 		 * Auxiliary vectors containing IDs of the nodes that have been
 		 * freed/unfreed on last frame. Used for pathfinding correction
 		 * and structure model changes.
 		 */
-		std::set<std::size_t> freed_, unfreed_;
+		std::set<tdt::uint> freed_, unfreed_;
 
 		/**
 		 * Dimensions of the grid in node count.
 		 * (Actual dimensions = dimensions * distance.)
 		 */
-		std::size_t width_, height_;
+		tdt::uint width_, height_;
 
 		/**
 		 * Distance between two adjascent nodes.
 		 */
-		Ogre::Real distance_;
+		tdt::real distance_;
 
 		/**
 		 * ID of the first node, this allows for the node IDs to be outside the
 		 * (0, width_ * height_) range,
 		 */
-		std::size_t starting_index_;
+		tdt::uint starting_index_;
 
 		/**
 		 * Coordinates of the starting node of the grid.
@@ -214,5 +209,5 @@ class Grid
 		/**
 		 * Used for easier returning of a random free node.
 		 */
-		std::vector<std::size_t> free_nodes_;
+		std::vector<tdt::uint> free_nodes_;
 };

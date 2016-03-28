@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Ogre.h>
+#include "Typedefs.hpp"
 
 /**
  * Parent class of all systems.
@@ -12,7 +12,7 @@ class System
 		 * Brief: Updates the system.
 		 * Param: Time since the last frame.
 		 */
-		virtual void update(Ogre::Real) = 0;
+		virtual void update(tdt::real) = 0;
 
 		/**
 		 * Destructor.

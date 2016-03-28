@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstdlib>
 #include "Enums.hpp"
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -16,14 +16,14 @@ namespace TaskHelper
 	 * Param: Task ID.
 	 * Param: Source ID.
 	 */
-	void set_task_source(EntitySystem&, std::size_t, std::size_t);
+	void set_task_source(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns the source of a given task (that is, the entity that is completing the task).
 	 * Param: Reference to the entity system containing components.
 	 * Param: Task ID.
 	 */
-	std::size_t get_task_source(EntitySystem&, std::size_t);
+	tdt::uint get_task_source(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the target entity of a given task.
@@ -31,14 +31,14 @@ namespace TaskHelper
 	 * Param: Task ID.
 	 * Param: Target ID.
 	 */
-	void set_task_target(EntitySystem&, std::size_t, std::size_t);
+	void set_task_target(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns the target entity of a given task.
 	 * Param: Reference to the entity system containing components.
 	 * Param: Task ID.
 	 */
-	std::size_t get_task_target(EntitySystem&, std::size_t);
+	tdt::uint get_task_target(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the task type of a given task.
@@ -46,14 +46,14 @@ namespace TaskHelper
 	 * Param: Task ID.
 	 * Param: The new task type.
 	 */
-	void set_task_type(EntitySystem&, std::size_t, TASK_TYPE);
+	void set_task_type(EntitySystem&, tdt::uint, TASK_TYPE);
 
 	/**
 	 * Returns the task type of a given task.
 	 * Param: Reference to the entity system containing components.
 	 * Param: Task ID.
 	 */
-	TASK_TYPE get_task_type(EntitySystem&, std::size_t);
+	TASK_TYPE get_task_type(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Assigns a new task to an entity (by adding it to the task queue).
@@ -62,7 +62,7 @@ namespace TaskHelper
 	 * Param: ID of the task.
 	 * Param: If true, the task will be added to the fron of the task queue.
 	 */
-	void add_task(EntitySystem&, std::size_t, std::size_t, bool = false);
+	void add_task(EntitySystem&, tdt::uint, tdt::uint, bool = false);
 
 	/**
 	 * Brief: Creates a new task of a given tasks and returns it's ID.
@@ -70,7 +70,7 @@ namespace TaskHelper
 	 * Param: ID of the task's target (goto location, kill target etc.).
 	 * Param: Type of the task.
 	 */
-	std::size_t create_task(EntitySystem&, std::size_t, TASK_TYPE);
+	tdt::uint create_task(EntitySystem&, tdt::uint, TASK_TYPE);
 
 	/**
 	 * Brief: Destroys the TaskComponent of a given task, effectively stopping
@@ -78,19 +78,19 @@ namespace TaskHelper
 	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the task.
 	 */
-	void cancel_task(EntitySystem&, std::size_t);
+	void cancel_task(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets a given task to a complete state.
 	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the task.
 	 */
-	void set_complete(EntitySystem&, std::size_t);
+	void set_complete(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Returns true if a given task is complete, false otherwise.
 	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the task.
 	 */
-	bool is_complete(EntitySystem&, std::size_t);
+	bool is_complete(EntitySystem&, tdt::uint);
 }

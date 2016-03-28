@@ -1,15 +1,16 @@
 #include "PhysicsHelper.hpp"
 #include "Components.hpp"
 #include "EntitySystem.hpp"
+#include <numeric>
 
-void PhysicsHelper::set_solid(EntitySystem& ents, std::size_t id, bool val)
+void PhysicsHelper::set_solid(EntitySystem& ents, tdt::uint id, bool val)
 {
 	auto comp = ents.get_component<PhysicsComponent>(id);
 	if(comp)
 		comp->solid = val;
 }
 
-bool PhysicsHelper::is_solid(EntitySystem& ents, std::size_t id)
+bool PhysicsHelper::is_solid(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<PhysicsComponent>(id);
 	if(comp)
@@ -18,7 +19,7 @@ bool PhysicsHelper::is_solid(EntitySystem& ents, std::size_t id)
 		return false;
 }
 
-void PhysicsHelper::set_position(EntitySystem& ents, std::size_t id, const Ogre::Vector3& val)
+void PhysicsHelper::set_position(EntitySystem& ents, tdt::uint id, const Ogre::Vector3& val)
 {
 	auto comp = ents.get_component<PhysicsComponent>(id);
 	if(comp)
@@ -30,7 +31,7 @@ void PhysicsHelper::set_position(EntitySystem& ents, std::size_t id, const Ogre:
 	}
 }
 
-const Ogre::Vector3& PhysicsHelper::get_position(EntitySystem& ents, std::size_t id)
+const Ogre::Vector3& PhysicsHelper::get_position(EntitySystem& ents, tdt::uint id)
 {
 	static Ogre::Vector3 NO_POSITION{-1.f, -1.f, -1.f};
 	auto comp = ents.get_component<PhysicsComponent>(id);
@@ -40,23 +41,23 @@ const Ogre::Vector3& PhysicsHelper::get_position(EntitySystem& ents, std::size_t
 		return NO_POSITION;
 }
 
-void PhysicsHelper::set_half_height(EntitySystem& ents, std::size_t id, Ogre::Real val)
+void PhysicsHelper::set_half_height(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
 	auto comp = ents.get_component<PhysicsComponent>(id);
 	if(comp)
 		comp->half_height = val;
 }
 
-Ogre::Real PhysicsHelper::get_half_height(EntitySystem& ents, std::size_t id)
+tdt::real PhysicsHelper::get_half_height(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<PhysicsComponent>(id);
 	if(comp)
 		return comp->half_height;
 	else
-		return Ogre::Real{};
+		return tdt::real{};
 }
 
-void PhysicsHelper::move_to(EntitySystem& ents, std::size_t id, Ogre::Vector3 pos)
+void PhysicsHelper::move_to(EntitySystem& ents, tdt::uint id, Ogre::Vector3 pos)
 {
 	auto phys_comp = ents.get_component<PhysicsComponent>(id);
 	if(phys_comp)
@@ -69,7 +70,7 @@ void PhysicsHelper::move_to(EntitySystem& ents, std::size_t id, Ogre::Vector3 po
 	}
 }
 
-Ogre::Real PhysicsHelper::get_distance(EntitySystem& ents, std::size_t id1, std::size_t id2)
+tdt::real PhysicsHelper::get_distance(EntitySystem& ents, tdt::uint id1, tdt::uint id2)
 {
 	auto comp1 = ents.get_component<PhysicsComponent>(id1);
 	auto comp2 = ents.get_component<PhysicsComponent>(id2);
@@ -81,15 +82,15 @@ Ogre::Real PhysicsHelper::get_distance(EntitySystem& ents, std::size_t id1, std:
 		return pos1.squaredDistance(pos2);
 	}
 	else
-		return std::numeric_limits<Ogre::Real>::max();
+		return std::numeric_limits<tdt::real>::max();
 }
 
-Ogre::Real PhysicsHelper::get_angle(Ogre::Vector3 v1, Ogre::Vector3 v2)
+tdt::real PhysicsHelper::get_angle(Ogre::Vector3 v1, Ogre::Vector3 v2)
 {
 	return v1.angleBetween(v2).valueRadians();
 }
 
-void PhysicsHelper::set_2d_position(EntitySystem& ents, std::size_t id, Ogre::Vector2 val)
+void PhysicsHelper::set_2d_position(EntitySystem& ents, tdt::uint id, Ogre::Vector2 val)
 {
 	auto comp = ents.get_component<PhysicsComponent>(id);
 	if(comp)
@@ -104,7 +105,7 @@ void PhysicsHelper::set_2d_position(EntitySystem& ents, std::size_t id, Ogre::Ve
 	}
 }
 
-Ogre::Vector2 PhysicsHelper::get_2d_position(EntitySystem& ents, std::size_t id)
+Ogre::Vector2 PhysicsHelper::get_2d_position(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<PhysicsComponent>(id);
 	if(comp)

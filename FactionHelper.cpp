@@ -2,14 +2,14 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 
-void FactionHelper::set_faction(EntitySystem& ents, std::size_t id, FACTION val)
+void FactionHelper::set_faction(EntitySystem& ents, tdt::uint id, FACTION val)
 {
 	auto comp = ents.get_component<FactionComponent>(id);
 	if(comp)
 		comp->faction = val;
 }
 
-FACTION FactionHelper::get_faction(EntitySystem& ents, std::size_t id)
+FACTION FactionHelper::get_faction(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<FactionComponent>(id);
 	if(comp)
@@ -18,7 +18,7 @@ FACTION FactionHelper::get_faction(EntitySystem& ents, std::size_t id)
 		return FACTION::NEUTRAL;
 }
 
-const std::string& FactionHelper::get_faction_name(EntitySystem& ents, std::size_t id)
+const std::string& FactionHelper::get_faction_name(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<FactionComponent>(id);
 	if(comp)

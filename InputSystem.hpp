@@ -1,14 +1,10 @@
 #pragma once
 
-#include <Ogre.h>
 #include <OIS.h>
-#include <stdexcept>
 #include <memory>
-#include <cstdlib>
-
 #include "System.hpp"
-#include "EntitySystem.hpp"
-#include "Components.hpp"
+#include "Typedefs.hpp"
+class EntitySystem;
 
 /**
  * System handling entities controlled by the player's keyboard input and changing
@@ -28,14 +24,14 @@ class InputSystem : public System
 		/**
 		 * Destructor.
 		 */
-		~InputSystem() {}
+		~InputSystem() = default;
 
 		/**
 		 * Brief: Handles the input for the entity that is
 		 *        currently in the first person mode.
 		 * Param: Time since the last frame.
 		 */
-		void update(Ogre::Real);
+		void update(tdt::real) override;
 
 		/**
 		 * Brief: Returns true if the game is in the first person mode, returns
@@ -48,7 +44,7 @@ class InputSystem : public System
 		 *        if it does not have it but has an AIComponent holding information about it's input_handler method.
 		 *        (Backups the AIComponent in such cases and restores it when the entity leaves first person mode.)
 		 */
-		void set_first_person(bool, std::size_t = 0);
+		void set_first_person(bool, tdt::uint = 0);
 
 		/**
 		 * Brief: Rebinds a given key with an OIS key number. Use OIS::KC_W, OIS::KC_S, OIS::KC_A and OIS::KC_D
@@ -57,6 +53,7 @@ class InputSystem : public System
 		 * Param: The new key.
 		 */
 		void rebind(int, int);
+
 	private:
 		/**
 		 * Reference to the game's entity system.
@@ -71,7 +68,7 @@ class InputSystem : public System
 		/**
 		 * If the first person view is turned on, this holds ID of the entity being controlled.
 		 */
-		std::size_t first_person_id_;
+		tdt::uint first_person_id_;
 
 		/**
 		 * Reference to the keyboard being used.

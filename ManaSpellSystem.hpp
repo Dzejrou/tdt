@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Ogre.h>
 #include "System.hpp"
-#include "EntitySystem.hpp"
+#include "Typedefs.hpp"
+class EntitySystem;
 
 /**
  * Regenerates mana to the player and all entities that have mana. Also
@@ -27,18 +27,19 @@ class ManaSpellSystem : public System
 		 *        casting if off cooldown.
 		 * Param: Time since last frame.
 		 */
-		void update(Ogre::Real) override;
+		void update(tdt::real) override;
 
 		/**
 		 * Brief: Sets the time period between mana regens.
 		 * Param: The new time period.
 		 */
-		void set_regen_period(Ogre::Real);
+		void set_regen_period(tdt::real);
 
 		/**
 		 * Brief: Returns the time period between mana regens.
 		 */
-		Ogre::Real get_regen_period() const;
+		tdt::real get_regen_period() const;
+
 	private:
 		/**
 		 * Entity system containing entities that this system
@@ -50,5 +51,5 @@ class ManaSpellSystem : public System
 		 * Allow for dynamic periods between mana regeneration
 		 * updates.
 		 */
-		Ogre::Real regen_timer_, regen_period_;
+		tdt::real regen_timer_, regen_period_;
 };

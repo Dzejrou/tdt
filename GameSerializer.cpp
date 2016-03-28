@@ -1,6 +1,8 @@
 #include "GameSerializer.hpp"
 #include "Game.hpp"
 #include "GUI.hpp"
+#include "EntitySystem.hpp"
+#include "lppscript/LppScript.hpp"
 
 /**
  * Brief: Macro that serves as a simpler way to use the serializers_ array when calling it's members.
@@ -102,7 +104,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 		temp_vars.push_back(entity_name);
 		
 		save_entities_.emplace_back(entity_name + " = game.entity.create()");
-		for(std::size_t i = 0; i < ent.second.size(); ++i)
+		for(tdt::uint i = 0; i < ent.second.size(); ++i)
 		{
 			if(ent.second.test(i) && i < serializers_.size() && serializers_[i])
 				SAVE_COMPONENT(i, ent.first, entity_name);
@@ -121,7 +123,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 	file_ << save_wave_system(game) << "\n" << save_unlocks();
 
 	file_ << "\n\n-- AUXILIARY VARIABLES TO BE DELETED:\nto_be_deleted = {\n";
-	std::size_t count{0}; // Saves vertical space.
+	tdt::uint count{0}; // Saves vertical space.
 	for(const auto& tmp : temp_vars)
 	{ // This will allow to delete all those auxiliary variables when loading.
 		file_ << "'" << tmp + "', ";
@@ -218,7 +220,7 @@ std::string GameSerializer::save_unlocks()
 
 	auto& research = GUI::instance().get_research();
 	const auto& unlocked = research.get_unlocked();
-	for(std::size_t i = 0; i < unlocked.size(); ++i)
+	for(tdt::uint i = 0; i < unlocked.size(); ++i)
 	{
 		if(!unlocked[i])
 			continue;

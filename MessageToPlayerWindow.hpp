@@ -2,7 +2,10 @@
 
 #include <string>
 #include "GUIWindow.hpp"
-#include "lppscript/LppScript.hpp"
+namespace lpp
+{
+	class Script;
+}
 
 /**
  * A window that can show the player a text message with 1, 2 or 3 buttons (custom labels)

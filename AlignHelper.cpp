@@ -2,14 +2,14 @@
 #include "EntitySystem.hpp"
 #include "Components.hpp"
 
-void AlignHelper::set_material(EntitySystem& ents, std::size_t id, std::size_t state, const std::string& val)
+void AlignHelper::set_material(EntitySystem& ents, tdt::uint id, tdt::uint state, const std::string& val)
 {
 	auto comp = ents.get_component<AlignComponent>(id);
 	if(comp && state < AlignComponent::state_count)
 		comp->states[state].material = val;
 }
 
-const std::string& AlignHelper::get_material(EntitySystem& ents, std::size_t id, std::size_t state)
+const std::string& AlignHelper::get_material(EntitySystem& ents, tdt::uint id, tdt::uint state)
 {
 	static const std::string NO_MAT{"colour/pink"};
 
@@ -20,14 +20,14 @@ const std::string& AlignHelper::get_material(EntitySystem& ents, std::size_t id,
 		return NO_MAT;
 }
 
-void AlignHelper::set_mesh(EntitySystem& ents, std::size_t id, std::size_t state, const std::string& val)
+void AlignHelper::set_mesh(EntitySystem& ents, tdt::uint id, tdt::uint state, const std::string& val)
 {
 	auto comp = ents.get_component<AlignComponent>(id);
 	if(comp && state < AlignComponent::state_count)
 		comp->states[state].mesh = val;
 }
 
-const std::string& AlignHelper::get_mesh(EntitySystem& ents, std::size_t id, std::size_t state)
+const std::string& AlignHelper::get_mesh(EntitySystem& ents, tdt::uint id, tdt::uint state)
 {
 	static const std::string NO_MESH{"cube.mesh"};
 
@@ -38,14 +38,14 @@ const std::string& AlignHelper::get_mesh(EntitySystem& ents, std::size_t id, std
 		return NO_MESH;
 }
 
-void AlignHelper::set_position_offset(EntitySystem& ents, std::size_t id, std::size_t state, const Ogre::Vector3& val)
+void AlignHelper::set_position_offset(EntitySystem& ents, tdt::uint id, tdt::uint state, const Ogre::Vector3& val)
 {
 	auto comp = ents.get_component<AlignComponent>(id);
 	if(comp && state < AlignComponent::state_count)
 		comp->states[state].position_offset = val;
 }
 
-const Ogre::Vector3 & AlignHelper::get_position_offset(EntitySystem& ents, std::size_t id, std::size_t state)
+const Ogre::Vector3 & AlignHelper::get_position_offset(EntitySystem& ents, tdt::uint id, tdt::uint state)
 {
 	static const Ogre::Vector3 NO_OFFSET{0.f, 0.f, 0.f};
 
@@ -56,14 +56,14 @@ const Ogre::Vector3 & AlignHelper::get_position_offset(EntitySystem& ents, std::
 		return NO_OFFSET;
 }
 
-void AlignHelper::set_scale(EntitySystem& ents, std::size_t id, std::size_t state, const Ogre::Vector3& val)
+void AlignHelper::set_scale(EntitySystem& ents, tdt::uint id, tdt::uint state, const Ogre::Vector3& val)
 {
 	auto comp = ents.get_component<AlignComponent>(id);
 	if(comp && state < AlignComponent::state_count)
 		comp->states[state].scale = val;
 }
 
-const Ogre::Vector3 & AlignHelper::get_scale(EntitySystem& ents, std::size_t id, std::size_t state)
+const Ogre::Vector3 & AlignHelper::get_scale(EntitySystem& ents, tdt::uint id, tdt::uint state)
 {
 	static const Ogre::Vector3 NO_SCALE{1.f, 1.f, 1.f};
 

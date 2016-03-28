@@ -1,8 +1,7 @@
 #pragma once
 
-#include <Ogre.h>
-#include <cstdlib>
 #include <string>
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -18,7 +17,7 @@ namespace NotificationHelper
 	 * Param: ID of the entity.
 	 * Param: The new cooldown.
 	 */
-	void set_cooldown(EntitySystem&, std::size_t, Ogre::Real);
+	void set_cooldown(EntitySystem&, tdt::uint, tdt::real);
 
 	/**
 	 * Brief: Returns the cooldown between notifications a given entity
@@ -26,7 +25,7 @@ namespace NotificationHelper
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Real get_cooldown(EntitySystem&, std::size_t);
+	tdt::real get_cooldown(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Resets the cooldown between notifications a given entity
@@ -35,7 +34,7 @@ namespace NotificationHelper
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	void reset(EntitySystem&, std::size_t);
+	void reset(EntitySystem&, tdt::uint);
 
 	/**
 	 * Param: Sends a notification to the game's log while respecting
@@ -44,7 +43,7 @@ namespace NotificationHelper
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	bool notify(EntitySystem&, std::size_t, const std::string&);
+	bool notify(EntitySystem&, tdt::uint, const std::string&);
 
 	/**
 	 * Brief: Returns the time since the last notification a given entity
@@ -52,7 +51,7 @@ namespace NotificationHelper
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Real get_curr_time(EntitySystem&, std::size_t);
+	tdt::real get_curr_time(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Advances the time since the last notification a given entity
@@ -61,5 +60,5 @@ namespace NotificationHelper
 	 * Param: ID of the entity.
 	 * Param: Time amount to advance by.
 	 */
-	void advance_curr_time(EntitySystem&, std::size_t, Ogre::Real);
+	void advance_curr_time(EntitySystem&, tdt::uint, tdt::real);
 }

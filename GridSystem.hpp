@@ -1,21 +1,8 @@
 #pragma once
 
 #include <Ogre.h>
-#include <vector>
-#include <array>
-#include <tuple>
-#include <numeric>
-#include <set>
-#include <algorithm>
-#include <deque>
-#include <cstdlib>
 #include "System.hpp"
-#include "EntitySystem.hpp"
-#include "Components.hpp"
-#include "Console.hpp"
-#include "SelectionBox.hpp"
-#include "Helpers.hpp"
-#include "Grid.hpp"
+class EntitySystem;
 
 /**
  * Represents the pathfinding graph used by the game and provides
@@ -28,22 +15,20 @@ class GridSystem : public System
 		 * Constructor.
 		 * Param: Reference to the game's entity system.
 		 * Param: Reference to the game's main scene manager.
-		 * TODO: Add a reference to the SceneNode holding the ground plane (to easily set scale
-		 *       when creating a graph on it).
 		 */
 		GridSystem(EntitySystem&, Ogre::SceneManager&);
 
 		/**
 		 * Destructor.
 		 */
-		~GridSystem() {}
+		~GridSystem() = default;
 
 		/**
 		 * Brief: Checks if any nodes were freed or unfreed and if so, corrects
 		 *        any path that had those nodes in it.
 		 * Param: Time since the last frame.
 		 */
-		void update(Ogre::Real);
+		void update(tdt::real) override;
 
 		/**
 		 * Brief: Creates and initializes Ogre models for nodes, which allows the developer
@@ -75,14 +60,15 @@ class GridSystem : public System
 		 * Param: ID of the central node.
 		 * Param: Radius of the structure.
 		 */
-		void place_structure(std::size_t, std::size_t, std::size_t);
+		void place_structure(tdt::uint, tdt::uint, tdt::uint);
+
 	private:
 		/**
 		 * Brief: Updates the nodes resident's alignment (if possible)
 		 *        when it's neighbour was freed/unfreed.
 		 * Param: ID of the node.
 		 */
-		void update_neighbours_(std::size_t);
+		void update_neighbours_(tdt::uint);
 
 		/**
 		 * Reference to the game's entity system.

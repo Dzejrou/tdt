@@ -2,8 +2,8 @@
 
 #include <Ogre.h>
 #include <vector>
-#include <limits>
 #include <string>
+#include "Typedefs.hpp"
 
 /**
  * Manages polygon precise raycasting used with half walls that have empty spaces
@@ -28,8 +28,9 @@ class RayCaster
 		 * Param: Direction of the ray.
 		 * Param: Name of the entity to be ignored (the target) if it's a wall.
 		 */
-		std::pair<bool, Ogre::Real> cast(const Ogre::Vector3&, const Ogre::Vector3&,
-											const std::string& = "") const;
+		std::pair<bool, tdt::real> cast(const Ogre::Vector3&, const Ogre::Vector3&,
+										const std::string& = "") const;
+
 	private:
 		/**
 		 * Query used for the collision ray cast.
@@ -48,7 +49,7 @@ class RayCaster
 		 * Param: Orientation of the entity.
 		 * Param: Scale of the entity.
 		 */
-		void get_info(const Ogre::Entity&, std::size_t&, std::size_t&, std::vector<Ogre::Vector3>&,
-					  std::vector<std::size_t>&, const Ogre::Vector3&, const Ogre::Quaternion&,
+		void get_info(const Ogre::Entity&, tdt::uint&, tdt::uint&, std::vector<Ogre::Vector3>&,
+					  std::vector<tdt::uint>&, const Ogre::Vector3&, const Ogre::Quaternion&,
 					  const Ogre::Vector3&) const;
 };

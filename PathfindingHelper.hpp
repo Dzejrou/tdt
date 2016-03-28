@@ -1,11 +1,9 @@
 #pragma once
 
-#include <Ogre.h>
 #include <string>
-#include <cstdlib>
 #include <deque>
-#include "lppscript/LppScript.hpp"
 #include "Enums.hpp"
+#include "Typedefs.hpp"
 class EntitySystem;
 struct PathfindingComponent;
 
@@ -21,7 +19,7 @@ namespace PathfindingHelper
 	 * Param: EntitySystem containing the entity.
 	 * Param: ID of the entity.
 	 */
-	const std::string& get_pathpfinding_blueprint(EntitySystem&, std::size_t);
+	const std::string& get_pathpfinding_blueprint(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Changes the pathfinding blueprint of a given entity.
@@ -29,14 +27,14 @@ namespace PathfindingHelper
 	 * Param: ID of the entity.
 	 * Param: Name of the new blueprint table.
 	 */
-	void set_pathfinding_blueprint(EntitySystem&, std::size_t, const std::string&);
+	void set_pathfinding_blueprint(EntitySystem&, tdt::uint, const std::string&);
 
 	/**
 	 * Brief: Returns the node queue of a given entity's path.
 	 * Param: EntitySystem containing the entity.
 	 * Param: ID of the entity.
 	 */
-	std::deque<std::size_t>& get_path(EntitySystem&, std::size_t);
+	std::deque<tdt::uint>& get_path(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Returns true if a given entity can break a structure residing on a given node (if any).
@@ -44,7 +42,7 @@ namespace PathfindingHelper
 	 * Param: Pathfinding component of the entity.
 	 * Param: ID of the node.
 	 */
-	bool can_break(std::size_t, const PathfindingComponent&, std::size_t);
+	bool can_break(tdt::uint, const PathfindingComponent&, tdt::uint);
 
 	/**
 	 * Brief: Returns the cost a journey to a given node takes for a given entity.
@@ -52,5 +50,5 @@ namespace PathfindingHelper
 	 * Param: Pathfinding component of the entity.
 	 * Param: ID of the node.
 	 */
-	Ogre::Real get_cost(std::size_t, const PathfindingComponent&, std::size_t, DIRECTION::VAL);
+	tdt::real get_cost(tdt::uint, const PathfindingComponent&, tdt::uint, DIRECTION::VAL);
 }

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <cstdlib>
 #include <random>
 #include "Enums.hpp"
 #include "DestructorHelper.hpp"
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -24,7 +24,7 @@ namespace util
 		 * Param: ID of the entity towards which others are tested
 		 *        for the enemy status.
 		 */
-		IS_ENEMY(EntitySystem&, std::size_t);
+		IS_ENEMY(EntitySystem&, tdt::uint);
 
 		/**
 		 * Destructor.
@@ -36,7 +36,7 @@ namespace util
 		 *        in the constructor.
 		 * Param: ID of the entity.
 		 */
-		bool operator()(std::size_t);
+		bool operator()(tdt::uint);
 
 		private:
 			/**
@@ -62,7 +62,7 @@ namespace util
 		 * Param: ID of the entity towards which others are tested
 		 *        for the friendly status.
 		 */
-		IS_FRIENDLY(EntitySystem&, std::size_t);
+		IS_FRIENDLY(EntitySystem&, tdt::uint);
 
 		/**
 		 * Destructor.
@@ -74,7 +74,7 @@ namespace util
 		 *        in the constructor.
 		 * Param: ID of the entity.
 		 */
-		bool operator()(std::size_t);
+		bool operator()(tdt::uint);
 
 		private:
 			/**
@@ -100,7 +100,7 @@ namespace util
 		 * Param: ID of the entity towards which others are tested
 		 *        for the friendly/neutrality status.
 		 */
-		IS_FRIENDLY_OR_NEUTRAL(EntitySystem&, std::size_t);
+		IS_FRIENDLY_OR_NEUTRAL(EntitySystem&, tdt::uint);
 
 		/**
 		 * Destructor.
@@ -112,7 +112,7 @@ namespace util
 		 *        in the constructor.
 		 * Param: ID of the entity.
 		 */
-		bool operator()(std::size_t);
+		bool operator()(tdt::uint);
 
 		private:
 			/**
@@ -146,7 +146,7 @@ namespace util
 		 * Brief: Tests if a given entity has a gold component.
 		 * Param: ID of the entity.
 		 */
-		bool operator()(std::size_t);
+		bool operator()(tdt::uint);
 
 		private:
 			/**
@@ -177,7 +177,7 @@ namespace util
 		 * Brief: Tests a given entity.
 		 * Param: ID of the entity.
 		 */
-		bool operator()(std::size_t);
+		bool operator()(tdt::uint);
 
 		private:
 			/**
@@ -193,14 +193,14 @@ namespace util
 	 */
 	class EntityDestroyer
 	{
-		friend void DestructorHelper::destroy(EntitySystem&, std::size_t, bool, std::size_t);
+		friend void DestructorHelper::destroy(EntitySystem&, tdt::uint, bool, tdt::uint);
 
 		/**
 		 * Brief: Destroy a given entity.
 		 * Param: Entity system containing the entity.
 		 * Param: ID of the entity.
 		 */
-		static void destroy(EntitySystem&, std::size_t);
+		static void destroy(EntitySystem&, tdt::uint);
 	};
 
 	/**
@@ -211,18 +211,18 @@ namespace util
 	 * Param: ID of the second entity.
 	 * Note: The direction is #1 -> #2.
 	 */
-	int get_enum_direction(EntitySystem&, std::size_t, std::size_t);
+	int get_enum_direction(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns a random number within a given range.
 	 * Param: Lower bound of the range.
 	 * Param: Upper bound of the range.
 	 */
-	std::size_t get_random(std::size_t, std::size_t);
+	tdt::uint get_random(tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns the absolute value of a given integer.
 	 * Param: The number we want absolute value of.
 	 */
-	std::size_t abs(int);
+	tdt::uint abs(int);
 }

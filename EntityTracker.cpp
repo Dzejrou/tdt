@@ -1,12 +1,14 @@
 #include "EntityTracker.hpp"
 #include "Components.hpp"
 #include "Helpers.hpp"
+#include "EntitySystem.hpp"
+#include <CEGUI/CEGUI.h>
 
 EntityTracker::EntityTracker()
 	: curr_tracked_entity_{Component::NO_ENTITY}, entities_{nullptr}
 { /* DUMMY BODY */ }
 
-void EntityTracker::set_tracked_entity(std::size_t id, EntitySystem& ents)
+void EntityTracker::set_tracked_entity(tdt::uint id, EntitySystem& ents)
 {
 	curr_tracked_entity_ = id;
 	auto view = window_->getChild("FRAME");
@@ -54,7 +56,7 @@ void EntityTracker::set_tracked_entity(std::size_t id, EntitySystem& ents)
 	}
 }
 
-std::size_t EntityTracker::get_tracked_entity() const
+tdt::uint EntityTracker::get_tracked_entity() const
 {
 	return curr_tracked_entity_;
 }

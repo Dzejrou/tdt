@@ -154,6 +154,10 @@ void Camera::move(DIRECTION::VAL dir, tdt::real delta)
 void Camera::set_height(tdt::real val)
 {
 	height_ = val;
+
+	auto pos = camera_->getPosition();
+	pos.y = height_;
+	camera_->setPosition(pos);
 }
 
 tdt::real Camera::get_height() const

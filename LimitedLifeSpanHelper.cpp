@@ -2,32 +2,32 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 
-void LimitedLifeSpanHelper::set_max_time(EntitySystem& ents, std::size_t id, Ogre::Real val)
+void LimitedLifeSpanHelper::set_max_time(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
 	auto comp = ents.get_component<LimitedLifeSpanComponent>(id);
 	if(comp)
 		comp->max_time = val;
 }
 
-Ogre::Real LimitedLifeSpanHelper::get_max_time(EntitySystem& ents, std::size_t id)
+tdt::real LimitedLifeSpanHelper::get_max_time(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<LimitedLifeSpanComponent>(id);
 	if(comp)
 		return comp->max_time;
 	else
-		return Ogre::Real{};
+		return tdt::real{};
 }
 
-Ogre::Real LimitedLifeSpanHelper::get_curr_time(EntitySystem& ents, std::size_t id)
+tdt::real LimitedLifeSpanHelper::get_curr_time(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<LimitedLifeSpanComponent>(id);
 	if(comp)
 		return comp->curr_time;
 	else
-		return Ogre::Real{};
+		return tdt::real{};
 }
 
-void LimitedLifeSpanHelper::advance_curr_time(EntitySystem& ents, std::size_t id, Ogre::Real val)
+void LimitedLifeSpanHelper::advance_curr_time(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
 	auto comp = ents.get_component<LimitedLifeSpanComponent>(id);
 	if(comp)

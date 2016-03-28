@@ -1,4 +1,6 @@
 #include "InputSystem.hpp"
+#include "EntitySystem.hpp"
+#include "Components.hpp"
 
 InputSystem::InputSystem(EntitySystem& ents, OIS::Keyboard& key, Ogre::Camera& cam)
 	: entities_{ents}, first_person_{false}, first_person_id_{Component::NO_ENTITY}, keyboard_{key},
@@ -7,7 +9,7 @@ InputSystem::InputSystem(EntitySystem& ents, OIS::Keyboard& key, Ogre::Camera& c
 	  task_backup_{nullptr}, delete_input_{false}
 { /* DUMMY BODY */ }
 
-void InputSystem::update(Ogre::Real delta)
+void InputSystem::update(tdt::real delta)
 {
 	if(first_person_)
 	{
@@ -17,22 +19,22 @@ void InputSystem::update(Ogre::Real delta)
 		auto& in_comp = *entities_.get_component<InputComponent>(first_person_id_);
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_UP))
 		{
-			script.call<void, std::size_t, int>(in_comp.input_handler + ".handle", first_person_id_, KEY_UP);
+			script.call<void, tdt::uint, int>(in_comp.input_handler + ".handle", first_person_id_, KEY_UP);
 			moved = true;
 		}
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_DOWN))
 		{
-			script.call<void, std::size_t, int>(in_comp.input_handler + ".handle", first_person_id_, KEY_DOWN);
+			script.call<void, tdt::uint, int>(in_comp.input_handler + ".handle", first_person_id_, KEY_DOWN);
 			moved = true;
 		}
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_LEFT))
 		{
-			script.call<void, std::size_t, int>(in_comp.input_handler + ".handle", first_person_id_, KEY_LEFT);
+			script.call<void, tdt::uint, int>(in_comp.input_handler + ".handle", first_person_id_, KEY_LEFT);
 			rotated = true;
 		}
 		if(keyboard_.isKeyDown((OIS::KeyCode)KEY_RIGHT))
 		{
-			script.call<void, std::size_t, int>(in_comp.input_handler + ".handle", first_person_id_, KEY_RIGHT);
+			script.call<void, tdt::uint, int>(in_comp.input_handler + ".handle", first_person_id_, KEY_RIGHT);
 			rotated = true;
 		}
 
@@ -56,7 +58,7 @@ bool InputSystem::is_first_person() const
 	return first_person_;
 }
 
-void InputSystem::set_first_person(bool on_off, std::size_t id)
+void InputSystem::set_first_person(bool on_off, tdt::uint id)
 {
 	if(on_off == first_person_)
 		return; // Only one first person mode entity at a time.

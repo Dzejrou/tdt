@@ -2,7 +2,7 @@
 #include "EntitySystem.hpp"
 #include "Grid.hpp"
 
-util::IS_ENEMY::IS_ENEMY(EntitySystem& ents, std::size_t id)
+util::IS_ENEMY::IS_ENEMY(EntitySystem& ents, tdt::uint id)
 	: enemy_faction_{FACTION::NEUTRAL}, entities_{ents}
 {
 	auto faction = FactionHelper::get_faction(ents, id);
@@ -12,32 +12,32 @@ util::IS_ENEMY::IS_ENEMY(EntitySystem& ents, std::size_t id)
 		enemy_faction_ = FACTION::FRIENDLY;
 }
 
-bool util::IS_ENEMY::operator()(std::size_t id)
+bool util::IS_ENEMY::operator()(tdt::uint id)
 {
 	return enemy_faction_ != FACTION::NEUTRAL &&
 		   enemy_faction_ == FactionHelper::get_faction(entities_, id);
 }
 
-util::IS_FRIENDLY::IS_FRIENDLY(EntitySystem& ents, std::size_t id)
+util::IS_FRIENDLY::IS_FRIENDLY(EntitySystem& ents, tdt::uint id)
 	: faction_{FactionHelper::get_faction(ents, id)}, entities_{ents}
 { /* DUMMY BODY */ }
 
-bool util::IS_FRIENDLY::operator()(std::size_t id)
+bool util::IS_FRIENDLY::operator()(tdt::uint id)
 {
 	return FactionHelper::get_faction(entities_, id) == faction_;
 }
 
-util::IS_FRIENDLY_OR_NEUTRAL::IS_FRIENDLY_OR_NEUTRAL(EntitySystem& ents, std::size_t id)
+util::IS_FRIENDLY_OR_NEUTRAL::IS_FRIENDLY_OR_NEUTRAL(EntitySystem& ents, tdt::uint id)
 	: faction_{FactionHelper::get_faction(ents, id)}, entities_{ents}
 { /* DUMMY BODY */ }
 
-bool util::IS_FRIENDLY_OR_NEUTRAL::operator()(std::size_t id)
+bool util::IS_FRIENDLY_OR_NEUTRAL::operator()(tdt::uint id)
 {
 	auto faction = FactionHelper::get_faction(entities_, id);
 	return faction == faction_ || faction == FACTION::NEUTRAL;
 }
 
-void util::EntityDestroyer::destroy(EntitySystem& ents, std::size_t id)
+void util::EntityDestroyer::destroy(EntitySystem& ents, tdt::uint id)
 {
 	ents.destroy_entity(id);
 }
@@ -46,12 +46,12 @@ util::HAS_GOLD::HAS_GOLD(EntitySystem& ents)
 	: entities_{ents}
 { /* DUMMY BODY */ }
 
-bool util::HAS_GOLD::operator()(std::size_t id)
+bool util::HAS_GOLD::operator()(tdt::uint id)
 {
 	return entities_.has_component<GoldComponent>(id);
 }
 
-int util::get_enum_direction(EntitySystem& ents, std::size_t id, std::size_t target)
+int util::get_enum_direction(EntitySystem& ents, tdt::uint id, tdt::uint target)
 {
 	auto pos1 = PhysicsHelper::get_position(ents, id);
 	auto pos2 = PhysicsHelper::get_position(ents, target);
@@ -90,19 +90,19 @@ int util::get_enum_direction(EntitySystem& ents, std::size_t id, std::size_t tar
 		return DIRECTION::NONE;
 }
 
-std::size_t util::get_random(std::size_t min, std::size_t max)
+tdt::uint util::get_random(tdt::uint min, tdt::uint max)
 {
-	static std::uniform_int_distribution<std::size_t> dist{0, std::numeric_limits<std::size_t>::max()};
+	static std::uniform_int_distribution<tdt::uint> dist{0, std::numeric_limits<tdt::uint>::max()};
 	static std::mt19937 mt{std::random_device{}()};
 
 	auto res = dist(mt) % max;
 	return (res >= min) ? res : res + min;
 }
 
-std::size_t util::abs(int val)
+tdt::uint util::abs(int val)
 {
 	if(val < 0)
-		return (std::size_t) (-1 * val);
+		return (tdt::uint) (-1 * val);
 	else
 		return val;
 }
@@ -111,7 +111,7 @@ util::IS_GOLD_VAULT::IS_GOLD_VAULT(EntitySystem& ents)
 	: entities_{ents}
 { /* DUMMY BODY */ }
 
-bool util::IS_GOLD_VAULT::operator()(std::size_t id)
+bool util::IS_GOLD_VAULT::operator()(tdt::uint id)
 {
 	return FactionHelper::get_faction(entities_, id) == FACTION::FRIENDLY
 	       && entities_.has_component<StructureComponent>(id)

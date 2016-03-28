@@ -1,17 +1,14 @@
 #pragma once
 
 #include <CEGUI/CEGUI.h>
-#include <CEGUI/RendererModules/Ogre/Renderer.h>
 #include <set>
 #include <string>
-#include "EntityPlacer.hpp"
-#include "EntitySystem.hpp"
 #include "GUIWindow.hpp"
+class EntitySystem;
 
 /**
  * Class representing the debugging GUI window used to place and create entities
  * during runtime.
- * TODO: Entity creation mode (changing the layout and sub-window visibility).
  */
 class EntityCreator : public GUIWindow
 {
@@ -56,12 +53,14 @@ class EntityCreator : public GUIWindow
 		 * Param: Reference to the CEGUI event arguments.
 		 */
 		bool actualize_list(const CEGUI::EventArgs&);
+
 	protected:
 		/**
 		 * Brief: Initializes the EntityCreator.
 		 */
-		void init_();
+		void init_() override;
 	private:
+
 		/**
 		 * Reference to the game's entity placer, used to set the blueprint table and visibility mode
 		 * when the player/developer presses the "place now" button.

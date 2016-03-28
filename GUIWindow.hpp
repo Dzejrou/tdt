@@ -1,6 +1,9 @@
 #pragma once
 
-#include <CEGUI/CEGUI.h>
+namespace CEGUI
+{
+	class Window;
+}
 
 /**
  * Abstract class that custom GUI windows inherit from, prevents unnecessary
@@ -17,7 +20,7 @@ class GUIWindow
 		/**
 		 * Destructor.
 		 */
-		virtual ~GUIWindow() {}
+		virtual ~GUIWindow() = default;
 
 		/**
 		 * Brief: Initializes the window_ variable and calls the protected
@@ -36,6 +39,7 @@ class GUIWindow
 		 *        false otherwise.
 		 */
 		bool is_visible() const;
+
 	protected:
 		/**
 		 * Root window.

@@ -2,14 +2,14 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 
-void TaskHelper::set_task_source(EntitySystem& ents, std::size_t id, std::size_t source)
+void TaskHelper::set_task_source(EntitySystem& ents, tdt::uint id, tdt::uint source)
 {
 	auto comp = ents.get_component<TaskComponent>(id);
 	if(comp)
 		comp->source = source;
 }
 
-std::size_t TaskHelper::get_task_source(EntitySystem& ents, std::size_t id)
+tdt::uint TaskHelper::get_task_source(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<TaskComponent>(id);
 	if(comp)
@@ -18,14 +18,14 @@ std::size_t TaskHelper::get_task_source(EntitySystem& ents, std::size_t id)
 		return Component::NO_ENTITY;
 }
 
-void TaskHelper::set_task_target(EntitySystem& ents, std::size_t id, std::size_t target)
+void TaskHelper::set_task_target(EntitySystem& ents, tdt::uint id, tdt::uint target)
 {
 	auto comp = ents.get_component<TaskComponent>(id);
 	if(comp)
 		comp->target = target;
 }
 
-std::size_t TaskHelper::get_task_target(EntitySystem& ents, std::size_t id)
+tdt::uint TaskHelper::get_task_target(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<TaskComponent>(id);
 	if(comp)
@@ -34,14 +34,14 @@ std::size_t TaskHelper::get_task_target(EntitySystem& ents, std::size_t id)
 		return Component::NO_ENTITY;
 }
 
-void TaskHelper::set_task_type(EntitySystem& ents, std::size_t id, TASK_TYPE type)
+void TaskHelper::set_task_type(EntitySystem& ents, tdt::uint id, TASK_TYPE type)
 {
 	auto comp = ents.get_component<TaskComponent>(id);
 	if(comp)
 		comp->task_type = type;
 }
 
-TASK_TYPE TaskHelper::get_task_type(EntitySystem& ents, std::size_t id)
+TASK_TYPE TaskHelper::get_task_type(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<TaskComponent>(id);
 	if(comp)
@@ -50,7 +50,7 @@ TASK_TYPE TaskHelper::get_task_type(EntitySystem& ents, std::size_t id)
 		return TASK_TYPE::NONE;
 }
 
-void TaskHelper::add_task(EntitySystem& ents, std::size_t ent_id, std::size_t task_id, bool priority)
+void TaskHelper::add_task(EntitySystem& ents, tdt::uint ent_id, tdt::uint task_id, bool priority)
 {
 	auto comp1 = ents.get_component<TaskHandlerComponent>(ent_id);
 	auto comp2 = ents.get_component<TaskComponent>(task_id);
@@ -77,9 +77,9 @@ void TaskHelper::add_task(EntitySystem& ents, std::size_t ent_id, std::size_t ta
 	}
 }
 
-std::size_t TaskHelper::create_task(EntitySystem& ents, std::size_t target, TASK_TYPE type)
+tdt::uint TaskHelper::create_task(EntitySystem& ents, tdt::uint target, TASK_TYPE type)
 {
-	std::size_t id = ents.create_entity();
+	tdt::uint id = ents.create_entity();
 	ents.add_component<TaskComponent>(id);
 	auto comp = ents.get_component<TaskComponent>(id);
 
@@ -92,7 +92,7 @@ std::size_t TaskHelper::create_task(EntitySystem& ents, std::size_t target, TASK
 	return id;
 }
 
-void TaskHelper::cancel_task(EntitySystem& ents, std::size_t task_id)
+void TaskHelper::cancel_task(EntitySystem& ents, tdt::uint task_id)
 {
 	auto comp = ents.get_component<TaskComponent>(task_id);
 	if(comp)
@@ -112,14 +112,14 @@ void TaskHelper::cancel_task(EntitySystem& ents, std::size_t task_id)
 	}
 }
 
-void TaskHelper::set_complete(EntitySystem& ents, std::size_t id)
+void TaskHelper::set_complete(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<TaskComponent>(id);
 	if(comp)
 		comp->complete = true;
 }
 
-bool TaskHelper::is_complete(EntitySystem& ents, std::size_t id)
+bool TaskHelper::is_complete(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<TaskComponent>(id);
 	if(comp)

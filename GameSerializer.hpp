@@ -5,11 +5,15 @@
 #include <fstream>
 #include <array>
 #include "Components.hpp"
-#include "EntitySystem.hpp"
-#include "lppscript/LppScript.hpp"
+#include "Typedefs.hpp"
 
 // Forward declaration.
 class Game;
+class EntitySystem;
+namespace lpp
+{
+	class Script;
+}
 
 /**
  * Class that is used to save (by using Lua code generation)
@@ -17,7 +21,7 @@ class Game;
  */
 class GameSerializer
 {
-	typedef void (GameSerializer::*SerializerFuncPtr)(std::size_t, const std::string&);
+	typedef void (GameSerializer::*SerializerFuncPtr)(tdt::uint, const std::string&);
 	public:
 		/**
 		 * Constructor.
@@ -47,6 +51,7 @@ class GameSerializer
 		 * Param: Name of the save file to load.
 		 */
 		void load_game(Game&, const std::string& = "quick_save");
+
 	private:
 		/**
 		 * Brief: Adds commands to the save file that assign all tasks (has to be done last).
@@ -72,7 +77,7 @@ class GameSerializer
 		 * Param: Name of the variable already in the save file that holds the new ID.
 		 */
 		template<typename COMP>
-		void save_component(std::size_t, const std::string&);
+		void save_component(tdt::uint, const std::string&);
 
 		/**
 		 * Reference to the game's entity system, used for component access.
@@ -87,7 +92,7 @@ class GameSerializer
 		/**
 		 * Contains entity - task pairs that should be added in the save_tasks method.
 		 */
-		std::vector<std::pair<std::size_t, std::size_t>> task_pairs_;
+		std::vector<std::pair<tdt::uint, tdt::uint>> task_pairs_;
 
 		/**
 		 * Main file stream (no need for ifstream, since loading is done through Lua).
@@ -108,7 +113,7 @@ class GameSerializer
 };
 
 template <>
-inline void GameSerializer::save_component<PhysicsComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<PhysicsComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<PhysicsComponent>(id);
 	std::string comm{
@@ -123,7 +128,7 @@ inline void GameSerializer::save_component<PhysicsComponent>(std::size_t id, con
 }
 
 template <>
-inline void GameSerializer::save_component<HealthComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<HealthComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<HealthComponent>(id);
 	std::string comm{
@@ -139,7 +144,7 @@ inline void GameSerializer::save_component<HealthComponent>(std::size_t id, cons
 }
 
 template <>
-inline void GameSerializer::save_component<AIComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<AIComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<AIComponent>(id);
 	std::string comm{
@@ -152,7 +157,7 @@ inline void GameSerializer::save_component<AIComponent>(std::size_t id, const st
 }
 
 template <>
-inline void GameSerializer::save_component<GraphicsComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<GraphicsComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<GraphicsComponent>(id);
 	std::string comm{
@@ -178,7 +183,7 @@ inline void GameSerializer::save_component<GraphicsComponent>(std::size_t id, co
 }
 
 template <>
-inline void GameSerializer::save_component<MovementComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<MovementComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<MovementComponent>(id);
 	std::string comm{
@@ -191,7 +196,7 @@ inline void GameSerializer::save_component<MovementComponent>(std::size_t id, co
 }
 
 template <>
-inline void GameSerializer::save_component<CombatComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<CombatComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<CombatComponent>(id);
 	std::string comm{ // NOTE: Attack target will be set via a task.
@@ -207,7 +212,7 @@ inline void GameSerializer::save_component<CombatComponent>(std::size_t id, cons
 }
 
 template <>
-inline void GameSerializer::save_component<EventComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<EventComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<EventComponent>(id);
 	std::string comm{
@@ -223,7 +228,7 @@ inline void GameSerializer::save_component<EventComponent>(std::size_t id, const
 }
 
 template <>
-inline void GameSerializer::save_component<InputComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<InputComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<InputComponent>(id);
 	std::string comm{
@@ -235,7 +240,7 @@ inline void GameSerializer::save_component<InputComponent>(std::size_t id, const
 }
 
 template <>
-inline void GameSerializer::save_component<TimeComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<TimeComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<TimeComponent>(id);
 	std::string comm{
@@ -250,7 +255,7 @@ inline void GameSerializer::save_component<TimeComponent>(std::size_t id, const 
 }
 
 template <>
-inline void GameSerializer::save_component<ManaComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<ManaComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<ManaComponent>(id);
 	std::string comm{
@@ -264,7 +269,7 @@ inline void GameSerializer::save_component<ManaComponent>(std::size_t id, const 
 }
 
 template <>
-inline void GameSerializer::save_component<SpellComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<SpellComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<SpellComponent>(id);
 	std::string comm{
@@ -278,7 +283,7 @@ inline void GameSerializer::save_component<SpellComponent>(std::size_t id, const
 }
 
 template <>
-inline void GameSerializer::save_component<ProductionComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<ProductionComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<ProductionComponent>(id);
 	std::string comm{
@@ -300,7 +305,7 @@ inline void GameSerializer::save_component<ProductionComponent>(std::size_t id, 
 }
 
 template<>
-inline void GameSerializer::save_component<ProductComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<ProductComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<ProductComponent>(id);
 	std::string comm{
@@ -312,7 +317,7 @@ inline void GameSerializer::save_component<ProductComponent>(std::size_t id, con
 }
 
 template <>
-inline void GameSerializer::save_component<PathfindingComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<PathfindingComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<PathfindingComponent>(id);
 	std::string comm{
@@ -325,7 +330,7 @@ inline void GameSerializer::save_component<PathfindingComponent>(std::size_t id,
 }
 
 template <>
-inline void GameSerializer::save_component<TaskComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<TaskComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<TaskComponent>(id);
 	std::string comm{
@@ -340,7 +345,7 @@ inline void GameSerializer::save_component<TaskComponent>(std::size_t id, const 
 }
 
 template<>
-inline void GameSerializer::save_component<TaskHandlerComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<TaskHandlerComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<TaskHandlerComponent>(id);
 	std::string comm{
@@ -348,7 +353,7 @@ inline void GameSerializer::save_component<TaskHandlerComponent>(std::size_t id,
 		+ "game.task.set_blueprint(" + tbl_name + ", '" + comp->blueprint + "')\n"
 	};
 
-	for(std::size_t i = 0; i < comp->possible_tasks.size(); ++i)
+	for(tdt::uint i = 0; i < comp->possible_tasks.size(); ++i)
 	{
 		if(comp->possible_tasks.test(i))
 			comm.append("game.task.add_possible(" + tbl_name + ", " + std::to_string(i) + ")\n");
@@ -358,7 +363,7 @@ inline void GameSerializer::save_component<TaskHandlerComponent>(std::size_t id,
 }
 
 template<>
-inline void GameSerializer::save_component<StructureComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<StructureComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<StructureComponent>(id);
 	std::string comm{
@@ -368,7 +373,7 @@ inline void GameSerializer::save_component<StructureComponent>(std::size_t id, c
 	};
 	std::string set_residents{}; // This will ensure that the grid nodes will have their residents also set.
 
-	for(std::size_t i = 0; i < comp->residences.size(); ++i)
+	for(tdt::uint i = 0; i < comp->residences.size(); ++i)
 	{
 		comm.append("entity_" + std::to_string(comp->residences[i]) +
 					(i == comp->residences.size() - 1 ? "" : ", "));
@@ -391,7 +396,7 @@ inline void GameSerializer::save_component<StructureComponent>(std::size_t id, c
 }
 
 template<>
-inline void GameSerializer::save_component<HomingComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<HomingComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<HomingComponent>(id);
 	std::string comm{
@@ -405,7 +410,7 @@ inline void GameSerializer::save_component<HomingComponent>(std::size_t id, cons
 }
 
 template<>
-inline void GameSerializer::save_component<EventHandlerComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<EventHandlerComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<EventHandlerComponent>(id);
 	std::string comm{
@@ -413,7 +418,7 @@ inline void GameSerializer::save_component<EventHandlerComponent>(std::size_t id
 		+ "game.event_handling.set_handler(" + tbl_name + ", '" + comp->handler + "')\n"
 	};
 
-	for(std::size_t i = 0; i < comp->possible_events.size(); ++i)
+	for(tdt::uint i = 0; i < comp->possible_events.size(); ++i)
 	{
 		if(comp->possible_events.test(i))
 			comm.append("game.event_handling.add_possible(" + tbl_name + ", " + std::to_string(i) + ")\n");
@@ -423,7 +428,7 @@ inline void GameSerializer::save_component<EventHandlerComponent>(std::size_t id
 }
 
 template<>
-inline void GameSerializer::save_component<DestructorComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<DestructorComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<DestructorComponent>(id);
 	std::string comm{
@@ -435,7 +440,7 @@ inline void GameSerializer::save_component<DestructorComponent>(std::size_t id, 
 }
 
 template<>
-inline void GameSerializer::save_component<GoldComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<GoldComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<GoldComponent>(id);
 	std::string comm{
@@ -448,7 +453,7 @@ inline void GameSerializer::save_component<GoldComponent>(std::size_t id, const 
 }
 
 template<>
-inline void GameSerializer::save_component<FactionComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<FactionComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<FactionComponent>(id);
 	std::string comm{
@@ -460,7 +465,7 @@ inline void GameSerializer::save_component<FactionComponent>(std::size_t id, con
 }
 
 template<>
-inline void GameSerializer::save_component<PriceComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<PriceComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<PriceComponent>(id);
 	std::string comm{
@@ -472,14 +477,14 @@ inline void GameSerializer::save_component<PriceComponent>(std::size_t id, const
 }
 
 template<>
-inline void GameSerializer::save_component<AlignComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<AlignComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<AlignComponent>(id);
 	std::string comm{
 		"game.entity.add_component(" + tbl_name + ", game.enum.component.align)\n"
 	};
 
-	for(std::size_t i = 0; i < AlignComponent::state_count; ++i)
+	for(tdt::uint i = 0; i < AlignComponent::state_count; ++i)
 	{
 		comm.append(
 			  "game.align.set_material(" + tbl_name + ", " + std::to_string(i) + ", '" + comp->states[i].material + "')\n"
@@ -495,13 +500,13 @@ inline void GameSerializer::save_component<AlignComponent>(std::size_t id, const
 }
 
 template<>
-inline void GameSerializer::save_component<MineComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<MineComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	save_components_.emplace_back("game.entity.add_component(" + tbl_name + ", game.enum.component.mine)\n");
 }
 
 template<>
-inline void GameSerializer::save_component<ManaCrystalComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<ManaCrystalComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	// TODO: Skip comm string where possible when saving previous components!
 	auto comp = entities_.get_component<ManaCrystalComponent>(id);
@@ -513,7 +518,7 @@ inline void GameSerializer::save_component<ManaCrystalComponent>(std::size_t id,
 }
 
 template<>
-inline void GameSerializer::save_component<OnHitComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<OnHitComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<OnHitComponent>(id);
 	save_components_.emplace_back(
@@ -524,7 +529,7 @@ inline void GameSerializer::save_component<OnHitComponent>(std::size_t id, const
 }
 
 template<>
-inline void GameSerializer::save_component<ConstructorComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<ConstructorComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<ConstructorComponent>(id);
 	save_components_.emplace_back(
@@ -534,7 +539,7 @@ inline void GameSerializer::save_component<ConstructorComponent>(std::size_t id,
 }
 
 template<>
-inline void GameSerializer::save_component<TriggerComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<TriggerComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<TriggerComponent>(id);
 	save_components_.emplace_back(
@@ -547,7 +552,7 @@ inline void GameSerializer::save_component<TriggerComponent>(std::size_t id, con
 }
 
 template<>
-inline void GameSerializer::save_component<UpgradeComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<UpgradeComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<UpgradeComponent>(id);
 	save_components_.emplace_back(
@@ -561,7 +566,7 @@ inline void GameSerializer::save_component<UpgradeComponent>(std::size_t id, con
 }
 
 template<>
-inline void GameSerializer::save_component<NotificationComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<NotificationComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<NotificationComponent>(id);
 	save_components_.emplace_back(
@@ -572,7 +577,7 @@ inline void GameSerializer::save_component<NotificationComponent>(std::size_t id
 }
 
 template<>
-inline void GameSerializer::save_component<ExplosionComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<ExplosionComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<ExplosionComponent>(id);
 	save_components_.emplace_back(
@@ -584,7 +589,7 @@ inline void GameSerializer::save_component<ExplosionComponent>(std::size_t id, c
 }
 
 template<>
-inline void GameSerializer::save_component<LimitedLifeSpanComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<LimitedLifeSpanComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<LimitedLifeSpanComponent>(id);
 	save_components_.emplace_back(
@@ -595,7 +600,7 @@ inline void GameSerializer::save_component<LimitedLifeSpanComponent>(std::size_t
 }
 
 template<>
-inline void GameSerializer::save_component<NameComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<NameComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<NameComponent>(id);
 	save_components_.emplace_back(
@@ -605,7 +610,7 @@ inline void GameSerializer::save_component<NameComponent>(std::size_t id, const 
 }
 
 template<>
-inline void GameSerializer::save_component<ExperienceValueComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<ExperienceValueComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<ExperienceValueComponent>(id);
 	save_components_.emplace_back(
@@ -615,7 +620,7 @@ inline void GameSerializer::save_component<ExperienceValueComponent>(std::size_t
 }
 
 template<>
-inline void GameSerializer::save_component<LightComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<LightComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<LightComponent>(id);
 	save_components_.emplace_back(
@@ -626,14 +631,14 @@ inline void GameSerializer::save_component<LightComponent>(std::size_t id, const
 }
 
 template<>
-inline void GameSerializer::save_component<CommandComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<CommandComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<CommandComponent>(id);
 	std::string comm{
 		  "game.entity.add_component(" + tbl_name + ", game.enum.component.command)\n"
 	};
 
-	for(std::size_t i = 0; i < comp->possible_commands.size(); ++i)
+	for(tdt::uint i = 0; i < comp->possible_commands.size(); ++i)
 	{
 		comm.append("game.command.set(" + tbl_name + ", " + std::to_string(i) + ", "
 					+ (comp->possible_commands.test(i) ? "true" : "false") + ")\n");
@@ -643,7 +648,7 @@ inline void GameSerializer::save_component<CommandComponent>(std::size_t id, con
 }
 
 template<>
-inline void GameSerializer::save_component<CounterComponent>(std::size_t id, const std::string& tbl_name)
+inline void GameSerializer::save_component<CounterComponent>(tdt::uint id, const std::string& tbl_name)
 {
 	auto comp = entities_.get_component<CounterComponent>(id);
 	save_components_.emplace_back(

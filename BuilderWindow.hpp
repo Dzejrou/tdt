@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include "GUIWindow.hpp"
-
 class EntityPlacer;
 
 /**
@@ -21,7 +20,7 @@ class BuilderWindow : public GUIWindow
 		/**
 		 * Destructor.
 		 */
-		~BuilderWindow() {}
+		~BuilderWindow() = default;
 
 		/**
 		 * Brief: Appends a table name to the vector of all building tables.
@@ -56,7 +55,7 @@ class BuilderWindow : public GUIWindow
 		/**
 		 * Brief: Initializes the window and subscribes events.
 		 */
-		void init_();
+		void init_() override;
 
 	private:
 		/**

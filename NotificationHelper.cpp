@@ -3,30 +3,30 @@
 #include "EntitySystem.hpp"
 #include "GUI.hpp"
 
-void NotificationHelper::set_cooldown(EntitySystem& ents, std::size_t id, Ogre::Real val)
+void NotificationHelper::set_cooldown(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
 	auto comp = ents.get_component<NotificationComponent>(id);
 	if(comp)
 		comp->cooldown = val;
 }
 
-Ogre::Real NotificationHelper::get_cooldown(EntitySystem& ents, std::size_t id)
+tdt::real NotificationHelper::get_cooldown(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<NotificationComponent>(id);
 	if(comp)
 		return comp->cooldown;
 	else
-		return Ogre::Real{};
+		return tdt::real{};
 }
 
-void NotificationHelper::reset(EntitySystem& ents, std::size_t id)
+void NotificationHelper::reset(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<NotificationComponent>(id);
 	if(comp)
 		comp->curr_time = comp->cooldown;
 }
 
-bool NotificationHelper::notify(EntitySystem& ents, std::size_t id, const std::string& msg)
+bool NotificationHelper::notify(EntitySystem& ents, tdt::uint id, const std::string& msg)
 {
 	auto comp = ents.get_component<NotificationComponent>(id);
 	if(comp && comp->curr_time >= comp->cooldown)
@@ -39,16 +39,16 @@ bool NotificationHelper::notify(EntitySystem& ents, std::size_t id, const std::s
 		return false;
 }
 
-Ogre::Real NotificationHelper::get_curr_time(EntitySystem& ents, std::size_t id)
+tdt::real NotificationHelper::get_curr_time(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<NotificationComponent>(id);
 	if(comp)
 		return comp->curr_time;
 	else
-		return Ogre::Real{};
+		return tdt::real{};
 }
 
-void NotificationHelper::advance_curr_time(EntitySystem& ents, std::size_t id, Ogre::Real val)
+void NotificationHelper::advance_curr_time(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
 	auto comp = ents.get_component<NotificationComponent>(id);
 	if(comp) // Negative values intentionally allow for cooldown prolonging.

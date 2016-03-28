@@ -2,6 +2,7 @@
 
 #include <string>
 #include "Enums.hpp"
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -17,7 +18,7 @@ namespace EventHandlerHelper
 	 * Param: ID of the entity.
 	 * Param: The new handler table name.
 	 */
-	void set_handler(EntitySystem&, std::size_t, const std::string&);
+	void set_handler(EntitySystem&, tdt::uint, const std::string&);
 
 	/**
 	 * Brief: Returns the name of the table that contains event the handler function
@@ -25,7 +26,7 @@ namespace EventHandlerHelper
 	 * Param: Entity system that contains the entity.
 	 * Param: ID of the entity.
 	 */
-	const std::string& get_handler(EntitySystem&, std::size_t);
+	const std::string& get_handler(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Returns true if a given entity can handle a given event.
@@ -33,7 +34,7 @@ namespace EventHandlerHelper
 	 * Param: ID of the entity.
 	 * Param: The type of the event.
 	 */
-	bool can_handle(EntitySystem&, std::size_t, EVENT_TYPE);
+	bool can_handle(EntitySystem&, tdt::uint, EVENT_TYPE);
 
 	/**
 	 * Brief: Adds a given event into the list of possible events of a
@@ -42,7 +43,7 @@ namespace EventHandlerHelper
 	 * Param: ID of the entity.
 	 * Param: The type of the event.
 	 */
-	void add_possible_event(EntitySystem&, std::size_t, EVENT_TYPE);
+	void add_possible_event(EntitySystem&, tdt::uint, EVENT_TYPE);
 
 	/**
 	 * Brief: Removes a given event from the list of possible events of a
@@ -51,5 +52,5 @@ namespace EventHandlerHelper
 	 * Param: ID of the entity.
 	 * Param: The type of the event.
 	 */
-	void delete_possible_event(EntitySystem&, std::size_t, EVENT_TYPE);
+	void delete_possible_event(EntitySystem&, tdt::uint, EVENT_TYPE);
 }

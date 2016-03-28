@@ -2,9 +2,9 @@
 
 #include <Ogre.h>
 #include <string>
-#include "EntitySystem.hpp"
-#include "GridSystem.hpp"
-#include "Helpers.hpp"
+#include "Typedefs.hpp"
+class EntitySystem;
+class GridSystem;
 
 /**
  * Class allowing the player/developer to place entities on the ground.
@@ -50,7 +50,7 @@ class EntityPlacer
 		 * Brief: Creates a new entity from the blueprint table at the mouse cursor's current
 		 *        position and informs the developer in the developer console.
 		 */
-		std::size_t place();
+		tdt::uint place();
 
 		/**
 		 * Brief: Sets the visibility status of the placer (and it's dummy entity).
@@ -74,6 +74,7 @@ class EntityPlacer
 		 *        false otherwise.
 		 */
 		bool can_place_when_game_paused() const;
+
 	private:
 		/**
 		 * Reference to the game's entity system.
@@ -114,7 +115,7 @@ class EntityPlacer
 		 * need to be higher due to it's central point not being at the bottom
 		 * of the model.)
 		 */
-		Ogre::Real half_height_;
+		tdt::real half_height_;
 
 		/**
 		 * Determines if a structure (wall, building etc.) is being placed, this will
@@ -125,7 +126,7 @@ class EntityPlacer
 		/**
 		 * Radius of the placed structure (if it's covering more than one node).
 		 */
-		std::size_t structure_radius_;
+		tdt::uint structure_radius_;
 
 		/**
 		 * Scene manager used to hold the dummy node and manipulate models.
@@ -140,7 +141,7 @@ class EntityPlacer
 		/**
 		 * Price of the currently placed entity.
 		 */
-		std::size_t price_;
+		tdt::uint price_;
 
 		/**
 		 * Used for debugging, allows to place spawners when the game is paused and

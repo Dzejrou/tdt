@@ -1,7 +1,8 @@
 #pragma once
 
-#include "EntitySystem.hpp"
 #include "GUIWindow.hpp"
+#include "Typedefs.hpp"
+class EntitySystem;
 
 /**
  * A window that monitors the stats of the currently selected entity and
@@ -18,19 +19,19 @@ class EntityTracker : public GUIWindow
 		/**
 		 * Destructor.
 		 */
-		~EntityTracker() {}
+		~EntityTracker() = default;
 
 		/**
 		 * Brief: Sets the new tracked entity and loads it's data.
 		 * Param: ID of the entity.
 		 * Param: EntitySystem that contains the entity.
 		 */
-		void set_tracked_entity(std::size_t, EntitySystem&);
+		void set_tracked_entity(tdt::uint, EntitySystem&);
 
 		/**
 		 * Brief: Returns the ID of the currently tracked entity.
 		 */
-		std::size_t get_tracked_entity() const;
+		tdt::uint get_tracked_entity() const;
 
 		/**
 		 * Brief: Updates a single stat of the entity tracker.
@@ -57,16 +58,18 @@ class EntityTracker : public GUIWindow
 		 * Param: True for visible, false for invisible.
 		 */
 		void show_upgrade_butt(bool);
+
 	protected:
 		/**
 		 * Brief: Initializes the window and sets all event subscribers.
 		 */
-		void init_();
+		void init_() override;
+
 	private:
 		/**
 		 * ID of the currently tracked entity.
 		 */
-		std::size_t curr_tracked_entity_;
+		tdt::uint curr_tracked_entity_;
 
 		/**
 		 * Used for upgrading.

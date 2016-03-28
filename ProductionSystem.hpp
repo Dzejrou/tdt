@@ -1,12 +1,9 @@
 #pragma once
 
-#include <Ogre.h>
 #include <string>
-#include <cstdlib>
 #include "System.hpp"
-#include "EntitySystem.hpp"
-#include "Grid.hpp"
-#include "Helpers.hpp"
+#include "Typedefs.hpp"
+class EntitySystem;
 
 /**
  * System taking care of entities spawned by buildings and the spawn counts
@@ -31,27 +28,28 @@ class ProductionSystem : public System
 		 * Brief: Iterates over all buildings and when possible, spawns new entities.
 		 * Param: Time since last frame.
 		 */
-		void update(Ogre::Real) override;
+		void update(tdt::real) override;
 
 		/**
 		 * Brief: Spawns a single entity created by a building.
 		 * Param: ID of the building.
 		 * Param: Name of the blueprint table of the spawned entity.
 		 */
-		void spawn_entity(std::size_t, const std::string&);
+		void spawn_entity(tdt::uint, const std::string&);
 
 		/**
 		 * Brief: Sets the time value by which the frame times are multiplied
 		 *        when added to the production timers.
 		 * Param: The new time multiplier.
 		 */
-		void set_time_multiplier(Ogre::Real);
+		void set_time_multiplier(tdt::real);
 
 		/**
 		 * Brief: Returns the time value by which the frame times are multiplied
 		 *        when added to the production timers.
 		 */
-		Ogre::Real get_time_multiplier();
+		tdt::real get_time_multiplier();
+
 	private:
 		/**
 		 * Reference to the game's entity system (component retrieval).
@@ -66,5 +64,5 @@ class ProductionSystem : public System
 		/**
 		 * Allows to speed up/slow down the production of all buildings.
 		 */
-		Ogre::Real time_multiplier_;
+		tdt::real time_multiplier_;
 };

@@ -1,14 +1,17 @@
 #include "AISystem.hpp"
+#include "EntitySystem.hpp"
+#include "lppscript/LppScript.hpp"
+#include "Components.hpp"
 
 AISystem::AISystem(EntitySystem& ent)
-	: entities_{ent}, update_timer_{0.f}, update_period_{.5f}
+	: entities_{ent}, update_timer_{REAL_ZERO}, update_period_{.5f}
 { /* DUMMY BODY */ }
 
-void AISystem::update(Ogre::Real delta)
+void AISystem::update(tdt::real delta)
 {
 	update_timer_ += delta;
 	if(update_timer_ > update_period_)
-		update_timer_ = 0;
+		update_timer_ = REAL_ZERO;
 	else
 		return;
 
@@ -22,16 +25,16 @@ void AISystem::update(Ogre::Real delta)
 		}
 
 		const std::string& blueprint  = ent.second.blueprint;
-		lpp::Script::get_singleton().call<void, std::size_t>(blueprint + ".update", ent.first);
+		lpp::Script::get_singleton().call<void, tdt::uint>(blueprint + ".update", ent.first);
 	}
 }
 
-void AISystem::set_update_period(Ogre::Real val)
+void AISystem::set_update_period(tdt::real val)
 {
 	update_period_ = val;
 }
 
-Ogre::Real AISystem::get_update_period() const
+tdt::real AISystem::get_update_period() const
 {
 	return update_period_;
 }

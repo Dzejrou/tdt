@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include <cstdlib>
 #include "Enums.hpp"
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -17,7 +17,7 @@ namespace AIHelper
 	 * Param: ID of the entity.
 	 * Param: Name of the new blueprint table.
 	 */
-	void set_blueprint(EntitySystem&, std::size_t, const std::string&);
+	void set_blueprint(EntitySystem&, tdt::uint, const std::string&);
 
 	/**
 	 * Brief: Returns name of the blueprint table of a given entity (i.e. the table containing
@@ -25,7 +25,7 @@ namespace AIHelper
 	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the entity.
 	 */
-	const std::string& get_blueprint(EntitySystem&, std::size_t);
+	const std::string& get_blueprint(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Changes the state of a given entity.
@@ -33,12 +33,12 @@ namespace AIHelper
 	 * Param: ID of the entity.
 	 * Param: New state.
 	 */
-	void set_state(EntitySystem&, std::size_t, ENTITY_STATE);
+	void set_state(EntitySystem&, tdt::uint, ENTITY_STATE);
 
 	/**
 	 * Brief: Returns the state a given entity is in.
 	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the entity.
 	 */
-	ENTITY_STATE get_state(EntitySystem&, std::size_t);
+	ENTITY_STATE get_state(EntitySystem&, tdt::uint);
 }

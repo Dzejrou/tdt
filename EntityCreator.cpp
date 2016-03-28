@@ -1,4 +1,6 @@
 #include "EntityCreator.hpp"
+#include "EntityPlacer.hpp"
+#include "EntitySystem.hpp"
 
 EntityCreator::EntityCreator(EntityPlacer& placer, EntitySystem& ents)
 	: placer_{placer}, registered_entities_{ents.get_registered_entities()}
@@ -7,7 +9,7 @@ EntityCreator::EntityCreator(EntityPlacer& placer, EntitySystem& ents)
 bool EntityCreator::place(const CEGUI::EventArgs& args)
 {
 	auto selected = list_box_->getFirstSelectedItem();
-	if(selected && !lpp::Script::get_singleton().is_nil(selected->getText().c_str()))
+	if(selected && !lpp::Script::instance().is_nil(selected->getText().c_str()))
 	{
 		placer_.set_current_entity_table(selected->getText().c_str());
 		placer_.set_visible(true);

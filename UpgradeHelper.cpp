@@ -4,14 +4,14 @@
 #include "lppscript/LppScript.hpp"
 #include "GUI.hpp"
 
-void UpgradeHelper::set_blueprint(EntitySystem& ents, std::size_t id, const std::string& val)
+void UpgradeHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp)
 		comp->blueprint = val;
 }
 
-const std::string& UpgradeHelper::get_blueprint(EntitySystem& ents, std::size_t id)
+const std::string& UpgradeHelper::get_blueprint(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp)
@@ -20,12 +20,12 @@ const std::string& UpgradeHelper::get_blueprint(EntitySystem& ents, std::size_t 
 		return ents.NO_BLUEPRINT;
 }
 
-std::size_t UpgradeHelper::set_experience(EntitySystem& ents, std::size_t id, std::size_t val)
+tdt::uint UpgradeHelper::set_experience(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp)
 	{
-		std::size_t remainder{};
+		tdt::uint remainder{};
 		if(val <= comp->exp_needed)
 			comp->experience = val;
 		else
@@ -47,21 +47,21 @@ std::size_t UpgradeHelper::set_experience(EntitySystem& ents, std::size_t id, st
 		return val;
 }
 
-std::size_t UpgradeHelper::get_experience(EntitySystem& ents, std::size_t id)
+tdt::uint UpgradeHelper::get_experience(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp)
 		return comp->experience;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-std::size_t UpgradeHelper::add_experience(EntitySystem& ents, std::size_t id, std::size_t val)
+tdt::uint UpgradeHelper::add_experience(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp)
 	{
-		std::size_t remainder{};
+		tdt::uint remainder{};
 		if(comp->experience + val <= comp->exp_needed)
 			comp->experience += val;
 		else
@@ -83,7 +83,7 @@ std::size_t UpgradeHelper::add_experience(EntitySystem& ents, std::size_t id, st
 		return val;
 }
 
-void UpgradeHelper::set_exp_needed(EntitySystem& ents, std::size_t id, std::size_t val)
+void UpgradeHelper::set_exp_needed(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp)
@@ -103,16 +103,16 @@ void UpgradeHelper::set_exp_needed(EntitySystem& ents, std::size_t id, std::size
 	}
 }
 
-std::size_t UpgradeHelper::get_exp_needed(EntitySystem& ents, std::size_t id)
+tdt::uint UpgradeHelper::get_exp_needed(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp)
 		return comp->exp_needed;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-void UpgradeHelper::set_level(EntitySystem& ents, std::size_t id, std::size_t val)
+void UpgradeHelper::set_level(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp)
@@ -125,16 +125,16 @@ void UpgradeHelper::set_level(EntitySystem& ents, std::size_t id, std::size_t va
 	}
 }
 
-std::size_t UpgradeHelper::get_level(EntitySystem& ents, std::size_t id)
+tdt::uint UpgradeHelper::get_level(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp)
 		return comp->level;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-void UpgradeHelper::set_level_cap(EntitySystem& ents, std::size_t id, std::size_t val)
+void UpgradeHelper::set_level_cap(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp)
@@ -147,16 +147,16 @@ void UpgradeHelper::set_level_cap(EntitySystem& ents, std::size_t id, std::size_
 	}
 }
 
-std::size_t UpgradeHelper::get_level_cap(EntitySystem& ents, std::size_t id)
+tdt::uint UpgradeHelper::get_level_cap(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp)
 		return comp->level_cap;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-bool UpgradeHelper::can_level_up(EntitySystem& ents, std::size_t id)
+bool UpgradeHelper::can_level_up(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp)
@@ -165,14 +165,14 @@ bool UpgradeHelper::can_level_up(EntitySystem& ents, std::size_t id)
 		return false;
 }
 
-void UpgradeHelper::upgrade(EntitySystem& ents, std::size_t id)
+void UpgradeHelper::upgrade(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<UpgradeComponent>(id);
 	if(comp && comp->level < comp->level_cap && comp->experience >= comp->exp_needed)
 	{
 		comp->experience = 0;
 		++comp->level;
-		lpp::Script::get_singleton().call<void, std::size_t>(comp->blueprint + ".upgrade", id);
+		lpp::Script::instance().call<void, tdt::uint>(comp->blueprint + ".upgrade", id);
 
 		auto& tracker = GUI::instance().get_tracker();
 		if(tracker.get_tracked_entity() == id)

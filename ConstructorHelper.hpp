@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstdlib>
 #include <string>
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -17,7 +17,7 @@ namespace ConstructorHelper
 	 * Param: ID of the entity.
 	 * Param: The new blueprint name.
 	 */
-	void set_blueprint(EntitySystem&, std::size_t, const std::string&);
+	void set_blueprint(EntitySystem&, tdt::uint, const std::string&);
 
 	/**
 	 * Brief: Returns the name of the blueprint table that handles the construction
@@ -25,7 +25,7 @@ namespace ConstructorHelper
 	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.
 	 */
-	const std::string& get_blueprint(EntitySystem&, std::size_t);
+	const std::string& get_blueprint(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Calls the blueprint table that handles the construction
@@ -33,5 +33,5 @@ namespace ConstructorHelper
 	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.
 	 */
-	void call(EntitySystem&, std::size_t);
+	void call(EntitySystem&, tdt::uint);
 }

@@ -2,6 +2,11 @@
 #include "PathfindingAlgorithms.hpp"
 #include "Pathfinding.hpp"
 #include "Effects.hpp"
+#include "HealthHelper.hpp"
+#include "CombatHelper.hpp"
+#include "GridSystem.hpp"
+#include "RayCaster.hpp"
+#include "GraphicsHelper.hpp"
 
 CombatSystem::CombatSystem(EntitySystem& ents, Ogre::SceneManager& scene, GridSystem& grid)
 	: entities_{ents}, ray_query_{*scene.createRayQuery(Ogre::Ray{})},

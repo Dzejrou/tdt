@@ -188,12 +188,8 @@ class Script
 		/**
 		 * Brief: Returns a reference to the lpp::Script singleton.
 		 */
-		static Script& get_singleton();
+		static Script& instance();
 
-		/**
-		 * Brief: Returns a pointer to the lpp::Script singleton.
-		 */
-		static Script* get_singleton_ptr();
 	private:
 		/**
 		 * Constructor, kept private because of the use of the singleton pattern.
@@ -213,18 +209,10 @@ class Script
 		void clear_stack();
 
 		/**
-		 * Singleton instance.
-		 */
-		static std::unique_ptr<Script> script_;
-
-		/**
 		 * Brief: Returns the value stored on top of the stack.
 		 */
 		template<typename T>
-		T get_(const std::string& name = "unknown")
-		{ // Will have specializations.
-			throw Exception("[Error][Lua] Get method for a given type is not implemented to retrieve: " + name);
-		}
+		T get_(const std::string& name = "unknown");
 
 		/**
 		 * Brief: Pushed a variadic list of arguments onto the stack to be passed
@@ -254,12 +242,11 @@ class Script
 		/**
 		 * Brief: Pushes a single value onto the Lua stack.
 		 * Param: Value to be pushed.
+		 * Note: By default does nothing, only specialised versions
+		 *       push anything.
 		 */
 		template<typename Arg>
-		void push_arg(Arg a)
-		{
-			throw Exception("[Error][Lua] Trying to push an argument of an invalid type.");
-		}
+		void push_arg(Arg a) {};
 
 		/**
 		 * Lua state representing the Lua virtual machine.
@@ -276,7 +263,7 @@ class Script
  * Exception class used to throw exception from the Script class.
  */
 class Exception
-{ // TODO: Add print stack, lua error etc.
+{
 	public:
 		/**
 		 * Constructor.
@@ -300,6 +287,7 @@ class Exception
 		 * Brief: Returns true if a Lua state is captured by this exception.
 		 */
 		bool has_lua_state() const;
+		
 	private:
 		/**
 		 * Message the exception was called with.
@@ -368,7 +356,7 @@ template<>
 inline void Script::get_<void>(const std::string& name)
 {
 	// Note: Cannot make a partial specialization for the lpp::Script::call method, this dummy specialization
-	//       will ensure that when a Lua function does not return, the lpp::Script::call won't throw.
+	//       will ensure that when a Lua function does not return, the lpp::Script::call won't cause trouble.
 }
 
 
@@ -426,6 +414,4 @@ inline void Script::set<bool>(const std::string& name, bool val)
 	execute(name + " = " + (val ? "true" : "false"));
 }
 
-
-
-} // Namespace lpp.
+}

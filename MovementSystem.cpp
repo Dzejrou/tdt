@@ -1,4 +1,10 @@
 #include "MovementSystem.hpp"
+#include "EntitySystem.hpp"
+#include "Components.hpp"
+#include "PhysicsHelper.hpp"
+#include "GraphicsHelper.hpp"
+#include "MovementHelper.hpp"
+#include <limits>
 
 MovementSystem::MovementSystem(EntitySystem& ents)
 	: entities_{ents}, last_delta_{}
@@ -21,7 +27,7 @@ void MovementSystem::update(Ogre::Real delta)
 
 		auto next = path_comp.path_queue.front();
 		auto dir_to_next = MovementHelper::dir_to(entities_, ent.first, next);
-		dir_to_next.y = 0; // Will prohibit the entity from going under the ground.
+		dir_to_next.y = REAL_ZERO; // Will prohibit the entity from going under the ground.
 		dir_to_next.normalise();
 
 		if(!move(ent.first, dir_to_next))

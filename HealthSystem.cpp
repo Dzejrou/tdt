@@ -1,11 +1,14 @@
 #include "HealthSystem.hpp"
+#include "EntitySystem.hpp"
+#include "Components.hpp"
+#include "HealthHelper.hpp"
 
 HealthSystem::HealthSystem(EntitySystem& ent)
-	: entities_{ent}, regen_timer_{0.f}, regen_period_{10.f},
+	: entities_{ent}, regen_timer_{}, regen_period_{10.f},
 	  regen_{false}
 { /* DUMMY BODY */ }
 
-void HealthSystem::update(Ogre::Real delta)
+void HealthSystem::update(tdt::real delta)
 {
 	update_regen(delta);
 	for(auto& ent : entities_.get_component_container<HealthComponent>())
@@ -17,7 +20,7 @@ void HealthSystem::update(Ogre::Real delta)
 	}
 }
 
-void HealthSystem::update_regen(Ogre::Real delta)
+void HealthSystem::update_regen(tdt::real delta)
 {
 	if(regen_)
 	{
@@ -26,18 +29,18 @@ void HealthSystem::update_regen(Ogre::Real delta)
 	else if(regen_timer_ > regen_period_)
 	{
 		regen_ = true;
-		regen_timer_ = 0;
+		regen_timer_ = REAL_ZERO;
 	}
 	else
 		regen_timer_ += delta;
 }
 
-void HealthSystem::set_regen_period(Ogre::Real val)
+void HealthSystem::set_regen_period(tdt::real val)
 {
 	regen_period_ = val;
 }
 
-Ogre::Real HealthSystem::get_regen_period() const
+tdt::real HealthSystem::get_regen_period() const
 {
 	return regen_period_;
 }

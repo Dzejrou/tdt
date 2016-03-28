@@ -1,7 +1,8 @@
 #include "GameLog.hpp"
+#include <CEGUI/CEGUI.h>
 
 GameLog::GameLog()
-	: log_history_{60}, log_{nullptr}
+	: log_history_{60}, log_{}
 { /* DUMMY BODY */ }
 
 void GameLog::clear()
@@ -24,16 +25,15 @@ void GameLog::print(const std::string& msg)
 		text = new CEGUI::ListboxTextItem(msg);
 	text->setTextColours(CEGUI::Colour{0.f, 1.f, 0.f});
 	log_->addItem(text);
-	//log_->getVertScrollbar()->scrollForwardsByStep();
 	log_->getVertScrollbar()->setScrollPosition(log_->getVertScrollbar()->getDocumentSize());
 }
 
-void GameLog::set_history(std::size_t val)
+void GameLog::set_history(tdt::uint val)
 {
 	log_history_ = val;
 }
 
-std::size_t GameLog::get_history() const
+tdt::uint GameLog::get_history() const
 {
 	return log_history_;
 }

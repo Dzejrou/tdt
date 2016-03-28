@@ -3,6 +3,7 @@
 #include "EntitySystem.hpp"
 #include "Helpers.hpp"
 #include "PathfindingAlgorithms.hpp"
+#include "Typedefs.hpp"
 
 /**
  * Util namespace contains general tools and utilities used by the game's
@@ -22,7 +23,7 @@ namespace util
 	 * Param: If true, the entity will be allowed to destroy blocks on it's way.
 	 */
 	template<typename ALGORITHM = util::DEFAULT_PATHFINDING_ALGORITHM>
-	bool pathfind(EntitySystem& ents, std::size_t id, std::size_t target,
+	bool pathfind(EntitySystem& ents, tdt::uint id, tdt::uint target,
 				  util::heuristic::HEURISTIC& heuristic, bool add_path = true, bool allow_destruction = true)
 	{
 		auto path_comp = ents.get_component<PathfindingComponent>(id);
@@ -32,7 +33,7 @@ namespace util
 
 		auto pos_start = PhysicsHelper::get_position(ents, id);
 		auto pos_end = PhysicsHelper::get_position(ents, target);
-		std::size_t start{Grid::instance().get_node_from_position(pos_start.x, pos_start.z)},
+		tdt::uint start{Grid::instance().get_node_from_position(pos_start.x, pos_start.z)},
 			        end{Grid::instance().get_node_from_position(pos_end.x, pos_end.z)};
 
 		auto path = ALGORITHM::get_path(ents, id, start, end, heuristic, allow_destruction);

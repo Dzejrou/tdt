@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GUIWindow.hpp"
+#include "Typedefs.hpp"
 
 /**
  * Class representing the log window used to show messages to the player.
@@ -18,7 +19,7 @@ class GameLog : public GUIWindow
 		/**
 		 * Destructor.
 		 */
-		~GameLog() {}
+		~GameLog() = default;
 
 		/**
 		 * Brief: Clears the game's log by deleting all it's entries.
@@ -35,22 +36,24 @@ class GameLog : public GUIWindow
 		 * Brief: Sets the amount of entries kept in the game's log.
 		 * Param: The new log history.
 		 */
-		void set_history(std::size_t);
+		void set_history(tdt::uint);
 
 		/**
 		 * Brief: Returns the amoung of entries kept in the game's log.
 		 */
-		std::size_t get_history() const;
+		tdt::uint get_history() const;
+
 	protected:
 		/**
 		 * Brief: Initializes the game log (called by parent's init).
 		 */
-		void init_();
+		void init_() override;
+
 	private:
 		/**
 		 * Number of entires kept in the game log.
 		 */
-		std::size_t log_history_;
+		tdt::uint log_history_;
 
 		/**
 		 * Pointer to the log window for easy access (as it might get called quite

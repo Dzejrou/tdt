@@ -3,14 +3,14 @@
 #include "EntitySystem.hpp"
 #include "lppscript/LppScript.hpp"
 
-void ConstructorHelper::set_blueprint(EntitySystem& ents, std::size_t id, const std::string& val)
+void ConstructorHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {
 	auto comp = ents.get_component<ConstructorComponent>(id);
 	if(comp)
 		comp->blueprint = val;
 }
 
-const std::string& ConstructorHelper::get_blueprint(EntitySystem& ents, std::size_t id)
+const std::string& ConstructorHelper::get_blueprint(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<ConstructorComponent>(id);
 	if(comp)
@@ -19,9 +19,9 @@ const std::string& ConstructorHelper::get_blueprint(EntitySystem& ents, std::siz
 		return ents.NO_BLUEPRINT;
 }
 
-void ConstructorHelper::call(EntitySystem& ents, std::size_t id)
+void ConstructorHelper::call(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<ConstructorComponent>(id);
 	if(comp)
-		lpp::Script::get_singleton().call<void, std::size_t>(comp->blueprint + ".construct", id);
+		lpp::Script::get_singleton().call<void, tdt::uint>(comp->blueprint + ".construct", id);
 }

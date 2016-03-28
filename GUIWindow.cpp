@@ -1,4 +1,5 @@
 #include "GUIWindow.hpp"
+#include <CEGUI/CEGUI.h>
 
 GUIWindow::GUIWindow()
 	: window_{nullptr}

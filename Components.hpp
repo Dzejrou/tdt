@@ -9,11 +9,12 @@
 #include <numeric>
 #include <utility>
 #include "Enums.hpp"
+#include "Typedefs.hpp"
 
 struct Component
 {
 	static constexpr int count = 39;
-	static constexpr std::size_t NO_ENTITY = std::numeric_limits<std::size_t>::max();
+	static constexpr tdt::uint NO_ENTITY = std::numeric_limits<tdt::uint>::max();
 };
 
 /**
@@ -34,7 +35,7 @@ struct PhysicsComponent
 {
 	static constexpr int type = 0;
 
-	PhysicsComponent(bool s = false, Ogre::Vector3 pos = Ogre::Vector3{0, 0, 0}, Ogre::Real hh = 0.f)
+	PhysicsComponent(bool s = false, Ogre::Vector3 pos = Ogre::Vector3{0, 0, 0}, tdt::real hh = 0.f)
 		: solid{s}, position{pos}, half_height{hh}
 	{ /* DUMMY BODY */ }
 	PhysicsComponent(const PhysicsComponent&) = default;
@@ -45,7 +46,7 @@ struct PhysicsComponent
 
 	bool solid;
 	Ogre::Vector3 position;
-	Ogre::Real half_height;
+	tdt::real half_height;
 };
 
 /**
@@ -55,8 +56,8 @@ struct HealthComponent
 {
 	static constexpr int type = 1;
 
-	HealthComponent(std::size_t max = 0, std::size_t reg = 0,
-					std::size_t def = 0, bool a = true)
+	HealthComponent(tdt::uint max = 0, tdt::uint reg = 0,
+					tdt::uint def = 0, bool a = true)
 		: curr_hp{max}, max_hp{max}, regen{reg}, defense{def}, alive{a}
 	{ /* DUMMY BODY */ }
 	HealthComponent(const HealthComponent&) = default;
@@ -65,10 +66,10 @@ struct HealthComponent
 	HealthComponent& operator=(HealthComponent&&) = default;
 	~HealthComponent() = default;
 
-	std::size_t curr_hp;
-	std::size_t max_hp;
-	std::size_t regen;
-	std::size_t defense;
+	tdt::uint curr_hp;
+	tdt::uint max_hp;
+	tdt::uint regen;
+	tdt::uint defense;
 	bool alive;
 };
 
@@ -132,7 +133,7 @@ struct MovementComponent
 {
 	static constexpr int type = 4;
 
-	MovementComponent(Ogre::Real speed = 0.f)
+	MovementComponent(tdt::real speed = 0.f)
 		: speed_modifier{speed}, original_speed{speed}
 	{ /* DUMMY BODY */ }
 	MovementComponent(const MovementComponent&) = default;
@@ -141,8 +142,8 @@ struct MovementComponent
 	MovementComponent& operator=(MovementComponent&&) = default;
 	~MovementComponent() = default;
 
-	Ogre::Real speed_modifier;
-	Ogre::Real original_speed;
+	tdt::real speed_modifier;
+	tdt::real original_speed;
 };
 
 /**
@@ -152,8 +153,8 @@ struct CombatComponent
 {
 	static constexpr int type = 5;
 
-	CombatComponent(std::size_t target = Component::NO_ENTITY, std::size_t mi = 0,
-					std::size_t ma = 0, Ogre::Real cd = 0, Ogre::Real r = 0.f, int type = 0,
+	CombatComponent(tdt::uint target = Component::NO_ENTITY, tdt::uint mi = 0,
+					tdt::uint ma = 0, tdt::real cd = 0, tdt::real r = 0.f, int type = 0,
 					bool p = false, std::string&& proj = "ERROR")
 		: curr_target{target}, min_dmg{mi},	max_dmg{ma}, cooldown{cd}, cd_time{cd},
 		  range{r}, atk_type((ATTACK_TYPE)type), pursue{p}, projectile_blueprint{std::move(proj)}
@@ -164,12 +165,12 @@ struct CombatComponent
 	CombatComponent& operator=(CombatComponent&&) = default;
 	~CombatComponent() = default;
 
-	std::size_t curr_target;
-	std::size_t min_dmg;
-	std::size_t max_dmg;
-	Ogre::Real cd_time;
-	Ogre::Real cooldown;
-	Ogre::Real range;
+	tdt::uint curr_target;
+	tdt::uint min_dmg;
+	tdt::uint max_dmg;
+	tdt::real cd_time;
+	tdt::real cooldown;
+	tdt::real range;
 	ATTACK_TYPE atk_type;
 	bool pursue;
 	std::string projectile_blueprint;
@@ -183,8 +184,8 @@ struct EventComponent
 { 
 	static constexpr int type = 6;
 
-	EventComponent(EVENT_TYPE ev = EVENT_TYPE::NONE, std::size_t t = Component::NO_ENTITY,
-				   Ogre::Real r = 0.f, bool a = true)
+	EventComponent(EVENT_TYPE ev = EVENT_TYPE::NONE, tdt::uint t = Component::NO_ENTITY,
+				   tdt::real r = 0.f, bool a = true)
 		: event_type{ev}, target{t}, handler{Component::NO_ENTITY}, radius{r}, active{a}
 	{ /* DUMMY BODY */ }
 	EventComponent(const EventComponent&) = default;
@@ -194,9 +195,9 @@ struct EventComponent
 	~EventComponent() = default;
 
 	EVENT_TYPE event_type;
-	std::size_t target;
-	std::size_t handler;
-	Ogre::Real radius;
+	tdt::uint target;
+	tdt::uint handler;
+	tdt::real radius;
 	bool active;
 };
 
@@ -228,8 +229,8 @@ struct TimeComponent
 {
 	static constexpr int type = 8;
 
-	TimeComponent(TIME_EVENT ev = TIME_EVENT::NONE, Ogre::Real limit = 0.f,
-				  std::size_t t = Component::NO_ENTITY)
+	TimeComponent(TIME_EVENT ev = TIME_EVENT::NONE, tdt::real limit = 0.f,
+				  tdt::uint t = Component::NO_ENTITY)
 		: curr_time{0.f}, time_limit{limit}, target{t}, event_type{ev}
 	{ /* DUMMY BODY */ }
 	TimeComponent(const TimeComponent&) = default;
@@ -238,9 +239,9 @@ struct TimeComponent
 	TimeComponent& operator=(TimeComponent&&) = default;
 	~TimeComponent() = default;
 
-	Ogre::Real curr_time;
-	Ogre::Real time_limit;
-	std::size_t target;
+	tdt::real curr_time;
+	tdt::real time_limit;
+	tdt::uint target;
 	TIME_EVENT event_type;
 };
 
@@ -251,7 +252,7 @@ struct ManaComponent
 {
 	static constexpr int type = 9;
 
-	ManaComponent(std::size_t max = 0, std::size_t regen = 0)
+	ManaComponent(tdt::uint max = 0, tdt::uint regen = 0)
 		: curr_mana{max}, max_mana{max}, mana_regen{regen}
 	{ /* DUMMY BODY */ }
 	ManaComponent(const ManaComponent&) = default;
@@ -260,9 +261,9 @@ struct ManaComponent
 	ManaComponent& operator=(ManaComponent&&) = default;
 	~ManaComponent() = default;
 
-	std::size_t curr_mana;
-	std::size_t max_mana;
-	std::size_t mana_regen;
+	tdt::uint curr_mana;
+	tdt::uint max_mana;
+	tdt::uint mana_regen;
 };
 
 /**
@@ -272,7 +273,7 @@ struct SpellComponent
 {
 	static constexpr int type = 10;
 
-	SpellComponent(std::string&& b = "ERROR", Ogre::Real cd = 0.f)
+	SpellComponent(std::string&& b = "ERROR", tdt::real cd = 0.f)
 		: blueprint{std::move(b)}, cd_time{}, cooldown{cd}
 	{ /* DUMMY BODY */ }
 	SpellComponent(const SpellComponent&) = default;
@@ -282,8 +283,8 @@ struct SpellComponent
 	~SpellComponent() = default;
 
 	std::string blueprint;
-	Ogre::Real cd_time;
-	Ogre::Real cooldown;
+	tdt::real cd_time;
+	tdt::real cooldown;
 };
 
 /**
@@ -294,7 +295,7 @@ struct ProductionComponent
 {
 	static constexpr int type = 11;
 
-	ProductionComponent(std::string&& b = "ERROR", std::size_t l = 1, Ogre::Real cd = 0.f)
+	ProductionComponent(std::string&& b = "ERROR", tdt::uint l = 1, tdt::real cd = 0.f)
 		: product_blueprint{std::move(b)}, curr_produced{0},
 		  max_produced{l}, cooldown{cd}, curr_cd{0}
 	{ /* DUMMY BODY */ }
@@ -305,25 +306,25 @@ struct ProductionComponent
 	~ProductionComponent() = default;
 
 	std::string product_blueprint;
-	std::size_t curr_produced;
-	std::size_t max_produced;
-	Ogre::Real cooldown;
-	Ogre::Real curr_cd;
+	tdt::uint curr_produced;
+	tdt::uint max_produced;
+	tdt::real cooldown;
+	tdt::real curr_cd;
 };
 
 /**
  * Holds GridNode's neighbour nodes.
- * Note: The neighbours are set to the maximum value of std::size_t to
+ * Note: The neighbours are set to the maximum value of tdt::uint to
  *       fix a state when one or more neighbours weren't set (won't have that many
  *       nodes so the A* algorithm will ignore them).
  */
 struct GridNodeComponent
 {
 	static constexpr int type = 12;
-	static constexpr std::size_t neighbour_count = 9;
+	static constexpr tdt::uint neighbour_count = 9;
 
-	GridNodeComponent(std::array<std::size_t, neighbour_count> neigh = std::array<std::size_t, neighbour_count>{},
-					  bool f = true, std::size_t pos_x = 0, std::size_t pos_y = 0, std::size_t res = Component::NO_ENTITY)
+	GridNodeComponent(std::array<tdt::uint, neighbour_count> neigh = std::array<tdt::uint, neighbour_count>{},
+					  bool f = true, tdt::uint pos_x = 0, tdt::uint pos_y = 0, tdt::uint res = Component::NO_ENTITY)
 		: neighbours(neigh), free{f}, x{pos_x}, y{pos_y}, resident{res}
 	{
 		neighbours.fill(Component::NO_ENTITY);
@@ -334,10 +335,10 @@ struct GridNodeComponent
 	GridNodeComponent& operator=(GridNodeComponent&&) = default;
 	~GridNodeComponent() = default;
 
-	std::array<std::size_t, neighbour_count> neighbours;
+	std::array<tdt::uint, neighbour_count> neighbours;
 	bool free;
-	std::size_t x, y; // Position in the grid.
-	std::size_t resident;
+	tdt::uint x, y; // Position in the grid.
+	tdt::uint resident;
 };
 
 /**
@@ -348,7 +349,7 @@ struct ProductComponent
 {
 	static constexpr int type = 13;
 
-	ProductComponent(std::size_t prod_id = Component::NO_ENTITY)
+	ProductComponent(tdt::uint prod_id = Component::NO_ENTITY)
 		: producer{prod_id}
 	{ /* DUMMY BODY */ }
 	ProductComponent(const ProductComponent&) = default;
@@ -357,7 +358,7 @@ struct ProductComponent
 	ProductComponent& operator=(ProductComponent&&) = default;
 	~ProductComponent() = default;
 
-	std::size_t producer;
+	tdt::uint producer;
 };
 
 /**
@@ -367,8 +368,8 @@ struct PathfindingComponent
 {
 	static constexpr int type = 14;
 
-	PathfindingComponent(std::string&& b = "ERROR", std::size_t tar = 0,
-						 std::size_t last = 0)
+	PathfindingComponent(std::string&& b = "ERROR", tdt::uint tar = 0,
+						 tdt::uint last = 0)
 		: target_id{tar}, last_id{last}, path_queue{}, blueprint{std::move(b)}
 	{ /* DUMMY BODY */ }
 	PathfindingComponent(const PathfindingComponent&) = default;
@@ -377,8 +378,8 @@ struct PathfindingComponent
 	PathfindingComponent& operator=(PathfindingComponent&&) = default;
 	~PathfindingComponent() = default;
 	
-	std::size_t target_id, last_id;
-	std::deque<std::size_t> path_queue;
+	tdt::uint target_id, last_id;
+	std::deque<tdt::uint> path_queue;
 	std::string blueprint; // Name of the table the get_cost(id1, id2) function is in.
 };
 
@@ -390,8 +391,8 @@ struct TaskComponent
 {
 	static constexpr int type = 15;
 
-	TaskComponent(std::size_t target_id = Component::NO_ENTITY,
-				  std::size_t source_id = Component::NO_ENTITY,
+	TaskComponent(tdt::uint target_id = Component::NO_ENTITY,
+				  tdt::uint source_id = Component::NO_ENTITY,
 				  TASK_TYPE t_type = TASK_TYPE::NONE)
 		: task_type{t_type}, source{source_id}, target{target_id},
 		  complete{false}
@@ -403,7 +404,7 @@ struct TaskComponent
 	~TaskComponent() = default;
 
 	TASK_TYPE task_type;
-	std::size_t source, target;
+	tdt::uint source, target;
 	bool complete;
 };
 
@@ -425,9 +426,9 @@ struct TaskHandlerComponent
 	TaskHandlerComponent& operator=(TaskHandlerComponent&&) = default;
 	~TaskHandlerComponent() = default;
 
-	std::size_t curr_task;
+	tdt::uint curr_task;
 	std::bitset<(int)TASK_TYPE::COUNT> possible_tasks;
-	std::deque<std::size_t> task_queue;
+	std::deque<tdt::uint> task_queue;
 	bool busy;
 	std::string blueprint;
 };
@@ -440,7 +441,7 @@ struct StructureComponent
 {
 	static constexpr int type = 17;
 
-	StructureComponent(std::size_t r = 1, bool wt = false)
+	StructureComponent(tdt::uint r = 1, bool wt = false)
 		: radius{r}, walk_through{wt}, residences{}
 	{ /* DUMMY BODY */ }
 	StructureComponent(const StructureComponent&) = default;
@@ -449,9 +450,9 @@ struct StructureComponent
 	StructureComponent& operator=(StructureComponent&&) = default;
 	~StructureComponent() = default;
 
-	std::size_t radius;
+	tdt::uint radius;
 	bool walk_through;
-	std::vector<std::size_t> residences;
+	std::vector<tdt::uint> residences;
 };
 
 /**
@@ -462,9 +463,9 @@ struct HomingComponent
 {
 	static constexpr int type = 18;
 
-	HomingComponent(std::size_t s = Component::NO_ENTITY,
-					std::size_t t = Component::NO_ENTITY,
-					std::size_t d = 0)
+	HomingComponent(tdt::uint s = Component::NO_ENTITY,
+					tdt::uint t = Component::NO_ENTITY,
+					tdt::uint d = 0)
 		: source{s}, target{t}, dmg{d}
 	{ /* DUMMY BODY */ }
 	HomingComponent(const HomingComponent&) = default;
@@ -473,9 +474,9 @@ struct HomingComponent
 	HomingComponent& operator=(HomingComponent&&) = default;
 	~HomingComponent() = default;
 
-	std::size_t source;
-	std::size_t target;
-	std::size_t dmg;
+	tdt::uint source;
+	tdt::uint target;
+	tdt::uint dmg;
 };
 
 /**
@@ -528,7 +529,7 @@ struct GoldComponent
 {
 	static constexpr int type = 21;
 
-	GoldComponent(std::size_t max = 0, std::size_t curr = 0)
+	GoldComponent(tdt::uint max = 0, tdt::uint curr = 0)
 		: max_amount{max}, curr_amount{curr}
 	{ /* DUMMY BODY */ }
 	GoldComponent(const GoldComponent&) = default;
@@ -537,8 +538,8 @@ struct GoldComponent
 	GoldComponent& operator=(GoldComponent&&) = default;
 	~GoldComponent() = default;
 
-	std::size_t max_amount;
-	std::size_t curr_amount;
+	tdt::uint max_amount;
+	tdt::uint curr_amount;
 };
 
 /**
@@ -568,7 +569,7 @@ struct PriceComponent
 {
 	static constexpr int type = 23;
 	
-	PriceComponent(std::size_t p = 0)
+	PriceComponent(tdt::uint p = 0)
 		: price{p}
 	{ /* DUMMY BODY */ }
 	PriceComponent(const PriceComponent&) = default;
@@ -577,7 +578,7 @@ struct PriceComponent
 	PriceComponent& operator=(PriceComponent&&) = default;
 	~PriceComponent() = default;
 
-	std::size_t price;
+	tdt::uint price;
 };
 
 /**
@@ -626,7 +627,7 @@ struct ManaCrystalComponent
 {
 	static constexpr int type = 26;
 
-	ManaCrystalComponent(std::size_t cap = 0, std::size_t regen = 0)
+	ManaCrystalComponent(tdt::uint cap = 0, tdt::uint regen = 0)
 		: cap_increase{cap}, regen_increase{regen}
 	{ /* DUMMY BODY */ }
 	ManaCrystalComponent(const ManaCrystalComponent&) = default;
@@ -635,8 +636,8 @@ struct ManaCrystalComponent
 	ManaCrystalComponent& operator=(ManaCrystalComponent&&) = default;
 	~ManaCrystalComponent() = default;
 
-	std::size_t cap_increase;
-	std::size_t regen_increase;
+	tdt::uint cap_increase;
+	tdt::uint regen_increase;
 };
 
 /**
@@ -647,7 +648,7 @@ struct OnHitComponent
 {
 	static constexpr int type = 27;
 
-	OnHitComponent(std::string&& b = "ERROR", Ogre::Real cd = 0.f)
+	OnHitComponent(std::string&& b = "ERROR", tdt::real cd = 0.f)
 		: blueprint{std::move(b)}, curr_time{cd}, cooldown{cd}
 	{ /* DUMMY BODY */ }
 	OnHitComponent(const OnHitComponent&) = default;
@@ -657,8 +658,8 @@ struct OnHitComponent
 	~OnHitComponent() = default;
 
 	std::string blueprint;
-	Ogre::Real curr_time;
-	Ogre::Real cooldown;
+	tdt::real curr_time;
+	tdt::real cooldown;
 };
 
 /**
@@ -689,7 +690,7 @@ struct TriggerComponent
 {
 	static constexpr int type = 29;
 
-	TriggerComponent(std::string&& b = "ERROR", Ogre::Real cd = 0.f, Ogre::Real rad = 0.f)
+	TriggerComponent(std::string&& b = "ERROR", tdt::real cd = 0.f, tdt::real rad = 0.f)
 		: blueprint{std::move(b)}, linked_entity{Component::NO_ENTITY},
 		  curr_time{0.f}, cooldown{cd}, radius{rad}
 	{ /* DUMMY BODY */ }
@@ -700,10 +701,10 @@ struct TriggerComponent
 	~TriggerComponent() = default;
 
 	std::string blueprint;
-	std::size_t linked_entity;
-	Ogre::Real curr_time;
-	Ogre::Real cooldown;
-	Ogre::Real radius;
+	tdt::uint linked_entity;
+	tdt::real curr_time;
+	tdt::real cooldown;
+	tdt::real radius;
 };
 
 /**
@@ -714,7 +715,7 @@ struct UpgradeComponent
 {
 	static constexpr int type = 30;
 
-	UpgradeComponent(std::string&& b = "ERROR", std::size_t exp = 100, std::size_t cap = 5)
+	UpgradeComponent(std::string&& b = "ERROR", tdt::uint exp = 100, tdt::uint cap = 5)
 		: blueprint{std::move(b)}, experience{0}, exp_needed{exp}, level{0}, level_cap{cap}
 	{ /* DUMMY BODY */ }
 	UpgradeComponent(const UpgradeComponent&) = default;
@@ -724,10 +725,10 @@ struct UpgradeComponent
 	~UpgradeComponent() = default;
 
 	std::string blueprint;
-	std::size_t experience;
-	std::size_t exp_needed;
-	std::size_t level;
-	std::size_t level_cap;
+	tdt::uint experience;
+	tdt::uint exp_needed;
+	tdt::uint level;
+	tdt::uint level_cap;
 };
 
 /**
@@ -739,7 +740,7 @@ struct NotificationComponent
 {
 	static constexpr int type = 31;
 
-	NotificationComponent(Ogre::Real cd = 0.f)
+	NotificationComponent(tdt::real cd = 0.f)
 		: curr_time{0.f}, cooldown{cd}
 	{ /* DUMMY BODY */ }
 	NotificationComponent(const NotificationComponent&) = default;
@@ -748,8 +749,8 @@ struct NotificationComponent
 	NotificationComponent& operator=(NotificationComponent&&) = default;
 	~NotificationComponent() = default;
 
-	Ogre::Real curr_time;
-	Ogre::Real cooldown;
+	tdt::real curr_time;
+	tdt::real cooldown;
 };
 
 /**
@@ -761,7 +762,7 @@ struct ExplosionComponent
 {
 	static constexpr int type = 32;
 
-	ExplosionComponent(Ogre::Real d = 0.f, Ogre::Real rad = 0.f)
+	ExplosionComponent(tdt::real d = 0.f, tdt::real rad = 0.f)
 		: delta{d}, max_radius{rad}, curr_radius{0.f}
 	{ /* DUMMY BODY */ }
 	ExplosionComponent(const ExplosionComponent&) = default;
@@ -770,9 +771,9 @@ struct ExplosionComponent
 	ExplosionComponent& operator=(ExplosionComponent&&) = default;
 	~ExplosionComponent() = default;
 
-	Ogre::Real delta;
-	Ogre::Real max_radius;
-	Ogre::Real curr_radius;
+	tdt::real delta;
+	tdt::real max_radius;
+	tdt::real curr_radius;
 };
 
 /**
@@ -783,7 +784,7 @@ struct LimitedLifeSpanComponent
 {
 	static constexpr int type = 33;
 
-	LimitedLifeSpanComponent(Ogre::Real max = 0.f)
+	LimitedLifeSpanComponent(tdt::real max = 0.f)
 		: max_time{max}, curr_time{0.}
 	{ /* DUMMY BODY */ }
 	LimitedLifeSpanComponent(const LimitedLifeSpanComponent&) = default;
@@ -792,8 +793,8 @@ struct LimitedLifeSpanComponent
 	LimitedLifeSpanComponent& operator=(LimitedLifeSpanComponent&&) = default;
 	~LimitedLifeSpanComponent() = default;
 
-	Ogre::Real curr_time;
-	Ogre::Real max_time;
+	tdt::real curr_time;
+	tdt::real max_time;
 };
 
 /**
@@ -822,7 +823,7 @@ struct ExperienceValueComponent
 {
 	static constexpr int type = 35;
 
-	ExperienceValueComponent(std::size_t v = 0)
+	ExperienceValueComponent(tdt::uint v = 0)
 		: value{v}
 	{ /* DUMMY BODY */ }
 	ExperienceValueComponent(const ExperienceValueComponent&) = default;
@@ -831,7 +832,7 @@ struct ExperienceValueComponent
 	ExperienceValueComponent& operator=(ExperienceValueComponent&&) = default;
 	~ExperienceValueComponent() = default;
 
-	std::size_t value;
+	tdt::uint value;
 };
 
 /**
@@ -878,7 +879,7 @@ struct CounterComponent
 {
 	static constexpr int type = 38;
 
-	CounterComponent(std::size_t max = 0)
+	CounterComponent(tdt::uint max = 0)
 		: curr_value{}, max_value{max}
 	{ /* DUMMY BODY */ }
 	CounterComponent(const CounterComponent&) = default;
@@ -887,6 +888,6 @@ struct CounterComponent
 	CounterComponent& operator=(CounterComponent&&) = default;
 	~CounterComponent() = default;
 
-	std::size_t curr_value;
-	std::size_t max_value;
+	tdt::uint curr_value;
+	tdt::uint max_value;
 };

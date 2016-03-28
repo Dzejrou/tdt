@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdlib>
+#include "Typedefs.hpp"
 class EntitySystem;
 struct GoldComponent;
 
@@ -18,14 +18,14 @@ namespace GoldHelper
 	 * Param: ID of the entity.
 	 * Param: The new gold value.
 	 */
-	void set_curr_gold(EntitySystem&, std::size_t, std::size_t);
+	void set_curr_gold(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns the gold value a given entity has.
 	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.
 	 */
-	std::size_t get_curr_gold(EntitySystem&, std::size_t);
+	tdt::uint get_curr_gold(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the limit of gold that a given entity can have.
@@ -33,14 +33,14 @@ namespace GoldHelper
 	 * Param: ID of the entity.
 	 * Param: The new limit.
 	 */
-	void set_max_gold(EntitySystem&, std::size_t, std::size_t);
+	void set_max_gold(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns the limit of gold that a given entity can have.
 	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.
 	 */
-	std::size_t get_max_gold(EntitySystem&, std::size_t);
+	tdt::uint get_max_gold(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Adds a given gold value to a given entity up to it's
@@ -50,7 +50,7 @@ namespace GoldHelper
 	 * Param: ID of the entity.
 	 * Param: Amount of gold to add.
 	 */
-	std::size_t add_gold(EntitySystem&, std::size_t, std::size_t);
+	tdt::uint add_gold(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Removes a given amount of gold from a given entity, but
@@ -62,7 +62,7 @@ namespace GoldHelper
 	 * Param: Amount of gold to subtract.
 	 * Param: If false, the transaction won't be registered (used when called from Player);
 	 */
-	std::size_t sub_gold(EntitySystem&, std::size_t, std::size_t, bool = true);
+	tdt::uint sub_gold(EntitySystem&, tdt::uint, tdt::uint, bool = true);
 
 	/**
 	 * Brief: Transfers all gold of an entity to another entity while
@@ -72,7 +72,7 @@ namespace GoldHelper
 	 * Param: ID of the sender entity.
 	 * Param: ID of the receiver entity.
 	 */
-	std::size_t transfer_all_gold(EntitySystem&, std::size_t, std::size_t);
+	tdt::uint transfer_all_gold(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns true if a given entity's gold storage is full, false
@@ -80,10 +80,10 @@ namespace GoldHelper
 	 * Param: EntitySystem that contains the entity.
 	 * Param: ID of the entity.
 	 */
-	bool gold_full(EntitySystem&, std::size_t);
+	bool gold_full(EntitySystem&, tdt::uint);
 
 	/**
 	 *
 	 */
-	void register_transaction_(EntitySystem&, GoldComponent&, std::size_t, std::size_t, bool = true);
+	void register_transaction_(EntitySystem&, GoldComponent&, tdt::uint, tdt::uint, bool = true);
 };

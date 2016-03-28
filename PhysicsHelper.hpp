@@ -1,8 +1,6 @@
 #pragma once
 
-#include <Ogre.h>
-#include <cstdlib>
-#include <numeric>
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -17,14 +15,14 @@ namespace PhysicsHelper
 	 * Param: ID of the entity.
 	 * Param: True for solid, false for non-solid.
 	 */
-	void set_solid(EntitySystem&, std::size_t, bool);
+	void set_solid(EntitySystem&, tdt::uint, bool);
 
 	/**
 	 * Brief: Returns true if a given entity is solid, false otherwise.
 	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the entity.
 	 */
-	bool is_solid(EntitySystem&, std::size_t);
+	bool is_solid(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the position of a given entity.
@@ -35,14 +33,14 @@ namespace PhysicsHelper
 	 *       the position of the scene node this entity is attached to
 	 *       and thus does not move the entity's model as well.
 	 */
-	void set_position(EntitySystem&, std::size_t, const Ogre::Vector3&);
+	void set_position(EntitySystem&, tdt::uint, const Ogre::Vector3&);
 
 	/**
 	 * Brief: Returns the position of a given entity.
 	 * Param: Reference to the entity system containing components.
 	 * Parma: ID of the entity.
 	 */
-	const Ogre::Vector3& get_position(EntitySystem&, std::size_t);
+	const Ogre::Vector3& get_position(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the half height of a given entity (which is used to
@@ -52,7 +50,7 @@ namespace PhysicsHelper
 	 * Param: ID of the entity.
 	 * Param: The new half height value.
 	 */
-	void set_half_height(EntitySystem&, std::size_t, Ogre::Real);
+	void set_half_height(EntitySystem&, tdt::uint, tdt::real);
 
 	/**
 	 * Brief: Returns the half height of a given entity (which is used to
@@ -61,7 +59,7 @@ namespace PhysicsHelper
 	 * Param: Reference to the entity system containing components.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Real get_half_height(EntitySystem&, std::size_t);
+	tdt::real get_half_height(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Moves a given entity to a given point in space (absolute movement).
@@ -72,7 +70,7 @@ namespace PhysicsHelper
 	 *       the position of the scene node this entity is attached to (if
 	 *       such node exists) and thus moves the entity's model as well.
 	 */
-	void move_to(EntitySystem&, std::size_t, Ogre::Vector3);
+	void move_to(EntitySystem&, tdt::uint, Ogre::Vector3);
 
 	/**
 	 * Brief: Returns the distance between two given entities.
@@ -80,17 +78,17 @@ namespace PhysicsHelper
 	 * Param: ID of the first entity.
 	 * Param: ID of the second entity.
 	 */
-	Ogre::Real get_distance(EntitySystem&, std::size_t, std::size_t);
+	tdt::real get_distance(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
-	 * Brief: Returns the size of the angle bewteen two given vectors as Ogre::Real
+	 * Brief: Returns the size of the angle bewteen two given vectors as tdt::real
 	 *        which can then be used in Ogre::Radian constructor for conversion to Radians.
 	 *        (The reason for this is that Lua does not have the notion of radians and as such
 	 *        using floating point numbers is easier.)
 	 * Param: Vector #1.
 	 * Param: Vector #2.
 	 */
-	Ogre::Real get_angle(Ogre::Vector3, Ogre::Vector3);
+	tdt::real get_angle(Ogre::Vector3, Ogre::Vector3);
 
 	/**
 	 * Brief: Sets the position of a given entity disregarding it's Y coordinate.
@@ -98,7 +96,7 @@ namespace PhysicsHelper
 	 * Param: ID of the entity.
 	 * Param: The new position (vector2 containing the x and z coordinates.)
 	 */
-	void set_2d_position(EntitySystem&, std::size_t, Ogre::Vector2);
+	void set_2d_position(EntitySystem&, tdt::uint, Ogre::Vector2);
 
 	/**
 	 * Brief: Returns the X and Z coordinates of a given entity's position.
@@ -108,5 +106,5 @@ namespace PhysicsHelper
 	 *       because this method creates a proxy Vector2 which cannot be passed
 	 *       as an lvalue reference due to it being a temporary object.
 	 */
-	Ogre::Vector2 get_2d_position(EntitySystem&, std::size_t);
+	Ogre::Vector2 get_2d_position(EntitySystem&, tdt::uint);
 }

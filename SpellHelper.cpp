@@ -62,5 +62,5 @@ void SpellHelper::cast(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<SpellComponent>(id);
 	if(comp)
-		lpp::Script::get_singleton().call<void, tdt::uint>(comp->blueprint + ".cast", id);
+		lpp::Script::instance().call<void, tdt::uint>(comp->blueprint + ".cast", id);
 }

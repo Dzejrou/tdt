@@ -1,10 +1,8 @@
 #pragma once
 
-#include <CEGUI/RendererModules/Ogre/Renderer.h>
-#include <Ogre.h>
 #include <string>
 #include "GUIWindow.hpp"
-#include "lppscript/LppScript.hpp"
+#include "Typedefs.hpp"
 
 /**
  * Class representing the ingame developers console that allows for runtime
@@ -22,13 +20,13 @@ class Console : public GUIWindow
 		/**
 		 * Destructor.
 		 */
-		~Console() {}
+		~Console() = default;
 
 		/**
 		 * Brief: Changes the visibility and text capturing of the console window.
 		 * Param: The new visibility state.
 		 */
-		void set_visible(bool);
+		void set_visible(bool) override;
 
 		/**
 		 * Brief: Event handler that is called by CEGUI whenever a text is entered.
@@ -54,35 +52,37 @@ class Console : public GUIWindow
 		 *        all the way down to the last line of the output.
 		 * Param: Amount of lines to scroll.
 		 */
-		void scroll_down(std::size_t = 1);
+		void scroll_down(tdt::uint = 1);
 
 		/**
 		 * Brief: Updates the FPS value next to the console name.
 		 * Param: Time since the last frame.
 		 * Param: The new framerate.
 		 */
-		void update_fps(Ogre::Real, Ogre::Real);
+		void update_fps(tdt::real, tdt::real);
 
 		/**
 		 * Brief: Sets the number of entries that will be shown in the console's history.
 		 * Param: The new entry count.
 		 */
-		void set_history(std::size_t);
+		void set_history(tdt::uint);
 
 		/**
 		 * Brief: Returns the number of entries that will be shown in the console's history.
 		 */
-		std::size_t get_history() const;
+		tdt::uint get_history() const;
 
 		/**
 		 * Brief: Clears the console log.
 		 */
 		void clear();
+
 	protected:
 		/**
 		 * Brief: Initializes the console and subscribes it to events.
 		 */
-		void init_();
+		void init_() override;
+
 	private:
 		/**
 		 * Pointer to the CEGUI ListBox widget that serves as console output.
@@ -101,10 +101,10 @@ class Console : public GUIWindow
 		 * to make sure the fps update won't slow down the game as it involves
 		 * float to string conversion.
 		 */
-		Ogre::Real time_since_last_fps_update_;
+		tdt::real time_since_last_fps_update_;
 
 		/**
 		 * Limits the number of console entries that will be shown in it's history.
 		 */
-		std::size_t console_history_;
+		tdt::uint console_history_;
 };

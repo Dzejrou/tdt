@@ -1,7 +1,9 @@
 #include "MessageToPlayerWindow.hpp"
+#include "lppscript/LppScript.hpp"
+#include <CEGUI/CEGUI.h>
 
 MessageToPlayerWindow::MessageToPlayerWindow()
-	: script_{lpp::Script::get_singleton()},
+	: script_{lpp::Script::instance()},
 	  ok_func_{}, yes_func_{}, no_func_{}
 { /* DUMMY BODY */ }
 

@@ -3,14 +3,14 @@
 #include "EntitySystem.hpp"
 #include "lppscript/LppScript.hpp"
 
-void TriggerHelper::set_blueprint(EntitySystem& ents, std::size_t id, const std::string& val)
+void TriggerHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {
 	auto comp = ents.get_component<TriggerComponent>(id);
 	if(comp)
 		comp->blueprint = val;
 }
 
-const std::string& TriggerHelper::get_blueprint(EntitySystem& ents, std::size_t id)
+const std::string& TriggerHelper::get_blueprint(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<TriggerComponent>(id);
 	if(comp)
@@ -19,14 +19,14 @@ const std::string& TriggerHelper::get_blueprint(EntitySystem& ents, std::size_t 
 		return ents.NO_BLUEPRINT;
 }
 
-void TriggerHelper::set_linked_entity(EntitySystem& ents, std::size_t id, std::size_t val)
+void TriggerHelper::set_linked_entity(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<TriggerComponent>(id);
 	if(comp)
 		comp->linked_entity = val;
 }
 
-std::size_t TriggerHelper::get_linked_entity(EntitySystem& ents, std::size_t id)
+tdt::uint TriggerHelper::get_linked_entity(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<TriggerComponent>(id);
 	if(comp)
@@ -35,30 +35,30 @@ std::size_t TriggerHelper::get_linked_entity(EntitySystem& ents, std::size_t id)
 		return Component::NO_ENTITY;
 }
 
-void TriggerHelper::set_cooldown(EntitySystem& ents, std::size_t id, Ogre::Real val)
+void TriggerHelper::set_cooldown(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
 	auto comp = ents.get_component<TriggerComponent>(id);
 	if(comp)
 		comp->cooldown = val;
 }
 
-Ogre::Real TriggerHelper::get_cooldown(EntitySystem& ents, std::size_t id)
+tdt::real TriggerHelper::get_cooldown(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<TriggerComponent>(id);
 	if(comp)
 		return comp->cooldown;
 	else
-		return Ogre::Real();
+		return tdt::real();
 }
 
-void TriggerHelper::trigger(EntitySystem& ents, std::size_t id, std::size_t target)
+void TriggerHelper::trigger(EntitySystem& ents, tdt::uint id, tdt::uint target)
 {
 	auto comp = ents.get_component<TriggerComponent>(id);
 	if(comp)
-		lpp::Script::get_singleton().call<void, std::size_t, std::size_t>(comp->blueprint + ".trigger", id, target);
+		lpp::Script::instance().call<void, tdt::uint, tdt::uint>(comp->blueprint + ".trigger", id, target);
 }
 
-bool TriggerHelper::can_be_triggered_by(EntitySystem& ents, std::size_t id, std::size_t target)
+bool TriggerHelper::can_be_triggered_by(EntitySystem& ents, tdt::uint id, tdt::uint target)
 {
 	auto comp = ents.get_component<TriggerComponent>(id);
 	auto fac1 = ents.get_component<FactionComponent>(id);
@@ -74,25 +74,25 @@ bool TriggerHelper::can_be_triggered_by(EntitySystem& ents, std::size_t id, std:
 		return false;
 }
 
-void TriggerHelper::reset_timer(EntitySystem& ents, std::size_t id)
+void TriggerHelper::reset_timer(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<TriggerComponent>(id);
 	if(comp)
 		comp->curr_time = 0.f;
 }
 
-void TriggerHelper::set_radius(EntitySystem& ents, std::size_t id, Ogre::Real val)
+void TriggerHelper::set_radius(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
 	auto comp = ents.get_component<TriggerComponent>(id);
 	if(comp)
 		comp->radius = val;
 }
 
-Ogre::Real TriggerHelper::get_radius(EntitySystem& ents, std::size_t id)
+tdt::real TriggerHelper::get_radius(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<TriggerComponent>(id);
 	if(comp)
 		return comp->radius;
 	else
-		return Ogre::Real{};
+		return tdt::real{};
 }

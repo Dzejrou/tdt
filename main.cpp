@@ -1,17 +1,14 @@
 #include <Ogre.h>
-
 #include <memory>
 #include <exception>
 #include <string>
-
+#include "LppScript/LppScript.hpp"
+#include "Game.hpp"
 #ifdef WIN32
 #include "windows.h"
 #else
 #include <iostream>
 #endif
-
-#include "LppScript/LppScript.hpp"
-#include "Game.hpp"
 
 void print_msg(const std::string&, const std::string&);
 
@@ -19,6 +16,9 @@ void print_msg(const std::string&, const std::string&);
 void lua_test();
 void ogre_test();
 
+/**
+ * Interface for the debug function print_msg to Lua.
+ */
 int show_msg(lpp::Script::state L)
 {
 	std::string s = lua_tostring(L, -1);
@@ -34,11 +34,9 @@ int main(int argc, char** argv)
 {
 	try
 	{
-		lpp::Script::get_singleton().register_function("show_msg", show_msg);
+		lpp::Script::instance().register_function("show_msg", show_msg);
 		Game game{};
 		game.run();
-		//lua_test();
-		//ogre_test();
 	}
 	catch(const Ogre::Exception& ex)
 	{
@@ -49,7 +47,7 @@ int main(int argc, char** argv)
 	catch(const lpp::Exception& ex)
 	{
 		print_msg(ex.what(), "Lua Exception!");
-		print_msg(ex.what_lua(), "Error message from Lue:");
+		print_msg(ex.what_lua(), "Error message from Lua:");
 		return 1;
 	}
 	catch(const std::exception& ex)
@@ -82,12 +80,17 @@ void print_msg(const std::string& msg, const std::string& title = "NULL")
 }
 
 /**
+ * Below are old tests that were used to check the proper functionality
+ * of the Lua and OGRE libraries.
+ */
+
+/**
  * Brief: Set of tests designed to make sure all of the aspects of the lpp::Script class
  *        are working properly.
  */
 void lua_test()
 {
-	lpp::Script& script = lpp::Script::get_singleton();
+	lpp::Script& script = lpp::Script::instance();
 	script.load("scripts/test.lua");
 
 	std::string name = script.get<std::string>("programmer.name");

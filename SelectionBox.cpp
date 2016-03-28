@@ -1,5 +1,6 @@
 #include "SelectionBox.hpp"
 #include "GUI.hpp"
+#include "EntitySystem.hpp"
 
 SelectionBox::SelectionBox(const Ogre::String& name, EntitySystem& ents,
 						   Ogre::PlaneBoundedVolumeListSceneQuery& vol_query,
@@ -53,7 +54,7 @@ void SelectionBox::set_corners(const Ogre::Vector2& t_l, const Ogre::Vector2& b_
 	set_corners(top_left.x, top_left.y, bottom_right.x, bottom_right.y);
 }
 
-std::vector<std::size_t>& SelectionBox::get_selected_entities()
+std::vector<tdt::uint>& SelectionBox::get_selected_entities()
 {
 	return selected_entities_;
 }

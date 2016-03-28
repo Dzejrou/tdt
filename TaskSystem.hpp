@@ -3,13 +3,11 @@
 #include <deque>
 #include <map>
 #include <string>
-#include <cstdlib>
-#include <numeric>
-
 #include "System.hpp"
-#include "EntitySystem.hpp"
-#include "GridSystem.hpp"
-#include "CombatSystem.hpp"
+#include "Typedefs.hpp"
+class GridSystem;
+class CombatSystem;
+class EntitySystem;
 
 /**
  * System managing all entities with the TaskComponent, their creation, assignment,
@@ -28,13 +26,13 @@ class TaskSystem : public System
 		/**
 		 * Destructor.
 		 */
-		~TaskSystem() {}
+		~TaskSystem() = default;
 
 		/**
 		 * Brief: Manages the lifetime of tasks on each frame.
 		 * Param: Time since the last frame.
 		 */
-		void update(Ogre::Real);
+		void update(tdt::real) override;
 
 		/**
 		 * Brief: Translates a task type enum value into a string that can be displayed
@@ -42,6 +40,7 @@ class TaskSystem : public System
 		 * Param: Task type to be translated.
 		 */
 		const std::string& get_task_name(TASK_TYPE) const;
+
 	private:
 		/**
 		 * Brief: Set's the current task to the task in the front of the respective task queue
@@ -56,14 +55,14 @@ class TaskSystem : public System
 		 * Param: Reference to the task handling component of the assigned entity.
 		 *        (For easier look up of the blueprint.)
 		 */
-		bool handle_task_(std::size_t, TaskHandlerComponent&);
+		bool handle_task_(tdt::uint, TaskHandlerComponent&);
 
 		/**
 		 * Brief: Checks whether the current task of a given entity has been completed.
 		 * Param: ID of the handling entity.
 		 * Param: Reference to the entity's TaskHandlerComponent.
 		 */
-		bool current_task_completed_(std::size_t, TaskHandlerComponent&);
+		bool current_task_completed_(tdt::uint, TaskHandlerComponent&);
 
 		/**
 		 * Reference to the game's entity system.

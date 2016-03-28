@@ -1,11 +1,13 @@
 #pragma once
-#pragma once
 
 #include <vector>
 #include <string>
 #include "GUIWindow.hpp"
-#include "lppscript/LppScript.hpp"
-#include "Spellcaster.hpp"
+namespace lpp
+{
+	class Script;
+}
+class SpellCaster;
 
 /**
  * Class representing the spell selection window, allows the player to cast
@@ -22,7 +24,7 @@ class SpellCastingWindow : public GUIWindow
 		/**
 		 * Destructor.
 		 */
-		~SpellCastingWindow() {}
+		~SpellCastingWindow() = default;
 
 		/**
 		 * Brief: Appends a table name to the vector of all spell tables.
@@ -81,7 +83,7 @@ class SpellCastingWindow : public GUIWindow
 		/**
 		 * Brief: Initializes the window and subscribes events.
 		 */
-		void init_();
+		void init_() override;
 
 	private:
 

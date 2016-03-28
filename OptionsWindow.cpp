@@ -2,6 +2,8 @@
 #include "GUI.hpp"
 #include "Game.hpp"
 #include "GameSerializer.hpp"
+#include "Camera.hpp"
+#include <fstream>
 
 OptionsWindow::OptionsWindow()
 	: render_window_{}, view_{}, renderer_{}, fullscreen_{}, key_names_{},

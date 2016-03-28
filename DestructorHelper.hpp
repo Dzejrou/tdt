@@ -1,9 +1,8 @@
 #pragma once
 
-#include <cstdlib>
 #include <string>
-#include "lppscript/LppScript.hpp"
 #include "Components.hpp"
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**

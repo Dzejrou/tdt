@@ -1,20 +1,15 @@
 #pragma once
 
-#include <Ogre.h>
 #include <tuple>
-#include <cstdlib>
 #include <bitset>
 #include <map>
 #include <string>
 #include "System.hpp"
 #include "Components.hpp"
 #include "EntitySystem.hpp"
-#include "HealthHelper.hpp"
-#include "CombatHelper.hpp"
-#include "GraphicsHelper.hpp"
-#include "GridSystem.hpp"
 #include "Util.hpp"
-#include "RayCaster.hpp"
+class GridSystem;
+class RayCaster;
 
 /**
  * Used for entity container filtering, this represents the entity
@@ -43,13 +38,13 @@ class CombatSystem : public System
 		/**
 		 * Destructor.
 		 */
-		~CombatSystem() {}
+		~CombatSystem() = default;
 
 		/**
 		 * Brief: Updates all auto attack combat in the game currently in progress.
 		 * Param: Time since the last frame.
 		 */
-		void update(Ogre::Real) override;
+		void update(tdt::real) override;
 
 		/**
 		 * Brief: Returns true if two given entities can see each other,
@@ -60,7 +55,7 @@ class CombatSystem : public System
 		 *       are in the way, allows to see through other friendly/enemy/neutral
 		 *       entities.
 		 */
-		bool in_sight(std::size_t, std::size_t) const;
+		bool in_sight(tdt::uint, tdt::uint) const;
 
 		/**
 		 * Brief: Returns true if two given entities can see each other,
@@ -71,7 +66,7 @@ class CombatSystem : public System
 		 *       are in the way, allows to see through other friendly/enemy/neutral
 		 *       entities.
 		 */
-		bool in_sight_wrt_BB(std::size_t, std::size_t) const;
+		bool in_sight_wrt_BB(tdt::uint, tdt::uint) const;
 
 		/**
 		 * Brief: Returns the ID of the closest entity (from a given entity's
@@ -80,7 +75,7 @@ class CombatSystem : public System
 		 * Param: If true, will return only entities in sight.
 		 * Param: If true, will return only friendly entities (enemies otherwise).
 		 */
-		std::size_t get_closest_entity(std::size_t, bool = true, bool = false) const;
+		tdt::uint get_closest_entity(tdt::uint, bool = true, bool = false) const;
 
 		/**
 		 * Brief: Returns the ID of the closest structure (from a given entity's
@@ -89,7 +84,7 @@ class CombatSystem : public System
 		 * Param: If true, will return only structures in sight.
 		 * Param: If true, will return friendly structures (enemies otherwise).
 		 */
-		std::size_t get_closest_structure(std::size_t, bool = true, bool = false) const;
+		tdt::uint get_closest_structure(tdt::uint, bool = true, bool = false) const;
 
 		/**
 		 * Brief: Returns the ID of the closest entity (from a given entity's
@@ -99,7 +94,7 @@ class CombatSystem : public System
 		 * Param: If true, will return only entities in sight.
 		 * Param: If true, will return only friendly entities (enemies otherwise).
 		 */
-		std::size_t get_closest_entity_thats_not(std::size_t, std::size_t, bool = true, bool = false) const;
+		tdt::uint get_closest_entity_thats_not(tdt::uint, tdt::uint, bool = true, bool = false) const;
 
 		/**
 		 * Brief: Returns the ID of the closest gold deposit (entity with both structure
@@ -107,7 +102,7 @@ class CombatSystem : public System
 		 * Param: ID of the entity that looks for the gold deposit.
 		 * Param: If true, only deposits in sight will be checked.
 		 */
-		std::size_t get_closest_gold_deposit(std::size_t, bool = false) const;
+		tdt::uint get_closest_gold_deposit(tdt::uint, bool = false) const;
 
 		/**
 		 * Brief: Returns the ID of the closest gold vault that can store player's gold.
@@ -115,7 +110,7 @@ class CombatSystem : public System
 		 * Param: If true, only vaults in sight will be checked.
 		 * Param: If true, only vaults that have free space for more gold will be checked.
 		 */
-		std::size_t get_closest_gold_vault(std::size_t, bool = false, bool = false) const;
+		tdt::uint get_closest_gold_vault(tdt::uint, bool = false, bool = false) const;
 
 		/**
 		 * Brief: Returns the ID of the closest entity that has a given component, meets
@@ -129,11 +124,11 @@ class CombatSystem : public System
 		 *       all entitites regardless of their components).
 		 */
 		template<typename CONT, typename COND>
-		std::size_t get_closest_entity(std::size_t id, COND& condition, bool only_sight = true) const
+		tdt::uint get_closest_entity(tdt::uint id, COND& condition, bool only_sight = true) const
 		{
 			auto phys_comp = entities_.get_component<PhysicsComponent>(id);
-			std::size_t closest_id = Component::NO_ENTITY;
-			Ogre::Real min_distance = std::numeric_limits<Ogre::Real>::max();
+			tdt::uint closest_id = Component::NO_ENTITY;
+			tdt::real min_distance = std::numeric_limits<tdt::real>::max();
 			if(phys_comp)
 			{
 				for(auto& ent : get_container<CONT>())
@@ -171,7 +166,7 @@ class CombatSystem : public System
 		 *       all entitites regardless of their components).
 		 */
 		template<typename CONT, typename COND, typename EFFECT>
-		void apply_effect_to_entities_in_range(std::size_t id, COND& condition, EFFECT& effect, Ogre::Real range)
+		void apply_effect_to_entities_in_range(tdt::uint id, COND& condition, EFFECT& effect, tdt::real range)
 		{
 			auto comp = entities_.get_component<PhysicsComponent>(id);
 			if(comp)
@@ -193,7 +188,7 @@ class CombatSystem : public System
 		 * Param: ID of the entity.
 		 * Param: The range.
 		 */
-		void apply_heal_to_entities_in_range(std::size_t, Ogre::Real);
+		void apply_heal_to_entities_in_range(tdt::uint, tdt::real);
 
 		/**
 		 * Brief: Damages all friendly entities within a given range from a given entity.
@@ -202,7 +197,7 @@ class CombatSystem : public System
 		 * Param: Minimal damage value.
 		 * Param: Maximal damage value.
 		 */
-		void apply_damage_to_entities_in_range(std::size_t, Ogre::Real, std::size_t, std::size_t);
+		void apply_damage_to_entities_in_range(tdt::uint, tdt::real, tdt::uint, tdt::uint);
 
 		/**
 		 * Brief: Slows all enemy entities within a given range from a given entity for a
@@ -211,7 +206,7 @@ class CombatSystem : public System
 		 * Param: The range.
 		 * Param: The time period for which the slow is active.
 		 */
-		void apply_slow_to_entities_in_range(std::size_t, Ogre::Real, Ogre::Real);
+		void apply_slow_to_entities_in_range(tdt::uint, tdt::real, tdt::real);
 
 		/**
 		 * Brief: Freezes all enemy entities within a given range from a given entity for a
@@ -220,21 +215,21 @@ class CombatSystem : public System
 		 * Param: The range.
 		 * Param: The time period for which the freeze is active.
 		 */
-		void apply_freeze_to_entities_in_range(std::size_t, Ogre::Real, Ogre::Real);
+		void apply_freeze_to_entities_in_range(tdt::uint, tdt::real, tdt::real);
 
 		/**
 		 * Brief: Slows a given entity for a given time period.
 		 * Param: ID of the entity.
 		 * Param: The time period for which the freeze is active.
 		 */
-		void apply_slow_to(std::size_t, Ogre::Real);
+		void apply_slow_to(tdt::uint, tdt::real);
 
 		/**
 		 * Brief: Freezes a given entity for a given time period.
 		 * Param: ID of the entity.
 		 * Param: The time period for which the freeze is active.
 		 */
-		void apply_freeze_to(std::size_t, Ogre::Real);
+		void apply_freeze_to(tdt::uint, tdt::real);
 
 		/**
 		 * Brief: Tries to find a path used by an entity to run away from another entity.
@@ -243,32 +238,33 @@ class CombatSystem : public System
 		 * Param: Minimal amount of nodes the path has to have (will be ignored if the amount
 		 *        of attempts surpasses the maximum amount).
 		 */
-		void run_away_from(std::size_t, std::size_t, std::size_t);
+		void run_away_from(tdt::uint, tdt::uint, tdt::uint);
 
 		/**
 		 * Brief: Sets the maximum amount of pathfinding attempts for running away.
 		 * Param: The new maximum amount.
 		 */
-		void set_max_run_away_attempts(std::size_t);
+		void set_max_run_away_attempts(tdt::uint);
 
 		/**
 		 * Brief: Returns the maximum amount of pathfinding attempts for running away.
 		 */
-		std::size_t get_max_run_away_attempts();
+		tdt::uint get_max_run_away_attempts();
 
 		/**
 		 * Brief: Returns true if an enemy is in range from a given entity, false
 		 *        otherwise.
 		 * Param: ID of the entity.
 		 */
-		bool enemy_in_range(std::size_t);
+		bool enemy_in_range(tdt::uint);
+
 	private:
 		/**
 		 * Brief: Retuns a map containing pairs of IDs and components of a given type, use
 		 *        the type ALL_COMPONENTS to get the <ID, component bitset> container.
 		 */
 		template<typename COMP>
-		const std::map<std::size_t, COMP>& get_container() const
+		const std::map<tdt::uint, COMP>& get_container() const
 		{
 			return entities_.get_component_container<COMP>();
 		}
@@ -279,7 +275,7 @@ class CombatSystem : public System
 		 * Param: ID of the caster entity.
 		 * Param: Reference to the caster entity's combat component.
 		 */
-		void create_homing_projectile(std::size_t, CombatComponent&);
+		void create_homing_projectile(tdt::uint, CombatComponent&);
 
 		/**
 		 * Reference to the game's entity system (component retrieval).
@@ -304,7 +300,7 @@ class CombatSystem : public System
 		/**
 		 * Maximum amount of pathfindings performed when running away from an enemy.
 		 */
-		std::size_t max_run_away_attempts_{10};
+		tdt::uint max_run_away_attempts_{10};
 };
 
 /**
@@ -312,7 +308,7 @@ class CombatSystem : public System
  *        <ID, component bitset> map containing all entities.
  */
 template<>
-inline const std::map<std::size_t, ALL_COMPONENTS>& CombatSystem::get_container() const
+inline const std::map<tdt::uint, ALL_COMPONENTS>& CombatSystem::get_container() const
 {
 	return entities_.get_component_list();
 }

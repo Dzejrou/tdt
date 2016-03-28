@@ -36,18 +36,18 @@ EntitySystem::EntitySystem(Ogre::SceneManager& mgr)
 	init_function_arrays();
 }
 
-void EntitySystem::update(Ogre::Real)
+void EntitySystem::update(tdt::real)
 {
 	cleanup();
 }
 
-std::size_t EntitySystem::get_new_id()
+tdt::uint EntitySystem::get_new_id()
 {
 	if(curr_id_ < Component::NO_ENTITY)
 		return curr_id_++;
 	else
 	{ // Find first empty ID.
-		std::size_t id{0};
+		tdt::uint id{0};
 		for(auto it = entities_.begin(); it != entities_.end(); ++it)
 		{
 			if(it->first != id) // First unused id.
@@ -81,7 +81,7 @@ void EntitySystem::cleanup()
 	 *       because when a TaskHandlerComponent is deleted, new entities (the tasks)
 	 *       are added which might result in iterator invalidation.
 	 */
-	std::vector<std::size_t> tmp_to_be_destroyed_{};
+	std::vector<tdt::uint> tmp_to_be_destroyed_{};
 	tmp_to_be_destroyed_.swap(to_be_destroyed_);
 	for(auto id : tmp_to_be_destroyed_)
 	{
@@ -92,7 +92,7 @@ void EntitySystem::cleanup()
 		if(entity == entities_.end())
 			continue;
 
-		for(std::size_t i = 0; i < entity->second.size(); ++i)
+		for(tdt::uint i = 0; i < entity->second.size(); ++i)
 		{
 			if(entity->second.test(i))
 				delete_component_now(id, i);
@@ -106,9 +106,9 @@ void EntitySystem::cleanup()
 	constructors_to_be_called_.clear();
 }
 
-std::size_t EntitySystem::create_entity(const std::string& table_name, const Ogre::Vector3& position)
+tdt::uint EntitySystem::create_entity(const std::string& table_name, const Ogre::Vector3& position)
 {
-	std::size_t id = get_new_id();
+	tdt::uint id = get_new_id();
 	entities_.emplace(std::make_pair(id, std::bitset<Component::count>{}));
 
 	if(table_name == "") // Allows to create empty entities that are setup manually.
@@ -141,29 +141,29 @@ std::size_t EntitySystem::create_entity(const std::string& table_name, const Ogr
 	return id;
 }
 
-void EntitySystem::destroy_entity(std::size_t id)
+void EntitySystem::destroy_entity(tdt::uint id)
 {
 	to_be_destroyed_.push_back(id);
 }
 
-const std::map<std::size_t, std::bitset<Component::count>>& EntitySystem::get_component_list() const
+const std::map<tdt::uint, std::bitset<Component::count>>& EntitySystem::get_component_list() const
 {
 	return entities_;
 }
 
-void EntitySystem::add_component(std::size_t ent_id, int comp_id)
+void EntitySystem::add_component(tdt::uint ent_id, int comp_id)
 {
 	if(comp_id >= 0 && comp_id < Component::count && adders_[comp_id])
 		ADD_COMPONENT(comp_id, ent_id);
 }
 
-void EntitySystem::delete_component(std::size_t ent_id, int comp_id)
+void EntitySystem::delete_component(tdt::uint ent_id, int comp_id)
 {
 	if(comp_id >= 0 && comp_id < Component::count && deleters_[comp_id])
 		DELETE_COMPONENT(comp_id, ent_id);
 }
 
-void EntitySystem::delete_component_now(std::size_t ent_id, int comp_id)
+void EntitySystem::delete_component_now(tdt::uint ent_id, int comp_id)
 {
 	if(comp_id >= 0 && comp_id < Component::count && immediate_deleters_[comp_id])
 		DELETE_COMPONENT_NOW(comp_id, ent_id);
@@ -179,7 +179,7 @@ std::set<std::string>& EntitySystem::get_registered_entities()
 	return entity_register_;
 }
 
-bool EntitySystem::exists(std::size_t id) const
+bool EntitySystem::exists(tdt::uint id) const
 {
 	return entities_.find(id) != entities_.end();
 }
@@ -354,7 +354,7 @@ void EntitySystem::init_function_arrays()
 	immediate_deleters_[CounterComponent::type] = &EntitySystem::delete_component_now<CounterComponent>;
 }
 
-bool EntitySystem::has_component(std::size_t id, std::size_t comp) const
+bool EntitySystem::has_component(tdt::uint id, tdt::uint comp) const
 {
 	auto it = entities_.find(id);
 	if(it != entities_.end())

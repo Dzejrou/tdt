@@ -1,16 +1,17 @@
 #include "TopBar.hpp"
 #include "Player.hpp"
+#include <CEGUI/CEGUI.h>
 
 TopBar::TopBar()
-	: tdelta_{0.f}
+	: tdelta_{REAL_ZERO}
 { /* DUMMY BODY */ }
 
-void TopBar::update_time(Ogre::Real delta)
+void TopBar::update_time(tdt::real delta)
 {
 	tdelta_ += delta;
 	if(tdelta_ > 1.f)
 	{
-		tdelta_ = 0.f;
+		tdelta_ = REAL_ZERO;
 		time_t now = time(0);
 		struct tm* tstruct = localtime(&now);
 		char buf[80];

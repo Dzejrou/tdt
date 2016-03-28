@@ -2,7 +2,11 @@
 
 #include <array>
 #include "GUIWindow.hpp"
-#include "lppscript/LppScript.hpp"
+#include "Typedefs.hpp"
+namespace lpp
+{
+	class Script;
+}
 
 /**
  * Class that represents the research window in the game, which allows
@@ -23,7 +27,7 @@ class ResearchWindow : public GUIWindow
 		/**
 		 * Destructor.
 		 */
-		~ResearchWindow() {}
+		~ResearchWindow() = default;
 
 		/**
 		 * Brief: Unlocks a single research point at a given position
@@ -31,7 +35,7 @@ class ResearchWindow : public GUIWindow
 		 * Param: Row number.
 		 * Param: Column number.
 		 */
-		void unlock(std::size_t, std::size_t);
+		void unlock(tdt::uint, tdt::uint);
 
 		/**
 		 * Brief: Unlocks a single research point without activating it.
@@ -39,7 +43,7 @@ class ResearchWindow : public GUIWindow
 		 * Param: Row number.
 		 * Param: Column number.
 		 */
-		void dummy_unlock(std::size_t, std::size_t);
+		void dummy_unlock(tdt::uint, tdt::uint);
 
 		/**
 		 * Brief: Returns a reference to the unlock table, used
@@ -54,7 +58,7 @@ class ResearchWindow : public GUIWindow
 		 * Param: Column number.
 		 * Param: If true, shows the button, otherwise it hides it.
 		 */
-		void show(std::size_t, std::size_t, bool = true);
+		void show(tdt::uint, tdt::uint, bool = true);
 
 		/**
 		 * Brief: Cheat that changes the price of any research to 0.
@@ -76,7 +80,7 @@ class ResearchWindow : public GUIWindow
 		/**
 		 * Brief: Initializes this window.
 		 */
-		void init_();
+		void init_() override;
 
 	private:
 		/**
@@ -85,7 +89,7 @@ class ResearchWindow : public GUIWindow
 		 * Param: Row number.
 		 * Param: Column number.
 		 */
-		std::size_t get_price_(std::size_t, std::size_t);
+		tdt::uint get_price_(tdt::uint, tdt::uint);
 
 		/**
 		 * Brief: Returns true if the research point at the given position
@@ -93,7 +97,7 @@ class ResearchWindow : public GUIWindow
 		 * Param: Row number.
 		 * Param: Column number.
 		 */
-		bool is_unlocked_(std::size_t, std::size_t);
+		bool is_unlocked_(tdt::uint, tdt::uint);
 
 		/**
 		 * Pointer to the Lua Script used for easier access.
@@ -103,18 +107,18 @@ class ResearchWindow : public GUIWindow
 		/**
 		 * Number of rows that the research table has.
 		 */
-		const std::size_t rows_{6};
+		const tdt::uint rows_{6};
 
 		/**
 		 * Number of columns that the research table has.
 		 */
-		const std::size_t cols_{7};
+		const tdt::uint cols_{7};
 
 		/**
 		 * Contains prices of the individual research points.
 		 * Used to avoid unnecessary Lua lookups.
 		 */
-		std::array<std::size_t, 42> prices_;
+		std::array<tdt::uint, 42> prices_;
 
 		/**
 		 * Contains information about the lock status of the individual

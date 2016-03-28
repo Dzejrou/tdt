@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdlib>
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -15,12 +15,12 @@ namespace PriceHelper
 	 * Param: ID of the entity.
 	 * Param: The new price.
 	 */
-	void set_price(EntitySystem&, std::size_t, std::size_t);
+	void set_price(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns the price of a given entity.
 	 * Param: Entity system that contains the entity.
 	 * Param: ID of the entity.
 	 */
-	std::size_t get_price(EntitySystem&, std::size_t);
+	tdt::uint get_price(EntitySystem&, tdt::uint);
 }

@@ -5,7 +5,7 @@
 #include "FactionHelper.hpp"
 #include "Player.hpp"
 
-void GoldHelper::set_curr_gold(EntitySystem& ents, std::size_t id, std::size_t val)
+void GoldHelper::set_curr_gold(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<GoldComponent>(id);
 	if(comp)
@@ -19,16 +19,16 @@ void GoldHelper::set_curr_gold(EntitySystem& ents, std::size_t id, std::size_t v
 	}
 }
 
-std::size_t GoldHelper::get_curr_gold(EntitySystem& ents, std::size_t id)
+tdt::uint GoldHelper::get_curr_gold(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<GoldComponent>(id);
 	if(comp)
 		return comp->curr_amount;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-void GoldHelper::set_max_gold(EntitySystem& ents, std::size_t id, std::size_t val)
+void GoldHelper::set_max_gold(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<GoldComponent>(id);
 	if(comp)
@@ -38,21 +38,21 @@ void GoldHelper::set_max_gold(EntitySystem& ents, std::size_t id, std::size_t va
 	}
 }
 
-std::size_t GoldHelper::get_max_gold(EntitySystem& ents, std::size_t id)
+tdt::uint GoldHelper::get_max_gold(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<GoldComponent>(id);
 	if(comp)
 		return comp->max_amount;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-std::size_t GoldHelper::add_gold(EntitySystem& ents, std::size_t id, std::size_t val)
+tdt::uint GoldHelper::add_gold(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<GoldComponent>(id);
 	if(comp)
 	{
-		std::size_t rem{};
+		tdt::uint rem{};
 		if(comp->curr_amount + val <= comp->max_amount)
 			comp->curr_amount += val;
 		else
@@ -64,10 +64,10 @@ std::size_t GoldHelper::add_gold(EntitySystem& ents, std::size_t id, std::size_t
 		return rem;
 	}
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-std::size_t GoldHelper::sub_gold(EntitySystem& ents, std::size_t id, std::size_t val, bool reg)
+tdt::uint GoldHelper::sub_gold(EntitySystem& ents, tdt::uint id, tdt::uint val, bool reg)
 {
 	auto comp = ents.get_component<GoldComponent>(id);
 	if(comp)
@@ -82,10 +82,10 @@ std::size_t GoldHelper::sub_gold(EntitySystem& ents, std::size_t id, std::size_t
 		return remainder;
 	}
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-std::size_t GoldHelper::transfer_all_gold(EntitySystem& ents, std::size_t id_from, std::size_t id_to)
+tdt::uint GoldHelper::transfer_all_gold(EntitySystem& ents, tdt::uint id_from, tdt::uint id_to)
 {
 	auto comp_from = ents.get_component<GoldComponent>(id_from);
 	auto comp_to = ents.get_component<GoldComponent>(id_to);
@@ -109,11 +109,11 @@ std::size_t GoldHelper::transfer_all_gold(EntitySystem& ents, std::size_t id_fro
 		return diff;
 	}
 	else
-		return std::size_t{};
+		return tdt::uint{};
 
 }
 
-bool GoldHelper::gold_full(EntitySystem& ents, std::size_t id)
+bool GoldHelper::gold_full(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<GoldComponent>(id);
 	if(comp)
@@ -122,7 +122,7 @@ bool GoldHelper::gold_full(EntitySystem& ents, std::size_t id)
 		return false;
 }
 
-void GoldHelper::register_transaction_(EntitySystem& ents, GoldComponent& comp, std::size_t id, std::size_t val, bool add)
+void GoldHelper::register_transaction_(EntitySystem& ents, GoldComponent& comp, tdt::uint id, tdt::uint val, bool add)
 {
 	// Updates info if the entity is being currently tracked.
 	auto& tracker = GUI::instance().get_tracker();

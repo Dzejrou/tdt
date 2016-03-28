@@ -1,11 +1,14 @@
 #include "WaveSystem.hpp"
 #include "Helpers.hpp"
+#include "EntitySystem.hpp"
+#include "lppscript/LppScript.hpp"
+#include <CEGUI/CEGUI.h>
 
 WaveSystem::WaveSystem(EntitySystem& ents)
 	: state_{WAVE_STATE::INACTIVE}, entities_{ents}, curr_wave_number_{},
 	  wave_count_{}, entities_spawned_{}, entities_total_{}, next_wave_countdown_{180},
 	  second_timer_{}, label_text_{"WAVE SYSTEM OFFLINE"}, window_{},
-	  script_{lpp::Script::get_singleton()}, spawning_nodes_{}, spawn_timer_{},
+	  script_{lpp::Script::instance()}, spawning_nodes_{}, spawn_timer_{},
 	  spawn_cooldown_{}, entity_blueprints_{}, endless_mode_{}
 { /* DUMMY BODY */ }
 

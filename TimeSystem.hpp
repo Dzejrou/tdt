@@ -1,9 +1,8 @@
 #pragma once
 
-#include <Ogre.h>
 #include "System.hpp"
-#include "EntitySystem.hpp"
-#include "Helpers.hpp"
+#include "Typedefs.hpp"
+class EntitySystem;
 
 class TimeSystem : public System
 {
@@ -17,20 +16,20 @@ class TimeSystem : public System
 		/**
 		 * Destructor.
 		 */
-		~TimeSystem() {}
+		~TimeSystem() = default;
 
 		/**
 		 * Brief: Updates the time passed for all TimeComponents and handles
 		 *        those that surpassed their target time.
 		 * Param: Time since last frame.
 		 */
-		void update(Ogre::Real) override;
+		void update(tdt::real) override;
 
 		/**
 		 * Brief: Adds a given time value to all TimeComponents.
 		 * Param: Time to add.
 		 */
-		void advance_all_timers(Ogre::Real);
+		void advance_all_timers(tdt::real);
 
 		/**
 		 * Brief: Adds a given time value to all TimeComponents that match
@@ -38,27 +37,28 @@ class TimeSystem : public System
 		 * Param: Time to add.
 		 * Param: Time even type to match.
 		 */
-		void advance_all_timers_of_type(Ogre::Real, TIME_EVENT);
+		void advance_all_timers_of_type(tdt::real, TIME_EVENT);
 
 		/**
 		 * Brief: Sets the time value by which are all frame times multiplied
 		 *        when added to timers (this allows to slow/speed up all timers).
 		 * Param: The new time multiplier.
 		 */
-		void set_time_multiplier(Ogre::Real = 1.f);
+		void set_time_multiplier(tdt::real = 1.f);
 
 		/**
 		 * Brief: Returns the time value by which are all frame times multiplied
 		 *        when added to timers.
 		 */
-		Ogre::Real get_time_multiplier();
+		tdt::real get_time_multiplier();
+
 	private:
 		/**
 		 * Brief: Handles a time event when it's timer finnishes.
 		 * Param: ID of the time event.
 		 * Param: Reference to the TimeComponent of this time event.
 		 */
-		void handle_event_(std::size_t, TimeComponent&);
+		void handle_event_(tdt::uint, TimeComponent&);
 
 		/**
 		 * Reference to the game's entity system.
@@ -68,5 +68,5 @@ class TimeSystem : public System
 		/**
 		 * Allows to speed up all timers.
 		 */
-		Ogre::Real time_multiplier_;
+		tdt::real time_multiplier_;
 };

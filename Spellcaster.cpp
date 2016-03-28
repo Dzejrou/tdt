@@ -1,9 +1,12 @@
 #include "Spellcaster.hpp"
 #include "Components.hpp"
 #include "GUI.hpp"
+#include "EntityPlacer.hpp"
+#include "SelectionBox.hpp"
+#include "lppscript/LppScript.hpp"
 
 Spellcaster::Spellcaster(EntityPlacer& placer, SelectionBox& selector)
-	: placer_{placer}, selector_{selector}, script_{lpp::Script::get_singleton()},
+	: placer_{placer}, selector_{selector}, script_{lpp::Script::instance()},
 	  curr_spell_{SPELL_TYPE::NONE, ""}, last_spell_{SPELL_TYPE::NONE, ""},
 	  last_spell_id_{Component::NO_ENTITY}
 { /* DUMMY BODY */ }

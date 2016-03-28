@@ -1,5 +1,8 @@
 #include "EntityPlacer.hpp"
+#include "EntitySystem.hpp"
+#include "GridSystem.hpp"
 #include "GUI.hpp"
+#include "Helpers.hpp"
 
 EntityPlacer::EntityPlacer(EntitySystem& ents, GridSystem& grid, Ogre::SceneManager& mgr)
 	: entities_{ents}, grid_{grid}, curr_position_{0, 0, 0},
@@ -45,20 +48,20 @@ void EntityPlacer::set_current_entity_table(const std::string& table_name, bool 
 	if(!script.is_nil(table_name + ".StructureComponent"))
 	{
 		placing_structure_ = true;
-		structure_radius_ = script.get<std::size_t>(table_name + ".StructureComponent.radius");
+		structure_radius_ = script.get<tdt::uint>(table_name + ".StructureComponent.radius");
 	}
 	else
 		placing_structure_ = false;
 
 	if(use_price && !script.is_nil(table_name + ".PriceComponent"))
-		price_ = script.get<std::size_t>(table_name + ".PriceComponent.price");
+		price_ = script.get<tdt::uint>(table_name + ".PriceComponent.price");
 
 	if(man_scaling)
 	{
-		Ogre::Real x, y, z;
-		x = script.get<Ogre::Real>(table_name + ".GraphicsComponent.scale_x");
-		y = script.get<Ogre::Real>(table_name + ".GraphicsComponent.scale_y");
-		z = script.get<Ogre::Real>(table_name + ".GraphicsComponent.scale_z");
+		tdt::real x, y, z;
+		x = script.get<tdt::real>(table_name + ".GraphicsComponent.scale_x");
+		y = script.get<tdt::real>(table_name + ".GraphicsComponent.scale_y");
+		z = script.get<tdt::real>(table_name + ".GraphicsComponent.scale_z");
 		placing_node_->setScale(x, y, z);
 		half_height_ = y;
 	}
@@ -89,7 +92,7 @@ void EntityPlacer::update_position(const Ogre::Vector3& pos)
 	placing_node_->setPosition(curr_position_);
 }
 
-std::size_t EntityPlacer::place()
+tdt::uint EntityPlacer::place()
 {
 	if(!Player::instance().sub_gold(price_))
 	{
@@ -97,12 +100,12 @@ std::size_t EntityPlacer::place()
 		return Component::NO_ENTITY;
 	}
 
-	std::size_t node_id = Grid::instance().get_node_from_position(curr_position_.x, curr_position_.z);
+	tdt::uint node_id = Grid::instance().get_node_from_position(curr_position_.x, curr_position_.z);
 	if(placing_structure_ && !GridNodeHelper::area_free(entities_, node_id, structure_radius_))
 		return Component::NO_ENTITY; // This will prohibit of wall/building stacking.
 
 	auto position = Ogre::Vector3{curr_position_.x, 0.f, curr_position_.z}; // Used to trigger constrcutors.
-	std::size_t id = entities_.create_entity(table_name_, position);
+	tdt::uint id = entities_.create_entity(table_name_, position);
 	auto comp = entities_.get_component<PhysicsComponent>(id);
 	if(comp)
 	{

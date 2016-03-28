@@ -1,13 +1,12 @@
 #pragma once
 
 #include <deque>
-#include <cstdlib>
 #include "EntitySystem.hpp"
 #include "Util.hpp"
 #include "Helpers.hpp"
 #include "Enums.hpp"
 #include "Grid.hpp"
-#include "GUI.hpp"
+#include "Typedefs.hpp"
 
 /**
  * The utim namespace contains various tools and utilities used by the game's engine.
@@ -41,36 +40,36 @@ namespace pathfinding
 	template<typename PATH_TYPE = util::DEFAULT_PATH_TYPE>
 	struct A_STAR
 	{
-		static std::deque<std::size_t> get_path(EntitySystem& ents, std::size_t id, std::size_t start, std::size_t end, util::heuristic::HEURISTIC& heuristic,
+		static std::deque<tdt::uint> get_path(EntitySystem& ents, tdt::uint id, tdt::uint start, tdt::uint end, util::heuristic::HEURISTIC& heuristic,
 												bool allow_destruction = true)
 		{
 			auto comp = ents.get_component<PathfindingComponent>(id);
 			if(!comp)
-				return std::deque<std::size_t>{};
+				return std::deque<tdt::uint>{};
 
-			auto& script = lpp::Script::get_singleton();
+			auto& script = lpp::Script::instance();
 
-			std::map<std::size_t, std::size_t> path_edges{};
-			std::set<std::size_t> open{start};
-			std::map<std::size_t, Ogre::Real> score;
-			std::map<std::size_t, Ogre::Real> estimate;
+			std::map<tdt::uint, tdt::uint> path_edges{};
+			std::set<tdt::uint> open{start};
+			std::map<tdt::uint, tdt::real> score;
+			std::map<tdt::uint, tdt::real> estimate;
 
 			for(auto& node : ents.get_component_container<GridNodeComponent>())
 			{ // Starting score and estimate is "infinity".
-				score.emplace(node.first, std::numeric_limits<Ogre::Real>::max());
-				estimate.emplace(node.first, std::numeric_limits<Ogre::Real>::max());
+				score.emplace(node.first, std::numeric_limits<tdt::real>::max());
+				estimate.emplace(node.first, std::numeric_limits<tdt::real>::max());
 			}
 			score[start] = 0;
 			estimate[start] = heuristic.get_cost(start, end);
 
-			std::size_t current{};
+			tdt::uint current{};
 			bool found_path{false};
 			while(!open.empty())
 			{
 				// Find the best candidate in the open set. Since open is not empty the
 				// returned iterator will be dereferencable.
 				current = *std::min_element(open.begin(), open.end(),
-											[&estimate](const std::size_t& lhs, const std::size_t& rhs) -> bool
+											[&estimate](const tdt::uint& lhs, const tdt::uint& rhs) -> bool
 											{ return estimate[lhs] < estimate[rhs]; });
 				if(current == end && !found_path)
 				{
@@ -81,7 +80,7 @@ namespace pathfinding
 				open.erase(current);
 			
 				auto& neighbours = GridNodeHelper::get_neighbours(ents, current);
-				for(std::size_t i = 0; i < neighbours.size(); ++i)
+				for(tdt::uint i = 0; i < neighbours.size(); ++i)
 				{
 					auto& neighbour = neighbours[i];
 
@@ -89,8 +88,8 @@ namespace pathfinding
 					 * This will allow the concept of portals to be integrated into the
 					 * pathfinding process (because paths will ignore distance between portals).
 					 */
-					Ogre::Real s{};
-					Ogre::Real h{};
+					tdt::real s{};
+					tdt::real h{};
 					bool portal{false};
 					if(i == DIRECTION::PORTAL)
 					{
@@ -139,7 +138,7 @@ namespace pathfinding
 
 			if(found_path)
 			{ // Reconstruct the path.
-				std::deque<std::size_t> path;
+				std::deque<tdt::uint> path;
 				current = end;
 				path.push_back(current);
 
@@ -153,7 +152,7 @@ namespace pathfinding
 				return path;
 			}
 			else
-				return std::deque<std::size_t>{};
+				return std::deque<tdt::uint>{};
 		}
 	};
 }
@@ -218,7 +217,7 @@ namespace heuristic
 			: entities_{ents}
 		{ /* DUMMY BODY */ }
 
-		virtual Ogre::Real get_cost(std::size_t id1, std::size_t id2) = 0;
+		virtual tdt::real get_cost(tdt::uint id1, tdt::uint id2) = 0;
 
 		protected:
 			EntitySystem& entities_;
@@ -234,9 +233,9 @@ namespace heuristic
 			: HEURISTIC{ents}
 		{ /* DUMMY BODY */ }
 
-		Ogre::Real get_cost(std::size_t id1, std::size_t id2) override
+		tdt::real get_cost(tdt::uint id1, tdt::uint id2) override
 		{
-			return (Ogre::Real)GridNodeHelper::get_manhattan_distance(entities_, id1, id2);
+			return (tdt::real)GridNodeHelper::get_manhattan_distance(entities_, id1, id2);
 		}
 	};
 
@@ -249,7 +248,7 @@ namespace heuristic
 			: HEURISTIC{ents}
 		{ /* DUMMY BODY */ }
 
-		Ogre::Real get_cost(std::size_t id1, std::size_t id2) override
+		tdt::real get_cost(tdt::uint id1, tdt::uint id2) override
 		{
 			return 0.f;
 		}
@@ -260,18 +259,18 @@ namespace heuristic
 	 */
 	struct RUN_AWAY_HEURISTIC : public HEURISTIC
 	{
-		RUN_AWAY_HEURISTIC(EntitySystem& ents, std::size_t from)
+		RUN_AWAY_HEURISTIC(EntitySystem& ents, tdt::uint from)
 			: HEURISTIC{ents}, from_{from}
 		{ /* DUMMY BODY */ }
 
-		Ogre::Real get_cost(std::size_t id1, std::size_t id2) override
+		tdt::real get_cost(tdt::uint id1, tdt::uint id2) override
 		{
-			return (Ogre::Real)GridNodeHelper::get_manhattan_distance(entities_, id1, id2)
+			return (tdt::real)GridNodeHelper::get_manhattan_distance(entities_, id1, id2)
 				- PhysicsHelper::get_distance(entities_, from_, id2);
 		}
 
 		private:
-			std::size_t from_;
+			tdt::uint from_;
 	};
 }
 

@@ -4,9 +4,12 @@
 #include <string>
 #include "Typedefs.hpp"
 #include "Enums.hpp"
-#include "EntityPlacer.hpp"
-#include "SelectionBox.hpp"
-#include "lppscript/LppScript.hpp"
+namespace lpp
+{
+	class Script;
+}
+class SelectionBox;
+class EntityPlacer;
 
 /**
  * A utility class that manages the player's spell casting and

@@ -1,15 +1,18 @@
 #include "CombatHelper.hpp"
 #include "Components.hpp"
 #include "EntitySystem.hpp"
+#include "Util.hpp"
+#include <random>
+#include <numeric>
 
-void CombatHelper::set_target(EntitySystem& ents, std::size_t id, std::size_t val)
+void CombatHelper::set_target(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)
 		comp->curr_target = val;
 }
 
-std::size_t CombatHelper::get_target(EntitySystem& ents, std::size_t id)
+tdt::uint CombatHelper::get_target(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)
@@ -18,14 +21,14 @@ std::size_t CombatHelper::get_target(EntitySystem& ents, std::size_t id)
 		return Component::NO_ENTITY;
 }
 
-void CombatHelper::set_range(EntitySystem& ents, std::size_t id, Ogre::Real range)
+void CombatHelper::set_range(EntitySystem& ents, tdt::uint id, tdt::real range)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)
 		comp->range = range;
 }
 
-Ogre::Real CombatHelper::get_range(EntitySystem& ents, std::size_t id)
+tdt::real CombatHelper::get_range(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)
@@ -34,7 +37,7 @@ Ogre::Real CombatHelper::get_range(EntitySystem& ents, std::size_t id)
 		return 0;
 }
 
-void CombatHelper::set_dmg_range(EntitySystem& ents, std::size_t id, std::size_t min, std::size_t max)
+void CombatHelper::set_dmg_range(EntitySystem& ents, tdt::uint id, tdt::uint min, tdt::uint max)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)
@@ -44,28 +47,28 @@ void CombatHelper::set_dmg_range(EntitySystem& ents, std::size_t id, std::size_t
 	}
 }
 
-std::tuple<std::size_t, std::size_t> CombatHelper::get_dmg_range(EntitySystem& ents, std::size_t id)
+std::tuple<tdt::uint, tdt::uint> CombatHelper::get_dmg_range(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)
 		return std::make_tuple(comp->min_dmg, comp->max_dmg);
 	else
-		return std::tuple<std::size_t, std::size_t>{};
+		return std::tuple<tdt::uint, tdt::uint>{};
 }
 
-std::size_t CombatHelper::get_dmg(std::size_t min, std::size_t max)
+tdt::uint CombatHelper::get_dmg(tdt::uint min, tdt::uint max)
 {
 	return util::get_random(min, max);
 }
 
-void CombatHelper::set_cooldown(EntitySystem& ents, std::size_t id, Ogre::Real cd)
+void CombatHelper::set_cooldown(EntitySystem& ents, tdt::uint id, tdt::real cd)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)
 		comp->cooldown = cd;
 }
 
-Ogre::Real CombatHelper::get_cooldown(EntitySystem& ents, std::size_t id)
+tdt::real CombatHelper::get_cooldown(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)
@@ -74,14 +77,14 @@ Ogre::Real CombatHelper::get_cooldown(EntitySystem& ents, std::size_t id)
 		return 0;
 }
 
-void CombatHelper::set_atk_type(EntitySystem& ents, std::size_t id, ATTACK_TYPE type)
+void CombatHelper::set_atk_type(EntitySystem& ents, tdt::uint id, ATTACK_TYPE type)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)
 		comp->atk_type = type;
 }
 
-ATTACK_TYPE CombatHelper::get_atk_type(EntitySystem& ents, std::size_t id)
+ATTACK_TYPE CombatHelper::get_atk_type(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)
@@ -90,7 +93,7 @@ ATTACK_TYPE CombatHelper::get_atk_type(EntitySystem& ents, std::size_t id)
 		return ATTACK_TYPE::NONE;
 }
 
-bool CombatHelper::in_range(EntitySystem& ents, std::size_t id1, std::size_t id2)
+bool CombatHelper::in_range(EntitySystem& ents, tdt::uint id1, tdt::uint id2)
 {
 	auto phys1 = ents.get_component<PhysicsComponent>(id1);
 	auto phys2 = ents.get_component<PhysicsComponent>(id2);
@@ -102,14 +105,14 @@ bool CombatHelper::in_range(EntitySystem& ents, std::size_t id1, std::size_t id2
 		return false;
 }
 
-void CombatHelper::set_projectile_blueprint(EntitySystem& ents, std::size_t id, const std::string& val)
+void CombatHelper::set_projectile_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)
 		comp->projectile_blueprint = val;
 }
 
-const std::string& CombatHelper::get_projectile_blueprint(EntitySystem& ents, std::size_t id)
+const std::string& CombatHelper::get_projectile_blueprint(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<CombatComponent>(id);
 	if(comp)

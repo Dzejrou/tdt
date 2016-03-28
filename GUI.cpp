@@ -2,6 +2,7 @@
 #include "Game.hpp"
 #include "Helpers.hpp"
 #include "EntitySystem.hpp"
+#include "GameSerializer.hpp"
 
 GUI::GUI()
 	: window_{}, curr_tool_{"TOOLS/MENU"}, game_{},

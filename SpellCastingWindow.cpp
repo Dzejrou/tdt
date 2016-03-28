@@ -1,6 +1,8 @@
 #include "SpellCastingWindow.hpp"
 #include "GUI.hpp"
 #include "Player.hpp"
+#include "lppscript/LppScript.hpp"
+#include "Spellcaster.hpp"
 
 SpellCastingWindow::SpellCastingWindow()
 	: spells_{}, selection_number_{3}, curr_active_spell_{-1}

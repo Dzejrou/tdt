@@ -30,10 +30,10 @@ const std::vector<std::string>& Player::get_initial_buildings() const
 
 Player::Player()
 	: gold_{1000}, mana_{100}, max_mana_{500}, mana_regen_(1), units_max_{0}, units_curr_{0},
-	  uint_max_{std::numeric_limits<std::size_t>::max()}
+	  uint_max_{std::numeric_limits<tdt::uint>::max()}
 { /* DUMMY BODY */ }
 
-void Player::add_gold(std::size_t val)
+void Player::add_gold(tdt::uint val)
 {
 	if(gold_ < uint_max_ - val)
 	{
@@ -42,14 +42,14 @@ void Player::add_gold(std::size_t val)
 	}
 }
 
-bool Player::sub_gold(std::size_t val)
+bool Player::sub_gold(tdt::uint val)
 {
 	if(gold_ >= val)
 	{
 		if(entities_)
 		{ // Find first gold vault and remove gold from it, do not register the transaction though.
 			util::IS_GOLD_VAULT cond{*entities_};
-			std::size_t to_sub{val};
+			tdt::uint to_sub{val};
 			for(auto& ent : entities_->get_component_container<GoldComponent>())
 			{
 				if(cond(ent.first))
@@ -69,7 +69,7 @@ bool Player::sub_gold(std::size_t val)
 		return false;
 }
 
-void Player::add_mana(std::size_t val)
+void Player::add_mana(tdt::uint val)
 {
 	if(mana_ + val <= max_mana_)
 	{
@@ -85,7 +85,7 @@ void Player::add_mana(std::size_t val)
 											   + std::to_string(mana_regen_) + ")");
 }
 
-bool Player::sub_mana(std::size_t val)
+bool Player::sub_mana(tdt::uint val)
 {
 	if(mana_ >= val)
 	{
@@ -99,7 +99,7 @@ bool Player::sub_mana(std::size_t val)
 		return false;
 }
 
-void Player::add_max_mana(std::size_t val)
+void Player::add_max_mana(tdt::uint val)
 {
 	if(max_mana_ < uint_max_ - val)
 	{
@@ -110,7 +110,7 @@ void Player::add_max_mana(std::size_t val)
 	}
 }
 
-bool Player::sub_max_mana(std::size_t val)
+bool Player::sub_max_mana(tdt::uint val)
 {
 	if(max_mana_ >= val)
 	{
@@ -124,7 +124,7 @@ bool Player::sub_max_mana(std::size_t val)
 		return false;
 }
 
-void Player::add_mana_regen(std::size_t val)
+void Player::add_mana_regen(tdt::uint val)
 {
 	if(mana_regen_ < uint_max_ - val)
 	{
@@ -135,7 +135,7 @@ void Player::add_mana_regen(std::size_t val)
 	}
 }
 
-bool Player::sub_mana_regen(std::size_t val)
+bool Player::sub_mana_regen(tdt::uint val)
 {
 	if(mana_regen_ >= val)
 	{
@@ -149,7 +149,7 @@ bool Player::sub_mana_regen(std::size_t val)
 		return false;
 }
 
-void Player::add_max_unit(std::size_t val)
+void Player::add_max_unit(tdt::uint val)
 {
 	if(units_max_ < uint_max_ - val)
 	{
@@ -159,7 +159,7 @@ void Player::add_max_unit(std::size_t val)
 	}
 }
 
-bool Player::sub_max_unit(std::size_t val)
+bool Player::sub_max_unit(tdt::uint val)
 {
 	if(units_max_ >= val)
 	{
@@ -172,7 +172,7 @@ bool Player::sub_max_unit(std::size_t val)
 		return false;
 }
 
-void Player::add_curr_unit(std::size_t val)
+void Player::add_curr_unit(tdt::uint val)
 {
 	if(units_curr_ < uint_max_ - val)
 	{
@@ -182,7 +182,7 @@ void Player::add_curr_unit(std::size_t val)
 	}
 }
 
-bool Player::sub_curr_unit(std::size_t val)
+bool Player::sub_curr_unit(tdt::uint val)
 {
 	if(units_curr_ >= val)
 	{
@@ -195,22 +195,22 @@ bool Player::sub_curr_unit(std::size_t val)
 		return false;
 }
 
-std::size_t Player::get_gold() const
+tdt::uint Player::get_gold() const
 {
 	return gold_;
 }
 
-std::size_t Player::get_mana() const
+tdt::uint Player::get_mana() const
 {
 	return mana_;
 }
 
-std::size_t Player::get_max_mana() const
+tdt::uint Player::get_max_mana() const
 {
 	return max_mana_;
 }
 
-std::size_t Player::get_mana_regen() const
+tdt::uint Player::get_mana_regen() const
 {
 	return mana_regen_;
 }

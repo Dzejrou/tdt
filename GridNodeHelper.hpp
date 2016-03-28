@@ -1,10 +1,8 @@
 #pragma once
 
-#include <cstdlib>
 #include <array>
 #include <tuple>
-#include "Components.hpp"
-#include "Util.hpp"
+#include "Typedefs.hpp"
 class EntitySystem;
 class SelectionBox;
 
@@ -19,14 +17,14 @@ namespace GridNodeHelper
 	 * Param: EntitySystem containing the node.
 	 * Param: ID of the node.
 	 */
-	const std::array<std::size_t, GridNodeComponent::neighbour_count>& get_neighbours(EntitySystem&, std::size_t);
+	const std::array<tdt::uint, GridNodeComponent::neighbour_count>& get_neighbours(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Returns true if the given node is free (duh...), false otherwise.
 	 * Param: EntitySystem containing the node.
 	 * Param: ID of the node.
 	 */
-	bool is_free(EntitySystem&, std::size_t);
+	bool is_free(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Returns true if a given area (specified by a center node and a radius)
@@ -37,7 +35,7 @@ namespace GridNodeHelper
 	 * Note: This counts also walkthrough buildings, as it's only used for building
 	 *       placing and not pathfinding.
 	 */
-	bool area_free(EntitySystem&, std::size_t, std::size_t = 1);
+	bool area_free(EntitySystem&, tdt::uint, tdt::uint = 1);
 
 	/**
 	 * Brief: Sets the free status of a given node.
@@ -45,7 +43,7 @@ namespace GridNodeHelper
 	 * Param: ID of the node.
 	 * Param: True for free, false for not-so-free.
 	 */
-	void set_free(EntitySystem&, std::size_t, bool);
+	void set_free(EntitySystem&, tdt::uint, bool);
 
 	/**
 	 * Brief: Applies the GridSystem::set_free method to all currently
@@ -62,7 +60,7 @@ namespace GridNodeHelper
 	 * Param: EntitySystem containing the node.
 	 * Param: ID of the node.
 	 */
-	std::tuple<std::size_t, std::size_t> get_board_coords(EntitySystem&, std::size_t);
+	std::tuple<tdt::uint, tdt::uint> get_board_coords(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the resident of a given node. (Resident is an entity that
@@ -71,13 +69,13 @@ namespace GridNodeHelper
 	 * Param: ID of the node.
 	 * Param: ID of the resident.
 	 */
-	void set_resident(EntitySystem&, std::size_t, std::size_t);
+	void set_resident(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns the resident of a given node.
 	 * Param: ID of the node.
 	 */
-	std::size_t get_resident(EntitySystem&, std::size_t);
+	tdt::uint get_resident(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Returns the manhattan (definition available on Wikipedia...) distance
@@ -86,7 +84,7 @@ namespace GridNodeHelper
 	 * Param: ID of the source node.
 	 * Param: ID of the target node.
 	 */
-	std::size_t get_manhattan_distance(EntitySystem&, std::size_t, std::size_t);
+	tdt::uint get_manhattan_distance(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns the closest node in a given direction.
@@ -94,7 +92,7 @@ namespace GridNodeHelper
 	 * Param: ID of the entity that is looking for the node.
 	 * Param: The direction represented by the DIRECTION::VAL enum.
 	 */
-	std::size_t get_node_in_dir(EntitySystem&, std::size_t, int);
+	tdt::uint get_node_in_dir(EntitySystem&, tdt::uint, int);
 
 	/**
 	 * Brief: Sets the portal node linked to this node. 
@@ -102,5 +100,5 @@ namespace GridNodeHelper
 	 * Param: ID of this node.
 	 * Param: ID of the portal node.
 	 */
-	void set_portal_neighbour(EntitySystem&, std::size_t, std::size_t);
+	void set_portal_neighbour(EntitySystem&, tdt::uint, tdt::uint);
 }

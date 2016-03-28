@@ -1,11 +1,14 @@
 #include "EventSystem.hpp"
+#include "lppscript/LppScript.hpp"
+#include "EntitySystem.hpp"
+#include "Helpers.hpp"
 
 EventSystem::EventSystem(EntitySystem& ents)
-	: entities_{ents}, update_period_{1.f}, curr_update_time_{0.f},
+	: entities_{ents}, update_period_{1.f}, curr_update_time_{REAL_ZERO},
 	  update_time_multiplier_{1.f}
 { /* DUMMY BODY */ }
 
-void EventSystem::update(Ogre::Real delta)
+void EventSystem::update(tdt::real delta)
 {
 	if(curr_update_time_ < update_period_)
 	{
@@ -13,7 +16,7 @@ void EventSystem::update(Ogre::Real delta)
 		return;
 	}
 	else
-		curr_update_time_ = 0.f;
+		curr_update_time_ = REAL_ZERO;
 
 	bool destroy_evt{false};
 	for(auto& evt : entities_.get_component_container<EventComponent>())
@@ -43,7 +46,7 @@ void EventSystem::update(Ogre::Real delta)
 				}
 
 				// No handler found, increase radius.
-				if(evt.second.radius * evt.second.radius < std::numeric_limits<Ogre::Real>::max() - 100.f)
+				if(evt.second.radius * evt.second.radius < std::numeric_limits<tdt::real>::max() - 100.f)
 					evt.second.radius += 5.f;
 			}
 		}
@@ -52,27 +55,27 @@ void EventSystem::update(Ogre::Real delta)
 	}
 }
 
-void EventSystem::set_update_period(Ogre::Real val)
+void EventSystem::set_update_period(tdt::real val)
 {
 	update_period_ = val;
 }
 
-Ogre::Real EventSystem::get_update_period() const
+tdt::real EventSystem::get_update_period() const
 {
 	return update_period_;
 }
 
-void EventSystem::set_update_time_multiplier(Ogre::Real val)
+void EventSystem::set_update_time_multiplier(tdt::real val)
 {
 	update_time_multiplier_ = val;
 }
 
-Ogre::Real EventSystem::get_update_time_multiplier() const
+tdt::real EventSystem::get_update_time_multiplier() const
 {
 	return update_time_multiplier_;
 }
 
-bool EventSystem::handle_event_(std::size_t handler, std::size_t evt)
+bool EventSystem::handle_event_(tdt::uint handler, tdt::uint evt)
 {
 	auto type = EventHelper::get_event_type(entities_, evt);
 	switch(type)
@@ -90,7 +93,7 @@ bool EventSystem::handle_event_(std::size_t handler, std::size_t evt)
 			return true;
 		}
 		default: // Allows custom events handled in scripts.
-			return lpp::Script::get_singleton().call<bool, std::size_t, std::size_t>(
+			return lpp::Script::get_singleton().call<bool, tdt::uint, tdt::uint>(
 				EventHandlerHelper::get_handler(entities_, handler) + ".handle_event",
 				handler, evt
 			);

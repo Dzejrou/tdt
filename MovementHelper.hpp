@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Ogre.h>
-#include <cstdlib>
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -15,7 +14,7 @@ namespace MovementHelper
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Real get_speed_modifier(EntitySystem&, std::size_t);
+	tdt::real get_speed_modifier(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Changes the speed modifier of a given entity to a given value.
@@ -23,7 +22,7 @@ namespace MovementHelper
 	 * Param: ID of the entity.
 	 * Param: New speed value.
 	 */
-	void set_speed_modifier(EntitySystem&, std::size_t, Ogre::Real);
+	void set_speed_modifier(EntitySystem&, tdt::uint, tdt::real);
 
 	/**
 	 * Brief: Returns the direction from a given entity to another given entity.
@@ -31,21 +30,21 @@ namespace MovementHelper
 	 * Param: ID of the first entity.
 	 * Param: ID of the second entity.
 	 */
-	Ogre::Vector3 dir_to(EntitySystem&, std::size_t, std::size_t);
+	Ogre::Vector3 dir_to(EntitySystem&, tdt::uint, tdt::uint);
 
 	/**
 	 * Brief: Returns the direction a given entity is facing.
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Vector3 get_dir(EntitySystem&, std::size_t);
+	Ogre::Vector3 get_dir(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Returns the opposite direction to the direction a given entity is facing.
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Vector3 get_dir_back(EntitySystem&, std::size_t);
+	Ogre::Vector3 get_dir_back(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Returns the direction perpendicular to the direction a given entity is facing.
@@ -53,7 +52,7 @@ namespace MovementHelper
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Vector3 get_dir_left(EntitySystem&, std::size_t);
+	Ogre::Vector3 get_dir_left(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Returns the direction perpendicular to the direction a given entity is facing.
@@ -61,7 +60,7 @@ namespace MovementHelper
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Vector3 get_dir_right(EntitySystem&, std::size_t);
+	Ogre::Vector3 get_dir_right(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the original value of a given entity's speed.
@@ -69,19 +68,19 @@ namespace MovementHelper
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	void set_original_speed(EntitySystem&, std::size_t, Ogre::Real);
+	void set_original_speed(EntitySystem&, tdt::uint, tdt::real);
 
 	/**
 	 * Brief: Returns the original speed of a given entity.
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Real get_original_speed(EntitySystem&, std::size_t);
+	tdt::real get_original_speed(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the speed of a given entity to it's original value.
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	void reset_speed(EntitySystem&, std::size_t);
+	void reset_speed(EntitySystem&, tdt::uint);
 }

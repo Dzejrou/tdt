@@ -2,30 +2,30 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 
-void ExperienceValueHelper::set(EntitySystem& ents, std::size_t id, std::size_t val)
+void ExperienceValueHelper::set(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<ExperienceValueComponent>(id);
 	if(comp)
 		comp->value = val;
 }
 
-std::size_t ExperienceValueHelper::get(EntitySystem& ents, std::size_t id)
+tdt::uint ExperienceValueHelper::get(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<ExperienceValueComponent>(id);
 	if(comp)
 		return comp->value;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-void ExperienceValueHelper::increase(EntitySystem& ents, std::size_t id, std::size_t val)
+void ExperienceValueHelper::increase(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<ExperienceValueComponent>(id);
 	if(comp)
 		comp->value += val;
 }
 
-void ExperienceValueHelper::decrease(EntitySystem& ents, std::size_t id, std::size_t val)
+void ExperienceValueHelper::decrease(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<ExperienceValueComponent>(id);
 	if(comp && comp->value >= val)

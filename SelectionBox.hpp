@@ -1,18 +1,14 @@
 #pragma once
 
 #include <Ogre.h>
-
 #include <vector>
-
-#include "EntitySystem.hpp"
+#include "Typedefs.hpp"
+class EntitySystem;
 
 /**
  * Class representing the ingame selection box (created by moving the left mouse while
  * pressing the left mouse button) to select multiple entities on screen or a single entity
  * (by simply clicking).
- * TODO:
- *		ctrl - multiselect
- *		shift - select blocks like in the original dungeon keeper
  */
 class SelectionBox : public Ogre::ManualObject
 {
@@ -55,7 +51,7 @@ class SelectionBox : public Ogre::ManualObject
 		/**
 		 * Brief: Returns (by reference) a vector containing ID's of all currently selected entities.
 		 */
-		std::vector<std::size_t>& get_selected_entities();
+		std::vector<tdt::uint>& get_selected_entities();
 
 		/**
 		 * Brief: Adds a given object to the vector of selected entities.
@@ -115,7 +111,7 @@ class SelectionBox : public Ogre::ManualObject
 		/**
 		 * Currently selected entities.
 		 */
-		std::vector<std::size_t> selected_entities_;
+		std::vector<tdt::uint> selected_entities_;
 
 		/**
 		 * Reference to the game's entity system, used to identify an entity ID

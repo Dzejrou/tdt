@@ -1,10 +1,13 @@
 #include "TimeSystem.hpp"
+#include "EntitySystem.hpp"
+#include "Helpers.hpp"
+#include "lppscript/LppScript.hpp"
 
 TimeSystem::TimeSystem(EntitySystem& ents)
 	: entities_{ents}, time_multiplier_{1.f}
 { /* DUMMY BODY */ }
 
-void TimeSystem::update(Ogre::Real delta)
+void TimeSystem::update(tdt::real delta)
 {
 	for(auto& ent : entities_.get_component_container<TimeComponent>())
 	{
@@ -41,13 +44,13 @@ void TimeSystem::update(Ogre::Real delta)
 	}
 }
 
-void TimeSystem::advance_all_timers(Ogre::Real delta)
+void TimeSystem::advance_all_timers(tdt::real delta)
 { // Note: Timers refers only to TimeComponents, ignore the others.
 	for(auto& ent : entities_.get_component_container<TimeComponent>())
 		ent.second.curr_time += delta;
 }
 
-void TimeSystem::advance_all_timers_of_type(Ogre::Real delta, TIME_EVENT type)
+void TimeSystem::advance_all_timers_of_type(tdt::real delta, TIME_EVENT type)
 {
 	for(auto& ent : entities_.get_component_container<TimeComponent>())
 	{
@@ -56,17 +59,17 @@ void TimeSystem::advance_all_timers_of_type(Ogre::Real delta, TIME_EVENT type)
 	}
 }
 
-void TimeSystem::set_time_multiplier(Ogre::Real val)
+void TimeSystem::set_time_multiplier(tdt::real val)
 {
 	time_multiplier_ = val;
 }
 
-Ogre::Real TimeSystem::get_time_multiplier()
+tdt::real TimeSystem::get_time_multiplier()
 {
 	return time_multiplier_;
 }
 
-void TimeSystem::handle_event_(std::size_t id, TimeComponent& comp)
+void TimeSystem::handle_event_(tdt::uint id, TimeComponent& comp)
 {
 	switch(comp.event_type)
 	{
@@ -75,6 +78,9 @@ void TimeSystem::handle_event_(std::size_t id, TimeComponent& comp)
 			break;
 		case TIME_EVENT::END_EVENT:
 			DestructorHelper::destroy(entities_, comp.target);
+			break;
+		case TIME_EVENT::CALL_FUNCTION:
+			lpp::Script::instance().call<void, tdt::uint>(NameHelper::get_name(entities_, id), id);
 			break;
 	}
 	DestructorHelper::destroy(entities_, id);

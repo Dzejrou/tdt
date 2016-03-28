@@ -6,35 +6,30 @@
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
 #include <memory>
 #include <vector>
-#include "EntitySystem.hpp"
-#include "HealthSystem.hpp"
-#include "MovementSystem.hpp"
-#include "AISystem.hpp"
-#include "InputSystem.hpp"
-#include "GridSystem.hpp"
-#include "TaskSystem.hpp"
-#include "lppscript/LppScript.hpp"
-#include "SelectionBox.hpp"
-#include "EntityPlacer.hpp"
-#include "EntityCreator.hpp"
-#include "GameSerializer.hpp"
-#include "CombatSystem.hpp"
-#include "ProductionSystem.hpp"
 #include "Enums.hpp"
-#include "LuaInterface.hpp"
-#include "TimeSystem.hpp"
-#include "EventSystem.hpp"
-#include "Grid.hpp"
-#include "GUI.hpp"
-#include "Player.hpp"
-#include "LevelGenerators.hpp"
-#include "GraphicsSystem.hpp"
-#include "TriggerSystem.hpp"
-#include "ManaSpellSystem.hpp"
-#include "WaveSystem.hpp"
-#include "Spellcaster.hpp"
-#include "OptionsWindow.hpp"
-#include "Camera.hpp"
+#include "Typedefs.hpp"
+class EntitySystem;
+class HealthSystem;
+class MovementSystem;
+class AISystem;
+class InputSystem;
+class GridSystem;
+class TaskSystem;
+class CombatSystem;
+class ProductionSystem;
+class TimeSystem;
+class EventSystem;
+class GraphicsSystem;
+class TriggerSystem;
+class ManaSpellSystem;
+class WaveSystem;
+class Camera;
+class Spellcaster;
+class SelectionBox;
+class GameSerializer;
+class EntityPlacer;
+class EntityCreator;
+class LevelGenerator;
 
 class Game : public Ogre::FrameListener, public OIS::KeyListener,
 			 public OIS::MouseListener, public Ogre::WindowEventListener
@@ -65,7 +60,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * Brief: Updates the game in one frame.
 		 * Param: Time since the last frame.
 		 */
-		void update(Ogre::Real);
+		void update(tdt::real);
 
 		/**
 		 * Brief: Changes the game's state.
@@ -78,14 +73,14 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * Param: Width of the level.
 		 * Param: Height of the level.
 		 */
-		void new_game(std::size_t, std::size_t);
+		void new_game(tdt::uint, tdt::uint);
 
 		/**
 		 * Brief: Creates an empty level with the given dimensions.
 		 * Param: Width of the level.
 		 * Param: Height of the level.
 		 */
-		void create_empty_level(std::size_t, std::size_t);
+		void create_empty_level(tdt::uint, tdt::uint);
 
 		/**
 		 * Brief: Resets the main camera's position and orientation to it's original state.
@@ -102,13 +97,13 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 *        Dungeon Throne.
 		 * Param: The new ID.
 		 */
-		void set_throne_id(std::size_t);
+		void set_throne_id(tdt::uint);
 
 		/**
 		 * Brief: Returns the ID of the entity that represents
 		 *        the Dungeon Throne
 		 */
-		std::size_t get_throne_id() const;
+		tdt::uint get_throne_id() const;
 
 	protected:
 		/**
@@ -255,5 +250,5 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * ID of the entity representing the Dungeon Throne, losing which ends
 		 * the game.
 		 */
-		std::size_t throne_id_;
+		tdt::uint throne_id_;
 };

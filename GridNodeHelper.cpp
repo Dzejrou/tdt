@@ -2,10 +2,12 @@
 #include "EntitySystem.hpp"
 #include "Grid.hpp"
 #include "SelectionBox.hpp"
+#include "Util.hpp"
+#include "Components.hpp"
 
-const std::array<std::size_t, GridNodeComponent::neighbour_count>& GridNodeHelper::get_neighbours(EntitySystem& ents, std::size_t id)
+const std::array<tdt::uint, GridNodeComponent::neighbour_count>& GridNodeHelper::get_neighbours(EntitySystem& ents, tdt::uint id)
 {
-	static std::array<std::size_t, GridNodeComponent::neighbour_count> NO_NEIGHBOURS{};
+	static std::array<tdt::uint, GridNodeComponent::neighbour_count> NO_NEIGHBOURS{};
 	auto comp = ents.get_component<GridNodeComponent>(id);
 	if(comp)
 		return comp->neighbours;
@@ -13,7 +15,7 @@ const std::array<std::size_t, GridNodeComponent::neighbour_count>& GridNodeHelpe
 		return NO_NEIGHBOURS;
 }
 
-bool GridNodeHelper::is_free(EntitySystem& ents, std::size_t id)
+bool GridNodeHelper::is_free(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<GridNodeComponent>(id);
 	if(comp)
@@ -22,16 +24,16 @@ bool GridNodeHelper::is_free(EntitySystem& ents, std::size_t id)
 		return true;
 }
 
-bool GridNodeHelper::area_free(EntitySystem& ents, std::size_t center, std::size_t radius)
+bool GridNodeHelper::area_free(EntitySystem& ents, tdt::uint center, tdt::uint radius)
 {
-	std::size_t x, y;
+	tdt::uint x, y;
 	std::tie(x, y) = get_board_coords(ents, center);
 	x = x - radius;
 	y = y - radius;
 	radius = radius * 2 + 1;
-	for(std::size_t i = 0; i < radius; ++i)
+	for(tdt::uint i = 0; i < radius; ++i)
 	{
-		for(std::size_t j = 0; j < radius; ++j)
+		for(tdt::uint j = 0; j < radius; ++j)
 		{
 			auto id = Grid::instance().get_node(x + i, y + j);
 			if(!is_free(ents, id) || get_resident(ents, id) != Component::NO_ENTITY)
@@ -41,7 +43,7 @@ bool GridNodeHelper::area_free(EntitySystem& ents, std::size_t center, std::size
 	return true;
 }
 
-void GridNodeHelper::set_free(EntitySystem& ents, std::size_t id, bool val)
+void GridNodeHelper::set_free(EntitySystem& ents, tdt::uint id, bool val)
 {
 	auto comp = ents.get_component<GridNodeComponent>(id);
 	if(comp)
@@ -63,7 +65,7 @@ void GridNodeHelper::set_free_selected(EntitySystem& ents, SelectionBox& box, bo
 		set_free(ents, id, val);
 }
 
-std::tuple<std::size_t, std::size_t> GridNodeHelper::get_board_coords(EntitySystem& ents, std::size_t id)
+std::tuple<tdt::uint, tdt::uint> GridNodeHelper::get_board_coords(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<GridNodeComponent>(id);
 	if(comp)
@@ -72,7 +74,7 @@ std::tuple<std::size_t, std::size_t> GridNodeHelper::get_board_coords(EntitySyst
 		return std::make_tuple(Component::NO_ENTITY, Component::NO_ENTITY);
 }
 
-void GridNodeHelper::set_resident(EntitySystem& ents, std::size_t id, std::size_t val)
+void GridNodeHelper::set_resident(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<GridNodeComponent>(id);
 	if(comp)
@@ -85,7 +87,7 @@ void GridNodeHelper::set_resident(EntitySystem& ents, std::size_t id, std::size_
 	}
 }
 
-std::size_t GridNodeHelper::get_resident(EntitySystem& ents, std::size_t id)
+tdt::uint GridNodeHelper::get_resident(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<GridNodeComponent>(id);
 	if(comp)
@@ -94,21 +96,21 @@ std::size_t GridNodeHelper::get_resident(EntitySystem& ents, std::size_t id)
 		return Component::NO_ENTITY;
 }
 
-std::size_t GridNodeHelper::get_manhattan_distance(EntitySystem& ents, std::size_t id1, std::size_t id2)
+tdt::uint GridNodeHelper::get_manhattan_distance(EntitySystem& ents, tdt::uint id1, tdt::uint id2)
 {
-	std::size_t x1, y1;
+	tdt::uint x1, y1;
 	std::tie(x1, y1) = get_board_coords(ents, id1);
 
-	std::size_t x2, y2;
+	tdt::uint x2, y2;
 	std::tie(x2, y2) = get_board_coords(ents, id2);
 
 	return util::abs(int(x1 - x2)) + util::abs(int(y1 - y2));
 }
 
-std::size_t GridNodeHelper::get_node_in_dir(EntitySystem& ents, std::size_t id, int dir)
+tdt::uint GridNodeHelper::get_node_in_dir(EntitySystem& ents, tdt::uint id, int dir)
 {
 	auto pos = PhysicsHelper::get_position(ents, id);
-	std::size_t node = Grid::instance().get_node_from_position(pos.x, pos.z);
+	tdt::uint node = Grid::instance().get_node_from_position(pos.x, pos.z);
 
 	if(dir == DIRECTION::NONE)
 		return node;
@@ -120,7 +122,7 @@ std::size_t GridNodeHelper::get_node_in_dir(EntitySystem& ents, std::size_t id, 
 		return Component::NO_ENTITY;
 }
 
-void GridNodeHelper::set_portal_neighbour(EntitySystem& ents, std::size_t id, std::size_t portal)
+void GridNodeHelper::set_portal_neighbour(EntitySystem& ents, tdt::uint id, tdt::uint portal)
 {
 	auto comp = ents.get_component<GridNodeComponent>(id);
 	if(comp)

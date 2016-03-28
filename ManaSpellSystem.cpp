@@ -1,18 +1,19 @@
 #include "ManaSpellSystem.hpp"
 #include "Player.hpp"
 #include "Helpers.hpp"
+#include "EntitySystem.hpp"
 
 ManaSpellSystem::ManaSpellSystem(EntitySystem& ents)
 	: entities_{ents}, regen_timer_{}, regen_period_{5.f}
 { /* DUMMY BODY */ }
 
-void ManaSpellSystem::update(Ogre::Real delta)
+void ManaSpellSystem::update(tdt::real delta)
 {
 	if(regen_timer_ < regen_period_)
 		regen_timer_ += delta;
 	else
 	{
-		regen_timer_ = 0.f;
+		regen_timer_ = REAL_ZERO;
 
 		Player::instance().add_mana(Player::instance().get_mana_regen());
 
@@ -31,17 +32,17 @@ void ManaSpellSystem::update(Ogre::Real delta)
 		if(ent.second.cd_time >= ent.second.cooldown)
 		{
 			SpellHelper::cast(entities_, ent.first);
-			ent.second.cd_time = 0.f;
+			ent.second.cd_time = REAL_ZERO;
 		}
 	}
 }
 
-void ManaSpellSystem::set_regen_period(Ogre::Real val)
+void ManaSpellSystem::set_regen_period(tdt::real val)
 {
 	regen_period_ = val;
 }
 
-Ogre::Real ManaSpellSystem::get_regen_period() const
+tdt::real ManaSpellSystem::get_regen_period() const
 {
 	return regen_period_;
 }

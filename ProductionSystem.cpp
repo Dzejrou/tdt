@@ -1,12 +1,14 @@
 #include "ProductionSystem.hpp"
 #include "Player.hpp"
 #include "Helpers.hpp"
+#include "EntitySystem.hpp"
+#include "Grid.hpp"
 
 ProductionSystem::ProductionSystem(EntitySystem& ents)
 	: entities_{ents}, grid_{Grid::instance()}, time_multiplier_{1.f}
 { /* DUMMY BODY */ }
 
-void ProductionSystem::update(Ogre::Real delta)
+void ProductionSystem::update(tdt::real delta)
 {
 	for(auto& ent : entities_.get_component_container<ProductionComponent>())
 	{
@@ -19,14 +21,14 @@ void ProductionSystem::update(Ogre::Real delta)
 		{
 			spawn_entity(ent.first, ent.second.product_blueprint);
 			++ent.second.curr_produced;
-			ent.second.curr_cd = 0;
+			ent.second.curr_cd = REAL_ZERO;
 		}
 	}
 }
 
-void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blueprint)
+void ProductionSystem::spawn_entity(tdt::uint producer, const std::string& blueprint)
 {
-	std::size_t id = entities_.create_entity(blueprint);
+	tdt::uint id = entities_.create_entity(blueprint);
 	entities_.add_component<ProductComponent>(id);
 	auto prod_comp = entities_.get_component<ProductComponent>(id);
 	if(prod_comp)
@@ -41,15 +43,15 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 	auto product_graph_comp = entities_.get_component<GraphicsComponent>(id);
 	if(struct_comp && phys_comp && product_phys_comp && !struct_comp->walk_through)
 	{
-		std::size_t center_x, center_y;
+		tdt::uint center_x, center_y;
 		std::tie(center_x, center_y) = GridNodeHelper::get_board_coords(
 			entities_, grid_.get_node_from_position(phys_comp->position.x, phys_comp->position.z
 		));
 
-		std::size_t top_left_node = grid_.get_node(center_x - struct_comp->radius,
+		tdt::uint top_left_node = grid_.get_node(center_x - struct_comp->radius,
 											       center_y - struct_comp->radius);
-		std::size_t free_node = Component::NO_ENTITY;
-		for(std::size_t i = 0; i < struct_comp->radius + 1; ++i)
+		tdt::uint free_node = Component::NO_ENTITY;
+		for(tdt::uint i = 0; i < struct_comp->radius + 1; ++i)
 		{
 			/**
 			 * This checks all edges of the building to find a free spot for
@@ -106,7 +108,7 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 		product_phys_comp->position.z = phys_comp->position.z;
 	}
 	else
-	{
+	{ // Cannot place anywhere.
 		DestructorHelper::destroy(entities_, id, true);
 		return;
 	}
@@ -115,12 +117,12 @@ void ProductionSystem::spawn_entity(std::size_t producer, const std::string& blu
 		product_graph_comp->node->setPosition(product_phys_comp->position);
 }
 
-void ProductionSystem::set_time_multiplier(Ogre::Real val)
+void ProductionSystem::set_time_multiplier(tdt::real val)
 {
 	time_multiplier_ = val;
 }
 
-Ogre::Real ProductionSystem::get_time_multiplier()
+tdt::real ProductionSystem::get_time_multiplier()
 {
 	return time_multiplier_;
 }

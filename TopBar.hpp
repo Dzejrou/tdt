@@ -1,9 +1,9 @@
 #pragma once
 
-#include "GUIWindow.hpp"
-#include <Ogre.h>
 #include <ctime>
 #include <chrono>
+#include "GUIWindow.hpp"
+#include "Typedefs.hpp"
 
 /**
  * Class representing an info bar on the top of the screen displaying
@@ -20,14 +20,14 @@ class TopBar : public GUIWindow
 		/**
 		 * Destructor.
 		 */
-		~TopBar() {}
+		~TopBar() = default;
 
 		/**
 		 * Brief: Updates the current time on the top bar if a
 		 *        second passed since the last time update.
 		 * Param: Time since the last frame.
 		 */
-		void update_time(Ogre::Real);
+		void update_time(tdt::real);
 
 		/**
 		 * Brief: Sets the given label's text to the given string.
@@ -35,14 +35,16 @@ class TopBar : public GUIWindow
 		 * Param: New text.
 		 */
 		void update_label(const std::string&, const std::string&);
+
 	protected:
 		/**
 		 * Brief: Initializes the top bar.
 		 */
-		void init_();
+		void init_() override;
+
 	private:
 		/**
 		 * Time since the last "Current Time" update.
 		 */
-		Ogre::Real tdelta_;
+		tdt::real tdelta_;
 };

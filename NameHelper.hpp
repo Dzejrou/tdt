@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstdlib>
 #include <string>
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -16,12 +16,12 @@ namespace NameHelper
 	 * Param: ID of the entity.
 	 * Param: The new name.
 	 */
-	void set_name(EntitySystem&, std::size_t, const std::string&);
+	void set_name(EntitySystem&, tdt::uint, const std::string&);
 
 	/**
 	 * Brief: Returns the name of a given entity.
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	const std::string& get_name(EntitySystem&, std::size_t);
+	const std::string& get_name(EntitySystem&, tdt::uint);
 }

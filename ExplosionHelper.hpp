@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Ogre.h>
-#include <cstdlib>
+#include "Typedefs.hpp"
 class EntitySystem;
 
 /**
@@ -17,7 +16,7 @@ namespace ExplosionHelper
 	 * Param: ID of the entity.
 	 * Param: The new delta value.
 	 */
-	void set_delta(EntitySystem&, std::size_t, Ogre::Real);
+	void set_delta(EntitySystem&, tdt::uint, tdt::real);
 
 	/**
 	 * Brief: Returns the value by which a given entity's explosion
@@ -25,7 +24,7 @@ namespace ExplosionHelper
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Real get_delta(EntitySystem&, std::size_t);
+	tdt::real get_delta(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Sets the radius after which a given entity with an explosion
@@ -34,7 +33,7 @@ namespace ExplosionHelper
 	 * Param: ID of the entity.
 	 * Param: The new max radius value.
 	 */
-	void set_max_radius(EntitySystem&, std::size_t, Ogre::Real);
+	void set_max_radius(EntitySystem&, tdt::uint, tdt::real);
 
 	/**
 	 * Brief: Returns the radius after which a given entity with an explosion
@@ -42,7 +41,7 @@ namespace ExplosionHelper
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Real get_max_radius(EntitySystem&, std::size_t);
+	tdt::real get_max_radius(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Returns the current radius of a given entity's explosion
@@ -50,7 +49,7 @@ namespace ExplosionHelper
 	 * Param: Entity system containing the entity.
 	 * Param: ID of the entity.
 	 */
-	Ogre::Real get_curr_radius(EntitySystem&, std::size_t);
+	tdt::real get_curr_radius(EntitySystem&, tdt::uint);
 
 	/**
 	 * Brief: Increases the radius of a given entity's explosion
@@ -59,5 +58,5 @@ namespace ExplosionHelper
 	 * Param: ID of the entity.
 	 * Param: The value to increase by.
 	 */
-	void increase_curr_radius(EntitySystem&, std::size_t, Ogre::Real);
+	void increase_curr_radius(EntitySystem&, tdt::uint, tdt::real);
 }

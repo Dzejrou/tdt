@@ -1,4 +1,5 @@
 #include "Console.hpp"
+#include "lppscript/LppScript.hpp"
 
 // Static initialization:
 const CEGUI::Colour Console::RED_TEXT = CEGUI::Colour{1.f, 0.f, 0.f};
@@ -101,13 +102,13 @@ void Console::print_text(const std::string& msg, CEGUI::Colour col)
 	scroll_down();
 }
 
-void Console::scroll_down(std::size_t num_of_scrolls)
+void Console::scroll_down(tdt::uint num_of_scrolls)
 {
-	for(std::size_t i = 0; i < num_of_scrolls; ++i)
+	for(tdt::uint i = 0; i < num_of_scrolls; ++i)
 		list_box_->getVertScrollbar()->scrollForwardsByStep();
 }
 
-void Console::update_fps(Ogre::Real delta, Ogre::Real fps)
+void Console::update_fps(tdt::real delta, tdt::real fps)
 {
 	time_since_last_fps_update_ += delta;
 	if(time_since_last_fps_update_ > 1.f)
@@ -117,12 +118,12 @@ void Console::update_fps(Ogre::Real delta, Ogre::Real fps)
 	}
 }
 
-void Console::set_history(std::size_t val)
+void Console::set_history(tdt::uint val)
 {
 	console_history_ = val;
 }
 
-std::size_t Console::get_history() const
+tdt::uint Console::get_history() const
 {
 	return console_history_;
 }

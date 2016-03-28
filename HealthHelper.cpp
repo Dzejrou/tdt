@@ -2,8 +2,9 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 #include "GUI.hpp"
+#include "EntityTracker.hpp"
 
-void HealthHelper::set_health(EntitySystem& ents, std::size_t id, std::size_t val)
+void HealthHelper::set_health(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
@@ -18,7 +19,7 @@ void HealthHelper::set_health(EntitySystem& ents, std::size_t id, std::size_t va
 	}
 }
 
-std::size_t HealthHelper::get_health(EntitySystem& ents, std::size_t id)
+tdt::uint HealthHelper::get_health(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
@@ -27,7 +28,7 @@ std::size_t HealthHelper::get_health(EntitySystem& ents, std::size_t id)
 		return 1;
 }
 
-void HealthHelper::add_health(EntitySystem& ents, std::size_t id, std::size_t val)
+void HealthHelper::add_health(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
@@ -40,7 +41,7 @@ void HealthHelper::add_health(EntitySystem& ents, std::size_t id, std::size_t va
 	}
 }
 
-void HealthHelper::sub_health(EntitySystem& ents, std::size_t id, std::size_t val, bool ignore_armor)
+void HealthHelper::sub_health(EntitySystem& ents, tdt::uint id, tdt::uint val, bool ignore_armor)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
@@ -62,7 +63,7 @@ void HealthHelper::sub_health(EntitySystem& ents, std::size_t id, std::size_t va
 	}
 }
 
-void HealthHelper::heal(EntitySystem& ents, std::size_t id)
+void HealthHelper::heal(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
@@ -75,7 +76,7 @@ void HealthHelper::heal(EntitySystem& ents, std::size_t id)
 	}
 }
 
-void HealthHelper::buff(EntitySystem& ents, std::size_t id, std::size_t val)
+void HealthHelper::buff(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
@@ -89,7 +90,7 @@ void HealthHelper::buff(EntitySystem& ents, std::size_t id, std::size_t val)
 	}
 }
 
-void HealthHelper::debuff(EntitySystem& ents, std::size_t id, std::size_t val)
+void HealthHelper::debuff(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
@@ -111,30 +112,30 @@ void HealthHelper::debuff(EntitySystem& ents, std::size_t id, std::size_t val)
 	}
 }
 
-void HealthHelper::set_regen(EntitySystem& ents, std::size_t id, std::size_t val)
+void HealthHelper::set_regen(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
 		comp->regen = val;
 }
 
-std::size_t HealthHelper::get_regen(EntitySystem& ents, std::size_t id)
+tdt::uint HealthHelper::get_regen(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
 		return comp->regen;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-void HealthHelper::set_alive(EntitySystem& ents, std::size_t id, bool val)
+void HealthHelper::set_alive(EntitySystem& ents, tdt::uint id, bool val)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
 		comp->alive = val;
 }
 
-bool HealthHelper::is_alive(EntitySystem& ents, std::size_t id)
+bool HealthHelper::is_alive(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
@@ -143,30 +144,30 @@ bool HealthHelper::is_alive(EntitySystem& ents, std::size_t id)
 		return false;
 }
 
-void HealthHelper::set_defense(EntitySystem& ents, std::size_t id, std::size_t val)
+void HealthHelper::set_defense(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
 		comp->defense = val;
 }
 
-std::size_t HealthHelper::get_defense(EntitySystem& ents, std::size_t id)
+tdt::uint HealthHelper::get_defense(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
 		return comp->defense;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-void HealthHelper::add_defense(EntitySystem& ents, std::size_t id, std::size_t val)
+void HealthHelper::add_defense(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
 		comp->defense += val;
 }
 
-void HealthHelper::sub_defense(EntitySystem& ents, std::size_t id, std::size_t val)
+void HealthHelper::sub_defense(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)
@@ -178,7 +179,7 @@ void HealthHelper::sub_defense(EntitySystem& ents, std::size_t id, std::size_t v
 	}
 }
 
-void HealthHelper::ubercharge(EntitySystem& ents, std::size_t id)
+void HealthHelper::ubercharge(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<HealthComponent>(id);
 	if(comp)

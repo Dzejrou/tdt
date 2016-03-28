@@ -2,14 +2,14 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 
-void HomingHelper::set_source(EntitySystem& ents, std::size_t id, std::size_t source)
+void HomingHelper::set_source(EntitySystem& ents, tdt::uint id, tdt::uint source)
 {
 	auto comp = ents.get_component<HomingComponent>(id);
 	if(comp)
 		comp->source = source;
 }
 
-std::size_t HomingHelper::get_source(EntitySystem& ents, std::size_t id)
+tdt::uint HomingHelper::get_source(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<HomingComponent>(id);
 	if(comp)
@@ -18,14 +18,14 @@ std::size_t HomingHelper::get_source(EntitySystem& ents, std::size_t id)
 		return Component::NO_ENTITY;
 }
 
-void HomingHelper::set_target(EntitySystem& ents, std::size_t id, std::size_t target)
+void HomingHelper::set_target(EntitySystem& ents, tdt::uint id, tdt::uint target)
 {
 	auto comp = ents.get_component<HomingComponent>(id);
 	if(comp)
 		comp->target = target;
 }
 
-std::size_t HomingHelper::get_target(EntitySystem& ents, std::size_t id)
+tdt::uint HomingHelper::get_target(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<HomingComponent>(id);
 	if(comp)
@@ -34,18 +34,18 @@ std::size_t HomingHelper::get_target(EntitySystem& ents, std::size_t id)
 		return Component::NO_ENTITY;
 }
 
-void HomingHelper::set_dmg(EntitySystem& ents, std::size_t id, std::size_t dmg)
+void HomingHelper::set_dmg(EntitySystem& ents, tdt::uint id, tdt::uint dmg)
 {
 	auto comp = ents.get_component<HomingComponent>(id);
 	if(comp)
 		comp->dmg = dmg;
 }
 
-std::size_t HomingHelper::get_dmg(EntitySystem& ents, std::size_t id)
+tdt::uint HomingHelper::get_dmg(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<HomingComponent>(id);
 	if(comp)
 		return comp->dmg;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }

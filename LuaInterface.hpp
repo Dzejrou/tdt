@@ -1,16 +1,7 @@
 #pragma once
 
-#include <Ogre.h>
-#include <cstdlib>
-#include "lppscript/LppScript.hpp"
-#include "Helpers.hpp"
-#include "EntitySystem.hpp"
-#include "Grid.hpp"
-
-/**
- * Forward declaration required as LuaInterface is included in Game.hpp
- * so that the Game class can call the LuaInterface::init method.
- */
+#include "Typedefs.hpp"
+class EntitySystem;
 class Game;
 
 /**
@@ -33,6 +24,7 @@ class LuaInterface
 		 * Param: Pointer to the game object that provides the game data to Lua.
 		 */
 		static void init(Game*);
+
 	private:
 		/**
 		 * Lua requires all functions registered in it to be static

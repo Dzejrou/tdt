@@ -2,14 +2,18 @@
 #include "Components.hpp"
 #include "Pathfinding.hpp"
 #include "PathfindingAlgorithms.hpp"
+#include "EntitySystem.hpp"
+#include "Helpers.hpp"
+#include "Grid.hpp"
 #include <set>
+#include <algorithm>
 
 GridSystem::GridSystem(EntitySystem& ents, Ogre::SceneManager& scene)
 	: entities_{ents}, scene_mgr_{scene},
 	  graphics_loaded_{false}, graph_visible_{false}
 { /* DUMMY BODY */ }
 
-void GridSystem::update(Ogre::Real)
+void GridSystem::update(tdt::real)
 {
 	const auto& unfreed = Grid::instance().get_unfreed();
 	const auto& freed = Grid::instance().get_freed();
@@ -22,7 +26,7 @@ void GridSystem::update(Ogre::Real)
 			GraphicsHelper::set_material(entities_, node, "colour/blue");
 	}
 
-	std::set<std::size_t> processed_nodes{}; // Makes sure node aren't processed multiple times.
+	std::set<tdt::uint> processed_nodes{}; // Makes sure node aren't processed multiple times.
 	for(const auto& node : unfreed)
 	{
 		update_neighbours_(node); // Updates a block when placed, not needed when freed.
@@ -130,27 +134,27 @@ bool GridSystem::is_visible() const
 		return graph_visible_;
 }
 
-void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::size_t radius)
+void GridSystem::place_structure(tdt::uint ent_id, tdt::uint node_id, tdt::uint radius)
 {
 	auto struct_comp = entities_.get_component<StructureComponent>(ent_id);
 	if(!struct_comp)
 		return;
 
 	Grid& grid = Grid::instance();
-	std::size_t x, y;
+	tdt::uint x, y;
 	std::tie(x, y) = GridNodeHelper::get_board_coords(entities_, node_id);
-	std::size_t start_node = grid.get_node(x - radius, y - radius);
+	tdt::uint start_node = grid.get_node(x - radius, y - radius);
 	std::tie(x, y) = GridNodeHelper::get_board_coords(entities_, start_node);
-	std::size_t target_node{};
+	tdt::uint target_node{};
 
 	// This will check if the entire area is free first.
 	if(!GridNodeHelper::area_free(entities_, node_id, radius))
 		return;
 
 	radius = radius * 2 + 1;
-	for(std::size_t i = 0; i < radius; ++i)
+	for(tdt::uint i = 0; i < radius; ++i)
 	{
-		for(std::size_t j = 0; j < radius; ++j)
+		for(tdt::uint j = 0; j < radius; ++j)
 		{
 			target_node = grid.get_node(x + i, y + j);
 			GridNodeHelper::set_free(entities_, target_node, false);
@@ -160,7 +164,7 @@ void GridSystem::place_structure(std::size_t ent_id, std::size_t node_id, std::s
 	}
 }
 
-void GridSystem::update_neighbours_(std::size_t id)
+void GridSystem::update_neighbours_(tdt::uint id)
 {
 	auto comp = entities_.get_component<GridNodeComponent>(id);
 	

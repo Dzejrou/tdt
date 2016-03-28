@@ -1,11 +1,8 @@
 #pragma once
 
-#include <Ogre.h>
-#include <cstdlib>
 #include "System.hpp"
-#include "EntitySystem.hpp"
-#include "Helpers.hpp"
-#include "lppscript/LppScript.hpp"
+#include "Typedefs.hpp"
+class EntitySystem;
 
 class EventSystem : public System
 {
@@ -19,40 +16,41 @@ class EventSystem : public System
 		/**
 		 * Destructor.
 		 */
-		~EventSystem() {}
+		~EventSystem() = default;
 
 		/**
 		 * Brief: Checks for handlers of all active events and if needed, handles
 		 *        them.
 		 * Param: Time since last frame.
 		 */
-		void update(Ogre::Real) override;
+		void update(tdt::real) override;
 
 		/**
 		 * Brief: Sets the time it takes before an update is performed
 		 *        (in seconds).
 		 * Param: The new update time period.
 		 */
-		void set_update_period(Ogre::Real);
+		void set_update_period(tdt::real);
 
 		/**
 		 * Brief: Returns the time it takes before an update is performed
 		 *        (in seconds).
 		 */
-		Ogre::Real get_update_period() const;
+		tdt::real get_update_period() const;
 
 		/**
 		 * Brief: Sets the value by which the frame time is multiplied before
 		 *        it's added to the update timer.
 		 * Param: The new multiplier value.
 		 */
-		void set_update_time_multiplier(Ogre::Real);
+		void set_update_time_multiplier(tdt::real);
 
 		/**
 		 * Brief: Returns the value by which the frame time is multiplied before
 		 *        it's added to the update timer.
 		 */
-		Ogre::Real get_update_time_multiplier() const;
+		tdt::real get_update_time_multiplier() const;
+
 	private:
 		/**
 		 * Brief: Handles a given event by a given entity that can handle it, returns
@@ -61,7 +59,7 @@ class EventSystem : public System
 		 * Param: ID of the handler.
 		 * Param: ID of the event.
 		 */
-		bool handle_event_(std::size_t, std::size_t);
+		bool handle_event_(tdt::uint, tdt::uint);
 
 		/**
 		 * Entity system that has entities this system will manage.
@@ -72,10 +70,10 @@ class EventSystem : public System
 		 * Allow for less frequent updates, since per frame updates are quite
 		 * unnecessary and resource wasting.
 		 */
-		Ogre::Real update_period_, curr_update_time_;
+		tdt::real update_period_, curr_update_time_;
 		
 		/**
 		 * Allows to speed up/slow down the update timer.
 		 */
-		Ogre::Real update_time_multiplier_;
+		tdt::real update_time_multiplier_;
 };

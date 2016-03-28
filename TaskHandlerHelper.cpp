@@ -2,9 +2,9 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 
-std::deque<std::size_t>& TaskHandlerHelper::get_task_queue(EntitySystem& ents, std::size_t id)
+std::deque<tdt::uint>& TaskHandlerHelper::get_task_queue(EntitySystem& ents, tdt::uint id)
 {
-	static std::deque<std::size_t> NO_QUEUE{};
+	static std::deque<tdt::uint> NO_QUEUE{};
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
 	if(comp)
 		return comp->task_queue;
@@ -12,28 +12,28 @@ std::deque<std::size_t>& TaskHandlerHelper::get_task_queue(EntitySystem& ents, s
 		return NO_QUEUE;
 }
 
-bool TaskHandlerHelper::task_possible(EntitySystem& ents, std::size_t ent_id, std::size_t task_id)
+bool TaskHandlerHelper::task_possible(EntitySystem& ents, tdt::uint ent_id, tdt::uint task_id)
 {
 	auto comp1 = ents.get_component<TaskHandlerComponent>(ent_id);
 	auto comp2 = ents.get_component<TaskComponent>(task_id);
 	if(comp1 && comp2)
 	{
-		return comp1->possible_tasks.test((std::size_t)comp2->task_type);
+		return comp1->possible_tasks.test((tdt::uint)comp2->task_type);
 	}
 	else
 		return false;
 }
 
-bool TaskHandlerHelper::task_possible(EntitySystem& ents, std::size_t id, TASK_TYPE val)
+bool TaskHandlerHelper::task_possible(EntitySystem& ents, tdt::uint id, TASK_TYPE val)
 {
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
-	if(comp && (std::size_t)val > 0 && (std::size_t)val < (std::size_t)TASK_TYPE::COUNT)
-		return comp->possible_tasks.test((std::size_t)val);
+	if(comp && (tdt::uint)val > 0 && (tdt::uint)val < (tdt::uint)TASK_TYPE::COUNT)
+		return comp->possible_tasks.test((tdt::uint)val);
 	else
 		return false;
 }
 
-void TaskHandlerHelper::clear_task_queue(EntitySystem& ents, std::size_t id)
+void TaskHandlerHelper::clear_task_queue(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
 	if(comp)
@@ -48,28 +48,28 @@ void TaskHandlerHelper::clear_task_queue(EntitySystem& ents, std::size_t id)
 	}
 }
 
-void TaskHandlerHelper::add_possible_task(EntitySystem& ents, std::size_t id, TASK_TYPE type)
+void TaskHandlerHelper::add_possible_task(EntitySystem& ents, tdt::uint id, TASK_TYPE type)
 {
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
 	if(comp)
-		comp->possible_tasks.set((std::size_t)type);
+		comp->possible_tasks.set((tdt::uint)type);
 }
 
-void TaskHandlerHelper::delete_possible_task(EntitySystem& ents, std::size_t id, TASK_TYPE type)
+void TaskHandlerHelper::delete_possible_task(EntitySystem& ents, tdt::uint id, TASK_TYPE type)
 {
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
 	if(comp)
-		comp->possible_tasks.set((std::size_t)type, false);
+		comp->possible_tasks.set((tdt::uint)type, false);
 }
 
-void TaskHandlerHelper::set_blueprint(EntitySystem& ents, std::size_t id, const std::string& val)
+void TaskHandlerHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {
 	auto comp = ents.get_component<TaskHandlerComponent>(id);
 	if(comp)
 		comp->blueprint = val;
 }
 
-const std::string& TaskHandlerHelper::get_blueprint(EntitySystem& ents, std::size_t id)
+const std::string& TaskHandlerHelper::get_blueprint(EntitySystem& ents, tdt::uint id)
 {
 	static const std::string NO_BLUEPRINT{"ERROR"};
 

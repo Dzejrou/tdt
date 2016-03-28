@@ -2,14 +2,14 @@
 #include "Components.hpp"
 #include "EntitySystem.hpp"
 
-void ProductionHelper::set_production_blueprint(EntitySystem& ents, std::size_t id, const std::string& blueprint)
+void ProductionHelper::set_production_blueprint(EntitySystem& ents, tdt::uint id, const std::string& blueprint)
 {
 	auto comp = ents.get_component<ProductionComponent>(id);
 	if(comp)
 		comp->product_blueprint = blueprint;
 }
 
-const std::string& ProductionHelper::get_production_blueprint(EntitySystem& ents, std::size_t id)
+const std::string& ProductionHelper::get_production_blueprint(EntitySystem& ents, tdt::uint id)
 {
 	static const std::string NO_BLUEPRINT{"ERROR"};
 
@@ -20,39 +20,39 @@ const std::string& ProductionHelper::get_production_blueprint(EntitySystem& ents
 		return NO_BLUEPRINT;
 }
 
-void ProductionHelper::set_production_limit(EntitySystem& ents, std::size_t id, std::size_t limit)
+void ProductionHelper::set_production_limit(EntitySystem& ents, tdt::uint id, tdt::uint limit)
 {
 	auto comp = ents.get_component<ProductionComponent>(id);
 	if(comp)
 		comp->max_produced = limit;
 }
 
-std::size_t ProductionHelper::get_production_limit(EntitySystem& ents, std::size_t id)
+tdt::uint ProductionHelper::get_production_limit(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<ProductionComponent>(id);
 	if(comp)
 		return comp->max_produced;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
 
-void ProductionHelper::set_production_cooldown(EntitySystem& ents, std::size_t id, Ogre::Real cd)
+void ProductionHelper::set_production_cooldown(EntitySystem& ents, tdt::uint id, tdt::real cd)
 {
 	auto comp = ents.get_component<ProductionComponent>(id);
 	if(comp)
 		comp->cooldown = cd;
 }
 
-Ogre::Real ProductionHelper::get_production_cooldown(EntitySystem& ents, std::size_t id)
+tdt::real ProductionHelper::get_production_cooldown(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<ProductionComponent>(id);
 	if(comp)
 		return comp->cooldown;
 	else
-		return Ogre::Real{};
+		return tdt::real{};
 }
 
-void ProductionHelper::set_production_progress(EntitySystem& ents, std::size_t id, Ogre::Real prog)
+void ProductionHelper::set_production_progress(EntitySystem& ents, tdt::uint id, tdt::real prog)
 {
 	auto comp = ents.get_component<ProductionComponent>(id);
 	if(comp)
@@ -64,27 +64,27 @@ void ProductionHelper::set_production_progress(EntitySystem& ents, std::size_t i
 	}
 }
 
-Ogre::Real ProductionHelper::get_production_progress(EntitySystem& ents, std::size_t id)
+tdt::real ProductionHelper::get_production_progress(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<ProductionComponent>(id);
 	if(comp)
 		return comp->curr_cd;
 	else
-		return Ogre::Real();
+		return tdt::real();
 }
 
-void ProductionHelper::set_production_count(EntitySystem& ents, std::size_t id, std::size_t count)
+void ProductionHelper::set_production_count(EntitySystem& ents, tdt::uint id, tdt::uint count)
 {
 	auto comp = ents.get_component<ProductionComponent>(id);
 	if(comp)
 		comp->curr_produced = count;
 }
 
-std::size_t ProductionHelper::get_production_count(EntitySystem& ents, std::size_t id)
+tdt::uint ProductionHelper::get_production_count(EntitySystem& ents, tdt::uint id)
 {
 	auto comp = ents.get_component<ProductionComponent>(id);
 	if(comp)
 		return comp->curr_produced;
 	else
-		return std::size_t{};
+		return tdt::uint{};
 }
