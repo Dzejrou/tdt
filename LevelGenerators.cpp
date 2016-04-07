@@ -25,6 +25,8 @@ void RandomLevelGenerator::generate(tdt::uint width, tdt::uint height, WaveSyste
 	 * 4 == walkway
 	 * 5 == light source
 	 * 6 == throne
+	 * 7 == vault
+	 * 8 == mine
 	 */
 	std::vector<std::vector<tdt::uint>> level{};
 	level.resize(width);
@@ -129,8 +131,10 @@ void RandomLevelGenerator::generate(tdt::uint width, tdt::uint height, WaveSyste
 			break;
 	}
 
-	// The dungeon throne.
+	// The dungeon throne, vault and mine.
 	level[mid_w][mid_h] = 6;
+	level[mid_w][mid_h + 1] = 7;
+	level[mid_w - 1][mid_h] = 8;
 
 	// Actual structure placing.
 	auto& script = lpp::Script::instance();
@@ -140,27 +144,45 @@ void RandomLevelGenerator::generate(tdt::uint width, tdt::uint height, WaveSyste
 	std::string walkway_table{script.get<std::string>("game.config.default_walkway_table")};
 	std::string light_table{script.get<std::string>("game.config.default_light_table")};
 	std::string throne_table{script.get<std::string>("game.config.default_throne_table")};
+	std::string vault_table{script.get<std::string>("game.config.default_vault_table")};
+	std::string mine_table{script.get<std::string>("game.config.default_mine_table")};
 	for(tdt::uint i = 0; i < width; ++i)
 	{
 		for(tdt::uint j = 0; j < height; ++j)
 		{
 			tdt::uint id{Component::NO_ENTITY};
-			if(level[i][j] == 1)
-				id = entities_.create_entity(wall_table);
-			else if(level[i][j] == 2)
-				id = entities_.create_entity(gold_table);
-			else if(level[i][j] == 3)
-				id = entities_.create_entity(border_table);
-			else if(level[i][j] == 4)
-				id = entities_.create_entity(walkway_table);
-			else if(level[i][j] == 5)
-				id = entities_.create_entity(light_table);
-			else if(level[i][j] == 6)
-				id = entities_.create_entity(throne_table);
+			switch(level[i][j])
+			{
+				case 1:
+					id = entities_.create_entity(wall_table);
+					break;
+				case 2:
+					id = entities_.create_entity(gold_table);
+					break;
+				case 3:
+					id = entities_.create_entity(border_table);
+					break;
+				case 4:
+					id = entities_.create_entity(walkway_table);
+					break;
+				case 5:
+					id = entities_.create_entity(light_table);
+					break;
+				case 6:
+					id = entities_.create_entity(throne_table);
+					break;
+				case 7:
+					id = entities_.create_entity(vault_table);
+					break;
+				case 8:
+					id = entities_.create_entity(mine_table);
+					break;
+				default:
+					// Free space.
+					break;
+			}
 
-			if(level[i][j] == 1 || level[i][j] == 2 ||
-			   level[i][j] == 3 || level[i][j] == 4 ||
-			   level[i][j] == 5 || level[i][j] == 6)
+			if(level[i][j] >= 1 && level[i][j] <= 8)
 			{
 				auto node = grid.get_node(i,j);
 				PhysicsHelper::set_2d_position(entities_, id,
