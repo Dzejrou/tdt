@@ -5,7 +5,7 @@ game.wave.wave_test = {
 		w.clear_entity_blueprints()
 		w.set_wave_count(3)
 		w.set_curr_wave_number(0)
-		w.set_countdown(180)
+		w.set_countdown(300)
 	end,
 
 	wstart_0 = function()
@@ -31,7 +31,7 @@ game.wave.wave_test = {
 
 	wend_1 = function()
 		local w = game.wave
-		w.set_countdown(300)
+		w.set_countdown(180)
 	end,
 
 	wstart_2 = function()
