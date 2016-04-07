@@ -25,5 +25,7 @@ game.config = {
 	default_border_table = "indestructible_wall",
 	default_walkway_table = "walkway",
 	default_light_table = "light_crystal",
-	default_throne_table = "dungeon_throne"
+	default_throne_table = "dungeon_throne",
+	default_vault_table = "gold_vault",
+	default_mine_table = "mine"
 }
