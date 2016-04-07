@@ -448,6 +448,8 @@ bool Game::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
 		selection_box_->execute_selection(end, *(main_cam_->camera_), keyboard_->isKeyDown(OIS::KC_LSHIFT));
 		if(selection_box_->get_selected_entities().size() == 1)
 			GUI::instance().get_tracker().set_tracked_entity(selection_box_->get_selected_entities()[0], *entity_system_);
+		else if(selection_box_->get_selected_entities().empty())
+			GUI::instance().get_tracker().set_tracked_entity(Component::NO_ENTITY, *entity_system_);
 		selection_box_->set_selecting(false);
 	}
 
