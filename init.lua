@@ -24,5 +24,5 @@ game.gui.console.set_history(game.config.console_hitory)
 game.gui.log.set_history(game.config.log_history)
 
 -- Helper commands executed on startup:
-game.toggle_camera_free_mode()
-game.grid.create_graphics()
+--game.toggle_camera_free_mode()
+--game.grid.create_graphics()
