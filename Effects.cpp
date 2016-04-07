@@ -37,7 +37,8 @@ void util::effect::LOWER_SPEED_EFFECT::operator()(tdt::uint id)
 	auto evt_comp = entities_.get_component<EventComponent>(evt_id);
 	auto time_comp = entities_.get_component<TimeComponent>(evt_id);
 
-	if(mov_comp && evt_comp && time_comp)
+	if(mov_comp && evt_comp && time_comp &&
+	   mov_comp->speed_modifier == mov_comp->original_speed) // This stops infinite slowing.
 	{
 		mov_comp->speed_modifier /= 2.f;
 
@@ -69,7 +70,8 @@ void util::effect::FREEZE_EFFECT::operator()(tdt::uint id)
 	auto evt_comp = entities_.get_component<EventComponent>(evt_id);
 	auto time_comp = entities_.get_component<TimeComponent>(evt_id);
 
-	if(mov_comp && evt_comp && time_comp)
+	if(mov_comp && evt_comp && time_comp &&
+	   mov_comp->speed_modifier == mov_comp->original_speed)
 	{
 		mov_comp->speed_modifier = tdt::real{};
 
