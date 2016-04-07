@@ -63,7 +63,8 @@ tdt::uint EntityTracker::get_tracked_entity() const
 
 void EntityTracker::update_tracking(const std::string& label, const std::string& value)
 {
-	window_->getChild("FRAME/" + label)->setText(value);
+	if(curr_tracked_entity_ != Component::NO_ENTITY)
+		window_->getChild("FRAME/" + label)->setText(value);
 }
 
 void EntityTracker::clear()
@@ -80,6 +81,7 @@ void EntityTracker::clear()
 	view->getChild("DELETE")->setVisible(false);
 	view->getChild("UPGRADE")->setVisible(false);
 	view->getChild("GOLD_TO_EXP")->setVisible(false);
+	curr_tracked_entity_ = Component::NO_ENTITY;
 }
 
 void EntityTracker::init_upgrade_butt(EntitySystem* ents)
