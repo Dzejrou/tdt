@@ -105,11 +105,11 @@ default_task_handler = {
 			if game.path.empty(id) then
 				return true
 			end
-			range = game.combat.get_range(id)
+			local range = game.combat.get_range(id)
 			range = range - (range / 10)
 			range = range * range
 
-			dist = game.physics.get_distance(id, target)
+			local dist = game.physics.get_distance(id, target)
 			res = dist < range and game.combat.in_sight(id, target)
 			if res then
 				game.path.clear(id)
