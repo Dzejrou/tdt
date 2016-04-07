@@ -14,7 +14,7 @@ friendly_warrior_upgrade = {
 	upgrade = function(id)
 		game.health.heal(id)
 		game.health.buff(id, 250)
-		game.health.add_defense(10)
+		game.health.add_defense(id, 10)
 		local min, max = game.combat.get_dmg_range(id)
 		game.combat.set_dmg_range(id, min + 30, max + 30)
 	end
