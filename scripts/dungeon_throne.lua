@@ -8,7 +8,8 @@ dungeon_throne = {
 		game.enum.component.destructor,
 		game.enum.component.faction,
 		game.enum.component.name,
-		game.enum.component.constructor
+		game.enum.component.constructor,
+		game.enum.component.mine
 	},
 
 	PhysicsComponent = {
