@@ -541,7 +541,7 @@ void Game::ogre_init()
 #ifdef _DEBUG
 	window_ = root_->createRenderWindow("Dungeon Keeper", 1920, 1080, false);
 #else
-	window_ = root_->createRenderWindow("Dungeon Keeper", 1920, 1080, false);
+	window_ = root_->initialise(true, "Dungeon Keeper");
 #endif
 	window_->setVisible(true);
 
