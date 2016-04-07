@@ -333,7 +333,7 @@ void OptionsWindow::apply_()
 	}
 
 	render_window_->setFullscreen(fullscreen_, width_, height_);
-	renderer_->setDisplaySize(CEGUI::Sizef{(float)width_, (float)height_});
+	renderer_->setDisplaySize(CEGUI::Sizef{(float)view_->getActualWidth(), (float)view_->getActualHeight()});
 	currently_binded_action_ = KEY_BIND_ACTION::NONE;
 
 	/**
