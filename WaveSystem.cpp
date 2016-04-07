@@ -71,10 +71,10 @@ void WaveSystem::advance_wave_countdown(tdt::uint val)
 
 void WaveSystem::wave_entity_died()
 {
-	if(wave_entities_ <= 1 && entities_spawned_ >= entities_total_)
-		end_wave();
-	else if(wave_entities_ >= 1)
+	if(wave_entities_ >= 1)
 		--wave_entities_;
+	if(wave_entities_ == 0 && entities_spawned_ >= entities_total_)
+		end_wave();
 	update_label_text();
 }
 
@@ -299,6 +299,7 @@ void WaveSystem::spawn()
 	if(spawning_nodes_.size() < to_spawn)
 		to_spawn = spawning_nodes_.size();
 
+	tdt::uint spawned{};
 	for(tdt::uint i = 0; i < to_spawn; ++i)
 	{
 		tdt::uint id{};
@@ -307,16 +308,17 @@ void WaveSystem::spawn()
 		else if(0 < entity_blueprints_.size())
 			id = entities_.create_entity(entity_blueprints_[0]);
 		else
-			return;
+			continue;
 
 		entities_.add_component<DestructorComponent>(id); // It should have it, but just in case.
 		auto comp = entities_.get_component<DestructorComponent>(id);
 		comp->blueprint = "wave_entity_destructor";
 
 		PhysicsHelper::set_2d_position(entities_, id, PhysicsHelper::get_2d_position(entities_, spawning_nodes_[i]));
+		++spawned;
 	}
 
-	entities_spawned_ += to_spawn;
-	wave_entities_ += to_spawn;
+	entities_spawned_ += spawned;
+	wave_entities_ += spawned;
 	update_label_text();
 }
