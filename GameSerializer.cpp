@@ -81,10 +81,8 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 
 	// Save the map info.
 	std::string map{
-		  "game.grid.create(" + std::to_string(Grid::instance().width_) + ", "
-		+ std::to_string(Grid::instance().height_) + ", " + std::to_string(Grid::instance().distance_)
-		+ ", " + std::to_string(Grid::instance().start_.x) + ", " + std::to_string(Grid::instance().start_.y)
-		+ ")\n"
+		  "game.create_empty_level(" + std::to_string(Grid::instance().width_) + ", "
+		+ std::to_string(Grid::instance().height_) + ")\n"
 	};
 	std::string nodes{"\n-- GRAPH NODE ALIASES:\n"};
 	for(auto& ent : entities_.get_component_container<GridNodeComponent>())
