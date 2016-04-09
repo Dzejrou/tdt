@@ -130,11 +130,15 @@ void GUI::init(Game* game)
 			}
 			catch(std::invalid_argument&)
 			{
-				log_.print("[ERROR] Invalid new game dimensions.");
+				log_.set_visible(true);
+				log_.print("\\[ERROR\\] Invalid new game dimensions.");
+				return false;
 			}
 			catch(std::out_of_range&)
 			{
-				log_.print("[ERROR] Game dimensions out of range.");
+				log_.set_visible(true);
+				log_.print("\\[ERROR\\] Game dimensions out of range.");
+				return false;
 			}
 
 			new_game->getChild("WIDTH_INPUT")->setText("");
