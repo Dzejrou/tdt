@@ -123,10 +123,10 @@ void GUI::init(Game* game)
 					(std::size_t)std::stoul(new_game->getChild("HEIGHT_INPUT")->getText().c_str())
 				};
 
-				if(w >= 10 && w <= 256 && h >= 10 && h <= 256)
+				if(w >= 10 && w <= 64 && h >= 10 && h <= 64)
 					game_->new_game(w, h);
 				else
-					throw std::out_of_range{"(10, 1024)"};
+					throw std::out_of_range{"(" + std::to_string(w) + ", " + std::to_string(h) + ") != (10, 64)"};
 			}
 			catch(std::invalid_argument&)
 			{

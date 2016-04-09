@@ -938,7 +938,7 @@
                 <Window type="AlfiskoSkin/Label" name="DIMENSIONS" >
                     <Property name="Area" value="{{0.1,0},{0.05,0},{0.9,0},{0.25,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
-                    <Property name="Text" value="Dimensions: (10 - 256)" />
+                    <Property name="Text" value="Dimensions: (10 - 64)" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="AlfiskoSkin/Label" name="WIDTH_LABEL" >
