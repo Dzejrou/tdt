@@ -1,0 +1,689 @@
+\chapter{Implementation / Dev Docs?}
+% TODO
+
+\section{Engine (?Layout)}
+
+% TODO
+\begin{itemize}
+    \item describe Component - System - Helper - LuaInterface - ... relationship
+    \item possibly create a picture
+    \item describe the "workflow" of the game? or leave it to other sections?
+\end{itemize}
+
+\section{Game}
+
+% TODO
+\begin{itemize}
+    \item !ask PJ: do I have to describe functions even if they have documenting comments? 
+    \item describe how the game is initialized
+    \item explain OIS and Ogre callbacks (+ parent classes)
+    \item brief description of its members vs just mentioning them vs ignoring them as they will be explained later?
+    \item level creation (new\_level \&\& generate\_empty\_level)
+    \item throne monitoring? (keeping throne ID so there is only one target of the enemies)
+    \item possibly add a subsections describing Ogre and CEGUI initialisation
+\end{itemize}
+
+\subsection{State Design Pattern}
+
+% TODO
+\begin{itemize}
+    \item describe the pattern
+    \item describe the states of the game
+    \item explain why the pattern is NOT used
+\end{itemize}
+
+\section{Components}
+
+% TODO
+\begin{itemize}
+    \item go through components one by one with UML-like pictures describing theis members and purpose
+    \item explain why strings are moved?
+    \item explain why components need default values for every parameter of their constructor?
+    \item go through some more complex concepts of the components (align states, maybe forward reference blueprints, etc.)
+\end{itemize}
+
+\section{Systems}
+
+% TODO
+\begin{itemize}
+    \item define systems
+    \item mention common base class and the reason for inheritance (list of systems...)
+    \item describe the component-system relationship (none, system-component, system-components, systems-component, ...)
+\end{itemize}
+
+\subsection{CombatSystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic
+    \item describe entity querying
+    \item describe effect application
+    \item talk about the fabulousness of the query \& effect design!
+    \item talk about the run away mechanism?
+    \item talk about runtime projectile creation?
+    \item talk about line of sight and LoS wrt BB?
+\end{itemize}
+
+\subsection{EntitySystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic
+    \item describe cleanup (and its delay and why it's necessary)
+    \item id system (back then vs now)
+    \item entity creation process
+    \item component containers
+    \item describe component manipulation (add, load, set, delete, delete now, ...)
+    \item mention entity registration for the entity creator window
+    \item describe function array (reason, jmp table bonus, etc.)
+    \item explain the macros!
+    \item describe why constructors are delayed (so that the lua function where it's create continues before constructor call)
+    \item maybe talk more about component loading from lua? or leave that to the scripting part? or never mention it?
+\end{itemize}
+
+\subsection{EventSystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic
+    \item describe event persistence/destruction
+    \item describe how to make event one (successful) pass only
+    \item targeted/area events and area event expansion
+    \item delete component vs delete entity discussion
+    \item describe handling (fixed C++ vs Lua)
+    \item this should be first time we encounter update periods and time multipliers, explain!
+\end{itemize}
+
+\subsection{GridSystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic (+freed/unfreed and Grid relation)
+    \item talk about grid graphics used for debugging?
+    \item explain structure placement
+    \item describe alignment checks
+\end{itemize}
+
+\subsection{TaskSystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic
+    \item talk about busy state, processing tasks and checking if task is complete
+    \item probably only forward reference the Lua part? or talk about it right here? !ask PJ!
+\end{itemize}
+
+\subsection{WaveSystem}
+
+% TODO
+\begin{itemize}
+    \item describe states and maybe mention why the State design patter wasn't used (too simple)
+    \item describe the update logic of the different states (-> countdown, spawning, chilling)
+    \item talk about the spawning mechanism, blueprint vector, spawn nodes
+    \item talk about wave entity monitoring and wave ending
+    \item talk about the wave table
+    \item talk about the wstart and wend callbacks
+    \item talk about endless mode
+    \item possibly explain how to write a wave? or add that to the scripting part?
+\end{itemize}
+
+\subsection{Other}
+
+% TODO
+\begin{itemize}
+    \item here explain in alphabetical order the remaining systems
+    \item say why these are not as important (that is, not important to be described) as the others
+\end{itemize}
+
+\subsubsection{AISystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic
+    \item mention update forcing (in relation to the update period mentioned earlier)
+\end{itemize}
+
+\subsubsection{GraphicsSystem}
+
+% TODO
+\begin{itemize}
+    \item say how it's supposed to maintain all manual graphics logic but atm only does explosions
+        (since it's the only manual graphics object)
+    \item describe the update logic
+\end{itemize}
+
+\subsubsection{HealthSystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic
+    \item mention configurable regeneration period
+\end{itemize}
+
+\subsubsection{InputSystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic
+    \item explain initial purpose and why it's not used atm
+\end{itemize}
+
+\subsubsection{ManaSpellSystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic (both mana regen and entity spell casting)
+    \item possibly talk about the relationship between player spells and entity spells
+\end{itemize}
+
+\subsubsection{MovementSystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic
+    \item talk aboud move and checked\_move (and can\_move\_to) and why checked is not used
+        but can be from lua (and was intended for 1st person mode)
+\end{itemize}
+
+\subsubsection{ProductionSystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic
+    \item explain how products are spawned and placed
+\end{itemize}
+
+\subsubsection{TimeSystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic (mention the multiple comps updated)
+    \item explain time event handling (and use)
+    \item explain time event advancements
+\end{itemize}
+
+\subsubsection{TriggerSystem}
+
+% TODO
+\begin{itemize}
+    \item describe the update logic
+    \item explain how triggering works and why it works that way (factions)
+    \item explain the general trap concept?
+\end{itemize}
+
+\section{Helpers}
+
+% TODO
+\begin{itemize}
+    \item describe what helpers are and how are they used
+    \item forward reference the not-singleton status of EntitySystem?
+    \item explain why they were created (use in Lua and optionally in C++
+        for better code readability)
+    \item explain why they are slower than direct component manipulation
+    \item explain component-helper relationship
+    \item mention the general structure of a helper
+    \item maybe talk about why they are namespaces and not classes?
+        (+ namespace -> allows static class without any change basically)
+\end{itemize}
+
+\section{Script}
+
+% TODO
+\begin{itemize}
+    \item talk about how it works (it's basically a wrapper facade)
+    \item mention lpp::Exception
+    \item explain the Lua C API (only informative? add a new section with a tutorial?
+        tell the reader to read the Lua Programming Language 3rd edition book?)
+    \item maybe go through some of the more complex functions?
+\end{itemize}
+
+\section{LuaInterface}
+
+% TODO
+\begin{itemize}
+    \item talk about why it's needed (Lua needs static)
+    \item talk about why it's centralised in one class?
+\end{itemize}
+
+\subsection{Initialising the API}
+
+% TODO
+\begin{itemize}
+    \item explain the C++ function binding process
+    \item explain the Lua module hierarchy
+    \item explain other aspects besides function binding
+\end{itemize}
+
+\subsection{Extending the API}
+
+% TODO
+\begin{itemize}
+    \item explain the general body of the interface functions (stack, return etc.)
+    \item (super) small tutorial on how to add new interface functions
+\end{itemize}
+
+\section{GUI}
+
+% TODO
+\begin{itemize}
+    \item talk about the GUI hierarchy
+    \item explain initialization
+    \item explain CEGUI button binding? maybe in general CEGUI manipulation?
+    \item explain save/load file listing
+    \item mention the GUIWindow class, base class of the following GUI windows
+    \item explain why it has escape\_pressed handler and does not use CEGUI handlers
+        for that (would be needed for all subwindows, too much a hassle - also would
+        probably disregard the conditional closing)
+\end{itemize}
+
+\subsection{Console}
+
+% TODO
+\begin{itemize}
+    \item talk about how awesome it is during debugging
+    \item explain how execution and printing works (+ the history concept?)
+    \item explain why it does not execute lines but multi lines after the execute
+        button is pressed
+\end{itemize}
+
+\subsection{EntityCreator}
+
+% TODO
+\begin{itemize}
+    \item mention that currently it is used for entity placement and
+        the creation part is supposed to be a graphical way to make entities that
+        is not currently in the game
+    \item explain how it works
+    \item explain how it's used for testing
+    \item maybe mention that this is where the registered\_entity from EntitySystem
+        is used
+\end{itemize}
+
+\subsection{EntityTracker}
+
+% TODO
+\begin{itemize}
+    \item explain how tracking works
+    \item talk about why it's useful
+    \item mention the upgrade, exp convert and delete functionality?
+\end{itemize}
+
+\subsection{ResearchWindow}
+
+% TODO
+\begin{itemize}
+    \item explain initialisation, how it works
+    \item explain dummy\_unlock and its relationship with serialization
+\end{itemize}
+
+\subsection{Other}
+
+% TODO
+\begin{itemize}
+    \item say that these are generally not that complex and quite straight forward
+\end{itemize}
+
+\subsubsection{BuilderWindow}
+
+% TODO
+\begin{itemize}
+    \item talk about building registration (how it relates to unlocking)
+    \item talk about the assembly line (also used in spell casting window)
+        and why it's good (lack of images -> buttons need to be big and readable)
+    \item don't forget to mention that this is just a graphical front end
+        to EntityPlacer (with price management etc.) as is EntityCreator (though
+        that one ignores price, and has all unlocked even enemies)
+\end{itemize}
+
+\subsubsection{GameLog}
+
+% TODO
+\begin{itemize}
+    \item just mention that it is basically the ingame chat posting info
+        for the player
+    \item also maybe again mention history (same as console)?
+\end{itemize}
+
+\subsubsection{MessageToPlayerWindow}
+
+% TODO
+\begin{itemize}
+    \item talk about button renaming and action assignment
+    \item then mention how to use this as a whole
+\end{itemize}
+
+\subsubsection{OptionsWindow}
+
+% TODO
+\begin{itemize}
+    \item talk about actions, key bindings and video settings
+        (+ how they are done?)
+\end{itemize}
+
+\subsubsection{SpellCastingWindow}
+
+% TODO
+\begin{itemize}
+    \item talk about spell registration (how it relates to unlocking)
+    \item just mention the assembly line (already explained in BuilderWindow)
+    \item talk about the relationship with the SpellCaster and how spell casting
+        works on this side (simple invoking of the spell caster and marking
+        the spell as active if needed)
+    \item don't forget to mention that this is just a graphical front end
+        to SpellCaster basically
+\end{itemize}
+
+\subsubsection{TopBar}
+
+% TODO
+\begin{itemize}
+    \item just say something about its purpose (monitoring of resources)
+\end{itemize}
+
+\section{SpellCaster}
+
+% TODO
+\begin{itemize}
+    \item discuss the spell casting concept in the game
+    \item mention the spell types
+    \item explain why it's so damn cool (ease of spell creation, run time spell creation)
+    \item forward reference the Lua spell structure, which is explained later in Scripting
+\end{itemize}
+
+\section{Utilities}
+
+% TODO
+\begin{itemize}
+    \item just say that these are classes that are not directly part of
+        the game world but are used as background tools that support the game
+\end{itemize}
+
+\subsection{Camera}
+
+% TODO
+\begin{itemize}
+    \item talk about how it allows free/nonfree mode, resetting
+        and backups
+    \item maybe talk more about the free nonfree mode and how to toggle them
+        (both keybind and command)
+\end{itemize}
+
+\subsection{Effects}
+
+% TODO
+\begin{itemize}
+    \item talk about how awesome they are and allowed the creation of
+        extensible effect application framework in CombatSystem
+    \item explain how to write one
+    \item mention that they are used as template arguments and as such
+        should conform the given interface (also explain that)
+    \item maybe ilustrate their structure on one of them
+\end{itemize}
+
+\subsection{EntityPlacer}
+
+% TODO
+\begin{itemize}
+    \item explain its purpose and how it works
+    \item explain why only the graphics component data is used (so it's ignored
+        by the game world and serializer, etc.)
+\end{itemize}
+
+\subsection{LevelGenerator}
+
+% TODO
+\begin{itemize}
+    \item explain their purpose and how to write one
+    \item mention the cycle count constructor parameter
+    \item mention the default tables in config (and that it's easy to add new ones)
+\end{itemize}
+
+\subsubsection{RandomLevelGenerator}
+
+% TODO
+\begin{itemize}
+    \item say that this is just naive algorithm for a pseudo random level generation
+        using number of neighbours that are gold deposits to determine if a gold
+        deposit should be spawned
+\end{itemize}
+
+\subsection{RayCaster}
+
+% TODO
+\begin{itemize}
+    \item explain that I'm a noob that stole other programmer's idea for this
+        from the Ogre wiki
+    \item explain why it's needed (polygon precision ray casting -> half cubes,
+        without it only bounding boxes are checked and free space is impenetrable)
+\end{itemize}
+
+\subsection{SelectionBox}
+
+% TODO
+\begin{itemize}
+    \item explain its purpose and how it works
+    \item talk about single/area selection and multi selection using shift
+\end{itemize}
+
+\subsection{Conditions}
+
+% TODO
+\begin{itemize}
+    \item explain their purpose, how they are used in querying and effect application
+    \item mention that it's a good way for extensibility as new can be easily implemented
+    \item mention that they are often used as template parameters and thus need to
+        conform an interface (but not by inheritance)
+    \item talk about the interface
+    \item maybe demonstrate on an example
+\end{itemize}
+
+\section{Pathfinding}
+
+% TODO
+\begin{itemize}
+    \item recapitulate form analysis that a modifiable function was used
+        that allows different algorithms, heuristics and path types
+    \item mentions its parameters (destruction, add path are primary!)
+    \item mention how destruction works
+    \item mentions why path addition is optional (for checks)
+\end{itemize}
+
+\subsection{Grid}
+
+% TODO
+\begin{itemize}
+    \item explain its purpose and implementation
+    \item mention that it only provides a set of grid related operations
+        on a set of IDs it's provided (and assumes those are grid)
+    \item mention random node placement and entity distribution
+    \item mention free node list for ease (and speed) of access
+    \item explain graph creation and linking
+    \item explain general usage
+\end{itemize}
+
+\subsection{Algorithms}
+
+% TODO
+\begin{itemize}
+    \item explain how they should be implemented (what functions, as they
+        are used as template parameters)
+    \item mention that A* is the only currently implemented
+    \item mention portal implementation
+    \item mention difference in complexity (component lookups)
+    \item mention any other differences from a general A*
+\end{itemize}
+
+\subsection{Heuristics}
+
+% TODO
+\begin{itemize}
+    \item explain how they are used and why they are inheriting a base class
+        while other functors are not (state needed for some -> run away heuristic)
+    \item maybe demonstrate on an example as the code is small?
+\end{itemize}
+
+\subsection{Path Types}
+
+% TODO
+\begin{itemize}
+    \item explain what these things are and when they are used to check
+        if the algorithm should stop
+    \item explain their effect on the A* algorithm
+\end{itemize}
+
+\section{Serialization}
+
+% TODO
+\begin{itemize}
+    \item talk about how easy component serialization is and how
+        to create template specializations for new components
+    \item show an example?
+    \item explain the whole saving process, ents to be destroyed, unlocks,
+        player, grid etc.
+    \item explain the loading process
+\end{itemize}
+
+\section{Player}
+
+% TODO
+\begin{itemize}
+    \item just say that it is used as a resource bank, keeping track
+        of gold, mana, units etc
+    \item mention that it also holds the starting unlocks used for new games
+        (saved there during the game initialisation)
+\end{itemize}
+
+\section{Singleton Design Pattern}
+
+% TODO
+\begin{itemize}
+    \item explain what this stuff is, its pros \& cons
+    \item mention that the main reason for its use in this game
+        is having one instance, not that much global access
+\end{itemize}
+
+\subsection{Script}
+
+% TODO
+\begin{itemize}
+    \item mention how two Lua virtual machines cannot communicate
+        and data are bound to C++ (via EntitySystem) so it's completely
+        unnecessary to have more than one Scripting engine
+\end{itemize}
+
+\subsection{GUI}
+
+% TODO
+\begin{itemize}
+    \item why would we want to have two GUIs?
+    \item mention that here is the global access very good for testing?
+\end{itemize}
+
+\subsection{Player}
+
+% TODO
+\begin{itemize}
+    \item why would we want two sets of player resources?
+    \item serialization preserves them and shown is only the main set
+        (also used is only the main one)
+\end{itemize}
+
+\subsection{Grid}
+
+% TODO
+\begin{itemize}
+    \item explains how it only operates on a set of given IDs that are
+        made during graph creation (+ mentions it would be easy to implement
+        their switch) so there does not need to be more than one pathfinding grid
+    \item also mention that due to the nature of the game levels, it would be nonsense
+        to have two grids
+\end{itemize}
+
+\subsection{EntitySystem}
+
+% TODO
+\begin{itemize}
+    \item explain how even though it's getting passed around a lot (mainly Helpers),
+        there could be a reason to use more than one EntitySystem instance (like a backup
+        for example) and thus the Singleton pattern might not be the best choice
+    \item maybe compare it to the 4 previous classes
+\end{itemize}
+
+\section{Scripting}
+
+% TODO
+\begin{itemize}
+    \item talk about the API, possibly mention some API reference text file
+        that I should make as an attachement
+\end{itemize}
+
+\subsection{Initialisation}
+
+% TODO
+\begin{itemize}
+    \item talk about the config.lua \& init.lua duo
+    \item explain different options in config
+    \item explain how scripts packs are added to init
+    \item talk abut the core.lua file of each script pack
+        and what it should do (probably with an example)
+    \item explain how to add a new script directory
+    \item explain how to override some behaviour
+    \item explain the new level callback and for what it can be used
+        (+ the return value meaning)
+\end{itemize}
+
+\subsection{Entity Representation}
+
+% TODO
+\begin{itemize}
+    \item explain the structure of a script representing
+        an entity (with a small example)
+\end{itemize}
+
+\subsection{Blueprints}
+
+% TODO
+\begin{itemize}
+    \item explain what is a blueprint, how to make one and
+        how to use it
+    \item explain why it's a table and not just a function
+        and why the functions in different blueprint should
+        have different names
+\end{itemize}
+
+\subsection{Research}
+
+% TODO
+\begin{itemize}
+    \item explain how to add new unblocks and modify existing ones
+\end{itemize}
+
+\subsection{Spells}
+
+% TODO
+\begin{itemize}
+    \item explain the structure of a spell table and how to make new spell
+    \item mention again the spell types and the difference they make
+        in the spell table function implementations
+    \item mention that spells can be made during run time for testing
+        purposes
+\end{itemize}
+
+\subsection{Creating a Mod (? Modification)}
+
+% TODO
+\begin{itemize}
+    \item provide a simple tutorial on how to make a new mod
+    \item possibly the tower defense one?
+\end{itemize}
+
+\section{Extending the Game}
+
+% TODO
+\begin{itemize}
+    \item small sequence of tasks that are needed for a new feature addition
+        (that is component, system etc.)
+    \item idea: show how a TargetedComponent would be implemented, allowing
+        handlers for targeting/untargeting and how this could be used to create
+        a chess mod
+\end{itemize}

@@ -60,3 +60,10 @@ Debug/vc140.idb
 *.md~
 *.sdf
 dk.VC.opendb
+*.aux
+*.bbl
+*.lof
+thesis/en/thesis.lot
+*.out
+*.toc
+*.blg
