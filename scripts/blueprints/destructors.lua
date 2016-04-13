@@ -33,7 +33,7 @@ drop_gold_destructor = {
 		game.physics.set_position(evt, x2, y1, z2)
 
 		if killer and killer ~= game.const.no_ent and
-		   game.ai.get_faction(killer) == game.enum.faction.friendly then
+		   game.event_handling.can_handle(killer, game.enum.event.gold_dropped) then
 			game.event.set_handler(evt, killer)
 		end
 	end
