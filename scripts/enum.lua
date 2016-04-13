@@ -49,7 +49,8 @@ game.enum = {
 		exp_val = 35,
 		light = 36,
 		command = 37,
-		counter = 38
+		counter = 38,
+		portal = 39
 	},
 
 	event = {
