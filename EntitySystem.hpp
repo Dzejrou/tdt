@@ -1060,9 +1060,57 @@ inline void EntitySystem::clean_up_component<TaskHandlerComponent>(tdt::uint id)
 	if(comp)
 	{ // Destroy all assigned tasks.
 		if(comp->curr_task != Component::NO_ENTITY)
-			to_be_destroyed_.push_back(comp->curr_task);
+			comp->task_queue.push_back(comp->curr_task);
 		for(auto task : comp->task_queue)
+		{
 			to_be_destroyed_.push_back(task);
+
+			auto task_comp = get_component<TaskComponent>(task);
+			if(task_comp && (task_comp->task_type == TASK_TYPE::GO_PICK_UP_GOLD
+			   || task_comp->task_type == TASK_TYPE::PICK_UP_GOLD))
+			{ // Have someone else pick it up.
+				/**
+				 * Since this is probably called while iterating over
+				 * the list of all entities, creating new entity would
+				 * probably invalidate the iterator, so the gold pile
+				 * that is supposed to be picked up is given the event
+				 * component (which is then removed when handled).
+				 */
+				add_component<EventComponent>(task_comp->target);
+
+				auto evt_comp = get_component<EventComponent>(task_comp->target);
+				if(evt_comp)
+				{
+					evt_comp->active = true;
+					evt_comp->event_type = EVENT_TYPE::GOLD_DROPPED;
+					evt_comp->handler = Component::NO_ENTITY;
+					evt_comp->target = task_comp->target;
+
+					/**
+					 * Better to not make it maximal, as we would still
+					 * prefer a close miner to pick it up (it will increase
+					 * in time if the event is not handled).
+					 */
+					evt_comp->radius = 10000.f;
+				}
+			}
+		}
+	}
+}
+
+template<>
+inline void EntitySystem::clean_up_component<EventHandlerComponent>(tdt::uint id)
+{
+	/**
+	 * There is a slight chance that an entity would get killed right
+	 * after destroying a gold deposit but before it could handle the
+	 * event, so in that case just mark that event as global, so other
+	 * miners can pick it up.
+	 */
+	for(auto& evt : event_)
+	{
+		if(evt.second.handler == id && evt.second.event_type == EVENT_TYPE::GOLD_DROPPED)
+			evt.second.handler = Component::NO_ENTITY;
 	}
 }
 
