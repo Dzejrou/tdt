@@ -84,41 +84,14 @@ namespace pathfinding
 				{
 					auto& neighbour = neighbours[i];
 
-					/**
-					 * This will allow the concept of portals to be integrated into the
-					 * pathfinding process (because paths will ignore distance between portals).
-					 */
-					tdt::real s{};
-					tdt::real h{};
-					bool portal{false};
-					if(i == DIRECTION::PORTAL)
-					{
-						auto resident = GridNodeHelper::get_resident(ents, neighbour);
-						if(resident != Component::NO_ENTITY && TriggerHelper::can_be_triggered_by(ents, resident, id))
-						{
-							s = 0.f;
+					bool cannot_pass = !GridNodeHelper::is_free(ents, neighbour) &&
+									  (!allow_destruction || !PathfindingHelper::can_break(id, *comp, neighbour))
+									   && !StructureHelper::is_walk_through(ents, GridNodeHelper::get_resident(ents, neighbour));
+					if(!Grid::instance().in_board(neighbour) || cannot_pass)
+						continue;
 
-							auto other_end = TriggerHelper::get_linked_entity(ents, resident);
-							auto pos = PhysicsHelper::get_2d_position(ents, other_end);
-							auto other_node = Grid::instance().get_node_from_position(pos.x, pos.y);
-							h = heuristic.get_cost(other_node, end);
-							portal = true;
-						}
-						else
-							continue;
-					}
-
-					if(!portal)
-					{
-						bool cannot_pass = !GridNodeHelper::is_free(ents, neighbour) &&
-										  (!allow_destruction || !PathfindingHelper::can_break(id, *comp, neighbour))
-										   && !StructureHelper::is_walk_through(ents, GridNodeHelper::get_resident(ents, neighbour));
-						if(!Grid::instance().in_board(neighbour) || cannot_pass)
-							continue;
-
-						s = PathfindingHelper::get_cost(id, *comp, current, (DIRECTION::VAL)i);
-						h = heuristic.get_cost(neighbour, end);
-					}
+					tdt::real s = PathfindingHelper::get_cost(id, *comp, current, (DIRECTION::VAL)i);
+					tdt::real h = heuristic.get_cost(neighbour, end);
 					auto new_score = score[current] + s;
 
 					// Either unvisited or we found a better path to it.
@@ -219,6 +192,8 @@ namespace heuristic
 
 		virtual tdt::real get_cost(tdt::uint id1, tdt::uint id2) = 0;
 
+		virtual ~HEURISTIC()= default;
+
 		protected:
 			EntitySystem& entities_;
 	};
@@ -237,6 +212,8 @@ namespace heuristic
 		{
 			return (tdt::real)GridNodeHelper::get_manhattan_distance(entities_, id1, id2);
 		}
+
+		virtual ~MANHATTAN_DISTANCE()= default;
 	};
 
 	/**
@@ -252,6 +229,8 @@ namespace heuristic
 		{
 			return 0.f;
 		}
+
+		~NO_HEURISTIC() = default;
 	};
 
 	/**
@@ -269,15 +248,71 @@ namespace heuristic
 				- PhysicsHelper::get_distance(entities_, from_, id2);
 		}
 
+		~RUN_AWAY_HEURISTIC() = default;
+
 		private:
 			tdt::uint from_;
+	};
+
+	/**
+	 * Variation of the Manhattan distance heuristic that takes
+	 * portals into accounts.
+	 * Note: This heuristic won't help with complex chains
+	 *       of portals. For that, the BEST_PATH path type
+	 *       would be needed to check every single portal
+	 *       combination. (But for basic portal usage, this
+	 *       heuristic works fine.)
+	 */
+	struct PORTAL_HEURISTIC : MANHATTAN_DISTANCE
+	{
+		PORTAL_HEURISTIC(EntitySystem& ents)
+			: MANHATTAN_DISTANCE{ents}
+		{ /* DUMMY BODY */ }
+
+		tdt::real get_cost(tdt::uint id1, tdt::uint id2) override
+		{
+			auto direct_dist = MANHATTAN_DISTANCE::get_cost(id1, id2);
+			auto portal1 = get_closest_portal(id1);
+			auto portal2 = TriggerHelper::get_linked_entity(entities_, id1);
+
+			if(portal1 == Component::NO_ENTITY || portal2 == Component::NO_ENTITY)
+				return direct_dist; // Avoid portal calculation is there are no portals.
+
+			auto portal1_dist = MANHATTAN_DISTANCE::get_cost(id1, portal1);
+			auto portal2_dist = MANHATTAN_DISTANCE::get_cost(portal2, id2);
+
+			return std::min(direct_dist, portal1_dist + portal2_dist);
+		}
+
+		~PORTAL_HEURISTIC() = default;
+
+		private:
+			/**
+			 *
+			 */
+			tdt::uint get_closest_portal(tdt::uint id)
+			{
+				tdt::real closest_dist = std::numeric_limits<tdt::real>::max();
+				tdt::real dist{};
+				tdt::uint closest_id = Component::NO_ENTITY;
+
+				for(const auto& portal : entities_.get_component_container<PortalComponent>())
+				{
+					dist = PhysicsHelper::get_distance(entities_, id, portal.first);
+					if(dist < closest_dist)
+					{
+						closest_id = portal.first;
+						closest_dist = dist;
+					}
+				}
+			}
 	};
 }
 
 /**
  * Default types for the different pathfinding functors.
  */
-using DEFAULT_PATH_TYPE = path_type::BEST_PATH;
-using DEFAULT_HEURISTIC = heuristic::MANHATTAN_DISTANCE;
+using DEFAULT_PATH_TYPE = path_type::FIRST_PATH;
+using DEFAULT_HEURISTIC = heuristic::PORTAL_HEURISTIC;
 using DEFAULT_PATHFINDING_ALGORITHM = pathfinding::A_STAR<DEFAULT_PATH_TYPE>;
 }
