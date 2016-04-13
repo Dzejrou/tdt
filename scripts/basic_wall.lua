@@ -9,6 +9,7 @@ basic_wall = {
 		game.enum.component.mine,
 		game.enum.component.exp_val,
 		game.enum.component.name,
+		game.enum.component.destructor
 	},
 
 	PhysicsComponent = {
@@ -100,6 +101,10 @@ basic_wall = {
 
 	NameComponent = {
 		name = "BASIC WALL"
+	},
+
+	DestructorComponent = {
+		blueprint = "give_experience_destructor"
 	}
 }
 
