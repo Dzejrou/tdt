@@ -33,6 +33,7 @@ end
 game.init_level = function(width, height)
 	game.gui.console.print("New level created with dimensions: "
 			       .. width .. "x" .. height .. ".")
+	game.wave.set_table(game.config.default_wave_table)
 	return true
 end
 
