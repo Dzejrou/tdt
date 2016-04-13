@@ -657,3 +657,9 @@ inline void GameSerializer::save_component<CounterComponent>(tdt::uint id, const
 		+ "game.counter.set_max(" + tbl_name + ", " + std::to_string(comp->max_value) + ")\n"
 	);
 }
+
+template<>
+inline void GameSerializer::save_component<PortalComponent>(tdt::uint id, const std::string& tbl_name)
+{
+	save_components_.emplace_back("game.entity.add_component(" + tbl_name + ", game.enum.component.portal)\n");
+}

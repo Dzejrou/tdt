@@ -58,6 +58,7 @@ GameSerializer::GameSerializer(EntitySystem& ents)
 	serializers_[LightComponent::type] = &GameSerializer::save_component<LightComponent>;
 	serializers_[CommandComponent::type] = &GameSerializer::save_component<CommandComponent>;
 	serializers_[CounterComponent::type] = &GameSerializer::save_component<CounterComponent>;
+	serializers_[PortalComponent::type] = &GameSerializer::save_component<PortalComponent>;
 }
 
 void GameSerializer::save_game(Game& game, const std::string& fname)
