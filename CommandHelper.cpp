@@ -28,6 +28,8 @@ void CommandHelper::command_to_mine(EntitySystem& ents, SelectionBox& selection)
 	if(selection.get_selected_entities().empty())
 		return;
 	std::size_t target = selection.get_selected_entities()[0];
+	if(FactionHelper::get_faction(ents, target) == FACTION::FRIENDLY)
+		return; // No friendly fire.
 
 	// Find miner with the smallest task queue (if more are found, take the closest).
 	std::size_t id = Component::NO_ENTITY;
