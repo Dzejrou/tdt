@@ -13,7 +13,7 @@
 
 struct Component
 {
-	static constexpr int count = 39;
+	static constexpr int count = 40;
 	static constexpr tdt::uint NO_ENTITY = std::numeric_limits<tdt::uint>::max();
 };
 
@@ -890,4 +890,13 @@ struct CounterComponent
 
 	tdt::uint curr_value;
 	tdt::uint max_value;
+};
+
+/**
+ * Dummy component that signals that an entity having it is
+ * a portal - which is used in pathfinding.
+ */
+struct PortalComponent
+{
+	static constexpr int type = 39;
 };

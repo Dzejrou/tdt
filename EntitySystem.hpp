@@ -317,6 +317,7 @@ class EntitySystem : public System
 		std::map<tdt::uint, LightComponent> light_{};
 		std::map<tdt::uint, CommandComponent> command_{};
 		std::map<tdt::uint, CounterComponent> counter_{};
+		std::map<tdt::uint, PortalComponent> portal_{};
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -587,6 +588,12 @@ template<>
 inline std::map<tdt::uint, CounterComponent>& EntitySystem::get_component_container<CounterComponent>()
 {
 	return counter_;
+}
+
+template<>
+inline std::map<tdt::uint, PortalComponent>& EntitySystem::get_component_container<PortalComponent>()
+{
+	return portal_;
 }
 
 /**
@@ -1022,6 +1029,12 @@ inline void EntitySystem::load_component<CounterComponent>(tdt::uint id, const s
 	auto& script = lpp::Script::instance();
 	tdt::uint max = script.get<tdt::uint>(table_name + ".CounterComponent.max_value");
 	counter_.emplace(id, CounterComponent{max});
+}
+
+template<>
+inline void EntitySystem::load_component<PortalComponent>(tdt::uint id, const std::string& table_name)
+{
+	portal_.emplace(id, PortalComponent{});
 }
 
 /**

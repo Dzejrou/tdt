@@ -232,6 +232,7 @@ void EntitySystem::init_function_arrays()
 	loaders_[LightComponent::type] = &EntitySystem::load_component<LightComponent>;
 	loaders_[CommandComponent::type] = &EntitySystem::load_component<CommandComponent>;
 	loaders_[CounterComponent::type] = &EntitySystem::load_component<CounterComponent>;
+	loaders_[PortalComponent::type] = &EntitySystem::load_component<PortalComponent>;
 
 	adders_[PhysicsComponent::type] = &EntitySystem::add_component<PhysicsComponent>;
 	adders_[HealthComponent::type] = &EntitySystem::add_component<HealthComponent>;
@@ -272,6 +273,7 @@ void EntitySystem::init_function_arrays()
 	adders_[LightComponent::type] = &EntitySystem::add_component<LightComponent>;
 	adders_[CommandComponent::type] = &EntitySystem::add_component<CommandComponent>;
 	adders_[CounterComponent::type] = &EntitySystem::add_component<CounterComponent>;
+	adders_[PortalComponent::type] = &EntitySystem::add_component<PortalComponent>;
 
 	deleters_[PhysicsComponent::type] = &EntitySystem::delete_component<PhysicsComponent>;
 	deleters_[HealthComponent::type] = &EntitySystem::delete_component<HealthComponent>;
@@ -312,6 +314,7 @@ void EntitySystem::init_function_arrays()
 	deleters_[LightComponent::type] = &EntitySystem::delete_component<LightComponent>;
 	deleters_[CommandComponent::type] = &EntitySystem::delete_component<CommandComponent>;
 	deleters_[CounterComponent::type] = &EntitySystem::delete_component<CounterComponent>;
+	deleters_[PortalComponent::type] = &EntitySystem::delete_component<PortalComponent>;
 
 	immediate_deleters_[PhysicsComponent::type] = &EntitySystem::delete_component_now<PhysicsComponent>;
 	immediate_deleters_[HealthComponent::type] = &EntitySystem::delete_component_now<HealthComponent>;
@@ -352,6 +355,7 @@ void EntitySystem::init_function_arrays()
 	immediate_deleters_[LightComponent::type] = &EntitySystem::delete_component_now<LightComponent>;
 	immediate_deleters_[CommandComponent::type] = &EntitySystem::delete_component_now<CommandComponent>;
 	immediate_deleters_[CounterComponent::type] = &EntitySystem::delete_component_now<CounterComponent>;
+	immediate_deleters_[PortalComponent::type] = &EntitySystem::delete_component_now<PortalComponent>;
 }
 
 bool EntitySystem::has_component(tdt::uint id, tdt::uint comp) const
