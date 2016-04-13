@@ -1,69 +1,345 @@
 \chapter{Problem Analysis}
 
+% TODO some intro?
+
+\section{Game Design}
+
+% TODO
+\begin{itemize}
+    \item go over which features of the dungeon management genre will be used and why
+    \item possibly talk about how they could be done? or leave this to implementation?
+\end{itemize}
+
 \section{Engine Design}
+
+% TODO
+\begin{itemize}
+    \item maybe mention that the goal to make an engine and that's why UE or Unity
+        weren't used
+    \item say that since the game is to be modifiable and extensible, run time
+        entity creation is a must (both for modding and testing)
+    \item might be good mention the choice before explaining why the different
+        options were/were not chosen so that the reader knows
+\end{itemize}
 
 \subsection{Inheritance based (wording?)}
 
+% TODO
+\begin{itemize}
+    \item explain what is meant by the title (classic OOP design)
+    \item explain that since inheritance has to be done by compile time and
+        cannot be changed during run time, this would prohibit dynamic entity
+        creation
+    \item for the same reason, specifying entities in config files would generally
+        be impossible (except with something like Roslyn)
+    \item this kind of engine would also have to be planned a lot (to avoid
+        inheritance hierarchy hell)
+    \item ?same reason (inheritance hierarchy) would either prohibit or discourage
+        some attribute combinations (like a walking wall) during future modifications?
+\end{itemize}
+
 \subsection{Component based (wording?)}
+
+% TODO
+\begin{itemize}
+    \item define the Component design pattern (with references to
+         the gamedesginpatterns.smth book)
+    \item mention that this is very similar to the component based implementation
+         both Unity and UE4 use
+    \item mention its relationship with both ECS and the inheritance based design
+\end{itemize}
 
 \subsection{Entity Component System}
 
+% TODO
+\begin{itemize}
+    \item define the ECS design pattern
+    \item mention how well it supports run time entity creation and modification
+    \item mention ease of development this model creates
+    \item mention ease of entity access (through ID)
+    \item talk about the difference between Component and ECS patterns
+    \item ?mention cache friendliness? (pro: well, it exists, con: not used that
+        much in this game)
+\end{itemize}
+
 \section{Programming Language}
+
+% TODO
+\begin{itemize}
+    \item talk about the need of fast language that can be used to create
+        3D games with the ability to be scripted using an embedded language
+        (or itself)
+    \item talk about the benefit of runtime code execution (testing)
+    \item talk about the necessity of scripting without compilation
+\end{itemize}
 
 \subsection{C++}
 
+% TODO
+\begin{itemize}
+    \item industry standard
+    \item powerful and fast
+    \item modifiability can be added through embedded languages
+    \item lots of materials
+\end{itemize}
+
 \subsection{Lua}
+
+% TODO
+\begin{itemize}
+    \item slower than C++, faster than other scripting languages
+    \item can be scripted by itself
+    \item there are no 3D rendering libraries
+    \item high portability
+\end{itemize}
 
 \subsection{Java}
 
+% TODO
+\begin{itemize}
+    \item Minecraft proved that it allows highly modifiable game
+        development
+    \item it also shown that the performance can be a big problem
+    \item high portability
+\end{itemize}
+
 \subsection{C\# ???}
+
+% TODO
+\begin{itemize}
+    \item ?should this even be included? main reason for not selecting
+        C\# was that I didn't know it well when I started
+    \item also back then runtime code compilation was unavailable
+\end{itemize}
 
 \section{Scripting Language}
 
+% TODO
+\begin{itemize}
+    \item should be fast, easily embedded into C++ and also
+        easily used by modders
+\end{itemize}
+
 \subsection{Custom}
+
+% TODO
+\begin{itemize}
+    \item challenge, experience, can be created to suit the project
+    \item slow development, big task
+    \item probably slow and buggy
+\end{itemize}
 
 \subsection{Lua}
 
+% TODO
+\begin{itemize}
+    \item industry standard
+    \item maybe talk about some of the different games using it
+    \item ease of embedding into C++
+    \item no need to create anything, just connect it to C++
+\end{itemize}
+
 \subsubsection{Bindings}
+
+% TODO
+\begin{itemize}
+    \item talk about most bindings being either dead, obsolete or very
+        archaic
+    \item those that are up to date are mostly focused on OOP in Lua,
+        which isn't needed in this project
+    \item creating new binding just for this project is easy, fast and
+        the resulting binding will only contain the features that are needed
+\end{itemize}
 
 \section{Libraries}
 
+% TODO
+\begin{itemize}
+    \item just mention something about reinventing the wheel and
+        the areas for which 3rd party libraries were used
+\end{itemize}
+
 \subsection{3D Rendering}
+
+% TODO
+\begin{itemize}
+    \item almost any game will have to use some library for this as
+        going without would take years
+    \item ??I only though about these in the beggining, should I add
+        others just for comparison??
+    \item mention that portability of the rendering library is much more
+        important than for example the GUI library, since it's integrated
+        deep into the engine while the GUI is not
+\end{itemize}
 
 \subsubsection{OpenGL}
 
+% TODO
+\begin{itemize}
+    \item talk about what it is
+    \item would allow later Linux port
+    \item too low level, would slow the development process
+\end{itemize}
+
 \subsubsection{DirectX}
+
+% TODO
+\begin{itemize}
+    \item talk about what it is
+    \item similar problem to OpenGL (too low level)
+    \item would prohibit eventual port to Linux
+\end{itemize}
 
 \subsubsection{Ogre3D}
 
+% TODO
+\begin{itemize}
+    \item talk about what it is
+    \item can wrap both OpenGL and DirectX
+    \item higher level, lots of stuff already implemented
+    \item describe basic usage of the library (entities, meshes, scene graph, ...) 
+\end{itemize}
+
 \subsection{Graphical User Interface}
+
+% TODO
+\begin{itemize}
+    \item main requirement is Ogre compatibility
+    \item theoretically does not have to be portable as it can easily be changed
+        (as it's not integrated into the engine)
+    \item other requirements: graphical editor, ease of use, high level, all the
+        widgets needed (buttons, scrollbars, editboxes, labels, ...)
+
+\end{itemize}
 
 \subsubsection{Ogre Overlay}
 
+% TODO
+\begin{itemize}
+    \item talk about what it is
+    \item too simple, would require for the widgets to be created during
+        the game development process which would take a lot of time
+\end{itemize}
+
 \subsubsection{CEGUI}
 
+% TODO
+\begin{itemize}
+    \item talk about what it is
+    \item used to be bundled with Ogre
+    \item easy to use, clean interface, good design
+    \item ??? genrally advised by the Ogre community
+    \item ??? used for Torchlight which proved what can be done with it
+    \item graphical editor and existing skins
+    \item ??I only though about these in the beggining, should I add
+        others just for comparison??
+\end{itemize}
+
 \section{Algorithms}
+
+% TODO
+\begin{itemize}
+    \item dunno about this section, not many known or big
+        algorithms used in the game
+\end{itemize}
 
 % TODO: What else in here?
 
 \subsection{Pathfinding}
 
-\subsubsection{Dijkstra}
+% TODO
+\begin{itemize}
+    \item talk about the problem of pathfinding
+    \item talk about node graph vs vertex graph (or hows it called)???
+    \item after mentioning node graph, give reason for grid form
+	    and 8 neighbours (bcuz of the view)
+\end{itemize}
 
 \subsubsection{Breadth-first Search}
 
-\subsubsection{Depth-first Search}
+% TODO
+\begin{itemize}
+    \item just mention what it is and why it's not good
+	    (uniform cost of graph edges)
+\end{itemize}
+
+\subsubsection{Dijkstra}
+
+% TODO
+\begin{itemize}
+    \item talk about what it is and why it's not the best alternative
+    \item explain that it might be worth using when performance is
+	    not critical and we absolutely need the best path
+\end{itemize}
 
 \subsubsection{A*}
 
+% TODO
+\begin{itemize}
+	\item talk about what it is (possibly also define heuristic as it should
+		be seen for the first time now)
+	\item mention that it's probably the most used one in games (provide examples?)
+	\item ??mention how it goes well with e.g. portals??
+\end{itemize}
+
 \subsubsection{Solution ??}
 
-\subsection{Level Generation}
+% TODO
+\begin{itemize}
+    \item maybe this should be in the A* part as it's the only one actually implemented?
+    \item describe the generic pathfinding system implemented in the game, switchable
+	    algorithms, heuristics and path types (define path type),
+	    algorithm and path type interface ...
+\end{itemize}
+
+\subsection{Level Generation ??}
+
+% TODO
+\begin{itemize}
+    \item talk about how complex level generation isn't really needed due
+	    to the nature of the game (you dig your own hallways so only need
+	    gold distribution)
+    \item mention that similar generic system to the pathfinding one is used
+    \item ??probably go through the algorithm in pseudocode?? or explain it only??
+	    if so, probably go through the part with the gold only and just mention
+	    the rest??
+\end{itemize}
 
 \section{Serialization}
 
+% TODO
+\begin{itemize}
+    \item talk a bit about game state serialization in general
+    \item mention that since the game should be extensible, manual save game
+	    editing without the need to write big editors would be nice
+	    for testing and possibly the creation of simple mod maps
+	    (and the save editor - if ever created - would be easy to make)
+\end{itemize}
+
 \subsection{Binary}
+
+% TODO
+\begin{itemize}
+    \item mention that it's the most used
+	    (maybe give examples like UE4 save system etc.)
+    \item it's also the most compact as it just meshes data together in binary
+    \item lots of libraries (like boost)
+    \item editing would require complex editor and does not allow code execution in the
+	    save file so additional save file functionality (like changing the wave
+	    system table, executing custom commands) would need to be made in C++
+	    in a generic way, which would be bad for mods
+\end{itemize}
 
 \subsection{XML}
 
+% TODO
+\begin{itemize}
+    \item
+\end{itemize}
+
 \subsection{Lua}
+
+\begin{itemize}
+% TODO
+    \item
+\end{itemize}
