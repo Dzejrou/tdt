@@ -10,7 +10,8 @@ smart_friendly_mining_unit_evt_handling = {
 			task = game.task.create(game.event.get_target(evt), game.enum.task.go_pick_up_gold)
 			game.task.add(id, task)
 			return true
-		elseif evt_type == game.enum.event.meteor_falling then
+		elseif evt_type == game.enum.event.meteor_falling and
+		       game.ai.get_faction(evt) == game.enum.faction.enemy then
 			game.task.clear(id)
 			game.combat.run_away_from(id, evt, 2)
 			game.event.set_active(evt, false)
@@ -25,7 +26,8 @@ smart_friendly_mining_unit_evt_handling = {
 smart_friendly_combat_unit_evt_handling = {
 	handle_event = function(id, evt)
 		local evt_type = game.event.get_type(evt)
-		if evt_type == game.enum.event.meteor_falling then
+		if evt_type == game.enum.event.meteor_falling and 
+		   game.ai.get_faction(evt) == game.enum.faction.enemy then
 			game.task.clear(id)
 			game.combat.run_away_from(id, evt, 2)
 			game.event.set_active(evt, false)
@@ -47,7 +49,8 @@ dumb_friendly_combat_unit_evt_handling = {
 smart_enemy_combat_unit_evt_handling = {
 	handle_event = function(id, evt)
 		local evt_type = game.event.get_type(evt)
-		if evt_type == game.enum.event.meteor_falling then
+		if evt_type == game.enum.event.meteor_falling and
+		   game.ai.get_faction(evt) == game.enum.faction.friendly then
 			game.task.clear(id)
 			game.combat.run_away_from(id, evt, 2)
 			game.event.set_active(evt, false)
