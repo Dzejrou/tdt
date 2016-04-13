@@ -196,9 +196,9 @@ bool CombatSystem::in_sight_wrt_BB(std::size_t ent_id, std::size_t target) const
 std::size_t CombatSystem::get_closest_entity(std::size_t id, bool only_sight, bool friendly) const
 {
 	if(friendly)
-		return get_closest_entity<AIComponent>(id, util::IS_FRIENDLY(entities_, id), only_sight);
+		return get_closest_entity<CombatComponent>(id, util::IS_FRIENDLY(entities_, id), only_sight);
 	else
-		return get_closest_entity<AIComponent>(id, util::IS_ENEMY(entities_, id), only_sight);
+		return get_closest_entity<CombatComponent>(id, util::IS_ENEMY(entities_, id), only_sight);
 }
 
 std::size_t CombatSystem::get_closest_structure(std::size_t id, bool only_sight, bool friendly) const
