@@ -175,11 +175,11 @@ void Game::new_game(tdt::uint width, tdt::uint height)
 	create_empty_level(width, height);
 
 	wave_system_->clear_spawn_nodes();
+	reset_unlocks();
+	Player::instance().reset();
 	if(lpp::Script::instance().call<bool, tdt::uint, tdt::uint>("game.init_level", width, height))
 		level_generator_->generate(width, height, *wave_system_);
 	wave_system_->start();
-	reset_unlocks();
-	Player::instance().reset();
 }
 
 void Game::create_empty_level(tdt::uint width, tdt::uint height)
