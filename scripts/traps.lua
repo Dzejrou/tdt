@@ -261,7 +261,8 @@ portal = {
 		game.enum.component.structure,
 		game.enum.component.faction,
 		game.enum.component.name,
-		game.enum.component.trigger
+		game.enum.component.trigger,
+		game.enum.component.portal
 	},
 
 	PhysicsComponent = {
@@ -285,10 +286,7 @@ portal = {
 	},
 
 	FactionComponent = {
-		-- Enemy faction used so it's usable only by allies.
-		-- That's because triggers only apply on members of the
-		-- opposite faction.
-		faction = game.enum.faction.enemy
+		faction = game.enum.faction.neutral
 	},
 
 	NameComponent = {
