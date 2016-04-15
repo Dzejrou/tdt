@@ -390,6 +390,7 @@ inline void GameSerializer::save_component<StructureComponent>(tdt::uint id, con
 		}
 	}
 	comm.append(" }\ngame.grid.add_residences(" + tbl_name + ", '" + tbl_name + "_residences')\n");
+	comm.append(tbl_name + "_residences = nil");
 
 	save_components_.emplace_back(std::move(comm));
 	save_components_.emplace_back(std::move(set_residents));
