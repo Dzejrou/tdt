@@ -21,7 +21,8 @@ void CombatSystem::update(Ogre::Real delta)
 	// Autoattacks.
 	for(auto& ent : entities_.get_component_container<CombatComponent>())
 	{
-		if(ent.second.curr_target != Component::NO_ENTITY)
+		if(ent.second.curr_target != Component::NO_ENTITY &&
+		   entities_.exists(ent.second.curr_target))
 		{
 			auto phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
 			auto target_phys_comp = entities_.get_component<PhysicsComponent>(ent.second.curr_target);
