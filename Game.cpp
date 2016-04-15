@@ -33,7 +33,8 @@ Game::Game() // TODO: Init systems.
 	  main_view_{}, input_{}, keyboard_{}, mouse_{},
 	  renderer_{}, placer_{}, ground_{},
 	  selection_box_{}, entity_creator_{},
-	  mouse_position_{}, level_generator_{}, spell_caster_{}
+	  mouse_position_{}, level_generator_{}, spell_caster_{},
+	  throne_id_{Component::NO_ENTITY}
 {
 	main_cam_.reset(new Camera{});
 	ogre_init();
