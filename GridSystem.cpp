@@ -62,7 +62,7 @@ void GridSystem::update(tdt::real)
 							 node) != ent.second.path_queue.end())
 				{
 					if(!util::pathfind<util::DEFAULT_PATHFINDING_ALGORITHM>(
-						entities_, ent.first, ent.second.target_id, util::heuristic::MANHATTAN_DISTANCE{entities_}, true))
+						entities_, ent.first, ent.second.target_id, util::DEFAULT_HEURISTIC{entities_}, true))
 					{ // Can't correct the path.
 						ent.second.path_queue.clear();
 						ent.second.target_id = Component::NO_ENTITY;

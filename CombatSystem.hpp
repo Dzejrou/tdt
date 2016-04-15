@@ -141,7 +141,7 @@ class CombatSystem : public System
 					{
 						auto dist = phys_comp->position.squaredDistance(enemy_phys_comp->position);
 						if(enemy_phys_comp && dist < min_distance && (!only_sight || in_sight(id, ent.first))
-						   && util::pathfind(entities_, id, ent.first, util::heuristic::MANHATTAN_DISTANCE{entities_}, false))
+						   && util::pathfind(entities_, id, ent.first, util::DEFAULT_HEURISTIC{entities_}, false))
 						{
 							min_distance = dist;
 							closest_id = ent.first;

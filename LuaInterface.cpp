@@ -2121,7 +2121,7 @@ int LuaInterface::lua_pathfind(lpp::Script::state L)
 	tdt::uint end = GET_UINT(L, -1);
 	tdt::uint id  = GET_UINT(L, -2);
 
-	bool res = util::pathfind<util::DEFAULT_PATHFINDING_ALGORITHM>(*ents, id, end, util::heuristic::MANHATTAN_DISTANCE{*ents});
+	bool res = util::pathfind<util::DEFAULT_PATHFINDING_ALGORITHM>(*ents, id, end, util::DEFAULT_HEURISTIC{*ents});
 	lua_pushboolean(L, res);
 	return 1;
 }
