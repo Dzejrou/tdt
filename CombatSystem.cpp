@@ -10,7 +10,7 @@
 
 CombatSystem::CombatSystem(EntitySystem& ents, Ogre::SceneManager& scene, GridSystem& grid)
 	: entities_{ents}, ray_query_{*scene.createRayQuery(Ogre::Ray{})},
-	  grid_{grid}, ray_caster_{scene}
+	  grid_{grid}, ray_caster_{scene}, run_away_queue_{}
 {
 	ray_query_.setSortByDistance(true);
 	ray_query_.setQueryMask((int)ENTITY_TYPE::WALL || (int)ENTITY_TYPE::BUILDING);
@@ -18,6 +18,17 @@ CombatSystem::CombatSystem(EntitySystem& ents, Ogre::SceneManager& scene, GridSy
 
 void CombatSystem::update(Ogre::Real delta)
 {
+	// Running away.
+	if(!run_away_queue_.empty())
+	{
+		run_away_from_(
+			std::get<0>(run_away_queue_.front()),
+			std::get<1>(run_away_queue_.front()),
+			std::get<2>(run_away_queue_.front())
+		);
+		run_away_queue_.pop();
+	}
+
 	// Autoattacks.
 	for(auto& ent : entities_.get_component_container<CombatComponent>())
 	{
@@ -287,7 +298,7 @@ void CombatSystem::apply_freeze_to(std::size_t id, Ogre::Real time)
 	effect(id);
 }
 
-void CombatSystem::run_away_from(std::size_t id, std::size_t from_id, std::size_t min_node_count)
+void CombatSystem::run_away_from_(std::size_t id, std::size_t from_id, std::size_t min_node_count)
 {
 	auto phys = entities_.get_component<PhysicsComponent>(id);
 	auto path = entities_.get_component<PathfindingComponent>(id);
@@ -330,6 +341,11 @@ void CombatSystem::run_away_from(std::size_t id, std::size_t from_id, std::size_
 void CombatSystem::set_max_run_away_attempts(std::size_t val)
 {
 	max_run_away_attempts_ = val;
+}
+
+void CombatSystem::run_away_from(std::size_t id, std::size_t from_id, std::size_t min_node_count)
+{
+	run_away_queue_.push(std::make_tuple(id, from_id, min_node_count));
 }
 
 std::size_t CombatSystem::get_max_run_away_attempts()

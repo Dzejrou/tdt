@@ -4,6 +4,7 @@
 #include <bitset>
 #include <map>
 #include <string>
+#include <queue>
 #include "System.hpp"
 #include "Components.hpp"
 #include "EntitySystem.hpp"
@@ -237,6 +238,7 @@ class CombatSystem : public System
 		 * Param: ID of the entity that is ran away from.
 		 * Param: Minimal amount of nodes the path has to have (will be ignored if the amount
 		 *        of attempts surpasses the maximum amount).
+		 * Note: This is just a dummy that enqueues the entity for pathfinding.
 		 */
 		void run_away_from(tdt::uint, tdt::uint, tdt::uint);
 
@@ -278,6 +280,17 @@ class CombatSystem : public System
 		void create_homing_projectile(tdt::uint, CombatComponent&);
 
 		/**
+		 * Brief: Tries to find a path used by an entity to run away from another entity.
+		 * Param: ID of the entity running away.
+		 * Param: ID of the entity that is ran away from.
+		 * Param: Minimal amount of nodes the path has to have (will be ignored if the amount
+		 *        of attempts surpasses the maximum amount).
+		 * Note: This is the actual implementation.
+		 */
+		void run_away_from_(tdt::uint, tdt::uint, tdt::uint);
+
+
+		/**
 		 * Reference to the game's entity system (component retrieval).
 		 */
 		EntitySystem& entities_;
@@ -301,6 +314,13 @@ class CombatSystem : public System
 		 * Maximum amount of pathfindings performed when running away from an enemy.
 		 */
 		tdt::uint max_run_away_attempts_{10};
+
+		/**
+		 * Used to distribute run away pathfindings over frames (otherwise something
+		 * like a meteor falling on a big group of entities would freeze the game until
+		 * all run away pathfindings are done.)
+		 */
+		std::queue<std::tuple<tdt::uint, tdt::uint, tdt::uint>> run_away_queue_;
 };
 
 /**
