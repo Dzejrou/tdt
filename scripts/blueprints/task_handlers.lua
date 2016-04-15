@@ -6,6 +6,10 @@ default_task_handler = {
 		local task_type = game.task.get_type(task)
 		local target = game.task.get_target(task)
 
+		if not game.entity.exists(target) then
+			return false
+		end
+
 		local res = false
 		if task_type == game.enum.task.none or
 		   not game.task.possible(id, task) then
