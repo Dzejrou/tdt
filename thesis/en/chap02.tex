@@ -243,8 +243,6 @@
         algorithms used in the game
 \end{itemize}
 
-% TODO: What else in here?
-
 \subsection{Pathfinding}
 
 % TODO
@@ -253,6 +251,8 @@
     \item talk about node graph vs vertex graph (or hows it called)???
     \item after mentioning node graph, give reason for grid form
 	    and 8 neighbours (bcuz of the view)
+    \item also talk about the inclusion of portals in pathfinding
+	    and problems that have risen with it
 \end{itemize}
 
 \subsubsection{Breadth-first Search}
@@ -280,6 +280,9 @@
 		be seen for the first time now)
 	\item mention that it's probably the most used one in games (provide examples?)
 	\item ??mention how it goes well with e.g. portals??
+	\item maybe go into detail about the default heuristic (PORTAL\_HEURISTIC) which
+		allows portal pathfinding (include previous iterations, portal component,
+		problem with portal chains and possible fix)
 \end{itemize}
 
 \subsubsection{Solution ??}
@@ -334,12 +337,23 @@
 
 % TODO
 \begin{itemize}
-    \item
+    \item mention losts of xml libraries
+    \item talk about how it allows easy data change, which in a data driven game like this
+	    one means quite a lot
+    \item but explain that it's bad because it disallows code execution
 \end{itemize}
 
 \subsection{Lua}
 
-\begin{itemize}
 % TODO
-    \item
+\begin{itemize}
+    \item since the game needs an extensive modding api with all sorts of setters/getters,
+	    all that's needed is to write serialization of components into a sequence of
+	    the API calls
+    \item easy to implement, load is basically executing a script
+    \item easy to modify using a text editor
+    \item !!allows code execution to create special levels
+    \item say that it's limitation is level size, e.g. 256x256 save file can be big (200MB) and
+	    very slow to load (10-20sec), but on the allowed level sizes (10-64) the load
+	    is almost instant and the resulting files small (16x16 is around 650KB)
 \end{itemize}
