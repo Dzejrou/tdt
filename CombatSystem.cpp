@@ -304,7 +304,7 @@ void CombatSystem::run_away_from(std::size_t id, std::size_t from_id, std::size_
 		while(attempts < max_run_away_attempts_)
 		{ // Check different random nodes to find the furthest one.
 			std::size_t new_target{Grid::instance().get_random_free_node()};
-			path = util::pathfinding::A_STAR<util::DEFAULT_PATH_TYPE>::get_path(entities_, id, start_node, new_target, heuristic, false);
+			path = util::DEFAULT_PATHFINDING_ALGORITHM::get_path(entities_, id, start_node, new_target, heuristic, false);
 
 			Ogre::Real new_min_distance{std::numeric_limits<Ogre::Real>::max()};
 			for(const auto& node : path)
@@ -323,7 +323,7 @@ void CombatSystem::run_away_from(std::size_t id, std::size_t from_id, std::size_
 		}
 
 		if(!path.empty()) // Perform the actual pathfinding for the best target found.
-			util::pathfind<util::pathfinding::A_STAR<util::DEFAULT_PATH_TYPE>>(entities_, id, target, heuristic, true, false);
+			util::pathfind<util::DEFAULT_PATHFINDING_ALGORITHM>(entities_, id, target, heuristic, true, false);
 	}
 }
 
