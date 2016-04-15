@@ -288,7 +288,8 @@ namespace heuristic
 
 		private:
 			/**
-			 *
+			 * Brief: Returns the closest portal to a given entity.
+			 * Param: ID of the entity.
 			 */
 			tdt::uint get_closest_portal(tdt::uint id)
 			{
