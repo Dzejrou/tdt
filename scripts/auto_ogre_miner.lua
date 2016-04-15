@@ -105,7 +105,7 @@ auto_ogre_miner = {
 	end,
 
 	update = function(id)
-		deposit = game.gold.get_closest_gold_deposit(id)
+		local deposit = game.gold.get_closest_gold_deposit(id)
 		if deposit ~= game.const.no_ent then
 			game.gui.log.print("\\[#" .. id .."\\] Gonna mine deposit #" .. deposit .. ".")
 			task = game.task.create(deposit, game.enum.task.go_kill)
@@ -122,8 +122,8 @@ auto_ogre_miner = {
 	end,
 
 	get_cost = function(id, node)
-		resident = game.grid.get_resident(node)
-		hp = game.health.get(resident)
+		local resident = game.grid.get_resident(node)
+		local hp = game.health.get(resident)
 
 		if hp <= 0 then
 			return 1

@@ -2,7 +2,7 @@
 utils = {
 	-- Returns an array of environment variables and their types.
 	get_env = function()
-		res = {}
+		local res = {}
 		for k, v in pairs(_G) do
 			res[#res + 1] = tostring(k) .. " : " .. type(v)
 		end
@@ -20,14 +20,14 @@ utils = {
 
 	-- Returns a blueprint table of a given entity.
 	get_blueprint_table = function(id)
-		table_name = game.get_blueprint(id)
+		local table_name = game.get_blueprint(id)
 		return _G[table_name] -- _G contains all global variables.
 	end,
 
 	-- Returns true if a given value v has a type matching
 	-- one of the type names passed as the remaining arguments.
 	assert_types = function(v, ...)
-		res = false
+		local res = false
 
 		for _, t in ipairs{...} do
 			if type(t) == "string" and type(v) == t then
@@ -85,10 +85,10 @@ end
 
 game.gold.go_deposit = function(id, prio)
 	prio = prio or false
-	vault = game.gold.closest_free_gold_vault(id)
+	local vault = game.gold.closest_free_gold_vault(id)
 
 	if vault ~= game.const.no_ent then
-		task = game.task.create(vault, game.enum.task.go_deposit_gold)
+		local task = game.task.create(vault, game.enum.task.go_deposit_gold)
 		if prio then
 			game.task.add_priority(id, task)
 		else
@@ -100,6 +100,6 @@ game.gold.go_deposit = function(id, prio)
 end
 
 game.combat.attack = function(id, target)
-	task = game.task.create(target, game.enum.task.go_kill)
+	local task = game.task.create(target, game.enum.task.go_kill)
 	game.task.add(id, task)
 end
