@@ -51,6 +51,18 @@ class BuilderWindow : public GUIWindow
 		 */
 		void build(int);
 
+		/**
+		 * Brief: Decrements selection_number_ by one and updates
+		 *        the window.
+		 */
+		void dec_selection();
+
+		/**
+		 * Brief: Increments selection_number_ by one and updates
+		 *        the window.
+		 */
+		void inc_selection();
+
 	protected:
 		/**
 		 * Brief: Initializes the window and subscribes events.
@@ -58,18 +70,6 @@ class BuilderWindow : public GUIWindow
 		void init_() override;
 
 	private:
-		/**
-		 * Brief: Decrements selection_number_ by one and updates
-		 *        the window.
-		 */
-		void dec_selection_();
-
-		/**
-		 * Brief: Increments selection_number_ by one and updates
-		 *        the window.
-		 */
-		void inc_selection_();
-
 		/**
 		 * Brief: Range checked buildings_ index access, returns the name
 		 *        of the building at a given index or "UNKNOWN" if the

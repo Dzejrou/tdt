@@ -84,7 +84,7 @@ void BuilderWindow::init_()
 	window_->getChild("LEFT")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
 		[&](const CEGUI::EventArgs&) -> bool {
-			this->dec_selection_();
+			this->dec_selection();
 			return true;
 		}
 	);
@@ -92,13 +92,13 @@ void BuilderWindow::init_()
 	window_->getChild("RIGHT")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
 		[&](const CEGUI::EventArgs&) -> bool {
-			this->inc_selection_();
+			this->inc_selection();
 			return true;
 		}
 	);
 }
 
-void BuilderWindow::dec_selection_()
+void BuilderWindow::dec_selection()
 {
 	if(selection_number_ > 3)
 	{
@@ -107,7 +107,7 @@ void BuilderWindow::dec_selection_()
 	}
 }
 
-void BuilderWindow::inc_selection_()
+void BuilderWindow::inc_selection()
 {
 	if(buildings_.size() > 4 && selection_number_ < buildings_.size() - 1)
 	{
