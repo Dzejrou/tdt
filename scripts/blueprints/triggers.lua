@@ -50,10 +50,14 @@ portal_trigger = {
 		local node = game.grid.get_node_from_position(game.physics.get_2d_position(id))
 
 		if next_node == node then 
-			game.path.skip(target)
-			game.trigger.reset_timer(other)
-			game.physics.set_2d_position(target, game.physics.get_2d_position(other))
-			game.gui.log.print("\\[#" .. id .. "\\] Sent #" .. target .. " to portal #" .. other .."!")
+			next_node = game.path.after_next(target)
+			if next_node == game.grid.get_node_from_position(game.physics.get_2d_position(other)) then
+				game.path.skip(target)
+				game.graphics.look_at(target, next_node)
+				game.trigger.reset_timer(other)
+				game.physics.set_2d_position(target, game.physics.get_2d_position(other))
+				game.gui.log.print("\\[#" .. id .. "\\] Sent #" .. target .. " to portal #" .. other .."!")
+			end
 		end
 	end,
 }
