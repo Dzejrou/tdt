@@ -423,12 +423,18 @@ void action::CAST_SPELL_4()
 
 void action::NEXT()
 {
-	GUI::instance().get_spell_casting().inc_selection();
+	if(GUI::instance().get_curr_tool() == "TOOLS/SPELLS")
+		GUI::instance().get_spell_casting().inc_selection();
+	else if(GUI::instance().get_curr_tool() == "TOOLS/BUILD")
+		GUI::instance().get_builder().inc_selection();
 }
 
 void action::PREV()
 {
-	GUI::instance().get_spell_casting().dec_selection();
+	if(GUI::instance().get_curr_tool() == "TOOLS/SPELLS")
+		GUI::instance().get_spell_casting().dec_selection();
+	else if(GUI::instance().get_curr_tool() == "TOOLS/BUILD")
+		GUI::instance().get_builder().dec_selection();
 }
 
 void action::SPELL_TAB()
