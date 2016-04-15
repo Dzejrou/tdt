@@ -181,7 +181,8 @@ std::set<std::string>& EntitySystem::get_registered_entities()
 
 bool EntitySystem::exists(tdt::uint id) const
 {
-	return entities_.find(id) != entities_.end();
+	return entities_.find(id) != entities_.end() &&
+		   std::find(to_be_destroyed_.begin(), to_be_destroyed_.end(), id) == to_be_destroyed_.end();
 }
 
 void EntitySystem::delete_entities()
