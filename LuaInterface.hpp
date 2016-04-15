@@ -208,6 +208,7 @@ class LuaInterface
 		static int lua_get_next_pathfinding_node(lpp::Script::state);
 		static int lua_get_target_pathfinding_node(lpp::Script::state);
 		static int lua_pathfinding_skip_next_node(lpp::Script::state);
+		static int lua_pathfinding_after_next_node(lpp::Script::state);
 
 		// Tasks & task handling.
 		static int lua_add_task(lpp::Script::state);

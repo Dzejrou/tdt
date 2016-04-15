@@ -254,6 +254,7 @@ void LuaInterface::init(Game* game)
 		{"next_node", LuaInterface::lua_get_next_pathfinding_node},
 		{"target", LuaInterface::lua_get_target_pathfinding_node},
 		{"skip", LuaInterface::lua_pathfinding_skip_next_node},
+		{"after_next", LuaInterface::lua_pathfinding_after_next_node},
 		{nullptr, nullptr}
 	};
 
@@ -2339,6 +2340,18 @@ int LuaInterface::lua_pathfinding_skip_next_node(lpp::Script::state L)
 	if(comp && !comp->path_queue.empty())
 		comp->path_queue.pop_front();
 	return 0;
+}
+
+int LuaInterface::lua_pathfinding_after_next_node(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	auto comp = ents->get_component<PathfindingComponent>(id);
+	tdt::uint res{Component::NO_ENTITY};
+	if(comp && comp->path_queue.size() > 1)
+		res = comp->path_queue[1];
+	lua_pushinteger(L, res);
+	return 1;
 }
 
 int LuaInterface::lua_add_task(lpp::Script::state L)
