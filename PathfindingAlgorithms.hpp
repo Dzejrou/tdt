@@ -1,6 +1,7 @@
 #pragma once
 
 #include <deque>
+#include <tuple>
 #include "EntitySystem.hpp"
 #include "Util.hpp"
 #include "Helpers.hpp"
@@ -272,11 +273,13 @@ namespace heuristic
 		tdt::real get_cost(tdt::uint id1, tdt::uint id2) override
 		{
 			auto direct_dist = MANHATTAN_DISTANCE::get_cost(id1, id2);
-			auto portal1 = get_closest_portal(id1);
-			auto portal2 = TriggerHelper::get_linked_entity(entities_, id1);
+
+			auto closest = get_closest_portal(id1);
+			auto portal1 = std::get<0>(closest);
+			auto portal2 = std::get<1>(closest);
 
 			if(portal1 == Component::NO_ENTITY || portal2 == Component::NO_ENTITY)
-				return direct_dist; // Avoid portal calculation is there are no portals.
+				return direct_dist; // Avoid portal calculation if there are no portals.
 
 			auto portal1_dist = MANHATTAN_DISTANCE::get_cost(id1, portal1);
 			auto portal2_dist = MANHATTAN_DISTANCE::get_cost(portal2, id2);
@@ -288,10 +291,11 @@ namespace heuristic
 
 		private:
 			/**
-			 * Brief: Returns the closest portal to a given entity.
+			 * Brief: Returns the nodes that have the closest portal pair from a given entity
+			 *        on them.
 			 * Param: ID of the entity.
 			 */
-			tdt::uint get_closest_portal(tdt::uint id)
+			std::tuple<tdt::uint, tdt::uint> get_closest_portal(tdt::uint id)
 			{
 				tdt::real closest_dist = std::numeric_limits<tdt::real>::max();
 				tdt::real dist{};
@@ -306,6 +310,25 @@ namespace heuristic
 						closest_dist = dist;
 					}
 				}
+
+				if(closest_id != Component::NO_ENTITY)
+				{ // We need the grid node to be able to use grid coordinates.
+					auto pos = PhysicsHelper::get_2d_position(entities_, closest_id);
+					auto node1 = Grid::instance().get_node_from_position(
+						pos.x, pos.y
+					);
+
+					// The other end of the portal.
+					auto linked = TriggerHelper::get_linked_entity(entities_, closest_id);
+					pos = PhysicsHelper::get_2d_position(entities_, linked);
+					auto node2 = Grid::instance().get_node_from_position(
+						pos.x, pos.y
+					);
+					
+					return std::make_tuple(node1, node2);
+				}
+				else
+					return std::make_tuple(closest_id, closest_id);
 			}
 	};
 }
