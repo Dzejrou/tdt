@@ -9,4 +9,4 @@ thesis.pdf: thesis.tex $(wildcard *.tex) bibliography.bib
 
 clean:
 	rm -f *.log *.dvi *.aux *.toc *.lof *.lot *.out *.bbl *.blg
-	rm -f thesis.pdf
+	#rm -f thesis.pdf
