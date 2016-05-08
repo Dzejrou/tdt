@@ -2,66 +2,6 @@
 
 % TODO some intro?
 
-\section{Game Design}
-
-% TODO
-\begin{itemize}
-    \item go over which features of the dungeon management genre will be used and why
-    \item possibly talk about how they could be done? or leave this to implementation?
-\end{itemize}
-
-\section{Engine Design}
-
-% TODO
-\begin{itemize}
-    \item maybe mention that the goal to make an engine and that's why UE or Unity
-        weren't used
-    \item say that since the game is to be modifiable and extensible, run time
-        entity creation is a must (both for modding and testing)
-    \item might be good mention the choice before explaining why the different
-        options were/were not chosen so that the reader knows
-\end{itemize}
-
-\subsection{Inheritance based (wording?)}
-
-% TODO
-\begin{itemize}
-    \item explain what is meant by the title (classic OOP design)
-    \item explain that since inheritance has to be done by compile time and
-        cannot be changed during run time, this would prohibit dynamic entity
-        creation
-    \item for the same reason, specifying entities in config files would generally
-        be impossible (except with something like Roslyn)
-    \item this kind of engine would also have to be planned a lot (to avoid
-        inheritance hierarchy hell)
-    \item ?same reason (inheritance hierarchy) would either prohibit or discourage
-        some attribute combinations (like a walking wall) during future modifications?
-\end{itemize}
-
-\subsection{Component based (wording?)}
-
-% TODO
-\begin{itemize}
-    \item define the Component design pattern (with references to
-         the gamedesginpatterns.smth book)
-    \item mention that this is very similar to the component based implementation
-         both Unity and UE4 use
-    \item mention its relationship with both ECS and the inheritance based design
-\end{itemize}
-
-\subsection{Entity Component System}
-
-% TODO
-\begin{itemize}
-    \item define the ECS design pattern
-    \item mention how well it supports run time entity creation and modification
-    \item mention ease of development this model creates
-    \item mention ease of entity access (through ID)
-    \item talk about the difference between Component and ECS patterns
-    \item ?mention cache friendliness? (pro: well, it exists, con: not used that
-        much in this game)
-\end{itemize}
-
 \section{Programming Language}
 
 % TODO
@@ -103,24 +43,71 @@
     \item high portability
 \end{itemize}
 
-\subsection{C\# ???}
+\subsection{C\#}
 
 % TODO
 \begin{itemize}
-    \item ?should this even be included? main reason for not selecting
-        C\# was that I didn't know it well when I started
-    \item also back then runtime code compilation was unavailable
+    \item explain that the only reason this was not picked over C++
+        is that I did not have much experience with it when I started
+        working on the game
+\end{itemize}
+
+\section{Engine Design}
+
+% TODO
+\begin{itemize}
+    \item maybe mention that the goal to make an engine and that's why UE or Unity
+        weren't used
+    \item say that since the game is to be modifiable and extensible, run time
+        entity creation is a must (both for modding and testing)
+    \item might be good mention the choice before explaining why the different
+        options were/were not chosen so that the reader knows
+\end{itemize}
+
+\subsection{Inheritance based (wording?)}
+
+% TODO
+\begin{itemize}
+    \item explain what is meant by the title (classic OOP design)
+    \item this kind of engine would also have to be planned a lot (to avoid
+        inheritance hierarchy hell)
+    \item ?say that it's not as performant as the other two?
+\end{itemize}
+
+\subsection{Component based (wording?)}
+
+% TODO
+\begin{itemize}
+    \item define the Component design pattern (with references to
+         the gamedesginpatterns.smth book)
+    \item mention that this is very similar to the component based implementation
+         both Unity and UE4 use
+    \item mention its relationship with both ECS and the inheritance based design
+\end{itemize}
+
+\subsection{Entity Component System}
+
+% TODO
+\begin{itemize}
+    \item define the ECS design pattern
+    \item mention how well it supports run time entity creation and modification
+    \item mention ease of development this model creates
+    \item mention ease of entity access (through ID)
+    \item talk about the difference between Component and ECS patterns
+    \item ?mention cache friendliness? (pro: well, it exists, con: not used that
+        much in this game)
 \end{itemize}
 
 \section{Scripting Language}
 
+TODO: Add more possible scripting languages, possibly C++ using dlls?
 % TODO
 \begin{itemize}
     \item should be fast, easily embedded into C++ and also
         easily used by modders
 \end{itemize}
 
-\subsection{Custom}
+\subsection{Custom Language}
 
 % TODO
 \begin{itemize}
@@ -161,6 +148,7 @@
 
 \subsection{3D Rendering}
 
+TODO: Merge OpenGL and DirectX together as low level API and add more high level libs.
 % TODO
 \begin{itemize}
     \item almost any game will have to use some library for this as
@@ -233,6 +221,14 @@
     \item graphical editor and existing skins
     \item ??I only though about these in the beggining, should I add
         others just for comparison??
+\end{itemize}
+
+\section{Game Design}
+
+% TODO
+\begin{itemize}
+    \item go over which features of the dungeon management genre will be used and why
+    \item possibly talk about how they could be done? or leave this to implementation?
 \end{itemize}
 
 \section{Algorithms}
@@ -357,3 +353,8 @@
 	    very slow to load (10-20sec), but on the allowed level sizes (10-64) the load
 	    is almost instant and the resulting files small (16x16 is around 650KB)
 \end{itemize}
+
+\section{Spells}
+
+Here just compare the original idea of having the spell system in C++ and the current version
+of defining spells fully in lua and C++ just call callbacks basically.

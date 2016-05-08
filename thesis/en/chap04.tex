@@ -1,83 +1,67 @@
-\chapter{User's Documentation}
-
-TODO: Check if game introduction should be here for the player.
-
-\section{System Requirements}
+\chapter{Scripter's Documentation}
 
 % TODO
 \begin{itemize}
-	\item this might be a problem as CEGUI \& Lua have basically no
-		requirements and Ogre3D only needs OpenGL (I believe v3 and above)
+    \item talk about the API, possibly mention some API reference text file
+        that I should make as an attachement
 \end{itemize}
 
-\section{Installation}
+\section{Initialization}
 
 % TODO
 \begin{itemize}
-    \item just simply go over the installing process
-    \item might be nice to create an installer using something like InnoSetup!
-    \item maybe include a note on how to install a mod?
+    \item talk about the config.lua \& init.lua duo
+    \item explain different options in config
+    \item explain how scripts packs are added to init
+    \item talk abut the core.lua file of each script pack
+        and what it should do (probably with an example)
+    \item explain how to add a new script directory
+    \item explain how to override some behaviour
+    \item explain the new level callback and for what it can be used
+        (+ the return value meaning)
 \end{itemize}
 
-\section{About the Game}
+\section{Entity Representation}
 
 % TODO
 \begin{itemize}
-	\item say what it is
-	\item explain basic elements of the game (building, commanding units, gold,
-		man, spells, research etc.)
+    \item explain the structure of a script representing
+        an entity (with a small example)
 \end{itemize}
 
-\subsection{??? Goal of the Game / Goal}
+\section{Blueprints}
 
 % TODO
 \begin{itemize}
-    \item explain how waves work and how to win/lose the game
-\end{itemize}
-
-\section{Controls and Options}
-
-% TODO
-\begin{itemize}
-    \item go over default options and how to rebing them
-    \item go over window mode \& resolutions
-    \item mentions what the APPLY button does wrt key bindings
+    \item explain what is a blueprint, how to make one and
+        how to use it
+    \item explain why it's a table and not just a function
+        and why the functions in different blueprint should
+        have different names
 \end{itemize}
 
 \section{Research}
 
 % TODO
 \begin{itemize}
-    \item explain the concept in depth
-    \item ?go over individual research unlocks?
-	    (maybe just enumerate each row and say if it's a building, spell, effect etc
-	    and mention where are these explained)
-    \item effects (double production, kill all, level up etc) might be explained here as they
-	    wouldn't get covered in buildings or spells
+    \item explain how to add new unblocks and modify existing ones
 \end{itemize}
 
 \section{Spells}
 
 % TODO
 \begin{itemize}
-    \item explain the concept in depth
-    \item explain how to use the spell assembly line
-    \item explain how to use different types of spells
-    \item ?go over individual spells?
+    \item explain the structure of a spell table and how to make new spell
+    \item mention again the spell types and the difference they make
+        in the spell table function implementations
+    \item mention that spells can be made during run time for testing
+        purposes
 \end{itemize}
 
-\section{Buildings}
+\section{Creating a Mod}
 
 % TODO
 \begin{itemize}
-    \item explain how to build (assembly line already explained in spells)
-    \item go over what the buildings in the game do
-\end{itemize}
-
-\section{Units}
-
-% TODO
-\begin{itemize}
-    \item simply go over the production process
-    \item maybe explain the different types of units in the game
+    \item provide a simple tutorial on how to make a new mod
+    \item possibly the tower defense one?
 \end{itemize}

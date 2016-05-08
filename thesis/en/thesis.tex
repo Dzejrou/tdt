@@ -44,6 +44,11 @@
 \usepackage{booktabs}       % improved horizontal lines in tables
 \usepackage{paralist}       % improved enumerate and itemize
 \usepackage[usenames]{xcolor}  % typesetting in color
+\usepackage{url}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{booktabs, caption, fixltx2e}
+\usepackage[flushleft]{threeparttable}
 
 %%% Basic information on the thesis
 
@@ -71,8 +76,8 @@
 \def\SupervisorsDepartment{Department of Distributed and Dependable Systems}
 
 % Study programme and specialization
-\def\StudyProgramme{Computer Science}
-\def\StudyBranch{TODO: IPSS?}
+\def\StudyProgramme{Computer~Science}
+\def\StudyBranch{Programming and Software Systems}
 
 % An optional dedication: you can thank whomever you wish (your supervisor,
 % consultant, a person who lent the software, etc.)
@@ -89,7 +94,7 @@ TODO:
 
 % 3 to 5 keywords (recommended), each enclosed in curly braces
 \def\Keywords{%
-    {RTS game} {dungeon management} {Lua scripting} {Ogre} {CEGUI}
+    {dungeon management} {Lua scripting} {Ogre} {CEGUI}
 }
 
 %% The hyperref package for clickable links in PDF and also for storing
@@ -113,27 +118,16 @@ TODO:
 \tableofcontents
 
 %%% Each chapter is kept in a separate file
-\include{preface}
 \include{chap01}
 \include{chap02}
 \include{chap03}
 \include{chap04}
+\include{chap05}
 
 \include{epilog}
 
 %%% Bibliography
 \include{bibliography}
-
-%%% Figures used in the thesis (consider if this is needed)
-\listoffigures
-
-%%% Tables used in the thesis (consider if this is needed)
-%%% In mathematical theses, it could be better to move the list of tables to the beginning of the thesis.
-\listoftables
-
-%%% Abbreviations used in the thesis, if any, including their explanation
-%%% In mathematical theses, it could be better to move the list of abbreviations to the beginning of the thesis.
-\chapwithtoc{List of Abbreviations}
 
 %%% Attachments to the bachelor thesis, if any. Each attachment must be
 %%% referred to at least once from the text of the thesis. Attachments

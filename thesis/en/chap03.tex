@@ -1,4 +1,4 @@
-\chapter{Implementation / Dev Docs?}
+\chapter{Developer's Documentation}
 % TODO
 
 \begin{itemize}
@@ -135,7 +135,7 @@
     \item possibly explain how to write a wave? or add that to the scripting part?
 \end{itemize}
 
-\subsection{Other}
+\subsection{Miscellaneous Systems}
 
 % TODO
 \begin{itemize}
@@ -324,7 +324,7 @@
     \item explain dummy\_unlock and its relationship with serialization
 \end{itemize}
 
-\subsection{Other}
+\subsection{Miscellaneous Windows}
 
 % TODO
 \begin{itemize}
@@ -570,7 +570,7 @@
         is having one instance, not that much global access
 \end{itemize}
 
-\subsection{Script}
+\subsubsection{Script}
 
 % TODO
 \begin{itemize}
@@ -579,7 +579,7 @@
         unnecessary to have more than one Scripting engine
 \end{itemize}
 
-\subsection{GUI}
+\subsubsection{GUI}
 
 % TODO
 \begin{itemize}
@@ -587,7 +587,7 @@
     \item mention that here is the global access very good for testing?
 \end{itemize}
 
-\subsection{Player}
+\subsubsection{Player}
 
 % TODO
 \begin{itemize}
@@ -596,7 +596,7 @@
         (also used is only the main one)
 \end{itemize}
 
-\subsection{Grid}
+\subsubsection{Grid}
 
 % TODO
 \begin{itemize}
@@ -607,7 +607,7 @@
         to have two grids
 \end{itemize}
 
-\subsection{EntitySystem}
+\subsubsection{EntitySystem}
 
 % TODO
 \begin{itemize}
@@ -615,74 +615,6 @@
         there could be a reason to use more than one EntitySystem instance (like a backup
         for example) and thus the Singleton pattern might not be the best choice
     \item maybe compare it to the 4 previous classes
-\end{itemize}
-
-\section{Scripting}
-
-% TODO
-\begin{itemize}
-    \item talk about the API, possibly mention some API reference text file
-        that I should make as an attachement
-\end{itemize}
-
-\subsection{Initialisation}
-
-% TODO
-\begin{itemize}
-    \item talk about the config.lua \& init.lua duo
-    \item explain different options in config
-    \item explain how scripts packs are added to init
-    \item talk abut the core.lua file of each script pack
-        and what it should do (probably with an example)
-    \item explain how to add a new script directory
-    \item explain how to override some behaviour
-    \item explain the new level callback and for what it can be used
-        (+ the return value meaning)
-\end{itemize}
-
-\subsection{Entity Representation}
-
-% TODO
-\begin{itemize}
-    \item explain the structure of a script representing
-        an entity (with a small example)
-\end{itemize}
-
-\subsection{Blueprints}
-
-% TODO
-\begin{itemize}
-    \item explain what is a blueprint, how to make one and
-        how to use it
-    \item explain why it's a table and not just a function
-        and why the functions in different blueprint should
-        have different names
-\end{itemize}
-
-\subsection{Research}
-
-% TODO
-\begin{itemize}
-    \item explain how to add new unblocks and modify existing ones
-\end{itemize}
-
-\subsection{Spells}
-
-% TODO
-\begin{itemize}
-    \item explain the structure of a spell table and how to make new spell
-    \item mention again the spell types and the difference they make
-        in the spell table function implementations
-    \item mention that spells can be made during run time for testing
-        purposes
-\end{itemize}
-
-\subsection{Creating a Mod (? Modification)}
-
-% TODO
-\begin{itemize}
-    \item provide a simple tutorial on how to make a new mod
-    \item possibly the tower defense one?
 \end{itemize}
 
 \section{Extending the Game}

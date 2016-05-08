@@ -1,84 +1,113 @@
-\chapter{The Game}
+\chapter{Introduction}
+
+Until the release of Dungeon Keeper\footnote{Bullfrog Productions, 1997} most well known fantasy 
+video games have allowed the player to play as various heroic characters, raiding dungeons filled
+with evil forces in order to aquire treasures and fame.
+In Dungeon Keeper, however, we join the opposite faction and try to defend our own dungeon
+(along with all the treasures hidden in it) from endless hordes of heroes trying to pillage our domain.
+Although we can still play the original Dungeon Keeper today, we cannot change its data or game mechanics
+in any easy way so this thesis aims to recreate the original game with an easy to use programming interface,
+that will allow such modifications.
 
 \section{Dungeon Managment Genre}
 
-% TODO
-\begin{itemize}
-    \item rpgs -> hero attacking dungeon for loot
-    \item dungeon management -> opposite side, playing as the leader
-        of a dungeon using CMS (explain) and RTS elements to build and protect
-        his domain
-    \item go over the main elements - building, clearing, mining, casting...
-    \item compare this genre to RTS, what they share and what is different
-    \item TODO: Should RTS even be in keywords?
-\end{itemize}
+Dungeon Keeper was the first game released in the dungeon management~(DM) genre and since our game is going to be based on
+Dungeon Keeper, we should design it with the elements of its genre in mind. Since the definition of this genre has to our
+knowledge never been formally documented by the creators of Dungeon Keeper, we are going to create a list of basic elements
+of the genre based on the gameplay of the original game.
+
+In Dungeon Keeper, the player's main goal is to build and protect his own base, called the dungeon. They do so by commanding
+their underlings (often called minions), whom they can command to mine gold, which is a resource they use in order to build new rooms
+and cast spells (in the game's sequel\footnote{Dungeon Keeper 2, Bullfrog Productions, 1999}, mana was added into the game
+as a secondary resource used for spell casting), which could be researched as the game progressed. They would then use creatures
+spawned in their buildings as well as their own magic powers to fight intruders in order to protect their dungeon. 
+From this brief gameplay summary, we can create list of the most basic design elements, which can be found in dungeon management games:
+
+\begin{enumerate}[label=\textbf{(E\arabic*)}]
+    \item Resource management
+    \item Dungeon building
+    \item Minion commanding
+    \item Combat (defensive)
+    \item Player participation in combat
+    \item Research
+\end{enumerate}
+
+TODO: Think of a way to use the rest of this chapter as a conclusion.
+
+The dungeon management genre combines elements from the construction and management simulation~(CMS) genre~\cite{CMSgenre},
+from the real-time stragegy~(RTS) genre~\cite{RTSgenre} and from the god game genre~\cite{GODgenre}. 
+Table~\ref{genre-element-relation} shows how these elements relate to the three genres the dungeon management genre combines:
+
+\begin{table}[h]
+    \centering
+    \begin{threeparttable}
+        \begin{tabular}{|l|c|c|c|}
+            \hline
+                                            & \multicolumn{1}{l|}{RTS} & \multicolumn{1}{l|}{CMS}   & \multicolumn{1}{l|}{God game} \\ \hline
+            Resource management             & \checkmark               & \checkmark                 & \checkmark                    \\ \hline
+            Base building                   & \checkmark               & \checkmark                 & \checkmark                    \\ \hline
+            Unit commanding                 & \checkmark               & x                          & x                             \\ \hline
+            Combat                          & \checkmark               & x                          & \checkmark                    \\ \hline
+            Player participation in combat  & x*                       & x                          & \checkmark                    \\ \hline
+            Research                        & \checkmark               & \checkmark**               & \checkmark                    \\ \hline
+        \end{tabular}
+        \begin{tablenotes}
+            \tiny
+            \item * Not true for all RTS games, e.g. in Age Of Mythology~\cite{AOMweb}, the player has one spell per age,
+                which can be cast in battles.
+            \item ** Not true for all CMS games, e.g. in Cities:~Skylines~\cite{CitiesSkylines}, new buildings are unlocked
+                when the player's city reached a certain population size.
+        \end{tablenotes}
+        \caption{Dungeon Management elements in other game genres.}
+        \label{genre-element-relation}
+    \end{threeparttable}
+\end{table}
+
+As we can see, the dungeon management genre seems more like an RTS/God game hybrid since the elements from the CMS genre are also present in these two.
+What it takes from the CMS genre is the end goal of the game. In RTS games, the goal generally is to defeat all enemies via combat or politics.
+In god games, the goal is to convert or kill all infidels. In CMS and dungeon management games, the goal is simply to build and maintain. The player in dungeon
+management games builds his dungeon and places all kinds of traps and obstacles along with scary monsters to protect his treasure, which is similar to building
+a city and reacting to natural disasters or power outages.
 
 \section{Modifiability in Games}
 
-% TODO
-\begin{itemize}
-    \item explain the concept
-    \item mention minecraft and its success because of the amount of different
-        mods enriching the (quite simple) gameplay
-    \item mention GMod and the ability to create entirely new game modes without
-        recompilation of the game (and easy distribution)
-    \item ??talk about steam workshop as an example of a modding platform for
-        different steam games??
-    \item requirements of a good mod creation - ease of implementation and deployment
-\end{itemize}
+A modifiable game allows its players to change or add elements to the game, either by using an editor or a programming interface (using a scripting language). 
+This can increase the replay value of the game as after finishing it, more missions, characters, game mechanics, abilities, items or even game modes can be
+easily downloaded and installed from internet.
 
-\section{Similar Games}
+An example of an easily modifiable game is Minecraft~\cite{Minecraft}, which is a 3D sandbox game and thus not offering a lot of gameplay by itself and rather
+relies on the players to create their own adventure in the game. Mods for the game add new items, enemies, animals and custom prebuilt maps and
+can extend the gameplay by tens of hours each.
 
-% TODO
-\begin{itemize}
-    \item just outlay the inspiration relationships of TDT and the three
-        different games
-\end{itemize}
+Aside from adding items and entities, entire new games can be created within a modifiable game. In a review with the server PCGamer~\cite{FutureOfMinecraft}
+the lead developer of Minecraft, Jens Bergensten, said:
+\emph{"In the recent snapshot we've added something called the command block. When it's triggered, you can teleport players to a certain position, or change the game mode.
+So this user called Sethbling has created a Team Fortress 2 map for Minecraft. You can choose a class, it has control points,
+and everything works like TF2. It's quite amazing."} (More information about Team Fortress 2 can be found at~\cite{TF2})
 
-\subsection{Dungeon Keeper}
-
-% TODO: Design Influence
-\begin{itemize}
-    \item explain what it is
-    \item talk about the game in general, pin pointing its implementation
-        of the mechanics explained in 1.1 (DM Genre)
-    \item add some screenshots showing it in action?
-\end{itemize}
-
-\subsection{Garry's Mod}
-
-% TODO: Modifiability influence. (Game mechanics)
-\begin{itemize}
-    \item explain what it is, how it began and its success
-    \item talk a bit more in depth about the game mode modding and how
-        it influence the scripting design of TDT
-    \item talk about the automated nature of the game mode deployment and
-        why it's not really usable in TDT (as it's online from server)
-\end{itemize}
-
-\subsection{Minecraft}
-
-% TODO: Modifiability incluence. (Mod deployment)
-\begin{itemize}
-    \item talk about the initial way of mod installation (adding .class files into jars)
-    \item mention that this way (however simple) was still hard for some players
-    \item talk about the Forge way of installing mods
-\end{itemize}
+We can see that the ability to modify a game can help said game to grow even when its development has stopped or is focused in different areas (e.g. security, stability).
+To create an easily modifiable game we need to realize that both mod creators and mod users do not have to be experienced programmers, so it's very important to have both easy to use
+modding tools and easy way to install mods.
 
 \section{Thesis Goals}
 
-% TODO
-\begin{itemize}
-    \item just enumerate the goals such as extensibility and modifiability (and extend that
-        to include different aspects - entity addition, spell design, wave redefinition,
-        mod deployment etc as sub goals)
-\end{itemize}
+The main goal of this thesis is to design and implement a modifiable 3D dungeon management game using the design elements \textbf{(E1)}~--~\textbf{(E6)}.
 
-\section{Thesis Structure ??}
+In addition to the main goal, the game should complete the following list of goals:
 
-% TODO
-\begin{itemize}
-    \item how to name this since above is section Thesis Goals it'd be weird to immediately
-        have Thesis Structure
-    \item simply talk about the different chapters of the thesis
-\end{itemize}
+\begin{enumerate}[label=\textbf{(G\arabic*)}]
+    \item The game has to be a full competetive product, not a prototype.
+        \begin{enumerate}[label=\textbf{(G1.\arabic*)}]
+            \item It has to be performant, achieving high framerate even on low end computers.
+            \item It has to offer full single player experience, with scripted enemies and a chance to both win and lose.
+            \item It has to contain a variety of entities, spells and buildings even without mods.
+        \end{enumerate}
+    \item The game has to be highly modifiable, providing an easy to use modding interface for players.
+        \begin{enumerate}[label=\textbf{(G2.\arabic*)}]
+            \item The mod creators must be able to create new entities, spells and buildings and to change most of the game's data.
+            \item They must also be able to alter level generation if their mods require it.
+            \item They must also be able to alter the game progression by defining enemies that spawn and delays between them.
+            \item The game has to have a save feature which allows the mod creators to change the save files to create custom levels.
+        \end{enumerate}
+    \item The mods for the game have to be easily installable even by players without any programming knowledge. 
+\end{enumerate}
