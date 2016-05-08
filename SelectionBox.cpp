@@ -22,7 +22,7 @@ SelectionBox::~SelectionBox()
 	scene_mgr_.destroyQuery(&ray_query_);
 }
 
-void SelectionBox::set_corners(float left, float top, float right, float bott)
+void SelectionBox::set_corners(tdt::real left, tdt::real top, tdt::real right, tdt::real bott)
 {
 	/**
 	 * Neccessary translation, mouse positions are normalized to belong to the (0,1)
@@ -87,10 +87,10 @@ void SelectionBox::clear_selected_entities()
 
 void SelectionBox::execute_selection(const Ogre::Vector2& end, Ogre::Camera& cam, bool append)
 {
-	float left = start_.x;
-	float top = start_.y;
-	float right = end.x;
-	float bott = end.y;
+	tdt::real left = start_.x;
+	tdt::real top = start_.y;
+	tdt::real right = end.x;
+	tdt::real bott = end.y;
 	
 	if(!append)
 		clear_selected_entities(); // Previous selection.

@@ -38,7 +38,7 @@ class SelectionBox : public Ogre::ManualObject
 		 * Param: Right side coordinate.
 		 * Param: Bottom axis coordinate.
 		 */
-		void set_corners(float, float, float, float);
+		void set_corners(tdt::real, tdt::real, tdt::real, tdt::real);
 
 		/**
 		 * Brief: Overload of the SelectionBox::set_corners(float, float, float, float) method
