@@ -690,7 +690,7 @@ template<>
 inline void EntitySystem::load_component<MovementComponent>(tdt::uint id, const std::string& table_name)
 {
 	lpp::Script& script = lpp::Script::instance();
-	float speed = script.get<float>(table_name + ".MovementComponent.speed_modifier");
+	tdt::real speed = script.get<tdt::real>(table_name + ".MovementComponent.speed_modifier");
 	movement_.emplace(id, MovementComponent{speed});
 }
 
