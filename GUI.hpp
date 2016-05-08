@@ -28,6 +28,7 @@ class GUI
 	friend void action::QUICK_LOAD();
 	friend void action::QUICK_SAVE();
 	friend void action::RESET_CAMERA();
+	friend class OptionsWindow;
 	public:
 		/**
 		 * Destructor.
