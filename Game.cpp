@@ -282,7 +282,7 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 		case OIS::KC_ESCAPE:
 			if(GUI::instance().escape_pressed())
 				return true;
-			if(state_ != GAME_STATE::MENU && state_ != GAME_STATE::INTRO_MENU)
+			if(state_ != GAME_STATE::INTRO_MENU)
 				set_state(state_ == GAME_STATE::RUNNING ? GAME_STATE::PAUSED : GAME_STATE::RUNNING);
 			placer_->set_visible(false);
 			spell_caster_->stop_casting();
