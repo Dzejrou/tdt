@@ -53,6 +53,7 @@ game.msg_funcs_ = {
 	win_no = function()
 		game.unpause()
 		game.wave.turn_endless_mode_on()
+		game.wave.set_state(game.enum.wave_state.waiting)
 	end,
 
 	loss_ok = function()
