@@ -49,8 +49,8 @@ void SelectionBox::set_corners(float left, float top, float right, float bott)
 
 void SelectionBox::set_corners(const Ogre::Vector2& t_l, const Ogre::Vector2& b_r)
 {
-	auto top_left = t_l;//.normalisedCopy();
-	auto bottom_right = b_r;//.normalisedCopy();
+	auto top_left = t_l;
+	auto bottom_right = b_r;
 	set_corners(top_left.x, top_left.y, bottom_right.x, bottom_right.y);
 }
 
