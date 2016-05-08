@@ -118,7 +118,7 @@ void Game::run()
 void Game::update(tdt::real delta)
 {
 	GUI::instance().get_top_bar().update_time(delta);
-	CEGUI::System::getSingleton().injectTimePulse(delta);
+	CEGUI::System::getSingleton().injectTimePulse((float)delta);
 
 	if(GUI::instance().get_console().is_visible())
 		GUI::instance().get_console().update_fps(delta, window_->getLastFPS());
@@ -267,7 +267,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& event)
 	mouse_->capture();
 
 	update(event.timeSinceLastFrame);
-	CEGUI::System::getSingleton().injectTimePulse(event.timeSinceLastFrame); // Update CEGUI.
+	CEGUI::System::getSingleton().injectTimePulse((float)event.timeSinceLastFrame); // Update CEGUI.
 
 	if(state_ == GAME_STATE::ENDED)
 		return false;
