@@ -122,6 +122,7 @@ void GameSerializer::save_game(Game& game, const std::string& fname)
 	// Wave system serialization, requires nodes so might be a bit higher,
 	// but just in case is left till the end of the save file.
 	file_ << save_wave_system(game) << "\n" << save_unlocks();
+	file_ << "game.set_throne_id(entity_" << std::to_string(game.throne_id_) << ")\n\n";
 
 	file_ << "\n\n-- AUXILIARY VARIABLES TO BE DELETED:\nto_be_deleted = {\n";
 	tdt::uint count{0}; // Saves vertical space.
