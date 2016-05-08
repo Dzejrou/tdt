@@ -594,6 +594,10 @@ void Game::cegui_init()
 	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
 	
 	CEGUI::SchemeManager::getSingleton().createFromFile("AlfiskoSkin.scheme");
+	CEGUI::FontManager::getSingleton().createFromFile("Inconsolata-8.font");
+	CEGUI::FontManager::getSingleton().createFromFile("Inconsolata-10.font");
+	CEGUI::FontManager::getSingleton().createFromFile("Inconsolata-14.font");
+	CEGUI::System::getSingleton().getDefaultGUIContext().setDefaultFont("Inconsolata-14");
 	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("AlfiskoSkin/MouseArrow");
 	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setImage(CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getDefaultImage());
 	//CEGUI::System::getSingleton().getDefaultGUIContext().setDefaultTooltipType("AlfiskoSkin/Tooltip"); // no support :(
