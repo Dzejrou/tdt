@@ -6,6 +6,7 @@
 #include <vector>
 #include <tuple>
 #include <set>
+#include "../Typedefs.hpp"
 
 namespace lpp
 {
@@ -335,10 +336,10 @@ inline std::size_t Script::get_<std::size_t>(const std::string& name)
 }
 
 template<>
-inline float Script::get_<float>(const std::string& name)
+inline tdt::real Script::get_<tdt::real>(const std::string& name)
 {
 	if(lua_isnumber(L, -1))
-		return (float)lua_tonumber(L, -1);
+		return (tdt::real)lua_tonumber(L, -1);
 	else
 		throw Exception("[Error][Lua] Cannot retrieve a variable because of type mismatch: " + name);
 }
