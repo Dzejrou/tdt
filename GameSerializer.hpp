@@ -513,7 +513,7 @@ inline void GameSerializer::save_component<ManaCrystalComponent>(tdt::uint id, c
 	auto comp = entities_.get_component<ManaCrystalComponent>(id);
 	save_components_.emplace_back(
 		  "game.entity.add_component(" + tbl_name + ", game.enum.component.mana_crystal)\n"
-		+ "game.mana_crystal.set_cap(" + tbl_name + ", " + std::to_string(comp->cap_increase)
+		+ "game.mana_crystal.set_capacity(" + tbl_name + ", " + std::to_string(comp->cap_increase)
 		+ ")\n game.mana_crystal.set_regen(" + tbl_name + ", " + std::to_string(comp->regen_increase) + ")\n"
 	);
 }
