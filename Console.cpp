@@ -15,7 +15,6 @@ Console::Console()
 void Console::init_()
 {
 	window_->setVisible(false);
-	CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(window_);
 	
 	// Registers event handlers.
 	window_->getChild("INPUT")->subscribeEvent(CEGUI::Editbox::EventTextAccepted,
