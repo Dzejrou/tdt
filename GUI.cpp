@@ -34,9 +34,9 @@ void GUI::init(Game* game)
 	 * for easier design.
 	 */
 	auto opts = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("options_menu.layout");
+	window_->addChild(opts);
 	options_.add_start_parameters(game_->window_, game_->main_view_, game_->renderer_);
 	options_.init(opts);
-	window_->addChild(opts);
 
 	/**
 	 * MAIN MENU
