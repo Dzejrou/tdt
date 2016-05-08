@@ -32,6 +32,14 @@ void CombatSystem::update(Ogre::Real delta)
 	// Autoattacks.
 	for(auto& ent : entities_.get_component_container<CombatComponent>())
 	{
+		if(ent.second.cd_time < ent.second.cooldown)
+		{
+			ent.second.cd_time += delta;
+			continue;
+		}
+		else
+			ent.second.cd_time = 0;
+
 		if(ent.second.curr_target != Component::NO_ENTITY &&
 		   entities_.exists(ent.second.curr_target))
 		{
@@ -74,14 +82,6 @@ void CombatSystem::update(Ogre::Real delta)
 				{
 					if(on_path) // Enemy came to us, just start attacking!
 						path_comp->path_queue.clear();
-
-					if(ent.second.cd_time < ent.second.cooldown)
-					{
-						ent.second.cd_time += delta;
-						continue;
-					}
-					else
-						ent.second.cd_time = 0;
 
 					auto dmg = CombatHelper::get_dmg(ent.second.min_dmg, ent.second.max_dmg);
 					GraphicsHelper::look_at(entities_, ent.first, ent.second.curr_target);
