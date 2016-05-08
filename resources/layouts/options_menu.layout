@@ -50,6 +50,7 @@
             </Window>
             <Window type="AlfiskoSkin/Listbox" name="WINDOW_MODE_LISTBOX" >
                 <Property name="Area" value="{{0.65,0},{0.15,0},{0.95,0},{0.45,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
                 <AutoWindow namePath="__auto_hscrollbar__" >
                     <AutoWindow namePath="__auto_thumb__" >
                         <Property name="MouseInputPropagationEnabled" value="true" />
@@ -201,6 +202,7 @@
             </Window>
             <Window type="AlfiskoSkin/Listbox" name="RESOLUTION_LISTBOX" >
                 <Property name="Area" value="{{0.05,0},{0.15,0},{0.35,0},{0.45,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
                 <Property name="AlwaysOnTop" value="true" />
                 <AutoWindow namePath="__auto_hscrollbar__" >
                     <AutoWindow namePath="__auto_thumb__" >
@@ -216,10 +218,12 @@
             </Window>
             <Window type="AlfiskoSkin/Label" name="RESOLUTION_SELECTION_LABEL" >
                 <Property name="Area" value="{{0.1,0},{0.45,0},{0.3,0},{0.5,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
             </Window>
             <Window type="AlfiskoSkin/Label" name="WINDOW_MODE_SELECTION_LABEL" >
                 <Property name="Area" value="{{0.7,0},{0.45,0},{0.9,0},{0.5,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
             </Window>
         </Window>

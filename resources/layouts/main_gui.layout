@@ -548,6 +548,7 @@
             <Window type="AlfiskoSkin/Button" name="EXECUTE" >
                 <Property name="ID" value="1" />
                 <Property name="Area" value="{{0,-7},{0,-7},{0.25,-7},{0,23}}" />
+                <Property name="Font" value="Inconsolata-10" />
                 <Property name="Text" value="EXECUTE" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="VerticalAlignment" value="Bottom" />
@@ -556,6 +557,7 @@
             <Window type="AlfiskoSkin/Editbox" name="INPUT" >
                 <Property name="ID" value="2" />
                 <Property name="Area" value="{{0,7},{0,-7},{0.75,-14},{0,23}}" />
+                <Property name="Font" value="Inconsolata-10" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="AlwaysOnTop" value="true" />
                 <Property name="VerticalAlignment" value="Bottom" />
@@ -563,6 +565,7 @@
             <Window type="AlfiskoSkin/Listbox" name="CONSOLE_LOG" >
                 <Property name="ID" value="3" />
                 <Property name="Area" value="{{0,7},{0,7},{1,-7},{1,-40}}" />
+                <Property name="Font" value="Inconsolata-10" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <AutoWindow namePath="__auto_hscrollbar__" >
                     <AutoWindow namePath="__auto_thumb__" >
@@ -890,6 +893,7 @@
                 <Property name="Font" value="Inconsolata-10" />
                 <Property name="Text" value="DZEJROU" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="TooltipText" value="(-.-)" />
             </Window>
             <Window type="AlfiskoSkin/FrameWindow" name="NEW_GAME_DIALOG" >
                 <Property name="Area" value="{{0.2,0},{0.3,0},{0.8,0},{0.7,0}}" />
