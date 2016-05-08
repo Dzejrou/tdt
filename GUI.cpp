@@ -431,6 +431,7 @@ bool GUI::escape_pressed()
 	   game_->state_ != GAME_STATE::ENDED && game_->state_ != GAME_STATE::INTRO_MENU)
 	{
 		game_->set_state(GAME_STATE::RUNNING);
+		set_visible("MESSAGE", false);
 		window_->getChild("MAIN_MENU")->setVisible(false);
 		window_->getChild("TOOLS")->setVisible(true);
 		window_->getChild("ENTITY_VIEW")->setVisible(true);
