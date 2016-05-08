@@ -356,6 +356,11 @@ void GUI::show_load_save_dialog(const std::string& type)
 				   true);
 }
 
+CEGUI::Window* GUI::get_window()
+{
+	return window_;
+}
+
 CEGUI::Window* GUI::get_window(const std::string& name)
 {
 	return window_->getChild(name);
