@@ -598,7 +598,6 @@ void Game::cegui_init()
 	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setImage(CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getDefaultImage());
 	//CEGUI::System::getSingleton().getDefaultGUIContext().setDefaultTooltipType("AlfiskoSkin/Tooltip"); // no support :(
 
-	// Button test.
 	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 	CEGUI::Window* sheet = wmgr.createWindow("DefaultWindow", "MainWindow/Sheet");
 	sheet->setMousePassThroughEnabled(true);
