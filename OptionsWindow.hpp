@@ -72,6 +72,16 @@ class OptionsWindow : public GUIWindow
 		void update_labels_();
 
 		/**
+		 *
+		 */
+		void update_fonts_();
+
+		/**
+		 *
+		 */
+		void update_font_of_window_(CEGUI::Window*, const std::string&);
+
+		/**
 		 * Brief: Returns the name of the key a given action
 		 *        is bound to.
 		 * Param: The action.

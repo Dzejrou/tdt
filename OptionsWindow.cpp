@@ -182,13 +182,6 @@ void OptionsWindow::init_()
 
 	width_ = view_->getActualWidth();
 	height_ = view_->getActualHeight();
-	window_->getChild("FRAME/RESOLUTION_LABEL")->setText(
-		"RESOLUTION (" + std::to_string(width_) + " x " + std::to_string(height_) + ")"
-	);
-
-	window_->getChild("FRAME/WINDOW_MODE_LABEL")->setText(
-		std::string{"WINDOW MODE ("} + (fullscreen_ ? "FULLSCREEN" : "WINDOWED") + ")"	
-	);
 
 	window_->getChild("FRAME/APPLY_BUTTON")->subscribeEvent(
 		CEGUI::PushButton::EventClicked,
@@ -307,6 +300,7 @@ void OptionsWindow::init_()
 		}
 	);
 	
+	update_fonts_();
 	update_labels_();
 }
 
@@ -347,6 +341,8 @@ void OptionsWindow::apply_()
 	}
 	output.flush();
 	output.close();
+
+	update_fonts_();
 }
 
 void OptionsWindow::update_labels_()
@@ -374,6 +370,56 @@ void OptionsWindow::update_labels_()
 	window_->getChild("FRAME/RESET_CAMERA_BUTTON")->setText(get_key_bind_name_(KEY_BIND_ACTION::RESET_CAMERA));
 	window_->getChild("FRAME/QUICK_LOAD_BUTTON")->setText(get_key_bind_name_(KEY_BIND_ACTION::QUICK_LOAD));
 	window_->getChild("FRAME/QUICK_SAVE_BUTTON")->setText(get_key_bind_name_(KEY_BIND_ACTION::QUICK_SAVE));
+}
+
+void OptionsWindow::update_fonts_()
+{
+	auto win = GUI::instance().get_window();
+	std::string font{};
+	if(width_ <= 1024)
+		font = "Inconsolata-8";
+	else if(width_ <= 1280)
+		font = "Inconsolata-10";
+	else
+		font = "Inconsolata-14";
+	
+	update_font_of_window_(win, font);
+
+	// Update existing listbox items.
+	auto list = (CEGUI::Listbox*)window_->getChild("FRAME/RESOLUTION_LISTBOX");
+	for(tdt::uint i = 0; i < list->getItemCount(); ++i)
+		((CEGUI::ListboxTextItem*)list->getListboxItemFromIndex(i))->setFont(font);
+
+	list = (CEGUI::Listbox*)window_->getChild("FRAME/WINDOW_MODE_LISTBOX");
+	for(tdt::uint i = 0; i < list->getItemCount(); ++i)
+		((CEGUI::ListboxTextItem*)list->getListboxItemFromIndex(i))->setFont(font);
+
+	list = (CEGUI::Listbox*)win->getChild("DEVELOPER_CONSOLE/CONSOLE_LOG");
+	for(tdt::uint i = 0; i < list->getItemCount(); ++i)
+		((CEGUI::ListboxTextItem*)list->getListboxItemFromIndex(i))->setFont(font);
+
+	list = (CEGUI::Listbox*)win->getChild("ENTITY_MANAGER/ENTITY_LIST");
+	for(tdt::uint i = 0; i < list->getItemCount(); ++i)
+		((CEGUI::ListboxTextItem*)list->getListboxItemFromIndex(i))->setFont(font);
+
+	list = (CEGUI::Listbox*)win->getChild("GAME_LOG/FRAME/LOG");
+	for(tdt::uint i = 0; i < list->getItemCount(); ++i)
+		((CEGUI::ListboxTextItem*)list->getListboxItemFromIndex(i))->setFont(font);
+
+	// Game log and console log will be resized and leave empty
+	// space below its items, so printing/actualizing will fix it.
+	GUI::instance().get_log().print("");
+	GUI::instance().get_console().print_text("");
+}
+
+void OptionsWindow::update_font_of_window_(CEGUI::Window* win, const std::string& font)
+{
+	win->setFont(font);
+	for(tdt::uint i = 0; i < win->getChildCount(); ++i)
+	{
+		auto sub_win = win->getChildAtIdx(i);
+		update_font_of_window_(sub_win, font);
+	}
 }
 
 const std::string& OptionsWindow::get_key_bind_name_(KEY_BIND_ACTION::VAL action)
