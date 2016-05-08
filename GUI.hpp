@@ -81,6 +81,11 @@ class GUI
 		void show_load_save_dialog(const std::string&);
 
 		/**
+		 * Brief: Returns a pointer to the root window.
+		 */
+		CEGUI::Window* get_window();
+
+		/**
 		 * Brief: Returns a pointer to a given subwindow of
 		 *        the root window.
 		 * Param: Name of the window.
