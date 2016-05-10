@@ -32,7 +32,9 @@ From this brief gameplay summary, we can create list of the most basic design el
     \item Research
 \end{enumerate}
 
+\bigskip
 TODO: Think of a way to use the rest of this chapter as a conclusion.
+\bigskip
 
 The dungeon management genre combines elements from the construction and management simulation~(CMS) genre~\cite{CMSgenre},
 from the real-time stragegy~(RTS) genre~\cite{RTSgenre} and from the god game genre~\cite{GODgenre}. 
@@ -71,23 +73,69 @@ a city and reacting to natural disasters or power outages.
 
 \section{Modifiability in Games}
 
-A modifiable game allows its players to change or add elements to the game, either by using an editor or a programming interface (using a scripting language). 
-This can increase the replay value of the game as after finishing it, more missions, characters, game mechanics, abilities, items or even game modes can be
-easily downloaded and installed from internet.
+One of our basic goals is for our game to be modifiable, which means to provide tools (often called modding tools) to our players
+that will allow them to create modifications (often called mods) that other players can install and which can change or
+add elements to the game.
 
-An example of an easily modifiable game is Minecraft~\cite{Minecraft}, which is a 3D sandbox game and thus not offering a lot of gameplay by itself and rather
-relies on the players to create their own adventure in the game. Mods for the game add new items, enemies, animals and custom prebuilt maps and
-can extend the gameplay by tens of hours each.
+This can increase the replay value of the game as after finishing it, more missions, characters, game mechanics, abilities, items
+or even game modes can be easily downloaded and installed from internet. Since we want our game to be modifiable, we should allow our players
+to change most (if not all) of the game's data, artificial intelligence and abilities of all minions, creatures and enemies and also give
+them the ability to edit saved states of the game, which would allow them to create new maps.
 
-Aside from adding items and entities, entire new games can be created within a modifiable game. In a review with the server PCGamer~\cite{FutureOfMinecraft}
+Modding tools can generally be of two types: (1) an editor (like a world editor in Warcraft~3~\cite{WC3} and
+Starcraft~\cite{SC}) or (2) an application programming interface~(API) that can be used in a scripting language 
+(used in e.g. Starbound~\cite{Starbound} allows its players to create modification either by editing 
+JSON\footnote{JavaScript Object Notation, a lightweight data-interchange
+format designed to be easy for humans to read and write while being easily parseable by computers.\cite{JSON}} files or by using its
+Lua\footnote{A fast, lightweight and embeddable scripting language.\cite{Lua}} API).
+
+(1) While an editor that would allow the players to change the game's data and its save files would be easier to use due to its
+point and click nature, the development of such tool is unfortunately beyond the scope of this thesis and would probably have to rely
+on an API (for code generation) anyway. For these two reasons this option won't be used, but creates a possible future extension of the game,
+which would extend the modifiable part of the game to even bigger audiences.
+
+(2) Creating an API that can be used in a scripting language (e.g. Lua) may, besides making the game modifiable, lead to faster
+development if the main part of the game is written in a compiled language as parts of the game that are not performance critical
+can be written in a higher level, dynamically typed and interpreted language with an easy to understand syntax. 
+These characteristics of scripting languages can make mod creation easier to non-programmers~\cite{WhyScripting} and support
+rapid iteration~\cite{GEA} (as they do not require recompilation) and are the reasong why we are going to use this option.
+
+Now that we have decided on the technical aspect of the modding support in our game, we need to decide which parts of the game
+we will allow the players to modify. An example of an easily modifiable game is Minecraft~\cite{Minecraft}, a 3D sandbox game 
+in which the player has to survive in a procedurally generated world. They build a house, craft tools, mine for materials and
+fight off enemies during the night. As we can see the game is very data oriented, with different crafting recipes, enemies, blocks
+to build with and ores to mine being the main part of the gameplay because the actual goal (to survive) is quite simple. This allows
+the mod creators to possibly prolong the time spent with the game by several hours (per mod) by adding these new items or by
+creating new custom maps that offer new challenges to the player.
+
+Aside from adding items and entities, entire new games can be created within a modifiable game. 
+In an interview on the server PCGamer~\cite{FutureOfMinecraft}
 the lead developer of Minecraft, Jens Bergensten, said:
-\emph{"In the recent snapshot we've added something called the command block. When it's triggered, you can teleport players to a certain position, or change the game mode.
-So this user called Sethbling has created a Team Fortress 2 map for Minecraft. You can choose a class, it has control points,
-and everything works like TF2. It's quite amazing."} (More information about Team Fortress 2 can be found at~\cite{TF2})
+\emph{"In the recent snapshot we've added something called the command block. When it's triggered, 
+you can teleport players to a certain position, or change the game mode.
+So this user called Sethbling has created a Team Fortress 2 map for Minecraft. 
+You can choose a class, it has control points, and everything works like TF2. It's quite amazing."}
+(More information about Team Fortress 2 can be found at~\cite{TF2})
 
-We can see that the ability to modify a game can help said game to grow even when its development has stopped or is focused in different areas (e.g. security, stability).
-To create an easily modifiable game we need to realize that both mod creators and mod users do not have to be experienced programmers, so it's very important to have both easy to use
-modding tools and easy way to install mods.
+To allow the creation of custom maps in our game, we should make a save feature which will create levels
+in a format that will allow later modification of the saved state of the game, including actual changes to its gameplay.
+
+In conclusion, we can see that the ability to modify a game can help said game to grow even when its development has stopped
+or is focused in different areas (e.g. security, stability). Since we want to give this ability to the players of
+our game, our modding API should allow them to change most of its data, including minions, enemies, buildings, spells,
+artificial intelligence and others, but the game on its own should be fully featured, offering enough of these entities
+on its own so the players do not need mods to actually play the game. Additionally, since our game (like Dungeon Keeper)
+will have scripted waves of enemies attacking the player's dungeon, the also should allow our players to alter the wave 
+composition and delays. Last, but not least, we must not forget that players do not necessarily have to be (and often are not)
+programmers, so our game should provide an easy way to install these modifications.
+
+\bigskip
+TODO: Ask PJ: I talk about gameplay, should I explain the term (oxford dict definition, could be in a footer for example)?
+\\
+(http://www.oxforddictionaries.com/definition/english/gameplay; 
+\\
+"The features of a computer game, such as its plot and the way it is played, as distinct from the graphics and sound effects.")
+\bigskip
 
 \section{Thesis Goals}
 
@@ -100,14 +148,13 @@ In addition to the main goal, the game should complete the following list of goa
         \begin{enumerate}[label=\textbf{(G1.\arabic*)}]
             \item It has to be performant, achieving high framerate even on low end computers.
             \item It has to offer full single player experience, with scripted enemies and a chance to both win and lose.
-            \item It has to contain a variety of entities, spells and buildings even without mods.
+            \item X It has to contain a variety of entities, spells and buildings even without mods.
         \end{enumerate}
-    \item The game has to be highly modifiable, providing an easy to use modding interface for players.
+    \item X The game has to be highly modifiable, providing an easy to use modding interface for players.
         \begin{enumerate}[label=\textbf{(G2.\arabic*)}]
-            \item The mod creators must be able to create new entities, spells and buildings and to change most of the game's data.
-            \item They must also be able to alter level generation if their mods require it.
-            \item They must also be able to alter the game progression by defining enemies that spawn and delays between them.
-            \item The game has to have a save feature which allows the mod creators to change the save files to create custom levels.
+            \item X The mod creators must be able to create new entities, spells and buildings and to change most of the game's data.
+            \item X They must also be able to alter the game progression by defining enemies that spawn and delays between them.
+            \item X The game has to have a save feature which allows the mod creators to change the save files to create custom levels.
         \end{enumerate}
-    \item The mods for the game have to be easily installable even by players without any programming knowledge. 
+    \item X The mods for the game have to be easily installable even by players without any programming knowledge. 
 \end{enumerate}
