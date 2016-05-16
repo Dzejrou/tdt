@@ -6,8 +6,8 @@ with evil forces in order to aquire treasures and fame.
 In Dungeon Keeper, however, we join the opposite faction and try to defend our own dungeon
 (along with all the treasures hidden in it) from endless hordes of heroes trying to pillage our domain.
 Although we can still play the original Dungeon Keeper today, we cannot change its data or game mechanics
-in any easy way so this thesis aims to recreate the original game with an easy to use programming interface,
-that will allow such modifications.
+in any easy way so this thesis aims to recreate and modify the original game and extend it to have an easy to 
+use programming interface that will allow such modifications.
 
 \section{Dungeon Managment Genre}
 
@@ -27,54 +27,66 @@ From this brief gameplay summary, we can create list of the most basic design el
     \item Resource management
     \item Dungeon building
     \item Minion commanding
-    \item Combat (defensive)
+    \item Combat
     \item Player participation in combat
     \item Research
 \end{enumerate}
 
+Now that we have created a list of the genre's basic design elements, let us have a look at how they were implemented in games from the
+Dungeon Keeper series.
+
+\subsubsection{Resource management}
+
+In the original Dungeon Keeper, the player used gold as their primary resource. They would have it mined by their minions and use
+it to build new rooms and cast spells. While having a single resource for everything may bring simplicity to the game, it also means
+that once the player runs out of gold, they wont be able to directly participate in combat due to their inability to cast spells.
+It is for this reason that we are going to use the resource model of Dungeon Keeper 2 and have a separate resource -- mana -- that
+will be used to cast spells.
+
 \bigskip
-TODO: Think of a way to use the rest of this chapter as a conclusion.
-\bigskip
+Ask PJ: Should the word mana be itallic in the same way mods and modding tools are? This is its second appearance in the text, but
+the first was in a footnote.
 
-The dungeon management genre combines elements from the construction and management simulation~(CMS) genre~\cite{CMSgenre},
-from the real-time stragegy~(RTS) genre~\cite{RTSgenre} and from the god game genre~\cite{GODgenre}. 
-Table~\ref{genre-element-relation} shows how these elements relate to the three genres the dungeon management genre combines:
+\subsubsection{Dungeon building}
 
-\begin{table}[h]
-    \centering
-    \begin{threeparttable}
-        \begin{tabular}{|l|c|c|c|}
-            \hline
-                                            & \multicolumn{1}{l|}{RTS} & \multicolumn{1}{l|}{CMS}   & \multicolumn{1}{l|}{God game} \\ \hline
-            Resource management             & \checkmark               & \checkmark                 & \checkmark                    \\ \hline
-            Base building                   & \checkmark               & \checkmark                 & \checkmark                    \\ \hline
-            Unit commanding                 & \checkmark               & x                          & x                             \\ \hline
-            Combat                          & \checkmark               & x                          & \checkmark                    \\ \hline
-            Player participation in combat  & x*                       & x                          & \checkmark                    \\ \hline
-            Research                        & \checkmark               & \checkmark**               & \checkmark                    \\ \hline
-        \end{tabular}
-        \begin{tablenotes}
-            \tiny
-            \item * Not true for all RTS games, e.g. in Age Of Mythology~\cite{AOMweb}, the player has one spell per age,
-                which can be cast in battles.
-            \item ** Not true for all CMS games, e.g. in Cities:~Skylines~\cite{CitiesSkylines}, new buildings are unlocked
-                when the player's city reached a certain population size.
-        \end{tablenotes}
-        \caption{Dungeon Management elements in other game genres.}
-        \label{genre-element-relation}
-    \end{threeparttable}
-\end{table}
+The term dungeon building in Dungeon Keeper refers to tearing down walls in order to create new rooms which the player's minions 
+then claim and the player can place new buildings in. These buildings can then act as gold storage, spawn new creatures or be used
+as traps that negatively affect attacking enemies. Since this is a central theme in Dungeon Keeper (and dungeon management games
+in general), we should try to implement our building model to resemble this.
 
-As we can see, the dungeon management genre seems more like an RTS/God game hybrid since the elements from the CMS genre are also present in these two.
-What it takes from the CMS genre is the end goal of the game. In RTS games, the goal generally is to defeat all enemies via combat or politics.
-In god games, the goal is to convert or kill all infidels. In CMS and dungeon management games, the goal is simply to build and maintain. The player in dungeon
-management games builds his dungeon and places all kinds of traps and obstacles along with scary monsters to protect his treasure, which is similar to building
-a city and reacting to natural disasters or power outages.
+\subsubsection{Minion commanding}
+
+
+\subsubsection{Combat}
+
+In Dungeon Keeper, the player's dungeon is under frequent attacks by enemy heroes. These enemies attack the dungeon 
+in groups with a delay between each two attacks, in a similar way to tower defense games (e.g. Orcs must die!~\cite{OMD} 
+and Dungeon Defenders~\cite{DungeonDefenders}), where theay are often referred to as \emph{waves}. Each wave of enemies
+can consist of different types of heroes and the delay between ways can differ, too. Since the players of the original
+Dungeon Keeper are alredy familiar with this wave system and it also caters to players of tower defense games, we will be
+implementing it in our game.
+
+\subsubsection{Player participation in combat}
+
+During the fights with enemy heroes, the player in Dungeon Keeper can cast various spells to affect the outcome of the battle.
+These spells can tave various forms from spawning creatures, damaging enemies and healing minions to destroying walls and throwing
+meteors.
+
+TODO:
+
+\subsubsection{Research}
+
+\subsubsection{Conclusion}
+
+TODO: Conclusion.
+\\ The game has to be a full competetive product, not a prototype.
+\\ It has to be performant, achieving high framerate even on low end computers.
+\\ It has to offer full single player experience, with scripted enemies and a chance to both win and lose.
 
 \section{Modifiability in Games}
 
-One of our basic goals is for our game to be modifiable, which means to provide tools (often called modding tools) to our players
-that will allow them to create modifications (often called mods) that other players can install and which can change or
+One of our basic goals is for our game to be modifiable, which means to provide tools -- often called \emph{modding tools} -- to our players
+that will allow them to create modifications -- often called \emph{mods} -- that other players can install and which can change or
 add elements to the game.
 
 This can increase the replay value of the game as after finishing it, more missions, characters, game mechanics, abilities, items
@@ -115,7 +127,7 @@ the lead developer of Minecraft, Jens Bergensten, said:
 you can teleport players to a certain position, or change the game mode.
 So this user called Sethbling has created a Team Fortress 2 map for Minecraft. 
 You can choose a class, it has control points, and everything works like TF2. It's quite amazing."}
-(More information about Team Fortress 2 can be found at~\cite{TF2})
+(More information about Team Fortress 2 can be found at its official website~\cite{TF2})
 
 To allow the creation of custom maps in our game, we should make a save feature which will create levels
 in a format that will allow later modification of the saved state of the game, including actual changes to its gameplay.
