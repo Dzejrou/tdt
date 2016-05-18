@@ -44,8 +44,8 @@ It is for this reason that we are going to use the resource model of Dungeon Kee
 will be used to cast spells.
 
 \bigskip
-Ask PJ: Should the word mana be itallic in the same way mods and modding tools are? This is its second appearance in the text, but
-the first was in a footnote.
+Ask PJ: Should the word mana be itallic in the same way mods and modding tools are? This is its second appearance in the text, but the
+first one wasn't "definitioney" and a general player should know the concept.
 
 \subsubsection{Dungeon building}
 
@@ -55,6 +55,11 @@ as traps that negatively affect attacking enemies. Since this is a central theme
 in general), we should try to implement our building model to resemble this.
 
 \subsubsection{Minion commanding}
+
+The term minion commanding stands for giving your minion tasks such as to move somewhere, attack an enemy or tear down a wall. In
+Dungeon Keeper, most of these commands were implemented as spells -- although mining was done by simply selecting blocks, which
+could unfortunately cause minions to destroy walls the player accidentally selected. To providea unified interface to minion tasks
+and to avoid the accidental block destruction, all commands the player can give will be in our game implemented as spells.
 
 
 \subsubsection{Combat}
@@ -69,19 +74,39 @@ implementing it in our game.
 \subsubsection{Player participation in combat}
 
 During the fights with enemy heroes, the player in Dungeon Keeper can cast various spells to affect the outcome of the battle.
-These spells can tave various forms from spawning creatures, damaging enemies and healing minions to destroying walls and throwing
-meteors.
-
-TODO:
+These spells can have various forms from spawning creatures, damaging enemies and healing minions to destroying walls and throwing
+meteors. If we want to create a similar spell system, we need to support these different types of spells, e.g. targeted spells that
+affect a single entity, positional spells that can summon a creature or global spells, that simply have an effect on the game once
+they are cast.
 
 \subsubsection{Research}
 
+In the original Dungeon Keeper, researching new spells and buildings was done through a special type of room, called the library,
+which can be seen in Figure~\ref{dk-lib}. There,
+various minions could study and achieve new advancements for the player after a certain amount of research points -- which was different
+for different spells and buildings -- was gathered. But this design decision brought a negative element into the game, because once the
+library was destroyed by the heroes, the player was unavailable to perform additional research and could even use the ability to cast
+some spells. This is why we are going to use a different approach, called the research tree (or sometimes technology tree), first used
+in the real-time stragety game called Sid Meyer's Civilization\footnote{Developed by MPS Labs, 1991}~\cite{ResearchTrees}. This approach 
+separates the research from the events happening in the game and allows the player to research new advancements for a resource (e.g. gold),
+with each new technology, building, creature or spell being able to have prerequisites.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm]{../img/library.jpg}
+    \caption{Warlocks researching in the library.
+             \\Source: \href{http://vignette2.wikia.nocookie.net/dungeonkeeper/images/9/98/Library.jpg/revision/latest?cb=20120808211437}{http://dungeonkeeper.wikia.com}}
+    \label{dk-lib}
+\end{figure}
+
 \subsubsection{Conclusion}
 
-TODO: Conclusion.
-\\ The game has to be a full competetive product, not a prototype.
-\\ It has to be performant, achieving high framerate even on low end computers.
-\\ It has to offer full single player experience, with scripted enemies and a chance to both win and lose.
+We have now investigated the main design elements of Dungeon Keeper (and dungeon management games in general) and how we are going 
+to implement them in our game. The last thing we have to realise is that since we are trying to cater to the players of the original
+game, the resulting product of our work should be a full game and not just a prototype. This means that the game should offer full 
+singleplayer experience, with relatively intelligent enemies and the ability to not only win the game, but to also lose. It also means
+that the game has to be performant, achieving atleast the minimum acceptable framerate, defined as 25-30 frames per second by 
+Shiratuddin, Kitchens and Fletcher~\cite{AcceptableFPS}, on both new and older hardware.
 
 \section{Modifiability in Games}
 
@@ -92,62 +117,95 @@ add elements to the game.
 This can increase the replay value of the game as after finishing it, more missions, characters, game mechanics, abilities, items
 or even game modes can be easily downloaded and installed from internet. Since we want our game to be modifiable, we should allow our players
 to change most (if not all) of the game's data, artificial intelligence and abilities of all minions, creatures and enemies and also give
-them the ability to edit saved states of the game, which would allow them to create new maps.
+them the ability to edit levels the game, which would allow them to create new maps.
 
-Modding tools can generally be of two types: (1) an editor (like a world editor in Warcraft~3~\cite{WC3} and
-Starcraft~\cite{SC}) or (2) an application programming interface~(API) that can be used in a scripting language 
-(used in e.g. Starbound~\cite{Starbound} allows its players to create modification either by editing 
-JSON\footnote{JavaScript Object Notation, a lightweight data-interchange
-format designed to be easy for humans to read and write while being easily parseable by computers.\cite{JSON}} files or by using its
-Lua\footnote{A fast, lightweight and embeddable scripting language.\cite{Lua}} API).
+An important topic we need to decide on is which parts of the game we will allow the players to modify. 
+An example of an easily modifiable game is Minecraft~\cite{Minecraft}, a 3D sandbox game 
+in which the player has to survive in a procedurally generated world, which can be seen in Figure~\ref{minecraft}. 
+The player builds a house, crafts tools, mines for materials and
+fights off enemies during the night. These elements of the game provide a wide array of things that mods can change. For example to smelt
+ores into ingots, the player can use a furnace powered by coal, but a mod called Industrial Craft~2~\cite{IndustrialCraft} added machines
+into the game that, among other uses, could smelt ingots using electricity, another concept introduced by the mod. The player can then
+create power plants of different types -- ranging from solar to nuclear -- to produce electricity that they can then use to power their
+machines. With this mod, the player can create setups that allow him to automate tasks such as smelting, cooking or mining. An example of
+such setup can be seen in Figure~\ref{ic-solar}.
 
-(1) While an editor that would allow the players to change the game's data and its save files would be easier to use due to its
-point and click nature, the development of such tool is unfortunately beyond the scope of this thesis and would probably have to rely
-on an API (for code generation) anyway. For these two reasons this option won't be used, but creates a possible future extension of the game,
-which would extend the modifiable part of the game to even bigger audiences.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm]{../img/minecraft.jpg}
+    \caption{A procedurally generated world in Minecraft.
+             \\Source: \href{http://i.neoseeker.com/p/Games/PC/Simulation/City/minecraft\_image\_zx2AU2n6bZho0lz.jpg}{http://www.neoseeker.com}}
+    \label{minecraft}
+\end{figure}
 
-(2) Creating an API that can be used in a scripting language (e.g. Lua) may, besides making the game modifiable, lead to faster
-development if the main part of the game is written in a compiled language as parts of the game that are not performance critical
-can be written in a higher level, dynamically typed and interpreted language with an easy to understand syntax. 
-These characteristics of scripting languages can make mod creation easier to non-programmers~\cite{WhyScripting} and support
-rapid iteration~\cite{GEA} (as they do not require recompilation) and are the reasong why we are going to use this option.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm]{../img/ic-solar.pdf}
+    \caption{A simple setup powering multiple machines including an electrical furnace using solar panels.
+             \\Source: \href{http://static.planetminecraft.com/files/resource\_media/screenshot/1246/javaw-2012-11-12-20-51-09-46\_4122139.jpg}{http://www.planetminecraft.com}}
+    \label{ic-solar}
+\end{figure}
 
-Now that we have decided on the technical aspect of the modding support in our game, we need to decide which parts of the game
-we will allow the players to modify. An example of an easily modifiable game is Minecraft~\cite{Minecraft}, a 3D sandbox game 
-in which the player has to survive in a procedurally generated world. They build a house, craft tools, mine for materials and
-fight off enemies during the night. As we can see the game is very data oriented, with different crafting recipes, enemies, blocks
-to build with and ores to mine being the main part of the gameplay because the actual goal (to survive) is quite simple. This allows
-the mod creators to possibly prolong the time spent with the game by several hours (per mod) by adding these new items or by
-creating new custom maps that offer new challenges to the player.
+Another mod, called ComputerCraft~\cite{ComputerCraft}, added fully functional computers into the game. 
+These computers can be used to create password protected
+doors, write programs and games in Lua or even connect to internet services such as IRC\footnote{Internet Relay Chat, an open communication 
+protocol.}. An example of such computer in minecraft can be seen in Figure~\ref{computer-craft}. This mod also added robots into the game, 
+that could be programmed using Lua scripts to automate tasks such as mining, fighting or woodcutting.
 
-Aside from adding items and entities, entire new games can be created within a modifiable game. 
-In an interview on the server PCGamer~\cite{FutureOfMinecraft}
-the lead developer of Minecraft, Jens Bergensten, said:
-\emph{"In the recent snapshot we've added something called the command block. When it's triggered, 
-you can teleport players to a certain position, or change the game mode.
-So this user called Sethbling has created a Team Fortress 2 map for Minecraft. 
-You can choose a class, it has control points, and everything works like TF2. It's quite amazing."}
-(More information about Team Fortress 2 can be found at its official website~\cite{TF2})
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm]{../img/ComputerCraft2.png}
+    \caption{A computer in Minecraft playing the ASCII version of the movie Star Wars: A New Hope.
+             \\Source: \href{http://minecraft-modding.de/wp-content/uploads/2015/06/ComputerCraft2.png}{http://www.minecraft-modding.de}}
+    \label{computer-craft}
+\end{figure}
 
-To allow the creation of custom maps in our game, we should make a save feature which will create levels
-in a format that will allow later modification of the saved state of the game, including actual changes to its gameplay.
+In Minecraft, the player has access to simple tools, e.g. a pickaxe or a sword, but with mods, the game can be ehnanced with advanced 
+technologies or even magic (e.g. Thaumcraft or MineMagicka). This can create new ways the game is played and possibly extend its
+replayability.
+
+Aside from adding items and creatures, entire new games can be created within a modifiable game. For example Minecraft's command block,
+which can execute commands in the game's developer console -- e.g. teleport the player to a certain position or give him items --
+when interacted with, was used by a player of the game to create~\cite{FutureOfMinecraft} a custom map that copied the game 
+Team Fortress~2~\cite{TF2}. Team Fortress~2 is a 3D first person shooter, in which two player teams fight against each other in various
+game modes, e.g. capture the flag, deathmatch or point control. Each player could choose from a wide selection of character classes, 
+each with its
+own attributes and weapons. The command block was used for example to equip players based on the character class they choose -- 
+which can be done by choosing between different command blocks each being assigned to a single class and a console command that 
+adds an item to a player -- or controlling a point, for which a command block can check if a player stands on a point long enough
+to capture it.
+
+\bigskip
+Ask PJ: Should I explain the terms CTF, DM and point controol? Most players should already know them :/
+\\Also, when I mentioned Thaumcraft and MineMagicka, the only official resources are their forum posts which have long urls
+and can change them over time (updating patch version in the post title alters the url -.-), should I refer to them anyway?
+\bigskip
+
+To allow the creation of custom maps in our game, we should store our levels
+in a format that will allow later modifications, including actual changes to the game's elements.
 
 In conclusion, we can see that the ability to modify a game can help said game to grow even when its development has stopped
 or is focused in different areas (e.g. security, stability). Since we want to give this ability to the players of
-our game, our modding API should allow them to change most of its data, including minions, enemies, buildings, spells,
-artificial intelligence and others, but the game on its own should be fully featured, offering enough of these entities
-on its own so the players do not need mods to actually play the game. Additionally, since our game (like Dungeon Keeper)
-will have scripted waves of enemies attacking the player's dungeon, the also should allow our players to alter the wave 
-composition and delays. Last, but not least, we must not forget that players do not necessarily have to be (and often are not)
-programmers, so our game should provide an easy way to install these modifications.
+our game, our modding tools should allow them to change most of its data, including but not limited to:
 
-\bigskip
-TODO: Ask PJ: I talk about gameplay, should I explain the term (oxford dict definition, could be in a footer for example)?
-\\
-(http://www.oxforddictionaries.com/definition/english/gameplay; 
-\\
-"The features of a computer game, such as its plot and the way it is played, as distinct from the graphics and sound effects.")
-\bigskip
+\begin{itemize}
+    \item Minions and enemies -- e.g. changing attributes such as health and damage, displayed models, behavior and spells they
+        cast.
+    \item Buildings -- e.g. changing their size, models, types of creatures that they spawn and, in the case of traps, their interaction with
+        enemies.
+    \item Spells -- fully changing the effect of a spell, e.g. from simple damage dealing to spawning a meteor shower.
+    \item Goals of the game -- changing requirements for winning the game or the reasons for a loss.
+\end{itemize}
+
+Besides changing data of entities -- e.g. creatures, buildings or spells -- the players should also be able to create new types of these
+entities.
+
+The game on its own should also be fully featured, offering enough of these entities
+on its own so the players do not need mods to actually play the game. Additionally, since our game, like Dungeon Keeper,
+will have scripted waves of enemies attacking the player's dungeon, the also should allow our players to alter the wave 
+composition -- that is, which types of enemies compose the different groups attacking the player's dungeon --  and delays between
+the waves. Last, but not least, we must not forget that players do not necessarily have to be (and often are not)
+programmers, so our game should provide an easy way to install these modifications.
 
 \section{Thesis Goals}
 
@@ -160,13 +218,13 @@ In addition to the main goal, the game should complete the following list of goa
         \begin{enumerate}[label=\textbf{(G1.\arabic*)}]
             \item It has to be performant, achieving high framerate even on low end computers.
             \item It has to offer full single player experience, with scripted enemies and a chance to both win and lose.
-            \item X It has to contain a variety of entities, spells and buildings even without mods.
+            \item It has to contain a variety of entities, spells and buildings even without mods.
         \end{enumerate}
-    \item X The game has to be highly modifiable, providing an easy to use modding interface for players.
+    \item The game has to be highly modifiable, providing an easy to use modding interface for players.
         \begin{enumerate}[label=\textbf{(G2.\arabic*)}]
-            \item X The mod creators must be able to create new entities, spells and buildings and to change most of the game's data.
-            \item X They must also be able to alter the game progression by defining enemies that spawn and delays between them.
-            \item X The game has to have a save feature which allows the mod creators to change the save files to create custom levels.
+            \item The mod creators must be able to create new entities, spells and buildings and to change most of the game's data.
+            \item They must also be able to alter the game progression by defining enemies that spawn and delays between them.
+            \item The game should also support the creation of custom levels.
         \end{enumerate}
-    \item X The mods for the game have to be easily installable even by players without any programming knowledge. 
+    \item The mods for the game have to be easily installable even by players without any programming knowledge. 
 \end{enumerate}

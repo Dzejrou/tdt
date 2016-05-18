@@ -138,6 +138,28 @@ TODO: Add more possible scripting languages, possibly C++ using dlls?
         the resulting binding will only contain the features that are needed
 \end{itemize}
 
+\section{Modding Tools}
+
+TODO: meta-language, change (1) and (2), etc.
+
+Modding tools can generally be of two types: (1) an editor (good examples being world editoris in the Warcraft~3~\cite{WC3} and
+Starcraft~\cite{SC} games) or (2) an application programming interface~(API) that can be used in a scripting language 
+(used in e.g. Starbound~\cite{Starbound} allows its players to create modification either by editing 
+JSON\footnote{JavaScript Object Notation, a lightweight data-interchange
+format designed to be easy for humans to read and write while being easily parseable by computers.\cite{JSON}} files or by using its
+Lua\footnote{A fast, lightweight and embeddable scripting language.\cite{Lua}} API).
+
+(1) While an editor that would allow the players to change the game's data and its save files would be easier to use due to its
+point and click nature, the development of such tool is unfortunately beyond the scope of this thesis and would probably have to rely
+on an API (for code generation) anyway. For these two reasons this option won't be used, but creates a possible future extension of the game,
+which would extend the modifiable part of the game to even bigger audiences.
+
+(2) Creating an API that can be used in a scripting language (e.g. Lua) may, besides making the game modifiable, lead to faster
+development if the main part of the game is written in a compiled language as parts of the game that are not performance critical
+can be written in a higher level, dynamically typed and interpreted language with an easy to understand syntax. 
+These characteristics of scripting languages can make mod creation easier to non-programmers~\cite{WhyScripting} and support
+rapid iteration~\cite{GEA} (as they do not require recompilation) and are the reasong why we are going to use this option.
+
 \section{Libraries}
 
 % TODO
@@ -291,19 +313,6 @@ TODO: Merge OpenGL and DirectX together as low level API and add more high level
 	    algorithm and path type interface ...
 \end{itemize}
 
-\subsection{Level Generation ??}
-
-% TODO
-\begin{itemize}
-    \item talk about how complex level generation isn't really needed due
-	    to the nature of the game (you dig your own hallways so only need
-	    gold distribution)
-    \item mention that similar generic system to the pathfinding one is used
-    \item ??probably go through the algorithm in pseudocode?? or explain it only??
-	    if so, probably go through the part with the gold only and just mention
-	    the rest??
-\end{itemize}
-
 \section{Serialization}
 
 % TODO
@@ -352,6 +361,22 @@ TODO: Merge OpenGL and DirectX together as low level API and add more high level
     \item say that it's limitation is level size, e.g. 256x256 save file can be big (200MB) and
 	    very slow to load (10-20sec), but on the allowed level sizes (10-64) the load
 	    is almost instant and the resulting files small (16x16 is around 650KB)
+\end{itemize}
+
+\section{Levels}
+
+Addition: Talk about level representation and how using the same
+format for saved games and levels helps the creation of custom maps.
+
+% TODO
+\begin{itemize}
+    \item talk about how complex level generation isn't really needed due
+	    to the nature of the game (you dig your own hallways so only need
+	    gold distribution)
+    \item mention that similar generic system to the pathfinding one is used
+    \item ??probably go through the algorithm in pseudocode?? or explain it only??
+	    if so, probably go through the part with the gold only and just mention
+	    the rest??
 \end{itemize}
 
 \section{Spells}
