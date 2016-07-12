@@ -49,10 +49,19 @@
 \usepackage[shortlabels]{enumitem}
 \usepackage{booktabs, caption, fixltx2e}
 \usepackage[flushleft]{threeparttable}
+\usepackage[scaled=.95]{inconsolata}
 \usepackage{listings}
 \usepackage{tikz, tikz-qtree}
+\usepackage{float}
+\usepackage{svg}
 
-\lstset{language=[5.2]Lua}
+\newcommand*{\incon}[1]{{\fontfamily{fi4}\selectfont #1}}
+
+\lstset{language=[5.2]Lua, basicstyle=\ttfamily}
+
+% Listing float:
+\newfloat{listing}{tbhp}{lst}
+\floatname{listing}{Listing}
 
 %%% Basic information on the thesis
 
@@ -124,7 +133,7 @@ TODO:
 %%% Each chapter is kept in a separate file
 \include{chap01}
 \include{chap02}
-%\include{chap03}
+\include{chap03}
 %\include{chap04}
 %\include{chap05}
 

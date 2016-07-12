@@ -1,106 +1,255 @@
 \chapter{Developer's Documentation}
-% TODO:
 
-\begin{itemize}
-    \item give some basic overview of the project
-    \item say how to tell my functions and Ogre/CEGUI/Lua functions apart
-    \item maybe mention why the camelCase notation of Ogre/CEGUI was not used
-    \item mention what the compiled binary needs to run (?list dlls?)
-    \item say how to change the paths to resources and scripts directories
-\end{itemize}
+In this chapter, we will examine the structure of our game and the implementation of its
+various modules. In Figure~\ref{engine-layout}, we can see the main modules of our engine
+and their relationships -- an arrow pointing from module A to module B means that A uses B.
 
-\section{Engine (?Layout)}
+\begin{figure}[h]
+    \centering
+    \fontfamily{fi4}\selectfont
+    \def\svgwidth{\columnwidth}
+    \input{engine.pdf_tex}
+    \caption{Core of the game's engine.}
+    \label{engine-layout}
+\end{figure}
 
-% TODO
-\begin{itemize}
-    \item describe Component - System - Helper - LuaInterface - ... relationship
-    \item possibly create a picture
-    \item describe the "workflow" of the game? or leave it to other sections?
-\end{itemize}
+The game uses four different libraries -- Ogre3D for graphics, OIS\footnote{Bundled with Ogre3D.} for user input, CEGUI for
+GUI and Lua for scripting. Ogre3D and OIS are used directly by the engine, but CEGUI and Lua -- besides initialization in the
+\texttt{Game} class -- use special interface modules that handle their API. The GUI module, which acts as an interface
+for CEGUI, comprises the \texttt{GUI} class and various different classes that represent different GUI widgets. Lua uses different
+classes for the different directions of access. When the engine -- written in C++ -- accesses Lua, it uses the \texttt{lpp::Script} class,
+which acts as a wrapper facade over the Lua C API. When Lua accesses parts of the engine, it uses the \texttt{LuaInterface} class,
+which binds functions written in C++ to Lua.
+
+The update logic of the game is performed by systems which, with the exception of \texttt{EntitySystem}, are equal in functionality.
+\texttt{EntitySystem} stands out because it, besides updating the game, aslo acts as a component manager and provides components
+to the rest of the systems.
+
+In the following sections we will examine these main modules of the engine as well as various other, which mostly serve as tools
+to the main modules.
 
 \section{Game}
 
-% TODO
-\begin{itemize}
-    \item !ask PJ: do I have to describe functions even if they have documenting comments? 
-    \item describe how the game is initialized
-    \item explain OIS and Ogre callbacks (+ parent classes)
-    \item brief description of its members vs just mentioning them vs ignoring them as they will be explained later?
-    \item level creation (new\_level \&\& generate\_empty\_level)
-    \item throne monitoring? (keeping throne ID so there is only one target of the enemies)
-    \item possibly add a subsections describing Ogre and CEGUI initialisation
-\end{itemize}
+The \texttt{Game} class is the central part of our engine. In its constructor, every module of the engine -- that needs initialization --
+is initialized. This class also serves as the main connection between the Ogre3D and OIS libraries and our engine.It does so by inheriting
+four listener classes from these libraries -- \texttt{Ogre::FrameListener}, \texttt{Ogre::WindowEventListener}, \texttt{OIS::KeyListener}
+and \texttt{OIS::MouseListener}.
 
-\subsection{State Design Pattern}
+\begin{listing}
+    \centering
+    \begin{lstlisting}[language=C++]
+// Ogre3D
+bool frameRenderingQueued(const Ogre::FrameEvent&);
+void windowResized(Ogre::RenderWindow*);
+void windowClosed(Ogre::RenderWindow*)
 
-% TODO
-\begin{itemize}
-    \item describe the pattern
-    \item describe the states of the game
-    \item explain why the pattern is NOT used
-\end{itemize}
+// OIS
+bool keyPressed(const OIS::KeyEvent&);
+bool keyReleased(const OIS::KeyEvent&);
+bool mouseMoved(const OIS::MouseEvent&);
+bool mousePressed(const OIS::MouseEvent&,
+                  OIS::MouseButtonID);
+bool mouseReleased(const OIS::MouseEvent&,
+                   OIS::MouseButtonID);
+    \end{lstlisting}
+    \caption{Virtual functions overriden in the \texttt{Game} class.}
+    \label{ois-ogre-callbacks}
+\end{listing}
+
+Communication between the game and these two libraries is done, besides using their API, by overriding virtual functions of these classes
+which act as event handlers. We can see these functions in Listing~\ref{ois-ogre-callbacks}. While names of most of these functions are
+self-explanatory -- and their documentation can be found in the Ogre3D and OIS documentations -- we will examine the functionality of
+\texttt{frameRenderingQueued} in a bit more depth.
+
+\texttt{Ogre::FrameListener} provides three virtual functions -- \texttt{frameStarted}, which is called when a frame
+is about to begin rendering, \texttt{frameEnded}, which is called when a frame has just been rendered, and \texttt{frameRenderingQueued},
+which gets called when all rendering commands have been issued and are queued for the GPU to process. In our \texttt{Game} class, we override
+only this last function -- although others can be overriden for different actions as well -- because while the GPU processes the current
+frame, the CPU can be used for different tasks -- such as our update loop. This means that any changes that happen inside this function
+will be rendered on the next frame, but in our game this delay is not noticeable as the player does not directly control any one entity.
+We use this function to perform the main functionality of our game -- performing game update by calling the update functions of all
+systems that are in the game.
+
+Besides handling input and window events, this class contains several auxiliary functions related to initialization, level creation and
+state changing. To see more information about these functions, refer to their documenting comments in the header file or in the
+generated documentation.
 
 \section{Components}
 
-% TODO
-\begin{itemize}
-    \item go through components one by one with UML-like pictures describing theis members and purpose
-    \item explain why strings are moved?
-    \item explain why components need default values for every parameter of their constructor?
-    \item go through some more complex concepts of the components (align states, maybe forward reference blueprints, etc.)
-\end{itemize}
+Component is a data aggregate that describes a specific characteristic of an entity that contains the component. In our engine, these
+components are represented as simple structures with a name in the form of \texttt{<Characteristic>Component}. 
+
+\begin{listing}
+    \centering
+    \begin{lstlisting}[language=C++]
+struct MovementComponent
+{
+    static constexpr int type = 4;
+
+    MovementComponent(tdt::real speed = 0.f)
+        : speed_modifier{speed}, original_speed{speed}
+    { /* DUMMY BODY */ }
+
+    tdt::real speed_modifier;
+    tdt::real original_speed;
+}
+    \end{lstlisting}
+    \caption{Simplified representation of the MovementComponent structure.}
+    \label{component-ex}
+\end{listing}
+
+In Listing~\ref{component-ex}, we can see an example of a component -- the MovementComponent, which describes the speed of an entity.
+Every component has a static integer field representing its type, which is used for communication between Lua and C++ because Lua does not
+understand the notion of templates, which we use for the different functions that manipulate with components, and as such it needs
+to specify what kind of component should be used when it calls a C++ function.
+
+There is only one other requirement for components, which is that they always need to have a parameterless constructor
+\footnote{A constructor that has default values for all its parameters will suffice.}. This is required because
+we often create components by calling a C++ function in Lua and then set its fields, which would be impossible without a constructor that
+doesn't need any parameters. Also note that because of this approach, any strings passed to any parameterized constructor are considered
+to be passed from Lua and as such are \textbf{moved} because the originals are supposed to be destroyed by Lua once the creation is complete.
+
+Besides the two requirements, components can contain any data required by the entity characteristic they describe. In the examle, the
+MovementComponent contains two fields of type \texttt{tdt::real}\footnote{One of two numeric types used in the engine, the other being
+tdt::uint.}
+-- speed\_modifier, which indicates the speed of an entity, and original\_speed, which is used
+to restore the speed of an entity that has been affected by a slowing effect. Note that, to conform our
+ECS representation, components should not contain functions and any logic should be done through systems.
 
 \section{Systems}
 
-% TODO
-\begin{itemize}
-    \item define systems
-    \item mention common base class and the reason for inheritance (list of systems...)
-    \item describe the component-system relationship (none, system-component, system-components, systems-component, ...)
-\end{itemize}
+A system is a class that performs a part of the games update. The game provides a common abstract parent class \texttt{System}, which is
+used for easy iteration over all systems during the update of the game. In general, a system should operate over one or more types of
+components, but the creation of systems that do not use components is also possible.
 
-\subsection{CombatSystem}
-
-% TODO
-\begin{itemize}
-    \item describe the update logic
-    \item describe entity querying
-    \item describe effect application
-    \item talk about the fabulousness of the query \& effect design!
-    \item talk about the run away mechanism?
-    \item talk about runtime projectile creation?
-    \item talk about line of sight and LoS wrt BB?
-\end{itemize}
+The update function of every system is called once per frame, but the individual systems often have inner time periods between updates.
 
 \subsection{EntitySystem}
 
-% TODO
-\begin{itemize}
-    \item describe the update logic
-    \item describe cleanup (and its delay and why it's necessary)
-    \item id system (back then vs now)
-    \item entity creation process
-    \item component containers
-    \item describe component manipulation (add, load, set, delete, delete now, ...)
-    \item mention entity registration for the entity creator window
-    \item describe function array (reason, jmp table bonus, etc.)
-    \item explain the macros!
-    \item describe why constructors are delayed (so that the lua function where it's create continues before constructor call)
-    \item maybe talk more about component loading from lua? or leave that to the scripting part? or never mention it?
-\end{itemize}
+\texttt{EntitySystem} is the main system as, besides performing part of the game's update, it acts as a component database. This means that
+it stores all component containers, which are represented as \texttt{std::map<entity\_id, component>}. Besides storing the components,
+it also provides a set of function templates used for component manipulation.
+
+\begin{listing}
+    \centering
+    \begin{lstlisting}[language=C++]
+template<typename COMP>
+bool has_component(tdt::uint id);
+
+template<typename COMP>
+COMP* get_component(tdt::uint id);
+
+template<typename COMP>
+void add_component(tdt::uint id);
+
+template<typename COMP>
+void delete_component(tdt::uint id);
+    \end{lstlisting}
+    \caption{Examples of the templates using for component manipulation.}
+    \label{es-comp-manip-ex}
+\end{listing}
+
+Some of these function templates can be seen in Listing~\ref{es-comp-manip-ex}. They can be used to test if an entity has a component,
+to retrieve a component
+that belongs to an entity, add a new component -- using the parameterless constructor -- to an entity and remove a component from an entity,
+respectively. In addition to these templates, each of them has a secondary non-templated version which takes an integer as a second parameter,
+which corresponds to the type of the component -- these functions are then used from Lua.
+To prevent code repetition, these functions use an array of pointers to the templated versions in which the pointer at any given index points
+to the instances of these templated functions that have their type field equal to the index number.
+
+In addition to these public templates, one more important private template is defined in \texttt{EntitySystem} -- \texttt{load\_component}.
+This function template accepts the identifier of an entity along with a name of a Lua table, which it will then use to load a component
+with fields specified by the provided table.
+
+Besides component storage and manipulation, this class also serves as a system. During its update, it deletes all components and entities
+that were scheduled for deletion by the function \texttt{delete\_component}. The reason for this delayed delete is that if we deleted
+components from their containers immediately in the delete call, we might invalidate iterators as the call may very well happend during
+an iteration over a component container.
+
+\subsection{CombatSystem}
+
+The \texttt{CombatSystem} class performs the update of basic combat between entities -- that is, melee
+\footnote{By melee we refer to close range combat as is common in many games.} and ranged combat excluding spells.
+During its update, it checks the ability to attack of all entities that currently have an active combat target. This includes checking
+if the target is in sight and in range. If an entity can attack, the system either performs applies its damage to its target if the
+attack is of the melee type or creates a new projectile if the attack is of type ranged.
+After updating the combat state of all entities that are currently fighting, the system updates the movement of all projectiles.
+
+This system also performs a special kind of pathfinding which is used to find a path for an entity that is trying to escape from an attacker.
+This pathfinding, unlike the general pathfinding that finds a path to the target, uses a queue and is performed once per frame. The reason for
+this is that this pathfinding does not need to be performed immediately, while the general pathfinding is often used to check for the
+existence of a path and as such needs to be finnished right after its start so that the return value can be used.
+
+In addition to performing part of the game's update, \texttt{CombatSystem} provides two important types of functions -- querying for closest
+entity that satisfies a condition, applying an effect to all entities in range that satisfy a condition.
+
+\subsubsection{Conditions and entity querying}
+
+Conditions are functors -- that is, structures that overload the function call operator -- which are used to test if an entity satisfies
+a certain requirement. \texttt{CombatSystem} provides a function template that can be used to find the closest entity that satisfies
+a condition.
+
+\begin{listing}
+    \centering
+    \begin{lstlisting}[language=C++]
+template<typename CONT, typename COND>
+tdt::uint get_closest_entity(tdt::uint, COND&, bool);
+    \end{lstlisting}
+    \caption{Signature of the entity query function template.}
+    \label{cond-ex}
+\end{listing}
+
+In Listing~\ref{cond-ex}, we can see the signature of this function template. Its template parameters are \texttt{CONT}, which specifies
+the type of component container the function will be querying over, and \texttt{COND}, which specifies the condition functor. The function
+takes the identifier of the entity that performs the query, instance of the condition functor and a boolean value determining if the
+target has to be in sight and returns the identifier of the closest entity that satisfies the condition.
+
+\subsubsection{Effects and their application}
+
+In addition to entity querying, \texttt{CombatSystem} provides a function template that allows us to apply an effect to all entities
+that satisfy a condition and are withing range. An effect, similarly to a condition, is a functor which is used to affect the entity
+it is used on.
+
+\begin{listing}
+    \centering
+    \begin{lstlisting}[language=C++]
+template<typename CONT, typename COND, typename EFFECT>
+void apply_effect_to_entities_in_range(tdt::uint, COND&,
+                                       EFFECT&, tdt::real);
+    \end{lstlisting}
+    \caption{Signature of the effect applying function template.}
+    \label{effect-ex}
+\end{listing}
+
+The signature of this function template can be seen in Listing~\ref{cond-ex}. Its template parameters are the same as the ones used
+in entity querying with the addition of the parameter \texttt{EFFECT}, which specifies the effect functor. The function takes the
+identifier of the entity that applies the effect, the condition the targets need to satisfy, the effect that will be applied to the
+targets and the maximal range the targets can be from the applying entity.
 
 \subsection{EventSystem}
 
-% TODO
-\begin{itemize}
-    \item describe the update logic
-    \item describe event persistence/destruction
-    \item describe how to make event one (successful) pass only
-    \item targeted/area events and area event expansion
-    \item delete component vs delete entity discussion
-    \item describe handling (fixed C++ vs Lua)
-    \item this should be first time we encounter update periods and time multipliers, explain!
-\end{itemize}
+\texttt{EventSystem} manages event handling as part of the game update. To do this, it uses two different components --
+\texttt{EventComponent}, which represents an event, and \texttt{EventHandlerComponent}, which represents the ability of an entity
+to handle events.
+
+During its update, this system iterates over all events in the game and, if they are active -- finds a suitable entity that will
+handle the event. Events can be of two types, either targeted or area events. An event is targeted if it has a valid entity
+identifier in its \texttt{handler} field, otherwise it is an area event.
+
+To request an entity to handle an event, the system checks if the entity can handle it by testing the event type in the entity's
+\texttt{possible\_events} bitset field. Every \texttt{EventHandlerComponent} has a string field \texttt{handler}, which specifies
+which Lua table contains the event handling function called \texttt{handle\_event}. The system then calls this event handling
+function and passes the identifier of the handling entity and the identifier of the event to it, which causes the entity
+to handle the event.
+
+To handle a targeted event, the system simply finds the event's handler entity and requests event handling, but to handle an area event,
+the system has to iterate over different event handlers that are within radius of the event, which is specified in the
+\texttt{EventComponent}'s field \texttt{radius} and increases on every update call until the event is destroyed. The system requests
+all of the suitable entities to handle the event until any one entity returns \texttt{true}, in which case it destroys the
+\texttt{EventComponent} of the event. The reason for destroying the component and not the entity that represents the event is that
+an entity that causes the event often gains the component so that the lifetime of the event is bound to the entity -- e.g. a falling
+meteor can have an \texttt{EventComponent} of type \texttt{METEOR\_FALLING} and when the meteor hits the ground, both the meteor and
+the event get destroyed since they are one entity.
 
 \subsection{GridSystem}
 
@@ -110,6 +259,19 @@
     \item talk about grid graphics used for debugging?
     \item explain structure placement
     \item describe alignment checks
+\end{itemize}
+
+\subsubsection{Grid}
+
+% TODO
+\begin{itemize}
+    \item explain its purpose and implementation
+    \item mention that it only provides a set of grid related operations
+        on a set of IDs it's provided (and assumes those are grid)
+    \item mention random node placement and entity distribution
+    \item mention free node list for ease (and speed) of access
+    \item explain graph creation and linking
+    \item explain general usage
 \end{itemize}
 
 \subsection{TaskSystem}
@@ -473,18 +635,6 @@
     \item talk about single/area selection and multi selection using shift
 \end{itemize}
 
-\subsection{Conditions}
-
-% TODO
-\begin{itemize}
-    \item explain their purpose, how they are used in querying and effect application
-    \item mention that it's a good way for extensibility as new can be easily implemented
-    \item mention that they are often used as template parameters and thus need to
-        conform an interface (but not by inheritance)
-    \item talk about the interface
-    \item maybe demonstrate on an example
-\end{itemize}
-
 \section{Pathfinding}
 
 % TODO
@@ -494,19 +644,6 @@
     \item mentions its parameters (destruction, add path are primary!)
     \item mention how destruction works
     \item mentions why path addition is optional (for checks)
-\end{itemize}
-
-\subsection{Grid}
-
-% TODO
-\begin{itemize}
-    \item explain its purpose and implementation
-    \item mention that it only provides a set of grid related operations
-        on a set of IDs it's provided (and assumes those are grid)
-    \item mention random node placement and entity distribution
-    \item mention free node list for ease (and speed) of access
-    \item explain graph creation and linking
-    \item explain general usage
 \end{itemize}
 
 \subsection{Algorithms}
