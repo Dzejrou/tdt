@@ -163,7 +163,7 @@ with fields specified by the provided table.
 
 Besides component storage and manipulation, this class also serves as a system. During its update, it deletes all components and entities
 that were scheduled for deletion by the function \texttt{delete\_component}. The reason for this delayed delete is that if we deleted
-components from their containers immediately in the delete call, we might invalidate iterators as the call may very well happend during
+components from their containers immediately in the delete call, we might invalidate iterators as the call may very well happen during
 an iteration over a component container.
 
 \subsection{CombatSystem}
@@ -221,7 +221,7 @@ void apply_effect_to_entities_in_range(tdt::uint, COND&,
     \label{effect-ex}
 \end{listing}
 
-The signature of this function template can be seen in Listing~\ref{cond-ex}. Its template parameters are the same as the ones used
+The signature of this function template can be seen in Listing~\ref{effect-ex}. Its template parameters are the same as the ones used
 in entity querying with the addition of the parameter \texttt{EFFECT}, which specifies the effect functor. The function takes the
 identifier of the entity that applies the effect, the condition the targets need to satisfy, the effect that will be applied to the
 targets and the maximal range the targets can be from the applying entity.
@@ -251,516 +251,273 @@ an entity that causes the event often gains the component so that the lifetime o
 meteor can have an \texttt{EventComponent} of type \texttt{METEOR\_FALLING} and when the meteor hits the ground, both the meteor and
 the event get destroyed since they are one entity.
 
+\subsection{TaskSystem}
+
+Similarly to how \texttt{EventSystem} manages event handling, \texttt{TaskSystem} manages task handling. It does so by iterating over
+all entities that have \texttt{TaskHandlerComponent} and calling the \texttt{handle\_task} Lua function that is located in the Lua
+table which is specified in the component's field \texttt{blueprint}. This Lua table also contains a function called \texttt{task\_complete},
+which is used to check if the current task an entity that is iterated over has been completed, in which case the system requests
+handling of the next task in the component's \texttt{task\_queue}.
+
+Additionally, an entity that is handling a task can enter a busy state by returning \texttt{true} from its task handling function.
+While an entity is marked as busy, no other task handling nor any AI updates will be performed until its current task is completed.
+
 \subsection{GridSystem}
 
-% TODO
-\begin{itemize}
-    \item describe the update logic (+freed/unfreed and Grid relation)
-    \item talk about grid graphics used for debugging?
-    \item explain structure placement
-    \item describe alignment checks
-\end{itemize}
+\texttt{GridSystem} manages nodes in the pathfinding graph and structures that are placed on them. During its update, it examines all
+nodes that were either freed, which means that a structure on them has been destroyed, or unfreed, which means that a building was
+placed on them. The system uses lists of freed and unfreed nodes to correct paths that were blocked by a strucute placed on a node
+that was part of the path. Additionally, it manages all entities that have \texttt{AlignComponent}, which is used to change the models
+of walls depending on their neighbours.
 
 \subsubsection{Grid}
 
-% TODO
-\begin{itemize}
-    \item explain its purpose and implementation
-    \item mention that it only provides a set of grid related operations
-        on a set of IDs it's provided (and assumes those are grid)
-    \item mention random node placement and entity distribution
-    \item mention free node list for ease (and speed) of access
-    \item explain graph creation and linking
-    \item explain general usage
-\end{itemize}
-
-\subsection{TaskSystem}
-
-% TODO
-\begin{itemize}
-    \item describe the update logic
-    \item talk about busy state, processing tasks and checking if task is complete
-    \item probably only forward reference the Lua part? or talk about it right here? !ask PJ!
-\end{itemize}
+\texttt{Grid} is an auxiliary singleton class that provides an interface for grid node manipulation and monitoring, which acts as a
+wrapper around a set of entity identifiers that belong to the different nodes in the pathfinding graph. Its main use are the lists
+of freed and unfreed nodes that are used by \texttt{GridSystem}. In addition to these lists, \texttt{Grid} provides functions for graph
+creation, placement of an entity on a random node and distribution of multiple entities on adjacent nodes -- which can be used to spawn
+a group of entities next to each other.
 
 \subsection{WaveSystem}
 
-% TODO
-\begin{itemize}
-    \item describe states and maybe mention why the State design patter wasn't used (too simple)
-    \item describe the update logic of the different states (-> countdown, spawning, chilling)
-    \item talk about the spawning mechanism, blueprint vector, spawn nodes
-    \item talk about wave entity monitoring and wave ending
-    \item talk about the wave table
-    \item talk about the wstart and wend callbacks
-    \item talk about endless mode
-    \item possibly explain how to write a wave? or add that to the scripting part?
-\end{itemize}
+\texttt{WaveSystem} manages the progression of enemy waves that attack the player's dungeon. During its update, it tracks time passed
+since the last enemy wave and starts the next wave if needed. The system can be in three different states -- \texttt{ACTIVE},
+\texttt{WAITING} and \texttt{INACTIVE}. When the system is in the \texttt{ACTIVE} state, an enemy wave is currently attacking the player's
+dungeon and the system spawns enemies on spawning nodes that were selected during level generation. After the player's minions destroy
+all enemies in the current wave, the system transitions into the \texttt{WAITING} state. During this state, the system simply tracks
+a timer until the next wave. If the system depletes all waves or is paused, it goes into the \texttt{INACTIVE} state
+in which it waits until the wave is either resumed or restarted.
+
+To monitor the current state of the wave when the system is in the \texttt{ACTIVE} state, every spawned entity increments the entity
+counter and the system adds \texttt{DestructorComponent} to it which specifies which function should be called when the entity dies.
+This function then decrements the entity counter. When the counter reaches zero and all entities have been spawned, the wave ends and
+the system transitions to either \texttt{WAITING} or \texttt{INACTIVE} state.
+
+A specific sequence of waves is defined by a Lua table. The name of the current wave Lua table is stored in the variable private
+\texttt{wave\_table\_}. This table contains functions that prepare the wave sequence and start and end the individual waves. This table,
+along with a tutorial on how to create a new wave sequence can be found in Chapter~4.
 
 \subsection{Miscellaneous Systems}
 
-% TODO
+Now that we have examined the bigger systems that are included in the game, we will briefly explain the update logic of the remaining
+systems, which generally perform simple tasks.
+
 \begin{itemize}
-    \item here explain in alphabetical order the remaining systems
-    \item say why these are not as important (that is, not important to be described) as the others
+    \item \texttt{AISystem} iterates over all entities that have \texttt{AIComponent} and calls the Lua functions that update
+        their behavior if they are not currently performing a task.
+    \item \texttt{GraphicsSystem} was designed to manage all manual graphics. Explosions are the only manual graphics that are
+        currently in the game so the system updates the dimensions of all entities that have \texttt{ExplosionComponent} and destroys
+        them once they reach their limits.
+    \item \texttt{HealthSystem} removes all entities that are marked as not alive and periodically regenerates their health.
+    \item \texttt{InputSystem} handles the input from the player and uses it to control all entities that have \texttt{InputComponent}.
+    \item \texttt{ManaSpellSystem} regenerates mana of entities that have \texttt{ManaComponent} and manages the spell casting of
+        all entities that have \texttt{SpellComponent}.
+    \item \texttt{MovementSystem} manages the movement of all entities that have \\ \texttt{MovementComponent} and are currently on a path.
+        Note that this excludes homing projectiles, which are updated by \texttt{CombatSystem}.
+    \item \texttt{ProductionSystem} manages the production of entities by buildings. It tracks time periods between spawns and the spawn
+        limit of a building and when the time comes and the spawn limit is not depleted, the system spawns a new entity
+        either on the building if its just a tile on the ground or around the building if its solid and cannot be stood on.
+    \item \texttt{TimeSystem} manages the different timers in the game, including, but not limited to the timers of \texttt{OnHitComponent},
+        \texttt{LimitedLifeSpanComponent} and \texttt{TriggerComponent}. Additionally, it manages a special kind of events that are
+        represented by \texttt{TimeComponent}. These components can start or end events represented by \texttt{EventComponent} or
+        call Lua functions.
+    \item \texttt{TriggerSystem} manages entities with \texttt{TriggerComponent} such as traps or portals. It checks all entities in
+        range to see if they can trigger the entity with \texttt{TriggerComponent} and if they can, calls the trigger function.
 \end{itemize}
 
-\subsubsection{AISystem}
+\bigskip
+Ask PJ: Should the \texttt{SomethingComponent} have articles?
 
-% TODO
-\begin{itemize}
-    \item describe the update logic
-    \item mention update forcing (in relation to the update period mentioned earlier)
-\end{itemize}
+\section{lpp::Script}
 
-\subsubsection{GraphicsSystem}
-
-% TODO
-\begin{itemize}
-    \item say how it's supposed to maintain all manual graphics logic but atm only does explosions
-        (since it's the only manual graphics object)
-    \item describe the update logic
-\end{itemize}
-
-\subsubsection{HealthSystem}
-
-% TODO
-\begin{itemize}
-    \item describe the update logic
-    \item mention configurable regeneration period
-\end{itemize}
-
-\subsubsection{InputSystem}
-
-% TODO
-\begin{itemize}
-    \item describe the update logic
-    \item explain initial purpose and why it's not used atm
-\end{itemize}
-
-\subsubsection{ManaSpellSystem}
-
-% TODO
-\begin{itemize}
-    \item describe the update logic (both mana regen and entity spell casting)
-    \item possibly talk about the relationship between player spells and entity spells
-\end{itemize}
-
-\subsubsection{MovementSystem}
-
-% TODO
-\begin{itemize}
-    \item describe the update logic
-    \item talk aboud move and checked\_move (and can\_move\_to) and why checked is not used
-        but can be from lua (and was intended for 1st person mode)
-\end{itemize}
-
-\subsubsection{ProductionSystem}
-
-% TODO
-\begin{itemize}
-    \item describe the update logic
-    \item explain how products are spawned and placed
-\end{itemize}
-
-\subsubsection{TimeSystem}
-
-% TODO
-\begin{itemize}
-    \item describe the update logic (mention the multiple comps updated)
-    \item explain time event handling (and use)
-    \item explain time event advancements
-\end{itemize}
-
-\subsubsection{TriggerSystem}
-
-% TODO
-\begin{itemize}
-    \item describe the update logic
-    \item explain how triggering works and why it works that way (factions)
-    \item explain the general trap concept?
-\end{itemize}
-
-\section{Helpers}
-
-% TODO
-\begin{itemize}
-    \item describe what helpers are and how are they used
-    \item forward reference the not-singleton status of EntitySystem?
-    \item explain why they were created (use in Lua and optionally in C++
-        for better code readability)
-    \item explain why they are slower than direct component manipulation
-    \item explain component-helper relationship
-    \item mention the general structure of a helper
-    \item maybe talk about why they are namespaces and not classes?
-        (+ namespace -> allows static class without any change basically)
-\end{itemize}
-
-\section{Script}
-
-% TODO
-\begin{itemize}
-    \item talk about how it works (it's basically a wrapper facade)
-    \item mention lpp::Exception
-    \item explain the Lua C API (only informative? add a new section with a tutorial?
-        tell the reader to read the Lua Programming Language 3rd edition book?)
-    \item maybe go through some of the more complex functions?
-\end{itemize}
+The \texttt{Script} singleton class in the namespace \texttt{lpp} is a wrapper facade around the Lua C API which provides an easy to use
+interface for communication between C++ and Lua. It provides functions that allow us, for example, to execute Lua code passed as a string,
+register C++ functions to Lua, retrieve values from Lua and call Lua functions from C++. In addition to this wrapper, the \texttt{lpp}
+namespace contains the \texttt{Exception} class. Besides the conventional \texttt{what} function, which returns a string describing the
+nature of the exception, this class also has the \texttt{lua\_what} function, which returns the text of the Lua error that occured.
 
 \section{LuaInterface}
 
-% TODO
-\begin{itemize}
-    \item talk about why it's needed (Lua needs static)
-    \item talk about why it's centralised in one class?
-\end{itemize}
+\texttt{LuaInterface} is a static class that contains functions that are part of our modding API and is used for simple initialization
+of the API. The reason for it being static is that Lua does not understand the notion of a function bound to an instance of a class
+and as such can bind only static functions.
 
-\subsection{Initialising the API}
+During the initialization of our API, arrays of pairs of function names and function pointers are registered in Lua. Each of
+these arrays is then represented as a Lua table which contains the registered functions.
+To register a function pointer, it is required by Lua to have the signature of \texttt{int (*name)(lua\_State*)}. Because of this,
+\texttt{LuaInterface} contains static functions with this signature that act as wrappers of the actually called functions.
 
-% TODO
-\begin{itemize}
-    \item explain the C++ function binding process
-    \item explain the Lua module hierarchy
-    \item explain other aspects besides function binding
-\end{itemize}
+\begin{listing}[h]
+    \centering
+    \begin{lstlisting}[language=C++]
+int lua_wrapper_of_F(lua_State* L)
+{
+    tdt::uint param2 = GET_UINT(L, -1);
+    tdt::real param1 = GET_REAL(L, -2);
 
-\subsection{Extending the API}
+    int result = F(param1, param2);
+    lua_pushinteger(L, result);
 
-% TODO
-\begin{itemize}
-    \item explain the general body of the interface functions (stack, return etc.)
-    \item (super) small tutorial on how to add new interface functions
-\end{itemize}
+    return 1;
+}
+    \end{lstlisting}
+    \caption{An example of our modding API function implementation in C++.}
+    \label{lua-api-ex}
+\end{listing}
 
-\section{GUI}
+Listing~\ref{lua-api-ex} contains an example of such wrapper. In this wrapper, we first need to retrieve the actual parameters for our
+functions. These parameters are located on the Lua stack -- i.e. in reversed order -- and we can use one our five macros for easy
+parameter retrieval defined in the \texttt{LuaInterface} source file. In this example, we use \texttt{GET\_UINT} and \texttt{GET\_REAL},
+each of which takes a pointer to the Lua state and an offset from the top of the stack. Once we retrieve these parameters, we can call the
+wrapped function and push its result back onto the stack. Note that Lua supports multiple results from a function call and thus we can
+push multiple values onto the stack. The amount of returned results is then returned from the wrapper.
 
-% TODO
-\begin{itemize}
-    \item talk about the GUI hierarchy
-    \item explain initialization
-    \item explain CEGUI button binding? maybe in general CEGUI manipulation?
-    \item explain save/load file listing
-    \item mention the GUIWindow class, base class of the following GUI windows
-    \item explain why it has escape\_pressed handler and does not use CEGUI handlers
-        for that (would be needed for all subwindows, too much a hassle - also would
-        probably disregard the conditional closing)
-\end{itemize}
+\section{Helpers}
 
-\subsection{Console}
+Helpers are auxiliary functions that are used for component manipulation that are placed within a namespace related to a specific component
+-- e.g. the \texttt{HealthHelper} namespace contains functions that manipulate \texttt{HealthComponent}. These functions are mainly in the
+form of a setter, which changes a field of the component after checking the validity of the new value, or getter, which returns the value
+of a gield of the component or a default value if the component does not exist. But the body of these functions is not restricted and they
+can perform any operation.
 
-% TODO
-\begin{itemize}
-    \item talk about how awesome it is during debugging
-    \item explain how execution and printing works (+ the history concept?)
-    \item explain why it does not execute lines but multi lines after the execute
-        button is pressed
-\end{itemize}
-
-\subsection{EntityCreator}
-
-% TODO
-\begin{itemize}
-    \item mention that currently it is used for entity placement and
-        the creation part is supposed to be a graphical way to make entities that
-        is not currently in the game
-    \item explain how it works
-    \item explain how it's used for testing
-    \item maybe mention that this is where the registered\_entity from EntitySystem
-        is used
-\end{itemize}
-
-\subsection{EntityTracker}
-
-% TODO
-\begin{itemize}
-    \item explain how tracking works
-    \item talk about why it's useful
-    \item mention the upgrade, exp convert and delete functionality?
-\end{itemize}
-
-\subsection{ResearchWindow}
-
-% TODO
-\begin{itemize}
-    \item explain initialisation, how it works
-    \item explain dummy\_unlock and its relationship with serialization
-\end{itemize}
-
-\subsection{Miscellaneous Windows}
-
-% TODO
-\begin{itemize}
-    \item say that these are generally not that complex and quite straight forward
-\end{itemize}
-
-\subsubsection{BuilderWindow}
-
-% TODO
-\begin{itemize}
-    \item talk about building registration (how it relates to unlocking)
-    \item talk about the assembly line (also used in spell casting window)
-        and why it's good (lack of images -> buttons need to be big and readable)
-    \item don't forget to mention that this is just a graphical front end
-        to EntityPlacer (with price management etc.) as is EntityCreator (though
-        that one ignores price, and has all unlocked even enemies)
-\end{itemize}
-
-\subsubsection{GameLog}
-
-% TODO
-\begin{itemize}
-    \item just mention that it is basically the ingame chat posting info
-        for the player
-    \item also maybe again mention history (same as console)?
-\end{itemize}
-
-\subsubsection{MessageToPlayerWindow}
-
-% TODO
-\begin{itemize}
-    \item talk about button renaming and action assignment
-    \item then mention how to use this as a whole
-\end{itemize}
-
-\subsubsection{OptionsWindow}
-
-% TODO
-\begin{itemize}
-    \item talk about actions, key bindings and video settings
-        (+ how they are done?)
-\end{itemize}
-
-\subsubsection{SpellCastingWindow}
-
-% TODO
-\begin{itemize}
-    \item talk about spell registration (how it relates to unlocking)
-    \item just mention the assembly line (already explained in BuilderWindow)
-    \item talk about the relationship with the SpellCaster and how spell casting
-        works on this side (simple invoking of the spell caster and marking
-        the spell as active if needed)
-    \item don't forget to mention that this is just a graphical front end
-        to SpellCaster basically
-\end{itemize}
-
-\subsubsection{TopBar}
-
-% TODO
-\begin{itemize}
-    \item just say something about its purpose (monitoring of resources)
-\end{itemize}
+The main purpose of these functions is keep the \texttt{LuaInterface} class small, but can be used freely in C++ as well if we need for
+example parameter checking, default values or transaction logging. However, these functions generally retrieve the component from its
+container and as such sequential calls to different helper functions of a single component will be slower than a direct manipulation
+of the component.
 
 \section{SpellCaster}
 
-% TODO
-\begin{itemize}
-    \item discuss the spell casting concept in the game
-    \item mention the spell types
-    \item explain why it's so damn cool (ease of spell creation, run time spell creation)
-    \item forward reference the Lua spell structure, which is explained later in Scripting
-\end{itemize}
+\texttt{SpellCaster} manages player spell casting. Player spells in our game can be of four different types -- \texttt{TARGETED}, which
+affect a single selected target, \texttt{POSITIONAL}, which affect a specific area the player clicks at, \texttt{GLOBAL}, which have a
+global effect on the game, and \texttt{PLACING}, which place a new entity into the game.
 
-\section{Utilities}
+The spell casting process has two phases. Firstly, it selects the spell type and spell Lua table name and calls an initializating
+function that is contained within the spell table. Secondly, it calls the casting function and passes parameters to it based on the spell
+type when the player clicks on the screen to cast the spell.
 
-% TODO
-\begin{itemize}
-    \item just say that these are classes that are not directly part of
-        the game world but are used as background tools that support the game
-\end{itemize}
-
-\subsection{Camera}
-
-% TODO
-\begin{itemize}
-    \item talk about how it allows free/nonfree mode, resetting
-        and backups
-    \item maybe talk more about the free nonfree mode and how to toggle them
-        (both keybind and command)
-\end{itemize}
-
-\subsection{Effects}
-
-% TODO
-\begin{itemize}
-    \item talk about how awesome they are and allowed the creation of
-        extensible effect application framework in CombatSystem
-    \item explain how to write one
-    \item mention that they are used as template arguments and as such
-        should conform the given interface (also explain that)
-    \item maybe ilustrate their structure on one of them
-\end{itemize}
-
-\subsection{EntityPlacer}
-
-% TODO
-\begin{itemize}
-    \item explain its purpose and how it works
-    \item explain why only the graphics component data is used (so it's ignored
-        by the game world and serializer, etc.)
-\end{itemize}
-
-\subsection{LevelGenerator}
-
-% TODO
-\begin{itemize}
-    \item explain their purpose and how to write one
-    \item mention the cycle count constructor parameter
-    \item mention the default tables in config (and that it's easy to add new ones)
-\end{itemize}
-
-\subsubsection{RandomLevelGenerator}
-
-% TODO
-\begin{itemize}
-    \item say that this is just naive algorithm for a pseudo random level generation
-        using number of neighbours that are gold deposits to determine if a gold
-        deposit should be spawned
-\end{itemize}
-
-\subsection{RayCaster}
-
-% TODO
-\begin{itemize}
-    \item explain that I'm a noob that stole other programmer's idea for this
-        from the Ogre wiki
-    \item explain why it's needed (polygon precision ray casting -> half cubes,
-        without it only bounding boxes are checked and free space is impenetrable)
-\end{itemize}
-
-\subsection{SelectionBox}
-
-% TODO
-\begin{itemize}
-    \item explain its purpose and how it works
-    \item talk about single/area selection and multi selection using shift
-\end{itemize}
+This process is strongly connected to Lua, the \texttt{SpellCaster} class only manages spell changing and the two described phases, but
+the effects of the spells are fully defined in Lua. In Chapter~4, we will examine the spell table and go over the spell creation process.
 
 \section{Pathfinding}
 
-% TODO
-\begin{itemize}
-    \item recapitulate form analysis that a modifiable function was used
-        that allows different algorithms, heuristics and path types
-    \item mentions its parameters (destruction, add path are primary!)
-    \item mention how destruction works
-    \item mentions why path addition is optional (for checks)
-\end{itemize}
+In Chapter~2, we decided to use the A* algorithm for pathfinding in our game. While A* is the implemented algorithm, the game contains
+a templated pathfinding system using functors for algorithms, heuristics and path types. This allows us to easily change the characteristics
+of our pathfinding process. 
 
-\subsection{Algorithms}
+The \texttt{pathfind} function calls the algorithm functor, which has a static function \texttt{get\_path} that returns the found path.
+After obtaining the path, \texttt{pathfind} resolves blocks that are placed on the path by requesting the entity that performs the
+pathfinding to destroy them before continuing on its path. The algorithm functor is templated as well and its template parameter is
+what we call a path type.
 
-% TODO
-\begin{itemize}
-    \item explain how they should be implemented (what functions, as they
-        are used as template parameters)
-    \item mention that A* is the only currently implemented
-    \item mention portal implementation
-    \item mention difference in complexity (component lookups)
-    \item mention any other differences from a general A*
-\end{itemize}
+Path type is a functor that has a static function \texttt{return\_path}, which is called the first time a path is found and then whenever
+an augmenting edge is found on the path. If the \texttt{return\_path} returns \texttt{true}, the path gets returned, and if it returns
+\texttt{false}. Examples of such path types are the three path types that are implemented in the game -- \texttt{BEST\_PATH}, which forces
+the algorithm to search the entire pathfinding graph, \texttt{FIRST\_PATH}, which terminates the algorithm the first time a path is found,
+and \texttt{RANDOM\_PATH}, which acts as a compromise between the two aforementioned path types.
 
-\subsection{Heuristics}
-
-% TODO
-\begin{itemize}
-    \item explain how they are used and why they are inheriting a base class
-        while other functors are not (state needed for some -> run away heuristic)
-    \item maybe demonstrate on an example as the code is small?
-\end{itemize}
-
-\subsection{Path Types}
-
-% TODO
-\begin{itemize}
-    \item explain what these things are and when they are used to check
-        if the algorithm should stop
-    \item explain their effect on the A* algorithm
-\end{itemize}
-
-\section{Serialization}
-
-% TODO
-\begin{itemize}
-    \item talk about how easy component serialization is and how
-        to create template specializations for new components
-    \item show an example?
-    \item explain the whole saving process, ents to be destroyed, unlocks,
-        player, grid etc.
-    \item explain the loading process
-\end{itemize}
+Lastly, both the \texttt{pathfind} function and the algorithm's \texttt{return\_path} function take a heuristic as a parameter. The heuristic,
+unlike algorithm and path type, is not static as it in some cases requires to have a state -- for example, the heuristic used for running
+away from an enemy needs to know the identifier of the enemy. The heuristic has a function \texttt{get\_cost}, which returns the
+approximate cost of travel between two nodes in the pathfinding graph.
 
 \section{Player}
 
-% TODO
+\texttt{Player} is a singleton class primarily used for resource monitoring -- it stores information about the amount of all the player's
+resources such as gold, mana, spawned entities and others. Additionally, it contains information about the starting state of the game,
+such as initial spells and unlocked research. This is mainly used when we create a new game or when we load a previously saved game.
+
+\section{Serialization}
+
+The \texttt{GameSerializer} class is used to save the state of the game and to load previously saved states. It does so by creating Lua
+scripts that use our API to change an empty level to the serialized one. For every entity, it iterates over all of its components and
+outputs a sequence of API calls that add the component to the entity and restore the values of its fields. For this, the class has
+an array of pointers to functions that serialize the different components indexed by the types of the components.
+
+In addition to the component serialization, it also saves resources that are contained in the \texttt{Player} class, creates an empty
+level, recreates the pathfinding graph, saves unlocked spells and buildings and the overall progress of the player's research.
+
+To load a saved state of the game, it simply destroys all the entities in the game and resets the \texttt{Player} class to its initial state.
+It then executes the serialized script to restore the state of the game.
+
+\section{Tools}
+
+In this section, we will examine some of the smaller tools that are used within the engine of our game.
+
+\subsubsection{Camera}
+
+The \texttt{Camera} class acts as a wrapper around the main \texttt{Ogre::Camera} instance. Its main purpose is to allow us control the
+camera in multiple ways -- using both keyboard and mouse -- and it also allows us to change between the basic mode, in which the camera
+has a fixed orientation, and the free mode, in which the player can move and rotate the camera freely in the game world.
+
+\subsubsection{EntityPlacer}
+
+\texttt{EntityPlacer} is used to place entities in the game world. To place an entity, we first need to call the function
+\texttt{set\_current\_entity\_table}, which will change the entity that is currently being placed and show its model at the position
+of the mouse cursor. While an entity is being placed, the game
+will call the function \texttt{update\_position} which will move the temporary model to the specified position, which is used to make
+the temporary model to follow the mouse cursor. Once the player clicks on a spot in the game world, the game calls the function
+\texttt{place}, which will spawn a new instance of the entity that was placed at the current position of the placer.
+
+\subsubsection{LevelGenerator}
+
+Level generators, found in the namespace \texttt{level\_generators} are used to populate an empty game world with starting structures such
+as buildings, walls and gold blocks. During the initialization of our game, the \texttt{Game} class creates an instance of the generator that
+is defined -- using either \texttt{typedef} or \texttt{using} -- as \texttt{DEFAULT\_LEVEL\_GENERATOR} in this namespace.
+
+This forces the constructor of any level generator to take a reference to the \texttt{EntitySystem} class and a \texttt{tdt::uint} because
+the instantiation of the level generator is done generically with these two parameters. The reference to \texttt{EntitySystem} is used
+for the creation of walls, blocks and others and the unsigned integer denotes the amount of iterations of the generation -- if the
+level generator is iterative, otherwise this parameter may be ignored.
+
+Any level generator has to also have a function with the signature \texttt{void generate(tdt::uint, tdt::uint, WaveSystem\&)}. This function
+will then generate a level with dimensions equal to the passed integers and sets the spawn points for the passed wave system.
+
+\subsubsection{RayCaster}
+
+The Ogre3D library provides only a basic bounding box ray casting, but our walls do not have to fill their entire bounding box because of
+alignment. For this, we used external code from the official Ogre3D website~\cite{Ogre3DRaycasting} in our \texttt{RayCaster} class
+because of the author's limited knowledge of graphics programming. This class is used to check if two entities can see each other by creating
+a ray between two points in the game world which, unlike standard Ogre3D ray casting, takes only actual models into account. The class
+uses this ray to determine if there is a block between the two entities and if so, assumes they cannot seee each other because of this
+block.
+
+\bigskip
+TODO: Add a screenshot when I get on windows and show the problem on it!
+
+\subsubsection{SelectionBox}
+
+\texttt{SelectionBox} is a class used for entity selection using either the plane bounded volume query or ray casting provided by Ogre3D.
+Whenever a player
+clicks on anything in the game world -- besides parts of the GUI -- the \texttt{Game} class starts selection by setting the initial
+point of the selecting square. Any mouse movement then sets the end point of the square so that the player has a visual feedback on his
+selection. Once the player releases his mouse button, the query is executed on the created selection square to select all entities that
+are located within it.
+
+This class provides two modes of selection -- single selection and multi selection. The type used is determined by the size of the
+selection square, so if the square is too small, a ray cast will be used instead of a volume query.
+
+\section{GUI}
+
+Our GUI module serves as a set of wrapper classes around CEGUI windows. The \texttt{GUI} singleton class is used for initialization and
+shared control of all other windows -- e.g. to recursively toggle visibility of the windows. This class also contains instances of
+most\footnote{It does not contain some testing windows, such as \texttt{EntityCreator}.}
+of the other windows. Each of these windows inherits from \texttt{GUIWindow}, which provides common interface for visibility and
+initializaion.
+
+The game's GUI contains the following windows:
+
 \begin{itemize}
-    \item just say that it is used as a resource bank, keeping track
-        of gold, mana, units etc
-    \item mention that it also holds the starting unlocks used for new games
-        (saved there during the game initialisation)
-\end{itemize}
-
-\section{Singleton Design Pattern}
-
-% TODO
-\begin{itemize}
-    \item explain what this stuff is, its pros \& cons
-    \item mention that the main reason for its use in this game
-        is having one instance, not that much global access
-\end{itemize}
-
-\subsubsection{Script}
-
-% TODO
-\begin{itemize}
-    \item mention how two Lua virtual machines cannot communicate
-        and data are bound to C++ (via EntitySystem) so it's completely
-        unnecessary to have more than one Scripting engine
-\end{itemize}
-
-\subsubsection{GUI}
-
-% TODO
-\begin{itemize}
-    \item why would we want to have two GUIs?
-    \item mention that here is the global access very good for testing?
-\end{itemize}
-
-\subsubsection{Player}
-
-% TODO
-\begin{itemize}
-    \item why would we want two sets of player resources?
-    \item serialization preserves them and shown is only the main set
-        (also used is only the main one)
-\end{itemize}
-
-\subsubsection{Grid}
-
-% TODO
-\begin{itemize}
-    \item explains how it only operates on a set of given IDs that are
-        made during graph creation (+ mentions it would be easy to implement
-        their switch) so there does not need to be more than one pathfinding grid
-    \item also mention that due to the nature of the game levels, it would be nonsense
-        to have two grids
-\end{itemize}
-
-\subsubsection{EntitySystem}
-
-% TODO
-\begin{itemize}
-    \item explain how even though it's getting passed around a lot (mainly Helpers),
-        there could be a reason to use more than one EntitySystem instance (like a backup
-        for example) and thus the Singleton pattern might not be the best choice
-    \item maybe compare it to the 4 previous classes
-\end{itemize}
-
-\section{Extending the Game}
-
-% TODO
-\begin{itemize}
-    \item small sequence of tasks that are needed for a new feature addition
-        (that is component, system etc.)
-    \item idea: show how a TargetedComponent would be implemented, allowing
-        handlers for targeting/untargeting and how this could be used to create
-        a chess mod
+    \item \texttt{Console} -- accepts Lua commands as its input and executes these commands in the Lua virtual machine.
+    \item \texttt{EntityCreator} -- a window that allows the user to spawn entities by choosing them from the list of all
+        available entities, mainly used for testing.
+    \item \texttt{EntityTracker} -- display characteristics of the currently selected entity, e.g. its health or mana.
+    \item \texttt{ResearchWindow} -- button based interface for research, the player can click on a research node if they have
+        enough resources to unlock it.
+    \item \texttt{BuilderWindow} -- provides the player with a selection of building they can build.
+    \item \texttt{SpellCastingWindow} -- provides the player with a selection of spells they can cast.
+    \item \texttt{GameLog} -- shows game messages, e.g. error messages when the player does not have enough resources
+        to build a building.
+    \item \texttt{MessageToPlayerWindow} -- a simple multi-purpose window with a message and buttons.
+    \item \texttt{OptionsWindow} -- allows the player to change the game's resolution, toggle fullscreen mode and change key bindings.
+    \item \texttt{TopBar} -- a small bar at the top of the screen that shows the player's current resources.
 \end{itemize}
