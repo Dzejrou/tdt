@@ -20,7 +20,7 @@ or it can be a part of the game. In most cases it's used to edit maps or scenari
 But since the maps in our game are created by the player -- by destroying walls and creating buildings -- we are more interested in a
 different aspect of editors and that is changing entities in the game.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{../img/sc_editor.jpg}
     \caption{Besides map editing, some editors -- like the Starcraft editor in this figure -- can be used to edit entities.
@@ -43,39 +43,39 @@ construct the behavior out of blocks
 representing decisions and actions which would then be translated to source code -- again, requiring a scripting language interfaced
 to the engine. An example of such graphical tool is the blueprint system used by Unreal Engine~\cite{UE}.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=10cm]{../img/blueprints.jpg}
     \caption{A simple blueprint checks if a person passes a test.
-             \\Source: \href{://docs.unrealengine.com/latest/images/Engine/Blueprints/UserGuide/Macros/score\_comparison\_example\_macro.jpg}
+             \\Source: \href{http://docs.unrealengine.com/latest/images/Engine/Blueprints/UserGuide/Macros/score\_comparison\_example\_macro.jpg}
              {http://www.unrealengine.com}}
     \label{ue-blueprints}
 \end{figure}
 
 In Figure~\ref{ue-blueprints} we can see an example blueprint created in Unreal Engine, it comprises interconnected blocks that represent
 conditions, loops, actions and other constructs that can be found in a typical programming language. The user uses these blocks to
-create programs in a more user friendly manner. Unreal Engine then uses these blueprints to generate C++ code that is then used in the game.
+create programs in a more user friendly manner. Unreal Engine then uses these blueprints to generate \cpp code that is then used in the game.
 
 \subsubsection{API}
 
-This option would require us to create an interface in which functionality of the engine binds to functions that can be called
+Another option is to create an interface in which functionality of the engine is bound to functions that can be called
 from a scripting language embedded within the engine. This would allow our players to write scripts that can be loaded at the
 start of our game or during its runtime and can change anything provided by the interface.
 
 An example of such API can be found in the game Starbound~\cite{Starbound}, which allows its
 players to create modifications by using its Lua API to write scripts. An example of a simple Starbound script,
 which defines a new object in the game that spawns a chicken when the player interacts with it,
-can be seen in Listing~\ref{sb-lua-mod-ex}. Here, the mod creator defined two functions called \emph{init} and
-\emph{onInteraction}. These two functions are defined by the game and are called by it
--- \emph{init} is called when the object is placed into the world and \emph{onInteraction} is called
+can be seen in Listing~\ref{sb-lua-mod-ex}. Here, the mod creator defined two functions called \texttt{init} and
+\texttt{onInteraction}. These two functions are defined by the game and are called by it
+-- \texttt{init} is called when the object is placed into the world and \texttt{onInteraction} is called
 whenever the player interacts with the object. The game also provides each mod with several tables
 \footnote{A table is the only data structure in Lua, it is a key value associative array that can be used to represent
 ordinary arrays, sets, queues and other data structures.~\cite{PIL}}
-that help the mod to interact with the game world -- in this case the mod uses the \emph{object} table, which
-represents each instance of the spawner object, and \emph{world}, which represents the game world and
+that help the mod to interact with the game world -- in this case the mod uses the \texttt{object} table, which
+represents each instance of the spawner object, and \texttt{world}, which represents the game world and
 is shared between all objects.
 
-\begin{listing}[h]
+\begin{listing}[H]
     \centering
     \begin{lstlisting}
 function init()
@@ -92,13 +92,13 @@ end
     \label{sb-lua-mod-ex}
 \end{listing}
 
-This example shows us a common interface used for mod making. The game provides a set of functions and data and the mod implements
+The example above shows us a common interface used for mod making. The game provides a set of functions and data and the mod implements
 functions required by the protocol used for communication between the game and the mod. These functions are then called by the game
 when an event -- which the called function is assigned to -- occurs. Since our goals require our modding tools to be easy to use,
 we think that if we decide to create a modding API, it should use a similar approach, seeing as it might be familiar to mod
 creators because games like Starbound, Cities: Skylines~\cite{Skylines}, Factorio~\cite{Factorio} and others use this approach.
 
-This option allows us to provide a large amount of our engine's functionality and data wrapped in an easy to use interface, which can lead
+A modding API allows us to provide a large amount of our engine's functionality and data wrapped in an easy to use interface, which can lead
 to the ability to easily modify it and thus satisfying our goal \textbf{(G2.1)}. This interface can also contain functions that handle the
 game's wave system and allows the mod creators to modify wave composition and delays between waves, which would satisfy our goal
 \textbf{(G2.2)}. To satisfy the last of the three goals, \textbf{(G3)}, we can design the scripting system of our game in a way that only
@@ -150,9 +150,9 @@ Lastly, the language should allow us to create a modding API that can be provide
 Aside from these important characteristics, the language should also be easy to use by those of our players that decide to
 modify the game.
 
-\subsection{Native Language: C++}
+\subsection{Native Language: \protect\cpp}
 
-C++, the first language we are going to look at and also the language we ended up choosing, was for a long time the
+\cpp, the first language we are going to look at and also the language we ended up choosing, was for a long time the
 industry standard when it comes to video games. One of the main reasons for this was that it is -- unlike some of its
 rivals, e.g. Java -- a language that is native, i.e. compiles directly into machine code of a specific processor, 
 which generally results into faster executed code.
@@ -161,32 +161,32 @@ This benefit of the language, while still present, got weakened by the rise of J
 compilation and C\# was even originally released with a JIT compiler. This means that both of these languages can
 compile their intermediate language the first time it's executed. Since by the time this compilation takes place the
 compiler knows what operating system, architecture and hardware specification it compiles for it can provide optimization that
-a C++ compiler cannot perform, achieving comparable execution speeds. Additionally, both language have seen an increase of game
+a \cpp compiler cannot perform, achieving comparable execution speeds. Additionally, both language have seen an increase of game
 development related middleware, released commercially successful games written in them and addition of new interesting features
 that make them to see more viable in the eyes of game developers.
 
-Even though the performance gap between these languages got reduced, the era of C++ being one of the most used programming languages
+Even though the performance gap between these languages got reduced, the era of \cpp being one of the most used programming languages
 in game development has resulted into an abundance of game programming related materials like libraries, tutorials and books.
 
-One of our main requirements for a programming language is the ability to load code it was not originally compiled with. C++ allows this
+One of our main requirements for a programming language is the ability to load code it was not originally compiled with. \cpp allows this
 with the use of dynamically loaded libraries, but this approach is not easy to use by our mod creators as they would be required to
-directly interface their mods with the C++ code of the game's engine. An alternative to this approach is to use more user friendly
-language embedded into C++ -- e.g. Lua -- and handle the interface between C++ and this language ourselves. This option also
+directly interface their mods with the \cpp code of the game's engine. An alternative to this approach is to use more user friendly
+language embedded into \cpp -- e.g. Lua -- and handle the interface between \cpp and this language ourselves. This option also
 allows the execution of a code input to the game at runtime, which satisfies another of our requirements.
 
-The reason we decided to choose C++ as the language our game is going to be written in is mainly a combination of the abundance of
-various game development related resources aimed at C++ -- be it books, tutorials or even answered questions that can be found
+The reason we decided to choose \cpp as the language our game is going to be written in is mainly a combination of the abundance of
+various game development related resources aimed at \cpp -- be it books, tutorials or even answered questions that can be found
 on internet -- and the author's knowledge of the language.
 
 \subsection{Managed Languages: Java and C\#}
 
-Managed languages, unlike native ones such as C++, are compiled to an intermediate language which can then either
+Managed languages, unlike native ones such as \cpp, are compiled to an intermediate language which can then either
 be interpreted by a virtual machine or JIT compiled into machine code of the target architecture. The use
-of a JIT compiler allows execution speeds that are comparable to those of C++.
+of a JIT compiler allows execution speeds that are comparable to those of \cpp.
 
-Where they beat C++ is in their approachability, as they abstract memory management and other lower level aspects of programming
+Where they beat \cpp is in their approachability, as they abstract memory management and other lower level aspects of programming
 from the programmer. As such, use of these languages would lead to an easier mod making process for our players, but as
-we have already settled in the previous section, that can be done in C++ using an embedded language with easier to
+we have already settled in the previous section, that can be done in \cpp using an embedded language with easier to
 understand syntax and semantics.
 
 Both of the managed languages that were taken into consideration -- Java and C\# -- provide an easy way to execute code input
@@ -200,7 +200,7 @@ desktop application. When it comes to games, this advantage loses part of its st
 players use a Windows operating system -- as can be seen in the Steam hardware and software survey~\cite{SteamHW}. According
 to the survey, over 95\% of the players that use the Steam platform  play their video games on a Windows system -- ranging
 from Windows XP to Windows 10. In this case, the use of a virtual machine -- be it JVM or .NET's Common Language Runtime -- brings
-little to no advantage over a native language such as C++ in terms of portability. On the other hand, Java gains a disadvantage
+little to no advantage over a native language such as \cpp in terms of portability. On the other hand, Java gains a disadvantage
 compared to C\# as it requires the player to have the JVM installed, which is not installed on any of these operating systems
 by default. This means that our game would require the installation of a third party software -- though the JVM can be bundled
 with the distributed game, it would still ask our players to install updates. The necessity of having the .NET platform
@@ -209,23 +209,23 @@ which is also the developer of the Windows operating systems, and as such can be
 up to date by the Windows Update service.
 
 Because of this problem, the Java programming language was not chosen for the implementation of our game. C\#, on the other hand,
-is an easier to use language than C++ and offers the ability to be modded in itself. Being able to have our game to be modded
+is an easier to use language than \cpp and offers the ability to be modded in itself. Being able to have our game to be modded
 in C\# would be beneficial seeing as the Unity3D game engine~\cite{Unity} uses it for scripting and thus many game developers
 and modders are already capable of using it. Considering these characteristics of the language, we find it to be equal -- if not
-superior -- to C++ in terms of game development capability. The reason for not choosing C\# as the language to write our game in
-was the fact that the author has more experience with C++.
+superior -- to \cpp in terms of game development capability. The reason for not choosing C\# as the language to write our game in
+was the fact that the author has more experience with \cpp.
 
 \section{Scripting Language}
 
-Now that we have chosen C++ as the programming language we are going to implement the engine of our game with, we need
-to choose which language we are provide our modding interface in. Such a language should be easily embeddable within C++,
+Now that we have chosen \cpp as the programming language we are going to implement the engine of our game with, we need
+to choose which language we are provide our modding interface in. Such a language should be easily embeddable within \cpp,
 easy to use and well known in the modding community so that people with modding experience can easily create mods for our game.
 
 \subsection{Lua}
 
-Lua is a programming language that was designed to be embedded into other languages like C or C++ and as such
-provides a simple to use API written in ANSI C allowing easy function
-binding and data sharing between C/C++ and Lua. These characteristics, along with others such as small memory
+Lua is a programming language that was designed to be embedded into other languages like C or \cpp and as such
+provides a simple to use API written in ANSI~C allowing easy function
+binding and data sharing between C/\cpp and Lua. These characteristics, along with others such as small memory
 footprint, easy to understand syntax and
 high configurability using provided meta mechanisms, caused Lua to become the most favorite language used for game 
 scripting~\cite{EngineSurvey}.
@@ -237,10 +237,10 @@ experience in modding.
 
 \subsection{Python}
 
-While Python is similar to Lua with its easy to understand syntax, its ability to be embedded to C++ is bit worse in comparison.
-The various C++/Python interface APIs are mostly designed to allow the extension of Python using C++ and as such require more
-work to embedd Python in C++ -- e.g. unlike Lua, which uses a special stack to communicate with C++, the CPython API~\cite{CPython}
-requires manual reference decrementing and incrementing for heap allocated Python objects used in C++.
+While Python is similar to Lua with its easy to understand syntax, its ability to be embedded to \cpp is a bit worse in comparison.
+The various \cpp/Python interfaces are mostly designed to allow the extension of Python using \cpp and as such require more
+work to embedd Python in \cpp -- e.g. unlike Lua, which uses a special stack to communicate with \cpp, the CPython API~\cite{CPython}
+requires manual reference decrementing and incrementing for heap allocated Python objects used in \cpp.
 
 Where Python generally beats Lua is the abundance of libraries it has available, ranging from scientific libraries to image manipulation
 libraries. But since our scripting language will be mainly be used as an interface to the functionality of our engine, these libraries
@@ -255,10 +255,10 @@ code blocks -- which might be a bit confusing to a non-programmer that would wan
 \subsection{AngelScript}
 
 AngelScript~\cite{AngelScript}, similarly to Lua, is a programming language designed to be embedded into other languages for scripting.
-The main advantage it has over Lua is that it is even easier to embedd within C++ because of its C++-like design, requiring only
-a simple registration of C++ functions in order to be able to call them.
+The main advantage it has over Lua is that it is even easier to embedd within \cpp because of its \cpp-like design, requiring only
+a simple registration of \cpp functions in order to be able to call them.
 
-This advantage is also the main downside of the language, as its C++-like syntax is not as easy to understand as Lua's. This means that while
+This advantage is also the main downside of the language, as its \cpp-like syntax is not as easy to understand as Lua's. This means that while
 AngelScript would be easier to embedd into the engine, the modding API wouldn't be as begginer friendly as if it were interfaced
 to Lua. Additionally, there is a smaller amount of games that use AngelScript for scripting-- according to the official
 website~\cite{AngelScriptGames}, only 35 games use AngelScript for scripting. While this amount may be higher than the amount of games
@@ -267,9 +267,9 @@ using Python for scripting, it is much lower than the amount of games that use L
 \subsection{Conclusion}
 
 In terms of familiarity of the scripting language, Lua beats both of its competitors as it has been used for far more games and thus
-might be more known by the modding community. Additionally, the significant whitespace of Python and the C++-like syntax of AngelScript
+might be more known by the modding community. Additionally, the significant whitespace of Python and the \cpp-like syntax of AngelScript
 make us believe that Lua's syntax is the most begginer friendly and as such easier to understand by those of our players that are not
-programmers. Lastly, we find both Lua and AngelScript to be more easilly embeddable into C++ when compared to Python.
+programmers. Lastly, we find both Lua and AngelScript to be more easilly embeddable into \cpp when compared to Python.
 
 Because of these reasons, we decided to choose Lua as our scripting language as it seems to be better than its competitors at most
 of our requirements.
@@ -297,17 +297,18 @@ performant, our requirements for the entity representation are:
 \subsection{Inheritance}
 
 In inheritance based entity representation, an entity is a class. Characteristics of an entity are then implemented by inheriting
-from other classes and implementing interfaces. Since C++ does not allow the programmer to alter the inheritance hierarchy of the game
-without recompilation without the use of dynamically loaded libraries -- which would require our modders to use C++ as this cannot
-be done through Lua -- the modifiability of such entity is limited when compared to the modifiability the ECS representation provides.
+from other classes and implementing interfaces. Since \cpp does not allow the programmer to alter the inheritance hierarchy of the game
+without recompilation without the use of dynamically loaded libraries -- which would require our modders to use \cpp as this cannot
+be done through Lua -- the modifiability of such entity is limited.
 
-While such an entity can be interfaced to Lua, Lua does not provide the object oriented paradigm by default and requires its implementation
+While such entity can be interfaced to Lua, Lua does not provide the object oriented paradigm by default and requires its implementation
 through the use of meta mechanisms provided by the language. This means that even though the entities could be accessed from Lua, the
 modding API would have to be more complex -- as simple function binding would not suffice -- and would require the understanding
 of object oriented programming from our modders.
 
-Unlike the Entity Component System option, which will be discussed next, this approach does not offer as good usage of the spatial
-locality of cache, because data are grouped by entity in memory.
+If we were to use this form of entity representation, most of the data that belongs to an entity would be stored sequentially in memory.
+Because of this, we cannot use the spatial locality of cache when we want to access the same set of data belonging to multiple entities.
+This can cause worse performance when compared to a representation that groups the same type of entity data in memory~\cite{OOPPitfalls}.
 Additionally, the use of a virtual function is slower than a non-virtual one by about 25\%~\cite{CppProgLang} and also offers lower 
 opportunities for inlining.
 
@@ -372,10 +373,10 @@ entities. As an example, we can add a movement component to a stationary entity 
 of new entities, can be easily done at runtime.
 
 In both of these cases -- modifying an existing or creating a new entity -- ECS provides more flexibility than the inheritance
-based approach, because C++ does not allow us to change the inheritance hierarchy without recompiling the engine, while
+based approach, because \cpp does not allow us to change the inheritance hierarchy without recompiling the engine, while
 ECS allows any possible combination of components.
 
-If we use numeric identifiers to represent an entity, we can easily interface our entities to Lua as all C++ functions
+If we use numeric identifiers to represent an entity, we can easily interface our entities to Lua as all \cpp functions
 called from Lua can take the identifier as their argument and then find necessary components in the component database.
 This approach would avoid the necessity to implement object representation in Lua -- which does not support object oriented
 programming by default.

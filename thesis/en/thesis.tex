@@ -54,10 +54,12 @@
 \usepackage{tikz, tikz-qtree}
 \usepackage{float}
 \usepackage{svg}
+\usepackage{xspace}
 
 \newcommand*{\incon}[1]{{\fontfamily{fi4}\selectfont #1}}
+\def\cpp{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++\xspace}}}
 
-\lstset{language=[5.2]Lua, basicstyle=\ttfamily}
+\lstset{language=[5.2]Lua, basicstyle=\ttfamily, columns=fullflexible, showstringspaces=false, commentstyle=\color{gray}}
 
 % Listing float:
 \newfloat{listing}{tbhp}{lst}
@@ -134,10 +136,10 @@ TODO:
 \include{chap01}
 \include{chap02}
 \include{chap03}
-%\include{chap04}
-%\include{chap05}
+\include{chap04}
+\include{chap05}
 
-%\include{epilog}
+\include{epilog}
 
 %%% Bibliography
 \include{bibliography}
@@ -153,6 +155,19 @@ TODO:
 %%% source code, data files, interactive charts, etc.). Electronic attachments
 %%% should be uploaded to SIS and optionally also included in the thesis on a~CD/DVD.
 \chapwithtoc{Attachments}
+
+Attachements, which can be found on the attached DVD contain:
+
+\begin{enumerate}[label=\textbf{\Alph*.}]
+    \item Implementation of the game, which contains source code, project files,
+        compiled libraries and resources the game uses.
+    \item Documentation of the game and of the modding API.
+    \item Compiled version of the game.
+    \item PDF version of this thesis.
+\end{enumerate}
+
+\bigskip
+TODO: Directory structure of Attachment A, why are compiled libs included. Directory structure of Attachment B.
 
 \openright
 \end{document}

@@ -1,31 +1,34 @@
 \chapter{Developer's Documentation}
 
 In this chapter, we will examine the structure of our game and the implementation of its
-various modules. In Figure~\ref{engine-layout}, we can see the main modules of our engine
-and their relationships -- an arrow pointing from module A to module B means that A uses B.
+various modules. The source code of the game is a part of Attachment A and can be compiled using Visual Studio 2015 Community.
+In Figure~\ref{engine-layout}, we can see the main modules of the engine of our game and their relationships.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
-    \fontfamily{fi4}\selectfont
-    \def\svgwidth{\columnwidth}
-    \input{engine.pdf_tex}
+    \includegraphics[width=\columnwidth]{../img/engine.pdf}
     \caption{Core of the game's engine.}
     \label{engine-layout}
 \end{figure}
 
-The game uses four different libraries -- Ogre3D for graphics, OIS\footnote{Bundled with Ogre3D.} for user input, CEGUI for
-GUI and Lua for scripting. Ogre3D and OIS are used directly by the engine, but CEGUI and Lua -- besides initialization in the
-\texttt{Game} class -- use special interface modules that handle their API. The GUI module, which acts as an interface
-for CEGUI, comprises the \texttt{GUI} class and various different classes that represent different GUI widgets. Lua uses different
-classes for the different directions of access. When the engine -- written in C++ -- accesses Lua, it uses the \texttt{lpp::Script} class,
-which acts as a wrapper facade over the Lua C API. When Lua accesses parts of the engine, it uses the \texttt{LuaInterface} class,
-which binds functions written in C++ to Lua.
+The central part of our engine is the \texttt{Game} class, which performs initialization of all modules, game updates and handles events
+passed to it by two of our libraries -- Ogre3D, which is used for graphics, and OIS\footnote{Bundled with Ogre3D.}, which is used for
+text input. These two libraries are directly used by the engine, but the remaining two -- CEGUI and Lua -- use special interface modules
+that wrap and use their API.
+
+The GUI module, which acts as an interface for CEGUI, comprises the \texttt{GUI} class and various different classes that represent
+different windows that are part of our user interface.
+
+Lua uses different classes for the different directions of communication. When the engine accesses Lua, it uses
+the \texttt{lpp::Script} class, which acts as a wrapper facade over the Lua~C~API. When, on the other hand, Lua accesses parts of the
+engine it uses the \texttt{LuaInterface} class, which binds functions of the engine that are written in \cpp to Lua, creating our
+modding API.
 
 The update logic of the game is performed by systems which, with the exception of \texttt{EntitySystem}, are equal in functionality.
 \texttt{EntitySystem} stands out because it, besides updating the game, aslo acts as a component manager and provides components
 to the rest of the systems.
 
-In the following sections we will examine these main modules of the engine as well as various other, which mostly serve as tools
+In the following sections we will examine these main modules of the engine as well as various other modules, which mostly serve as tools
 to the main modules.
 
 \section{Game}
@@ -35,7 +38,12 @@ is initialized. This class also serves as the main connection between the Ogre3D
 four listener classes from these libraries -- \texttt{Ogre::FrameListener}, \texttt{Ogre::WindowEventListener}, \texttt{OIS::KeyListener}
 and \texttt{OIS::MouseListener}.
 
-\begin{listing}
+Communication between the game and these two libraries is done, besides using their API, by overriding virtual functions of these classes
+which act as event handlers. We can see these functions in Listing~\ref{ois-ogre-callbacks}. While names of most of these functions are
+self-explanatory -- and their documentation can be found in the Ogre3D and OIS documentations -- we will examine the functionality of
+\texttt{frameRenderingQueued} in a bit more depth.
+
+\begin{listing}[H]
     \centering
     \begin{lstlisting}[language=C++]
 // Ogre3D
@@ -56,11 +64,6 @@ bool mouseReleased(const OIS::MouseEvent&,
     \label{ois-ogre-callbacks}
 \end{listing}
 
-Communication between the game and these two libraries is done, besides using their API, by overriding virtual functions of these classes
-which act as event handlers. We can see these functions in Listing~\ref{ois-ogre-callbacks}. While names of most of these functions are
-self-explanatory -- and their documentation can be found in the Ogre3D and OIS documentations -- we will examine the functionality of
-\texttt{frameRenderingQueued} in a bit more depth.
-
 \texttt{Ogre::FrameListener} provides three virtual functions -- \texttt{frameStarted}, which is called when a frame
 is about to begin rendering, \texttt{frameEnded}, which is called when a frame has just been rendered, and \texttt{frameRenderingQueued},
 which gets called when all rendering commands have been issued and are queued for the GPU to process. In our \texttt{Game} class, we override
@@ -71,15 +74,26 @@ We use this function to perform the main functionality of our game -- performing
 systems that are in the game.
 
 Besides handling input and window events, this class contains several auxiliary functions related to initialization, level creation and
-state changing. To see more information about these functions, refer to their documenting comments in the header file or in the
-generated documentation.
+state changing. To see more information about these functions, refer to their documenting comments in the header file \texttt{Game.hpp} or
+in the generated documentation.
 
 \section{Components}
 
-Component is a data aggregate that describes a specific characteristic of an entity that contains the component. In our engine, these
-components are represented as simple structures with a name in the form of \texttt{<Characteristic>Component}. 
+Component is a data aggregate that describes a specific characteristic of an entity that contains the component.
+These components can describe various different characteristics. Components like \texttt{HealthComponent}, \texttt{ManaComponent}
+or \texttt{GraphicsComponent} describe an attribute or a set of attributes of an entity. On the other hand, components like
+\texttt{AIComponent} or \texttt{EventHandlerComponent} describe the behavior of an entity. Even the presence of a
+component can express a characteristic -- e.g. \texttt{MineComponent} does not contain any data, but if an entity has this component, it
+can be mined. In our engine, these
+components are represented as simple structures with a name in the form of \texttt{<Characteristic>Component} and defined in the header file
+\texttt{Components.hpp}. 
 
-\begin{listing}
+In Listing~\ref{component-ex}, we can see an example of a component -- the MovementComponent, which describes the speed of an entity.
+Every component has a static integer field representing its type, which is used for communication between Lua and \cpp because Lua does not
+understand the notion of templates, which we use for the different functions that manipulate with components, and as such it needs
+to specify what kind of component should be used when it calls a \cpp function.
+
+\begin{listing}[H]
     \centering
     \begin{lstlisting}[language=C++]
 struct MovementComponent
@@ -98,20 +112,15 @@ struct MovementComponent
     \label{component-ex}
 \end{listing}
 
-In Listing~\ref{component-ex}, we can see an example of a component -- the MovementComponent, which describes the speed of an entity.
-Every component has a static integer field representing its type, which is used for communication between Lua and C++ because Lua does not
-understand the notion of templates, which we use for the different functions that manipulate with components, and as such it needs
-to specify what kind of component should be used when it calls a C++ function.
-
 There is only one other requirement for components, which is that they always need to have a parameterless constructor
 \footnote{A constructor that has default values for all its parameters will suffice.}. This is required because
-we often create components by calling a C++ function in Lua and then set its fields, which would be impossible without a constructor that
+we often create components by calling a \cpp function in Lua and then set its fields, which would be impossible without a constructor that
 doesn't need any parameters. Also note that because of this approach, any strings passed to any parameterized constructor are considered
 to be passed from Lua and as such are \textbf{moved} because the originals are supposed to be destroyed by Lua once the creation is complete.
 
 Besides the two requirements, components can contain any data required by the entity characteristic they describe. In the examle, the
-MovementComponent contains two fields of type \texttt{tdt::real}\footnote{One of two numeric types used in the engine, the other being
-tdt::uint.}
+MovementComponent contains two fields of type \texttt{tdt::real}\footnote{One of two numeric types used in the engine that is defined
+in the file \texttt{Typedefs.hpp}, the other being tdt::uint.}
 -- speed\_modifier, which indicates the speed of an entity, and original\_speed, which is used
 to restore the speed of an entity that has been affected by a slowing effect. Note that, to conform our
 ECS representation, components should not contain functions and any logic should be done through systems.
@@ -130,7 +139,15 @@ The update function of every system is called once per frame, but the individual
 it stores all component containers, which are represented as \texttt{std::map<entity\_id, component>}. Besides storing the components,
 it also provides a set of function templates used for component manipulation.
 
-\begin{listing}
+Some of these function templates can be seen in Listing~\ref{es-comp-manip-ex}. They can be used to test if an entity has a component,
+to retrieve a component
+that belongs to an entity, add a new component -- using the parameterless constructor -- to an entity and remove a component from an entity,
+respectively. In addition to these templates, each of them has a secondary non-templated version which takes an integer as a second parameter,
+which corresponds to the type of the component -- these functions are then used from Lua.
+To prevent code repetition, these functions use an array of pointers to the templated versions in which the pointer at any given index points
+to the instances of these templated functions that have their type field equal to the index number.
+
+\begin{listing}[h]
     \centering
     \begin{lstlisting}[language=C++]
 template<typename COMP>
@@ -148,14 +165,6 @@ void delete_component(tdt::uint id);
     \caption{Examples of the templates using for component manipulation.}
     \label{es-comp-manip-ex}
 \end{listing}
-
-Some of these function templates can be seen in Listing~\ref{es-comp-manip-ex}. They can be used to test if an entity has a component,
-to retrieve a component
-that belongs to an entity, add a new component -- using the parameterless constructor -- to an entity and remove a component from an entity,
-respectively. In addition to these templates, each of them has a secondary non-templated version which takes an integer as a second parameter,
-which corresponds to the type of the component -- these functions are then used from Lua.
-To prevent code repetition, these functions use an array of pointers to the templated versions in which the pointer at any given index points
-to the instances of these templated functions that have their type field equal to the index number.
 
 In addition to these public templates, one more important private template is defined in \texttt{EntitySystem} -- \texttt{load\_component}.
 This function template accepts the identifier of an entity along with a name of a Lua table, which it will then use to load a component
@@ -215,7 +224,7 @@ it is used on.
     \begin{lstlisting}[language=C++]
 template<typename CONT, typename COND, typename EFFECT>
 void apply_effect_to_entities_in_range(tdt::uint, COND&,
-                                       EFFECT&, tdt::real);
+                                            EFFECT&, tdt::real);
     \end{lstlisting}
     \caption{Signature of the effect applying function template.}
     \label{effect-ex}
@@ -281,12 +290,16 @@ a group of entities next to each other.
 \subsection{WaveSystem}
 
 \texttt{WaveSystem} manages the progression of enemy waves that attack the player's dungeon. During its update, it tracks time passed
-since the last enemy wave and starts the next wave if needed. The system can be in three different states -- \texttt{ACTIVE},
-\texttt{WAITING} and \texttt{INACTIVE}. When the system is in the \texttt{ACTIVE} state, an enemy wave is currently attacking the player's
-dungeon and the system spawns enemies on spawning nodes that were selected during level generation. After the player's minions destroy
-all enemies in the current wave, the system transitions into the \texttt{WAITING} state. During this state, the system simply tracks
-a timer until the next wave. If the system depletes all waves or is paused, it goes into the \texttt{INACTIVE} state
-in which it waits until the wave is either resumed or restarted.
+since the last enemy wave and starts the next wave if needed. The system can be in three different states:
+
+\begin{itemize}
+    \item \texttt{ACTIVE} state, during which  an enemy wave attacks the player's
+        dungeon and the system spawns enemies on spawning nodes that were selected during level generation. After the player's minions destroy
+        all enemies in the current wave, the system transitions into the \texttt{WAITING} state.
+    \item \texttt{WAITING} state, during which the system simply tracks a timer until the next wave and changes back to the \texttt{ACTIVE}
+        state once the timer runs out.
+    \item \texttt{INACTIVE} state, during which the system is idle. This state is entered once the system depletes all waves or is paused.
+\end{itemize}
 
 To monitor the current state of the wave when the system is in the \texttt{ACTIVE} state, every spawned entity increments the entity
 counter and the system adds \texttt{DestructorComponent} to it which specifies which function should be called when the entity dies.
@@ -303,36 +316,33 @@ Now that we have examined the bigger systems that are included in the game, we w
 systems, which generally perform simple tasks.
 
 \begin{itemize}
-    \item \texttt{AISystem} iterates over all entities that have \texttt{AIComponent} and calls the Lua functions that update
+    \item \texttt{AISystem} iterates over all entities that have a \texttt{AIComponent} and calls the Lua functions that update
         their behavior if they are not currently performing a task.
     \item \texttt{GraphicsSystem} was designed to manage all manual graphics. Explosions are the only manual graphics that are
-        currently in the game so the system updates the dimensions of all entities that have \texttt{ExplosionComponent} and destroys
+        currently in the game so the system updates the dimensions of all entities that have a \texttt{ExplosionComponent} and destroys
         them once they reach their limits.
     \item \texttt{HealthSystem} removes all entities that are marked as not alive and periodically regenerates their health.
-    \item \texttt{InputSystem} handles the input from the player and uses it to control all entities that have \texttt{InputComponent}.
-    \item \texttt{ManaSpellSystem} regenerates mana of entities that have \texttt{ManaComponent} and manages the spell casting of
-        all entities that have \texttt{SpellComponent}.
-    \item \texttt{MovementSystem} manages the movement of all entities that have \\ \texttt{MovementComponent} and are currently on a path.
-        Note that this excludes homing projectiles, which are updated by \texttt{CombatSystem}.
+    \item \texttt{InputSystem} handles the input from the player and uses it to control all entities that have a \texttt{InputComponent}.
+    \item \texttt{ManaSpellSystem} regenerates mana of entities that have a \texttt{ManaComponent} and manages the spell casting of
+        all entities that have a \texttt{SpellComponent}.
+    \item \texttt{MovementSystem} manages the movement of all entities that have \\ a \texttt{MovementComponent} and are currently on a path.
+        Note that this excludes homing projectiles, which are updated by the \texttt{CombatSystem}.
     \item \texttt{ProductionSystem} manages the production of entities by buildings. It tracks time periods between spawns and the spawn
         limit of a building and when the time comes and the spawn limit is not depleted, the system spawns a new entity
         either on the building if its just a tile on the ground or around the building if its solid and cannot be stood on.
     \item \texttt{TimeSystem} manages the different timers in the game, including, but not limited to the timers of \texttt{OnHitComponent},
         \texttt{LimitedLifeSpanComponent} and \texttt{TriggerComponent}. Additionally, it manages a special kind of events that are
-        represented by \texttt{TimeComponent}. These components can start or end events represented by \texttt{EventComponent} or
+        represented by a \texttt{TimeComponent}. These components can start or end events represented by a \texttt{EventComponent} or
         call Lua functions.
-    \item \texttt{TriggerSystem} manages entities with \texttt{TriggerComponent} such as traps or portals. It checks all entities in
-        range to see if they can trigger the entity with \texttt{TriggerComponent} and if they can, calls the trigger function.
+    \item \texttt{TriggerSystem} manages entities that have a \texttt{TriggerComponent} such as traps or portals. It checks all entities in
+        range to see if they can trigger the entity with the \texttt{TriggerComponent} and if they can, calls the trigger function.
 \end{itemize}
-
-\bigskip
-Ask PJ: Should the \texttt{SomethingComponent} have articles?
 
 \section{lpp::Script}
 
 The \texttt{Script} singleton class in the namespace \texttt{lpp} is a wrapper facade around the Lua C API which provides an easy to use
-interface for communication between C++ and Lua. It provides functions that allow us, for example, to execute Lua code passed as a string,
-register C++ functions to Lua, retrieve values from Lua and call Lua functions from C++. In addition to this wrapper, the \texttt{lpp}
+interface for communication between \cpp and Lua. It provides functions that allow us, for example, to execute Lua code passed as a string,
+register \cpp functions to Lua, retrieve values from Lua and call Lua functions from \cpp. In addition to this wrapper, the \texttt{lpp}
 namespace contains the \texttt{Exception} class. Besides the conventional \texttt{what} function, which returns a string describing the
 nature of the exception, this class also has the \texttt{lua\_what} function, which returns the text of the Lua error that occured.
 
@@ -345,9 +355,16 @@ and as such can bind only static functions.
 During the initialization of our API, arrays of pairs of function names and function pointers are registered in Lua. Each of
 these arrays is then represented as a Lua table which contains the registered functions.
 To register a function pointer, it is required by Lua to have the signature of \texttt{int (*name)(lua\_State*)}. Because of this,
-\texttt{LuaInterface} contains static functions with this signature that act as wrappers of the actually called functions.
+\texttt{LuaInterface} contains static functions with this signature that act as wrappers around the actually called functions.
 
-\begin{listing}[h]
+Listing~\ref{lua-api-ex} contains an example of such wrapper. In this wrapper, we first need to retrieve the actual parameters for our
+functions. These parameters are located on the Lua stack -- i.e. in reversed order -- and we can use one our five macros for easy
+parameter retrieval defined in the \texttt{LuaInterface} source file. In this example, we use \texttt{GET\_UINT} and \texttt{GET\_REAL},
+each of which takes a pointer to the Lua state and an offset from the top of the stack. Once we retrieve these parameters, we can call the
+wrapped function and push its result back onto the stack. Note that Lua supports multiple results from a function call and thus we can
+push multiple values onto the stack. The amount of returned results is then returned from the wrapper.
+
+\begin{listing}[H]
     \centering
     \begin{lstlisting}[language=C++]
 int lua_wrapper_of_F(lua_State* L)
@@ -361,16 +378,9 @@ int lua_wrapper_of_F(lua_State* L)
     return 1;
 }
     \end{lstlisting}
-    \caption{An example of our modding API function implementation in C++.}
+    \caption{An example of our modding API function implementation in \protect\cpp.}
     \label{lua-api-ex}
 \end{listing}
-
-Listing~\ref{lua-api-ex} contains an example of such wrapper. In this wrapper, we first need to retrieve the actual parameters for our
-functions. These parameters are located on the Lua stack -- i.e. in reversed order -- and we can use one our five macros for easy
-parameter retrieval defined in the \texttt{LuaInterface} source file. In this example, we use \texttt{GET\_UINT} and \texttt{GET\_REAL},
-each of which takes a pointer to the Lua state and an offset from the top of the stack. Once we retrieve these parameters, we can call the
-wrapped function and push its result back onto the stack. Note that Lua supports multiple results from a function call and thus we can
-push multiple values onto the stack. The amount of returned results is then returned from the wrapper.
 
 \section{Helpers}
 
@@ -380,7 +390,7 @@ form of a setter, which changes a field of the component after checking the vali
 of a gield of the component or a default value if the component does not exist. But the body of these functions is not restricted and they
 can perform any operation.
 
-The main purpose of these functions is keep the \texttt{LuaInterface} class small, but can be used freely in C++ as well if we need for
+The main purpose of these functions is keep the \texttt{LuaInterface} class small, but can be used freely in \cpp as well if we need for
 example parameter checking, default values or transaction logging. However, these functions generally retrieve the component from its
 container and as such sequential calls to different helper functions of a single component will be slower than a direct manipulation
 of the component.
@@ -396,11 +406,11 @@ function that is contained within the spell table. Secondly, it calls the castin
 type when the player clicks on the screen to cast the spell.
 
 This process is strongly connected to Lua, the \texttt{SpellCaster} class only manages spell changing and the two described phases, but
-the effects of the spells are fully defined in Lua. In Chapter~4, we will examine the spell table and go over the spell creation process.
+the effects of the spells are fully defined in Lua. In Section~4.5, we will examine the spell table and go over the spell creation process.
 
 \section{Pathfinding}
 
-In Chapter~2, we decided to use the A* algorithm for pathfinding in our game. While A* is the implemented algorithm, the game contains
+In Section~2.6, we decided to use the A* algorithm for pathfinding in our game. While A* is the implemented algorithm, the game contains
 a templated pathfinding system using functors for algorithms, heuristics and path types. This allows us to easily change the characteristics
 of our pathfinding process. 
 
@@ -481,8 +491,18 @@ a ray between two points in the game world which, unlike standard Ogre3D ray cas
 uses this ray to determine if there is a block between the two entities and if so, assumes they cannot seee each other because of this
 block.
 
-\bigskip
-TODO: Add a screenshot when I get on windows and show the problem on it!
+In Figure~\ref{los-problem}, we can see a situation where two ogres stand in front of each other and next to a diagonal wall. Because our
+game world is made of tiles, the walls have the form of a cube and the diagonal wall is simulated using alignment, during which the wall
+changes its model. However, even if the model is not a cube, the bounding box still is and because of this if we use Ogre3D ray casting
+to determine if the two ogres can see each other, the result will be \texttt{false}. But since our \texttt{RayCaster} ray casts to
+the polygon level, its use would yield \texttt{true} as the result.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{../img/los-problem.png}
+    \caption{An example situation where bounding box ray casting would not suffice.}
+    \label{los-problem}
+\end{figure}
 
 \subsubsection{SelectionBox}
 
