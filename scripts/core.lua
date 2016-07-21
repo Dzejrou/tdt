@@ -1,5 +1,5 @@
--- Load all scripts:
-scripts = {
+-- Scripts to be loaded:
+local scripts = {
 	"utils.lua", "enum.lua", "error.lua",
 	"friendly_ogres.lua", "evil_ogres.lua",
 	"basic_wall.lua", "projectiles.lua",
