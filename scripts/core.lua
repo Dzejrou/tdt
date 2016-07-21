@@ -18,6 +18,8 @@ local scripts = {
 	"entity_spells.lua", "dungeon_throne.lua", "blueprints/upgrade.lua"
 }
 
+
+-- Load all scripts.
 if game then
 	for _, s in ipairs(scripts) do
 		game.load("scripts/" .. s)
