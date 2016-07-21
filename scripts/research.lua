@@ -263,7 +263,7 @@ game.gui.research.research_ = {
 	-- 4x6
 	{
 		name = "LIGHTNING STORM",
-		price = 2000,
+		price = 1500,
 		unlock = function()
 			game.spell.register_spell("lightning_storm")
 		end
@@ -272,7 +272,7 @@ game.gui.research.research_ = {
 	-- 4x7
 	{
 		name = "METEOR SHOWER",
-		price = 3000,
+		price = 2000,
 		unlock = function()
 			game.spell.register_spell("meteor_shower")
 		end
