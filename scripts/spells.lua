@@ -251,7 +251,7 @@ game.spell.spells = {
 			if game.ai.get_faction(target) ~= game.enum.faction.friendly then
 				game.grid.place_at_random_free_node(target)
 			else
-				game.spell.refund_(40)
+				game.spell.refund_(100)
 			end
 			game.spell.stop_casting()
 		end
