@@ -243,27 +243,28 @@ building called \emph{building\_name}. The next list contains all of the buildin
 in gold noted next to their names in parentheses and their description.
 
 \begin{itemize}
-    \item \emph{fortified\_wall} (600) -- a strong wall that can be used to protect the dungeon.
-    \item \emph{barracks} (1000) -- spawns a single ogre warrior, which is a melee combat minion.
-    \item \emph{fire\_tower} (1800) -- spawns a single ogre fire mage, which is a ranged combat minion that can cast meteors.
-    \item \emph{ice\_tower} (1500) -- spawns a single ogre ice mage, which is a ranged combat minion that can cast freezing waves.
-    \item \emph{thunder\_tower} (1750) -- spawns a single ogre thunder mage, which is a ranged combat minion that can cast lightning bolts.
-    \item \emph{church} (2000) -- spawns a single ogre cleric, which is a range combat minion that can heal others.
-    \item \emph{chaos\_tower} (5000) -- spawns a single ogre chaos mage, which is a ranged combat minion that can cast random spells.
-    \item \emph{gold\_vault} (500) -- used to store gold.
-    \item \emph{light\_crystal} (500) -- used as a source of light.
-    \item \emph{light\_mana\_crystal} (1500) -- used as a source of light which increases maximum mana and mana regeneration of the
-        player.
-    \item \emph{mana\_crystal} (500) -- increases maximum mana and mana regeneration of the player.
-    \item \emph{mine} (400) -- spawns a single ogre miner, which can mine walls and gold deposits.
     \item \emph{wall} (300) -- can be placed to separate rooms and to protect the dungeon.
-    \item \emph{teleport\_trap} (600) -- teleports enemies that step on it to a random spot on the map with a cooldown period
+    \item \emph{mine} (400) -- spawns a single ogre miner, which can mine walls and gold deposits.
+    \item \emph{slow\_trap} (400) -- halves the speed of enemies that step on it for five seconds with a cooldown period
         \footnote{By \emph{cooldown period} we refer to the amount of time between two applications of the trap's effects.}
         of thirty seconds.
-    \item \emph{slow\_trap} (400) -- halves the speed of enemies that step on it for five seconds with a cooldown period of thirty seconds.
-    \item \emph{freeze\_trap} (800) -- freezes enemies that step on it in place for fice seconds with a cooldown period of thirty seconds.
+    \item \emph{mana\_crystal} (500) -- increases maximum mana and mana regeneration of the player.
+    \item \emph{gold\_vault} (500) -- used to store gold.
+    \item \emph{light\_crystal} (500) -- used as a source of light.
+    \item \emph{fortified\_wall} (600) -- a strong wall that can be used to protect the dungeon.
+    \item \emph{teleport\_trap} (600) -- teleports enemies that step on it to a random spot on the map with a cooldown period
+        of thirty seconds.
     \item \emph{damage\_trap} (600) -- damages enemies that step on it with a cooldown period of thirty seconds.
     \item \emph{kill\_trap} (600) -- kills enemies that step on it with a cooldown period of thirty seconds.
+    \item \emph{freeze\_trap} (800) -- freezes enemies that step on it in place for fice seconds with a cooldown period of thirty seconds.
+    \item \emph{barracks} (1000) -- spawns a single ogre warrior, which is a melee combat minion.
+    \item \emph{ice\_tower} (1500) -- spawns a single ogre ice mage, which is a ranged combat minion that can cast freezing waves.
+    \item \emph{light\_mana\_crystal} (1500) -- used as a source of light which increases maximum mana and mana regeneration of the
+        player.
+    \item \emph{thunder\_tower} (1750) -- spawns a single ogre thunder mage, which is a ranged combat minion that can cast lightning bolts.
+    \item \emph{fire\_tower} (1800) -- spawns a single ogre fire mage, which is a ranged combat minion that can cast meteors.
+    \item \emph{church} (2000) -- spawns a single ogre cleric, which is a range combat minion that can heal others.
+    \item \emph{chaos\_tower} (5000) -- spawns a single ogre chaos mage, which is a ranged combat minion that can cast random spells.
 \end{itemize}
 
 Beside these buildings, there is one additional building that the player cannot build, but is built by the game whenever a new level is
@@ -297,3 +298,10 @@ selection and mini menu. \emph{RESET CAMERA} returns the game's view back to the
     \caption{Options menu which contains basic graphics options and key binding.}
     \label{gui-options}
 \end{figure}
+
+Besides these rebindable actions, the game contains three actions that are used mainly for mod prototyping and testing and cannot be rebound.
+If we press the \emph{Grave} key\footnote{On starndard english, american and czech keyboards, this key is generally located above the
+\emph{TAB} key and below the \emph{ESC} key and is used to input a semicolon or a tilde.} we will bring up the game's development console,
+which accepts Lua code and can interpret this code with the \emph{EXECUTE} button. If we hold the \emph{Shift} key pressed while we click
+on the \emph{Grave} key, we bring up the entity creator window that lets us to place all entities in the game without any cost. Lastly,
+the \emph{0} key on the numeric pad toggles between fixed camera mode and free camera mode.

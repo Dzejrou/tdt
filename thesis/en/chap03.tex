@@ -24,9 +24,9 @@ the \texttt{lpp::Script} class, which acts as a wrapper facade over the Lua~C~AP
 engine it uses the \texttt{LuaInterface} class, which binds functions of the engine that are written in \cpp to Lua, creating our
 modding API.
 
-The update logic of the game is performed by systems which, with the exception of \texttt{EntitySystem}, are equal in functionality.
-\texttt{EntitySystem} stands out because it, besides updating the game, aslo acts as a component manager and provides components
-to the rest of the systems.
+The update logic of the game is performed by systems that each contain an \texttt{update} function which performs their part of the
+update of the game. Most of the systems have only the purpose of updating the game, but \texttt{EntitySystem} also acts as a component
+manager and provides components to the rest of the systems.
 
 In the following sections we will examine these main modules of the engine as well as various other modules, which mostly serve as tools
 to the main modules.
@@ -358,7 +358,7 @@ To register a function pointer, it is required by Lua to have the signature of \
 \texttt{LuaInterface} contains static functions with this signature that act as wrappers around the actually called functions.
 
 Listing~\ref{lua-api-ex} contains an example of such wrapper. In this wrapper, we first need to retrieve the actual parameters for our
-functions. These parameters are located on the Lua stack -- i.e. in reversed order -- and we can use one our five macros for easy
+functions. These parameters are located on the Lua stack -- i.e. in reversed order -- and we can use one of our five macros for easy
 parameter retrieval defined in the \texttt{LuaInterface} source file. In this example, we use \texttt{GET\_UINT} and \texttt{GET\_REAL},
 each of which takes a pointer to the Lua state and an offset from the top of the stack. Once we retrieve these parameters, we can call the
 wrapped function and push its result back onto the stack. Note that Lua supports multiple results from a function call and thus we can
