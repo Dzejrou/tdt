@@ -1,0 +1,229 @@
+--------------------------------------------------------------------------------
+--- Component documentation                                                  ---
+--------------------------------------------------------------------------------
+
+Below we can find a list of all components and the tables that represent
+them in an entity definition.
+Each of the entries contains the name of the component table, description of
+the component, enum that has to be added to the components list in the entity
+definition and a list of the field of the component table.
+Each of the fields contains its <type>, which can be:
+    <boolean>: can have values true and false
+    <integer>: number without decimal part
+    <number>:  number with decimal part
+    <string>: a string of characters
+Note: Some components like ProductComponent, GridNodeComponent and TaskComponent
+      can only be created at runtime and as such are not present in this list.
+
+---
+PhysicsComponent
+Desc: An entity that has this component can be placed in the world.
+Enum: game.enum.component.physics
+Fields:
+    solid <boolean>: Determines if the entity can be walked through, used only
+                     for structures.
+---
+
+---
+HealthComponent
+Desc: An entity that has this component can have health, defense and health
+      regeneration.
+Enum: game.enum.component.health
+Fields:
+    max_hp  <integer>: Maximum amount of health points the entity can have.
+    regen   <integer>: Amount of health regenerated on every regeneration
+                       update.
+    defense <integer>: Amount subtracted from incoming damage.
+---
+
+---
+AIComponent
+Desc: An entity that has this component can make decisions during the update
+      of entity AI.
+Enum: game.enum.component.ai
+Fields:
+    blueprint <string>: Name of the table containing the "update" function.
+Blueprint:
+b = {
+    update = function(id)
+        -- Update the AI of entity id.
+    end
+}
+---
+
+---
+GraphicsComponent
+Desc: An entity that has this component has a graphical representation in
+      the game world.
+Enum: game.enum.component.graphics
+Fields:
+    mesh            <string>: Name of the .mesh file that contains the model
+                              of the entity.
+    material        <string>: Name of the .material file that contains the
+                              material of the entity or a string "NO_MAT" if
+                              the material is contained in the mesh.
+    visible        <boolean>: Default visibility status of the entity.
+    manual_scaling <boolean>: Determines if the scale of the entity
+                              will be specified or the mesh scale applies.
+Optional fields:
+    query_flags    <integer>: Value from game.enum.entity_type which
+                              specifies the type of the entity when queries
+                              are performed.
+Required if manual_scaling is true:
+    scale_x <number>: First element of the scale vector.
+    scale_y <number>: Second element of the scale vector.
+    scale_z <number>: Third element of the scale vector.
+---
+
+---
+MovementComponent
+Desc: An entity that has this component can move around the game world.
+Enum: game.enum.component.movement
+Fields:
+    speed_modifier <number>: Speed of the entity.
+Note: To be able to move along a path in the pathfinding grid, the
+      entity has to also have a PathfindingComponent.
+---
+
+---
+CombatComponent
+Desc: An entity that has this component can fight with other entities.
+Enum: game.enum.component.combat
+Fields:
+    range    <number>: Maximum distance at which the entity can attack.
+    cooldown <number>: Minimum time in seconds between two consecutive attacks.
+    min_dmg <integer>: Lower bound of the damage range.
+    max_dmg <integer>: Upper bound of the damage range.
+    pursue  <boolean>: If true, the entity will follow fleeing enemies.
+    type    <integer>: Value from game.enum.atk_type which determines the
+                       type of the attack used by the entity.
+Required if type is game.enum.atk_type.ranged:
+    projectile_blueprint <string>: Name of the table that contains the
+                                   definition of the projectile entity.
+---
+
+---
+EventComponent
+Desc: An entity that has this component acts as a component and can
+      be handled by other entities.
+Enum: game.enum.component.event
+Fields:
+    type   <integer>: Value from game.enum.event that specifies the type
+                      of the event.
+    target <integer>: Identifier of the handler of the entity.
+                      The value game.const.no_ent specifies any handler.
+    radius  <number>: Maximum distance between the event and its handler.
+    active <boolean>: Specifies if the event starts activated, if false
+                      the event needs to be activated before handling.
+Note: This component is seldom defined in a script and is generally
+      created at runtime.
+---
+
+---
+InputComponent
+Desc: An entity that has this component can be controlled by the player.
+Enum: game.enum.component.input
+Fields:
+    input_handler <string>: Name of the table that contains the "handle"
+                            function used for keyboard input handling.
+Note: This component is currently not used in the game.
+---
+
+---
+TimeComponent
+Desc: An entity that has this component represents a time event.
+      This event can activate or deactivate an event or call a Lua function.
+Enum: game.enum.component.time
+Fields:
+    type      <integer>: Value from game.enum.time_event that
+                         specifies the type of the event.
+    time_limit <number>: Time before this events activates.
+    target    <integer>: Identifier of the handler of this event,
+                         generally identifier of the event that is
+                         activated or deactivated by this time event.
+Note: If this event calls a Lua function, the name of the function
+      has to be the name of the event entity stored in a NameComponent.
+---
+
+---
+ManaComponent
+Desc: An entity that has this component has mana that is required for
+      spell casting.
+Enum: game.enum.component.mana
+Fields:
+    max_mana <integer>: Maximum amount of mana the entity can have.
+    regen    <integer>: Amount of mana renegerated on each mana
+                        regeneration update.
+---
+
+---
+SpellComponent
+Desc: An entity that has this component can casts spell.
+Enum: game.enum.component.spell
+Fields:
+    blueprint <string>: Name of the table that contains the "cast"
+                        function.
+    cooldown <integer>: Minimum time between two spell casts.
+Note: To cast spells that require mana, the entity has to
+      also have a ManaComponent.
+Blueprint:
+b = {
+    cast = function(id)
+        -- Perform the spell cast by entity id.
+    end
+}
+---
+
+---
+ProductionComponent
+Desc: An entity that has this component can spawn other entities.
+Enum: game.enum.component.production
+Fields:
+    blueprint <string>: Name of the table that defines the
+                        spawned entity.
+    limit    <integer>: Maximum amount of entities spawned at a time.
+    cooldown  <number>: Minimum time between two spawns.
+---
+
+---
+PathfindingComponent
+Desc: An entity that has this component can find a path in the
+      pathfinding grid and follow it.
+Enum: game.enum.component.pathfinding
+Fields:
+    blueprint <string>: Name of the table that contains the "can_break"
+                        and "get_cost" functions.
+Blueprint:
+b = {
+    can_break = function(id, node)
+        -- Return true if the entity id can break the block that
+        -- is placed on node.
+    end,
+
+    get_cost = function(id, node)
+        -- Return the price of traversing the node.
+    end
+}
+---
+
+---
+TaskHandlerComponent
+Desc: An entity that has this component can handle tasks.
+Enum: game.enum.component.task_handler
+Fields:
+    possible_tasks <integer array>: List of task types this entity can handle.
+                                    Task types are in game.enum.task table.
+    blueprint             <string>: Name of the table that contains the
+                                    "handle_task" and "task_complete".
+Blueprint:
+b = {
+    handle_task = function(handler_id, task_id)
+        -- Handle task and return true if the task made the handler
+        -- busy, return false otherwise.
+    end,
+
+    task_complete = function(handler_id, task_id)
+        -- Return true if the task has been completed, false otherwise.
+    end
+}
+---
