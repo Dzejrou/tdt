@@ -1,0 +1,106 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.graphics                              ---
+--------------------------------------------------------------------------------
+
+---
+set_mesh(id, mesh)
+Changes the mesh of <id> to <mesh>.
+---
+
+---
+set_material(id, mat)
+Changes the material of <id> to <mat>.
+---
+
+---
+set_visible(id, boolean)
+Changes the visibility status of <id> to <boolean>.
+---
+
+---
+set_manual_scaling(id, boolean)
+Changes the manual scaling status of <id> to <boolean>.
+---
+
+---
+set_scale(id, x, y, z)
+Changes the scaling vector of <id> to <x, y, z>.
+---
+
+---
+get_mesh(id)
+Returns the name of the mesh of <id>.
+---
+
+---
+get_material(id)
+Returns the name of the material of <id>.
+---
+
+---
+is_visible(id)
+Returns true if <id> is visible, false otherwise.
+---
+
+---
+get_manual_scaling(id)
+Returns true if <id> is manually scaled, false otherwise.
+---
+
+---
+get_scale(id)
+Returns values x, y, z that form the scaling vector of <id>.
+---
+
+---
+rotate_x(id, rad)
+Rotates <id> by <rad> radians along the X axis.
+---
+
+---
+rotate_y(id, rad)
+Rotates <id> by <rad> radians along the Y axis.
+---
+
+---
+rotate_z(id, rad)
+Rotates <id> by <rad> radians along the Z axis.
+---
+
+---
+collide(id1, id2)
+Returns true if the bounding boxes of <id1> and <id2> collide.
+---
+
+---
+look_at(id1, id2)
+Rotates <id1> in the way that causes it to look at <id2>.
+---
+
+---
+set_query_flags(id, flags)
+Changes the flags used during queries of <id> to <flags> where
+<flags> is a value from game.enum.entity_type.
+---
+
+---
+get_query_flags(id)
+Returns the flags used during queries of <id> which is
+a value from game.enum.entity_type.
+---
+
+---
+apply_scale(id)
+Applies the scaling vector of <id> to its mesh, needed after
+scale change.
+---
+
+---
+set_update_period(period)
+Changes the time between graphics system updates to <period>.
+---
+
+---
+get_update_period()
+Returns the time between graphics system updates.
+---

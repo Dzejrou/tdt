@@ -1,0 +1,62 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.entity                                ---
+--------------------------------------------------------------------------------
+
+---
+create(table)
+Creates a new entity from the definition table <table> and returns its ID.
+---
+
+---
+destroy(id)
+Kills <id> without calling its destructor.
+---
+
+---
+add_component(id, comp)
+Adds component <comp> to <id> where <comp> is a value from game.enum.component.
+---
+
+---
+delete_component(id, comp)
+Removes component <comp> from <id> where <comp> is a value from
+game.enum.component.
+---
+
+---
+init_graphics_component(id)
+Initializes the graphics component of <id>, this includes mesh, material,
+scale etc.
+---
+
+---
+list_tables()
+Lists all registered entity tables into the development console.
+---
+
+---
+place(table)
+Starts placing of an entity created from the definition table <table>.
+---
+
+---
+register(table)
+Registers a new entity definition table called <table>.
+---
+
+---
+kill(id)
+Kills <id> and calls its destructor.
+---
+
+---
+has_component(id, comp)
+Returns true if <id> has component <comp> where <comp is a value from
+game.enum.component, returns false otherwise.
+---
+
+---
+reset(id)
+Resets the state of <id>, this means clearing the assigned task list and
+current path.
+---

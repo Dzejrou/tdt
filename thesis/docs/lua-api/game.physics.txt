@@ -1,0 +1,69 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.physics                               ---
+--------------------------------------------------------------------------------
+
+---
+set_position(id, x, y, z)
+Changes the position of <id> to <x, y, z>. If <id> also has a graphics
+component, the position of its model is also changed.
+---
+
+---
+get_position(id)
+Returns values x, y, z that represent the position vector of <id>.
+---
+
+---
+set_solid(id, boolean)
+Changes the solid status of <id> to <boolean>. Generally only used for
+buildings.
+---
+
+---
+is_solid(id)
+Returns true if <id> is solid, returns false otherwise.
+---
+
+---
+set_half_height(id, hh)
+Changes the half height of <id> to <hh>. Half height is used to elevate the
+model of an entity so that it stands on ground.
+---
+
+---
+get_half_height(id)
+Returns the half height of <id>. Half height is used to elevate the model of
+an entity so that it stands on ground.
+---
+
+---
+get_distance(id1, id2)
+Returns the squared distance between <id1> and <id2>.
+---
+
+---
+get_angle(id1, x, y, z)
+Returns the angle between <id1> and the point at <x, y, z> in radians.
+---
+
+---
+get_angle_between(x1, y1, z1, x2, y2, z2)
+Returns the angle between the points at <x1, y1, z1> and <x2, y2, z2> in
+radians.
+---
+
+---
+set_2d_position(id, x, y)
+Changes the position of <id> in the game world with regards to the plane
+of the pathfinding grid (axes X and Z in the game) to <x, y>.
+If <id> has a graphics component, this function also repositions its model.
+The "height" axis coordinate is set to the value of the entity's
+half height.
+---
+
+---
+get_2d_position(id)
+Returns the position of <id> in the game world with regards to the
+plane of the pathfinding grid. The result is in the form of two values
+x and y that represent the two coordinates in the plane.
+---

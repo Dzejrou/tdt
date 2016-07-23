@@ -1,0 +1,90 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.hp                                    ---
+--------------------------------------------------------------------------------
+
+---
+set(id, hp)
+Sets the current health point value of <id> to <hp>.
+---
+
+---
+get(id, hp)
+Returns the current health point value of <id>.
+---
+
+---
+add(id, hp)
+Adds <hp> to the current health point value of <id> but does NOT increase it
+over the maximum health point value.
+---
+
+---
+sub(id, hp)
+Subtracts <hp> from the current health point value of <id>.
+---
+
+---
+heal(id)
+Fully heals <id>.
+---
+
+---
+buff(id, hp)
+Adds <hp> to both the current and maximum health point value of <id>.
+---
+
+---
+debuff(id, hp)
+Subtracts <hp> from both the current and maximum health point value of <id>.
+Does not go below 1 health point. (This is not for damage, only hp lowering.)
+---
+
+---
+get_defense(id)
+Returns the defense value of <id>.
+---
+
+---
+add_defense(id, defense)
+Adds <defense> to the defense value of <id>.
+---
+
+---
+sub_defense(id, defense)
+Subtracts <defense> from the defense value of <id>.
+---
+
+---
+set_regen(id, regen)
+Sets the regeneration rate of <id> to <regen>.
+---
+
+---
+get_regen(id)
+Returns the regeneration rage of <id>.
+---
+
+---
+set_alive(id, boolean)
+Sets the alive flag of <id> to <boolean>.
+---
+
+---
+is_alive(id)
+Returns the alive flag of <id>.
+---
+
+---
+ubercharge(id)
+A cheat that boosts the health and defense of <id>.
+---
+
+---
+set_regen_period(period)
+Sets the time between regeneration updates to <period>.
+---
+
+---
+get_regen_period()
+Returns the time between regeneration updates.
+---

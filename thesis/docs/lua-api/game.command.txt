@@ -1,0 +1,40 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.command                               ---
+--------------------------------------------------------------------------------
+
+---
+mine()
+Command miners to mine selected mineable entities.
+---
+
+---
+attack()
+Command minions to attack selected entities.
+---
+
+---
+reposition(x, y)
+Command minion closest to <x, y> to reposition to <x, y>.
+---
+
+---
+return_gold()
+Command minions that carry gold to return it to the closes gold vault.
+---
+
+---
+fall_back()
+Command minions to return to their spawners.
+---
+
+---
+set(id, command, boolean)
+Sets the ability of <id> to respond to <command> to <boolean>. <command> is a
+value from game.enum.command.
+---
+
+---
+test(id, command)
+Returns true if <id> can respond to <command> where <command> is a value from
+game.enum.command, returns false otherwise.
+---

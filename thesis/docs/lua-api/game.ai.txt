@@ -1,0 +1,60 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Keeper API Table: game.ai                                    ---
+--------------------------------------------------------------------------------
+
+---
+get_blueprint(id)
+Returns the name of the table that is used to update the AI of <id>.
+---
+
+---
+set_blueprint(id, blueprint)
+Sets the name of the table that is used to update the AI of <id> to <blueprint>.
+---
+
+---
+get_faction(id)
+Returns the faction of <id>. This value is from game.enum.faction.
+---
+
+---
+set_faction(id, faction)
+Sets the faction of <id> to <faction> where <faction> is a value from
+game.enum.faction.
+---
+
+---
+get_faction_name(faction)
+Returns the string containing the name of <faction> where <faction> is a value
+from game.enum.faction.
+---
+
+---
+set_update_period(period)
+Sets the time between AI updates to <period>.
+---
+
+---
+get_update_period()
+Returns the time between AI updates.
+---
+
+---
+force_update()
+Forces AI update on the next frame.
+---
+
+---
+set_state(id, state)
+Sets the state of <id> to <state> where <state> is a value from
+game.enum.entity_state.
+Note: Entity state is currently not used by the game and can be used
+      in any way a modder wants.
+---
+
+---
+get_state(id)
+Returns the state of <id>. This value is from game.enum.entity_state.
+Note: Entity state is currently not used by the game and can be used
+      in any way a modder wants.
+---

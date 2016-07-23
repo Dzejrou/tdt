@@ -1,0 +1,20 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.input                                 ---
+--------------------------------------------------------------------------------
+
+---
+set_handler(id, handler)
+Sets the name of the table that handles user input for <id> to <handler>.
+---
+
+---
+get_handler(id)
+Returns the name of the table that handles user input for <id>.
+---
+
+---
+toggle_first_person(id)
+Selects or deselects <id> as the controlled entity.
+Note: This mechanic is not currently in use and may require additional
+      testing.
+---

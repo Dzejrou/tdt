@@ -1,0 +1,163 @@
+-------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game                                      ---
+-------------------------------------------------------------------------------
+
+---
+get_avg_fps()
+Returns the average framerate of the game.
+---
+
+---
+get_fps()
+Returns the current framerate of the game.
+---
+
+---
+set_game_state(state)
+Changes the state of the game to <state>, which is a value from the enum
+game.enum.game_state.
+---
+
+---
+toggle_bounding_boxes()
+Changes the visibility status of the bounding boxes of all entities with
+graphical representation in the game world from visible to invisible
+and from invisible to visible.
+---
+
+---
+toggle_camera_free_mode()
+Changes the mode of the camera from fixed to free and from free to fixed.
+---
+
+---
+toggle_entity_creator()
+Changes the visibility status of the entity creator window from visible
+to invisible and from invisible to visible.
+---
+
+---
+list_selected()
+Lists the IDs of all selected entities to the development console.
+----
+
+---
+destroy_selected()
+Kills all selected entities without calling their destructors.
+---
+
+---
+kill_selected()
+Kills all selected entities and calls their destructors.
+---
+
+---
+list_components_of(id)
+Lists all components of the entity <id> into the development console.
+---
+
+---
+load(script)
+Loads the Lua script file <script>.
+---
+
+---
+reload_all()
+Reloads all previously loaded Lua scripts.
+---
+
+---
+save_game(save_file)
+Saves the current state of the game into the file saves/<save_file>.lua.
+---
+
+---
+load_game(save_file)
+Loads the state of the game saved in the file saves/<save_file>.lua.
+---
+
+---
+get_cursor_position()
+Returns the two dimensional coordinates of the mouse cursor.
+---
+
+---
+get_selected_entity()
+Returns the ID of the currently selected entity.
+---
+
+---
+get_enum_direction(source, target)
+Returns the direction value from game.enum.direction from <source> to <target>.
+---
+
+---
+get_node_in_dir(dir, source)
+Returns the closest grid node from <source> in the direction <dir> that is a
+value from game.enum.direction.
+---
+
+---
+can_place_when_game_paused()
+Returns true if the player can place entities when the game is paused.
+---
+
+---
+toggle_placing_when_game_paused()
+Changes the ability to place entities when the game is place from
+disallowed to allowed and from allowed to disallowed.
+---
+
+---
+new_game(width, height)
+Creates a new game in a level with dimensions <width> and <height>.
+---
+
+---
+create_empty_level(width, height)
+Creates an empty level with dimensions <width> and <height>.
+---
+
+---
+reset_unlocks()
+Resets the research status to the one the player started the level with.
+---
+
+---
+get_random(lb, ub)
+Returns a random unsigned integer between <lb> and <ub>.
+---
+
+---
+set_key_bind(action, key)
+Assigns action <action> to the press of key <key>. Note that these values
+do not have Lua enums as this functions is used only by the engine.
+---
+
+---
+get_first_selected()
+Returns the entity that has been selected first if there are more entities
+selected, the only entity selected if only one entity is selected and
+nil otherwise.
+---
+
+---
+get_enemies()
+Returns an array that contains IDs of all entities with the enemy faction.
+---
+
+---
+get_friends()
+Returns an array that contains IDs of all entities with the friendly faction.
+---
+
+---
+set_throne_id(id)
+Sets the ID that represents the dungeon throne and is the primary target
+of enemies to <id>.
+---
+
+---
+get_throne_id()
+Returns the ID of the dungeon throne.
+---

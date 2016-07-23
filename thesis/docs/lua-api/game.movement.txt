@@ -1,0 +1,55 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.movement                              ---
+--------------------------------------------------------------------------------
+
+---
+move_to(id, x, y, z)
+Moves <id> to the point at <x, y, z>. If <id> has a graphics component, its
+model is also moved.
+---
+
+---
+move(id, x, y, z)
+Moves <id> in the direction <x, y, z>. If <id> has a graphics component, its
+models is also moved.
+---
+
+---
+can_move_to(id, x, y, z)
+Returns true if <id> can move to position <x, y, z> without collisions.
+Returns false otherwise.
+---
+
+---
+get_speed(id)
+Returns the speed modifier of <id>.
+---
+
+---
+set_speed(id, speed)
+Sets the speed modifier of <id> to <speed>.
+---
+
+---
+get_dir(id), get_dir_back(id), get_dir_left(id), get_dir_right(id)
+Returns the direction that <id> is currently facing (behind it, to the left,
+to the right).
+The result is in the form of three values representing the direction vector.
+---
+
+---
+set_original_speed(id, speed)
+Sets the original speed of <id> to <speed>. The original speed is used when
+we reset the speed of <id>.
+---
+
+---
+get_original_speed(id)
+Returns the original speed of <id>. The original speed is used when we reset
+the speed of <id>.
+---
+
+---
+reset_speed(id)
+Resets the speed of <id> back to its original speed.
+---
