@@ -9,7 +9,7 @@ the component, enum that has to be added to the components list in the entity
 definition and a list of the field of the component table.
 Each of the fields contains its <type>, which can be:
     <boolean>: can have values true and false
-    <integer>: number without decimal part
+    <integer>: unsigned number without decimal part
     <number>:  number with decimal part
     <string>: a string of characters
 Note: Some components like ProductComponent, GridNodeComponent and TaskComponent
@@ -226,4 +226,286 @@ b = {
         -- Return true if the task has been completed, false otherwise.
     end
 }
+---
+
+---
+StructureComponent
+Desc: An entity that has this component is a buildable structure that snaps to
+      the pathfinding grid and acts as a resident of the grid node it's placed
+      on.
+Enum: game.enum.component.structure
+Fields:
+    radius <integer>: Half of the side of the structure in grid node count.
+Optional fields:
+    walk_through <boolean>: If true, other entities can move through or over
+                            this structure, otherwise they have to go around.
+                            This field is by default false.
+---
+
+---
+HomingComponent
+Desc: An entity that has this component moves towards its target ignoring
+      walls and the pathfinding grid. Mostly used for projectiles.
+Enum: game.enum.component.homing
+Fields:
+    source <integer>: Identifier of the entity that created this entity.
+    target <integer>: Identifier of the entity that this entity follows.
+    damage <integer>: Damage value dealth to the target once this entity
+                      hits it.
+---
+
+---
+EventHandlerComponent
+Desc: An entity that has this component can handle events that occur in the
+      game world.
+Enum: game.enum.component.event_handler
+Fields:
+    handler                <string>: Name of the table that contains the
+                                     "handle_event" function.
+    possible_events <integer array>: List of values from the enum
+                                     game.enum.event that determines which
+                                     events can this entity handle.
+Blueprint:
+b = {
+    handle_event = function(handler_id, event_id)
+        -- Handle the even event_id by handler_id.
+    end
+}
+---
+
+---
+DestructorComponent
+Desc: An entity that has this component can perform an action when it is
+      killed.
+Enum: game.enum.component.destructor
+Fields:
+    blueprint <string>: Name of the table that contains the "dtor" function.
+Blueprint:
+b = {
+    dtor = function(entity_id, killer_id)
+        -- Handle the death of entity entity_id at the hands
+        -- of entity killer_id.
+    end
+}
+---
+
+---
+GoldComponent
+Desc: An entity that has this component can carry gold.
+Enum: game.enum.component.gold
+Fields:
+    curr <integer>: Current/Starting amount of carried gold.
+    max  <integer>: Gold capacity.
+---
+
+---
+FactionComponent
+Desc: An entity that has this component belongs to a faction, that is
+      can be friendly, enemy or neutral.
+Enum: game.enum.component.faction
+Fields:
+    faction <integer>: Value from game.enum.faction determining the faction
+                       of this entity.
+Note: When the game checks the faction of an entity it defaults to neutral
+      if the entity does not have the component.
+---
+
+---
+PriceComponent
+Desc: An entity that has this component costs gold if it is placed.
+Enum: game.enum.component.price
+Fields:
+    price <integer>: Cost of the entity in gold.
+---
+
+---
+AlignComponent
+Desc: An entity that has this component gets aligned to its neighbors,
+      used for walls.
+Enum: game.enum.component.align
+Fields:
+    This component contains fields state_X where X goes from 1
+    to the value of AlignComponent::state_count defined in the Components.hpp
+    header file. Each of these state_X is a table that contains fields
+    called mesh, material, scale_x, scale_y, scale_z that act the same way
+    as they do in GraphicsComponent and additionally contains fields
+    called position_offset_x, position_offset_y and position_offset_z which
+    are of type <number> and represent offset vector from the grid node
+    the entity is placed on.
+---
+
+---
+MineComponent
+Desc: An entity that has this component can be mined down.
+Enum: game.enum.component.mine
+Note: Mere presence of this component gives the characteristic, so we only
+      need to list the enum value in the components list and do not have
+      to define the component.
+---
+
+---
+ManaCrystalComponent
+Desc: An entity that has this component gives the player additional maximum
+      mana and mana regeneration.
+Enum: game.enum.component.mana_crystal
+Fields:
+    cap_increase   <integer>: Amount of mana added to the maximum mana value
+                              of the player.
+    regen_increase <integer>: Amount added to the mana regeneration of the
+                              player.
+---
+
+---
+OnHitComponent
+Desc: An entity that has this component can react to incoming attacks.
+Enum: game.enum.component.on_hit
+Fields:
+    blueprint <string>: Name of the table that contains the "on_hit" function.
+    cooldown  <number>: Minimum time between two reactions.
+Blueprint:
+b = {
+    on_hit = function(entity_id, hitter_id)
+        -- Handle entity entity_id getting hit by entity hitter_id.
+    end
+}
+---
+
+---
+ConstructorComponent
+Desc: An entity that has this component can perform an action when it is
+      created.
+Enum: game.enum.component.constructor
+Fields:
+    blueprint <string>: Name of the table that contains the "construct"
+                        function.
+Blueprint:
+b = {
+    construct = function(entity_id)
+        -- Perform construction action of entity entity_id.
+    end
+}
+Note: Constructors are called on entity system update, so we are guaranteed
+      that any Lua commands placed after the creation of the entity but
+      before any executed C++ code will be called before the constructor
+      is called.
+---
+
+---
+TriggerComponent
+Desc: An entity that has this component can be triggered by another entity.
+Enum: game.enum.component.trigger
+Fields:
+    blueprint <string>: Name of the function that contains the "trigger"
+                        function.
+    cooldown  <number>: Minimum time between two triggers.
+    radius    <number>: Maximum distance an entity has to be to trigger
+                        this entity.
+Blueprint:
+b = {
+    trigger = function(trigger_id, target_id)
+        -- Handle the triggering of entity trigger_id by entity target_id.
+    end
+}
+---
+
+---
+UpgradeComponent
+Desc: An entity that has this component can be leveled up.
+Enum: game.entity.component.upgrade
+Fields:
+    blueprint   <string>: Name of the table that contains the "upgrade"
+                          function.
+    exp_needed <integer>: Experience required for a level up.
+    level_cap  <integer>: Maximum amount of levels this entity can have.
+Blueprint:
+b = {
+    upgrade = function(entity_id)
+        -- Upgrade entity entity_id.
+    end
+}
+---
+
+---
+NotificationComponent
+Desc: An entity that has this component can notify the player using
+      the Lua API function game.notification.notify.
+Enum: game.entity.component.notification
+Fields:
+    cooldown <number>: Minimum time between two notifications by this
+                       entity. Used to prevent spam.
+---
+
+---
+ExplosionComponent
+Desc: An entity that has this component can explode, i.e. expand until
+      a given entity and then die.
+Enum: game.entity.component.explosion
+Fields:
+    delta  <number>: Number added to the scale of this entity on every
+                     graphics system update.
+    radius <number>: Maximum size of the explison, once it is reached,
+                     this entity dies.
+Note: This effect is purely graphical. If we want to add damage to the
+      explosion or a different effect, we need to do so in its
+      constructor, destructor or AI update.
+---
+
+---
+LimitedLifeSpanComponent
+Desc: An entity that has this component lives for a limited time.
+Enum: game.entity.component.lls
+Fields:
+    max_time <number>: Time to live, once it is reached, this entity dies.
+---
+
+---
+NameComponent
+Desc: An entity that has this component has a name, which can be seen
+      in the entity viewer when this entity is selected.
+Enum: game.entity.component.name
+Fields:
+    name <string>: Name of this entity.
+---
+
+---
+ExperienceValueComponent
+Desc: An entity that has this component can gain experience.
+Enum: game.entity.component.exp_val
+Fields:
+    value <integer>: Current/Starting experience value of this entity.
+Note: Used alongside UpgradeComponent.
+---
+
+---
+LightComponent
+Desc: An entity that has this componet emits life.
+Enum: game.entity.component.light
+Note: The presence of this component suffices, so we only need to
+      add the enum value to the component list and do not need to
+      define the component.
+Note: There is currently a problem with the implementation, Ogre3D
+      disallows more than 8 dynamic lights at the same time and
+      the placement of a new light might either not work or
+      it might turn another light off.
+---
+
+---
+CommandComponent
+Desc: An entity that has this component can respond to commands.
+Enum: game.entity.component.command
+Fields:
+    possible_commands <array of integer>: List of values from the enum
+                                          game.enum.command that determine
+                                          which commands this entity can
+                                          respond to.
+---
+
+---
+CounterComponent
+Desc: An entity that has this component can use it as an auxiliary counter.
+      Used for example in the destructor of chain lightning to count
+      hops between enemies.
+Enum: game.entity.component.counter
+Fields:
+    max_value <integer>: Maximum value of the counter.
 ---

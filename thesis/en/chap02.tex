@@ -306,11 +306,59 @@ through the use of meta mechanisms provided by the language. This means that eve
 modding API would have to be more complex -- as simple function binding would not suffice -- and would require the understanding
 of object oriented programming from our modders.
 
-If we were to use this form of entity representation, most of the data that belongs to an entity would be stored sequentially in memory.
-Because of this, we cannot use the spatial locality of cache when we want to access the same set of data belonging to multiple entities.
-This can cause worse performance when compared to a representation that groups the same type of entity data in memory~\cite{OOPPitfalls}.
-Additionally, the use of a virtual function is slower than a non-virtual one by about 25\%~\cite{CppProgLang} and also offers lower 
-opportunities for inlining.
+However, in game development we often want to access a single attribute of many entities. An example of a process that does this is
+pathfinding. Pathfinding algorithms are generally represented as a shortest path search in a pathfinding graph, which consists of
+graph nodes that are connected by edges. Since the original Dungeon Keeper has its pathfinding graph in the form of a grid, let us
+assume that each grid node has the same amount of neighbors.
+
+In Figure~\ref{grid-node}, we can see an example of a grid node representation in memory. This node contains a list of its neighbors,
+which is used for pathfinding, its position, which is used for the actual movement of entities that are on a path, graphics data,
+which can be used for debugging visualisation of the pathfinding process, and a name, which can also be used during debugging and also
+logging.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm]{../img/grid-node.pdf}
+    \caption{Memory representation of a grid node.}
+    \label{grid-node}
+\end{figure}
+
+During the execution of the pathfinding algorithm, grid nodes get stored in cache for fast repeated access. The processor cache has a
+concept of \emph{spatial locality}, which means that when it loads data from memory it loads a whole block of memory as spatially close
+data are very likely to be accessed, too. However, a pathfinding algorithm only requires the list of neighbours of a node.
+Figure~\ref{cache-inheritance} shows a possible cache state with four different grid nodes loaded. As we can see, quite a lot of unneeded
+data was loaded to the cache due to spatial locality which can cause quite frequent cache misses because of the limited size of the cache.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=9cm]{../img/grid-cache-inheritance.pdf}
+    \caption{Example of a possible cache state during a pathfinding algorithm if we have data grouped by entity in memory.}
+    \label{cache-inheritance}
+\end{figure}
+
+If, on the other hand, we would have data grouped in memory by their purpose as opposed to having them grouped by entities, the spatial
+locality of cache could be used to prefetch data that will likely be used during the pathfinding algorithm. In Figure~\ref{cache-dd},
+we can see the state of the cache at the same point of the algorithm, but with data being grouped by their purpose in memory
+-- instead of having the different nodes with their data next to each other, we have all neighbor lists next to each other and
+similarly for all other data that belong to grid nodes.
+
+With this data grouping, any data loaded to cache during the algorithm is very likely to be relevant to future computation and as
+such might lead to fewer cache misses.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=9cm]{../img/grid-cache-data-driven.pdf}
+    \caption{Example of a possible cache state during a pathfinding algorithm if we have data grouped by their purpose in memory.}
+    \label{cache-dd}
+\end{figure}
+
+While it would be possible to incorporate such data grouping to this entity representation -- and it can lead to even 35\% increase
+in performance in some cases~\cite{OOPPitfalls} -- the inheritance based entity representation suffers one additional performance
+hit in the fact that, in \cpp, the use of a virtual function is slower than the use of a non-virtual one by about 25\%~\cite{CppProgLang} and
+offers smaller opportunities for inlining.
+
+Because of this, we think that if we were to use the spatial locality of cache, it might be better to use a representation that takes
+it into account by itself.
 
 \subsection{Entity Component System}
 
