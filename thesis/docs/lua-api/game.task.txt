@@ -1,0 +1,117 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.task                                  ---
+--------------------------------------------------------------------------------
+
+---
+add(id, task_id)
+Adds task <task_id> at the end of <id>'s task queue.
+---
+
+---
+add_priority(id, task_id)
+Adds task <task_id> at the start of <id>'s task queue. Note that the queue
+excludes the current task that is being performed.
+---
+
+---
+cancel(task_id)
+Destroys task <task_id> and removes it from any task queue.
+---
+
+---
+create_task(target, task_type)
+Creates a new task of type <task_type>, which is a value from game.enum.task,
+and assigns <target> as its target (e.g. what entity to mine, attack etc).
+Returns the ID of the newly created task.
+---
+
+---
+list(id)
+Lists all tasks of <id> into the development console.
+---
+
+---
+possible(id, task_id)
+Returns true if <id> can handle task <task_id>, returns false otherwise.
+---
+
+---
+type_possible(id, task_type)
+Returns true if <id> can handle task of type <task_type> where <task_type>
+is a value from game.enum.task, returns false otherwise.
+---
+
+---
+clear_queue(id)
+Clears the task queue of <id>. Also destroys all tasks that were in the queue.
+---
+
+---
+set_source(id, source_id)
+Sets the source (i.e. the handler) of task <id> to <source_id>.
+---
+
+---
+get_source(id)
+Returns the source (i.e. the handler) of task <id>.
+---
+
+---
+set_target(id, target_id)
+Sets the target of task <id> to <target_id>.
+---
+
+---
+get_target(id)
+Returns the target of task <id>.
+---
+
+---
+set_type(id, task_type)
+Sets the type of task <id> to <task_type>, which is a value from
+game.enum.task.
+---
+
+---
+get_type(id)
+Returns the type of task <id>. The result is a value from game.enum.task.
+---
+
+---
+add_possible(id, task_type)
+Adds the type <task_type> to the list of tasks that <id> can handle.
+<task_type> if a value from game.enum.task.
+---
+
+---
+delete_possible(id, task_type)
+Removes the type <task_type> from the list of tasks that <id> can handle.
+<task_type> if a value from game.enum.task.
+---
+
+---
+set_blueprint(id, blueprint)
+Sets the task handling blueprint of <id> to <blueprint>.
+---
+
+---
+get_blueprint(id)
+Returns the task handling blueprint of <id>.
+---
+
+---
+set_complete(id, boolean)
+Sets the complete flag of task <id> to <boolean>. Note that the complete
+flag is not used by the engine and is only provided as an auxiliary
+flag that helps with completion status tracking.
+---
+
+---
+is_complete(id)
+Returns the complete flag of task <id>.
+---
+
+---
+clear(id)
+Clears the task queue of <id>. Also destroys all tasks in the queue.
+---

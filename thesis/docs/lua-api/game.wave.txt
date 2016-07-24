@@ -1,0 +1,177 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.wave                                  ---
+--------------------------------------------------------------------------------
+
+---
+next()
+Starts the next wave.
+---
+
+---
+advance_countdown(time)
+Advances the countdown till the next wave by <time> seconds.
+---
+
+---
+entity_died()
+Notifies the wave system that a wave entity has died.
+---
+
+---
+start()
+Starts the wave system.
+---
+
+---
+pause(boolean)
+Sets the wave status to inactive if <boolean> is true, otherwise sets the
+wave status to waiting.
+---
+
+---
+set_entity_total(total)
+Sets the total number of entities in the current wave to <total>.
+---
+
+---
+get_entity_total()
+Returns the total number of entities in the current wave.
+---
+
+---
+set_wave_count(count)
+Sets the amount of waves to <count>.
+---
+
+---
+get_wave_count()
+Returns the amount of waves.
+---
+
+---
+add_spawn_node(id)
+Adds a new spawn node with id <id>.
+---
+
+---
+clear_spawn_nodes()
+Resets the list of spawn nodes.
+---
+
+---
+set_spawn_cooldown(time)
+Sets the time between entity spawns to <time>.
+---
+
+---
+get_spawn_cooldown()
+Returns the time between entity spawns.
+---
+
+---
+add_entity_blueprint(entity)
+Adds a new entity to the next wave that is defined in table <entity>.
+---
+
+---
+set_table(table)
+Sets the current wave table name to <table>.
+---
+
+---
+get_table()
+Returns the name of the current wave table.
+---
+
+---
+set_curr_wave_number(wave)
+Sets the number of the current wave to <wave>. Note that waves are numbered
+from 0.
+---
+
+---
+get_curr_wave_number()
+Returns the number of the current wave.
+---
+
+---
+set_countdown(time)
+Sets the time till the next wave to <time> seconds.
+---
+
+---
+get_countdown()
+Returns the time till the next wave.
+---
+
+---
+set_state(state)
+Sets the state of the wave system to <state>, which is a value from
+game.enum.wave_state.
+---
+
+---
+get_state()
+Returns the state of the wave system, which is a value from
+game.enum.wave_state.
+---
+
+---
+update_label_text()
+Updates the wave countdown label.
+---
+
+---
+set_spawn_timer(time)
+Sets the spawn cooldown timer to <time>.
+---
+
+---
+get_spawn_timer()
+Returns the spawn cooldown timer time.
+---
+
+---
+set_wave_entities(count)
+Sets the number of alive members of the current wave to <count>.
+---
+
+---
+get_wave_entities()
+Returns the number of alive members of the current wave.
+---
+
+---
+set_entities_spawned(count)
+Sets the number of already spawned entities during this wave to <count>.
+---
+
+---
+get_entities_spawned()
+Returns the number of already spawned netities during this wave.
+---
+
+---
+clear_entity_blueprints()
+Clears the list of entities within the wave.
+---
+
+---
+list()
+Lists all members of the next/current wave to the development console.
+---
+
+---
+set_endless_mode(boolean)
+If <boolean> is true, turn endless mode on, otherwise turn it off.
+---
+
+---
+get_endless_mode()
+Returns true if endless mode is on, returns false otherwise.
+---
+
+---
+turn_endless_mode_on()
+Turns the endless mode on (duh...).
+---

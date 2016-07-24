@@ -1,0 +1,71 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.trigger                               ---
+--------------------------------------------------------------------------------
+
+---
+set_blueprint(id, blueprint)
+Sets the trigger blueprint of <id> to <blueprint>.
+---
+
+---
+get_blueprint(id)
+Returns the trigger blueprint of <id>.
+---
+
+---
+set_linked_entity(id1, id2)
+Sets the linked entity of <id1> to <id2>. This is used for e.g. portals where
+the entity needs to know its partner when it is triggered.
+---
+
+---
+get_linked_entity(id)
+Returns the linked entity of <id1>. This is used for e.g. portals where
+the entity needs to know its partner when it is triggered.
+---
+
+---
+set_cooldown(id, time)
+Sets the minimum time between two triggers of <id> to <time>.
+---
+
+---
+get_cooldown(id)
+Returns the minimum time between two triggers of <id>.
+---
+
+---
+trigger(id, triggered_by_id)
+Calls the trigger handler of <id> and tells it that <id> was triggered
+by <triggered_by_id>.
+---
+
+---
+set_check_period(time)
+Sets the time between two checks for triggers to <time>.
+---
+
+---
+get_check_period()
+Returns the time between two checks for triggers.
+---
+
+---
+can_be_triggered_by(id1, id2)
+Returns true if <id1> can be triggered by <id2>.
+---
+
+---
+reset_timer(id)
+Resets the current cooldown timer of <id>.
+---
+
+---
+set_radius(id, radius)
+Sets the maximum distance at which <id> can be triggered to <radius>.
+---
+
+---
+get_radius(id)
+Returns the maximum distance at which <id> can be triggered.
+---

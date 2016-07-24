@@ -2,4 +2,120 @@
 --- The Dungeon Throne API Table: game.grid                                  ---
 --------------------------------------------------------------------------------
 
+---
+add_node(x, y)
+Creates a new node at <x, y> (ignoring height). Note that this node is unset
+and only contains a physics component and a grid node component and as such
+needs to be set up (linked with others).
+---
 
+---
+get_node(x, y)
+Returns the grid node at grid position <x, y>. Note that x and y are coordinates
+within the grid, so node at <0, 3> will be third node of the top row.
+---
+
+---
+get_node_from_position(x, y)
+Returns the grid node at position <x, y> or the closest node to that position.
+---
+
+---
+create_graphics()
+Creates models for grid nodes.
+---
+
+---
+delete_graphics()
+Deletes models of grid nodes.
+---
+
+---
+toggle_visible()
+Switches the visibility status of grid nodes from visible to invisible and from
+invisible to visible. Note that this requires grid graphics to be created.
+---
+
+---
+is_free(id)
+Returns true if <id> is free (i.e. unobstructed) grid node. Returns false
+otherwise.
+---
+
+---
+set_free(id, boolean)
+Sets the free status of <id> to <boolean>.
+---
+
+---
+set_free_selected(boolean)
+Sets the free status of all selected nodes to <boolean>.
+---
+
+---
+create(x, y, distance, width, height)
+Creates a pathfinding grid that has its top left corner at <x, y>, has
+distance between node set to <distance> and its rows contain <width>
+nodes (=integer) and its columns contain <height> nodes (=integer).
+---
+
+---
+set_resident(id, resident)
+Sets <resident> to be the resident of the node <id>.
+---
+
+---
+get_resident(id)
+Returns the resident of the node <id>.
+---
+
+---
+add_residences(id, residence_list_name)
+Adds new residences to the structure <id>. <residence_list_name> is the
+name of a table that contains the list of IDs of the residences.
+---
+
+---
+add_residence(id, residence)
+Adds <residence> to the list of residences of <id>.
+---
+
+---
+set_radius(id, radius)
+Sets the the radius of the structure <id> (i.e. half of its side) to
+<radius>. Note that the radius is a node count (=integer).
+---
+
+---
+set_walk_through(id, boolean)
+Sets the walk through status of the structure <id> to <boolean>.
+---
+
+---
+is_walk_through(id)
+Returns true if <id> can be walked through, returns false otherwise.
+---
+
+---
+place_at_random_free_node(id)
+Moves <id> to a random node in the graph that is not obstructed.
+---
+
+---
+distribute_to_adjacent_free_nodes(id, id1, id2, ..., idn)
+Distributes entities <id1>, <id2>, ..., <idn> to nodes that are free
+and adjacent to node <id> if possible. Returns true if the distribution
+was possible and false otherwise.
+---
+
+---
+get_random_free_node()
+Returns the ID of a random node that is not obstructed.
+---
+
+---
+set_portal_neighbour(id1, id2)
+Connects id1 and id2 with a portal. Note that this is only used for pathfinding
+and to actually create a portal you need to add a trigger component
+and connect both ways.
+---

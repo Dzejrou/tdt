@@ -1,0 +1,30 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.gui.research                          ---
+--------------------------------------------------------------------------------
+
+---
+show(row, column)
+Shows the research node at row <row> and column <column>.
+---
+
+---
+free_research()
+Sets the gold cost of all research nodes to zero.
+---
+
+---
+research_all()
+Unlocks all research nodes free of charge.
+---
+
+---
+dummy_unlock(row, column)
+Unlocks the research node at row <row> and column <column> without actually
+applying its effect.
+---
+
+---
+reset()
+Resets the research window to its initial state (only first column shown and
+all is locked).
+---

@@ -1,0 +1,90 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.gold                                  ---
+--------------------------------------------------------------------------------
+
+---
+set_current(id, gold)
+Sets the current amount of gold <id> has to <gold>.
+---
+
+---
+get_current(id)
+Returns the current amount of gold <id> has.
+---
+
+---
+set_max(id, max)
+Sets the maximum amount of gold <id> can carry to <max>.
+---
+
+---
+get_max(id)
+Returns the maximum amount of gold <id> can carry.
+---
+
+---
+add(id, gold)
+Adds <gold> gold to <id>. Returns the amount of gold not added due to capacity.
+---
+
+---
+sub(id, gold)
+Subtracts <gold> gold from <id>. Returns the amount of gold that could not be
+subtracted because of none left.
+---
+
+---
+transfer_all(id1, id2)
+Transfers all gold from <id1> to <id2> while keeping the capacity of <id2> in
+mind. Returns the amount of gold actually transferred.
+---
+
+---
+get_closest_gold_deposit(id)
+Returns the ID of the closest mineable gold deposit from <id>.
+---
+
+---
+get_closest_gold_deposit_in_sight(id)
+Returns the ID of the closest mineable gold deposit from <id> in sight.
+---
+
+---
+full(id)
+Returns true if <id> has reached its gold capacity, returns false otherwise.
+---
+
+---
+is_gold_vault(id)
+Returns true if <id> is a gold vault, i.e. a friendly structure that can store
+gold.
+---
+
+---
+closest_gold_vault(id)
+Returns the ID of the closest gold vault from <id>.
+---
+
+---
+closest_gold_vault_in_sight(id)
+Returns the ID of the closest gold vault from <id> in sight.
+---
+
+---
+closest_free_gold_vault(id)
+Returns the ID of the closest gold vault from <id> that has not reached its
+gold capacity yet.
+---
+
+---
+closest_free_gold_vault_in_sight(id)
+Returns the ID of the closest gold vault from <id> in sight that has not
+reached its capacity yet.
+---
+
+---
+exists_free_gold_vault()
+Returns true if there is a gold vault that has not reached its capacity yet,
+returns false otherwise.
+---
+---

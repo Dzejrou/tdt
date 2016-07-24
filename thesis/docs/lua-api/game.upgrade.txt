@@ -1,0 +1,74 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.upgrade                               ---
+--------------------------------------------------------------------------------
+
+---
+set_blueprint(id, blueprint)
+Sets the upgrade blueprint of <id> to <blueprint>.
+---
+
+---
+get_blueprint(id)
+Returns the upgrade blueprint of <id>.
+---
+
+---
+set_experience(id, exp)
+Sets the current experience value of <id> to <exp>.
+---
+
+---
+get_experience(id, exp)
+Returns the current experience value of <id>.
+---
+
+---
+add_experience(id, exp)
+Adds <exp> to the current experience value of <id>.
+---
+
+---
+set_exp_neeced(id, exp)
+Sets the experience needed for next level of <id> to <exp>.
+---
+
+---
+get_exp_needed(id)
+Returns the experience needed for next level of <id>.
+---
+
+---
+set_level(id, level)
+Sets the level of <id> to <level>.
+---
+
+---
+get_level(id)
+Returns the level of <id>.
+---
+
+---
+set_level_cap(id, cap)
+Sets the maximum level <id> can reach to <cap>.
+---
+
+---
+get_level_cap(id)
+Returns the maximum level <id> can reach.
+---
+
+---
+can_level_up(id)
+Returns true if <id> has enough experience to level up,
+returns false otherwise.
+---
+
+---
+upgrade(id)
+Upgrades <id> if it has enough experience.
+---
+
+---
+all_level_up()
+Upgrades all of the player's current entities.
+---

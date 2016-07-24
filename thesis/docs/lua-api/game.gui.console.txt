@@ -1,0 +1,38 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.gui.console                           ---
+--------------------------------------------------------------------------------
+
+---
+scroll_down()
+Scrolls down the console one time.
+---
+
+---
+set_history(history)
+Sets the amount of kept lines to <history>.
+---
+
+---
+get_history()
+Returns the amoung of kept lines.
+---
+
+---
+clear()
+Clears the console.
+---
+
+---
+set_visible(boolean)
+Sets the visibility status to <boolean>.
+---
+
+---
+is_visible()
+Returns true if the console is visible, returns false otherwise.
+---
+
+---
+print(msg)
+Prints the message <msg> to the development console.
+---

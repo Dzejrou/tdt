@@ -1,0 +1,21 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.constructor                           ---
+--------------------------------------------------------------------------------
+
+---
+set_blueprint(id, blueprint)
+Sets the constructor blueprint of <id> to <blueprint>.
+---
+
+---
+get_blueprint(id)
+Returns the constructor blueprint of <id>.
+---
+
+---
+call(id)
+Calls the constrcutor of <id>. Note that if an entity has a constructor
+component defined in its definition table, the constrcutor gets called
+automatically. This is used for components added at runtime and for repeated
+calls of the constructor.
+---

@@ -1,0 +1,39 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.gui.message                           ---
+--------------------------------------------------------------------------------
+
+MESSAGE WINDOW:
+|------------------|
+| MESSAGE          |
+|OK          YES NO|
+|------------------|
+Note: All functions are passed as their names.
+
+---
+show(msg, ok, yes, no)
+Shows the message window with message <msg> and assigns function <ok> to the
+ok button, function <yes> to the yes button and function <no> to the no button.
+---
+
+---
+show_ok(msg, ok)
+Shows the message window with message <msg> and assigns function <ok> to the
+ok button.
+---
+
+---
+show_yes_no(msg, yes, no)
+Shows the message window with message <msg> and assigns function <yes> to the
+yes button and function <no> to the no button.
+---
+
+---
+set_butt_label(butt, label)
+Changes the label text of the button <butt> to <label>. <butt> can be "OK",
+"YES" or "NO".
+---
+
+---
+reset_butt_labels()
+Resets the button labels back to "OK", "YES" and "NO".
+---

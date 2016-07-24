@@ -1,0 +1,100 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Player API Table: game.player                                ---
+--------------------------------------------------------------------------------
+
+---
+add_gold(gold)
+Adds <gold> gold to the player. Does not add to any gold vault.
+---
+
+---
+sub_gold(gold)
+Removes <gold> gold from the player. Does remove from gold vaults.
+If the player has less than <gold> gold, returns true and does not remove
+anything, otherwise returns true.
+---
+
+---
+add_mana(mana)
+Adds <mana> mana to the player.
+---
+
+---
+sub_mana(mana)
+Removes <mana> mana from the player if possible.
+Returns true if the player had enough mana, false otherwise.
+---
+
+---
+add_max_units(units)
+Adds <units> to the maximum unit count on the top bar.
+---
+
+---
+sub_max_units(units)
+Removes <units> from the maximum unit count on the top bar if possible.
+Returns true if the player had enough, false otherwise.
+---
+
+---
+add_curr_units(units)
+Adds <units> to the current unit count on the top bar.
+---
+
+---
+sub_curr_units(units)
+Removes <units> from the current unit count on the top bar if possible.
+Returns true if the player had enough, false otherwise.
+---
+
+---
+get_gold()
+Returns the amount of gold the player has.
+---
+
+---
+get_mana()
+Returns the amount of mana the player has.
+---
+
+---
+reset()
+Resets the player's resources to their initial state.
+---
+
+---
+nulify_stats()
+Sets all of the player's resources to zero.
+---
+
+---
+add_max_mana(mana)
+Adds <mana> to the max amount of mana the player can have.
+---
+
+---
+sub_max_mana(mana)
+Removes <mana> from the max amount of mana the player can have if possible.
+Returns true if the player had enough, false otherwise.
+---
+
+---
+get_max_mana()
+Returns the maximum amount of mana the player can have.
+---
+
+---
+add_mana_regen(mana)
+Adds <mana> to the mana regeneration amount of the player.
+---
+
+---
+sub_mana_regen(mana)
+Removes <mana> from the mana regeneration amount of the playerif possible.
+Returns true if the player had enough, false otherwise.
+---
+
+---
+get_mana_regen()
+Returns the mana regeneration amount the player.
+---

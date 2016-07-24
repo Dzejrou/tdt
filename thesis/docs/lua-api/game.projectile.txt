@@ -1,0 +1,33 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.projectile                            ---
+--------------------------------------------------------------------------------
+
+---
+set_source(id, source_id)
+Sets the source of projectile <id> to <source_id>.
+---
+
+---
+get_source(id)
+Returns the source of projectile <id>.
+---
+
+---
+set_target(id, target_id)
+Sets the target of projectile <id> to <target_id>.
+---
+
+---
+get_target(id)
+Returns the target of projectile <id>.
+---
+
+---
+set_dmg(id, dmg)
+Sets the damage of <id> to <dmg>.
+---
+
+---
+get_dmg(id)
+Returns the damage of <id>.
+---

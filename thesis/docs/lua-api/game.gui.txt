@@ -1,0 +1,33 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.gui                                   ---
+--------------------------------------------------------------------------------
+
+---
+set_visible(boolean)
+Sets the visibility status of the GUI to <boolean>.
+---
+
+---
+is_visible()
+Returns true if the GUI is visible, returns false otherwise.
+---
+
+---
+set_window_visible(window, boolean)
+Sets the visibility status of <window> to <boolean>.
+---
+
+---
+is_window_visible(window)
+Returns true if <window> is visible, returns false otherwise.
+---
+
+---
+show_load_dialog()
+Shows the load game window to the player.
+---
+
+---
+show_save_dialog()
+Shows the save game window to the player.
+---

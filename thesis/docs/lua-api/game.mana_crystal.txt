@@ -1,0 +1,23 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.mana_crystal                          ---
+--------------------------------------------------------------------------------
+
+---
+set_capacity(id, capacity)
+Sets the amount of max mana <id> gives to the player to <capacity>.
+---
+
+---
+get_capacity(id)
+Returns the amount of max mana <id> gives to the player.
+---
+
+---
+set_regen(id, regen)
+Sets the mana regeneration amount <id> gives to the player to <regen>.
+---
+
+---
+get_regen(id)
+Returns the mana regeneration amount <id> gives to the player.
+---

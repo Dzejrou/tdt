@@ -1,0 +1,25 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.light                                 ---
+--------------------------------------------------------------------------------
+
+---
+set_visible(id, boolean)
+If <boolean> is true, turns the light of <id> on, otherwise turns it off.
+---
+
+---
+is_visible(id)
+Returns true if the light of <id> is visible, returns false otherwise.
+---
+
+---
+toggle_visible(id)
+If the light of <id> is visible, turns it invisible, otherwise, turns it
+visible.
+---
+
+---
+init(id)
+Initializes the Ogre3D light, should be used when this component is added at
+runtime as without it the light won't be shown.
+---

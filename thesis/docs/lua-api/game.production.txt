@@ -1,0 +1,88 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.production                            ---
+--------------------------------------------------------------------------------
+
+---
+set_blueprint(id, blueprint)
+Set the entity blueprint of <id> to <blueprint>.
+---
+
+---
+get_blueprint(id)
+Returns the entity blueprint of <id>.
+---
+
+---
+set_limit(id, limit)
+Sets the spawn limit of <id> to <limit>.
+---
+
+---
+get_limit(id)
+Returns the spawn limit of <id>.
+---
+
+---
+set_cooldown(id, time)
+Sets the production cooldown of <id> to <time>.
+---
+
+---
+get_cooldown(id)
+Returns the production cooldown of <id>.
+---
+
+---
+set_progress(id, time)
+Sets the spawning time progress of <id> to <time>.
+---
+
+---
+get_progress(id)
+Returns the spawning time progress of <id>.
+---
+
+---
+set_count(id, count)
+Sets the current spawn count of <id> to <count>.
+---
+
+---
+get_count(id)
+Returns the current spawn count of <id>.
+---
+
+---
+set_producer(id, producer_id)
+Sets the producer of <id> to <producer_id>.
+---
+
+---
+get_producer(id)
+Returns the producer of <id>.
+---
+
+---
+instant_production()
+Causes all current producers to produce instantly.
+---
+
+---
+set_multiplier(multiplier)
+Sets the time progression multiplier of production to <multiplier>.
+---
+
+---
+get_multiplier()
+Returns the time progression multiplier of production.
+---
+
+---
+double_production()
+Doubles the production limit of all current producers.
+---
+
+---
+increase_production()
+Increases the production limit of all current producers by one.
+---

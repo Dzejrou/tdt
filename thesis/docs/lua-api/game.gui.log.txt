@@ -1,0 +1,33 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.gui.log                               ---
+--------------------------------------------------------------------------------
+
+---
+clear()
+Clears the game log history.
+---
+
+---
+print(msg)
+Prints the message <msg> to the game log.
+---
+
+---
+set_history(history)
+Sets the kept history size to <history>.
+---
+
+---
+get_history()
+Returns the kept history size.
+---
+
+---
+set_visible(boolean)
+Sets the visibility status of the game log to <boolean>.
+---
+
+---
+is_visible()
+Returns true if the game log is visible, returns false otherwise.
+---

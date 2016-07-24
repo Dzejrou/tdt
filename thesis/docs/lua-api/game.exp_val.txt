@@ -1,0 +1,23 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.exp_val                               ---
+--------------------------------------------------------------------------------
+
+---
+get(id)
+Returns the amount of experience <id> yields when killed.
+---
+
+---
+set(id, exp)
+Sets the amount of experience <id> yields when killed to <exp>.
+---
+
+---
+increase(id, exp)
+Increases the amount of experience <id> yields when killed by <exp>.
+---
+
+---
+decrease(id, exp)
+Decreases the amount of experience <id> yields when killed by <exp>.
+---

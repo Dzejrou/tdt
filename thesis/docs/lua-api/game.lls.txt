@@ -1,0 +1,23 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.lls                                   ---
+--------------------------------------------------------------------------------
+
+---
+set_max_time(id, time)
+Set the time to live of <id> to <time>.
+---
+
+---
+get_max_time(id)
+Returns the time to live of <id>.
+---
+
+---
+get_curr_time(id)
+Returns the current life time of <id>.
+---
+
+---
+advance_curr_time(id, time)
+Adds <time> second to the life timer of <id>.
+---

@@ -1,0 +1,43 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.ent_spell                             ---
+--------------------------------------------------------------------------------
+
+---
+set_blueprint(id, blueprint)
+Sets the spell blueprint of <id> to <blueprint>.
+---
+
+---
+get_blueprint(id)
+Returns the spell blueprint of <id>.
+---
+
+---
+set_cooldown(id, time)
+Sets the minimum time between spell casts of <id> to <time>.
+---
+
+---
+get_cooldown(id)
+Returns the minimum time between spell casts of <id>.
+---
+
+---
+advance_curr_time(id, time)
+Advances the current cooldown timer of <id> by <time> seconds.
+---
+
+---
+set_curr_time(id, time)
+Sets the current cooldown timer of <id> to <time>.
+---
+
+---
+get_curr_time(id)
+Returns the current cooldown timer of <id>.
+---
+
+---
+cast(id)
+Performs a spell cast by <id> (does not check cooldown).
+---

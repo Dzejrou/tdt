@@ -1,0 +1,28 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.on_hit                                ---
+--------------------------------------------------------------------------------
+
+---
+set_blueprint(id, blueprint)
+Sets the hit handling blueprint of <id> to <blueprint>.
+---
+
+---
+get_blueprint(id)
+Returns the hit handling blueprint of <id>.
+---
+
+---
+call(id, hitter_id)
+Calls the hit handler of <id> and tells it that <hitter_id> is the attacker.
+---
+
+---
+set_cooldown(id, time)
+Sets the minimum time between hit handling of <id> to <time>.
+---
+
+---
+get_cooldown(id).
+Returns the minimum time between hit handling of <id>.
+---

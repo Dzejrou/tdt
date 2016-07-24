@@ -1,0 +1,34 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.notification                          ---
+--------------------------------------------------------------------------------
+
+---
+set_cooldown(id, time)
+Sets the minimum time between notifications from <id> to <time>.
+---
+
+---
+get_cooldown(id)
+Returns the minimum time between notifications from <id>.
+---
+
+---
+reset(id)
+Sets <id>'s notification timer to its cooldown so that it can notify
+immediately.
+---
+
+---
+notify(id, msg)
+Notifies the player by <id> with the message <msg>.
+---
+
+---
+get_curr_time(id)
+Returns the current cooldown timer of <id>.
+---
+
+---
+advance_curr_time(id, time)
+Adds <time> seconds to the current cooldown timer of <id>.
+---

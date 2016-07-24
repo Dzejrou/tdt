@@ -1,0 +1,74 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.event                                 ---
+--------------------------------------------------------------------------------
+
+---
+set_type(id, type)
+Sets the type of the event <id> to <type>, which is a value from
+game.enum.event.
+---
+
+---
+get_type(id)
+Returns the type of event <id>, which is a value from game.enum.event.
+---
+
+---
+set_target(id, target_id)
+Sets the target of event <id> to <target_id>.
+---
+
+---
+get_target(id)
+Returns the target of event <id>.
+---
+
+---
+set_radius(id, radius)
+Sets the radius of event <id> to <radius>.
+---
+
+---
+get_radius(id)
+Returns the radius of event <id>.
+---
+
+---
+set_active(id, boolean)
+Sets the active flag of <id> to <boolean>.
+---
+
+---
+is_active(id)
+Returns true if the event <id> is active, returns false otherwise.
+---
+
+---
+set_handler(id, handler_id)
+Sets the handler of the event <id> to <handler_id>.
+---
+
+---
+get_handler(id)
+Returns the handler of the event <id>.
+---
+
+---
+set_update_period(time)
+Sets the time between event system updates to <time>.
+---
+
+---
+get_update_period()
+Returns the time between event system updates.
+---
+
+---
+set_multiplier(multiplier)
+Sets the time multiplier of event handling updates to <multiplier>.
+---
+
+---
+get_multiplier()
+Returns the time multiplier of event handling updates.
+---

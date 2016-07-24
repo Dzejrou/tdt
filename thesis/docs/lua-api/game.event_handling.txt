@@ -1,0 +1,29 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.event_handling                        ---
+--------------------------------------------------------------------------------
+
+---
+set_handler(id, blueprint)
+Sets the event handling blueprint of <id> to <blueprint>.
+---
+
+---
+get_handler(id)
+Returns the event handling blueprint of <id>.
+---
+
+---
+can_handle(id, evt_type)
+Returns true if <id> can handle event of type <evt_type>, which is a value
+from game.enum.event.
+---
+
+---
+add_possible(id, evt_type)
+Adds event type <evt_type> to the list of events <id> can handle.
+---
+
+---
+delete_possible(id, evt_type)
+Removes event type <evt_type> from the list of events <id> can handle.
+---

@@ -13,6 +13,13 @@ Returns the current framerate of the game.
 ---
 
 ---
+print_(msg)
+Prints message <msg> to the game's console, this function is wrapped in the
+default Lua scripts by a game.print function which converts its parameter
+to string and calls print_.
+---
+
+---
 set_game_state(state)
 Changes the state of the game to <state>, which is a value from the enum
 game.enum.game_state.

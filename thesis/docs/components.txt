@@ -469,11 +469,11 @@ Fields:
 
 ---
 ExperienceValueComponent
-Desc: An entity that has this component can gain experience.
+Desc: An entity that has this component yields experience when it is
+      killed..
 Enum: game.entity.component.exp_val
 Fields:
-    value <integer>: Current/Starting experience value of this entity.
-Note: Used alongside UpgradeComponent.
+    value <integer>: Amount of experience this entity yields..
 ---
 
 ---

@@ -1,0 +1,71 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.time                                  ---
+--------------------------------------------------------------------------------
+
+---
+get_current(id)
+Returns the current time of timer <id>.
+---
+
+---
+advance_current(id, time)
+Advances the current time of timer <id> by <time>.
+---
+
+---
+max_current(id)
+Finnishes the timer <id>.
+---
+
+---
+set_limit(id, limit)
+Sets the time limit of timer <id> to <limit>.
+---
+
+---
+get_limit(id)
+Returns the time limit of timer <id>.
+---
+
+---
+set_target(id, target_id)
+Sets the target of timer <id> to <target_id>.
+---
+
+---
+get_target(id)
+Returns the target of timer <id>.
+---
+
+---
+set_type(id, type)
+Sets the type of the time event of the timer <id> to <type>, which is
+a value from game.enum.time_event.
+---
+
+---
+get_type(id)
+Returns the type of the time event of the timer <id>, which is a value
+from game.enum.time_current.
+---
+
+---
+advance_all(time)
+Advances all timers by <time> seconds.
+---
+
+---
+advance_all_of_type(time, type)
+Adcances all timers of type <type> by <time> seconds where <type is
+a value from game.enum.time_event.
+---
+
+---
+set_multiplier(multiplier)
+Sets the time multiplier to <multiplier>.
+---
+
+---
+get_multiplier()
+Returns the time multiplier.
+---

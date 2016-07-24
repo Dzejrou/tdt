@@ -1,0 +1,196 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.combat                                ---
+--------------------------------------------------------------------------------
+
+---
+set_target(id, target_id)
+Sets the combat target of <id> to <target_id>.
+---
+
+---
+get_target(id)
+Returns the combat target of <id>.
+---
+
+---
+set_range(id, range)
+Sets the combat range of <id> to <range>.
+---
+
+---
+get_range(id)
+Returns the combat range of <id>.
+---
+
+---
+set_dmg_range(id, lb, ub)
+Sets the damage range of <id> to <lb>-<ub>.
+---
+
+---
+get_dmg_range(id)
+Returns lb, ub that represent the damage range of <id>.
+---
+
+---
+get_dmg(id)
+Returns a random number within the damage range of <id>.
+---
+
+---
+set_cooldown(id, time)
+Sets the cooldown between <id>'s attacks to <time>.
+---
+
+---
+get_cooldown(id)
+Returns the cooldown between <id>'s attacks.
+---
+
+---
+set_atk_type(id, atk_type)
+Sets the attack type of <id> to <atk_type>, which is a value from
+game.enum.atk_type.
+---
+
+---
+get_atk_type(id)
+Returns the attack type of <id>, which is a value from game.enum.atk_type.
+---
+
+---
+closest_enemy_in_sight(id)
+Returns the ID of the closest enemy that is in <id>'s sight.
+---
+
+---
+closest_friendly_in_sight(id)
+Returns the ID of the closest friend that is in <id>'s sight.
+---
+
+---
+closest_enemy(id)
+Returns the ID of the closest enemy of <id>.
+---
+
+---
+closest_friendly(id)
+Returns the ID of the closest friend of <id>.
+---
+
+---
+closest_enemy_in_sight_thats_not(id, ignored)
+Returns the ID of the closest enemy of <id> in sight that is not
+<ignored>.
+---
+
+---
+closest_friendly_in_sight_thats_not(id, ignored)
+Returns the ID of the closest friend of <id> in sight that is not
+<ignored>.
+---
+
+---
+closest_enemy_thats_not(id, ignored)
+Returns the ID of the closest enemy of <id> that is not
+<ignored>.
+---
+
+---
+closest_friendly_thats_not(id, ignored)
+Returns the ID of the closest friend of <id> that is not
+<ignored>.
+---
+
+---
+in_sight(id1, id2)
+Returns true if <id1> can see <id2>, returns false otherwise.
+---
+
+---
+run_away_from(id1, id2)
+Causes <id1> to run away from <id2>.
+---
+
+---
+set_max_runaway_attempts(count)
+Sets the maximum amount of attempts to find an escape route during
+run away pathfinding to <count>.
+---
+
+---
+get_max_runaway_attempts()
+Returns the maximum amount of attempts to find an escape route during
+run away pathfinding.
+---
+
+---
+apply_heal_to_entities_in_range(id, range)
+Heals all friends of <id> that are closer than <range>.
+---
+
+---
+apply_damage_to_entities_in_range(id, range, lb, ub)
+Damages all enemies of <id> that are closer than <range> for a damage value
+between <lb> and <ub>.
+---
+
+---
+apply_slow_to_entities_in_range(id, range, time)
+Slows all enemies of <id> that are closer than <range> for <time> seconds.
+---
+
+---
+apply_freeze_to_entities_in_range(id, range, time)
+Freezes all enemies of <id> that are closer than <range> for <time> seconds.
+---
+
+---
+in_range(id1, id2)
+Returns true if <id2> is in attack range from <id1>.
+---
+
+---
+set_projectile_blueprint(id, blueprint)
+Sets the name of the projectile table that <id> uses to <blueprint>.
+---
+
+---
+get_projectile_blueprint(id)
+Returns the name of the projectile table that <id> uses.
+---
+
+---
+apply_slow_to(id, time)
+Slows <id> for <time> seconds.
+---
+
+---
+apply_freeze_to(id, time)
+Freezes <id> for <time> seconds.
+---
+
+---
+enemy_in_range(id)
+Returns true if there is an enemy in range of <id>.
+---
+
+---
+closest_friendly_structure(id)
+Returns the ID of the closest friendly structure from <id>.
+---
+
+---
+closest_enemy_structure(id)
+Returns the ID of the closest enemy structure from <id>.
+---
+
+---
+closest_friendly_structure_in_sight(id)
+Returns the ID of the closest friendly structure in sight from <id>.
+---
+
+---
+closest_enemy_structure_in_sight(id)
+Returns the ID of the closest enemy structure in sight from <id>.
+---

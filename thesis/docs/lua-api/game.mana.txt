@@ -1,0 +1,54 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.mana                                  ---
+--------------------------------------------------------------------------------
+
+---
+set_regen_period(time)
+Sets the time between mana regeneration updates to <time>.
+---
+
+---
+get_regen_period()
+Returns the time between mana regeneration updates.
+---
+
+---
+add(id, mana)
+Adds <mana> mana to <id>.
+---
+
+---
+sub(id, mana)
+Subtracts <mana> mana from <id> if possible. Returns true if <id> had enough
+mana and false otherwise.
+---
+
+---
+set(id, mana)
+Sets the mana of <id> to <mana>.
+---
+
+---
+get(id)
+Returns the amount of mana <id> has.
+---
+
+---
+set_max(id, mana)
+Sets the mana capacity of <id> to <mana>.
+---
+
+---
+get_max(id)
+Returns the mana capacity of <id>.
+---
+
+---
+set_regen(id, regen)
+Sets the mana regeneration rate of <id> to <regen>.
+---
+
+---
+get_regen(id)
+Returns the mana regeneration rate of <id>.
+---

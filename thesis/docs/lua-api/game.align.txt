@@ -1,0 +1,43 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.align                                 ---
+--------------------------------------------------------------------------------
+
+---
+set_material(id, state, material)
+Sets the material of <id> in align state <state> to <material>.
+---
+
+---
+get_material(id, state)
+Returns the material of <id> in align state <state>.
+---
+
+---
+set_mesh(id, state, mesh)
+Sets the mesh of <id> in align state <state> to <mesh>.
+---
+
+---
+get_mesh(id, state)
+Returns the mesh of <id> in align state <state>.
+---
+
+---
+set_offset(id, state, x, y, z)
+Sets the position offset of <id> in align state <state> to <x, y, z>.
+---
+
+---
+get_offset(id, state)
+Returns the position offset of <id> in align state <state>.
+---
+
+---
+set_scale(id, state, x, y, z)
+Sets the scale of <id> in align state <state> to <x, y, z>.
+---
+
+---
+get_scale(id, state)
+Returns the scale of <id> in align state <state>.
+---

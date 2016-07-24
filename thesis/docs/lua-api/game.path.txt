@@ -1,0 +1,60 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.path                                  ---
+--------------------------------------------------------------------------------
+
+---
+pathfind(id, target)
+Performs pathfinding for <id> to the nearest grid node to <target>. Returns true
+if the pathfinding was successful, returns false otherwise.
+---
+
+---
+pop_first(id)
+Removes the first node in <id>'s path.
+---
+
+---
+pop_last(id)
+Removes the last node in <id>'s path.
+---
+
+---
+empty(id)
+Returns true if the path that <id> follows is empty (= <id> is not on path),
+false otherwise.
+---
+
+---
+set_blueprint(id, blueprint)
+Sets the pathfinding blueprint of <id> to <blueprint>.
+---
+
+---
+get_blueprint(id)
+Returns the pathfinding blueprint of <id>.
+---
+
+---
+clear(id)
+Clears the path that <id> follows (= makes it to stop).
+---
+
+---
+next_node(id)
+Returns the next node on <id>'s path.
+---
+
+---
+target(id)
+Returns the last node on <id>'s path.
+---
+
+---
+skip(id)
+Removes the next noe on <id>'s path.
+---
+
+---
+after_next(id)
+Returns the second node on <id>'s path.
+---

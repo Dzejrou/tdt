@@ -1,0 +1,33 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.explosion                             ---
+--------------------------------------------------------------------------------
+
+---
+set_delta(id, delta)
+Sets the size increase rate of <id> to <delta>.
+---
+
+---
+get_delta(id)
+Returns the size increase rate of <id>.
+---
+
+---
+set_max_radius(id, radius)
+Sets the max radius of <id> to <radius>.
+---
+
+---
+get_max_radius(id, radius)
+Returns the max radius of <id>.
+---
+
+---
+get_curr_radius(id)
+Returns the current radius of <id>.
+---
+
+---
+increase_curr_radius(id, delta)
+Increases the current radius of <id> by <delta>.
+---

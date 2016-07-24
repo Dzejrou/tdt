@@ -1,0 +1,13 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.destructor                            ---
+--------------------------------------------------------------------------------
+
+---
+set_blueprint(id, blueprint)
+Sets the destructor blueprint of <id> to <blueprint>.
+---
+
+---
+get_blueprint(id)
+Returns the destructor blueprint of <id>.
+---

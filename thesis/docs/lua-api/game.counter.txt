@@ -1,0 +1,37 @@
+--------------------------------------------------------------------------------
+--- The DUngeon Throne API Table: game.counter                               ---
+--------------------------------------------------------------------------------
+
+---
+increment(id)
+Increments the counter of <id> by one. Returns true if the counter reached 
+or is higher than its max value, returns false otherwise.
+---
+
+---
+decrement(id)
+Decrements the counter of <id> by one but not past zero. Returns true if the
+counter is at or above its max value, returns false otherwise.
+---
+
+---
+set(id, value)
+Sets the value of the counter <id> to <value>.
+---
+
+---
+get(id)
+Returns the value of the counter <id>.
+---
+
+---
+get_max(id)
+Returns the max value of the counter <id>. Note that the max value is only
+auxiliary and does not restrict the value of the counter.
+---
+
+---
+set_max(id, value)
+Sets the max value of the counter <id> to <value>. Note that the max value is
+only auxiliary and does not restrict the value of the counter.
+---

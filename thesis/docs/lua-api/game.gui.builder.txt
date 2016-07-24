@@ -1,0 +1,18 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.gui.builder                           ---
+--------------------------------------------------------------------------------
+
+---
+set_visible(boolean)
+Sets the visibility status of the build tool to <boolean>.
+---
+
+---
+is_visible()
+Returns true if the build tool window is visible, returns false otherwise.
+---
+
+---
+register_building(building)
+Registers the building definition table called <building>.
+---

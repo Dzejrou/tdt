@@ -1,0 +1,63 @@
+--------------------------------------------------------------------------------
+--- The Dungeon Throne API Table: game.spell                                 ---
+--------------------------------------------------------------------------------
+
+---
+register_spell(spell)
+Registers the spell defined in table <spell>.
+---
+
+---
+set_type(type)
+Sets the type of the currently cast spell to <type>, which is a value from
+game.enum.spell_type.
+---
+
+---
+get_type()
+Returns the type of the currently cast spell, which is a value from
+game.enum.spell_type.
+---
+
+---
+set_spell(spell)
+Sets the currently cast spell to <spell>, which is the name of the spell table.
+---
+
+---
+get_spell()
+Returns the currently cast spell, which is the name of the spell table.
+---
+
+---
+get_last_type()
+Returns the type of the last cast spell, which is a value from
+game.enum.spell_type.
+---
+
+---
+get_last_spell()
+Returns the last cast spell, which is the name of the spell table.
+---
+
+---
+set_last_id(id)
+Sets the auxiliary ID to <id>. This is free to use and is used e.g. for
+portals.
+---
+
+---
+get_last_id(id)
+Returns the auxiliary ID. This is free to use and is used e.g. for
+portals.
+---
+
+---
+is_casting()
+Returns true if a spell cast is in process, returns false otherwise.
+---
+
+---
+stop_casting()
+Stops the current spell cast.
+---
