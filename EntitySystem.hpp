@@ -615,9 +615,9 @@ template<>
 inline void EntitySystem::load_component<HealthComponent>(tdt::uint id, const std::string& table_name)
 {
 	lpp::Script& script = lpp::Script::instance();
-	int max = script.get<int>(table_name + ".HealthComponent.max_hp");
-	int reg = script.get<int>(table_name + ".HealthComponent.regen");
-	int def = script.get<int>(table_name + ".HealthComponent.defense");
+	int max = script.get<tdt::uint>(table_name + ".HealthComponent.max_hp");
+	int reg = script.get<tdt::uint>(table_name + ".HealthComponent.regen");
+	int def = script.get<tdt::uint>(table_name + ".HealthComponent.defense");
 	health_.emplace(id, HealthComponent(max, reg, def));
 }
 
