@@ -1,0 +1,439 @@
+\hypertarget{class_selection_box}{}\section{Selection\+Box Class Reference}
+\label{class_selection_box}\index{Selection\+Box@{Selection\+Box}}
+
+
+Class representing the ingame selection box (created by moving the left mouse while pressing the left mouse button) to select multiple entities on screen or a single entity (by simply clicking).  
+
+
+
+
+{\ttfamily \#include $<$Selection\+Box.\+hpp$>$}
+
+Inheritance diagram for Selection\+Box\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_selection_box}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_selection_box_a4f133c8badc39fb16a58188e7bd81399}{Selection\+Box} (const Ogre\+::\+String \&, \hyperlink{class_entity_system}{Entity\+System} \&, Ogre\+::\+Plane\+Bounded\+Volume\+List\+Scene\+Query \&, Ogre\+::\+Ray\+Scene\+Query \&, Ogre\+::\+Scene\+Manager \&)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_selection_box_ad7ca81556a52cdd7f21422331a845ef9}{$\sim$\+Selection\+Box} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_selection_box_adcded0c1617213d702126920e117ba33}{set\+\_\+corners} (tdt\+::real, tdt\+::real, tdt\+::real, tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Recreates the selection box with the given coordinates. \end{DoxyCompactList}\item 
+void \hyperlink{class_selection_box_ac8545c527a1fd5c28de1efd436765f5e}{set\+\_\+corners} (const Ogre\+::\+Vector2 \&, const Ogre\+::\+Vector2 \&)
+\begin{DoxyCompactList}\small\item\em Overload of the Selection\+Box\+::set\+\_\+corners(float, float, float, float) method used as a simple interface when using vectors. \end{DoxyCompactList}\item 
+std\+::vector$<$ tdt\+::uint $>$ \& \hyperlink{class_selection_box_a9f4c4958798dedb1cf97737e605408eb}{get\+\_\+selected\+\_\+entities} ()
+\begin{DoxyCompactList}\small\item\em Returns (by reference) a vector containing ID\textquotesingle{}s of all currently selected entities. \end{DoxyCompactList}\item 
+void \hyperlink{class_selection_box_a95cf76c371678c6f644f50577ee59c9f}{select\+\_\+object} (Ogre\+::\+Movable\+Object \&)
+\begin{DoxyCompactList}\small\item\em Adds a given object to the vector of selected entities. \end{DoxyCompactList}\item 
+void \hyperlink{class_selection_box_aae870741250f1247633a76d7343114e1}{clear\+\_\+selected\+\_\+entities} ()
+\begin{DoxyCompactList}\small\item\em Deselects all currently selected entities. \end{DoxyCompactList}\item 
+void \hyperlink{class_selection_box_a8013255ab23d92e60bb28378e837421a}{execute\+\_\+selection} (const Ogre\+::\+Vector2 \&, Ogre\+::\+Camera \&, bool=false)
+\begin{DoxyCompactList}\small\item\em Performs the selection, to be called when the mouse is released. \end{DoxyCompactList}\item 
+void \hyperlink{class_selection_box_aa9f4cbe292d3386e212495e8e31d5f40}{set\+\_\+starting\+\_\+point} (const Ogre\+::\+Vector2 \&)
+\begin{DoxyCompactList}\small\item\em Sets the starting point of the current selection, should be called upon the initial mouse button click. \end{DoxyCompactList}\item 
+void \hyperlink{class_selection_box_a135517752479cff0bb5bf32ed9b5277b}{set\+\_\+selecting} (bool)
+\begin{DoxyCompactList}\small\item\em Sets the selecting mode (and the visibility flag of the selection box). \end{DoxyCompactList}\item 
+bool \hyperlink{class_selection_box_ab8e28df20f6f27f40512cd32d7f9b047}{is\+\_\+selecting} () const 
+\begin{DoxyCompactList}\small\item\em Returns true if the selection box is currently selecting. \end{DoxyCompactList}\item 
+void \hyperlink{class_selection_box_a7bfb19cdb0c9c999784e1af6cd352fc8}{extend\+\_\+to} (const Ogre\+::\+Vector2 \&)
+\begin{DoxyCompactList}\small\item\em Extends the selection box to a given coordinate, using the start\+\_\+ coordinate provided by \hyperlink{class_selection_box_aa9f4cbe292d3386e212495e8e31d5f40}{Selection\+Box\+::set\+\_\+starting\+\_\+point} as the initial point. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_selection_box_a46bb8a54b0f9549ce74985f528ff7c81}{execute\+\_\+single\+\_\+selection} (Ogre\+::\+Camera \&)
+\begin{DoxyCompactList}\small\item\em Used within the \hyperlink{class_selection_box_a8013255ab23d92e60bb28378e837421a}{Selection\+Box\+::execute\+\_\+selection} method when the selection box is two small (i.\+e. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ tdt\+::uint $>$ \hyperlink{class_selection_box_a47f43b49a4eeab82ac9c0423b689d8c7}{selected\+\_\+entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Currently selected entities. \end{DoxyCompactList}\item 
+\hyperlink{class_entity_system}{Entity\+System} \& \hyperlink{class_selection_box_ac0e69cb5092894d810d6084ab9daf305}{entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the game\textquotesingle{}s entity system, used to identify an entity ID from an entity Scene\+Node. \end{DoxyCompactList}\item 
+Ogre\+::\+Vector2 \hyperlink{class_selection_box_a972855bf908b9a6a5048b3fb842dc769}{start\+\_\+}
+\begin{DoxyCompactList}\small\item\em Vector containing the coordinates of the starting point of the selection. \end{DoxyCompactList}\item 
+Ogre\+::\+Plane\+Bounded\+Volume\+List\+Scene\+Query \& \hyperlink{class_selection_box_a2218879b200ef6b963ea834d38010831}{volume\+\_\+query\+\_\+}
+\begin{DoxyCompactList}\small\item\em Scene query used to find all the entities that are within the selection box. \end{DoxyCompactList}\item 
+Ogre\+::\+Ray\+Scene\+Query \& \hyperlink{class_selection_box_a3ff14222f216c6d97f2a1fd7da76f96a}{ray\+\_\+query\+\_\+}
+\begin{DoxyCompactList}\small\item\em Scene query used to find an entity when the selection box is too small. \end{DoxyCompactList}\item 
+bool \hyperlink{class_selection_box_ae814ae0409771480132a038d4082fe97}{selection\+\_\+in\+\_\+progress\+\_\+}
+\begin{DoxyCompactList}\small\item\em Determines if the player is currently selecting entities. \end{DoxyCompactList}\item 
+Ogre\+::\+Scene\+Manager \& \hyperlink{class_selection_box_a4b844958cbf4e43926e44508c62476af}{scene\+\_\+mgr\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the game\textquotesingle{}s main scene manager. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class representing the ingame selection box (created by moving the left mouse while pressing the left mouse button) to select multiple entities on screen or a single entity (by simply clicking). 
+
+Definition at line 13 of file Selection\+Box.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Selection\+Box@{Selection\+Box}!Selection\+Box@{Selection\+Box}}
+\index{Selection\+Box@{Selection\+Box}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{Selection\+Box(const Ogre\+::\+String \&, Entity\+System \&, Ogre\+::\+Plane\+Bounded\+Volume\+List\+Scene\+Query \&, Ogre\+::\+Ray\+Scene\+Query \&, Ogre\+::\+Scene\+Manager \&)}{SelectionBox(const Ogre::String &, EntitySystem &, Ogre::PlaneBoundedVolumeListSceneQuery &, Ogre::RaySceneQuery &, Ogre::SceneManager &)}}]{\setlength{\rightskip}{0pt plus 5cm}Selection\+Box\+::\+Selection\+Box (
+\begin{DoxyParamCaption}
+\item[{const Ogre\+::\+String \&}]{name, }
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{Ogre\+::\+Plane\+Bounded\+Volume\+List\+Scene\+Query \&}]{vol\+\_\+query, }
+\item[{Ogre\+::\+Ray\+Scene\+Query \&}]{ray\+\_\+query, }
+\item[{Ogre\+::\+Scene\+Manager \&}]{mgr}
+\end{DoxyParamCaption}
+)}\hypertarget{class_selection_box_a4f133c8badc39fb16a58188e7bd81399}{}\label{class_selection_box_a4f133c8badc39fb16a58188e7bd81399}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Name} & of this object (passed to Manual\+Object constructor -\/ hence the type). \\
+\hline
+{\em Reference} & to a volume query used for multi selection. \\
+\hline
+{\em Reference} & to a ray query used for single selection. \\
+\hline
+{\em Reference} & to the game\textquotesingle{}s main scene manager. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 5 of file Selection\+Box.\+cpp.
+
+\index{Selection\+Box@{Selection\+Box}!````~Selection\+Box@{$\sim$\+Selection\+Box}}
+\index{````~Selection\+Box@{$\sim$\+Selection\+Box}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{$\sim$\+Selection\+Box()}{~SelectionBox()}}]{\setlength{\rightskip}{0pt plus 5cm}Selection\+Box\+::$\sim$\+Selection\+Box (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_selection_box_ad7ca81556a52cdd7f21422331a845ef9}{}\label{class_selection_box_ad7ca81556a52cdd7f21422331a845ef9}
+
+
+Destructor. 
+
+\begin{DoxyNote}{Note}
+Even thous the queries are captured by reference, they need to be destroyed manually using the scene manager. 
+\end{DoxyNote}
+
+
+Definition at line 19 of file Selection\+Box.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\index{Selection\+Box@{Selection\+Box}!clear\+\_\+selected\+\_\+entities@{clear\+\_\+selected\+\_\+entities}}
+\index{clear\+\_\+selected\+\_\+entities@{clear\+\_\+selected\+\_\+entities}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{clear\+\_\+selected\+\_\+entities()}{clear_selected_entities()}}]{\setlength{\rightskip}{0pt plus 5cm}void Selection\+Box\+::clear\+\_\+selected\+\_\+entities (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_selection_box_aae870741250f1247633a76d7343114e1}{}\label{class_selection_box_aae870741250f1247633a76d7343114e1}
+
+
+Deselects all currently selected entities. 
+
+
+
+Definition at line 76 of file Selection\+Box.\+cpp.
+
+\index{Selection\+Box@{Selection\+Box}!execute\+\_\+selection@{execute\+\_\+selection}}
+\index{execute\+\_\+selection@{execute\+\_\+selection}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{execute\+\_\+selection(const Ogre\+::\+Vector2 \&, Ogre\+::\+Camera \&, bool=false)}{execute_selection(const Ogre::Vector2 &, Ogre::Camera &, bool=false)}}]{\setlength{\rightskip}{0pt plus 5cm}void Selection\+Box\+::execute\+\_\+selection (
+\begin{DoxyParamCaption}
+\item[{const Ogre\+::\+Vector2 \&}]{end, }
+\item[{Ogre\+::\+Camera \&}]{cam, }
+\item[{bool}]{append = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_selection_box_a8013255ab23d92e60bb28378e837421a}{}\label{class_selection_box_a8013255ab23d92e60bb28378e837421a}
+
+
+Performs the selection, to be called when the mouse is released. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Coordinate} & of the end point of the box (mouse position). \\
+\hline
+{\em Reference} & to the camera the query should be performed from. \\
+\hline
+{\em True} & if the the new selection should be appended to the current selection. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The starting point has to be saved prior to this call (i.\+e. when the mouse button gets pressed) in order for the selection to work properly. 
+\end{DoxyNote}
+
+
+Definition at line 88 of file Selection\+Box.\+cpp.
+
+\index{Selection\+Box@{Selection\+Box}!execute\+\_\+single\+\_\+selection@{execute\+\_\+single\+\_\+selection}}
+\index{execute\+\_\+single\+\_\+selection@{execute\+\_\+single\+\_\+selection}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{execute\+\_\+single\+\_\+selection(\+Ogre\+::\+Camera \&)}{execute_single_selection(Ogre::Camera &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Selection\+Box\+::execute\+\_\+single\+\_\+selection (
+\begin{DoxyParamCaption}
+\item[{Ogre\+::\+Camera \&}]{cam}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_selection_box_a46bb8a54b0f9549ce74985f528ff7c81}{}\label{class_selection_box_a46bb8a54b0f9549ce74985f528ff7c81}
+
+
+Used within the \hyperlink{class_selection_box_a8013255ab23d92e60bb28378e837421a}{Selection\+Box\+::execute\+\_\+selection} method when the selection box is two small (i.\+e. 
+
+a single click) and performs a ray query selecting a single closest entity under the player\textquotesingle{}s cursor. 
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the game\textquotesingle{}s main camera. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 144 of file Selection\+Box.\+cpp.
+
+\index{Selection\+Box@{Selection\+Box}!extend\+\_\+to@{extend\+\_\+to}}
+\index{extend\+\_\+to@{extend\+\_\+to}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{extend\+\_\+to(const Ogre\+::\+Vector2 \&)}{extend_to(const Ogre::Vector2 &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Selection\+Box\+::extend\+\_\+to (
+\begin{DoxyParamCaption}
+\item[{const Ogre\+::\+Vector2 \&}]{end}
+\end{DoxyParamCaption}
+)}\hypertarget{class_selection_box_a7bfb19cdb0c9c999784e1af6cd352fc8}{}\label{class_selection_box_a7bfb19cdb0c9c999784e1af6cd352fc8}
+
+
+Extends the selection box to a given coordinate, using the start\+\_\+ coordinate provided by \hyperlink{class_selection_box_aa9f4cbe292d3386e212495e8e31d5f40}{Selection\+Box\+::set\+\_\+starting\+\_\+point} as the initial point. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Coordinate} & of the ending point. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 139 of file Selection\+Box.\+cpp.
+
+\index{Selection\+Box@{Selection\+Box}!get\+\_\+selected\+\_\+entities@{get\+\_\+selected\+\_\+entities}}
+\index{get\+\_\+selected\+\_\+entities@{get\+\_\+selected\+\_\+entities}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{get\+\_\+selected\+\_\+entities()}{get_selected_entities()}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ tdt\+::uint $>$ \& Selection\+Box\+::get\+\_\+selected\+\_\+entities (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_selection_box_a9f4c4958798dedb1cf97737e605408eb}{}\label{class_selection_box_a9f4c4958798dedb1cf97737e605408eb}
+
+
+Returns (by reference) a vector containing ID\textquotesingle{}s of all currently selected entities. 
+
+
+
+Definition at line 57 of file Selection\+Box.\+cpp.
+
+\index{Selection\+Box@{Selection\+Box}!is\+\_\+selecting@{is\+\_\+selecting}}
+\index{is\+\_\+selecting@{is\+\_\+selecting}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{is\+\_\+selecting() const }{is_selecting() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Selection\+Box\+::is\+\_\+selecting (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_selection_box_ab8e28df20f6f27f40512cd32d7f9b047}{}\label{class_selection_box_ab8e28df20f6f27f40512cd32d7f9b047}
+
+
+Returns true if the selection box is currently selecting. 
+
+
+
+Definition at line 134 of file Selection\+Box.\+cpp.
+
+\index{Selection\+Box@{Selection\+Box}!select\+\_\+object@{select\+\_\+object}}
+\index{select\+\_\+object@{select\+\_\+object}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{select\+\_\+object(\+Ogre\+::\+Movable\+Object \&)}{select_object(Ogre::MovableObject &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Selection\+Box\+::select\+\_\+object (
+\begin{DoxyParamCaption}
+\item[{Ogre\+::\+Movable\+Object \&}]{obj}
+\end{DoxyParamCaption}
+)}\hypertarget{class_selection_box_a95cf76c371678c6f644f50577ee59c9f}{}\label{class_selection_box_a95cf76c371678c6f644f50577ee59c9f}
+
+
+Adds a given object to the vector of selected entities. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the object from which the entity ID will be deduced. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 62 of file Selection\+Box.\+cpp.
+
+\index{Selection\+Box@{Selection\+Box}!set\+\_\+corners@{set\+\_\+corners}}
+\index{set\+\_\+corners@{set\+\_\+corners}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{set\+\_\+corners(tdt\+::real, tdt\+::real, tdt\+::real, tdt\+::real)}{set_corners(tdt::real, tdt::real, tdt::real, tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Selection\+Box\+::set\+\_\+corners (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{left, }
+\item[{tdt\+::real}]{top, }
+\item[{tdt\+::real}]{right, }
+\item[{tdt\+::real}]{bott}
+\end{DoxyParamCaption}
+)}\hypertarget{class_selection_box_adcded0c1617213d702126920e117ba33}{}\label{class_selection_box_adcded0c1617213d702126920e117ba33}
+
+
+Recreates the selection box with the given coordinates. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Left} & side coordinate. \\
+\hline
+{\em Top} & side coordinate. \\
+\hline
+{\em Right} & side coordinate. \\
+\hline
+{\em Bottom} & axis coordinate. \\
+\hline
+\end{DoxyParams}
+Neccessary translation, mouse positions are normalized to belong to the (0,1) range, but the Ogre\+::\+Manual\+Object creation requires them to belong to the (-\/1, 1).
+
+Definition at line 25 of file Selection\+Box.\+cpp.
+
+\index{Selection\+Box@{Selection\+Box}!set\+\_\+corners@{set\+\_\+corners}}
+\index{set\+\_\+corners@{set\+\_\+corners}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{set\+\_\+corners(const Ogre\+::\+Vector2 \&, const Ogre\+::\+Vector2 \&)}{set_corners(const Ogre::Vector2 &, const Ogre::Vector2 &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Selection\+Box\+::set\+\_\+corners (
+\begin{DoxyParamCaption}
+\item[{const Ogre\+::\+Vector2 \&}]{t\+\_\+l, }
+\item[{const Ogre\+::\+Vector2 \&}]{b\+\_\+r}
+\end{DoxyParamCaption}
+)}\hypertarget{class_selection_box_ac8545c527a1fd5c28de1efd436765f5e}{}\label{class_selection_box_ac8545c527a1fd5c28de1efd436765f5e}
+
+
+Overload of the Selection\+Box\+::set\+\_\+corners(float, float, float, float) method used as a simple interface when using vectors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Coordinate} & of the top left corner. \\
+\hline
+{\em Coordinate} & of the bottom right corner. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 50 of file Selection\+Box.\+cpp.
+
+\index{Selection\+Box@{Selection\+Box}!set\+\_\+selecting@{set\+\_\+selecting}}
+\index{set\+\_\+selecting@{set\+\_\+selecting}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{set\+\_\+selecting(bool)}{set_selecting(bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void Selection\+Box\+::set\+\_\+selecting (
+\begin{DoxyParamCaption}
+\item[{bool}]{sel}
+\end{DoxyParamCaption}
+)}\hypertarget{class_selection_box_a135517752479cff0bb5bf32ed9b5277b}{}\label{class_selection_box_a135517752479cff0bb5bf32ed9b5277b}
+
+
+Sets the selecting mode (and the visibility flag of the selection box). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Bool} & value representing the new visibility mode. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 128 of file Selection\+Box.\+cpp.
+
+\index{Selection\+Box@{Selection\+Box}!set\+\_\+starting\+\_\+point@{set\+\_\+starting\+\_\+point}}
+\index{set\+\_\+starting\+\_\+point@{set\+\_\+starting\+\_\+point}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{set\+\_\+starting\+\_\+point(const Ogre\+::\+Vector2 \&)}{set_starting_point(const Ogre::Vector2 &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Selection\+Box\+::set\+\_\+starting\+\_\+point (
+\begin{DoxyParamCaption}
+\item[{const Ogre\+::\+Vector2 \&}]{start}
+\end{DoxyParamCaption}
+)}\hypertarget{class_selection_box_aa9f4cbe292d3386e212495e8e31d5f40}{}\label{class_selection_box_aa9f4cbe292d3386e212495e8e31d5f40}
+
+
+Sets the starting point of the current selection, should be called upon the initial mouse button click. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Coordinate} & of the starting point. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 123 of file Selection\+Box.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Selection\+Box@{Selection\+Box}!entities\+\_\+@{entities\+\_\+}}
+\index{entities\+\_\+@{entities\+\_\+}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{entities\+\_\+}{entities_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+System}\& Selection\+Box\+::entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_selection_box_ac0e69cb5092894d810d6084ab9daf305}{}\label{class_selection_box_ac0e69cb5092894d810d6084ab9daf305}
+
+
+Reference to the game\textquotesingle{}s entity system, used to identify an entity ID from an entity Scene\+Node. 
+
+
+
+Definition at line 120 of file Selection\+Box.\+hpp.
+
+\index{Selection\+Box@{Selection\+Box}!ray\+\_\+query\+\_\+@{ray\+\_\+query\+\_\+}}
+\index{ray\+\_\+query\+\_\+@{ray\+\_\+query\+\_\+}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{ray\+\_\+query\+\_\+}{ray_query_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Ray\+Scene\+Query\& Selection\+Box\+::ray\+\_\+query\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_selection_box_a3ff14222f216c6d97f2a1fd7da76f96a}{}\label{class_selection_box_a3ff14222f216c6d97f2a1fd7da76f96a}
+
+
+Scene query used to find an entity when the selection box is too small. 
+
+
+
+Definition at line 136 of file Selection\+Box.\+hpp.
+
+\index{Selection\+Box@{Selection\+Box}!scene\+\_\+mgr\+\_\+@{scene\+\_\+mgr\+\_\+}}
+\index{scene\+\_\+mgr\+\_\+@{scene\+\_\+mgr\+\_\+}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{scene\+\_\+mgr\+\_\+}{scene_mgr_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Scene\+Manager\& Selection\+Box\+::scene\+\_\+mgr\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_selection_box_a4b844958cbf4e43926e44508c62476af}{}\label{class_selection_box_a4b844958cbf4e43926e44508c62476af}
+
+
+Reference to the game\textquotesingle{}s main scene manager. 
+
+
+
+Definition at line 146 of file Selection\+Box.\+hpp.
+
+\index{Selection\+Box@{Selection\+Box}!selected\+\_\+entities\+\_\+@{selected\+\_\+entities\+\_\+}}
+\index{selected\+\_\+entities\+\_\+@{selected\+\_\+entities\+\_\+}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{selected\+\_\+entities\+\_\+}{selected_entities_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$tdt\+::uint$>$ Selection\+Box\+::selected\+\_\+entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_selection_box_a47f43b49a4eeab82ac9c0423b689d8c7}{}\label{class_selection_box_a47f43b49a4eeab82ac9c0423b689d8c7}
+
+
+Currently selected entities. 
+
+
+
+Definition at line 114 of file Selection\+Box.\+hpp.
+
+\index{Selection\+Box@{Selection\+Box}!selection\+\_\+in\+\_\+progress\+\_\+@{selection\+\_\+in\+\_\+progress\+\_\+}}
+\index{selection\+\_\+in\+\_\+progress\+\_\+@{selection\+\_\+in\+\_\+progress\+\_\+}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{selection\+\_\+in\+\_\+progress\+\_\+}{selection_in_progress_}}]{\setlength{\rightskip}{0pt plus 5cm}bool Selection\+Box\+::selection\+\_\+in\+\_\+progress\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_selection_box_ae814ae0409771480132a038d4082fe97}{}\label{class_selection_box_ae814ae0409771480132a038d4082fe97}
+
+
+Determines if the player is currently selecting entities. 
+
+
+
+Definition at line 141 of file Selection\+Box.\+hpp.
+
+\index{Selection\+Box@{Selection\+Box}!start\+\_\+@{start\+\_\+}}
+\index{start\+\_\+@{start\+\_\+}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{start\+\_\+}{start_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Vector2 Selection\+Box\+::start\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_selection_box_a972855bf908b9a6a5048b3fb842dc769}{}\label{class_selection_box_a972855bf908b9a6a5048b3fb842dc769}
+
+
+Vector containing the coordinates of the starting point of the selection. 
+
+(Ending point will be specified in the \hyperlink{class_selection_box_a8013255ab23d92e60bb28378e837421a}{Selection\+Box\+::execute\+\_\+selection} method.) 
+
+Definition at line 126 of file Selection\+Box.\+hpp.
+
+\index{Selection\+Box@{Selection\+Box}!volume\+\_\+query\+\_\+@{volume\+\_\+query\+\_\+}}
+\index{volume\+\_\+query\+\_\+@{volume\+\_\+query\+\_\+}!Selection\+Box@{Selection\+Box}}
+\subsubsection[{\texorpdfstring{volume\+\_\+query\+\_\+}{volume_query_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Plane\+Bounded\+Volume\+List\+Scene\+Query\& Selection\+Box\+::volume\+\_\+query\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_selection_box_a2218879b200ef6b963ea834d38010831}{}\label{class_selection_box_a2218879b200ef6b963ea834d38010831}
+
+
+Scene query used to find all the entities that are within the selection box. 
+
+
+
+Definition at line 131 of file Selection\+Box.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+tools/Selection\+Box.\+hpp\item 
+tools/Selection\+Box.\+cpp\end{DoxyCompactItemize}

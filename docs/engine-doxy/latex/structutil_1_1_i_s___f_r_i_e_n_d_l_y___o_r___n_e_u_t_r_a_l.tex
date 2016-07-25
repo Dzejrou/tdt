@@ -1,0 +1,125 @@
+\hypertarget{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l}{}\section{util\+:\+:I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL Struct Reference}
+\label{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l}\index{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}}
+
+
+Tests if if the entity it is called on is a friend of or neutral to the entity specified in it\textquotesingle{}s constructor.  
+
+
+
+
+{\ttfamily \#include $<$Util.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_affe7ca30c82c2de364f3a342a8961271}{I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_ac3cc4a431d4f9aca74a31f4258199e99}{$\sim$\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+bool \hyperlink{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_a1084e34dd487777fbaec169c9fbdb9b1}{operator()} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Tests if a given entity is a friend of or neutral to the entity specified in the constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+F\+A\+C\+T\+I\+ON \hyperlink{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_a99cf55fbf81903d19113710b0388a725}{faction\+\_\+}
+\begin{DoxyCompactList}\small\item\em Faction that is friendly towards the entity performing the search. \end{DoxyCompactList}\item 
+\hyperlink{class_entity_system}{Entity\+System} \& \hyperlink{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_afb4fe556d2a7718a16265977cdac5ea1}{entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Entity system containing all tested entities. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Tests if if the entity it is called on is a friend of or neutral to the entity specified in it\textquotesingle{}s constructor. 
+
+Definition at line 95 of file Util.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}!I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}}
+\index{I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}!util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}}
+\subsubsection[{\texorpdfstring{I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+A\+L(\+Entity\+System \&, tdt\+::uint)}{IS_FRIENDLY_OR_NEUTRAL(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+A\+L\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_affe7ca30c82c2de364f3a342a8961271}{}\label{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_affe7ca30c82c2de364f3a342a8961271}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing all tested entities. \\
+\hline
+{\em ID} & of the entity towards which others are tested for the friendly/neutrality status. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 30 of file Util.\+cpp.
+
+\index{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}!````~I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{$\sim$\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}}
+\index{````~I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{$\sim$\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}!util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}}
+\subsubsection[{\texorpdfstring{$\sim$\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+A\+L()=default}{~IS_FRIENDLY_OR_NEUTRAL()=default}}]{\setlength{\rightskip}{0pt plus 5cm}util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+A\+L\+::$\sim$\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_ac3cc4a431d4f9aca74a31f4258199e99}{}\label{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_ac3cc4a431d4f9aca74a31f4258199e99}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\index{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}!operator()@{operator()}}
+\index{operator()@{operator()}!util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}}
+\subsubsection[{\texorpdfstring{operator()(tdt\+::uint)}{operator()(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}bool util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+A\+L\+::operator() (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_a1084e34dd487777fbaec169c9fbdb9b1}{}\label{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_a1084e34dd487777fbaec169c9fbdb9b1}
+
+
+Tests if a given entity is a friend of or neutral to the entity specified in the constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 34 of file Util.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}!entities\+\_\+@{entities\+\_\+}}
+\index{entities\+\_\+@{entities\+\_\+}!util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}}
+\subsubsection[{\texorpdfstring{entities\+\_\+}{entities_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+System}\& util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+A\+L\+::entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_afb4fe556d2a7718a16265977cdac5ea1}{}\label{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_afb4fe556d2a7718a16265977cdac5ea1}
+
+
+Entity system containing all tested entities. 
+
+
+
+Definition at line 126 of file Util.\+hpp.
+
+\index{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}!faction\+\_\+@{faction\+\_\+}}
+\index{faction\+\_\+@{faction\+\_\+}!util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL@{util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+AL}}
+\subsubsection[{\texorpdfstring{faction\+\_\+}{faction_}}]{\setlength{\rightskip}{0pt plus 5cm}F\+A\+C\+T\+I\+ON util\+::\+I\+S\+\_\+\+F\+R\+I\+E\+N\+D\+L\+Y\+\_\+\+O\+R\+\_\+\+N\+E\+U\+T\+R\+A\+L\+::faction\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_a99cf55fbf81903d19113710b0388a725}{}\label{structutil_1_1_i_s___f_r_i_e_n_d_l_y___o_r___n_e_u_t_r_a_l_a99cf55fbf81903d19113710b0388a725}
+
+
+Faction that is friendly towards the entity performing the search. 
+
+
+
+Definition at line 121 of file Util.\+hpp.
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+tools/Util.\+hpp\item 
+tools/Util.\+cpp\end{DoxyCompactItemize}

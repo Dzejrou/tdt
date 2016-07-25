@@ -1,0 +1,70 @@
+\hypertarget{namespace_input_helper}{}\section{Input\+Helper Namespace Reference}
+\label{namespace_input_helper}\index{Input\+Helper@{Input\+Helper}}
+
+
+Auxiliary namespace containing functions that help with the management of the input component.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespace_input_helper_a40ecb052b5c634dc43a808dce472b035}{set\+\_\+input\+\_\+handler} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Changes the name of the table that contains a given entity\textquotesingle{}s input handler. \end{DoxyCompactList}\item 
+const std\+::string \& \hyperlink{namespace_input_helper_a6b3ed7f48f565e816177685e0b35df0e}{get\+\_\+input\+\_\+handler} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns name of the table that contains the input handling function of a given entity. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary namespace containing functions that help with the management of the input component. 
+
+\subsection{Function Documentation}
+\index{Input\+Helper@{Input\+Helper}!get\+\_\+input\+\_\+handler@{get\+\_\+input\+\_\+handler}}
+\index{get\+\_\+input\+\_\+handler@{get\+\_\+input\+\_\+handler}!Input\+Helper@{Input\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+input\+\_\+handler(\+Entity\+System \&, tdt\+::uint)}{get_input_handler(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string \& Input\+Helper\+::get\+\_\+input\+\_\+handler (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_input_helper_a6b3ed7f48f565e816177685e0b35df0e}{}\label{namespace_input_helper_a6b3ed7f48f565e816177685e0b35df0e}
+
+
+Returns name of the table that contains the input handling function of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 12 of file Input\+Helper.\+cpp.
+
+\index{Input\+Helper@{Input\+Helper}!set\+\_\+input\+\_\+handler@{set\+\_\+input\+\_\+handler}}
+\index{set\+\_\+input\+\_\+handler@{set\+\_\+input\+\_\+handler}!Input\+Helper@{Input\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+input\+\_\+handler(\+Entity\+System \&, tdt\+::uint, const std\+::string \&)}{set_input_handler(EntitySystem &, tdt::uint, const std::string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Input\+Helper\+::set\+\_\+input\+\_\+handler (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{const std\+::string \&}]{handler}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_input_helper_a40ecb052b5c634dc43a808dce472b035}{}\label{namespace_input_helper_a40ecb052b5c634dc43a808dce472b035}
+
+
+Changes the name of the table that contains a given entity\textquotesingle{}s input handler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em Name} & of the new input handler (Lua function). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The handler recieves the ID of the entity and the key number when it\textquotesingle{}s called, for current keybindings use the game.\+enum.\+input Lua table. 
+\end{DoxyNote}
+
+
+Definition at line 5 of file Input\+Helper.\+cpp.
+

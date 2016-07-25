@@ -1,0 +1,449 @@
+\hypertarget{namespace_health_helper}{}\section{Health\+Helper Namespace Reference}
+\label{namespace_health_helper}\index{Health\+Helper@{Health\+Helper}}
+
+
+Auxiliary namespace containing functions that help with the management of the health component.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespace_health_helper_a120574d85b2de60f02c4cd21a999b5dc}{set\+\_\+health} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the health of a given entity without any regard to it\textquotesingle{}s maximal health. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_health_helper_a69a0b47c5aef9f72d4b26945061c9edc}{get\+\_\+health} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the current health amount of a given entity. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_health_helper_a6a2e6d9211d7908a1105d6886f987743}{add\+\_\+health} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Increases the current health amount of an entity by a given amount up to the maximum value stored in it\textquotesingle{}s \hyperlink{struct_health_component}{Health\+Component}. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_health_helper_a8cf9b78e55f9bc6c11b850116a504244}{sub\+\_\+health} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint, bool=false)
+\begin{DoxyCompactList}\small\item\em Subtracts a given amount from the current health of an entity, taking it\textquotesingle{}s defense into account by default. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_health_helper_a3e693b9a5605f22f9ebfbdf9a09acb15}{heal} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the current health amount of an entity to it\textquotesingle{}s maximum value. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_health_helper_aebd8983c1cc786a35fd1389862f4c556}{buff} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Increases the current and maximum health amount of an entity by a given value. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_health_helper_afb6e9defd5d23971b24a675125fb1c18}{debuff} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Reduces the current and maximum health amount of an entity by a given value. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_health_helper_a69c44b3a45bcf317ef97b7600e0e4730}{set\+\_\+regen} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the regeneration value of a given entity. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_health_helper_a6c141b2a2fcb97d402ac0f28fbeb7a0d}{get\+\_\+regen} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the regeneration value of a given entity. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_health_helper_a3f87b065077afca159efe651404890aa}{set\+\_\+alive} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, bool)
+\begin{DoxyCompactList}\small\item\em Allows to set the health status of an entity without adding/subing health. \end{DoxyCompactList}\item 
+bool \hyperlink{namespace_health_helper_a9e085a5c9e15baa26e0c022d7aedeb67}{is\+\_\+alive} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns true if a given entity is alive, false otherwise. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_health_helper_abf5b115cafefd5a7fd5e9c8e94cd6432}{set\+\_\+defense} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the amount of defense a given entity has to a given (absolute) amount. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_health_helper_a78c219b0a670d90926fc053ee0b60a09}{get\+\_\+defense} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the defense of a given entity. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_health_helper_adb42d2a970cb1042a68841aa00239211}{add\+\_\+defense} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Increases the defense of an entity by a given amount. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_health_helper_ac75550795f775bfb4b975dc3765444ff}{sub\+\_\+defense} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Reduces the defense of an entity by a given amount. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_health_helper_aca891b3c4be912a9574aeba417392c11}{ubercharge} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em A cheat that sets the health, maximum health and defense to their highest possible values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary namespace containing functions that help with the management of the health component. 
+
+\subsection{Function Documentation}
+\index{Health\+Helper@{Health\+Helper}!add\+\_\+defense@{add\+\_\+defense}}
+\index{add\+\_\+defense@{add\+\_\+defense}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{add\+\_\+defense(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{add_defense(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Health\+Helper\+::add\+\_\+defense (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_adb42d2a970cb1042a68841aa00239211}{}\label{namespace_health_helper_adb42d2a970cb1042a68841aa00239211}
+
+
+Increases the defense of an entity by a given amount. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Amount} & of defense to be added. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 163 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!add\+\_\+health@{add\+\_\+health}}
+\index{add\+\_\+health@{add\+\_\+health}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{add\+\_\+health(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{add_health(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Health\+Helper\+::add\+\_\+health (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_a6a2e6d9211d7908a1105d6886f987743}{}\label{namespace_health_helper_a6a2e6d9211d7908a1105d6886f987743}
+
+
+Increases the current health amount of an entity by a given amount up to the maximum value stored in it\textquotesingle{}s \hyperlink{struct_health_component}{Health\+Component}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Amount} & of health to be added. Node\+: To increase health along with the maximum value, see Health\+System\+::buff. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 31 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!buff@{buff}}
+\index{buff@{buff}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{buff(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{buff(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Health\+Helper\+::buff (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_aebd8983c1cc786a35fd1389862f4c556}{}\label{namespace_health_helper_aebd8983c1cc786a35fd1389862f4c556}
+
+
+Increases the current and maximum health amount of an entity by a given value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Amount} & of health to be added. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 79 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!debuff@{debuff}}
+\index{debuff@{debuff}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{debuff(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{debuff(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Health\+Helper\+::debuff (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_afb6e9defd5d23971b24a675125fb1c18}{}\label{namespace_health_helper_afb6e9defd5d23971b24a675125fb1c18}
+
+
+Reduces the current and maximum health amount of an entity by a given value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Amount} & of health to be subtracted. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 93 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!get\+\_\+defense@{get\+\_\+defense}}
+\index{get\+\_\+defense@{get\+\_\+defense}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+defense(\+Entity\+System \&, tdt\+::uint)}{get_defense(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Health\+Helper\+::get\+\_\+defense (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_a78c219b0a670d90926fc053ee0b60a09}{}\label{namespace_health_helper_a78c219b0a670d90926fc053ee0b60a09}
+
+
+Returns the defense of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 154 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!get\+\_\+health@{get\+\_\+health}}
+\index{get\+\_\+health@{get\+\_\+health}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+health(\+Entity\+System \&, tdt\+::uint)}{get_health(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Health\+Helper\+::get\+\_\+health (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_a69a0b47c5aef9f72d4b26945061c9edc}{}\label{namespace_health_helper_a69a0b47c5aef9f72d4b26945061c9edc}
+
+
+Returns the current health amount of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 22 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!get\+\_\+regen@{get\+\_\+regen}}
+\index{get\+\_\+regen@{get\+\_\+regen}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+regen(\+Entity\+System \&, tdt\+::uint)}{get_regen(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Health\+Helper\+::get\+\_\+regen (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_a6c141b2a2fcb97d402ac0f28fbeb7a0d}{}\label{namespace_health_helper_a6c141b2a2fcb97d402ac0f28fbeb7a0d}
+
+
+Returns the regeneration value of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & o fthe entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 122 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!heal@{heal}}
+\index{heal@{heal}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{heal(\+Entity\+System \&, tdt\+::uint)}{heal(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Health\+Helper\+::heal (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_a3e693b9a5605f22f9ebfbdf9a09acb15}{}\label{namespace_health_helper_a3e693b9a5605f22f9ebfbdf9a09acb15}
+
+
+Sets the current health amount of an entity to it\textquotesingle{}s maximum value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 66 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!is\+\_\+alive@{is\+\_\+alive}}
+\index{is\+\_\+alive@{is\+\_\+alive}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{is\+\_\+alive(\+Entity\+System \&, tdt\+::uint)}{is_alive(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Health\+Helper\+::is\+\_\+alive (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_a9e085a5c9e15baa26e0c022d7aedeb67}{}\label{namespace_health_helper_a9e085a5c9e15baa26e0c022d7aedeb67}
+
+
+Returns true if a given entity is alive, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 138 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!set\+\_\+alive@{set\+\_\+alive}}
+\index{set\+\_\+alive@{set\+\_\+alive}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+alive(\+Entity\+System \&, tdt\+::uint, bool)}{set_alive(EntitySystem &, tdt::uint, bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void Health\+Helper\+::set\+\_\+alive (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{bool}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_a3f87b065077afca159efe651404890aa}{}\label{namespace_health_helper_a3f87b065077afca159efe651404890aa}
+
+
+Allows to set the health status of an entity without adding/subing health. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em True} & for \char`\"{}alive\char`\"{} and false for \char`\"{}dead\char`\"{}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 131 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!set\+\_\+defense@{set\+\_\+defense}}
+\index{set\+\_\+defense@{set\+\_\+defense}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+defense(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_defense(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Health\+Helper\+::set\+\_\+defense (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_abf5b115cafefd5a7fd5e9c8e94cd6432}{}\label{namespace_health_helper_abf5b115cafefd5a7fd5e9c8e94cd6432}
+
+
+Sets the amount of defense a given entity has to a given (absolute) amount. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new defense value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 147 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!set\+\_\+health@{set\+\_\+health}}
+\index{set\+\_\+health@{set\+\_\+health}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+health(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_health(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Health\+Helper\+::set\+\_\+health (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_a120574d85b2de60f02c4cd21a999b5dc}{}\label{namespace_health_helper_a120574d85b2de60f02c4cd21a999b5dc}
+
+
+Sets the health of a given entity without any regard to it\textquotesingle{}s maximal health. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new health value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 7 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!set\+\_\+regen@{set\+\_\+regen}}
+\index{set\+\_\+regen@{set\+\_\+regen}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+regen(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_regen(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Health\+Helper\+::set\+\_\+regen (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_a69c44b3a45bcf317ef97b7600e0e4730}{}\label{namespace_health_helper_a69c44b3a45bcf317ef97b7600e0e4730}
+
+
+Sets the regeneration value of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new regen value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 115 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!sub\+\_\+defense@{sub\+\_\+defense}}
+\index{sub\+\_\+defense@{sub\+\_\+defense}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{sub\+\_\+defense(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{sub_defense(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Health\+Helper\+::sub\+\_\+defense (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_ac75550795f775bfb4b975dc3765444ff}{}\label{namespace_health_helper_ac75550795f775bfb4b975dc3765444ff}
+
+
+Reduces the defense of an entity by a given amount. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Amounf} & of defense to be removed. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 170 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!sub\+\_\+health@{sub\+\_\+health}}
+\index{sub\+\_\+health@{sub\+\_\+health}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{sub\+\_\+health(\+Entity\+System \&, tdt\+::uint, tdt\+::uint, bool=false)}{sub_health(EntitySystem &, tdt::uint, tdt::uint, bool=false)}}]{\setlength{\rightskip}{0pt plus 5cm}void Health\+Helper\+::sub\+\_\+health (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val, }
+\item[{bool}]{ignore\+\_\+armor = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_a8cf9b78e55f9bc6c11b850116a504244}{}\label{namespace_health_helper_a8cf9b78e55f9bc6c11b850116a504244}
+
+
+Subtracts a given amount from the current health of an entity, taking it\textquotesingle{}s defense into account by default. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Amount} & of health to be subtracted. \\
+\hline
+{\em Optional} & boolean indicator, if true, the entity\textquotesingle{}s defense will be ignored, otherwise it will be subtracted from the given amount. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 44 of file Health\+Helper.\+cpp.
+
+\index{Health\+Helper@{Health\+Helper}!ubercharge@{ubercharge}}
+\index{ubercharge@{ubercharge}!Health\+Helper@{Health\+Helper}}
+\subsubsection[{\texorpdfstring{ubercharge(\+Entity\+System \&, tdt\+::uint)}{ubercharge(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Health\+Helper\+::ubercharge (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_health_helper_aca891b3c4be912a9574aeba417392c11}{}\label{namespace_health_helper_aca891b3c4be912a9574aeba417392c11}
+
+
+A cheat that sets the health, maximum health and defense to their highest possible values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 182 of file Health\+Helper.\+cpp.
+

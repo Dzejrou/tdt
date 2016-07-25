@@ -1,0 +1,635 @@
+\hypertarget{class_grid}{}\section{Grid Class Reference}
+\label{class_grid}\index{Grid@{Grid}}
+
+
+Class representing the pathfinding grid.  
+
+
+
+
+{\ttfamily \#include $<$Grid.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_grid_aed4ad076f87a3d98aad3c2b8c9103cef}{in\+\_\+board} (tdt\+::uint) const 
+\begin{DoxyCompactList}\small\item\em Returns true if a given node is in the grid. \end{DoxyCompactList}\item 
+const std\+::set$<$ tdt\+::uint $>$ \& \hyperlink{class_grid_a873fe20b463f75787f7403026e1deb81}{get\+\_\+freed} () const 
+\begin{DoxyCompactList}\small\item\em Returns a constant reference to the list of freed nodes. \end{DoxyCompactList}\item 
+const std\+::set$<$ tdt\+::uint $>$ \& \hyperlink{class_grid_af9bc45a2e906d4b4d62ca103358be426}{get\+\_\+unfreed} () const 
+\begin{DoxyCompactList}\small\item\em Returns a constant reference to the list of unfreed nodes. \end{DoxyCompactList}\item 
+void \hyperlink{class_grid_a260f0a33ba3928db375c868bc0e9deba}{clear\+\_\+freed} ()
+\begin{DoxyCompactList}\small\item\em Removes all nodes from the list of freed nodes. \end{DoxyCompactList}\item 
+void \hyperlink{class_grid_a983d2e90daf188754c12060977b8492c}{clear\+\_\+unfreed} ()
+\begin{DoxyCompactList}\small\item\em Removes all nodes from the list of unfreed nodes. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_grid_aa3db753de6e71ff27e027bc660ff68b2}{add\+\_\+node} (\hyperlink{class_entity_system}{Entity\+System} \&, Ogre\+::\+Vector2)
+\begin{DoxyCompactList}\small\item\em Created a new node at the given position. \end{DoxyCompactList}\item 
+void \hyperlink{class_grid_ad7ba4904bed74c7c98954b213d5abe88}{add\+\_\+freed} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Adds a given node to the list of the freed nodes. \end{DoxyCompactList}\item 
+void \hyperlink{class_grid_a09a42632297df276042c8188246b30d1}{add\+\_\+unfreed} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Adds a given node to the list of the unfreed nodes. \end{DoxyCompactList}\item 
+void \hyperlink{class_grid_ab17deada5ff57e05d8db760afcdc35c8}{remove\+\_\+node} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Removes a given node from the node list. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_grid_a916526d229a325f1a5ea3f577b082cc7}{get\+\_\+node} (tdt\+::uint, tdt\+::uint) const 
+\begin{DoxyCompactList}\small\item\em Returns the ID of a node at a given position in the grid. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_grid_ac2491494555c8a002a8c3bcd42ea564f}{get\+\_\+node\+\_\+from\+\_\+position} (tdt\+::real, tdt\+::real) const 
+\begin{DoxyCompactList}\small\item\em Returns the ID of a node that is closed to a given world coorinate. \end{DoxyCompactList}\item 
+void \hyperlink{class_grid_a23e1873e2854d15170ae8565e46a1729}{create\+\_\+graph} (\hyperlink{class_entity_system}{Entity\+System} \&, Ogre\+::\+Vector2, tdt\+::uint, tdt\+::uint, tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Generates a grid graph with the given parameters to be used for pathfinding. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_grid_a33f2b46b962d2d6bd0681c2d733ab76a}{get\+\_\+distance} () const 
+\begin{DoxyCompactList}\small\item\em Returns the distance between two nodes in the four non-\/diagonal directions. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_grid_a66fe6e5d96f6ba442605175b2f0e3d93}{get\+\_\+random\+\_\+free\+\_\+node} () const 
+\begin{DoxyCompactList}\small\item\em Breif\+: Returns a random node within the graph. \end{DoxyCompactList}\item 
+Ogre\+::\+Vector2 \hyperlink{class_grid_ad31b555e83f82a18c1c4a483bf1e57e5}{get\+\_\+center\+\_\+position} (\hyperlink{class_entity_system}{Entity\+System} \&) const 
+\begin{DoxyCompactList}\small\item\em Returns the 2D position of the central node of the grid (or one of them if the grid has even dimensions). \end{DoxyCompactList}\item 
+\hyperlink{class_grid_a4ec1287c8c59bbcb98f63d50260f6331}{Grid} (const \hyperlink{class_grid}{Grid} \&)=delete
+\begin{DoxyCompactList}\small\item\em Since there should be only one grid at all times accesible from the \hyperlink{class_grid_a6ce0a23ca91244b4eee86ba8072cb56d}{Grid\+::instance} method, all copy/move operations are disabled for this class. \end{DoxyCompactList}\item 
+\hyperlink{class_grid}{Grid} \& {\bfseries operator=} (const \hyperlink{class_grid}{Grid} \&)=delete\hypertarget{class_grid_afbc27641c46e4ec7adf05e37cd908539}{}\label{class_grid_afbc27641c46e4ec7adf05e37cd908539}
+
+\item 
+{\bfseries Grid} (\hyperlink{class_grid}{Grid} \&\&)=delete\hypertarget{class_grid_a58cffb9cc26a21b9664af870b5785614}{}\label{class_grid_a58cffb9cc26a21b9664af870b5785614}
+
+\item 
+\hyperlink{class_grid}{Grid} \& {\bfseries operator=} (\hyperlink{class_grid}{Grid} \&\&)=delete\hypertarget{class_grid_a60637a4e5f26f30ff651aa931d8c9e53}{}\label{class_grid_a60637a4e5f26f30ff651aa931d8c9e53}
+
+\item 
+bool \hyperlink{class_grid_a0349c650a4fd69e5f6f886af05314b92}{place\+\_\+at\+\_\+random\+\_\+free\+\_\+node} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Places a given entity at a random node that is not obstructed by a building. \end{DoxyCompactList}\item 
+bool \hyperlink{class_grid_adbc7f36dcab8375df8365de3506e7fcc}{distribute\+\_\+to\+\_\+adjacent\+\_\+free\+\_\+nodes} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, const std\+::vector$<$ tdt\+::uint $>$ \&)
+\begin{DoxyCompactList}\small\item\em Distributes a given set of entities on free nodes adjacent to a given central node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_grid}{Grid} \& \hyperlink{class_grid_a6ce0a23ca91244b4eee86ba8072cb56d}{instance} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the static instance of this class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_grid_a775ad2cbbd0fa863c84748eccdb707ad}{Grid} ()=default
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_grid_a3661d0a7f998caaaf8627d7a67072116}{$\sim$\+Grid} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_grid_aa821d856e6306de7af1553e1f00870e6}{link\+\_\+} (tdt\+::uint, std\+::vector$<$ \hyperlink{struct_grid_node_component}{Grid\+Node\+Component} $\ast$ $>$ \&)
+\begin{DoxyCompactList}\small\item\em Generates a neighbour list for a given node (thus linking it to the graph). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ tdt\+::uint $>$ \hyperlink{class_grid_a8727a9b7b5f21d30b6e3f9c7468dc305}{nodes\+\_\+}
+\begin{DoxyCompactList}\small\item\em Vector containing the I\+Ds of the nodes in the grid, basically representing a 2D matrix stored in a 1D container. \end{DoxyCompactList}\item 
+std\+::set$<$ tdt\+::uint $>$ \hyperlink{class_grid_a7a4fbc012ddbfcc4330b8042f83e79cb}{freed\+\_\+}
+\begin{DoxyCompactList}\small\item\em Auxiliary vectors containing I\+Ds of the nodes that have been freed/unfreed on last frame. \end{DoxyCompactList}\item 
+std\+::set$<$ tdt\+::uint $>$ {\bfseries unfreed\+\_\+}\hypertarget{class_grid_a59f7f85caaae4da20336f2eb042f8fb2}{}\label{class_grid_a59f7f85caaae4da20336f2eb042f8fb2}
+
+\item 
+tdt\+::uint \hyperlink{class_grid_a43488ca041b50c8926de53d2cbcd3070}{width\+\_\+}
+\begin{DoxyCompactList}\small\item\em Dimensions of the grid in node count. \end{DoxyCompactList}\item 
+tdt\+::uint {\bfseries height\+\_\+}\hypertarget{class_grid_a199f5d61fff3e1a250bab5acb687184f}{}\label{class_grid_a199f5d61fff3e1a250bab5acb687184f}
+
+\item 
+tdt\+::real \hyperlink{class_grid_aae31e3784132226a6ecc36c34065b342}{distance\+\_\+}
+\begin{DoxyCompactList}\small\item\em Distance between two adjascent nodes. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_grid_adf871683c5c3e983ba1dc7ddf2a45c4e}{starting\+\_\+index\+\_\+}
+\begin{DoxyCompactList}\small\item\em ID of the first node, this allows for the node I\+Ds to be outside the (0, width\+\_\+ $\ast$ height\+\_\+) range,. \end{DoxyCompactList}\item 
+Ogre\+::\+Vector2 \hyperlink{class_grid_aedee2f3e6f46e677b462c8301572e894}{start\+\_\+}
+\begin{DoxyCompactList}\small\item\em Coordinates of the starting node of the grid. \end{DoxyCompactList}\item 
+std\+::vector$<$ tdt\+::uint $>$ \hyperlink{class_grid_aea5fa0d96189839d5d8cbceabcdba132}{free\+\_\+nodes\+\_\+}
+\begin{DoxyCompactList}\small\item\em Used for easier returning of a random free node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_grid_a6f4a2258d01e962995f3a4743b711864}{Game\+Serializer}
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_game_serializer}{Game\+Serializer} is a friend class so that it can easily access the grid realted data (like dimensions and node distance) when saving the game. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class representing the pathfinding grid. 
+
+Definition at line 13 of file Grid.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Grid@{Grid}!Grid@{Grid}}
+\index{Grid@{Grid}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{Grid(const Grid \&)=delete}{Grid(const Grid &)=delete}}]{\setlength{\rightskip}{0pt plus 5cm}Grid\+::\+Grid (
+\begin{DoxyParamCaption}
+\item[{const {\bf Grid} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [delete]}}\hypertarget{class_grid_a4ec1287c8c59bbcb98f63d50260f6331}{}\label{class_grid_a4ec1287c8c59bbcb98f63d50260f6331}
+
+
+Since there should be only one grid at all times accesible from the \hyperlink{class_grid_a6ce0a23ca91244b4eee86ba8072cb56d}{Grid\+::instance} method, all copy/move operations are disabled for this class. 
+
+\index{Grid@{Grid}!Grid@{Grid}}
+\index{Grid@{Grid}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{Grid()=default}{Grid()=default}}]{\setlength{\rightskip}{0pt plus 5cm}Grid\+::\+Grid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [default]}}\hypertarget{class_grid_a775ad2cbbd0fa863c84748eccdb707ad}{}\label{class_grid_a775ad2cbbd0fa863c84748eccdb707ad}
+
+
+Constructor. 
+
+Kept private since there should be only one grid at all times. \index{Grid@{Grid}!````~Grid@{$\sim$\+Grid}}
+\index{````~Grid@{$\sim$\+Grid}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{$\sim$\+Grid()}{~Grid()}}]{\setlength{\rightskip}{0pt plus 5cm}Grid\+::$\sim$\+Grid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{class_grid_a3661d0a7f998caaaf8627d7a67072116}{}\label{class_grid_a3661d0a7f998caaaf8627d7a67072116}
+
+
+Destructor. 
+
+
+
+Definition at line 162 of file Grid.\+hpp.
+
+
+
+\subsection{Member Function Documentation}
+\index{Grid@{Grid}!add\+\_\+freed@{add\+\_\+freed}}
+\index{add\+\_\+freed@{add\+\_\+freed}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{add\+\_\+freed(tdt\+::uint)}{add_freed(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Grid\+::add\+\_\+freed (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{class_grid_ad7ba4904bed74c7c98954b213d5abe88}{}\label{class_grid_ad7ba4904bed74c7c98954b213d5abe88}
+
+
+Adds a given node to the list of the freed nodes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the node. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 50 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!add\+\_\+node@{add\+\_\+node}}
+\index{add\+\_\+node@{add\+\_\+node}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{add\+\_\+node(\+Entity\+System \&, Ogre\+::\+Vector2)}{add_node(EntitySystem &, Ogre::Vector2)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Grid\+::add\+\_\+node (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{Ogre\+::\+Vector2}]{pos}
+\end{DoxyParamCaption}
+)}\hypertarget{class_grid_aa3db753de6e71ff27e027bc660ff68b2}{}\label{class_grid_aa3db753de6e71ff27e027bc660ff68b2}
+
+
+Created a new node at the given position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the node. \\
+\hline
+{\em 2D} & position of the node. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 34 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!add\+\_\+unfreed@{add\+\_\+unfreed}}
+\index{add\+\_\+unfreed@{add\+\_\+unfreed}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{add\+\_\+unfreed(tdt\+::uint)}{add_unfreed(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Grid\+::add\+\_\+unfreed (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{class_grid_a09a42632297df276042c8188246b30d1}{}\label{class_grid_a09a42632297df276042c8188246b30d1}
+
+
+Adds a given node to the list of the unfreed nodes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the node. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 70 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!clear\+\_\+freed@{clear\+\_\+freed}}
+\index{clear\+\_\+freed@{clear\+\_\+freed}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{clear\+\_\+freed()}{clear_freed()}}]{\setlength{\rightskip}{0pt plus 5cm}void Grid\+::clear\+\_\+freed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_grid_a260f0a33ba3928db375c868bc0e9deba}{}\label{class_grid_a260f0a33ba3928db375c868bc0e9deba}
+
+
+Removes all nodes from the list of freed nodes. 
+
+
+
+Definition at line 24 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!clear\+\_\+unfreed@{clear\+\_\+unfreed}}
+\index{clear\+\_\+unfreed@{clear\+\_\+unfreed}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{clear\+\_\+unfreed()}{clear_unfreed()}}]{\setlength{\rightskip}{0pt plus 5cm}void Grid\+::clear\+\_\+unfreed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_grid_a983d2e90daf188754c12060977b8492c}{}\label{class_grid_a983d2e90daf188754c12060977b8492c}
+
+
+Removes all nodes from the list of unfreed nodes. 
+
+
+
+Definition at line 29 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!create\+\_\+graph@{create\+\_\+graph}}
+\index{create\+\_\+graph@{create\+\_\+graph}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{create\+\_\+graph(\+Entity\+System \&, Ogre\+::\+Vector2, tdt\+::uint, tdt\+::uint, tdt\+::real)}{create_graph(EntitySystem &, Ogre::Vector2, tdt::uint, tdt::uint, tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Grid\+::create\+\_\+graph (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{Ogre\+::\+Vector2}]{start, }
+\item[{tdt\+::uint}]{w, }
+\item[{tdt\+::uint}]{h, }
+\item[{tdt\+::real}]{d}
+\end{DoxyParamCaption}
+)}\hypertarget{class_grid_a23e1873e2854d15170ae8565e46a1729}{}\label{class_grid_a23e1873e2854d15170ae8565e46a1729}
+
+
+Generates a grid graph with the given parameters to be used for pathfinding. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that will contain the nodes. \\
+\hline
+{\em Starting} & position (x,z axes) of the grid. \\
+\hline
+{\em Width} & of the graph (in node count). \\
+\hline
+{\em Height} & of the graph (in node count). \\
+\hline
+{\em Distance} & between adjascent nodes. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 112 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!distribute\+\_\+to\+\_\+adjacent\+\_\+free\+\_\+nodes@{distribute\+\_\+to\+\_\+adjacent\+\_\+free\+\_\+nodes}}
+\index{distribute\+\_\+to\+\_\+adjacent\+\_\+free\+\_\+nodes@{distribute\+\_\+to\+\_\+adjacent\+\_\+free\+\_\+nodes}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{distribute\+\_\+to\+\_\+adjacent\+\_\+free\+\_\+nodes(\+Entity\+System \&, tdt\+::uint, const std\+::vector$<$ tdt\+::uint $>$ \&)}{distribute_to_adjacent_free_nodes(EntitySystem &, tdt::uint, const std::vector< tdt::uint > &)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Grid\+::distribute\+\_\+to\+\_\+adjacent\+\_\+free\+\_\+nodes (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{node, }
+\item[{const std\+::vector$<$ tdt\+::uint $>$ \&}]{ids}
+\end{DoxyParamCaption}
+)}\hypertarget{class_grid_adbc7f36dcab8375df8365de3506e7fcc}{}\label{class_grid_adbc7f36dcab8375df8365de3506e7fcc}
+
+
+Distributes a given set of entities on free nodes adjacent to a given central node. 
+
+Returns true if the placement was possible, false otherwise. 
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entitites. \\
+\hline
+{\em ID} & of the central node. \\
+\hline
+{\em Vector} & of I\+Ds of the entities. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 186 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!get\+\_\+center\+\_\+position@{get\+\_\+center\+\_\+position}}
+\index{get\+\_\+center\+\_\+position@{get\+\_\+center\+\_\+position}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{get\+\_\+center\+\_\+position(\+Entity\+System \&) const }{get_center_position(EntitySystem &) const }}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Vector2 Grid\+::get\+\_\+center\+\_\+position (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_grid_ad31b555e83f82a18c1c4a483bf1e57e5}{}\label{class_grid_ad31b555e83f82a18c1c4a483bf1e57e5}
+
+
+Returns the 2D position of the central node of the grid (or one of them if the grid has even dimensions). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains components of the nodes. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 171 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!get\+\_\+distance@{get\+\_\+distance}}
+\index{get\+\_\+distance@{get\+\_\+distance}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{get\+\_\+distance() const }{get_distance() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Grid\+::get\+\_\+distance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_grid_a33f2b46b962d2d6bd0681c2d733ab76a}{}\label{class_grid_a33f2b46b962d2d6bd0681c2d733ab76a}
+
+
+Returns the distance between two nodes in the four non-\/diagonal directions. 
+
+
+
+Definition at line 151 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!get\+\_\+freed@{get\+\_\+freed}}
+\index{get\+\_\+freed@{get\+\_\+freed}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{get\+\_\+freed() const }{get_freed() const }}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::set$<$ tdt\+::uint $>$ \& Grid\+::get\+\_\+freed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_grid_a873fe20b463f75787f7403026e1deb81}{}\label{class_grid_a873fe20b463f75787f7403026e1deb81}
+
+
+Returns a constant reference to the list of freed nodes. 
+
+
+
+Definition at line 14 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!get\+\_\+node@{get\+\_\+node}}
+\index{get\+\_\+node@{get\+\_\+node}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{get\+\_\+node(tdt\+::uint, tdt\+::uint) const }{get_node(tdt::uint, tdt::uint) const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Grid\+::get\+\_\+node (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{x, }
+\item[{tdt\+::uint}]{y}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_grid_a916526d229a325f1a5ea3f577b082cc7}{}\label{class_grid_a916526d229a325f1a5ea3f577b082cc7}
+
+
+Returns the ID of a node at a given position in the grid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Column} & number. \\
+\hline
+{\em Row} & number. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 86 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!get\+\_\+node\+\_\+from\+\_\+position@{get\+\_\+node\+\_\+from\+\_\+position}}
+\index{get\+\_\+node\+\_\+from\+\_\+position@{get\+\_\+node\+\_\+from\+\_\+position}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{get\+\_\+node\+\_\+from\+\_\+position(tdt\+::real, tdt\+::real) const }{get_node_from_position(tdt::real, tdt::real) const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Grid\+::get\+\_\+node\+\_\+from\+\_\+position (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{x, }
+\item[{tdt\+::real}]{y}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_grid_ac2491494555c8a002a8c3bcd42ea564f}{}\label{class_grid_ac2491494555c8a002a8c3bcd42ea564f}
+
+
+Returns the ID of a node that is closed to a given world coorinate. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em X} & axis coordinate. \\
+\hline
+{\em Z} & axis coordinate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Adding the ability to specify in what direction the node must be might be beneficial for pathfinding. 
+\end{DoxyNote}
+
+
+Definition at line 94 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!get\+\_\+random\+\_\+free\+\_\+node@{get\+\_\+random\+\_\+free\+\_\+node}}
+\index{get\+\_\+random\+\_\+free\+\_\+node@{get\+\_\+random\+\_\+free\+\_\+node}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{get\+\_\+random\+\_\+free\+\_\+node() const }{get_random_free_node() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Grid\+::get\+\_\+random\+\_\+free\+\_\+node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_grid_a66fe6e5d96f6ba442605175b2f0e3d93}{}\label{class_grid_a66fe6e5d96f6ba442605175b2f0e3d93}
+
+
+Breif\+: Returns a random node within the graph. 
+
+
+
+Definition at line 163 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!get\+\_\+unfreed@{get\+\_\+unfreed}}
+\index{get\+\_\+unfreed@{get\+\_\+unfreed}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{get\+\_\+unfreed() const }{get_unfreed() const }}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::set$<$ tdt\+::uint $>$ \& Grid\+::get\+\_\+unfreed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_grid_af9bc45a2e906d4b4d62ca103358be426}{}\label{class_grid_af9bc45a2e906d4b4d62ca103358be426}
+
+
+Returns a constant reference to the list of unfreed nodes. 
+
+
+
+Definition at line 19 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!in\+\_\+board@{in\+\_\+board}}
+\index{in\+\_\+board@{in\+\_\+board}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{in\+\_\+board(tdt\+::uint) const }{in_board(tdt::uint) const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Grid\+::in\+\_\+board (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_grid_aed4ad076f87a3d98aad3c2b8c9103cef}{}\label{class_grid_aed4ad076f87a3d98aad3c2b8c9103cef}
+
+
+Returns true if a given node is in the grid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the node. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 9 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!instance@{instance}}
+\index{instance@{instance}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{instance()}{instance()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Grid} \& Grid\+::instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{class_grid_a6ce0a23ca91244b4eee86ba8072cb56d}{}\label{class_grid_a6ce0a23ca91244b4eee86ba8072cb56d}
+
+
+Returns a reference to the static instance of this class. 
+
+\begin{DoxyNote}{Note}
+Handles initialization and safe destruction by itself. 
+\end{DoxyNote}
+
+
+Definition at line 156 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!link\+\_\+@{link\+\_\+}}
+\index{link\+\_\+@{link\+\_\+}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{link\+\_\+(tdt\+::uint, std\+::vector$<$ Grid\+Node\+Component $\ast$ $>$ \&)}{link_(tdt::uint, std::vector< GridNodeComponent * > &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Grid\+::link\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{index, }
+\item[{std\+::vector$<$ {\bf Grid\+Node\+Component} $\ast$ $>$ \&}]{comps}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_grid_aa821d856e6306de7af1553e1f00870e6}{}\label{class_grid_aa821d856e6306de7af1553e1f00870e6}
+
+
+Generates a neighbour list for a given node (thus linking it to the graph). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the node. \\
+\hline
+{\em Auxuliary} & vector containing component pointers for fast access. (This method will ever be called only in the Grid\+System\+::create\+\_\+graph method, which already has such a vector and so it\textquotesingle{}s used here too.) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 218 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!place\+\_\+at\+\_\+random\+\_\+free\+\_\+node@{place\+\_\+at\+\_\+random\+\_\+free\+\_\+node}}
+\index{place\+\_\+at\+\_\+random\+\_\+free\+\_\+node@{place\+\_\+at\+\_\+random\+\_\+free\+\_\+node}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{place\+\_\+at\+\_\+random\+\_\+free\+\_\+node(\+Entity\+System \&, tdt\+::uint)}{place_at_random_free_node(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Grid\+::place\+\_\+at\+\_\+random\+\_\+free\+\_\+node (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{class_grid_a0349c650a4fd69e5f6f886af05314b92}{}\label{class_grid_a0349c650a4fd69e5f6f886af05314b92}
+
+
+Places a given entity at a random node that is not obstructed by a building. 
+
+Returns true if the placement was possible, false otherwise. 
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 177 of file Grid.\+cpp.
+
+\index{Grid@{Grid}!remove\+\_\+node@{remove\+\_\+node}}
+\index{remove\+\_\+node@{remove\+\_\+node}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{remove\+\_\+node(tdt\+::uint)}{remove_node(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Grid\+::remove\+\_\+node (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{class_grid_ab17deada5ff57e05d8db760afcdc35c8}{}\label{class_grid_ab17deada5ff57e05d8db760afcdc35c8}
+
+
+Removes a given node from the node list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the node. T\+O\+DO\+: Possibly implement \char`\"{}unlink\char`\"{}? \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 80 of file Grid.\+cpp.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\index{Grid@{Grid}!Game\+Serializer@{Game\+Serializer}}
+\index{Game\+Serializer@{Game\+Serializer}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{Game\+Serializer}{GameSerializer}}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf Game\+Serializer}\hspace{0.3cm}{\ttfamily [friend]}}\hypertarget{class_grid_a6f4a2258d01e962995f3a4743b711864}{}\label{class_grid_a6f4a2258d01e962995f3a4743b711864}
+
+
+\hyperlink{class_game_serializer}{Game\+Serializer} is a friend class so that it can easily access the grid realted data (like dimensions and node distance) when saving the game. 
+
+
+
+Definition at line 19 of file Grid.\+hpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Grid@{Grid}!distance\+\_\+@{distance\+\_\+}}
+\index{distance\+\_\+@{distance\+\_\+}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{distance\+\_\+}{distance_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Grid\+::distance\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_grid_aae31e3784132226a6ecc36c34065b342}{}\label{class_grid_aae31e3784132226a6ecc36c34065b342}
+
+
+Distance between two adjascent nodes. 
+
+
+
+Definition at line 195 of file Grid.\+hpp.
+
+\index{Grid@{Grid}!free\+\_\+nodes\+\_\+@{free\+\_\+nodes\+\_\+}}
+\index{free\+\_\+nodes\+\_\+@{free\+\_\+nodes\+\_\+}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{free\+\_\+nodes\+\_\+}{free_nodes_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$tdt\+::uint$>$ Grid\+::free\+\_\+nodes\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_grid_aea5fa0d96189839d5d8cbceabcdba132}{}\label{class_grid_aea5fa0d96189839d5d8cbceabcdba132}
+
+
+Used for easier returning of a random free node. 
+
+
+
+Definition at line 213 of file Grid.\+hpp.
+
+\index{Grid@{Grid}!freed\+\_\+@{freed\+\_\+}}
+\index{freed\+\_\+@{freed\+\_\+}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{freed\+\_\+}{freed_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::set$<$tdt\+::uint$>$ Grid\+::freed\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_grid_a7a4fbc012ddbfcc4330b8042f83e79cb}{}\label{class_grid_a7a4fbc012ddbfcc4330b8042f83e79cb}
+
+
+Auxiliary vectors containing I\+Ds of the nodes that have been freed/unfreed on last frame. 
+
+Used for pathfinding correction and structure model changes. 
+
+Definition at line 184 of file Grid.\+hpp.
+
+\index{Grid@{Grid}!nodes\+\_\+@{nodes\+\_\+}}
+\index{nodes\+\_\+@{nodes\+\_\+}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{nodes\+\_\+}{nodes_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$tdt\+::uint$>$ Grid\+::nodes\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_grid_a8727a9b7b5f21d30b6e3f9c7468dc305}{}\label{class_grid_a8727a9b7b5f21d30b6e3f9c7468dc305}
+
+
+Vector containing the I\+Ds of the nodes in the grid, basically representing a 2D matrix stored in a 1D container. 
+
+
+
+Definition at line 177 of file Grid.\+hpp.
+
+\index{Grid@{Grid}!start\+\_\+@{start\+\_\+}}
+\index{start\+\_\+@{start\+\_\+}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{start\+\_\+}{start_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Vector2 Grid\+::start\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_grid_aedee2f3e6f46e677b462c8301572e894}{}\label{class_grid_aedee2f3e6f46e677b462c8301572e894}
+
+
+Coordinates of the starting node of the grid. 
+
+(This 2D vector contains X and Z coordinates despite it\textquotesingle{}s second member being names Y). 
+
+Definition at line 208 of file Grid.\+hpp.
+
+\index{Grid@{Grid}!starting\+\_\+index\+\_\+@{starting\+\_\+index\+\_\+}}
+\index{starting\+\_\+index\+\_\+@{starting\+\_\+index\+\_\+}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{starting\+\_\+index\+\_\+}{starting_index_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Grid\+::starting\+\_\+index\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_grid_adf871683c5c3e983ba1dc7ddf2a45c4e}{}\label{class_grid_adf871683c5c3e983ba1dc7ddf2a45c4e}
+
+
+ID of the first node, this allows for the node I\+Ds to be outside the (0, width\+\_\+ $\ast$ height\+\_\+) range,. 
+
+
+
+Definition at line 201 of file Grid.\+hpp.
+
+\index{Grid@{Grid}!width\+\_\+@{width\+\_\+}}
+\index{width\+\_\+@{width\+\_\+}!Grid@{Grid}}
+\subsubsection[{\texorpdfstring{width\+\_\+}{width_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Grid\+::width\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_grid_a43488ca041b50c8926de53d2cbcd3070}{}\label{class_grid_a43488ca041b50c8926de53d2cbcd3070}
+
+
+Dimensions of the grid in node count. 
+
+(Actual dimensions = dimensions $\ast$ distance.) 
+
+Definition at line 190 of file Grid.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+tools/Grid.\+hpp\item 
+tools/Grid.\+cpp\end{DoxyCompactItemize}

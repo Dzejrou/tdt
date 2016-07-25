@@ -1,0 +1,170 @@
+\hypertarget{namespace_counter_helper}{}\section{Counter\+Helper Namespace Reference}
+\label{namespace_counter_helper}\index{Counter\+Helper@{Counter\+Helper}}
+
+
+Namespace containing auxiliary functions that help with counter component management.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{namespace_counter_helper_accd2a12c93a7bb81dbf8eccebb183818}{increment} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Increments the counter of a given entity and returns true if the counter has reached the max value, false otherwise. \end{DoxyCompactList}\item 
+bool \hyperlink{namespace_counter_helper_af3707a7ff26096d8318e5371fb476bc2}{decrement} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Decrements the counter of a given entity and returns true if the counter has reached the max value, false otherwise. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_counter_helper_aedbe1dc2d80065781488c221148f997f}{set\+\_\+curr\+\_\+value} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the current value of the counter of a given entity. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_counter_helper_a67cfbcf73ceaa2826d714f2621d668df}{get\+\_\+curr\+\_\+value} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the current value of the counter of a given entity. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_counter_helper_a9cc28b1f7554815827dcd22ad535755a}{set\+\_\+max\+\_\+value} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the max value of the counter of a given entity. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_counter_helper_ad242c98dacb3346bd027c8d9b38a83f0}{get\+\_\+max\+\_\+value} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the max value of the counter of a given entity. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Namespace containing auxiliary functions that help with counter component management. 
+
+\subsection{Function Documentation}
+\index{Counter\+Helper@{Counter\+Helper}!decrement@{decrement}}
+\index{decrement@{decrement}!Counter\+Helper@{Counter\+Helper}}
+\subsubsection[{\texorpdfstring{decrement(\+Entity\+System \&, tdt\+::uint)}{decrement(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Counter\+Helper\+::decrement (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_counter_helper_af3707a7ff26096d8318e5371fb476bc2}{}\label{namespace_counter_helper_af3707a7ff26096d8318e5371fb476bc2}
+
+
+Decrements the counter of a given entity and returns true if the counter has reached the max value, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 17 of file Counter\+Helper.\+cpp.
+
+\index{Counter\+Helper@{Counter\+Helper}!get\+\_\+curr\+\_\+value@{get\+\_\+curr\+\_\+value}}
+\index{get\+\_\+curr\+\_\+value@{get\+\_\+curr\+\_\+value}!Counter\+Helper@{Counter\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+curr\+\_\+value(\+Entity\+System \&, tdt\+::uint)}{get_curr_value(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Counter\+Helper\+::get\+\_\+curr\+\_\+value (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_counter_helper_a67cfbcf73ceaa2826d714f2621d668df}{}\label{namespace_counter_helper_a67cfbcf73ceaa2826d714f2621d668df}
+
+
+Returns the current value of the counter of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 36 of file Counter\+Helper.\+cpp.
+
+\index{Counter\+Helper@{Counter\+Helper}!get\+\_\+max\+\_\+value@{get\+\_\+max\+\_\+value}}
+\index{get\+\_\+max\+\_\+value@{get\+\_\+max\+\_\+value}!Counter\+Helper@{Counter\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+max\+\_\+value(\+Entity\+System \&, tdt\+::uint)}{get_max_value(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Counter\+Helper\+::get\+\_\+max\+\_\+value (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_counter_helper_ad242c98dacb3346bd027c8d9b38a83f0}{}\label{namespace_counter_helper_ad242c98dacb3346bd027c8d9b38a83f0}
+
+
+Returns the max value of the counter of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 52 of file Counter\+Helper.\+cpp.
+
+\index{Counter\+Helper@{Counter\+Helper}!increment@{increment}}
+\index{increment@{increment}!Counter\+Helper@{Counter\+Helper}}
+\subsubsection[{\texorpdfstring{increment(\+Entity\+System \&, tdt\+::uint)}{increment(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Counter\+Helper\+::increment (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_counter_helper_accd2a12c93a7bb81dbf8eccebb183818}{}\label{namespace_counter_helper_accd2a12c93a7bb81dbf8eccebb183818}
+
+
+Increments the counter of a given entity and returns true if the counter has reached the max value, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 5 of file Counter\+Helper.\+cpp.
+
+\index{Counter\+Helper@{Counter\+Helper}!set\+\_\+curr\+\_\+value@{set\+\_\+curr\+\_\+value}}
+\index{set\+\_\+curr\+\_\+value@{set\+\_\+curr\+\_\+value}!Counter\+Helper@{Counter\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+curr\+\_\+value(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_curr_value(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Counter\+Helper\+::set\+\_\+curr\+\_\+value (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_counter_helper_aedbe1dc2d80065781488c221148f997f}{}\label{namespace_counter_helper_aedbe1dc2d80065781488c221148f997f}
+
+
+Sets the current value of the counter of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new counter value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 29 of file Counter\+Helper.\+cpp.
+
+\index{Counter\+Helper@{Counter\+Helper}!set\+\_\+max\+\_\+value@{set\+\_\+max\+\_\+value}}
+\index{set\+\_\+max\+\_\+value@{set\+\_\+max\+\_\+value}!Counter\+Helper@{Counter\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+max\+\_\+value(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_max_value(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Counter\+Helper\+::set\+\_\+max\+\_\+value (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_counter_helper_a9cc28b1f7554815827dcd22ad535755a}{}\label{namespace_counter_helper_a9cc28b1f7554815827dcd22ad535755a}
+
+
+Sets the max value of the counter of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 45 of file Counter\+Helper.\+cpp.
+

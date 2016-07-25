@@ -1,0 +1,281 @@
+\hypertarget{namespace_event_helper}{}\section{Event\+Helper Namespace Reference}
+\label{namespace_event_helper}\index{Event\+Helper@{Event\+Helper}}
+
+
+Auxiliary namespace containing functions that help with the management of the event component.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespace_event_helper_a912f5fb6cc992ae9d3762293d3558376}{set\+\_\+event\+\_\+type} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, E\+V\+E\+N\+T\+\_\+\+T\+Y\+PE)
+\begin{DoxyCompactList}\small\item\em Sets the type of a given event. \end{DoxyCompactList}\item 
+E\+V\+E\+N\+T\+\_\+\+T\+Y\+PE \hyperlink{namespace_event_helper_a153e8f8a54c128f13b5f6f91f5891f02}{get\+\_\+event\+\_\+type} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the type of a given event. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_event_helper_a5fdeb9fe6309782e080f12681a4d217a}{set\+\_\+target} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the target entity (the subject of the event) of a given event. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_event_helper_a278f5fdd8d44b5828d63c5b44bc59237}{get\+\_\+target} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the target entity (the subject of the event) of a given event. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_event_helper_a906fcd38a55caae4e1257103541c2e4a}{set\+\_\+radius} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Sets the radius handlers have to be in in order to be able to handle a given event. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{namespace_event_helper_a9ef199012ea07f5bbe0301d9667ff9a9}{get\+\_\+radius} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the radius handlers have to be in in order to be able to handle a given event. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_event_helper_a3cb82954b8151842a031634e51256892}{set\+\_\+active} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, bool=true)
+\begin{DoxyCompactList}\small\item\em Sets the activity state of a given event. \end{DoxyCompactList}\item 
+bool \hyperlink{namespace_event_helper_a8ceaf38d47d92b6a755f62220c5e2060}{is\+\_\+active} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns true if a given event is active, false otherwise. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_event_helper_a0660bda6d3e7783f48f606449fe3d3e3}{set\+\_\+event\+\_\+handler} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the entity that handles a given event. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_event_helper_adee82f39fa2d8aad3d124530b3f5ee76}{get\+\_\+event\+\_\+handler} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the entity that handles a given event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary namespace containing functions that help with the management of the event component. 
+
+\subsection{Function Documentation}
+\index{Event\+Helper@{Event\+Helper}!get\+\_\+event\+\_\+handler@{get\+\_\+event\+\_\+handler}}
+\index{get\+\_\+event\+\_\+handler@{get\+\_\+event\+\_\+handler}!Event\+Helper@{Event\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+event\+\_\+handler(\+Entity\+System \&, tdt\+::uint)}{get_event_handler(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::size\+\_\+t Event\+Helper\+::get\+\_\+event\+\_\+handler (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_event_helper_adee82f39fa2d8aad3d124530b3f5ee76}{}\label{namespace_event_helper_adee82f39fa2d8aad3d124530b3f5ee76}
+
+
+Returns the entity that handles a given event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing both the entity and the event. \\
+\hline
+{\em ID} & of the event. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 76 of file Event\+Helper.\+cpp.
+
+\index{Event\+Helper@{Event\+Helper}!get\+\_\+event\+\_\+type@{get\+\_\+event\+\_\+type}}
+\index{get\+\_\+event\+\_\+type@{get\+\_\+event\+\_\+type}!Event\+Helper@{Event\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+event\+\_\+type(\+Entity\+System \&, tdt\+::uint)}{get_event_type(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}E\+V\+E\+N\+T\+\_\+\+T\+Y\+PE Event\+Helper\+::get\+\_\+event\+\_\+type (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_event_helper_a153e8f8a54c128f13b5f6f91f5891f02}{}\label{namespace_event_helper_a153e8f8a54c128f13b5f6f91f5891f02}
+
+
+Returns the type of a given event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system that contains the entity. \\
+\hline
+{\em ID} & of the event. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 12 of file Event\+Helper.\+cpp.
+
+\index{Event\+Helper@{Event\+Helper}!get\+\_\+radius@{get\+\_\+radius}}
+\index{get\+\_\+radius@{get\+\_\+radius}!Event\+Helper@{Event\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+radius(\+Entity\+System \&, tdt\+::uint)}{get_radius(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Real Event\+Helper\+::get\+\_\+radius (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_event_helper_a9ef199012ea07f5bbe0301d9667ff9a9}{}\label{namespace_event_helper_a9ef199012ea07f5bbe0301d9667ff9a9}
+
+
+Returns the radius handlers have to be in in order to be able to handle a given event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system that contains the entity. \\
+\hline
+{\em ID} & of the event. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 44 of file Event\+Helper.\+cpp.
+
+\index{Event\+Helper@{Event\+Helper}!get\+\_\+target@{get\+\_\+target}}
+\index{get\+\_\+target@{get\+\_\+target}!Event\+Helper@{Event\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+target(\+Entity\+System \&, tdt\+::uint)}{get_target(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::size\+\_\+t Event\+Helper\+::get\+\_\+target (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_event_helper_a278f5fdd8d44b5828d63c5b44bc59237}{}\label{namespace_event_helper_a278f5fdd8d44b5828d63c5b44bc59237}
+
+
+Returns the target entity (the subject of the event) of a given event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system that contains the entity. \\
+\hline
+{\em ID} & of the event. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 28 of file Event\+Helper.\+cpp.
+
+\index{Event\+Helper@{Event\+Helper}!is\+\_\+active@{is\+\_\+active}}
+\index{is\+\_\+active@{is\+\_\+active}!Event\+Helper@{Event\+Helper}}
+\subsubsection[{\texorpdfstring{is\+\_\+active(\+Entity\+System \&, tdt\+::uint)}{is_active(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Event\+Helper\+::is\+\_\+active (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_event_helper_a8ceaf38d47d92b6a755f62220c5e2060}{}\label{namespace_event_helper_a8ceaf38d47d92b6a755f62220c5e2060}
+
+
+Returns true if a given event is active, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system that contains the entity. \\
+\hline
+{\em ID} & of the event. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 60 of file Event\+Helper.\+cpp.
+
+\index{Event\+Helper@{Event\+Helper}!set\+\_\+active@{set\+\_\+active}}
+\index{set\+\_\+active@{set\+\_\+active}!Event\+Helper@{Event\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+active(\+Entity\+System \&, tdt\+::uint, bool=true)}{set_active(EntitySystem &, tdt::uint, bool=true)}}]{\setlength{\rightskip}{0pt plus 5cm}void Event\+Helper\+::set\+\_\+active (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{bool}]{val = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_event_helper_a3cb82954b8151842a031634e51256892}{}\label{namespace_event_helper_a3cb82954b8151842a031634e51256892}
+
+
+Sets the activity state of a given event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system that contains the entity. \\
+\hline
+{\em ID} & of the event. \\
+\hline
+{\em ID} & for active, false for inactive. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 53 of file Event\+Helper.\+cpp.
+
+\index{Event\+Helper@{Event\+Helper}!set\+\_\+event\+\_\+handler@{set\+\_\+event\+\_\+handler}}
+\index{set\+\_\+event\+\_\+handler@{set\+\_\+event\+\_\+handler}!Event\+Helper@{Event\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+event\+\_\+handler(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_event_handler(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Event\+Helper\+::set\+\_\+event\+\_\+handler (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_event_helper_a0660bda6d3e7783f48f606449fe3d3e3}{}\label{namespace_event_helper_a0660bda6d3e7783f48f606449fe3d3e3}
+
+
+Sets the entity that handles a given event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing both the entity and the event. \\
+\hline
+{\em ID} & of the event. \\
+\hline
+{\em ID} & of the handling entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 69 of file Event\+Helper.\+cpp.
+
+\index{Event\+Helper@{Event\+Helper}!set\+\_\+event\+\_\+type@{set\+\_\+event\+\_\+type}}
+\index{set\+\_\+event\+\_\+type@{set\+\_\+event\+\_\+type}!Event\+Helper@{Event\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+event\+\_\+type(\+Entity\+System \&, tdt\+::uint, E\+V\+E\+N\+T\+\_\+\+T\+Y\+P\+E)}{set_event_type(EntitySystem &, tdt::uint, EVENT_TYPE)}}]{\setlength{\rightskip}{0pt plus 5cm}void Event\+Helper\+::set\+\_\+event\+\_\+type (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{E\+V\+E\+N\+T\+\_\+\+T\+Y\+PE}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_event_helper_a912f5fb6cc992ae9d3762293d3558376}{}\label{namespace_event_helper_a912f5fb6cc992ae9d3762293d3558376}
+
+
+Sets the type of a given event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system that contains the entity. \\
+\hline
+{\em ID} & of the event. \\
+\hline
+{\em The} & new type. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 5 of file Event\+Helper.\+cpp.
+
+\index{Event\+Helper@{Event\+Helper}!set\+\_\+radius@{set\+\_\+radius}}
+\index{set\+\_\+radius@{set\+\_\+radius}!Event\+Helper@{Event\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+radius(\+Entity\+System \&, tdt\+::uint, tdt\+::real)}{set_radius(EntitySystem &, tdt::uint, tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Event\+Helper\+::set\+\_\+radius (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::real}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_event_helper_a906fcd38a55caae4e1257103541c2e4a}{}\label{namespace_event_helper_a906fcd38a55caae4e1257103541c2e4a}
+
+
+Sets the radius handlers have to be in in order to be able to handle a given event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system that contains the entity. \\
+\hline
+{\em ID} & of the event. \\
+\hline
+{\em The} & new radius. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 37 of file Event\+Helper.\+cpp.
+
+\index{Event\+Helper@{Event\+Helper}!set\+\_\+target@{set\+\_\+target}}
+\index{set\+\_\+target@{set\+\_\+target}!Event\+Helper@{Event\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+target(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_target(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Event\+Helper\+::set\+\_\+target (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_event_helper_a5fdeb9fe6309782e080f12681a4d217a}{}\label{namespace_event_helper_a5fdeb9fe6309782e080f12681a4d217a}
+
+
+Sets the target entity (the subject of the event) of a given event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system that contains the entity. \\
+\hline
+{\em ID} & of the event. \\
+\hline
+{\em ID} & of the target. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 21 of file Event\+Helper.\+cpp.
+

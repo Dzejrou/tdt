@@ -1,0 +1,73 @@
+\hypertarget{struct_grid_node_component}{}\section{Grid\+Node\+Component Struct Reference}
+\label{struct_grid_node_component}\index{Grid\+Node\+Component@{Grid\+Node\+Component}}
+
+
+Holds Grid\+Node\textquotesingle{}s neighbour nodes.  
+
+
+
+
+{\ttfamily \#include $<$Components.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Grid\+Node\+Component} (std\+::array$<$ tdt\+::uint, neighbour\+\_\+count $>$ neigh=std\+::array$<$ tdt\+::uint, neighbour\+\_\+count $>$\{\}, bool f=true, tdt\+::uint pos\+\_\+x=0, tdt\+::uint pos\+\_\+y=0, tdt\+::uint res=Component\+::\+N\+O\+\_\+\+E\+N\+T\+I\+TY)\hypertarget{struct_grid_node_component_a2e0f1759a1a055ea674c8f2a6c874480}{}\label{struct_grid_node_component_a2e0f1759a1a055ea674c8f2a6c874480}
+
+\item 
+{\bfseries Grid\+Node\+Component} (const \hyperlink{struct_grid_node_component}{Grid\+Node\+Component} \&)=default\hypertarget{struct_grid_node_component_adf2d250f042101cde2209a1b88ff529d}{}\label{struct_grid_node_component_adf2d250f042101cde2209a1b88ff529d}
+
+\item 
+{\bfseries Grid\+Node\+Component} (\hyperlink{struct_grid_node_component}{Grid\+Node\+Component} \&\&)=default\hypertarget{struct_grid_node_component_ada93f8b8295e5e0e4cf8844c3153f42e}{}\label{struct_grid_node_component_ada93f8b8295e5e0e4cf8844c3153f42e}
+
+\item 
+\hyperlink{struct_grid_node_component}{Grid\+Node\+Component} \& {\bfseries operator=} (const \hyperlink{struct_grid_node_component}{Grid\+Node\+Component} \&)=default\hypertarget{struct_grid_node_component_a42242f6773bf9621a49791ae425edfae}{}\label{struct_grid_node_component_a42242f6773bf9621a49791ae425edfae}
+
+\item 
+\hyperlink{struct_grid_node_component}{Grid\+Node\+Component} \& {\bfseries operator=} (\hyperlink{struct_grid_node_component}{Grid\+Node\+Component} \&\&)=default\hypertarget{struct_grid_node_component_a8dd20b5640bbadf4c70a2c58488284c1}{}\label{struct_grid_node_component_a8dd20b5640bbadf4c70a2c58488284c1}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::array$<$ tdt\+::uint, neighbour\+\_\+count $>$ {\bfseries neighbours}\hypertarget{struct_grid_node_component_a99fa024aa011459aa23c4da8efa6d9d0}{}\label{struct_grid_node_component_a99fa024aa011459aa23c4da8efa6d9d0}
+
+\item 
+bool {\bfseries free}\hypertarget{struct_grid_node_component_a4d722929170f8c1104061f38043943cb}{}\label{struct_grid_node_component_a4d722929170f8c1104061f38043943cb}
+
+\item 
+tdt\+::uint {\bfseries x}\hypertarget{struct_grid_node_component_a518e682bff9cd395fe57bb86742e0b14}{}\label{struct_grid_node_component_a518e682bff9cd395fe57bb86742e0b14}
+
+\item 
+tdt\+::uint {\bfseries y}\hypertarget{struct_grid_node_component_a3fc0057724fc52388187d7a82a70c14b}{}\label{struct_grid_node_component_a3fc0057724fc52388187d7a82a70c14b}
+
+\item 
+tdt\+::uint {\bfseries resident}\hypertarget{struct_grid_node_component_a5b4f9edae85a3342902def0627fed940}{}\label{struct_grid_node_component_a5b4f9edae85a3342902def0627fed940}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr int {\bfseries type} = 12\hypertarget{struct_grid_node_component_abd186813039033a7524a8486fdf617fb}{}\label{struct_grid_node_component_abd186813039033a7524a8486fdf617fb}
+
+\item 
+static constexpr tdt\+::uint {\bfseries neighbour\+\_\+count} = 9\hypertarget{struct_grid_node_component_ab4e07fad257964739fccf20344cf355d}{}\label{struct_grid_node_component_ab4e07fad257964739fccf20344cf355d}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Holds Grid\+Node\textquotesingle{}s neighbour nodes. 
+
+\begin{DoxyNote}{Note}
+The neighbours are set to the maximum value of tdt\+::uint to fix a state when one or more neighbours weren\textquotesingle{}t set (won\textquotesingle{}t have that many nodes so the A$\ast$ algorithm will ignore them). 
+\end{DoxyNote}
+
+
+Definition at line 321 of file Components.\+hpp.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Components.\+hpp\end{DoxyCompactItemize}

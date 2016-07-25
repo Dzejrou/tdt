@@ -1,0 +1,549 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\gui">
+      <UniqueIdentifier>{fdbf0425-8405-4c66-bc69-27c14e8aa5c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui">
+      <UniqueIdentifier>{483e3f04-0fdd-4856-ad31-c9d1de35e3c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\helpers">
+      <UniqueIdentifier>{6098ea40-ab26-4d1d-85d4-46fb7e6cf9a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\helpers">
+      <UniqueIdentifier>{3e278532-2fe0-4a1b-b487-8370df470d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lppscript">
+      <UniqueIdentifier>{d4fe98ca-4f7a-4c1c-8edf-e8c6f59a2ff1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lppscript">
+      <UniqueIdentifier>{56e5553d-fa65-4723-8fa4-2bc44e932533}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\systems">
+      <UniqueIdentifier>{d4c5f7c5-8573-4976-b3a8-cce4f9e59327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems">
+      <UniqueIdentifier>{46c7d5ef-c9f5-4d13-81a0-0b0c0009ab89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tools">
+      <UniqueIdentifier>{6aa4a739-8123-495e-9834-d4c0310937b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tools">
+      <UniqueIdentifier>{4336bbb9-5b1d-49b7-b981-1ea516f4bdb4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\gui\BuilderWindow.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Console.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\EntityCreator.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\EntityTracker.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\GameLog.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\GUI.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\GUIWindow.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\MessageToPlayerWindow.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\OptionsWindow.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\ResearchWindow.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\SpellCastingWindow.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\TopBar.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\AIHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\AlignHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\CombatHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\CommandHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\ConstructorHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\CounterHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\DestructorHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\EventHandlerHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\EventHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\ExperienceValueHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\ExplosionHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\FactionHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\GoldHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\GraphicsHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\GridNodeHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\HealthHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\Helpers.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\HomingHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\InputHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\LightHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\LimitedLifeSpanHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\ManaCrystalHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\ManaHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\MovementHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\NameHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\NotificationHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\OnHitHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\PathfindingHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\PhysicsHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\PriceHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\ProductHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\ProductionHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\SpellHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\StructureHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\TaskHandlerHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\TaskHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\TimeHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\TriggerHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\UpgradeHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lppscript\LppScript.hpp">
+      <Filter>Header Files\lppscript</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\EntitySystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\CombatSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\TimeSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\TaskSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\InputSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\ProductionSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\AISystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\WaveSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\TriggerSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\System.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\MovementSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\ManaSpellSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\HealthSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\GridSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\GraphicsSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\EventSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\GameSerializer.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\SelectionBox.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\PathfindingAlgorithms.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\Grid.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\Util.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\Spellcaster.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\RayCaster.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\Player.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\Pathfinding.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\LevelGenerators.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\EntityPlacer.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\Camera.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\Effects.hpp">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LuaInterface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Typedefs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\gui\BuilderWindow.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Console.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\EntityCreator.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\EntityTracker.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\GameLog.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\GUI.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\GUIWindow.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\MessageToPlayerWindow.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\OptionsWindow.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\ResearchWindow.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\SpellCastingWindow.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\TopBar.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\CombatHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\CommandHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\DestructorHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\GridNodeHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\ConstructorHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\UpgradeHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\TriggerHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\TimeHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\TaskHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\TaskHandlerHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\StructureHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\ProductionHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\ProductHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\PriceHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\PhysicsHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\PathfindingHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\OnHitHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\NotificationHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\NameHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\MovementHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\ManaCrystalHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\SpellHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\LimitedLifeSpanHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\InputHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\HomingHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\HealthHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\GraphicsHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\GoldHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\FactionHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\ExplosionHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\ExperienceValueHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\AlignHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\AIHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\LightHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\ManaHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\CounterHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\EventHandlerHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\EventHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lppscript\LppScript.cpp">
+      <Filter>Source Files\lppscript</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\CombatSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\EntitySystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\GridSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\WaveSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\TimeSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\AISystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\EventSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\InputSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\TriggerSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\TaskSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\ProductionSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\MovementSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\ManaSpellSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\HealthSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\GraphicsSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\GameSerializer.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\SelectionBox.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\LevelGenerators.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\Effects.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\EntityPlacer.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\Util.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\Spellcaster.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\RayCaster.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\Player.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\Grid.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\Camera.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LuaInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

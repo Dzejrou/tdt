@@ -1,0 +1,390 @@
+\hypertarget{namespace_combat_helper}{}\section{Combat\+Helper Namespace Reference}
+\label{namespace_combat_helper}\index{Combat\+Helper@{Combat\+Helper}}
+
+
+Namespace containing auxiliary functions that help with the management of the combat component.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespace_combat_helper_a34b4f68f01f9990710d6b79e766645b7}{set\+\_\+target} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Changes the target of a given entity\textquotesingle{}s attack. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_combat_helper_aa97e064b4a07cd6890138a0e31b52b95}{get\+\_\+target} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the target of a given entity\textquotesingle{}s attack. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_combat_helper_a7eff64357d468e07177b1fb653fdf98f}{set\+\_\+range} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Changes the attack range of a given entity. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{namespace_combat_helper_a75225bb00645828965c72bb74aa84e66}{get\+\_\+range} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the attack range of a given entity. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_combat_helper_a467e19be07f1a305343dfcc3a2f432da}{set\+\_\+dmg\+\_\+range} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Changes the damage range (min damage, max damage) that a given entity can deal when attacking. \end{DoxyCompactList}\item 
+std\+::tuple$<$ tdt\+::uint, tdt\+::uint $>$ \hyperlink{namespace_combat_helper_aea00cd6159c61ab16c28784da72d39f6}{get\+\_\+dmg\+\_\+range} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the damage range (in the form of a 2-\/member tuple) of a given entity. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_combat_helper_a1fe3e133a3167e4f775e9caf50565264}{get\+\_\+dmg} (tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns a pseudo random damage value between given two numbers, used to calculate the damage of each individual attack. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_combat_helper_a338a06e44f1e2690fc7a33e7a9a915ee}{set\+\_\+cooldown} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Changes the cooldown (minimal time between attacks) of a given entity. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{namespace_combat_helper_a198603bcd3cb2ad84e3dac976558d727}{get\+\_\+cooldown} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the cooldown (minimal time between attacks) of a given entity. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_combat_helper_ae3c0e5787efffa106cc8828fe14a0ad7}{set\+\_\+atk\+\_\+type} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, A\+T\+T\+A\+C\+K\+\_\+\+T\+Y\+PE)
+\begin{DoxyCompactList}\small\item\em Changes the attack type of a given entity. \end{DoxyCompactList}\item 
+A\+T\+T\+A\+C\+K\+\_\+\+T\+Y\+PE \hyperlink{namespace_combat_helper_a54246cf22299a62e9d5c44a59574cb8a}{get\+\_\+atk\+\_\+type} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the attack type of a given entity. \end{DoxyCompactList}\item 
+bool \hyperlink{namespace_combat_helper_ae85f16cae462e0bd50afb77d8e57b1a3}{in\+\_\+range} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns true if a given entity is in attack range from another entity. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_combat_helper_a8202eec503e997d9379ba8fbea9e9d67}{set\+\_\+projectile\+\_\+blueprint} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Sets the projectile table used when a given entity shoots. \end{DoxyCompactList}\item 
+const std\+::string \& \hyperlink{namespace_combat_helper_aca3ae9dfa849314b5b8372fd4a1b4510}{get\+\_\+projectile\+\_\+blueprint} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the projectile table used when a given entity shoots. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Namespace containing auxiliary functions that help with the management of the combat component. 
+
+\subsection{Function Documentation}
+\index{Combat\+Helper@{Combat\+Helper}!get\+\_\+atk\+\_\+type@{get\+\_\+atk\+\_\+type}}
+\index{get\+\_\+atk\+\_\+type@{get\+\_\+atk\+\_\+type}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+atk\+\_\+type(\+Entity\+System \&, tdt\+::uint)}{get_atk_type(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}A\+T\+T\+A\+C\+K\+\_\+\+T\+Y\+PE Combat\+Helper\+::get\+\_\+atk\+\_\+type (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_a54246cf22299a62e9d5c44a59574cb8a}{}\label{namespace_combat_helper_a54246cf22299a62e9d5c44a59574cb8a}
+
+
+Returns the attack type of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 87 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!get\+\_\+cooldown@{get\+\_\+cooldown}}
+\index{get\+\_\+cooldown@{get\+\_\+cooldown}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+cooldown(\+Entity\+System \&, tdt\+::uint)}{get_cooldown(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Combat\+Helper\+::get\+\_\+cooldown (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_a198603bcd3cb2ad84e3dac976558d727}{}\label{namespace_combat_helper_a198603bcd3cb2ad84e3dac976558d727}
+
+
+Returns the cooldown (minimal time between attacks) of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 71 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!get\+\_\+dmg@{get\+\_\+dmg}}
+\index{get\+\_\+dmg@{get\+\_\+dmg}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+dmg(tdt\+::uint, tdt\+::uint)}{get_dmg(tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Combat\+Helper\+::get\+\_\+dmg (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{min, }
+\item[{tdt\+::uint}]{max}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_a1fe3e133a3167e4f775e9caf50565264}{}\label{namespace_combat_helper_a1fe3e133a3167e4f775e9caf50565264}
+
+
+Returns a pseudo random damage value between given two numbers, used to calculate the damage of each individual attack. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Minimal} & damage value. \\
+\hline
+{\em Maximal} & damage value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 59 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!get\+\_\+dmg\+\_\+range@{get\+\_\+dmg\+\_\+range}}
+\index{get\+\_\+dmg\+\_\+range@{get\+\_\+dmg\+\_\+range}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+dmg\+\_\+range(\+Entity\+System \&, tdt\+::uint)}{get_dmg_range(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::tuple$<$ tdt\+::uint, tdt\+::uint $>$ Combat\+Helper\+::get\+\_\+dmg\+\_\+range (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_aea00cd6159c61ab16c28784da72d39f6}{}\label{namespace_combat_helper_aea00cd6159c61ab16c28784da72d39f6}
+
+
+Returns the damage range (in the form of a 2-\/member tuple) of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 50 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!get\+\_\+projectile\+\_\+blueprint@{get\+\_\+projectile\+\_\+blueprint}}
+\index{get\+\_\+projectile\+\_\+blueprint@{get\+\_\+projectile\+\_\+blueprint}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+projectile\+\_\+blueprint(\+Entity\+System \&, tdt\+::uint)}{get_projectile_blueprint(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string \& Combat\+Helper\+::get\+\_\+projectile\+\_\+blueprint (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_aca3ae9dfa849314b5b8372fd4a1b4510}{}\label{namespace_combat_helper_aca3ae9dfa849314b5b8372fd4a1b4510}
+
+
+Returns the projectile table used when a given entity shoots. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 115 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!get\+\_\+range@{get\+\_\+range}}
+\index{get\+\_\+range@{get\+\_\+range}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+range(\+Entity\+System \&, tdt\+::uint)}{get_range(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Combat\+Helper\+::get\+\_\+range (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_a75225bb00645828965c72bb74aa84e66}{}\label{namespace_combat_helper_a75225bb00645828965c72bb74aa84e66}
+
+
+Returns the attack range of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 31 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!get\+\_\+target@{get\+\_\+target}}
+\index{get\+\_\+target@{get\+\_\+target}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+target(\+Entity\+System \&, tdt\+::uint)}{get_target(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Combat\+Helper\+::get\+\_\+target (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_aa97e064b4a07cd6890138a0e31b52b95}{}\label{namespace_combat_helper_aa97e064b4a07cd6890138a0e31b52b95}
+
+
+Returns the target of a given entity\textquotesingle{}s attack. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 15 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!in\+\_\+range@{in\+\_\+range}}
+\index{in\+\_\+range@{in\+\_\+range}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{in\+\_\+range(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{in_range(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Combat\+Helper\+::in\+\_\+range (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id1, }
+\item[{tdt\+::uint}]{id2}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_ae85f16cae462e0bd50afb77d8e57b1a3}{}\label{namespace_combat_helper_ae85f16cae462e0bd50afb77d8e57b1a3}
+
+
+Returns true if a given entity is in attack range from another entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity. \\
+\hline
+{\em ID} & of the entity checking range. \\
+\hline
+{\em ID} & of the second entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 96 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!set\+\_\+atk\+\_\+type@{set\+\_\+atk\+\_\+type}}
+\index{set\+\_\+atk\+\_\+type@{set\+\_\+atk\+\_\+type}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+atk\+\_\+type(\+Entity\+System \&, tdt\+::uint, A\+T\+T\+A\+C\+K\+\_\+\+T\+Y\+P\+E)}{set_atk_type(EntitySystem &, tdt::uint, ATTACK_TYPE)}}]{\setlength{\rightskip}{0pt plus 5cm}void Combat\+Helper\+::set\+\_\+atk\+\_\+type (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{A\+T\+T\+A\+C\+K\+\_\+\+T\+Y\+PE}]{type}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_ae3c0e5787efffa106cc8828fe14a0ad7}{}\label{namespace_combat_helper_ae3c0e5787efffa106cc8828fe14a0ad7}
+
+
+Changes the attack type of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new attack type. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 80 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!set\+\_\+cooldown@{set\+\_\+cooldown}}
+\index{set\+\_\+cooldown@{set\+\_\+cooldown}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+cooldown(\+Entity\+System \&, tdt\+::uint, tdt\+::real)}{set_cooldown(EntitySystem &, tdt::uint, tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Combat\+Helper\+::set\+\_\+cooldown (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::real}]{cd}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_a338a06e44f1e2690fc7a33e7a9a915ee}{}\label{namespace_combat_helper_a338a06e44f1e2690fc7a33e7a9a915ee}
+
+
+Changes the cooldown (minimal time between attacks) of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new cooldown value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 64 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!set\+\_\+dmg\+\_\+range@{set\+\_\+dmg\+\_\+range}}
+\index{set\+\_\+dmg\+\_\+range@{set\+\_\+dmg\+\_\+range}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+dmg\+\_\+range(\+Entity\+System \&, tdt\+::uint, tdt\+::uint, tdt\+::uint)}{set_dmg_range(EntitySystem &, tdt::uint, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Combat\+Helper\+::set\+\_\+dmg\+\_\+range (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{min, }
+\item[{tdt\+::uint}]{max}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_a467e19be07f1a305343dfcc3a2f432da}{}\label{namespace_combat_helper_a467e19be07f1a305343dfcc3a2f432da}
+
+
+Changes the damage range (min damage, max damage) that a given entity can deal when attacking. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Minimal} & damage value. \\
+\hline
+{\em Maximal} & damage value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 40 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!set\+\_\+projectile\+\_\+blueprint@{set\+\_\+projectile\+\_\+blueprint}}
+\index{set\+\_\+projectile\+\_\+blueprint@{set\+\_\+projectile\+\_\+blueprint}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+projectile\+\_\+blueprint(\+Entity\+System \&, tdt\+::uint, const std\+::string \&)}{set_projectile_blueprint(EntitySystem &, tdt::uint, const std::string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Combat\+Helper\+::set\+\_\+projectile\+\_\+blueprint (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{const std\+::string \&}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_a8202eec503e997d9379ba8fbea9e9d67}{}\label{namespace_combat_helper_a8202eec503e997d9379ba8fbea9e9d67}
+
+
+Sets the projectile table used when a given entity shoots. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Name} & of the projectile table. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 108 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!set\+\_\+range@{set\+\_\+range}}
+\index{set\+\_\+range@{set\+\_\+range}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+range(\+Entity\+System \&, tdt\+::uint, tdt\+::real)}{set_range(EntitySystem &, tdt::uint, tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Combat\+Helper\+::set\+\_\+range (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::real}]{range}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_a7eff64357d468e07177b1fb653fdf98f}{}\label{namespace_combat_helper_a7eff64357d468e07177b1fb653fdf98f}
+
+
+Changes the attack range of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new attack range. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 24 of file Combat\+Helper.\+cpp.
+
+\index{Combat\+Helper@{Combat\+Helper}!set\+\_\+target@{set\+\_\+target}}
+\index{set\+\_\+target@{set\+\_\+target}!Combat\+Helper@{Combat\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+target(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_target(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Combat\+Helper\+::set\+\_\+target (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_combat_helper_a34b4f68f01f9990710d6b79e766645b7}{}\label{namespace_combat_helper_a34b4f68f01f9990710d6b79e766645b7}
+
+
+Changes the target of a given entity\textquotesingle{}s attack. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the entity and it\textquotesingle{}s target. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em ID} & of the target. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 8 of file Combat\+Helper.\+cpp.
+

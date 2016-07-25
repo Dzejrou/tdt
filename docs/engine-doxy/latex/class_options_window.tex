@@ -1,0 +1,379 @@
+\hypertarget{class_options_window}{}\section{Options\+Window Class Reference}
+\label{class_options_window}\index{Options\+Window@{Options\+Window}}
+
+
+Options menu window that lets the player to change the resolution, window mode and keybinging.  
+
+
+
+
+{\ttfamily \#include $<$Options\+Window.\+hpp$>$}
+
+Inheritance diagram for Options\+Window\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_options_window}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_options_window_a83990c03d2fec467c1131d7961f59e25}{Options\+Window} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_options_window_a4937f89a05eedf7bc9122b8df37ff805}{$\sim$\+Options\+Window} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_options_window_ac629faa5a25c78141897ab2f53ec9bb4}{add\+\_\+start\+\_\+parameters} (Ogre\+::\+Render\+Window $\ast$, Ogre\+::\+Viewport $\ast$, C\+E\+G\+U\+I\+::\+Ogre\+Renderer $\ast$)
+\begin{DoxyCompactList}\small\item\em Saves pointers to the window, view and renderer and sets starting values for the resolution, window mode etc. \end{DoxyCompactList}\item 
+bool \hyperlink{class_options_window_a35feca3b435b2205f72138f65d20cf5d}{key\+\_\+pressed} (C\+E\+G\+U\+I\+::\+Key\+::\+Scan)
+\begin{DoxyCompactList}\small\item\em Registers a key press for keybinding. \end{DoxyCompactList}\item 
+void \hyperlink{class_options_window_af171624435787e543e9dcb64b5bce39e}{set\+\_\+key\+\_\+bind} (K\+E\+Y\+\_\+\+B\+I\+N\+D\+\_\+\+A\+C\+T\+I\+O\+N\+::\+V\+AL, C\+E\+G\+U\+I\+::\+Key\+::\+Scan)
+\begin{DoxyCompactList}\small\item\em Binds a given action to a given key. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_options_window_a88bfc1401a1113e4ab4afdb8af106682}{init\+\_\+} () override
+\begin{DoxyCompactList}\small\item\em Initializes the C\+E\+G\+UI window. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef void($\ast$ {\bfseries Action\+Func\+Ptr}) ()\hypertarget{class_options_window_a5f01e3cb1c649c429ff4e8f3cfeda350}{}\label{class_options_window_a5f01e3cb1c649c429ff4e8f3cfeda350}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_options_window_a4bde7704e95b5ee4fb80bbf2b325c16b}{apply\+\_\+} ()
+\begin{DoxyCompactList}\small\item\em Applies the graphical changes and saves key bindings into a script that allows persistent key binds. \end{DoxyCompactList}\item 
+void \hyperlink{class_options_window_a357e35144c8067c54cd12907dd11417b}{update\+\_\+labels\+\_\+} ()
+\begin{DoxyCompactList}\small\item\em Updates the button texts and labels to reflect the new settings. \end{DoxyCompactList}\item 
+void {\bfseries update\+\_\+fonts\+\_\+} ()\hypertarget{class_options_window_ab1629d4e6c35737a8e7588d1ce99fb5d}{}\label{class_options_window_ab1629d4e6c35737a8e7588d1ce99fb5d}
+
+\item 
+void {\bfseries update\+\_\+font\+\_\+of\+\_\+window\+\_\+} (C\+E\+G\+U\+I\+::\+Window $\ast$, const std\+::string \&)\hypertarget{class_options_window_acfebf79f3daf208868565b185634e641}{}\label{class_options_window_acfebf79f3daf208868565b185634e641}
+
+\item 
+const std\+::string \& \hyperlink{class_options_window_a949bdb318ae5834f72eb906076941842}{get\+\_\+key\+\_\+bind\+\_\+name\+\_\+} (K\+E\+Y\+\_\+\+B\+I\+N\+D\+\_\+\+A\+C\+T\+I\+O\+N\+::\+V\+AL)
+\begin{DoxyCompactList}\small\item\em Returns the name of the key a given action is bound to. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Ogre\+::\+Render\+Window $\ast$ \hyperlink{class_options_window_a9c6b55b36d1f57ea60885cf0a59291ca}{render\+\_\+window\+\_\+}
+\begin{DoxyCompactList}\small\item\em Window the game is rendered to. \end{DoxyCompactList}\item 
+Ogre\+::\+Viewport $\ast$ \hyperlink{class_options_window_a8c3609894e71264da13b88129d0a1f70}{view\+\_\+}
+\begin{DoxyCompactList}\small\item\em Main viewport of the render window. \end{DoxyCompactList}\item 
+C\+E\+G\+U\+I\+::\+Ogre\+Renderer $\ast$ \hyperlink{class_options_window_aa46c54f3e0956dce55fb370324d91772}{renderer\+\_\+}
+\begin{DoxyCompactList}\small\item\em Renderer used by C\+E\+G\+UI (used to sync resolution between game and UI). \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_options_window_ab5b2b96bd284265c5a49b145493e8ead}{width\+\_\+}
+\begin{DoxyCompactList}\small\item\em Dimensions of the display resolution. \end{DoxyCompactList}\item 
+tdt\+::uint {\bfseries height\+\_\+}\hypertarget{class_options_window_aa2b6e26908f2ee947a997d76de66cc6f}{}\label{class_options_window_aa2b6e26908f2ee947a997d76de66cc6f}
+
+\item 
+bool \hyperlink{class_options_window_a536d5e2d5cc3f8c419836e1e5ff80423}{fullscreen\+\_\+}
+\begin{DoxyCompactList}\small\item\em True for fullscreen, false for windowed mode. \end{DoxyCompactList}\item 
+std\+::map$<$ C\+E\+G\+U\+I\+::\+Key\+::\+Scan, std\+::string $>$ \hyperlink{class_options_window_a65c8541c815655feaa458edb01738213}{key\+\_\+names\+\_\+}
+\begin{DoxyCompactList}\small\item\em This map connects key codes with their names (used for key bind buttons). \end{DoxyCompactList}\item 
+std\+::array$<$ Action\+Func\+Ptr, K\+E\+Y\+\_\+\+B\+I\+N\+D\+\_\+\+A\+C\+T\+I\+O\+N\+::\+C\+O\+U\+NT $>$ \hyperlink{class_options_window_a343bc2c957774fb3de4ba8ea8fbef3df}{actions\+\_\+}
+\begin{DoxyCompactList}\small\item\em Action functions assigned to actions. \end{DoxyCompactList}\item 
+std\+::array$<$ C\+E\+G\+U\+I\+::\+Key\+::\+Scan, K\+E\+Y\+\_\+\+B\+I\+N\+D\+\_\+\+A\+C\+T\+I\+O\+N\+::\+C\+O\+U\+NT $>$ \hyperlink{class_options_window_a1727e50166ba8b67f5f97f6213e0f80d}{key\+\_\+binds\+\_\+}
+\begin{DoxyCompactList}\small\item\em Keys bound to actions. \end{DoxyCompactList}\item 
+std\+::map$<$ std\+::string, std\+::tuple$<$ tdt\+::uint, tdt\+::uint $>$ $>$ \hyperlink{class_options_window_ae7e2ff101e41b90c0063b78710b85639}{resolutions\+\_\+}
+\begin{DoxyCompactList}\small\item\em Resolution strings and their assigned dimensions. \end{DoxyCompactList}\item 
+K\+E\+Y\+\_\+\+B\+I\+N\+D\+\_\+\+A\+C\+T\+I\+O\+N\+::\+V\+AL \hyperlink{class_options_window_a62f3d533394c12986766deb0e73794c2}{currently\+\_\+binded\+\_\+action\+\_\+}
+\begin{DoxyCompactList}\small\item\em Saves the currently binded action so that the next key press can be used. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Options menu window that lets the player to change the resolution, window mode and keybinging. 
+
+Definition at line 18 of file Options\+Window.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Options\+Window@{Options\+Window}!Options\+Window@{Options\+Window}}
+\index{Options\+Window@{Options\+Window}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{Options\+Window()}{OptionsWindow()}}]{\setlength{\rightskip}{0pt plus 5cm}Options\+Window\+::\+Options\+Window (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_options_window_a83990c03d2fec467c1131d7961f59e25}{}\label{class_options_window_a83990c03d2fec467c1131d7961f59e25}
+
+
+Constructor. 
+
+
+
+Definition at line 8 of file Options\+Window.\+cpp.
+
+\index{Options\+Window@{Options\+Window}!````~Options\+Window@{$\sim$\+Options\+Window}}
+\index{````~Options\+Window@{$\sim$\+Options\+Window}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{$\sim$\+Options\+Window()=default}{~OptionsWindow()=default}}]{\setlength{\rightskip}{0pt plus 5cm}Options\+Window\+::$\sim$\+Options\+Window (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{class_options_window_a4937f89a05eedf7bc9122b8df37ff805}{}\label{class_options_window_a4937f89a05eedf7bc9122b8df37ff805}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\index{Options\+Window@{Options\+Window}!add\+\_\+start\+\_\+parameters@{add\+\_\+start\+\_\+parameters}}
+\index{add\+\_\+start\+\_\+parameters@{add\+\_\+start\+\_\+parameters}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{add\+\_\+start\+\_\+parameters(\+Ogre\+::\+Render\+Window $\ast$, Ogre\+::\+Viewport $\ast$, C\+E\+G\+U\+I\+::\+Ogre\+Renderer $\ast$)}{add_start_parameters(Ogre::RenderWindow *, Ogre::Viewport *, CEGUI::OgreRenderer *)}}]{\setlength{\rightskip}{0pt plus 5cm}void Options\+Window\+::add\+\_\+start\+\_\+parameters (
+\begin{DoxyParamCaption}
+\item[{Ogre\+::\+Render\+Window $\ast$}]{window, }
+\item[{Ogre\+::\+Viewport $\ast$}]{view, }
+\item[{C\+E\+G\+U\+I\+::\+Ogre\+Renderer $\ast$}]{renderer}
+\end{DoxyParamCaption}
+)}\hypertarget{class_options_window_ac629faa5a25c78141897ab2f53ec9bb4}{}\label{class_options_window_ac629faa5a25c78141897ab2f53ec9bb4}
+
+
+Saves pointers to the window, view and renderer and sets starting values for the resolution, window mode etc. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Window} & that the game is rendered to. \\
+\hline
+{\em Viewport} & of the window. \\
+\hline
+{\em Renderer} & used by C\+E\+G\+UI. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 13 of file Options\+Window.\+cpp.
+
+\index{Options\+Window@{Options\+Window}!apply\+\_\+@{apply\+\_\+}}
+\index{apply\+\_\+@{apply\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{apply\+\_\+()}{apply_()}}]{\setlength{\rightskip}{0pt plus 5cm}void Options\+Window\+::apply\+\_\+ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_a4bde7704e95b5ee4fb80bbf2b325c16b}{}\label{class_options_window_a4bde7704e95b5ee4fb80bbf2b325c16b}
+
+
+Applies the graphical changes and saves key bindings into a script that allows persistent key binds. 
+
+This will make sure that key bindings are persistent.
+
+Definition at line 307 of file Options\+Window.\+cpp.
+
+\index{Options\+Window@{Options\+Window}!get\+\_\+key\+\_\+bind\+\_\+name\+\_\+@{get\+\_\+key\+\_\+bind\+\_\+name\+\_\+}}
+\index{get\+\_\+key\+\_\+bind\+\_\+name\+\_\+@{get\+\_\+key\+\_\+bind\+\_\+name\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{get\+\_\+key\+\_\+bind\+\_\+name\+\_\+(\+K\+E\+Y\+\_\+\+B\+I\+N\+D\+\_\+\+A\+C\+T\+I\+O\+N\+::\+V\+A\+L)}{get_key_bind_name_(KEY_BIND_ACTION::VAL)}}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string \& Options\+Window\+::get\+\_\+key\+\_\+bind\+\_\+name\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{K\+E\+Y\+\_\+\+B\+I\+N\+D\+\_\+\+A\+C\+T\+I\+O\+N\+::\+V\+AL}]{action}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_a949bdb318ae5834f72eb906076941842}{}\label{class_options_window_a949bdb318ae5834f72eb906076941842}
+
+
+Returns the name of the key a given action is bound to. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & action. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 425 of file Options\+Window.\+cpp.
+
+\index{Options\+Window@{Options\+Window}!init\+\_\+@{init\+\_\+}}
+\index{init\+\_\+@{init\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{init\+\_\+() override}{init_() override}}]{\setlength{\rightskip}{0pt plus 5cm}void Options\+Window\+::init\+\_\+ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{class_options_window_a88bfc1401a1113e4ab4afdb8af106682}{}\label{class_options_window_a88bfc1401a1113e4ab4afdb8af106682}
+
+
+Initializes the C\+E\+G\+UI window. 
+
+
+
+Implements \hyperlink{class_g_u_i_window_a2a7c011363f401a57a26cc7c7652bdfd}{G\+U\+I\+Window}.
+
+
+
+Definition at line 64 of file Options\+Window.\+cpp.
+
+\index{Options\+Window@{Options\+Window}!key\+\_\+pressed@{key\+\_\+pressed}}
+\index{key\+\_\+pressed@{key\+\_\+pressed}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{key\+\_\+pressed(\+C\+E\+G\+U\+I\+::\+Key\+::\+Scan)}{key_pressed(CEGUI::Key::Scan)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Options\+Window\+::key\+\_\+pressed (
+\begin{DoxyParamCaption}
+\item[{C\+E\+G\+U\+I\+::\+Key\+::\+Scan}]{key}
+\end{DoxyParamCaption}
+)}\hypertarget{class_options_window_a35feca3b435b2205f72138f65d20cf5d}{}\label{class_options_window_a35feca3b435b2205f72138f65d20cf5d}
+
+
+Registers a key press for keybinding. 
+
+Returns true if the click was consumed, false otherwise. 
+\begin{DoxyParams}{Parameters}
+{\em Key} & pressed. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 26 of file Options\+Window.\+cpp.
+
+\index{Options\+Window@{Options\+Window}!set\+\_\+key\+\_\+bind@{set\+\_\+key\+\_\+bind}}
+\index{set\+\_\+key\+\_\+bind@{set\+\_\+key\+\_\+bind}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{set\+\_\+key\+\_\+bind(\+K\+E\+Y\+\_\+\+B\+I\+N\+D\+\_\+\+A\+C\+T\+I\+O\+N\+::\+V\+A\+L, C\+E\+G\+U\+I\+::\+Key\+::\+Scan)}{set_key_bind(KEY_BIND_ACTION::VAL, CEGUI::Key::Scan)}}]{\setlength{\rightskip}{0pt plus 5cm}void Options\+Window\+::set\+\_\+key\+\_\+bind (
+\begin{DoxyParamCaption}
+\item[{K\+E\+Y\+\_\+\+B\+I\+N\+D\+\_\+\+A\+C\+T\+I\+O\+N\+::\+V\+AL}]{action, }
+\item[{C\+E\+G\+U\+I\+::\+Key\+::\+Scan}]{key}
+\end{DoxyParamCaption}
+)}\hypertarget{class_options_window_af171624435787e543e9dcb64b5bce39e}{}\label{class_options_window_af171624435787e543e9dcb64b5bce39e}
+
+
+Binds a given action to a given key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Action} & to be bound. \\
+\hline
+{\em Key} & to be bound. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 58 of file Options\+Window.\+cpp.
+
+\index{Options\+Window@{Options\+Window}!update\+\_\+labels\+\_\+@{update\+\_\+labels\+\_\+}}
+\index{update\+\_\+labels\+\_\+@{update\+\_\+labels\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{update\+\_\+labels\+\_\+()}{update_labels_()}}]{\setlength{\rightskip}{0pt plus 5cm}void Options\+Window\+::update\+\_\+labels\+\_\+ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_a357e35144c8067c54cd12907dd11417b}{}\label{class_options_window_a357e35144c8067c54cd12907dd11417b}
+
+
+Updates the button texts and labels to reflect the new settings. 
+
+
+
+Definition at line 348 of file Options\+Window.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Options\+Window@{Options\+Window}!actions\+\_\+@{actions\+\_\+}}
+\index{actions\+\_\+@{actions\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{actions\+\_\+}{actions_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::array$<$Action\+Func\+Ptr, K\+E\+Y\+\_\+\+B\+I\+N\+D\+\_\+\+A\+C\+T\+I\+O\+N\+::\+C\+O\+U\+NT$>$ Options\+Window\+::actions\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_a343bc2c957774fb3de4ba8ea8fbef3df}{}\label{class_options_window_a343bc2c957774fb3de4ba8ea8fbef3df}
+
+
+Action functions assigned to actions. 
+
+
+
+Definition at line 124 of file Options\+Window.\+hpp.
+
+\index{Options\+Window@{Options\+Window}!currently\+\_\+binded\+\_\+action\+\_\+@{currently\+\_\+binded\+\_\+action\+\_\+}}
+\index{currently\+\_\+binded\+\_\+action\+\_\+@{currently\+\_\+binded\+\_\+action\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{currently\+\_\+binded\+\_\+action\+\_\+}{currently_binded_action_}}]{\setlength{\rightskip}{0pt plus 5cm}K\+E\+Y\+\_\+\+B\+I\+N\+D\+\_\+\+A\+C\+T\+I\+O\+N\+::\+V\+AL Options\+Window\+::currently\+\_\+binded\+\_\+action\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_a62f3d533394c12986766deb0e73794c2}{}\label{class_options_window_a62f3d533394c12986766deb0e73794c2}
+
+
+Saves the currently binded action so that the next key press can be used. 
+
+
+
+Definition at line 140 of file Options\+Window.\+hpp.
+
+\index{Options\+Window@{Options\+Window}!fullscreen\+\_\+@{fullscreen\+\_\+}}
+\index{fullscreen\+\_\+@{fullscreen\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{fullscreen\+\_\+}{fullscreen_}}]{\setlength{\rightskip}{0pt plus 5cm}bool Options\+Window\+::fullscreen\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_a536d5e2d5cc3f8c419836e1e5ff80423}{}\label{class_options_window_a536d5e2d5cc3f8c419836e1e5ff80423}
+
+
+True for fullscreen, false for windowed mode. 
+
+
+
+Definition at line 114 of file Options\+Window.\+hpp.
+
+\index{Options\+Window@{Options\+Window}!key\+\_\+binds\+\_\+@{key\+\_\+binds\+\_\+}}
+\index{key\+\_\+binds\+\_\+@{key\+\_\+binds\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{key\+\_\+binds\+\_\+}{key_binds_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::array$<$C\+E\+G\+U\+I\+::\+Key\+::\+Scan, K\+E\+Y\+\_\+\+B\+I\+N\+D\+\_\+\+A\+C\+T\+I\+O\+N\+::\+C\+O\+U\+NT$>$ Options\+Window\+::key\+\_\+binds\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_a1727e50166ba8b67f5f97f6213e0f80d}{}\label{class_options_window_a1727e50166ba8b67f5f97f6213e0f80d}
+
+
+Keys bound to actions. 
+
+
+
+Definition at line 129 of file Options\+Window.\+hpp.
+
+\index{Options\+Window@{Options\+Window}!key\+\_\+names\+\_\+@{key\+\_\+names\+\_\+}}
+\index{key\+\_\+names\+\_\+@{key\+\_\+names\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{key\+\_\+names\+\_\+}{key_names_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::map$<$C\+E\+G\+U\+I\+::\+Key\+::\+Scan, std\+::string$>$ Options\+Window\+::key\+\_\+names\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_a65c8541c815655feaa458edb01738213}{}\label{class_options_window_a65c8541c815655feaa458edb01738213}
+
+
+This map connects key codes with their names (used for key bind buttons). 
+
+
+
+Definition at line 119 of file Options\+Window.\+hpp.
+
+\index{Options\+Window@{Options\+Window}!render\+\_\+window\+\_\+@{render\+\_\+window\+\_\+}}
+\index{render\+\_\+window\+\_\+@{render\+\_\+window\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{render\+\_\+window\+\_\+}{render_window_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Render\+Window$\ast$ Options\+Window\+::render\+\_\+window\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_a9c6b55b36d1f57ea60885cf0a59291ca}{}\label{class_options_window_a9c6b55b36d1f57ea60885cf0a59291ca}
+
+
+Window the game is rendered to. 
+
+
+
+Definition at line 94 of file Options\+Window.\+hpp.
+
+\index{Options\+Window@{Options\+Window}!renderer\+\_\+@{renderer\+\_\+}}
+\index{renderer\+\_\+@{renderer\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{renderer\+\_\+}{renderer_}}]{\setlength{\rightskip}{0pt plus 5cm}C\+E\+G\+U\+I\+::\+Ogre\+Renderer$\ast$ Options\+Window\+::renderer\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_aa46c54f3e0956dce55fb370324d91772}{}\label{class_options_window_aa46c54f3e0956dce55fb370324d91772}
+
+
+Renderer used by C\+E\+G\+UI (used to sync resolution between game and UI). 
+
+
+
+Definition at line 104 of file Options\+Window.\+hpp.
+
+\index{Options\+Window@{Options\+Window}!resolutions\+\_\+@{resolutions\+\_\+}}
+\index{resolutions\+\_\+@{resolutions\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{resolutions\+\_\+}{resolutions_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::map$<$std\+::string, std\+::tuple$<$tdt\+::uint, tdt\+::uint$>$ $>$ Options\+Window\+::resolutions\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_ae7e2ff101e41b90c0063b78710b85639}{}\label{class_options_window_ae7e2ff101e41b90c0063b78710b85639}
+
+
+Resolution strings and their assigned dimensions. 
+
+
+
+Definition at line 134 of file Options\+Window.\+hpp.
+
+\index{Options\+Window@{Options\+Window}!view\+\_\+@{view\+\_\+}}
+\index{view\+\_\+@{view\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{view\+\_\+}{view_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Viewport$\ast$ Options\+Window\+::view\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_a8c3609894e71264da13b88129d0a1f70}{}\label{class_options_window_a8c3609894e71264da13b88129d0a1f70}
+
+
+Main viewport of the render window. 
+
+
+
+Definition at line 99 of file Options\+Window.\+hpp.
+
+\index{Options\+Window@{Options\+Window}!width\+\_\+@{width\+\_\+}}
+\index{width\+\_\+@{width\+\_\+}!Options\+Window@{Options\+Window}}
+\subsubsection[{\texorpdfstring{width\+\_\+}{width_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Options\+Window\+::width\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_options_window_ab5b2b96bd284265c5a49b145493e8ead}{}\label{class_options_window_ab5b2b96bd284265c5a49b145493e8ead}
+
+
+Dimensions of the display resolution. 
+
+
+
+Definition at line 109 of file Options\+Window.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+gui/Options\+Window.\+hpp\item 
+gui/Options\+Window.\+cpp\end{DoxyCompactItemize}

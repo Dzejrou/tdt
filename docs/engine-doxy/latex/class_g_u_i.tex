@@ -1,0 +1,740 @@
+\hypertarget{class_g_u_i}{}\section{G\+UI Class Reference}
+\label{class_g_u_i}\index{G\+UI@{G\+UI}}
+
+
+Represents the game\textquotesingle{}s main graphical user interface (i.\+e.  
+
+
+
+
+{\ttfamily \#include $<$G\+U\+I.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_u_i_ac9cae2328dcb5d83bdfaeca49a2eb695}{$\sim$\+G\+UI} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_u_i_a91b0fc72a458e688947da1c86e859750}{init} (\hyperlink{class_game}{Game} $\ast$)
+\begin{DoxyCompactList}\small\item\em Initializes the selection by loading the layout and registering all event handlers. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_u_i_a37c94218f5c1d9d9b955ee7796ba9247}{set\+\_\+visible} (bool)
+\begin{DoxyCompactList}\small\item\em Set\textquotesingle{}s the \hyperlink{class_g_u_i}{G\+UI}\textquotesingle{}s visibility status. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_u_i_af2fb755008d9734fef2c0d4f94ad5bab}{is\+\_\+visible} () const 
+\begin{DoxyCompactList}\small\item\em Returns true if the entire \hyperlink{class_g_u_i}{G\+UI} is visible, false otherwise. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_u_i_a56664bc17967fdb694c5876a23229830}{set\+\_\+visible} (const std\+::string \&, bool)
+\begin{DoxyCompactList}\small\item\em Set\textquotesingle{}s the visibility status of a particular window. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_u_i_ae990bd08d2db58fcba2a15e261e618f1}{is\+\_\+visible} (const std\+::string \&) const 
+\begin{DoxyCompactList}\small\item\em Returns the visibility status of a particular window. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_u_i_a6bf316dac4af6edbc03e9e6f6a1842a7}{show\+\_\+load\+\_\+save\+\_\+dialog} (const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Shows the load/save dialog window. \end{DoxyCompactList}\item 
+C\+E\+G\+U\+I\+::\+Window $\ast$ \hyperlink{class_g_u_i_a825a335740e695b10d60e0c96ffeb0b5}{get\+\_\+window} ()
+\begin{DoxyCompactList}\small\item\em Returns a pointer to the root window. \end{DoxyCompactList}\item 
+C\+E\+G\+U\+I\+::\+Window $\ast$ \hyperlink{class_g_u_i_a392281fef48b437e8d3b4a5fbab09191}{get\+\_\+window} (const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Returns a pointer to a given subwindow of the root window. \end{DoxyCompactList}\item 
+\hyperlink{class_console}{Console} \& \hyperlink{class_g_u_i_ae407027b2e7e81f8132ee7dd5252c456}{get\+\_\+console} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the game\textquotesingle{}s dev console. \end{DoxyCompactList}\item 
+\hyperlink{class_entity_tracker}{Entity\+Tracker} \& \hyperlink{class_g_u_i_ab197361fb542ae6f1761be27346ec6bd}{get\+\_\+tracker} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the entity tracker. \end{DoxyCompactList}\item 
+\hyperlink{class_game_log}{Game\+Log} \& \hyperlink{class_g_u_i_ac5d029ac1d5be5f405d0bb9b4beaadeb}{get\+\_\+log} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the game\textquotesingle{}s log. \end{DoxyCompactList}\item 
+\hyperlink{class_builder_window}{Builder\+Window} \& \hyperlink{class_g_u_i_a3533e8d1c67c8cd1643be0b6d640e489}{get\+\_\+builder} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the builder window. \end{DoxyCompactList}\item 
+\hyperlink{class_top_bar}{Top\+Bar} \& \hyperlink{class_g_u_i_a57b2102ded949460275f6c06a73ef472}{get\+\_\+top\+\_\+bar} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the top bar. \end{DoxyCompactList}\item 
+\hyperlink{class_research_window}{Research\+Window} \& \hyperlink{class_g_u_i_a8f8dae1e40b3f25c179cd088631e9e24}{get\+\_\+research} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the research window. \end{DoxyCompactList}\item 
+\hyperlink{class_spell_casting_window}{Spell\+Casting\+Window} \& \hyperlink{class_g_u_i_ad68dfd48d702edbc8eae79b02ef694db}{get\+\_\+spell\+\_\+casting} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the spell casting window. \end{DoxyCompactList}\item 
+\hyperlink{class_message_to_player_window}{Message\+To\+Player\+Window} \& \hyperlink{class_g_u_i_af7f76a45f16144b8217938de6facb97d}{get\+\_\+message} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the message to player window. \end{DoxyCompactList}\item 
+\hyperlink{class_options_window}{Options\+Window} \& \hyperlink{class_g_u_i_adf043e9ed8ec60a8ac7f981dbd3d7933}{get\+\_\+options} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the options window. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_u_i_a8c3e6a481d74bb0673389b596989047c}{escape\+\_\+pressed} ()
+\begin{DoxyCompactList}\small\item\em Notifies the \hyperlink{class_g_u_i}{G\+UI} that the escape key was pressed so that it can close windows if needed. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_u_i_ae841ba53ef5f7152fa900c682edc9788}{set\+\_\+curr\+\_\+tool\+\_\+visible} (bool)
+\begin{DoxyCompactList}\small\item\em Sets the visibility status of the current tool window. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_u_i_ad27594472b3c4625d5cf1ca24b31d1a4}{set\+\_\+curr\+\_\+tool} (const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Sets the current tool window. \end{DoxyCompactList}\item 
+const std\+::string \& \hyperlink{class_g_u_i_a1640c56f8c04cea1df046220781f9d22}{get\+\_\+curr\+\_\+tool} ()
+\begin{DoxyCompactList}\small\item\em Returns the name of the current tool window. \end{DoxyCompactList}\item 
+\hyperlink{class_g_u_i_a0b8d80c1dc4e62859e0f0b80d6175205}{G\+UI} (const \hyperlink{class_g_u_i}{G\+UI} \&)=delete
+\item 
+{\bfseries G\+UI} (\hyperlink{class_g_u_i}{G\+UI} \&\&)=delete\hypertarget{class_g_u_i_a9bbaf9f1720fecb1f260f10473fe1323}{}\label{class_g_u_i_a9bbaf9f1720fecb1f260f10473fe1323}
+
+\item 
+\hyperlink{class_g_u_i}{G\+UI} \& {\bfseries operator=} (const \hyperlink{class_g_u_i}{G\+UI} \&)=delete\hypertarget{class_g_u_i_ae3f7d63739574619a294f606696f50db}{}\label{class_g_u_i_ae3f7d63739574619a294f606696f50db}
+
+\item 
+\hyperlink{class_g_u_i}{G\+UI} \& {\bfseries operator=} (\hyperlink{class_g_u_i}{G\+UI} \&\&)=delete\hypertarget{class_g_u_i_a3553773dac200692ecabcfdeb3ae2f51}{}\label{class_g_u_i_a3553773dac200692ecabcfdeb3ae2f51}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_g_u_i}{G\+UI} \& \hyperlink{class_g_u_i_a169694dda858ea12986f00ee32ac7add}{instance} ()
+\begin{DoxyCompactList}\small\item\em Returns the singleton instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_u_i_a8cbb3140b7d3c9d8e942d6ce6b60a0e8}{G\+UI} ()
+\begin{DoxyCompactList}\small\item\em Constructor, private because of the singleton pattern. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_u_i_a457e1e62289a5da4eef425cb526d0e5b}{list\+\_\+directory} (const std\+::string \&, C\+E\+G\+U\+I\+::\+Listbox \&, bool=false)
+\begin{DoxyCompactList}\small\item\em Fills a given list box with the names of all files in a given directory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+C\+E\+G\+U\+I\+::\+Window $\ast$ \hyperlink{class_g_u_i_a1216023a7675f2d5c6f3a33d6f2b9eca}{window\+\_\+}
+\begin{DoxyCompactList}\small\item\em Pointer to the root window of the layout. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{class_g_u_i_a8ee9091320921548eca2305ec60d5182}{curr\+\_\+tool\+\_\+}
+\begin{DoxyCompactList}\small\item\em Name of the current tool in the tools subwindow. \end{DoxyCompactList}\item 
+\hyperlink{class_game}{Game} $\ast$ \hyperlink{class_g_u_i_a8af61511961fc5de258e1fd8e03eeed4}{game\+\_\+}
+\begin{DoxyCompactList}\small\item\em Pointer to the game instance used by button event handlers. \end{DoxyCompactList}\item 
+\hyperlink{class_entity_tracker}{Entity\+Tracker} \hyperlink{class_g_u_i_a90c490c7ff853531ac635f08408d59bf}{tracker\+\_\+}
+\begin{DoxyCompactList}\small\item\em ID of the entity that is currently tracked by the entity viewer. \end{DoxyCompactList}\item 
+\hyperlink{class_console}{Console} \hyperlink{class_g_u_i_aa16bd75eb28be973d2df6480cc65c68b}{console\+\_\+}
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_game}{Game}\textquotesingle{}s developer console. \end{DoxyCompactList}\item 
+\hyperlink{class_game_log}{Game\+Log} \hyperlink{class_g_u_i_a2290d6a10a481beaa55dd93913ceadaf}{log\+\_\+}
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_game}{Game}\textquotesingle{}s log, used to show messages to the player. \end{DoxyCompactList}\item 
+\hyperlink{class_builder_window}{Builder\+Window} \hyperlink{class_g_u_i_a0384e5c8eeb11e4181ca31e621a897cb}{builder\+\_\+}
+\begin{DoxyCompactList}\small\item\em Allows the player to place buildings. \end{DoxyCompactList}\item 
+\hyperlink{class_top_bar}{Top\+Bar} \hyperlink{class_g_u_i_a6de1adcb5f3b762f3f99e7b37db61740}{top\+\_\+bar\+\_\+}
+\begin{DoxyCompactList}\small\item\em Shows game info at the top of the screen. \end{DoxyCompactList}\item 
+\hyperlink{class_research_window}{Research\+Window} \hyperlink{class_g_u_i_a37611f1e119a7c0b0d8d9682ac8a9432}{research\+\_\+}
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_game}{Game}\textquotesingle{}s research window that allows the player to buy buildings, units and spells. \end{DoxyCompactList}\item 
+\hyperlink{class_spell_casting_window}{Spell\+Casting\+Window} \hyperlink{class_g_u_i_a434c351b8b781d7bf19dfbae30bc7d73}{spell\+\_\+casting\+\_\+}
+\begin{DoxyCompactList}\small\item\em Allows the player to cast spells. \end{DoxyCompactList}\item 
+C\+E\+G\+U\+I\+::\+Window $\ast$ \hyperlink{class_g_u_i_aa9a52eb5090edfa1e62773be5dd03da3}{menu\+\_\+}
+\begin{DoxyCompactList}\small\item\em Allows easier access to the menu subwindow. \end{DoxyCompactList}\item 
+\hyperlink{class_message_to_player_window}{Message\+To\+Player\+Window} \hyperlink{class_g_u_i_a447ea4f3f0b635717a3a88317f534825}{message\+\_\+}
+\begin{DoxyCompactList}\small\item\em Allows the game to show a message to the player with any of the following buttons\+: OK, Y\+ES, NO. \end{DoxyCompactList}\item 
+\hyperlink{class_options_window}{Options\+Window} \hyperlink{class_g_u_i_ac08ccbb1a55bae003d956ff299db3d91}{options\+\_\+}
+\begin{DoxyCompactList}\small\item\em Allows to change the resolution, window mode and key bindings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries Options\+Window}\hypertarget{class_g_u_i_a720341fa2258af1b64cf4f505d8226a1}{}\label{class_g_u_i_a720341fa2258af1b64cf4f505d8226a1}
+
+\item 
+void {\bfseries action\+::\+Q\+U\+I\+C\+K\+\_\+\+L\+O\+AD} ()\hypertarget{class_g_u_i_afcaa4fe027cc52b7f11e80caedfb2f96}{}\label{class_g_u_i_afcaa4fe027cc52b7f11e80caedfb2f96}
+
+\item 
+void {\bfseries action\+::\+Q\+U\+I\+C\+K\+\_\+\+S\+A\+VE} ()\hypertarget{class_g_u_i_ac91f206467cf888fb767b7d7d03b92ba}{}\label{class_g_u_i_ac91f206467cf888fb767b7d7d03b92ba}
+
+\item 
+void {\bfseries action\+::\+R\+E\+S\+E\+T\+\_\+\+C\+A\+M\+E\+RA} ()\hypertarget{class_g_u_i_a94cac4560c54379f3013e5074558f322}{}\label{class_g_u_i_a94cac4560c54379f3013e5074558f322}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Represents the game\textquotesingle{}s main graphical user interface (i.\+e. 
+
+any windows except for the development ones like the console or entity creator). 
+
+Definition at line 26 of file G\+U\+I.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{G\+UI@{G\+UI}!````~G\+UI@{$\sim$\+G\+UI}}
+\index{````~G\+UI@{$\sim$\+G\+UI}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{$\sim$\+G\+U\+I()}{~GUI()}}]{\setlength{\rightskip}{0pt plus 5cm}G\+U\+I\+::$\sim$\+G\+UI (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_g_u_i_ac9cae2328dcb5d83bdfaeca49a2eb695}{}\label{class_g_u_i_ac9cae2328dcb5d83bdfaeca49a2eb695}
+
+
+Destructor. 
+
+
+
+Definition at line 36 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!G\+UI@{G\+UI}}
+\index{G\+UI@{G\+UI}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{G\+U\+I(const G\+U\+I \&)=delete}{GUI(const GUI &)=delete}}]{\setlength{\rightskip}{0pt plus 5cm}G\+U\+I\+::\+G\+UI (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\+UI} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [delete]}}\hypertarget{class_g_u_i_a0b8d80c1dc4e62859e0f0b80d6175205}{}\label{class_g_u_i_a0b8d80c1dc4e62859e0f0b80d6175205}
+\begin{DoxyNote}{Note}
+Since V\+S2015 seems to have some problems with C++ standard (generates default copy/move constructors and operators even if default constructor is created), these constructors/operators are explicitly deleted. 
+\end{DoxyNote}
+\index{G\+UI@{G\+UI}!G\+UI@{G\+UI}}
+\index{G\+UI@{G\+UI}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{G\+U\+I()}{GUI()}}]{\setlength{\rightskip}{0pt plus 5cm}G\+U\+I\+::\+G\+UI (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_a8cbb3140b7d3c9d8e942d6ce6b60a0e8}{}\label{class_g_u_i_a8cbb3140b7d3c9d8e942d6ce6b60a0e8}
+
+
+Constructor, private because of the singleton pattern. 
+
+
+
+Definition at line 7 of file G\+U\+I.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\index{G\+UI@{G\+UI}!escape\+\_\+pressed@{escape\+\_\+pressed}}
+\index{escape\+\_\+pressed@{escape\+\_\+pressed}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{escape\+\_\+pressed()}{escape_pressed()}}]{\setlength{\rightskip}{0pt plus 5cm}bool G\+U\+I\+::escape\+\_\+pressed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_a8c3e6a481d74bb0673389b596989047c}{}\label{class_g_u_i_a8c3e6a481d74bb0673389b596989047c}
+
+
+Notifies the \hyperlink{class_g_u_i}{G\+UI} that the escape key was pressed so that it can close windows if needed. 
+
+Returns true if anything has been closed, false otherwise. \begin{DoxyNote}{Note}
+C\+E\+G\+UI event system does not seem to work properly \+:/ 
+\end{DoxyNote}
+This will allow the return from the main menu (which does not happend when a submenu window is visible).
+
+Definition at line 414 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!get\+\_\+builder@{get\+\_\+builder}}
+\index{get\+\_\+builder@{get\+\_\+builder}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{get\+\_\+builder()}{get_builder()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Builder\+Window} \& G\+U\+I\+::get\+\_\+builder (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_a3533e8d1c67c8cd1643be0b6d640e489}{}\label{class_g_u_i_a3533e8d1c67c8cd1643be0b6d640e489}
+
+
+Returns a reference to the builder window. 
+
+
+
+Definition at line 384 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!get\+\_\+console@{get\+\_\+console}}
+\index{get\+\_\+console@{get\+\_\+console}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{get\+\_\+console()}{get_console()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Console} \& G\+U\+I\+::get\+\_\+console (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_ae407027b2e7e81f8132ee7dd5252c456}{}\label{class_g_u_i_ae407027b2e7e81f8132ee7dd5252c456}
+
+
+Returns a reference to the game\textquotesingle{}s dev console. 
+
+
+
+Definition at line 369 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!get\+\_\+curr\+\_\+tool@{get\+\_\+curr\+\_\+tool}}
+\index{get\+\_\+curr\+\_\+tool@{get\+\_\+curr\+\_\+tool}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{get\+\_\+curr\+\_\+tool()}{get_curr_tool()}}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string \& G\+U\+I\+::get\+\_\+curr\+\_\+tool (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_a1640c56f8c04cea1df046220781f9d22}{}\label{class_g_u_i_a1640c56f8c04cea1df046220781f9d22}
+
+
+Returns the name of the current tool window. 
+
+
+
+Definition at line 465 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!get\+\_\+log@{get\+\_\+log}}
+\index{get\+\_\+log@{get\+\_\+log}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{get\+\_\+log()}{get_log()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Game\+Log} \& G\+U\+I\+::get\+\_\+log (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_ac5d029ac1d5be5f405d0bb9b4beaadeb}{}\label{class_g_u_i_ac5d029ac1d5be5f405d0bb9b4beaadeb}
+
+
+Returns a reference to the game\textquotesingle{}s log. 
+
+
+
+Definition at line 379 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!get\+\_\+message@{get\+\_\+message}}
+\index{get\+\_\+message@{get\+\_\+message}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{get\+\_\+message()}{get_message()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Message\+To\+Player\+Window} \& G\+U\+I\+::get\+\_\+message (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_af7f76a45f16144b8217938de6facb97d}{}\label{class_g_u_i_af7f76a45f16144b8217938de6facb97d}
+
+
+Returns a reference to the message to player window. 
+
+
+
+Definition at line 404 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!get\+\_\+options@{get\+\_\+options}}
+\index{get\+\_\+options@{get\+\_\+options}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{get\+\_\+options()}{get_options()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Options\+Window} \& G\+U\+I\+::get\+\_\+options (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_adf043e9ed8ec60a8ac7f981dbd3d7933}{}\label{class_g_u_i_adf043e9ed8ec60a8ac7f981dbd3d7933}
+
+
+Returns a reference to the options window. 
+
+
+
+Definition at line 409 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!get\+\_\+research@{get\+\_\+research}}
+\index{get\+\_\+research@{get\+\_\+research}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{get\+\_\+research()}{get_research()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Research\+Window} \& G\+U\+I\+::get\+\_\+research (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_a8f8dae1e40b3f25c179cd088631e9e24}{}\label{class_g_u_i_a8f8dae1e40b3f25c179cd088631e9e24}
+
+
+Returns a reference to the research window. 
+
+
+
+Definition at line 394 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!get\+\_\+spell\+\_\+casting@{get\+\_\+spell\+\_\+casting}}
+\index{get\+\_\+spell\+\_\+casting@{get\+\_\+spell\+\_\+casting}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{get\+\_\+spell\+\_\+casting()}{get_spell_casting()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Spell\+Casting\+Window} \& G\+U\+I\+::get\+\_\+spell\+\_\+casting (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_ad68dfd48d702edbc8eae79b02ef694db}{}\label{class_g_u_i_ad68dfd48d702edbc8eae79b02ef694db}
+
+
+Returns a reference to the spell casting window. 
+
+
+
+Definition at line 399 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!get\+\_\+top\+\_\+bar@{get\+\_\+top\+\_\+bar}}
+\index{get\+\_\+top\+\_\+bar@{get\+\_\+top\+\_\+bar}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{get\+\_\+top\+\_\+bar()}{get_top_bar()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Top\+Bar} \& G\+U\+I\+::get\+\_\+top\+\_\+bar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_a57b2102ded949460275f6c06a73ef472}{}\label{class_g_u_i_a57b2102ded949460275f6c06a73ef472}
+
+
+Returns a reference to the top bar. 
+
+
+
+Definition at line 389 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!get\+\_\+tracker@{get\+\_\+tracker}}
+\index{get\+\_\+tracker@{get\+\_\+tracker}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{get\+\_\+tracker()}{get_tracker()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+Tracker} \& G\+U\+I\+::get\+\_\+tracker (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_ab197361fb542ae6f1761be27346ec6bd}{}\label{class_g_u_i_ab197361fb542ae6f1761be27346ec6bd}
+
+
+Returns a reference to the entity tracker. 
+
+
+
+Definition at line 374 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!get\+\_\+window@{get\+\_\+window}}
+\index{get\+\_\+window@{get\+\_\+window}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{get\+\_\+window()}{get_window()}}]{\setlength{\rightskip}{0pt plus 5cm}C\+E\+G\+U\+I\+::\+Window $\ast$ G\+U\+I\+::get\+\_\+window (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_a825a335740e695b10d60e0c96ffeb0b5}{}\label{class_g_u_i_a825a335740e695b10d60e0c96ffeb0b5}
+
+
+Returns a pointer to the root window. 
+
+
+
+Definition at line 359 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!get\+\_\+window@{get\+\_\+window}}
+\index{get\+\_\+window@{get\+\_\+window}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{get\+\_\+window(const std\+::string \&)}{get_window(const std::string &)}}]{\setlength{\rightskip}{0pt plus 5cm}C\+E\+G\+U\+I\+::\+Window $\ast$ G\+U\+I\+::get\+\_\+window (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{name}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_a392281fef48b437e8d3b4a5fbab09191}{}\label{class_g_u_i_a392281fef48b437e8d3b4a5fbab09191}
+
+
+Returns a pointer to a given subwindow of the root window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Name} & of the window. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 364 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!init@{init}}
+\index{init@{init}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{init(\+Game $\ast$)}{init(Game *)}}]{\setlength{\rightskip}{0pt plus 5cm}void G\+U\+I\+::init (
+\begin{DoxyParamCaption}
+\item[{{\bf Game} $\ast$}]{game}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_a91b0fc72a458e688947da1c86e859750}{}\label{class_g_u_i_a91b0fc72a458e688947da1c86e859750}
+
+
+Initializes the selection by loading the layout and registering all event handlers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Pointer} & to the game object, which is used by the event handlers (like the quit button etc). \\
+\hline
+\end{DoxyParams}
+The options menu was stored in it\textquotesingle{}s own separate file for easier design.
+
+M\+A\+IN M\+E\+NU
+
+T\+O\+OL S\+E\+L\+E\+C\+T\+I\+ON
+
+M\+E\+NU
+
+Definition at line 14 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!instance@{instance}}
+\index{instance@{instance}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{instance()}{instance()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\+UI} \& G\+U\+I\+::instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{class_g_u_i_a169694dda858ea12986f00ee32ac7add}{}\label{class_g_u_i_a169694dda858ea12986f00ee32ac7add}
+
+
+Returns the singleton instance. 
+
+
+
+Definition at line 335 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!is\+\_\+visible@{is\+\_\+visible}}
+\index{is\+\_\+visible@{is\+\_\+visible}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{is\+\_\+visible() const }{is_visible() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool G\+U\+I\+::is\+\_\+visible (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_g_u_i_af2fb755008d9734fef2c0d4f94ad5bab}{}\label{class_g_u_i_af2fb755008d9734fef2c0d4f94ad5bab}
+
+
+Returns true if the entire \hyperlink{class_g_u_i}{G\+UI} is visible, false otherwise. 
+
+
+
+Definition at line 320 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!is\+\_\+visible@{is\+\_\+visible}}
+\index{is\+\_\+visible@{is\+\_\+visible}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{is\+\_\+visible(const std\+::string \&) const }{is_visible(const std::string &) const }}]{\setlength{\rightskip}{0pt plus 5cm}bool G\+U\+I\+::is\+\_\+visible (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{wname}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_g_u_i_ae990bd08d2db58fcba2a15e261e618f1}{}\label{class_g_u_i_ae990bd08d2db58fcba2a15e261e618f1}
+
+
+Returns the visibility status of a particular window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Name} & (path) of the window, without the root window prefix. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 330 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!list\+\_\+directory@{list\+\_\+directory}}
+\index{list\+\_\+directory@{list\+\_\+directory}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{list\+\_\+directory(const std\+::string \&, C\+E\+G\+U\+I\+::\+Listbox \&, bool=false)}{list_directory(const std::string &, CEGUI::Listbox &, bool=false)}}]{\setlength{\rightskip}{0pt plus 5cm}void G\+U\+I\+::list\+\_\+directory (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{dir, }
+\item[{C\+E\+G\+U\+I\+::\+Listbox \&}]{box, }
+\item[{bool}]{strip\+\_\+ext = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_a457e1e62289a5da4eef425cb526d0e5b}{}\label{class_g_u_i_a457e1e62289a5da4eef425cb526d0e5b}
+
+
+Fills a given list box with the names of all files in a given directory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Name} & of the directory. \\
+\hline
+{\em List} & box to be filled. \\
+\hline
+{\em If} & true, the .lua extension will be cut from the file name if present. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 470 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!set\+\_\+curr\+\_\+tool@{set\+\_\+curr\+\_\+tool}}
+\index{set\+\_\+curr\+\_\+tool@{set\+\_\+curr\+\_\+tool}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{set\+\_\+curr\+\_\+tool(const std\+::string \&)}{set_curr_tool(const std::string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void G\+U\+I\+::set\+\_\+curr\+\_\+tool (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_ad27594472b3c4625d5cf1ca24b31d1a4}{}\label{class_g_u_i_ad27594472b3c4625d5cf1ca24b31d1a4}
+
+
+Sets the current tool window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & name of the tool. (M\+E\+NU, S\+P\+E\+LL, B\+U\+I\+LD) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 459 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!set\+\_\+curr\+\_\+tool\+\_\+visible@{set\+\_\+curr\+\_\+tool\+\_\+visible}}
+\index{set\+\_\+curr\+\_\+tool\+\_\+visible@{set\+\_\+curr\+\_\+tool\+\_\+visible}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{set\+\_\+curr\+\_\+tool\+\_\+visible(bool)}{set_curr_tool_visible(bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void G\+U\+I\+::set\+\_\+curr\+\_\+tool\+\_\+visible (
+\begin{DoxyParamCaption}
+\item[{bool}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_ae841ba53ef5f7152fa900c682edc9788}{}\label{class_g_u_i_ae841ba53ef5f7152fa900c682edc9788}
+
+
+Sets the visibility status of the current tool window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new visibility status. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 454 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!set\+\_\+visible@{set\+\_\+visible}}
+\index{set\+\_\+visible@{set\+\_\+visible}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{set\+\_\+visible(bool)}{set_visible(bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void G\+U\+I\+::set\+\_\+visible (
+\begin{DoxyParamCaption}
+\item[{bool}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_a37c94218f5c1d9d9b955ee7796ba9247}{}\label{class_g_u_i_a37c94218f5c1d9d9b955ee7796ba9247}
+
+
+Set\textquotesingle{}s the \hyperlink{class_g_u_i}{G\+UI}\textquotesingle{}s visibility status. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new visibility status. T\+O\+DO\+: Toggle \hyperlink{class_g_u_i}{G\+UI} with a hotkey for screen capturing? \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 315 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!set\+\_\+visible@{set\+\_\+visible}}
+\index{set\+\_\+visible@{set\+\_\+visible}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{set\+\_\+visible(const std\+::string \&, bool)}{set_visible(const std::string &, bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void G\+U\+I\+::set\+\_\+visible (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{wname, }
+\item[{bool}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_a56664bc17967fdb694c5876a23229830}{}\label{class_g_u_i_a56664bc17967fdb694c5876a23229830}
+
+
+Set\textquotesingle{}s the visibility status of a particular window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Name} & (path) of the window, without the root window prefix. (e.\+g. \char`\"{}\+T\+O\+O\+L\+S/\+T\+O\+O\+L\+\_\+\+S\+E\+L\+E\+C\+T\+I\+O\+N/\+S\+P\+E\+L\+L\+\_\+\+S\+E\+L\+E\+C\+T\+I\+O\+N\char`\"{}) \\
+\hline
+{\em The} & new visibility status. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 325 of file G\+U\+I.\+cpp.
+
+\index{G\+UI@{G\+UI}!show\+\_\+load\+\_\+save\+\_\+dialog@{show\+\_\+load\+\_\+save\+\_\+dialog}}
+\index{show\+\_\+load\+\_\+save\+\_\+dialog@{show\+\_\+load\+\_\+save\+\_\+dialog}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{show\+\_\+load\+\_\+save\+\_\+dialog(const std\+::string \&)}{show_load_save_dialog(const std::string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void G\+U\+I\+::show\+\_\+load\+\_\+save\+\_\+dialog (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{type}
+\end{DoxyParamCaption}
+)}\hypertarget{class_g_u_i_a6bf316dac4af6edbc03e9e6f6a1842a7}{}\label{class_g_u_i_a6bf316dac4af6edbc03e9e6f6a1842a7}
+
+
+Shows the load/save dialog window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Either} & \char`\"{}\+S\+A\+V\+E\char`\"{} or \char`\"{}\+L\+O\+A\+D\char`\"{}, will determine the functionality of the window. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 341 of file G\+U\+I.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{G\+UI@{G\+UI}!builder\+\_\+@{builder\+\_\+}}
+\index{builder\+\_\+@{builder\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{builder\+\_\+}{builder_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Builder\+Window} G\+U\+I\+::builder\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_a0384e5c8eeb11e4181ca31e621a897cb}{}\label{class_g_u_i_a0384e5c8eeb11e4181ca31e621a897cb}
+
+
+Allows the player to place buildings. 
+
+
+
+Definition at line 226 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!console\+\_\+@{console\+\_\+}}
+\index{console\+\_\+@{console\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{console\+\_\+}{console_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Console} G\+U\+I\+::console\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_aa16bd75eb28be973d2df6480cc65c68b}{}\label{class_g_u_i_aa16bd75eb28be973d2df6480cc65c68b}
+
+
+\hyperlink{class_game}{Game}\textquotesingle{}s developer console. 
+
+
+
+Definition at line 216 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!curr\+\_\+tool\+\_\+@{curr\+\_\+tool\+\_\+}}
+\index{curr\+\_\+tool\+\_\+@{curr\+\_\+tool\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{curr\+\_\+tool\+\_\+}{curr_tool_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string G\+U\+I\+::curr\+\_\+tool\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_a8ee9091320921548eca2305ec60d5182}{}\label{class_g_u_i_a8ee9091320921548eca2305ec60d5182}
+
+
+Name of the current tool in the tools subwindow. 
+
+
+
+Definition at line 201 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!game\+\_\+@{game\+\_\+}}
+\index{game\+\_\+@{game\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{game\+\_\+}{game_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Game}$\ast$ G\+U\+I\+::game\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_a8af61511961fc5de258e1fd8e03eeed4}{}\label{class_g_u_i_a8af61511961fc5de258e1fd8e03eeed4}
+
+
+Pointer to the game instance used by button event handlers. 
+
+
+
+Definition at line 206 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!log\+\_\+@{log\+\_\+}}
+\index{log\+\_\+@{log\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{log\+\_\+}{log_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Game\+Log} G\+U\+I\+::log\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_a2290d6a10a481beaa55dd93913ceadaf}{}\label{class_g_u_i_a2290d6a10a481beaa55dd93913ceadaf}
+
+
+\hyperlink{class_game}{Game}\textquotesingle{}s log, used to show messages to the player. 
+
+
+
+Definition at line 221 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!menu\+\_\+@{menu\+\_\+}}
+\index{menu\+\_\+@{menu\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{menu\+\_\+}{menu_}}]{\setlength{\rightskip}{0pt plus 5cm}C\+E\+G\+U\+I\+::\+Window$\ast$ G\+U\+I\+::menu\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_aa9a52eb5090edfa1e62773be5dd03da3}{}\label{class_g_u_i_aa9a52eb5090edfa1e62773be5dd03da3}
+
+
+Allows easier access to the menu subwindow. 
+
+
+
+Definition at line 247 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!message\+\_\+@{message\+\_\+}}
+\index{message\+\_\+@{message\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{message\+\_\+}{message_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Message\+To\+Player\+Window} G\+U\+I\+::message\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_a447ea4f3f0b635717a3a88317f534825}{}\label{class_g_u_i_a447ea4f3f0b635717a3a88317f534825}
+
+
+Allows the game to show a message to the player with any of the following buttons\+: OK, Y\+ES, NO. 
+
+
+
+Definition at line 253 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!options\+\_\+@{options\+\_\+}}
+\index{options\+\_\+@{options\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{options\+\_\+}{options_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Options\+Window} G\+U\+I\+::options\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_ac08ccbb1a55bae003d956ff299db3d91}{}\label{class_g_u_i_ac08ccbb1a55bae003d956ff299db3d91}
+
+
+Allows to change the resolution, window mode and key bindings. 
+
+
+
+Definition at line 259 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!research\+\_\+@{research\+\_\+}}
+\index{research\+\_\+@{research\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{research\+\_\+}{research_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Research\+Window} G\+U\+I\+::research\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_a37611f1e119a7c0b0d8d9682ac8a9432}{}\label{class_g_u_i_a37611f1e119a7c0b0d8d9682ac8a9432}
+
+
+\hyperlink{class_game}{Game}\textquotesingle{}s research window that allows the player to buy buildings, units and spells. 
+
+
+
+Definition at line 237 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!spell\+\_\+casting\+\_\+@{spell\+\_\+casting\+\_\+}}
+\index{spell\+\_\+casting\+\_\+@{spell\+\_\+casting\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{spell\+\_\+casting\+\_\+}{spell_casting_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Spell\+Casting\+Window} G\+U\+I\+::spell\+\_\+casting\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_a434c351b8b781d7bf19dfbae30bc7d73}{}\label{class_g_u_i_a434c351b8b781d7bf19dfbae30bc7d73}
+
+
+Allows the player to cast spells. 
+
+
+
+Definition at line 242 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!top\+\_\+bar\+\_\+@{top\+\_\+bar\+\_\+}}
+\index{top\+\_\+bar\+\_\+@{top\+\_\+bar\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{top\+\_\+bar\+\_\+}{top_bar_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Top\+Bar} G\+U\+I\+::top\+\_\+bar\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_a6de1adcb5f3b762f3f99e7b37db61740}{}\label{class_g_u_i_a6de1adcb5f3b762f3f99e7b37db61740}
+
+
+Shows game info at the top of the screen. 
+
+
+
+Definition at line 231 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!tracker\+\_\+@{tracker\+\_\+}}
+\index{tracker\+\_\+@{tracker\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{tracker\+\_\+}{tracker_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+Tracker} G\+U\+I\+::tracker\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_a90c490c7ff853531ac635f08408d59bf}{}\label{class_g_u_i_a90c490c7ff853531ac635f08408d59bf}
+
+
+ID of the entity that is currently tracked by the entity viewer. 
+
+
+
+Definition at line 211 of file G\+U\+I.\+hpp.
+
+\index{G\+UI@{G\+UI}!window\+\_\+@{window\+\_\+}}
+\index{window\+\_\+@{window\+\_\+}!G\+UI@{G\+UI}}
+\subsubsection[{\texorpdfstring{window\+\_\+}{window_}}]{\setlength{\rightskip}{0pt plus 5cm}C\+E\+G\+U\+I\+::\+Window$\ast$ G\+U\+I\+::window\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_g_u_i_a1216023a7675f2d5c6f3a33d6f2b9eca}{}\label{class_g_u_i_a1216023a7675f2d5c6f3a33d6f2b9eca}
+
+
+Pointer to the root window of the layout. 
+
+
+
+Definition at line 196 of file G\+U\+I.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+gui/G\+U\+I.\+hpp\item 
+gui/G\+U\+I.\+cpp\end{DoxyCompactItemize}

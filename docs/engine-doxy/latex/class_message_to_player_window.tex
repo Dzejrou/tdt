@@ -1,0 +1,212 @@
+\hypertarget{class_message_to_player_window}{}\section{Message\+To\+Player\+Window Class Reference}
+\label{class_message_to_player_window}\index{Message\+To\+Player\+Window@{Message\+To\+Player\+Window}}
+
+
+A window that can show the player a text message with 1, 2 or 3 buttons (custom labels) that can call assigned functions.  
+
+
+
+
+{\ttfamily \#include $<$Message\+To\+Player\+Window.\+hpp$>$}
+
+Inheritance diagram for Message\+To\+Player\+Window\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_message_to_player_window}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_message_to_player_window_a1522c842309df689cf032d9b3de76fa7}{Message\+To\+Player\+Window} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_message_to_player_window_a09180c464e2bdafec3657d4dd3692d99}{$\sim$\+Message\+To\+Player\+Window} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_message_to_player_window_aa61b87c640a95dbaafe796392522b0b9}{show} (const std\+::string \&=\char`\"{}N\+O\+NE\char`\"{}, const std\+::string \&=\char`\"{}N\+O\+NE\char`\"{}, const std\+::string \&=\char`\"{}N\+O\+NE\char`\"{}, const std\+::string \&=\char`\"{}N\+O\+NE\char`\"{})
+\begin{DoxyCompactList}\small\item\em Shows a given text message to the player and assigns callbacks to the buttons. \end{DoxyCompactList}\item 
+void \hyperlink{class_message_to_player_window_aaa52044d01c842b03df4e83b58be4098}{set\+\_\+butt\+\_\+label} (const std\+::string \&, const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Sets the label of a given button. \end{DoxyCompactList}\item 
+void \hyperlink{class_message_to_player_window_af0c2aad5fd5b2d502641a1249dcfe650}{reset\+\_\+butt\+\_\+labels} ()
+\begin{DoxyCompactList}\small\item\em Resets the button labels to their default values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_message_to_player_window_a5eb87ad777baa5c23a3cdb262512d9e3}{init\+\_\+} ()
+\begin{DoxyCompactList}\small\item\em Initializes this window. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classlpp_1_1_script}{lpp\+::\+Script} \& \hyperlink{class_message_to_player_window_af02854c06fe25800f3dc44e23848a9df}{script\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the scripting engine for easier use when calling Lua callbacks. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{class_message_to_player_window_a9ee321677a2a774e2e147ddbaef35ef5}{ok\+\_\+func\+\_\+}
+\begin{DoxyCompactList}\small\item\em Labels of the buttons. \end{DoxyCompactList}\item 
+std\+::string {\bfseries yes\+\_\+func\+\_\+}\hypertarget{class_message_to_player_window_a97cc7136d9ea8fd6e8397871555a6e0b}{}\label{class_message_to_player_window_a97cc7136d9ea8fd6e8397871555a6e0b}
+
+\item 
+std\+::string {\bfseries no\+\_\+func\+\_\+}\hypertarget{class_message_to_player_window_ae17d66e7dd9ae682ce23f89e79906e6b}{}\label{class_message_to_player_window_ae17d66e7dd9ae682ce23f89e79906e6b}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+A window that can show the player a text message with 1, 2 or 3 buttons (custom labels) that can call assigned functions. 
+
+Button names\+: (used for setting labels) 1st on the left\+: NO 2nd on the left\+: Y\+ES 1st on the right\+: OK 
+
+Definition at line 18 of file Message\+To\+Player\+Window.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Message\+To\+Player\+Window@{Message\+To\+Player\+Window}!Message\+To\+Player\+Window@{Message\+To\+Player\+Window}}
+\index{Message\+To\+Player\+Window@{Message\+To\+Player\+Window}!Message\+To\+Player\+Window@{Message\+To\+Player\+Window}}
+\subsubsection[{\texorpdfstring{Message\+To\+Player\+Window()}{MessageToPlayerWindow()}}]{\setlength{\rightskip}{0pt plus 5cm}Message\+To\+Player\+Window\+::\+Message\+To\+Player\+Window (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_message_to_player_window_a1522c842309df689cf032d9b3de76fa7}{}\label{class_message_to_player_window_a1522c842309df689cf032d9b3de76fa7}
+
+
+Constructor. 
+
+
+
+Definition at line 5 of file Message\+To\+Player\+Window.\+cpp.
+
+\index{Message\+To\+Player\+Window@{Message\+To\+Player\+Window}!````~Message\+To\+Player\+Window@{$\sim$\+Message\+To\+Player\+Window}}
+\index{````~Message\+To\+Player\+Window@{$\sim$\+Message\+To\+Player\+Window}!Message\+To\+Player\+Window@{Message\+To\+Player\+Window}}
+\subsubsection[{\texorpdfstring{$\sim$\+Message\+To\+Player\+Window()=default}{~MessageToPlayerWindow()=default}}]{\setlength{\rightskip}{0pt plus 5cm}Message\+To\+Player\+Window\+::$\sim$\+Message\+To\+Player\+Window (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{class_message_to_player_window_a09180c464e2bdafec3657d4dd3692d99}{}\label{class_message_to_player_window_a09180c464e2bdafec3657d4dd3692d99}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\index{Message\+To\+Player\+Window@{Message\+To\+Player\+Window}!init\+\_\+@{init\+\_\+}}
+\index{init\+\_\+@{init\+\_\+}!Message\+To\+Player\+Window@{Message\+To\+Player\+Window}}
+\subsubsection[{\texorpdfstring{init\+\_\+()}{init_()}}]{\setlength{\rightskip}{0pt plus 5cm}void Message\+To\+Player\+Window\+::init\+\_\+ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{class_message_to_player_window_a5eb87ad777baa5c23a3cdb262512d9e3}{}\label{class_message_to_player_window_a5eb87ad777baa5c23a3cdb262512d9e3}
+
+
+Initializes this window. 
+
+
+
+Implements \hyperlink{class_g_u_i_window_a2a7c011363f401a57a26cc7c7652bdfd}{G\+U\+I\+Window}.
+
+
+
+Definition at line 53 of file Message\+To\+Player\+Window.\+cpp.
+
+\index{Message\+To\+Player\+Window@{Message\+To\+Player\+Window}!reset\+\_\+butt\+\_\+labels@{reset\+\_\+butt\+\_\+labels}}
+\index{reset\+\_\+butt\+\_\+labels@{reset\+\_\+butt\+\_\+labels}!Message\+To\+Player\+Window@{Message\+To\+Player\+Window}}
+\subsubsection[{\texorpdfstring{reset\+\_\+butt\+\_\+labels()}{reset_butt_labels()}}]{\setlength{\rightskip}{0pt plus 5cm}void Message\+To\+Player\+Window\+::reset\+\_\+butt\+\_\+labels (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_message_to_player_window_af0c2aad5fd5b2d502641a1249dcfe650}{}\label{class_message_to_player_window_af0c2aad5fd5b2d502641a1249dcfe650}
+
+
+Resets the button labels to their default values. 
+
+(\char`\"{}\+O\+K\char`\"{}, \char`\"{}\+Y\+E\+S\char`\"{} and \char`\"{}\+N\+O\char`\"{}) 
+
+Definition at line 46 of file Message\+To\+Player\+Window.\+cpp.
+
+\index{Message\+To\+Player\+Window@{Message\+To\+Player\+Window}!set\+\_\+butt\+\_\+label@{set\+\_\+butt\+\_\+label}}
+\index{set\+\_\+butt\+\_\+label@{set\+\_\+butt\+\_\+label}!Message\+To\+Player\+Window@{Message\+To\+Player\+Window}}
+\subsubsection[{\texorpdfstring{set\+\_\+butt\+\_\+label(const std\+::string \&, const std\+::string \&)}{set_butt_label(const std::string &, const std::string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Message\+To\+Player\+Window\+::set\+\_\+butt\+\_\+label (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{butt, }
+\item[{const std\+::string \&}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_message_to_player_window_aaa52044d01c842b03df4e83b58be4098}{}\label{class_message_to_player_window_aaa52044d01c842b03df4e83b58be4098}
+
+
+Sets the label of a given button. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & name of the button (OK, Y\+ES, NO). \\
+\hline
+{\em The} & new label. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 41 of file Message\+To\+Player\+Window.\+cpp.
+
+\index{Message\+To\+Player\+Window@{Message\+To\+Player\+Window}!show@{show}}
+\index{show@{show}!Message\+To\+Player\+Window@{Message\+To\+Player\+Window}}
+\subsubsection[{\texorpdfstring{show(const std\+::string \&=""N\+O\+NE"", const std\+::string \&=""N\+O\+NE"", const std\+::string \&=""N\+O\+NE"", const std\+::string \&=""N\+O\+NE"")}{show(const std::string &="NONE", const std::string &="NONE", const std::string &="NONE", const std::string &="NONE")}}]{\setlength{\rightskip}{0pt plus 5cm}void Message\+To\+Player\+Window\+::show (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{msg = {\ttfamily \char`\"{}NONE\char`\"{}}, }
+\item[{const std\+::string \&}]{ok = {\ttfamily \char`\"{}NONE\char`\"{}}, }
+\item[{const std\+::string \&}]{yes = {\ttfamily \char`\"{}NONE\char`\"{}}, }
+\item[{const std\+::string \&}]{no = {\ttfamily \char`\"{}NONE\char`\"{}}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_message_to_player_window_aa61b87c640a95dbaafe796392522b0b9}{}\label{class_message_to_player_window_aa61b87c640a95dbaafe796392522b0b9}
+
+
+Shows a given text message to the player and assigns callbacks to the buttons. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & message. \\
+\hline
+{\em Callback} & for the OK button. \\
+\hline
+{\em Callback} & for the Y\+ES button. \\
+\hline
+{\em Callback} & for the NO button. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+If a callback passes is \char`\"{}\+N\+O\+N\+E\char`\"{}, the assigned button will not be shown. 
+
+The callbacks are strings of names of the Lua functions that ought to be called when the button is pressed. 
+\end{DoxyNote}
+
+
+Definition at line 10 of file Message\+To\+Player\+Window.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Message\+To\+Player\+Window@{Message\+To\+Player\+Window}!ok\+\_\+func\+\_\+@{ok\+\_\+func\+\_\+}}
+\index{ok\+\_\+func\+\_\+@{ok\+\_\+func\+\_\+}!Message\+To\+Player\+Window@{Message\+To\+Player\+Window}}
+\subsubsection[{\texorpdfstring{ok\+\_\+func\+\_\+}{ok_func_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Message\+To\+Player\+Window\+::ok\+\_\+func\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_message_to_player_window_a9ee321677a2a774e2e147ddbaef35ef5}{}\label{class_message_to_player_window_a9ee321677a2a774e2e147ddbaef35ef5}
+
+
+Labels of the buttons. 
+
+
+
+Definition at line 74 of file Message\+To\+Player\+Window.\+hpp.
+
+\index{Message\+To\+Player\+Window@{Message\+To\+Player\+Window}!script\+\_\+@{script\+\_\+}}
+\index{script\+\_\+@{script\+\_\+}!Message\+To\+Player\+Window@{Message\+To\+Player\+Window}}
+\subsubsection[{\texorpdfstring{script\+\_\+}{script_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf lpp\+::\+Script}\& Message\+To\+Player\+Window\+::script\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_message_to_player_window_af02854c06fe25800f3dc44e23848a9df}{}\label{class_message_to_player_window_af02854c06fe25800f3dc44e23848a9df}
+
+
+Reference to the scripting engine for easier use when calling Lua callbacks. 
+
+
+
+Definition at line 69 of file Message\+To\+Player\+Window.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+gui/Message\+To\+Player\+Window.\+hpp\item 
+gui/Message\+To\+Player\+Window.\+cpp\end{DoxyCompactItemize}

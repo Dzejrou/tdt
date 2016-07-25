@@ -1,0 +1,213 @@
+\hypertarget{class_production_system}{}\section{Production\+System Class Reference}
+\label{class_production_system}\index{Production\+System@{Production\+System}}
+
+
+\hyperlink{class_system}{System} taking care of entities spawned by buildings and the spawn counts allowing for a constant amount of entities (related to the number of buildings spawning entities of that blueprint table).  
+
+
+
+
+{\ttfamily \#include $<$Production\+System.\+hpp$>$}
+
+Inheritance diagram for Production\+System\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_production_system}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_production_system_a0714612f29ebaca91f6cd750062f4090}{Production\+System} (\hyperlink{class_entity_system}{Entity\+System} \&)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_production_system_a65622ad0ab7cb6e3ea0b260697ab5928}{$\sim$\+Production\+System} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_production_system_ad8d47ea05eeb8504a58c2f68f9285c35}{update} (tdt\+::real) override
+\begin{DoxyCompactList}\small\item\em Iterates over all buildings and when possible, spawns new entities. \end{DoxyCompactList}\item 
+void \hyperlink{class_production_system_a285816be3e143ec79a330e7af5ad3eca}{spawn\+\_\+entity} (tdt\+::uint, const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Spawns a single entity created by a building. \end{DoxyCompactList}\item 
+void \hyperlink{class_production_system_a189615e653da1dc7773efe1ca2c98863}{set\+\_\+time\+\_\+multiplier} (tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Sets the time value by which the frame times are multiplied when added to the production timers. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_production_system_abf59007923dc29a23db218200e0b75d9}{get\+\_\+time\+\_\+multiplier} ()
+\begin{DoxyCompactList}\small\item\em Returns the time value by which the frame times are multiplied when added to the production timers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_entity_system}{Entity\+System} \& \hyperlink{class_production_system_a1635990974ff715fd1ac2035f9760e51}{entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the game\textquotesingle{}s entity system (component retrieval). \end{DoxyCompactList}\item 
+\hyperlink{class_grid}{Grid} \& \hyperlink{class_production_system_a7b57e417c67f4629e5b858b3f55edbf4}{grid\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the game\textquotesingle{}s pathfinding grid (spawn positioning). \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_production_system_a0d1e37301b0549aa967c561c6f8f876e}{time\+\_\+multiplier\+\_\+}
+\begin{DoxyCompactList}\small\item\em Allows to speed up/slow down the production of all buildings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_system}{System} taking care of entities spawned by buildings and the spawn counts allowing for a constant amount of entities (related to the number of buildings spawning entities of that blueprint table). 
+
+Definition at line 14 of file Production\+System.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Production\+System@{Production\+System}!Production\+System@{Production\+System}}
+\index{Production\+System@{Production\+System}!Production\+System@{Production\+System}}
+\subsubsection[{\texorpdfstring{Production\+System(\+Entity\+System \&)}{ProductionSystem(EntitySystem &)}}]{\setlength{\rightskip}{0pt plus 5cm}Production\+System\+::\+Production\+System (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents}
+\end{DoxyParamCaption}
+)}\hypertarget{class_production_system_a0714612f29ebaca91f6cd750062f4090}{}\label{class_production_system_a0714612f29ebaca91f6cd750062f4090}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the game\textquotesingle{}s entity system. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 7 of file Production\+System.\+cpp.
+
+\index{Production\+System@{Production\+System}!````~Production\+System@{$\sim$\+Production\+System}}
+\index{````~Production\+System@{$\sim$\+Production\+System}!Production\+System@{Production\+System}}
+\subsubsection[{\texorpdfstring{$\sim$\+Production\+System()}{~ProductionSystem()}}]{\setlength{\rightskip}{0pt plus 5cm}Production\+System\+::$\sim$\+Production\+System (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_production_system_a65622ad0ab7cb6e3ea0b260697ab5928}{}\label{class_production_system_a65622ad0ab7cb6e3ea0b260697ab5928}
+
+
+Destructor. 
+
+
+
+Definition at line 26 of file Production\+System.\+hpp.
+
+
+
+\subsection{Member Function Documentation}
+\index{Production\+System@{Production\+System}!get\+\_\+time\+\_\+multiplier@{get\+\_\+time\+\_\+multiplier}}
+\index{get\+\_\+time\+\_\+multiplier@{get\+\_\+time\+\_\+multiplier}!Production\+System@{Production\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+time\+\_\+multiplier()}{get_time_multiplier()}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Production\+System\+::get\+\_\+time\+\_\+multiplier (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_production_system_abf59007923dc29a23db218200e0b75d9}{}\label{class_production_system_abf59007923dc29a23db218200e0b75d9}
+
+
+Returns the time value by which the frame times are multiplied when added to the production timers. 
+
+
+
+Definition at line 125 of file Production\+System.\+cpp.
+
+\index{Production\+System@{Production\+System}!set\+\_\+time\+\_\+multiplier@{set\+\_\+time\+\_\+multiplier}}
+\index{set\+\_\+time\+\_\+multiplier@{set\+\_\+time\+\_\+multiplier}!Production\+System@{Production\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+time\+\_\+multiplier(tdt\+::real)}{set_time_multiplier(tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Production\+System\+::set\+\_\+time\+\_\+multiplier (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_production_system_a189615e653da1dc7773efe1ca2c98863}{}\label{class_production_system_a189615e653da1dc7773efe1ca2c98863}
+
+
+Sets the time value by which the frame times are multiplied when added to the production timers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new time multiplier. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 120 of file Production\+System.\+cpp.
+
+\index{Production\+System@{Production\+System}!spawn\+\_\+entity@{spawn\+\_\+entity}}
+\index{spawn\+\_\+entity@{spawn\+\_\+entity}!Production\+System@{Production\+System}}
+\subsubsection[{\texorpdfstring{spawn\+\_\+entity(tdt\+::uint, const std\+::string \&)}{spawn_entity(tdt::uint, const std::string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Production\+System\+::spawn\+\_\+entity (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{producer, }
+\item[{const std\+::string \&}]{blueprint}
+\end{DoxyParamCaption}
+)}\hypertarget{class_production_system_a285816be3e143ec79a330e7af5ad3eca}{}\label{class_production_system_a285816be3e143ec79a330e7af5ad3eca}
+
+
+Spawns a single entity created by a building. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the building. \\
+\hline
+{\em Name} & of the blueprint table of the spawned entity. \\
+\hline
+\end{DoxyParams}
+This checks all edges of the building to find a free spot for the entity to spawn on.
+
+Definition at line 29 of file Production\+System.\+cpp.
+
+\index{Production\+System@{Production\+System}!update@{update}}
+\index{update@{update}!Production\+System@{Production\+System}}
+\subsubsection[{\texorpdfstring{update(tdt\+::real) override}{update(tdt::real) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Production\+System\+::update (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{delta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_production_system_ad8d47ea05eeb8504a58c2f68f9285c35}{}\label{class_production_system_ad8d47ea05eeb8504a58c2f68f9285c35}
+
+
+Iterates over all buildings and when possible, spawns new entities. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Time} & since last frame. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_system_a6d54c9bd38eb43d620a1451cb0925472}{System}.
+
+
+
+Definition at line 11 of file Production\+System.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Production\+System@{Production\+System}!entities\+\_\+@{entities\+\_\+}}
+\index{entities\+\_\+@{entities\+\_\+}!Production\+System@{Production\+System}}
+\subsubsection[{\texorpdfstring{entities\+\_\+}{entities_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+System}\& Production\+System\+::entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_production_system_a1635990974ff715fd1ac2035f9760e51}{}\label{class_production_system_a1635990974ff715fd1ac2035f9760e51}
+
+
+Reference to the game\textquotesingle{}s entity system (component retrieval). 
+
+
+
+Definition at line 58 of file Production\+System.\+hpp.
+
+\index{Production\+System@{Production\+System}!grid\+\_\+@{grid\+\_\+}}
+\index{grid\+\_\+@{grid\+\_\+}!Production\+System@{Production\+System}}
+\subsubsection[{\texorpdfstring{grid\+\_\+}{grid_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Grid}\& Production\+System\+::grid\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_production_system_a7b57e417c67f4629e5b858b3f55edbf4}{}\label{class_production_system_a7b57e417c67f4629e5b858b3f55edbf4}
+
+
+Reference to the game\textquotesingle{}s pathfinding grid (spawn positioning). 
+
+
+
+Definition at line 63 of file Production\+System.\+hpp.
+
+\index{Production\+System@{Production\+System}!time\+\_\+multiplier\+\_\+@{time\+\_\+multiplier\+\_\+}}
+\index{time\+\_\+multiplier\+\_\+@{time\+\_\+multiplier\+\_\+}!Production\+System@{Production\+System}}
+\subsubsection[{\texorpdfstring{time\+\_\+multiplier\+\_\+}{time_multiplier_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Production\+System\+::time\+\_\+multiplier\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_production_system_a0d1e37301b0549aa967c561c6f8f876e}{}\label{class_production_system_a0d1e37301b0549aa967c561c6f8f876e}
+
+
+Allows to speed up/slow down the production of all buildings. 
+
+
+
+Definition at line 68 of file Production\+System.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+systems/Production\+System.\+hpp\item 
+systems/Production\+System.\+cpp\end{DoxyCompactItemize}

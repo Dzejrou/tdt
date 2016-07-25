@@ -1,0 +1,127 @@
+\hypertarget{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t}{}\section{util\+:\+:effect\+:\+:F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT Struct Reference}
+\label{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t}\index{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}}
+
+
+Freezes a given entity in place for a given time period.  
+
+
+
+
+{\ttfamily \#include $<$Effects.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_aca7fba095c1647b74d818ff73696c8b9}{F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_a1434b6ee911b6586e8466fa0aa6fc0e0}{$\sim$\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_aa5bc5da43f7d9e15b84bc9b482524b16}{operator()} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Freezes a given entity in place. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_entity_system}{Entity\+System} \& \hyperlink{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_a1ee6ce1353f02563e70a7c03cebebf4c}{entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Entity system containing the entities this effect will be called on. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_a075e8ad726e06baafced711a2209b55c}{time\+\_\+}
+\begin{DoxyCompactList}\small\item\em The duration of the freeze. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Freezes a given entity in place for a given time period. 
+
+(This effect stops movement but not any other action.) 
+
+Definition at line 133 of file Effects.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}!F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}}
+\index{F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}!util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}}
+\subsubsection[{\texorpdfstring{F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+C\+T(\+Entity\+System \&, tdt\+::real)}{FREEZE_EFFECT(EntitySystem &, tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+C\+T\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::real}]{time}
+\end{DoxyParamCaption}
+)}\hypertarget{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_aca7fba095c1647b74d818ff73696c8b9}{}\label{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_aca7fba095c1647b74d818ff73696c8b9}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entities this effect will be called on. \\
+\hline
+{\em Duration} & of the freeze. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 58 of file Effects.\+cpp.
+
+\index{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}!````~F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{$\sim$\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}}
+\index{````~F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{$\sim$\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}!util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}}
+\subsubsection[{\texorpdfstring{$\sim$\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+C\+T()=default}{~FREEZE_EFFECT()=default}}]{\setlength{\rightskip}{0pt plus 5cm}util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+C\+T\+::$\sim$\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_a1434b6ee911b6586e8466fa0aa6fc0e0}{}\label{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_a1434b6ee911b6586e8466fa0aa6fc0e0}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\index{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}!operator()@{operator()}}
+\index{operator()@{operator()}!util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}}
+\subsubsection[{\texorpdfstring{operator()(tdt\+::uint)}{operator()(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+C\+T\+::operator() (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_aa5bc5da43f7d9e15b84bc9b482524b16}{}\label{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_aa5bc5da43f7d9e15b84bc9b482524b16}
+
+
+Freezes a given entity in place. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 62 of file Effects.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}!entities\+\_\+@{entities\+\_\+}}
+\index{entities\+\_\+@{entities\+\_\+}!util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}}
+\subsubsection[{\texorpdfstring{entities\+\_\+}{entities_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+System}\& util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+C\+T\+::entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_a1ee6ce1353f02563e70a7c03cebebf4c}{}\label{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_a1ee6ce1353f02563e70a7c03cebebf4c}
+
+
+Entity system containing the entities this effect will be called on. 
+
+
+
+Definition at line 159 of file Effects.\+hpp.
+
+\index{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}!time\+\_\+@{time\+\_\+}}
+\index{time\+\_\+@{time\+\_\+}!util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT@{util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+CT}}
+\subsubsection[{\texorpdfstring{time\+\_\+}{time_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real util\+::effect\+::\+F\+R\+E\+E\+Z\+E\+\_\+\+E\+F\+F\+E\+C\+T\+::time\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_a075e8ad726e06baafced711a2209b55c}{}\label{structutil_1_1effect_1_1_f_r_e_e_z_e___e_f_f_e_c_t_a075e8ad726e06baafced711a2209b55c}
+
+
+The duration of the freeze. 
+
+
+
+Definition at line 164 of file Effects.\+hpp.
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+tools/Effects.\+hpp\item 
+tools/Effects.\+cpp\end{DoxyCompactItemize}

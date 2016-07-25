@@ -1,0 +1,200 @@
+\hypertarget{namespace_command_helper}{}\section{Command\+Helper Namespace Reference}
+\label{namespace_command_helper}\index{Command\+Helper@{Command\+Helper}}
+
+
+Namespace containing auxiliary functions that help with the management of the command component.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespace_command_helper_abe36e978e6486d3588bbbd0bd287f68d}{set\+\_\+command} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, C\+O\+M\+M\+A\+N\+D\+\_\+\+T\+Y\+PE, bool=true)
+\begin{DoxyCompactList}\small\item\em Sets the bit value of a given command for a given entity. \end{DoxyCompactList}\item 
+bool \hyperlink{namespace_command_helper_a3e1042d44c635da9c7e5b7908d14429e}{test\+\_\+command} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, C\+O\+M\+M\+A\+N\+D\+\_\+\+T\+Y\+PE)
+\begin{DoxyCompactList}\small\item\em Returns true if a given entity responds to a given type of command, false otherwise. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_command_helper_ad9e19d35cf3ec9d8b823aab49ca98676}{command\+\_\+to\+\_\+mine} (\hyperlink{class_entity_system}{Entity\+System} \&, \hyperlink{class_selection_box}{Selection\+Box} \&)
+\begin{DoxyCompactList}\small\item\em Commands the miner with the smallest task queue (if any) to mine all selected mineable entities. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_command_helper_a987de42c40cca051fc6c66521cc1a2b7}{command\+\_\+to\+\_\+attack} (\hyperlink{class_entity_system}{Entity\+System} \&, \hyperlink{class_selection_box}{Selection\+Box} \&)
+\begin{DoxyCompactList}\small\item\em Commands the combat unit with the smallest task queue (if any) to attack a selected enemy. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_command_helper_abe1e8552b9371e0b21fb4998ef4420bb}{command\+\_\+to\+\_\+reposition} (\hyperlink{class_entity_system}{Entity\+System} \&, Ogre\+::\+Real, Ogre\+::\+Real)
+\begin{DoxyCompactList}\small\item\em Commands the unit with the smallest task queue (if any) to move to a given position. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_command_helper_a161e712b3cfc1cff84e2dd511801440c}{command\+\_\+to\+\_\+return\+\_\+gold} (\hyperlink{class_entity_system}{Entity\+System} \&, \hyperlink{class_combat_system}{Combat\+System} \&)
+\begin{DoxyCompactList}\small\item\em Commands all miners that have gold on them to return it to the nearest gold vault. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_command_helper_a05a5eba3ddef83eedb3b4744399b4237}{command\+\_\+to\+\_\+fall\+\_\+back} (\hyperlink{class_entity_system}{Entity\+System} \&)
+\begin{DoxyCompactList}\small\item\em Commands all free units created at a spawner to return back. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Namespace containing auxiliary functions that help with the management of the command component. 
+
+\subsection{Function Documentation}
+\index{Command\+Helper@{Command\+Helper}!command\+\_\+to\+\_\+attack@{command\+\_\+to\+\_\+attack}}
+\index{command\+\_\+to\+\_\+attack@{command\+\_\+to\+\_\+attack}!Command\+Helper@{Command\+Helper}}
+\subsubsection[{\texorpdfstring{command\+\_\+to\+\_\+attack(\+Entity\+System \&, Selection\+Box \&)}{command_to_attack(EntitySystem &, SelectionBox &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Command\+Helper\+::command\+\_\+to\+\_\+attack (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{{\bf Selection\+Box} \&}]{selection}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_command_helper_a987de42c40cca051fc6c66521cc1a2b7}{}\label{namespace_command_helper_a987de42c40cca051fc6c66521cc1a2b7}
+
+
+Commands the combat unit with the smallest task queue (if any) to attack a selected enemy. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing the entity. \\
+\hline
+{\em Selection} & box used to select the enemy. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 70 of file Command\+Helper.\+cpp.
+
+\index{Command\+Helper@{Command\+Helper}!command\+\_\+to\+\_\+fall\+\_\+back@{command\+\_\+to\+\_\+fall\+\_\+back}}
+\index{command\+\_\+to\+\_\+fall\+\_\+back@{command\+\_\+to\+\_\+fall\+\_\+back}!Command\+Helper@{Command\+Helper}}
+\subsubsection[{\texorpdfstring{command\+\_\+to\+\_\+fall\+\_\+back(\+Entity\+System \&)}{command_to_fall_back(EntitySystem &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Command\+Helper\+::command\+\_\+to\+\_\+fall\+\_\+back (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_command_helper_a05a5eba3ddef83eedb3b4744399b4237}{}\label{namespace_command_helper_a05a5eba3ddef83eedb3b4744399b4237}
+
+
+Commands all free units created at a spawner to return back. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 170 of file Command\+Helper.\+cpp.
+
+\index{Command\+Helper@{Command\+Helper}!command\+\_\+to\+\_\+mine@{command\+\_\+to\+\_\+mine}}
+\index{command\+\_\+to\+\_\+mine@{command\+\_\+to\+\_\+mine}!Command\+Helper@{Command\+Helper}}
+\subsubsection[{\texorpdfstring{command\+\_\+to\+\_\+mine(\+Entity\+System \&, Selection\+Box \&)}{command_to_mine(EntitySystem &, SelectionBox &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Command\+Helper\+::command\+\_\+to\+\_\+mine (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{{\bf Selection\+Box} \&}]{selection}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_command_helper_ad9e19d35cf3ec9d8b823aab49ca98676}{}\label{namespace_command_helper_ad9e19d35cf3ec9d8b823aab49ca98676}
+
+
+Commands the miner with the smallest task queue (if any) to mine all selected mineable entities. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing the entity. \\
+\hline
+{\em Selection} & box used to select the mineable entities. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 25 of file Command\+Helper.\+cpp.
+
+\index{Command\+Helper@{Command\+Helper}!command\+\_\+to\+\_\+reposition@{command\+\_\+to\+\_\+reposition}}
+\index{command\+\_\+to\+\_\+reposition@{command\+\_\+to\+\_\+reposition}!Command\+Helper@{Command\+Helper}}
+\subsubsection[{\texorpdfstring{command\+\_\+to\+\_\+reposition(\+Entity\+System \&, Ogre\+::\+Real, Ogre\+::\+Real)}{command_to_reposition(EntitySystem &, Ogre::Real, Ogre::Real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Command\+Helper\+::command\+\_\+to\+\_\+reposition (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{Ogre\+::\+Real}]{x, }
+\item[{Ogre\+::\+Real}]{y}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_command_helper_abe1e8552b9371e0b21fb4998ef4420bb}{}\label{namespace_command_helper_abe1e8552b9371e0b21fb4998ef4420bb}
+
+
+Commands the unit with the smallest task queue (if any) to move to a given position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing the entity. \\
+\hline
+{\em X} & coordinate of the position. \\
+\hline
+{\em Z} & coordinate of the position. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 109 of file Command\+Helper.\+cpp.
+
+\index{Command\+Helper@{Command\+Helper}!command\+\_\+to\+\_\+return\+\_\+gold@{command\+\_\+to\+\_\+return\+\_\+gold}}
+\index{command\+\_\+to\+\_\+return\+\_\+gold@{command\+\_\+to\+\_\+return\+\_\+gold}!Command\+Helper@{Command\+Helper}}
+\subsubsection[{\texorpdfstring{command\+\_\+to\+\_\+return\+\_\+gold(\+Entity\+System \&, Combat\+System \&)}{command_to_return_gold(EntitySystem &, CombatSystem &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Command\+Helper\+::command\+\_\+to\+\_\+return\+\_\+gold (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{{\bf Combat\+System} \&}]{combat}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_command_helper_a161e712b3cfc1cff84e2dd511801440c}{}\label{namespace_command_helper_a161e712b3cfc1cff84e2dd511801440c}
+
+
+Commands all miners that have gold on them to return it to the nearest gold vault. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing the entity. \\
+\hline
+{\em Combat} & system used to search for deposits. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 146 of file Command\+Helper.\+cpp.
+
+\index{Command\+Helper@{Command\+Helper}!set\+\_\+command@{set\+\_\+command}}
+\index{set\+\_\+command@{set\+\_\+command}!Command\+Helper@{Command\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+command(\+Entity\+System \&, tdt\+::uint, C\+O\+M\+M\+A\+N\+D\+\_\+\+T\+Y\+P\+E, bool=true)}{set_command(EntitySystem &, tdt::uint, COMMAND_TYPE, bool=true)}}]{\setlength{\rightskip}{0pt plus 5cm}void Command\+Helper\+::set\+\_\+command (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{C\+O\+M\+M\+A\+N\+D\+\_\+\+T\+Y\+PE}]{command, }
+\item[{bool}]{val = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_command_helper_abe36e978e6486d3588bbbd0bd287f68d}{}\label{namespace_command_helper_abe36e978e6486d3588bbbd0bd287f68d}
+
+
+Sets the bit value of a given command for a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Type} & of the command. \\
+\hline
+{\em The} & new bit value, true = entity responds to the command type, false = entity ignores the command type. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 9 of file Command\+Helper.\+cpp.
+
+\index{Command\+Helper@{Command\+Helper}!test\+\_\+command@{test\+\_\+command}}
+\index{test\+\_\+command@{test\+\_\+command}!Command\+Helper@{Command\+Helper}}
+\subsubsection[{\texorpdfstring{test\+\_\+command(\+Entity\+System \&, tdt\+::uint, C\+O\+M\+M\+A\+N\+D\+\_\+\+T\+Y\+P\+E)}{test_command(EntitySystem &, tdt::uint, COMMAND_TYPE)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Command\+Helper\+::test\+\_\+command (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{C\+O\+M\+M\+A\+N\+D\+\_\+\+T\+Y\+PE}]{command}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_command_helper_a3e1042d44c635da9c7e5b7908d14429e}{}\label{namespace_command_helper_a3e1042d44c635da9c7e5b7908d14429e}
+
+
+Returns true if a given entity responds to a given type of command, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Type} & of the command. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 16 of file Command\+Helper.\+cpp.
+

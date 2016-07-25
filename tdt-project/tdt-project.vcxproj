@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A4497E4E-E7E0-4D8A-9B73-4186E7FCDD5B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>tdtproject</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)/bin/debug/</OutDir>
+    <IntDir>$(SolutionDir)/bin/tmp/debug/</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)/bin/release/</OutDir>
+    <IntDir>$(SolutionDir)/bin/tmp/release/</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>lib\ogre\include;lib\lua53\include;lib\cegui\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>lib/ogre/lib/debug/OgreMain_d.lib;lib/ogre/lib/debug/OIS_d.lib;lib/ogre/lib/debug/opt/RenderSystem_Direct3D9_d.lib;lib/ogre/lib/debug/opt/RenderSystem_GL_d.lib;lib/cegui/lib/CEGUIBase-0_d.lib;lib/cegui/lib/CEGUIOgreRenderer-0_d.lib;lib/lua53/lib/lua5.3.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>lib\ogre\include;lib\lua53\include;lib\cegui\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>lib/ogre/lib/release/OgreMain.lib;lib/ogre/lib/release/OIS.lib;lib/ogre/lib/release/opt/RenderSystem_Direct3D9.lib;lib/ogre/lib/release/opt/RenderSystem_GL.lib;lib/cegui/lib/CEGUIBase-0.lib;lib/cegui/lib/CEGUIOgreRenderer-0.lib;lib/lua53/lib/lua5.3.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Components.hpp" />
+    <ClInclude Include="src\Enums.hpp" />
+    <ClInclude Include="src\Game.hpp" />
+    <ClInclude Include="src\gui\BuilderWindow.hpp" />
+    <ClInclude Include="src\gui\Console.hpp" />
+    <ClInclude Include="src\gui\EntityCreator.hpp" />
+    <ClInclude Include="src\gui\EntityTracker.hpp" />
+    <ClInclude Include="src\gui\GameLog.hpp" />
+    <ClInclude Include="src\gui\GUI.hpp" />
+    <ClInclude Include="src\gui\GUIWindow.hpp" />
+    <ClInclude Include="src\gui\MessageToPlayerWindow.hpp" />
+    <ClInclude Include="src\gui\OptionsWindow.hpp" />
+    <ClInclude Include="src\gui\ResearchWindow.hpp" />
+    <ClInclude Include="src\gui\SpellCastingWindow.hpp" />
+    <ClInclude Include="src\gui\TopBar.hpp" />
+    <ClInclude Include="src\helpers\AIHelper.hpp" />
+    <ClInclude Include="src\helpers\AlignHelper.hpp" />
+    <ClInclude Include="src\helpers\CombatHelper.hpp" />
+    <ClInclude Include="src\helpers\CommandHelper.hpp" />
+    <ClInclude Include="src\helpers\ConstructorHelper.hpp" />
+    <ClInclude Include="src\helpers\CounterHelper.hpp" />
+    <ClInclude Include="src\helpers\DestructorHelper.hpp" />
+    <ClInclude Include="src\helpers\EventHandlerHelper.hpp" />
+    <ClInclude Include="src\helpers\EventHelper.hpp" />
+    <ClInclude Include="src\helpers\ExperienceValueHelper.hpp" />
+    <ClInclude Include="src\helpers\ExplosionHelper.hpp" />
+    <ClInclude Include="src\helpers\FactionHelper.hpp" />
+    <ClInclude Include="src\helpers\GoldHelper.hpp" />
+    <ClInclude Include="src\helpers\GraphicsHelper.hpp" />
+    <ClInclude Include="src\helpers\GridNodeHelper.hpp" />
+    <ClInclude Include="src\helpers\HealthHelper.hpp" />
+    <ClInclude Include="src\helpers\Helpers.hpp" />
+    <ClInclude Include="src\helpers\HomingHelper.hpp" />
+    <ClInclude Include="src\helpers\InputHelper.hpp" />
+    <ClInclude Include="src\helpers\LightHelper.hpp" />
+    <ClInclude Include="src\helpers\LimitedLifeSpanHelper.hpp" />
+    <ClInclude Include="src\helpers\ManaCrystalHelper.hpp" />
+    <ClInclude Include="src\helpers\ManaHelper.hpp" />
+    <ClInclude Include="src\helpers\MovementHelper.hpp" />
+    <ClInclude Include="src\helpers\NameHelper.hpp" />
+    <ClInclude Include="src\helpers\NotificationHelper.hpp" />
+    <ClInclude Include="src\helpers\OnHitHelper.hpp" />
+    <ClInclude Include="src\helpers\PathfindingHelper.hpp" />
+    <ClInclude Include="src\helpers\PhysicsHelper.hpp" />
+    <ClInclude Include="src\helpers\PriceHelper.hpp" />
+    <ClInclude Include="src\helpers\ProductHelper.hpp" />
+    <ClInclude Include="src\helpers\ProductionHelper.hpp" />
+    <ClInclude Include="src\helpers\SpellHelper.hpp" />
+    <ClInclude Include="src\helpers\StructureHelper.hpp" />
+    <ClInclude Include="src\helpers\TaskHandlerHelper.hpp" />
+    <ClInclude Include="src\helpers\TaskHelper.hpp" />
+    <ClInclude Include="src\helpers\TimeHelper.hpp" />
+    <ClInclude Include="src\helpers\TriggerHelper.hpp" />
+    <ClInclude Include="src\helpers\UpgradeHelper.hpp" />
+    <ClInclude Include="src\lppscript\LppScript.hpp" />
+    <ClInclude Include="src\LuaInterface.hpp" />
+    <ClInclude Include="src\systems\AISystem.hpp" />
+    <ClInclude Include="src\systems\CombatSystem.hpp" />
+    <ClInclude Include="src\systems\EntitySystem.hpp" />
+    <ClInclude Include="src\systems\EventSystem.hpp" />
+    <ClInclude Include="src\systems\GraphicsSystem.hpp" />
+    <ClInclude Include="src\systems\GridSystem.hpp" />
+    <ClInclude Include="src\systems\HealthSystem.hpp" />
+    <ClInclude Include="src\systems\InputSystem.hpp" />
+    <ClInclude Include="src\systems\ManaSpellSystem.hpp" />
+    <ClInclude Include="src\systems\MovementSystem.hpp" />
+    <ClInclude Include="src\systems\ProductionSystem.hpp" />
+    <ClInclude Include="src\systems\System.hpp" />
+    <ClInclude Include="src\systems\TaskSystem.hpp" />
+    <ClInclude Include="src\systems\TimeSystem.hpp" />
+    <ClInclude Include="src\systems\TriggerSystem.hpp" />
+    <ClInclude Include="src\systems\WaveSystem.hpp" />
+    <ClInclude Include="src\tools\Camera.hpp" />
+    <ClInclude Include="src\tools\Effects.hpp" />
+    <ClInclude Include="src\tools\EntityPlacer.hpp" />
+    <ClInclude Include="src\tools\GameSerializer.hpp" />
+    <ClInclude Include="src\tools\Grid.hpp" />
+    <ClInclude Include="src\tools\LevelGenerators.hpp" />
+    <ClInclude Include="src\tools\Pathfinding.hpp" />
+    <ClInclude Include="src\tools\PathfindingAlgorithms.hpp" />
+    <ClInclude Include="src\tools\Player.hpp" />
+    <ClInclude Include="src\tools\RayCaster.hpp" />
+    <ClInclude Include="src\tools\SelectionBox.hpp" />
+    <ClInclude Include="src\tools\Spellcaster.hpp" />
+    <ClInclude Include="src\tools\Util.hpp" />
+    <ClInclude Include="src\Typedefs.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\gui\BuilderWindow.cpp" />
+    <ClCompile Include="src\gui\Console.cpp" />
+    <ClCompile Include="src\gui\EntityCreator.cpp" />
+    <ClCompile Include="src\gui\EntityTracker.cpp" />
+    <ClCompile Include="src\gui\GameLog.cpp" />
+    <ClCompile Include="src\gui\GUI.cpp" />
+    <ClCompile Include="src\gui\GUIWindow.cpp" />
+    <ClCompile Include="src\gui\MessageToPlayerWindow.cpp" />
+    <ClCompile Include="src\gui\OptionsWindow.cpp" />
+    <ClCompile Include="src\gui\ResearchWindow.cpp" />
+    <ClCompile Include="src\gui\SpellCastingWindow.cpp" />
+    <ClCompile Include="src\gui\TopBar.cpp" />
+    <ClCompile Include="src\helpers\AIHelper.cpp" />
+    <ClCompile Include="src\helpers\AlignHelper.cpp" />
+    <ClCompile Include="src\helpers\CombatHelper.cpp" />
+    <ClCompile Include="src\helpers\CommandHelper.cpp" />
+    <ClCompile Include="src\helpers\ConstructorHelper.cpp" />
+    <ClCompile Include="src\helpers\CounterHelper.cpp" />
+    <ClCompile Include="src\helpers\DestructorHelper.cpp" />
+    <ClCompile Include="src\helpers\EventHandlerHelper.cpp" />
+    <ClCompile Include="src\helpers\EventHelper.cpp" />
+    <ClCompile Include="src\helpers\ExperienceValueHelper.cpp" />
+    <ClCompile Include="src\helpers\ExplosionHelper.cpp" />
+    <ClCompile Include="src\helpers\FactionHelper.cpp" />
+    <ClCompile Include="src\helpers\GoldHelper.cpp" />
+    <ClCompile Include="src\helpers\GraphicsHelper.cpp" />
+    <ClCompile Include="src\helpers\GridNodeHelper.cpp" />
+    <ClCompile Include="src\helpers\HealthHelper.cpp" />
+    <ClCompile Include="src\helpers\HomingHelper.cpp" />
+    <ClCompile Include="src\helpers\InputHelper.cpp" />
+    <ClCompile Include="src\helpers\LightHelper.cpp" />
+    <ClCompile Include="src\helpers\LimitedLifeSpanHelper.cpp" />
+    <ClCompile Include="src\helpers\ManaCrystalHelper.cpp" />
+    <ClCompile Include="src\helpers\ManaHelper.cpp" />
+    <ClCompile Include="src\helpers\MovementHelper.cpp" />
+    <ClCompile Include="src\helpers\NameHelper.cpp" />
+    <ClCompile Include="src\helpers\NotificationHelper.cpp" />
+    <ClCompile Include="src\helpers\OnHitHelper.cpp" />
+    <ClCompile Include="src\helpers\PathfindingHelper.cpp" />
+    <ClCompile Include="src\helpers\PhysicsHelper.cpp" />
+    <ClCompile Include="src\helpers\PriceHelper.cpp" />
+    <ClCompile Include="src\helpers\ProductHelper.cpp" />
+    <ClCompile Include="src\helpers\ProductionHelper.cpp" />
+    <ClCompile Include="src\helpers\SpellHelper.cpp" />
+    <ClCompile Include="src\helpers\StructureHelper.cpp" />
+    <ClCompile Include="src\helpers\TaskHandlerHelper.cpp" />
+    <ClCompile Include="src\helpers\TaskHelper.cpp" />
+    <ClCompile Include="src\helpers\TimeHelper.cpp" />
+    <ClCompile Include="src\helpers\TriggerHelper.cpp" />
+    <ClCompile Include="src\helpers\UpgradeHelper.cpp" />
+    <ClCompile Include="src\lppscript\LppScript.cpp" />
+    <ClCompile Include="src\LuaInterface.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\systems\AISystem.cpp" />
+    <ClCompile Include="src\systems\CombatSystem.cpp" />
+    <ClCompile Include="src\systems\EntitySystem.cpp" />
+    <ClCompile Include="src\systems\EventSystem.cpp" />
+    <ClCompile Include="src\systems\GraphicsSystem.cpp" />
+    <ClCompile Include="src\systems\GridSystem.cpp" />
+    <ClCompile Include="src\systems\HealthSystem.cpp" />
+    <ClCompile Include="src\systems\InputSystem.cpp" />
+    <ClCompile Include="src\systems\ManaSpellSystem.cpp" />
+    <ClCompile Include="src\systems\MovementSystem.cpp" />
+    <ClCompile Include="src\systems\ProductionSystem.cpp" />
+    <ClCompile Include="src\systems\TaskSystem.cpp" />
+    <ClCompile Include="src\systems\TimeSystem.cpp" />
+    <ClCompile Include="src\systems\TriggerSystem.cpp" />
+    <ClCompile Include="src\systems\WaveSystem.cpp" />
+    <ClCompile Include="src\tools\Camera.cpp" />
+    <ClCompile Include="src\tools\Effects.cpp" />
+    <ClCompile Include="src\tools\EntityPlacer.cpp" />
+    <ClCompile Include="src\tools\GameSerializer.cpp" />
+    <ClCompile Include="src\tools\Grid.cpp" />
+    <ClCompile Include="src\tools\LevelGenerators.cpp" />
+    <ClCompile Include="src\tools\Player.cpp" />
+    <ClCompile Include="src\tools\RayCaster.cpp" />
+    <ClCompile Include="src\tools\SelectionBox.cpp" />
+    <ClCompile Include="src\tools\Spellcaster.cpp" />
+    <ClCompile Include="src\tools\Util.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

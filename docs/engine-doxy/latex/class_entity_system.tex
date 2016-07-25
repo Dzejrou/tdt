@@ -1,0 +1,1219 @@
+\hypertarget{class_entity_system}{}\section{Entity\+System Class Reference}
+\label{class_entity_system}\index{Entity\+System@{Entity\+System}}
+
+
+The \hyperlink{class_entity_system}{Entity\+System} class handles everything related to entities, like addition and removal of components, testing if an entity has a component or retrieval of components belonging to particular entities.  
+
+
+
+
+{\ttfamily \#include $<$Entity\+System.\+hpp$>$}
+
+Inheritance diagram for Entity\+System\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_entity_system}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_entity_system_a2bf6f7d3c7b6b7e02c8cc3dd454e9ab1}{Entity\+System} (Ogre\+::\+Scene\+Manager \&)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_entity_system_a8b34e0963a5231a3cda81442771318fb}{$\sim$\+Entity\+System} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_system_aa51808181d7c66baea07cec41c17b4cd}{update} (tdt\+::real) override
+\begin{DoxyCompactList}\small\item\em Checks for entities with no components and if any are found, deletes them. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_entity_system_adfb0a9adc4f2d4273d6cbf69d948f23c}{get\+\_\+new\+\_\+id} ()
+\begin{DoxyCompactList}\small\item\em Returns first available entity id. \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_system_acf6c4ffcec1a74b1f3db6636489a7217}{cleanup} ()
+\begin{DoxyCompactList}\small\item\em Removes all entities that have no components and individual components marked for deletion from their entities (this is used so that the Lua code does not delete an entity/a component from a container while C++ iterates over it). \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_entity_system_ac283fa8ea0e3755ad2b267010a7fd6c2}{create\+\_\+entity} (const std\+::string \&=\char`\"{}\char`\"{}, const Ogre\+::\+Vector3 \&=Ogre\+::\+Vector3\{0.f, 0.f, 0.f\})
+\begin{DoxyCompactList}\small\item\em Creates a new entity from a blueprint. \end{DoxyCompactList}\item 
+const std\+::map$<$ tdt\+::uint, std\+::bitset$<$ Component\+::count $>$ $>$ \& \hyperlink{class_entity_system_aaa1035152c890ca73f47d300d6377498}{get\+\_\+component\+\_\+list} () const 
+\begin{DoxyCompactList}\small\item\em Breif\+: Returns const reference to the component list, so that it can be used to iterate over all entities. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename C\+O\+MP $>$ }\\bool \hyperlink{class_entity_system_a0f079d475b904a1a48bce63b4c7d64cd}{has\+\_\+component} (tdt\+::uint id)
+\begin{DoxyCompactList}\small\item\em Tests whether a given entity has a component specialized by the template argument. \end{DoxyCompactList}\item 
+bool \hyperlink{class_entity_system_a80122f961940fce5ce2493966770b234}{has\+\_\+component} (tdt\+::uint, tdt\+::uint) const 
+\begin{DoxyCompactList}\small\item\em Tests whether a given entity has a component of a given type (used from Lua as it cannot use templates). \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename C\+O\+MP $>$ }\\C\+O\+MP $\ast$ \hyperlink{class_entity_system_ad9610ae9a595fc16e8f545cf752ee4f0}{get\+\_\+component} (tdt\+::uint id)
+\begin{DoxyCompactList}\small\item\em Returns a bool-\/component pointer pair, in which the first bool member determines if the component was found and the second is a pointer to the component. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename C\+O\+MP $>$ }\\void \hyperlink{class_entity_system_aea3df5c0dc93e72513914cdbbeb2a613}{set\+\_\+component} (tdt\+::uint id, C\+O\+MP comp)
+\begin{DoxyCompactList}\small\item\em Changes a component (type specified by template argument) of and entity or assigns a new component it that entity didn\textquotesingle{}t have it. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename C\+O\+MP $>$ }\\std\+::map$<$ tdt\+::uint, C\+O\+MP $>$ \& \hyperlink{class_entity_system_ab2bacfe1a7fa117764850f60ead892df}{get\+\_\+component\+\_\+container} ()
+\begin{DoxyCompactList}\small\item\em Returns the map associated with the component specified by the template argument. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename C\+O\+MP $>$ }\\void \hyperlink{class_entity_system_a556ec8504fcdd38125b0aaa5245aee20}{add\+\_\+component} (tdt\+::uint id)
+\begin{DoxyCompactList}\small\item\em Adds a components to the given enetity using it\textquotesingle{}s default constructor (all values have to be set afterwards). \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_system_a6e392f209dbdb990cd1d292a32f5eef2}{add\+\_\+component} (tdt\+::uint, int)
+\begin{DoxyCompactList}\small\item\em Allows to add a component based on it\textquotesingle{}s ID. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename C\+O\+MP $>$ }\\void \hyperlink{class_entity_system_ad10b62b1ac279603a3cfca317ed9e079}{delete\+\_\+component} (tdt\+::uint id)
+\begin{DoxyCompactList}\small\item\em Marks a component (specified by template argument) for given entity for deletion. \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_system_ae60c40dddce4f87862e3973b7869b684}{delete\+\_\+component} (tdt\+::uint, int)
+\begin{DoxyCompactList}\small\item\em Allows to enqueue a component for deletion based on it\textquotesingle{}s ID. \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_system_ab125a824fcafbf43f60250ecd156b421}{register\+\_\+entity} (const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Registers an entity that has been loaded from a Lua script. \end{DoxyCompactList}\item 
+std\+::set$<$ std\+::string $>$ \& \hyperlink{class_entity_system_a205a1ec0b7919409c99996d4f38660a6}{get\+\_\+registered\+\_\+entities} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the set containing all entity tables registered during the game\textquotesingle{}s runtime. \end{DoxyCompactList}\item 
+bool \hyperlink{class_entity_system_a55067af795708645b34ca4586208d95c}{exists} (tdt\+::uint) const 
+\begin{DoxyCompactList}\small\item\em Checks if a given entity exists and returns true if it does, false otherwise. \end{DoxyCompactList}\item 
+Ogre\+::\+Scene\+Manager \& \hyperlink{class_entity_system_ab3fdbf9ba452c2dab05221f007a63602}{get\+\_\+scene\+\_\+manager} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the scene manager all entities of this system are attached to (if they have a graphics component). \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_system_add914f62bb89bd8cbbd53d46dbd26875}{delete\+\_\+entities} ()
+\begin{DoxyCompactList}\small\item\em Deletes all entities int the game, used before loading a new game. \end{DoxyCompactList}\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_physics_component}{Physics\+Component} $>$ \& \hyperlink{class_entity_system_aff2e00095e3d492861180202c45ee477}{get\+\_\+component\+\_\+container} ()
+\begin{DoxyCompactList}\small\item\em Specializations of the \hyperlink{class_entity_system_ab2bacfe1a7fa117764850f60ead892df}{Entity\+System\+::get\+\_\+component\+\_\+container} method. \end{DoxyCompactList}\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_health_component}{Health\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a508eed877d281573b043faf930d7d342}{}\label{class_entity_system_a508eed877d281573b043faf930d7d342}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_a_i_component}{A\+I\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a961905fcd206dc5569a676e880841ca2}{}\label{class_entity_system_a961905fcd206dc5569a676e880841ca2}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_graphics_component}{Graphics\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a9909afda5535746578bccefe53aa5c34}{}\label{class_entity_system_a9909afda5535746578bccefe53aa5c34}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_movement_component}{Movement\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_af5f2dbc119c055782ebd1106660008c3}{}\label{class_entity_system_af5f2dbc119c055782ebd1106660008c3}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_combat_component}{Combat\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a539a0d84d6a529fedc3907bd27a5c6d0}{}\label{class_entity_system_a539a0d84d6a529fedc3907bd27a5c6d0}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_event_component}{Event\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a1bf83e12fffdab7688d5ee22dda797e6}{}\label{class_entity_system_a1bf83e12fffdab7688d5ee22dda797e6}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_input_component}{Input\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_af4df13ed73cc7bf18a4882c5ab6dcdcc}{}\label{class_entity_system_af4df13ed73cc7bf18a4882c5ab6dcdcc}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_time_component}{Time\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_aeada2412672fbea2b7a914e2d3b30a2d}{}\label{class_entity_system_aeada2412672fbea2b7a914e2d3b30a2d}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_mana_component}{Mana\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a9ca93121683f21ad2046c2a208922d09}{}\label{class_entity_system_a9ca93121683f21ad2046c2a208922d09}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_spell_component}{Spell\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_ac406af2b870d1a2615b134c391ad5099}{}\label{class_entity_system_ac406af2b870d1a2615b134c391ad5099}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_production_component}{Production\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a96157aaaab85d53a67996908b985d3d5}{}\label{class_entity_system_a96157aaaab85d53a67996908b985d3d5}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_grid_node_component}{Grid\+Node\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a573199f54220d256f634d096d56f4340}{}\label{class_entity_system_a573199f54220d256f634d096d56f4340}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_product_component}{Product\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_ac32a639180e04c61e378c8ae204f3b7a}{}\label{class_entity_system_ac32a639180e04c61e378c8ae204f3b7a}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_pathfinding_component}{Pathfinding\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_aed11982a65e630b80142c2beda45da8b}{}\label{class_entity_system_aed11982a65e630b80142c2beda45da8b}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_task_component}{Task\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a19a63bfab77a3f46c139729e3b24d0fb}{}\label{class_entity_system_a19a63bfab77a3f46c139729e3b24d0fb}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_task_handler_component}{Task\+Handler\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a0d719edae805faa82867fd22b25e29c8}{}\label{class_entity_system_a0d719edae805faa82867fd22b25e29c8}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_structure_component}{Structure\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a92e8154678c984c767a0e4a6ad551d9f}{}\label{class_entity_system_a92e8154678c984c767a0e4a6ad551d9f}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_homing_component}{Homing\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_adfa0ce8b0c3fc1b6f1458a0d4627e31e}{}\label{class_entity_system_adfa0ce8b0c3fc1b6f1458a0d4627e31e}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_event_handler_component}{Event\+Handler\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a7d53589e27f0dded16549db53cc0e217}{}\label{class_entity_system_a7d53589e27f0dded16549db53cc0e217}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_destructor_component}{Destructor\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a973f9887b478d19017f4acbe16741054}{}\label{class_entity_system_a973f9887b478d19017f4acbe16741054}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_gold_component}{Gold\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_af9586207497be5f663aa009c940d780c}{}\label{class_entity_system_af9586207497be5f663aa009c940d780c}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_faction_component}{Faction\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_acd9c209334726b9dd77de42d9b612a8c}{}\label{class_entity_system_acd9c209334726b9dd77de42d9b612a8c}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_price_component}{Price\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a085928660036f87f38a7622b0e381706}{}\label{class_entity_system_a085928660036f87f38a7622b0e381706}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_align_component}{Align\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a58ab65cb9e0a2f737c7b64e2c873eb8f}{}\label{class_entity_system_a58ab65cb9e0a2f737c7b64e2c873eb8f}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_mine_component}{Mine\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_ab877cdb98f2d76e5e42d3bd7f632b980}{}\label{class_entity_system_ab877cdb98f2d76e5e42d3bd7f632b980}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_mana_crystal_component}{Mana\+Crystal\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a723cdf78d9ac16489a2d74515d30bb89}{}\label{class_entity_system_a723cdf78d9ac16489a2d74515d30bb89}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_on_hit_component}{On\+Hit\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a417f0ec395e909bf4f25f229b5c75708}{}\label{class_entity_system_a417f0ec395e909bf4f25f229b5c75708}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_constructor_component}{Constructor\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_aceca061a4a029c3098161812283cafd3}{}\label{class_entity_system_aceca061a4a029c3098161812283cafd3}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_trigger_component}{Trigger\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a1e739ee1344c165ad6c4fc367012fcb7}{}\label{class_entity_system_a1e739ee1344c165ad6c4fc367012fcb7}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_upgrade_component}{Upgrade\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_ae6cb26520283845d6252246a1036bf11}{}\label{class_entity_system_ae6cb26520283845d6252246a1036bf11}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_notification_component}{Notification\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_ad5b9130b15cd48cfde11e53ee7eb707f}{}\label{class_entity_system_ad5b9130b15cd48cfde11e53ee7eb707f}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_explosion_component}{Explosion\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_afac3210cc029aaf03ae43ebc1231fbd9}{}\label{class_entity_system_afac3210cc029aaf03ae43ebc1231fbd9}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_limited_life_span_component}{Limited\+Life\+Span\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a3ed3367fad2ed4db1e756d6db9d1aa71}{}\label{class_entity_system_a3ed3367fad2ed4db1e756d6db9d1aa71}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_name_component}{Name\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a7bc07dda74ab1a10fbde39e0f7536c74}{}\label{class_entity_system_a7bc07dda74ab1a10fbde39e0f7536c74}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_experience_value_component}{Experience\+Value\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_ab56d27de7ff71878e26b4214d75af1b3}{}\label{class_entity_system_ab56d27de7ff71878e26b4214d75af1b3}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_light_component}{Light\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a55cb72f54ca005f494316df828de118a}{}\label{class_entity_system_a55cb72f54ca005f494316df828de118a}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_command_component}{Command\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a3b84416a3c422656f9daa09535b836b9}{}\label{class_entity_system_a3b84416a3c422656f9daa09535b836b9}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_counter_component}{Counter\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a8841eb6b81a9be95566ff0eebcb1121d}{}\label{class_entity_system_a8841eb6b81a9be95566ff0eebcb1121d}
+
+\item 
+{\footnotesize template$<$$>$ }\\std\+::map$<$ tdt\+::uint, \hyperlink{struct_portal_component}{Portal\+Component} $>$ \& {\bfseries get\+\_\+component\+\_\+container} ()\hypertarget{class_entity_system_a23789f4f49cd2b2ec424034efeeabe91}{}\label{class_entity_system_a23789f4f49cd2b2ec424034efeeabe91}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{class_entity_system_a41e0561691509c232c26dc78c819c74e}{N\+O\+\_\+\+B\+L\+U\+E\+P\+R\+I\+NT} \{\char`\"{}E\+R\+R\+OR\char`\"{}\}
+\begin{DoxyCompactList}\small\item\em Used in helpers when no component exists and we still need to return the blueprint name (in this case the E\+R\+R\+OR blueprint) by reference. \end{DoxyCompactList}\item 
+std\+::array$<$ std\+::string, 3 $>$ \hyperlink{class_entity_system_a64eff1a78f8685a3b8319b5219381963}{F\+A\+C\+T\+I\+O\+N\+\_\+\+N\+A\+ME} \{\char`\"{}F\+R\+I\+E\+N\+D\+LY\char`\"{}, \char`\"{}E\+N\+E\+MY\char`\"{}, \char`\"{}N\+E\+U\+T\+R\+AL\char`\"{}\}
+\begin{DoxyCompactList}\small\item\em Used in when translating the faction enum to a string in the \hyperlink{namespace_faction_helper}{Faction\+Helper}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef void(Entity\+System\+::$\ast$ {\bfseries Loader\+Func\+Ptr}) (tdt\+::uint, const std\+::string \&)\hypertarget{class_entity_system_ab03b379651ef1bf67979d7b7fc92159f}{}\label{class_entity_system_ab03b379651ef1bf67979d7b7fc92159f}
+
+\item 
+typedef void(Entity\+System\+::$\ast$ {\bfseries Adder\+Func\+Ptr}) (tdt\+::uint)\hypertarget{class_entity_system_a79cd6b4f2069db9cb8385aa10ac5e3f3}{}\label{class_entity_system_a79cd6b4f2069db9cb8385aa10ac5e3f3}
+
+\item 
+typedef void(Entity\+System\+::$\ast$ {\bfseries Deleter\+Func\+Ptr}) (tdt\+::uint)\hypertarget{class_entity_system_aa157465c64a590da2c678dde38993d97}{}\label{class_entity_system_aa157465c64a590da2c678dde38993d97}
+
+\item 
+typedef void(Entity\+System\+::$\ast$ {\bfseries Immediate\+Deleter\+Func\+Ptr}) (tdt\+::uint)\hypertarget{class_entity_system_af8220281ae12f27126e4203d922a2931}{}\label{class_entity_system_af8220281ae12f27126e4203d922a2931}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename C\+O\+MP $>$ }\\void \hyperlink{class_entity_system_ac2d122f65e967b51cc37227b5dd0a7fe}{load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Loads a component from a Lua script. \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_system_a4ecd6127995602d98736cd1cf5799c11}{destroy\+\_\+entity} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Removes an entity from the system, thus killing/destroying it. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename C\+O\+MP $>$ }\\void \hyperlink{class_entity_system_ad52fb0d17a2fbd056ffd455b6a1171c7}{delete\+\_\+component\+\_\+now} (tdt\+::uint id)
+\begin{DoxyCompactList}\small\item\em Deletes a component. \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_system_a99ae4bc51a7e97da9bb8ebb56443b70e}{delete\+\_\+component\+\_\+now} (tdt\+::uint, int)
+\begin{DoxyCompactList}\small\item\em Deletes a component. \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_system_a54c64fce9cd3fe9f1d2502f0d2b4a93e}{init\+\_\+function\+\_\+arrays} ()
+\begin{DoxyCompactList}\small\item\em Initializes all arrays holding pointers to the component manipulating methods. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename C\+O\+MP $>$ }\\void \hyperlink{class_entity_system_abbe94182987541e7047ee1a8fa3388b7}{clean\+\_\+up\+\_\+component} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Deletes all necessary data when destroying a component (like Ogre related objects, other entities, tasks etc.). \end{DoxyCompactList}\item 
+{\footnotesize template$<$$>$ }\\void \hyperlink{class_entity_system_ac8eead7736efd2ae728661f901142b27}{load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Specializations of the \hyperlink{class_entity_system_ac2d122f65e967b51cc37227b5dd0a7fe}{Entity\+System\+::load\+\_\+component} method. \end{DoxyCompactList}\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries load\+\_\+component} (tdt\+::uint id, const std\+::string \&table\+\_\+name)\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+\item 
+{\footnotesize template$<$$>$ }\\void \hyperlink{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}{clean\+\_\+up\+\_\+component} (tdt\+::uint id)
+\begin{DoxyCompactList}\small\item\em Specializations of the \hyperlink{class_entity_system_abbe94182987541e7047ee1a8fa3388b7}{Entity\+System\+::clean\+\_\+up\+\_\+component} method. \end{DoxyCompactList}\item 
+{\footnotesize template$<$$>$ }\\void \hyperlink{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}{clean\+\_\+up\+\_\+component} (tdt\+::uint id)
+\item 
+{\footnotesize template$<$$>$ }\\void \hyperlink{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}{clean\+\_\+up\+\_\+component} (tdt\+::uint id)
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries clean\+\_\+up\+\_\+component} (tdt\+::uint id)\hypertarget{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}{}\label{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries clean\+\_\+up\+\_\+component} (tdt\+::uint id)\hypertarget{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}{}\label{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries clean\+\_\+up\+\_\+component} (tdt\+::uint id)\hypertarget{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}{}\label{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries clean\+\_\+up\+\_\+component} (tdt\+::uint id)\hypertarget{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}{}\label{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}
+
+\item 
+{\footnotesize template$<$$>$ }\\void {\bfseries clean\+\_\+up\+\_\+component} (tdt\+::uint id)\hypertarget{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}{}\label{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::map$<$ tdt\+::uint, std\+::bitset$<$ Component\+::count $>$ $>$ \hyperlink{class_entity_system_a830f1669703edf2e3d6271c3732f8ef5}{entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Contains bitsets describing component availability. \end{DoxyCompactList}\item 
+std\+::vector$<$ tdt\+::uint $>$ \hyperlink{class_entity_system_a3b18dc742fb036c9fae1836136b3e115}{to\+\_\+be\+\_\+destroyed\+\_\+}
+\begin{DoxyCompactList}\small\item\em Used to mark components or entire entities for removal. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::pair$<$ tdt\+::uint, int $>$ $>$ {\bfseries components\+\_\+to\+\_\+be\+\_\+removed\+\_\+}\hypertarget{class_entity_system_abacca25b459b880924b38226206257dd}{}\label{class_entity_system_abacca25b459b880924b38226206257dd}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_physics_component}{Physics\+Component} $>$ \hyperlink{class_entity_system_a6d0a97449d5346dbc389abbedccf06f8}{physics\+\_\+} \{\}
+\begin{DoxyCompactList}\small\item\em Contain components specified by the entity ID. \end{DoxyCompactList}\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_health_component}{Health\+Component} $>$ {\bfseries health\+\_\+} \{\}\hypertarget{class_entity_system_a10ce033f36068b73c6300a9ac76afc2c}{}\label{class_entity_system_a10ce033f36068b73c6300a9ac76afc2c}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_a_i_component}{A\+I\+Component} $>$ {\bfseries ai\+\_\+} \{\}\hypertarget{class_entity_system_acaf09bbfa8f91493c7126c93413873ee}{}\label{class_entity_system_acaf09bbfa8f91493c7126c93413873ee}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_graphics_component}{Graphics\+Component} $>$ {\bfseries graphics\+\_\+} \{\}\hypertarget{class_entity_system_a2c3bda5d6b20ac2e9534c3d3d0eb31e7}{}\label{class_entity_system_a2c3bda5d6b20ac2e9534c3d3d0eb31e7}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_movement_component}{Movement\+Component} $>$ {\bfseries movement\+\_\+} \{\}\hypertarget{class_entity_system_a72aedf0d22c9eb94bee7a35a01f4932c}{}\label{class_entity_system_a72aedf0d22c9eb94bee7a35a01f4932c}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_combat_component}{Combat\+Component} $>$ {\bfseries combat\+\_\+} \{\}\hypertarget{class_entity_system_a4ad5edb5ea5966b530758bfd7cbf97b7}{}\label{class_entity_system_a4ad5edb5ea5966b530758bfd7cbf97b7}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_event_component}{Event\+Component} $>$ {\bfseries event\+\_\+} \{\}\hypertarget{class_entity_system_ae462dcb2ed02716e55ebe7daa30ddefe}{}\label{class_entity_system_ae462dcb2ed02716e55ebe7daa30ddefe}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_input_component}{Input\+Component} $>$ {\bfseries input\+\_\+} \{\}\hypertarget{class_entity_system_a8b23771e0d57b94a0a9965b9bd962618}{}\label{class_entity_system_a8b23771e0d57b94a0a9965b9bd962618}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_time_component}{Time\+Component} $>$ {\bfseries time\+\_\+} \{\}\hypertarget{class_entity_system_a2266bb5ccfc3e59dc6cedc2df9d9693f}{}\label{class_entity_system_a2266bb5ccfc3e59dc6cedc2df9d9693f}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_mana_component}{Mana\+Component} $>$ {\bfseries mana\+\_\+} \{\}\hypertarget{class_entity_system_aaa627f7d263a935948dd478863361b0a}{}\label{class_entity_system_aaa627f7d263a935948dd478863361b0a}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_spell_component}{Spell\+Component} $>$ {\bfseries spell\+\_\+} \{\}\hypertarget{class_entity_system_ace9c6990c0e158579e4ab9484579a640}{}\label{class_entity_system_ace9c6990c0e158579e4ab9484579a640}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_production_component}{Production\+Component} $>$ {\bfseries production\+\_\+} \{\}\hypertarget{class_entity_system_aab0d0613a95df77125b0d80079e9a101}{}\label{class_entity_system_aab0d0613a95df77125b0d80079e9a101}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_grid_node_component}{Grid\+Node\+Component} $>$ {\bfseries grid\+\_\+node\+\_\+} \{\}\hypertarget{class_entity_system_a80611774b556117f69ba3b0376dc0d6e}{}\label{class_entity_system_a80611774b556117f69ba3b0376dc0d6e}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_product_component}{Product\+Component} $>$ {\bfseries product\+\_\+} \{\}\hypertarget{class_entity_system_a2fcd6980b698066b3c8d3ec039474bce}{}\label{class_entity_system_a2fcd6980b698066b3c8d3ec039474bce}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_pathfinding_component}{Pathfinding\+Component} $>$ {\bfseries pathfinding\+\_\+} \{\}\hypertarget{class_entity_system_a8948d0cce621c20516541b1a3c6b8c9a}{}\label{class_entity_system_a8948d0cce621c20516541b1a3c6b8c9a}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_task_component}{Task\+Component} $>$ {\bfseries task\+\_\+} \{\}\hypertarget{class_entity_system_adae3a93692d10e343fc476a59c574ccb}{}\label{class_entity_system_adae3a93692d10e343fc476a59c574ccb}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_task_handler_component}{Task\+Handler\+Component} $>$ {\bfseries task\+\_\+handler\+\_\+} \{\}\hypertarget{class_entity_system_a238a118b5585f20f179089b4b0c422f2}{}\label{class_entity_system_a238a118b5585f20f179089b4b0c422f2}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_structure_component}{Structure\+Component} $>$ {\bfseries structure\+\_\+} \{\}\hypertarget{class_entity_system_a3fd7a5df1c05aed80fd7acd7c72dfad6}{}\label{class_entity_system_a3fd7a5df1c05aed80fd7acd7c72dfad6}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_homing_component}{Homing\+Component} $>$ {\bfseries homing\+\_\+} \{\}\hypertarget{class_entity_system_a60c125a3b5d21c07835db0ed74be0178}{}\label{class_entity_system_a60c125a3b5d21c07835db0ed74be0178}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_event_handler_component}{Event\+Handler\+Component} $>$ {\bfseries event\+\_\+handler\+\_\+} \{\}\hypertarget{class_entity_system_ab435505f9b51d7f5a668ef98e853b5e1}{}\label{class_entity_system_ab435505f9b51d7f5a668ef98e853b5e1}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_destructor_component}{Destructor\+Component} $>$ {\bfseries destructor\+\_\+} \{\}\hypertarget{class_entity_system_a255f5a0a573340454d88cb3d373523f3}{}\label{class_entity_system_a255f5a0a573340454d88cb3d373523f3}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_gold_component}{Gold\+Component} $>$ {\bfseries gold\+\_\+} \{\}\hypertarget{class_entity_system_af7d14e35001c78315710b3c1c13c0cdf}{}\label{class_entity_system_af7d14e35001c78315710b3c1c13c0cdf}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_faction_component}{Faction\+Component} $>$ {\bfseries faction\+\_\+} \{\}\hypertarget{class_entity_system_afcbd1bd503bb0112b65427867f6411ac}{}\label{class_entity_system_afcbd1bd503bb0112b65427867f6411ac}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_price_component}{Price\+Component} $>$ {\bfseries price\+\_\+} \{\}\hypertarget{class_entity_system_ae9bc022455b06ea73897ca79a0d73171}{}\label{class_entity_system_ae9bc022455b06ea73897ca79a0d73171}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_align_component}{Align\+Component} $>$ {\bfseries align\+\_\+} \{\}\hypertarget{class_entity_system_a8dc3fef5f4b6d5c0d386aa84e27e76f9}{}\label{class_entity_system_a8dc3fef5f4b6d5c0d386aa84e27e76f9}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_mine_component}{Mine\+Component} $>$ {\bfseries mine\+\_\+} \{\}\hypertarget{class_entity_system_a84a91531d0b15c06c9dbe24528e6ce6a}{}\label{class_entity_system_a84a91531d0b15c06c9dbe24528e6ce6a}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_mana_crystal_component}{Mana\+Crystal\+Component} $>$ {\bfseries mana\+\_\+crystal\+\_\+} \{\}\hypertarget{class_entity_system_a4161310db14b4210aa54a76a8879e3e6}{}\label{class_entity_system_a4161310db14b4210aa54a76a8879e3e6}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_on_hit_component}{On\+Hit\+Component} $>$ {\bfseries on\+\_\+hit\+\_\+} \{\}\hypertarget{class_entity_system_acb74a0737b50fed58e57e87be1304595}{}\label{class_entity_system_acb74a0737b50fed58e57e87be1304595}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_constructor_component}{Constructor\+Component} $>$ {\bfseries constructor\+\_\+} \{\}\hypertarget{class_entity_system_a3b4e8a7104f8d780d03ad396778bca35}{}\label{class_entity_system_a3b4e8a7104f8d780d03ad396778bca35}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_trigger_component}{Trigger\+Component} $>$ {\bfseries trigger\+\_\+} \{\}\hypertarget{class_entity_system_a1bcbfa529cb6b5a0e25dbe47b95aec13}{}\label{class_entity_system_a1bcbfa529cb6b5a0e25dbe47b95aec13}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_upgrade_component}{Upgrade\+Component} $>$ {\bfseries upgrade\+\_\+} \{\}\hypertarget{class_entity_system_a19161aaf1586365cf6f179f8f6764514}{}\label{class_entity_system_a19161aaf1586365cf6f179f8f6764514}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_notification_component}{Notification\+Component} $>$ {\bfseries notification\+\_\+} \{\}\hypertarget{class_entity_system_a98941baea97e16f5e6c14af7b96a79aa}{}\label{class_entity_system_a98941baea97e16f5e6c14af7b96a79aa}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_explosion_component}{Explosion\+Component} $>$ {\bfseries explosion\+\_\+} \{\}\hypertarget{class_entity_system_a292711b66097c087825ef39c7f9c7679}{}\label{class_entity_system_a292711b66097c087825ef39c7f9c7679}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_limited_life_span_component}{Limited\+Life\+Span\+Component} $>$ {\bfseries limited\+\_\+life\+\_\+span\+\_\+} \{\}\hypertarget{class_entity_system_a0e91f19a3ba7c6e765db7c9875620e52}{}\label{class_entity_system_a0e91f19a3ba7c6e765db7c9875620e52}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_name_component}{Name\+Component} $>$ {\bfseries name\+\_\+} \{\}\hypertarget{class_entity_system_a7ecaa860e8a072c5fb84cb1dc904cb0c}{}\label{class_entity_system_a7ecaa860e8a072c5fb84cb1dc904cb0c}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_experience_value_component}{Experience\+Value\+Component} $>$ {\bfseries exp\+\_\+value\+\_\+} \{\}\hypertarget{class_entity_system_aea47838c7c7db6aef4eb5351553ba135}{}\label{class_entity_system_aea47838c7c7db6aef4eb5351553ba135}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_light_component}{Light\+Component} $>$ {\bfseries light\+\_\+} \{\}\hypertarget{class_entity_system_a30cd01a437a64e9799832727c04275c3}{}\label{class_entity_system_a30cd01a437a64e9799832727c04275c3}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_command_component}{Command\+Component} $>$ {\bfseries command\+\_\+} \{\}\hypertarget{class_entity_system_a4f5b4cf88feb6f4b16d2b79f0befe438}{}\label{class_entity_system_a4f5b4cf88feb6f4b16d2b79f0befe438}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_counter_component}{Counter\+Component} $>$ {\bfseries counter\+\_\+} \{\}\hypertarget{class_entity_system_a521265ed5a5bcb74ab95c497c2b66674}{}\label{class_entity_system_a521265ed5a5bcb74ab95c497c2b66674}
+
+\item 
+std\+::map$<$ tdt\+::uint, \hyperlink{struct_portal_component}{Portal\+Component} $>$ {\bfseries portal\+\_\+} \{\}\hypertarget{class_entity_system_a90105de0a5de01f1d14a133131d8e071}{}\label{class_entity_system_a90105de0a5de01f1d14a133131d8e071}
+
+\item 
+Ogre\+::\+Scene\+Manager \& \hyperlink{class_entity_system_a50f05baee9a67a5a7c5828b4eaf57bb4}{scene\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the game\textquotesingle{}s scene manager used to create nodes and entities. \end{DoxyCompactList}\item 
+std\+::set$<$ std\+::string $>$ \hyperlink{class_entity_system_a9a0d1920f8346e07201faf8d6c5b1ecf}{entity\+\_\+register\+\_\+}
+\begin{DoxyCompactList}\small\item\em Contains the names of all loaded entity tables. \end{DoxyCompactList}\item 
+std\+::array$<$ Loader\+Func\+Ptr, Component\+::count $>$ \hyperlink{class_entity_system_a9cbec81dd83f34d230c540abcdf387f4}{loaders\+\_\+} \{\}
+\begin{DoxyCompactList}\small\item\em These arrays contain pointers to the component managment methods for easier use when Lua interacts with C++, since Lua doesn\textquotesingle{}t know anything about C++ types and templates. \end{DoxyCompactList}\item 
+std\+::array$<$ Adder\+Func\+Ptr, Component\+::count $>$ {\bfseries adders\+\_\+} \{\}\hypertarget{class_entity_system_a62b68e0504b700089d193ef1a0101393}{}\label{class_entity_system_a62b68e0504b700089d193ef1a0101393}
+
+\item 
+std\+::array$<$ Deleter\+Func\+Ptr, Component\+::count $>$ {\bfseries deleters\+\_\+} \{\}\hypertarget{class_entity_system_aef819cf1106621e149c73f5b8163a2d0}{}\label{class_entity_system_aef819cf1106621e149c73f5b8163a2d0}
+
+\item 
+std\+::array$<$ Immediate\+Deleter\+Func\+Ptr, Component\+::count $>$ {\bfseries immediate\+\_\+deleters\+\_\+} \{\}\hypertarget{class_entity_system_a4346c0250ce6f2143534354d29476078}{}\label{class_entity_system_a4346c0250ce6f2143534354d29476078}
+
+\item 
+tdt\+::uint \hyperlink{class_entity_system_a287ccbe3b51f6e8d6d1b5f43cf238621}{curr\+\_\+id\+\_\+} \{\}
+\begin{DoxyCompactList}\small\item\em Keeps track of the highest ID given to an entity. \end{DoxyCompactList}\item 
+std\+::vector$<$ tdt\+::uint $>$ \hyperlink{class_entity_system_a76d26bc7c90c53486205b597dfdca7d1}{constructors\+\_\+to\+\_\+be\+\_\+called\+\_\+} \{\}
+\begin{DoxyCompactList}\small\item\em Entities that should have their constructors called on the next update (freshly created), this will allow the creator of the entity to set it\textquotesingle{}s position if he could not pass that position to the create\+\_\+entity function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries util\+::\+Entity\+Destroyer}\hypertarget{class_entity_system_aebcb13ea56f5f44b8193f3c210b30ddb}{}\label{class_entity_system_aebcb13ea56f5f44b8193f3c210b30ddb}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_entity_system}{Entity\+System} class handles everything related to entities, like addition and removal of components, testing if an entity has a component or retrieval of components belonging to particular entities. 
+
+Definition at line 21 of file Entity\+System.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Entity\+System@{Entity\+System}!Entity\+System@{Entity\+System}}
+\index{Entity\+System@{Entity\+System}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{Entity\+System(\+Ogre\+::\+Scene\+Manager \&)}{EntitySystem(Ogre::SceneManager &)}}]{\setlength{\rightskip}{0pt plus 5cm}Entity\+System\+::\+Entity\+System (
+\begin{DoxyParamCaption}
+\item[{Ogre\+::\+Scene\+Manager \&}]{mgr}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_system_a2bf6f7d3c7b6b7e02c8cc3dd454e9ab1}{}\label{class_entity_system_a2bf6f7d3c7b6b7e02c8cc3dd454e9ab1}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the game\textquotesingle{}s scene manager used to create nodes and entities. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 32 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!````~Entity\+System@{$\sim$\+Entity\+System}}
+\index{````~Entity\+System@{$\sim$\+Entity\+System}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{$\sim$\+Entity\+System()=default}{~EntitySystem()=default}}]{\setlength{\rightskip}{0pt plus 5cm}Entity\+System\+::$\sim$\+Entity\+System (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{class_entity_system_a8b34e0963a5231a3cda81442771318fb}{}\label{class_entity_system_a8b34e0963a5231a3cda81442771318fb}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\index{Entity\+System@{Entity\+System}!add\+\_\+component@{add\+\_\+component}}
+\index{add\+\_\+component@{add\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{add\+\_\+component(tdt\+::uint id)}{add_component(tdt::uint id)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename C\+O\+MP $>$ void Entity\+System\+::add\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_entity_system_a556ec8504fcdd38125b0aaa5245aee20}{}\label{class_entity_system_a556ec8504fcdd38125b0aaa5245aee20}
+
+
+Adds a components to the given enetity using it\textquotesingle{}s default constructor (all values have to be set afterwards). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 140 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!add\+\_\+component@{add\+\_\+component}}
+\index{add\+\_\+component@{add\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{add\+\_\+component(tdt\+::uint, int)}{add_component(tdt::uint, int)}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+System\+::add\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{ent\+\_\+id, }
+\item[{int}]{comp\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_system_a6e392f209dbdb990cd1d292a32f5eef2}{}\label{class_entity_system_a6e392f209dbdb990cd1d292a32f5eef2}
+
+
+Allows to add a component based on it\textquotesingle{}s ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+{\em ID} & of the component. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 154 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!clean\+\_\+up\+\_\+component@{clean\+\_\+up\+\_\+component}}
+\index{clean\+\_\+up\+\_\+component@{clean\+\_\+up\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{clean\+\_\+up\+\_\+component(tdt\+::uint)}{clean_up_component(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename C\+O\+MP $>$ void Entity\+System\+::clean\+\_\+up\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{class_entity_system_abbe94182987541e7047ee1a8fa3388b7}{}\label{class_entity_system_abbe94182987541e7047ee1a8fa3388b7}
+
+
+Deletes all necessary data when destroying a component (like Ogre related objects, other entities, tasks etc.). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 263 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!clean\+\_\+up\+\_\+component@{clean\+\_\+up\+\_\+component}}
+\index{clean\+\_\+up\+\_\+component@{clean\+\_\+up\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{clean\+\_\+up\+\_\+component(tdt\+::uint id)}{clean_up_component(tdt::uint id)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ void Entity\+System\+::clean\+\_\+up\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}{}\label{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}
+
+
+Specializations of the \hyperlink{class_entity_system_abbe94182987541e7047ee1a8fa3388b7}{Entity\+System\+::clean\+\_\+up\+\_\+component} method. 
+
+
+
+Definition at line 1044 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!clean\+\_\+up\+\_\+component@{clean\+\_\+up\+\_\+component}}
+\index{clean\+\_\+up\+\_\+component@{clean\+\_\+up\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{clean\+\_\+up\+\_\+component(tdt\+::uint id)}{clean_up_component(tdt::uint id)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ void Entity\+System\+::clean\+\_\+up\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}{}\label{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}
+Since this is probably called while iterating over the list of all entities, creating new entity would probably invalidate the iterator, so the gold pile that is supposed to be picked up is given the event component (which is then removed when handled).
+
+Better to not make it maximal, as we would still prefer a close miner to pick it up (it will increase in time if the event is not handled).
+
+Definition at line 1057 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!clean\+\_\+up\+\_\+component@{clean\+\_\+up\+\_\+component}}
+\index{clean\+\_\+up\+\_\+component@{clean\+\_\+up\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{clean\+\_\+up\+\_\+component(tdt\+::uint id)}{clean_up_component(tdt::uint id)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ void Entity\+System\+::clean\+\_\+up\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}{}\label{class_entity_system_a65dfc1efc2561a48999d82377cf22bfa}
+There is a slight chance that an entity would get killed right after destroying a gold deposit but before it could handle the event, so in that case just mark that event as global, so other miners can pick it up.
+
+Definition at line 1102 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!cleanup@{cleanup}}
+\index{cleanup@{cleanup}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{cleanup()}{cleanup()}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+System\+::cleanup (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_system_acf6c4ffcec1a74b1f3db6636489a7217}{}\label{class_entity_system_acf6c4ffcec1a74b1f3db6636489a7217}
+
+
+Removes all entities that have no components and individual components marked for deletion from their entities (this is used so that the Lua code does not delete an entity/a component from a container while C++ iterates over it). 
+
+Remove entire entities. N\+O\+TE\+: Creating a new vector and swaping it with the to\+\_\+be\+\_\+destroyed\+\_\+ vector, because when a \hyperlink{struct_task_handler_component}{Task\+Handler\+Component} is deleted, new entities (the tasks) are added which might result in iterator invalidation.
+
+Definition at line 62 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!create\+\_\+entity@{create\+\_\+entity}}
+\index{create\+\_\+entity@{create\+\_\+entity}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{create\+\_\+entity(const std\+::string \&="""", const Ogre\+::\+Vector3 \&=\+Ogre\+::\+Vector3\lcurly{}0.\+f, 0.\+f, 0.\+f\rcurly{})}{create_entity(const std::string &="", const Ogre::Vector3 &=Ogre::Vector3\{0.f, 0.f, 0.f\})}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Entity\+System\+::create\+\_\+entity (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{table\+\_\+name = {\ttfamily \char`\"{}\char`\"{}}, }
+\item[{const Ogre\+::\+Vector3 \&}]{position = {\ttfamily Ogre\+:\+:Vector3\{0.f,~0.f,~0.f\}}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_system_ac283fa8ea0e3755ad2b267010a7fd6c2}{}\label{class_entity_system_ac283fa8ea0e3755ad2b267010a7fd6c2}
+
+
+Creates a new entity from a blueprint. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Name} & of the Lua table containing the entity blueprint. \\
+\hline
+{\em Optional} & position of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 109 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!delete\+\_\+component@{delete\+\_\+component}}
+\index{delete\+\_\+component@{delete\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{delete\+\_\+component(tdt\+::uint id)}{delete_component(tdt::uint id)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename C\+O\+MP $>$ void Entity\+System\+::delete\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_entity_system_ad10b62b1ac279603a3cfca317ed9e079}{}\label{class_entity_system_ad10b62b1ac279603a3cfca317ed9e079}
+
+
+Marks a component (specified by template argument) for given entity for deletion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 162 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!delete\+\_\+component@{delete\+\_\+component}}
+\index{delete\+\_\+component@{delete\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{delete\+\_\+component(tdt\+::uint, int)}{delete_component(tdt::uint, int)}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+System\+::delete\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{ent\+\_\+id, }
+\item[{int}]{comp\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_system_ae60c40dddce4f87862e3973b7869b684}{}\label{class_entity_system_ae60c40dddce4f87862e3973b7869b684}
+
+
+Allows to enqueue a component for deletion based on it\textquotesingle{}s ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+{\em ID} & of the component. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 160 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!delete\+\_\+component\+\_\+now@{delete\+\_\+component\+\_\+now}}
+\index{delete\+\_\+component\+\_\+now@{delete\+\_\+component\+\_\+now}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{delete\+\_\+component\+\_\+now(tdt\+::uint id)}{delete_component_now(tdt::uint id)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename C\+O\+MP $>$ void Entity\+System\+::delete\+\_\+component\+\_\+now (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{class_entity_system_ad52fb0d17a2fbd056ffd455b6a1171c7}{}\label{class_entity_system_ad52fb0d17a2fbd056ffd455b6a1171c7}
+
+
+Deletes a component. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 235 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!delete\+\_\+component\+\_\+now@{delete\+\_\+component\+\_\+now}}
+\index{delete\+\_\+component\+\_\+now@{delete\+\_\+component\+\_\+now}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{delete\+\_\+component\+\_\+now(tdt\+::uint, int)}{delete_component_now(tdt::uint, int)}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+System\+::delete\+\_\+component\+\_\+now (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{ent\+\_\+id, }
+\item[{int}]{comp\+\_\+id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_system_a99ae4bc51a7e97da9bb8ebb56443b70e}{}\label{class_entity_system_a99ae4bc51a7e97da9bb8ebb56443b70e}
+
+
+Deletes a component. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+{\em ID} & of the component. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 166 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!delete\+\_\+entities@{delete\+\_\+entities}}
+\index{delete\+\_\+entities@{delete\+\_\+entities}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{delete\+\_\+entities()}{delete_entities()}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+System\+::delete\+\_\+entities (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_system_add914f62bb89bd8cbbd53d46dbd26875}{}\label{class_entity_system_add914f62bb89bd8cbbd53d46dbd26875}
+
+
+Deletes all entities int the game, used before loading a new game. 
+
+
+
+Definition at line 188 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!destroy\+\_\+entity@{destroy\+\_\+entity}}
+\index{destroy\+\_\+entity@{destroy\+\_\+entity}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{destroy\+\_\+entity(tdt\+::uint)}{destroy_entity(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+System\+::destroy\+\_\+entity (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_system_a4ecd6127995602d98736cd1cf5799c11}{}\label{class_entity_system_a4ecd6127995602d98736cd1cf5799c11}
+
+
+Removes an entity from the system, thus killing/destroying it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 144 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!exists@{exists}}
+\index{exists@{exists}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{exists(tdt\+::uint) const }{exists(tdt::uint) const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Entity\+System\+::exists (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_entity_system_a55067af795708645b34ca4586208d95c}{}\label{class_entity_system_a55067af795708645b34ca4586208d95c}
+
+
+Checks if a given entity exists and returns true if it does, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 182 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!get\+\_\+component@{get\+\_\+component}}
+\index{get\+\_\+component@{get\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+component(tdt\+::uint id)}{get_component(tdt::uint id)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename C\+O\+MP $>$ C\+O\+MP$\ast$ Entity\+System\+::get\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_entity_system_ad9610ae9a595fc16e8f545cf752ee4f0}{}\label{class_entity_system_ad9610ae9a595fc16e8f545cf752ee4f0}
+
+
+Returns a bool-\/component pointer pair, in which the first bool member determines if the component was found and the second is a pointer to the component. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity whose component we ask for. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 100 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!get\+\_\+component\+\_\+container@{get\+\_\+component\+\_\+container}}
+\index{get\+\_\+component\+\_\+container@{get\+\_\+component\+\_\+container}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+component\+\_\+container()}{get_component_container()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename C\+O\+MP $>$ std\+::map$<$tdt\+::uint, C\+O\+MP$>$\& Entity\+System\+::get\+\_\+component\+\_\+container (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_system_ab2bacfe1a7fa117764850f60ead892df}{}\label{class_entity_system_ab2bacfe1a7fa117764850f60ead892df}
+
+
+Returns the map associated with the component specified by the template argument. 
+
+\index{Entity\+System@{Entity\+System}!get\+\_\+component\+\_\+container@{get\+\_\+component\+\_\+container}}
+\index{get\+\_\+component\+\_\+container@{get\+\_\+component\+\_\+container}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+component\+\_\+container()}{get_component_container()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ std\+::map$<$tdt\+::uint, {\bf Physics\+Component}$>$\& Entity\+System\+::get\+\_\+component\+\_\+container (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_entity_system_aff2e00095e3d492861180202c45ee477}{}\label{class_entity_system_aff2e00095e3d492861180202c45ee477}
+
+
+Specializations of the \hyperlink{class_entity_system_ab2bacfe1a7fa117764850f60ead892df}{Entity\+System\+::get\+\_\+component\+\_\+container} method. 
+
+
+
+Definition at line 360 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!get\+\_\+component\+\_\+list@{get\+\_\+component\+\_\+list}}
+\index{get\+\_\+component\+\_\+list@{get\+\_\+component\+\_\+list}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+component\+\_\+list() const }{get_component_list() const }}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::map$<$ tdt\+::uint, std\+::bitset$<$ Component\+::count $>$ $>$ \& Entity\+System\+::get\+\_\+component\+\_\+list (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_entity_system_aaa1035152c890ca73f47d300d6377498}{}\label{class_entity_system_aaa1035152c890ca73f47d300d6377498}
+
+
+Breif\+: Returns const reference to the component list, so that it can be used to iterate over all entities. 
+
+
+
+Definition at line 149 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!get\+\_\+new\+\_\+id@{get\+\_\+new\+\_\+id}}
+\index{get\+\_\+new\+\_\+id@{get\+\_\+new\+\_\+id}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+new\+\_\+id()}{get_new_id()}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Entity\+System\+::get\+\_\+new\+\_\+id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_system_adfb0a9adc4f2d4273d6cbf69d948f23c}{}\label{class_entity_system_adfb0a9adc4f2d4273d6cbf69d948f23c}
+
+
+Returns first available entity id. 
+
+
+
+Definition at line 44 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!get\+\_\+registered\+\_\+entities@{get\+\_\+registered\+\_\+entities}}
+\index{get\+\_\+registered\+\_\+entities@{get\+\_\+registered\+\_\+entities}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+registered\+\_\+entities()}{get_registered_entities()}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::set$<$ std\+::string $>$ \& Entity\+System\+::get\+\_\+registered\+\_\+entities (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_system_a205a1ec0b7919409c99996d4f38660a6}{}\label{class_entity_system_a205a1ec0b7919409c99996d4f38660a6}
+
+
+Returns a reference to the set containing all entity tables registered during the game\textquotesingle{}s runtime. 
+
+
+
+Definition at line 177 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!get\+\_\+scene\+\_\+manager@{get\+\_\+scene\+\_\+manager}}
+\index{get\+\_\+scene\+\_\+manager@{get\+\_\+scene\+\_\+manager}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+scene\+\_\+manager()}{get_scene_manager()}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Scene\+Manager\& Entity\+System\+::get\+\_\+scene\+\_\+manager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_entity_system_ab3fdbf9ba452c2dab05221f007a63602}{}\label{class_entity_system_ab3fdbf9ba452c2dab05221f007a63602}
+
+
+Returns a reference to the scene manager all entities of this system are attached to (if they have a graphics component). 
+
+
+
+Definition at line 197 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!has\+\_\+component@{has\+\_\+component}}
+\index{has\+\_\+component@{has\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{has\+\_\+component(tdt\+::uint id)}{has_component(tdt::uint id)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename C\+O\+MP $>$ bool Entity\+System\+::has\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_entity_system_a0f079d475b904a1a48bce63b4c7d64cd}{}\label{class_entity_system_a0f079d475b904a1a48bce63b4c7d64cd}
+
+
+Tests whether a given entity has a component specialized by the template argument. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity being checked. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+V\+S2015\+RC does not let me use variadic templates with recursion to check multiple components for some reason, investigate! 
+\end{DoxyNote}
+
+
+Definition at line 80 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!has\+\_\+component@{has\+\_\+component}}
+\index{has\+\_\+component@{has\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{has\+\_\+component(tdt\+::uint, tdt\+::uint) const }{has_component(tdt::uint, tdt::uint) const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Entity\+System\+::has\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{comp}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_entity_system_a80122f961940fce5ce2493966770b234}{}\label{class_entity_system_a80122f961940fce5ce2493966770b234}
+
+
+Tests whether a given entity has a component of a given type (used from Lua as it cannot use templates). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+{\em Type} & of the component. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 362 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!init\+\_\+function\+\_\+arrays@{init\+\_\+function\+\_\+arrays}}
+\index{init\+\_\+function\+\_\+arrays@{init\+\_\+function\+\_\+arrays}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{init\+\_\+function\+\_\+arrays()}{init_function_arrays()}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+System\+::init\+\_\+function\+\_\+arrays (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_system_a54c64fce9cd3fe9f1d2502f0d2b4a93e}{}\label{class_entity_system_a54c64fce9cd3fe9f1d2502f0d2b4a93e}
+
+
+Initializes all arrays holding pointers to the component manipulating methods. 
+
+
+
+Definition at line 195 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!load\+\_\+component@{load\+\_\+component}}
+\index{load\+\_\+component@{load\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{load\+\_\+component(tdt\+::uint id, const std\+::string \&table\+\_\+name)}{load_component(tdt::uint id, const std::string &table_name)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename C\+O\+MP $>$ void Entity\+System\+::load\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id, }
+\item[{const std\+::string \&}]{table\+\_\+name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_system_ac2d122f65e967b51cc37227b5dd0a7fe}{}\label{class_entity_system_ac2d122f65e967b51cc37227b5dd0a7fe}
+
+
+Loads a component from a Lua script. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+{\em Name} & of the table containing the component. \\
+\hline
+\end{DoxyParams}
+\index{Entity\+System@{Entity\+System}!load\+\_\+component@{load\+\_\+component}}
+\index{load\+\_\+component@{load\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{load\+\_\+component(tdt\+::uint id, const std\+::string \&table\+\_\+name)}{load_component(tdt::uint id, const std::string &table_name)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ void Entity\+System\+::load\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id, }
+\item[{const std\+::string \&}]{table\+\_\+name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{class_entity_system_ac8eead7736efd2ae728661f901142b27}{}\label{class_entity_system_ac8eead7736efd2ae728661f901142b27}
+
+
+Specializations of the \hyperlink{class_entity_system_ac2d122f65e967b51cc37227b5dd0a7fe}{Entity\+System\+::load\+\_\+component} method. 
+
+\begin{DoxyNote}{Note}
+Following components can only be created manually and thus don\textquotesingle{}t have load\+\_\+component specialization. \hyperlink{struct_grid_node_component}{Grid\+Node\+Component} (created by Grid\+System\+::add\+\_\+node) \hyperlink{struct_product_component}{Product\+Component} (production id is assigned during runtime) \hyperlink{struct_task_component}{Task\+Component} (tasks are specified by their types and are added through the \hyperlink{namespace_task_helper}{Task\+Helper}) 
+\end{DoxyNote}
+
+
+Definition at line 607 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!register\+\_\+entity@{register\+\_\+entity}}
+\index{register\+\_\+entity@{register\+\_\+entity}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{register\+\_\+entity(const std\+::string \&)}{register_entity(const std::string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+System\+::register\+\_\+entity (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{table\+\_\+name}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_system_ab125a824fcafbf43f60250ecd156b421}{}\label{class_entity_system_ab125a824fcafbf43f60250ecd156b421}
+
+
+Registers an entity that has been loaded from a Lua script. 
+
+(If it has been registered previously, the register ignores it.) 
+\begin{DoxyParams}{Parameters}
+{\em Name} & of the table containing the info about the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 172 of file Entity\+System.\+cpp.
+
+\index{Entity\+System@{Entity\+System}!set\+\_\+component@{set\+\_\+component}}
+\index{set\+\_\+component@{set\+\_\+component}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+component(tdt\+::uint id, C\+O\+M\+P comp)}{set_component(tdt::uint id, COMP comp)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename C\+O\+MP $>$ void Entity\+System\+::set\+\_\+component (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id, }
+\item[{C\+O\+MP}]{comp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_entity_system_aea3df5c0dc93e72513914cdbbeb2a613}{}\label{class_entity_system_aea3df5c0dc93e72513914cdbbeb2a613}
+
+
+Changes a component (type specified by template argument) of and entity or assigns a new component it that entity didn\textquotesingle{}t have it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+{\em \hyperlink{struct_component}{Component}} & to be assigned. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 116 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!update@{update}}
+\index{update@{update}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{update(tdt\+::real) override}{update(tdt::real) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+System\+::update (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_entity_system_aa51808181d7c66baea07cec41c17b4cd}{}\label{class_entity_system_aa51808181d7c66baea07cec41c17b4cd}
+
+
+Checks for entities with no components and if any are found, deletes them. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Time} & since the last frame. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_system_a6d54c9bd38eb43d620a1451cb0925472}{System}.
+
+
+
+Definition at line 39 of file Entity\+System.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Entity\+System@{Entity\+System}!constructors\+\_\+to\+\_\+be\+\_\+called\+\_\+@{constructors\+\_\+to\+\_\+be\+\_\+called\+\_\+}}
+\index{constructors\+\_\+to\+\_\+be\+\_\+called\+\_\+@{constructors\+\_\+to\+\_\+be\+\_\+called\+\_\+}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{constructors\+\_\+to\+\_\+be\+\_\+called\+\_\+}{constructors_to_be_called_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$tdt\+::uint$>$ Entity\+System\+::constructors\+\_\+to\+\_\+be\+\_\+called\+\_\+ \{\}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_system_a76d26bc7c90c53486205b597dfdca7d1}{}\label{class_entity_system_a76d26bc7c90c53486205b597dfdca7d1}
+
+
+Entities that should have their constructors called on the next update (freshly created), this will allow the creator of the entity to set it\textquotesingle{}s position if he could not pass that position to the create\+\_\+entity function. 
+
+
+
+Definition at line 353 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!curr\+\_\+id\+\_\+@{curr\+\_\+id\+\_\+}}
+\index{curr\+\_\+id\+\_\+@{curr\+\_\+id\+\_\+}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{curr\+\_\+id\+\_\+}{curr_id_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Entity\+System\+::curr\+\_\+id\+\_\+ \{\}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_system_a287ccbe3b51f6e8d6d1b5f43cf238621}{}\label{class_entity_system_a287ccbe3b51f6e8d6d1b5f43cf238621}
+
+
+Keeps track of the highest ID given to an entity. 
+
+
+
+Definition at line 345 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!entities\+\_\+@{entities\+\_\+}}
+\index{entities\+\_\+@{entities\+\_\+}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{entities\+\_\+}{entities_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::map$<$tdt\+::uint, std\+::bitset$<$Component\+::count$>$ $>$ Entity\+System\+::entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_system_a830f1669703edf2e3d6271c3732f8ef5}{}\label{class_entity_system_a830f1669703edf2e3d6271c3732f8ef5}
+
+
+Contains bitsets describing component availability. 
+
+
+
+Definition at line 269 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!entity\+\_\+register\+\_\+@{entity\+\_\+register\+\_\+}}
+\index{entity\+\_\+register\+\_\+@{entity\+\_\+register\+\_\+}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{entity\+\_\+register\+\_\+}{entity_register_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::set$<$std\+::string$>$ Entity\+System\+::entity\+\_\+register\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_system_a9a0d1920f8346e07201faf8d6c5b1ecf}{}\label{class_entity_system_a9a0d1920f8346e07201faf8d6c5b1ecf}
+
+
+Contains the names of all loaded entity tables. 
+
+
+
+Definition at line 330 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!F\+A\+C\+T\+I\+O\+N\+\_\+\+N\+A\+ME@{F\+A\+C\+T\+I\+O\+N\+\_\+\+N\+A\+ME}}
+\index{F\+A\+C\+T\+I\+O\+N\+\_\+\+N\+A\+ME@{F\+A\+C\+T\+I\+O\+N\+\_\+\+N\+A\+ME}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{F\+A\+C\+T\+I\+O\+N\+\_\+\+N\+A\+ME}{FACTION_NAME}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::array$<$std\+::string, 3$>$ Entity\+System\+::\+F\+A\+C\+T\+I\+O\+N\+\_\+\+N\+A\+ME \{\char`\"{}F\+R\+I\+E\+N\+D\+LY\char`\"{}, \char`\"{}E\+N\+E\+MY\char`\"{}, \char`\"{}N\+E\+U\+T\+R\+AL\char`\"{}\}}\hypertarget{class_entity_system_a64eff1a78f8685a3b8319b5219381963}{}\label{class_entity_system_a64eff1a78f8685a3b8319b5219381963}
+
+
+Used in when translating the faction enum to a string in the \hyperlink{namespace_faction_helper}{Faction\+Helper}. 
+
+
+
+Definition at line 213 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!loaders\+\_\+@{loaders\+\_\+}}
+\index{loaders\+\_\+@{loaders\+\_\+}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{loaders\+\_\+}{loaders_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::array$<$Loader\+Func\+Ptr, Component\+::count$>$ Entity\+System\+::loaders\+\_\+ \{\}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_system_a9cbec81dd83f34d230c540abcdf387f4}{}\label{class_entity_system_a9cbec81dd83f34d230c540abcdf387f4}
+
+
+These arrays contain pointers to the component managment methods for easier use when Lua interacts with C++, since Lua doesn\textquotesingle{}t know anything about C++ types and templates. 
+
+
+
+Definition at line 337 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!N\+O\+\_\+\+B\+L\+U\+E\+P\+R\+I\+NT@{N\+O\+\_\+\+B\+L\+U\+E\+P\+R\+I\+NT}}
+\index{N\+O\+\_\+\+B\+L\+U\+E\+P\+R\+I\+NT@{N\+O\+\_\+\+B\+L\+U\+E\+P\+R\+I\+NT}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{N\+O\+\_\+\+B\+L\+U\+E\+P\+R\+I\+NT}{NO_BLUEPRINT}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Entity\+System\+::\+N\+O\+\_\+\+B\+L\+U\+E\+P\+R\+I\+NT \{\char`\"{}E\+R\+R\+OR\char`\"{}\}}\hypertarget{class_entity_system_a41e0561691509c232c26dc78c819c74e}{}\label{class_entity_system_a41e0561691509c232c26dc78c819c74e}
+
+
+Used in helpers when no component exists and we still need to return the blueprint name (in this case the E\+R\+R\+OR blueprint) by reference. 
+
+
+
+Definition at line 208 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!physics\+\_\+@{physics\+\_\+}}
+\index{physics\+\_\+@{physics\+\_\+}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{physics\+\_\+}{physics_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::map$<$tdt\+::uint, {\bf Physics\+Component}$>$ Entity\+System\+::physics\+\_\+ \{\}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_system_a6d0a97449d5346dbc389abbedccf06f8}{}\label{class_entity_system_a6d0a97449d5346dbc389abbedccf06f8}
+
+
+Contain components specified by the entity ID. 
+
+Initialized here to avoid a long initializing list in the constructor. 
+
+Definition at line 281 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!scene\+\_\+@{scene\+\_\+}}
+\index{scene\+\_\+@{scene\+\_\+}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{scene\+\_\+}{scene_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Scene\+Manager\& Entity\+System\+::scene\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_system_a50f05baee9a67a5a7c5828b4eaf57bb4}{}\label{class_entity_system_a50f05baee9a67a5a7c5828b4eaf57bb4}
+
+
+Reference to the game\textquotesingle{}s scene manager used to create nodes and entities. 
+
+
+
+Definition at line 325 of file Entity\+System.\+hpp.
+
+\index{Entity\+System@{Entity\+System}!to\+\_\+be\+\_\+destroyed\+\_\+@{to\+\_\+be\+\_\+destroyed\+\_\+}}
+\index{to\+\_\+be\+\_\+destroyed\+\_\+@{to\+\_\+be\+\_\+destroyed\+\_\+}!Entity\+System@{Entity\+System}}
+\subsubsection[{\texorpdfstring{to\+\_\+be\+\_\+destroyed\+\_\+}{to_be_destroyed_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$tdt\+::uint$>$ Entity\+System\+::to\+\_\+be\+\_\+destroyed\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_system_a3b18dc742fb036c9fae1836136b3e115}{}\label{class_entity_system_a3b18dc742fb036c9fae1836136b3e115}
+
+
+Used to mark components or entire entities for removal. 
+
+
+
+Definition at line 274 of file Entity\+System.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+systems/Entity\+System.\+hpp\item 
+systems/Entity\+System.\+cpp\end{DoxyCompactItemize}

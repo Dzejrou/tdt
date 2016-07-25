@@ -1,0 +1,237 @@
+\hypertarget{class_time_system}{}\section{Time\+System Class Reference}
+\label{class_time_system}\index{Time\+System@{Time\+System}}
+Inheritance diagram for Time\+System\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_time_system}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_time_system_a2e9142b839e77c2f3bdf5f3c5ff96e8a}{Time\+System} (\hyperlink{class_entity_system}{Entity\+System} \&)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_time_system_a4a0dbfdb6c525380cf71cd781aa0a331}{$\sim$\+Time\+System} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_time_system_a628f5adf452ee0a1636ef60d78821293}{update} (tdt\+::real) override
+\begin{DoxyCompactList}\small\item\em Updates the time passed for all Time\+Components and handles those that surpassed their target time. \end{DoxyCompactList}\item 
+void \hyperlink{class_time_system_a63cd114689c43593a022f370889f28c9}{advance\+\_\+all\+\_\+timers} (tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Adds a given time value to all Time\+Components. \end{DoxyCompactList}\item 
+void \hyperlink{class_time_system_ae953208be9624a219cfda1baf6dfea8c}{advance\+\_\+all\+\_\+timers\+\_\+of\+\_\+type} (tdt\+::real, T\+I\+M\+E\+\_\+\+E\+V\+E\+NT)
+\begin{DoxyCompactList}\small\item\em Adds a given time value to all Time\+Components that match the given time event type. \end{DoxyCompactList}\item 
+void \hyperlink{class_time_system_a7baaad1d6985006ed5e247fc9896b6cd}{set\+\_\+time\+\_\+multiplier} (tdt\+::real=1.f)
+\begin{DoxyCompactList}\small\item\em Sets the time value by which are all frame times multiplied when added to timers (this allows to slow/speed up all timers). \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_time_system_a8f4e42fc4fdbdadcaca49b36a2a181cb}{get\+\_\+time\+\_\+multiplier} ()
+\begin{DoxyCompactList}\small\item\em Returns the time value by which are all frame times multiplied when added to timers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_time_system_a6020adad2e06402466d59f1ae4209290}{handle\+\_\+event\+\_\+} (tdt\+::uint, \hyperlink{struct_time_component}{Time\+Component} \&)
+\begin{DoxyCompactList}\small\item\em Handles a time event when it\textquotesingle{}s timer finnishes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_entity_system}{Entity\+System} \& \hyperlink{class_time_system_abd970f32a5cb10d79d211e0ecdd788a3}{entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the game\textquotesingle{}s entity system. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_time_system_a4477b8cfae0717af23decf2e90359dad}{time\+\_\+multiplier\+\_\+}
+\begin{DoxyCompactList}\small\item\em Allows to speed up all timers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 9 of file Time\+System.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Time\+System@{Time\+System}!Time\+System@{Time\+System}}
+\index{Time\+System@{Time\+System}!Time\+System@{Time\+System}}
+\subsubsection[{\texorpdfstring{Time\+System(\+Entity\+System \&)}{TimeSystem(EntitySystem &)}}]{\setlength{\rightskip}{0pt plus 5cm}Time\+System\+::\+Time\+System (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents}
+\end{DoxyParamCaption}
+)}\hypertarget{class_time_system_a2e9142b839e77c2f3bdf5f3c5ff96e8a}{}\label{class_time_system_a2e9142b839e77c2f3bdf5f3c5ff96e8a}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the game\textquotesingle{}s entity system. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 7 of file Time\+System.\+cpp.
+
+\index{Time\+System@{Time\+System}!````~Time\+System@{$\sim$\+Time\+System}}
+\index{````~Time\+System@{$\sim$\+Time\+System}!Time\+System@{Time\+System}}
+\subsubsection[{\texorpdfstring{$\sim$\+Time\+System()=default}{~TimeSystem()=default}}]{\setlength{\rightskip}{0pt plus 5cm}Time\+System\+::$\sim$\+Time\+System (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{class_time_system_a4a0dbfdb6c525380cf71cd781aa0a331}{}\label{class_time_system_a4a0dbfdb6c525380cf71cd781aa0a331}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\index{Time\+System@{Time\+System}!advance\+\_\+all\+\_\+timers@{advance\+\_\+all\+\_\+timers}}
+\index{advance\+\_\+all\+\_\+timers@{advance\+\_\+all\+\_\+timers}!Time\+System@{Time\+System}}
+\subsubsection[{\texorpdfstring{advance\+\_\+all\+\_\+timers(tdt\+::real)}{advance_all_timers(tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Time\+System\+::advance\+\_\+all\+\_\+timers (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{delta}
+\end{DoxyParamCaption}
+)}\hypertarget{class_time_system_a63cd114689c43593a022f370889f28c9}{}\label{class_time_system_a63cd114689c43593a022f370889f28c9}
+
+
+Adds a given time value to all Time\+Components. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Time} & to add. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 48 of file Time\+System.\+cpp.
+
+\index{Time\+System@{Time\+System}!advance\+\_\+all\+\_\+timers\+\_\+of\+\_\+type@{advance\+\_\+all\+\_\+timers\+\_\+of\+\_\+type}}
+\index{advance\+\_\+all\+\_\+timers\+\_\+of\+\_\+type@{advance\+\_\+all\+\_\+timers\+\_\+of\+\_\+type}!Time\+System@{Time\+System}}
+\subsubsection[{\texorpdfstring{advance\+\_\+all\+\_\+timers\+\_\+of\+\_\+type(tdt\+::real, T\+I\+M\+E\+\_\+\+E\+V\+E\+N\+T)}{advance_all_timers_of_type(tdt::real, TIME_EVENT)}}]{\setlength{\rightskip}{0pt plus 5cm}void Time\+System\+::advance\+\_\+all\+\_\+timers\+\_\+of\+\_\+type (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{delta, }
+\item[{T\+I\+M\+E\+\_\+\+E\+V\+E\+NT}]{type}
+\end{DoxyParamCaption}
+)}\hypertarget{class_time_system_ae953208be9624a219cfda1baf6dfea8c}{}\label{class_time_system_ae953208be9624a219cfda1baf6dfea8c}
+
+
+Adds a given time value to all Time\+Components that match the given time event type. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Time} & to add. \\
+\hline
+{\em Time} & even type to match. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 54 of file Time\+System.\+cpp.
+
+\index{Time\+System@{Time\+System}!get\+\_\+time\+\_\+multiplier@{get\+\_\+time\+\_\+multiplier}}
+\index{get\+\_\+time\+\_\+multiplier@{get\+\_\+time\+\_\+multiplier}!Time\+System@{Time\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+time\+\_\+multiplier()}{get_time_multiplier()}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Time\+System\+::get\+\_\+time\+\_\+multiplier (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_time_system_a8f4e42fc4fdbdadcaca49b36a2a181cb}{}\label{class_time_system_a8f4e42fc4fdbdadcaca49b36a2a181cb}
+
+
+Returns the time value by which are all frame times multiplied when added to timers. 
+
+
+
+Definition at line 68 of file Time\+System.\+cpp.
+
+\index{Time\+System@{Time\+System}!handle\+\_\+event\+\_\+@{handle\+\_\+event\+\_\+}}
+\index{handle\+\_\+event\+\_\+@{handle\+\_\+event\+\_\+}!Time\+System@{Time\+System}}
+\subsubsection[{\texorpdfstring{handle\+\_\+event\+\_\+(tdt\+::uint, Time\+Component \&)}{handle_event_(tdt::uint, TimeComponent &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Time\+System\+::handle\+\_\+event\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id, }
+\item[{{\bf Time\+Component} \&}]{comp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_time_system_a6020adad2e06402466d59f1ae4209290}{}\label{class_time_system_a6020adad2e06402466d59f1ae4209290}
+
+
+Handles a time event when it\textquotesingle{}s timer finnishes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the time event. \\
+\hline
+{\em Reference} & to the \hyperlink{struct_time_component}{Time\+Component} of this time event. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 73 of file Time\+System.\+cpp.
+
+\index{Time\+System@{Time\+System}!set\+\_\+time\+\_\+multiplier@{set\+\_\+time\+\_\+multiplier}}
+\index{set\+\_\+time\+\_\+multiplier@{set\+\_\+time\+\_\+multiplier}!Time\+System@{Time\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+time\+\_\+multiplier(tdt\+::real=1.\+f)}{set_time_multiplier(tdt::real=1.f)}}]{\setlength{\rightskip}{0pt plus 5cm}void Time\+System\+::set\+\_\+time\+\_\+multiplier (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{val = {\ttfamily 1.f}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_time_system_a7baaad1d6985006ed5e247fc9896b6cd}{}\label{class_time_system_a7baaad1d6985006ed5e247fc9896b6cd}
+
+
+Sets the time value by which are all frame times multiplied when added to timers (this allows to slow/speed up all timers). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new time multiplier. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 63 of file Time\+System.\+cpp.
+
+\index{Time\+System@{Time\+System}!update@{update}}
+\index{update@{update}!Time\+System@{Time\+System}}
+\subsubsection[{\texorpdfstring{update(tdt\+::real) override}{update(tdt::real) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Time\+System\+::update (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{delta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_time_system_a628f5adf452ee0a1636ef60d78821293}{}\label{class_time_system_a628f5adf452ee0a1636ef60d78821293}
+
+
+Updates the time passed for all Time\+Components and handles those that surpassed their target time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Time} & since last frame. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_system_a6d54c9bd38eb43d620a1451cb0925472}{System}.
+
+
+
+Definition at line 11 of file Time\+System.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Time\+System@{Time\+System}!entities\+\_\+@{entities\+\_\+}}
+\index{entities\+\_\+@{entities\+\_\+}!Time\+System@{Time\+System}}
+\subsubsection[{\texorpdfstring{entities\+\_\+}{entities_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+System}\& Time\+System\+::entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_time_system_abd970f32a5cb10d79d211e0ecdd788a3}{}\label{class_time_system_abd970f32a5cb10d79d211e0ecdd788a3}
+
+
+Reference to the game\textquotesingle{}s entity system. 
+
+
+
+Definition at line 68 of file Time\+System.\+hpp.
+
+\index{Time\+System@{Time\+System}!time\+\_\+multiplier\+\_\+@{time\+\_\+multiplier\+\_\+}}
+\index{time\+\_\+multiplier\+\_\+@{time\+\_\+multiplier\+\_\+}!Time\+System@{Time\+System}}
+\subsubsection[{\texorpdfstring{time\+\_\+multiplier\+\_\+}{time_multiplier_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Time\+System\+::time\+\_\+multiplier\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_time_system_a4477b8cfae0717af23decf2e90359dad}{}\label{class_time_system_a4477b8cfae0717af23decf2e90359dad}
+
+
+Allows to speed up all timers. 
+
+
+
+Definition at line 73 of file Time\+System.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+systems/Time\+System.\+hpp\item 
+systems/Time\+System.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,313 @@
+\hypertarget{namespace_grid_node_helper}{}\section{Grid\+Node\+Helper Namespace Reference}
+\label{namespace_grid_node_helper}\index{Grid\+Node\+Helper@{Grid\+Node\+Helper}}
+
+
+Auxiliary namespace containing functions that help with the management of the grid node component.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+const std\+::array$<$ tdt\+::uint, Grid\+Node\+Component\+::neighbour\+\_\+count $>$ \& \hyperlink{namespace_grid_node_helper_ac714eee6830b9d2dc6b55789b893877f}{get\+\_\+neighbours} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns an array containing I\+Ds of all neighbours of a given node. \end{DoxyCompactList}\item 
+bool \hyperlink{namespace_grid_node_helper_ab64d037379fcb1f93b5bf3e0ba1f76a0}{is\+\_\+free} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns true if the given node is free (duh...), false otherwise. \end{DoxyCompactList}\item 
+bool \hyperlink{namespace_grid_node_helper_acc44e5fdb0ab2c698766b64602181904}{area\+\_\+free} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint=1)
+\begin{DoxyCompactList}\small\item\em Returns true if a given area (specified by a center node and a radius) is free. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_grid_node_helper_a1386a023e1fb1035589754a9da510b8f}{set\+\_\+free} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, bool)
+\begin{DoxyCompactList}\small\item\em Sets the free status of a given node. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_grid_node_helper_a4c968313ca4245cf456a5e10faa48e5a}{set\+\_\+free\+\_\+selected} (\hyperlink{class_entity_system}{Entity\+System} \&, \hyperlink{class_selection_box}{Selection\+Box} \&, bool)
+\begin{DoxyCompactList}\small\item\em Applies the Grid\+System\+::set\+\_\+free method to all currently selected nodes. \end{DoxyCompactList}\item 
+std\+::tuple$<$ tdt\+::uint, tdt\+::uint $>$ \hyperlink{namespace_grid_node_helper_ab1735f470e0a9c2d1ecbf7a37d52ecd3}{get\+\_\+board\+\_\+coords} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the board relative coordinates (row \& column) of a given node. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_grid_node_helper_ae89edc87fa9b8ef8aad4ad5eb891c2af}{set\+\_\+resident} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the resident of a given node. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_grid_node_helper_ab29ec60ab1c7c43111d57b1259cb1800}{get\+\_\+resident} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the resident of a given node. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_grid_node_helper_a20ebef55e31ac689a3bbe3eac6c7e6a5}{get\+\_\+manhattan\+\_\+distance} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the manhattan (definition available on Wikipedia...) distance between two nodes. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_grid_node_helper_adba1417813a314b61d43caff26060c93}{get\+\_\+node\+\_\+in\+\_\+dir} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, int)
+\begin{DoxyCompactList}\small\item\em Returns the closest node in a given direction. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_grid_node_helper_a2671c9661ef2c8c4d8a3fc16a6894462}{set\+\_\+portal\+\_\+neighbour} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the portal node linked to this node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary namespace containing functions that help with the management of the grid node component. 
+
+\subsection{Function Documentation}
+\index{Grid\+Node\+Helper@{Grid\+Node\+Helper}!area\+\_\+free@{area\+\_\+free}}
+\index{area\+\_\+free@{area\+\_\+free}!Grid\+Node\+Helper@{Grid\+Node\+Helper}}
+\subsubsection[{\texorpdfstring{area\+\_\+free(\+Entity\+System \&, tdt\+::uint, tdt\+::uint=1)}{area_free(EntitySystem &, tdt::uint, tdt::uint=1)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Grid\+Node\+Helper\+::area\+\_\+free (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{center, }
+\item[{tdt\+::uint}]{radius = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_grid_node_helper_acc44e5fdb0ab2c698766b64602181904}{}\label{namespace_grid_node_helper_acc44e5fdb0ab2c698766b64602181904}
+
+
+Returns true if a given area (specified by a center node and a radius) is free. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the nodes in the area. \\
+\hline
+{\em ID} & of the center node. \\
+\hline
+{\em Radius} & of the area. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This counts also walkthrough buildings, as it\textquotesingle{}s only used for building placing and not pathfinding. 
+\end{DoxyNote}
+
+
+Definition at line 27 of file Grid\+Node\+Helper.\+cpp.
+
+\index{Grid\+Node\+Helper@{Grid\+Node\+Helper}!get\+\_\+board\+\_\+coords@{get\+\_\+board\+\_\+coords}}
+\index{get\+\_\+board\+\_\+coords@{get\+\_\+board\+\_\+coords}!Grid\+Node\+Helper@{Grid\+Node\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+board\+\_\+coords(\+Entity\+System \&, tdt\+::uint)}{get_board_coords(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::tuple$<$ tdt\+::uint, tdt\+::uint $>$ Grid\+Node\+Helper\+::get\+\_\+board\+\_\+coords (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_grid_node_helper_ab1735f470e0a9c2d1ecbf7a37d52ecd3}{}\label{namespace_grid_node_helper_ab1735f470e0a9c2d1ecbf7a37d52ecd3}
+
+
+Returns the board relative coordinates (row \& column) of a given node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the node. \\
+\hline
+{\em ID} & of the node. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 68 of file Grid\+Node\+Helper.\+cpp.
+
+\index{Grid\+Node\+Helper@{Grid\+Node\+Helper}!get\+\_\+manhattan\+\_\+distance@{get\+\_\+manhattan\+\_\+distance}}
+\index{get\+\_\+manhattan\+\_\+distance@{get\+\_\+manhattan\+\_\+distance}!Grid\+Node\+Helper@{Grid\+Node\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+manhattan\+\_\+distance(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{get_manhattan_distance(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Grid\+Node\+Helper\+::get\+\_\+manhattan\+\_\+distance (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id1, }
+\item[{tdt\+::uint}]{id2}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_grid_node_helper_a20ebef55e31ac689a3bbe3eac6c7e6a5}{}\label{namespace_grid_node_helper_a20ebef55e31ac689a3bbe3eac6c7e6a5}
+
+
+Returns the manhattan (definition available on Wikipedia...) distance between two nodes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the nodes. \\
+\hline
+{\em ID} & of the source node. \\
+\hline
+{\em ID} & of the target node. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 99 of file Grid\+Node\+Helper.\+cpp.
+
+\index{Grid\+Node\+Helper@{Grid\+Node\+Helper}!get\+\_\+neighbours@{get\+\_\+neighbours}}
+\index{get\+\_\+neighbours@{get\+\_\+neighbours}!Grid\+Node\+Helper@{Grid\+Node\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+neighbours(\+Entity\+System \&, tdt\+::uint)}{get_neighbours(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::array$<$ tdt\+::uint, Grid\+Node\+Component\+::neighbour\+\_\+count $>$ \& Grid\+Node\+Helper\+::get\+\_\+neighbours (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_grid_node_helper_ac714eee6830b9d2dc6b55789b893877f}{}\label{namespace_grid_node_helper_ac714eee6830b9d2dc6b55789b893877f}
+
+
+Returns an array containing I\+Ds of all neighbours of a given node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the node. \\
+\hline
+{\em ID} & of the node. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 8 of file Grid\+Node\+Helper.\+cpp.
+
+\index{Grid\+Node\+Helper@{Grid\+Node\+Helper}!get\+\_\+node\+\_\+in\+\_\+dir@{get\+\_\+node\+\_\+in\+\_\+dir}}
+\index{get\+\_\+node\+\_\+in\+\_\+dir@{get\+\_\+node\+\_\+in\+\_\+dir}!Grid\+Node\+Helper@{Grid\+Node\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+node\+\_\+in\+\_\+dir(\+Entity\+System \&, tdt\+::uint, int)}{get_node_in_dir(EntitySystem &, tdt::uint, int)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Grid\+Node\+Helper\+::get\+\_\+node\+\_\+in\+\_\+dir (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{int}]{dir}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_grid_node_helper_adba1417813a314b61d43caff26060c93}{}\label{namespace_grid_node_helper_adba1417813a314b61d43caff26060c93}
+
+
+Returns the closest node in a given direction. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the node. \\
+\hline
+{\em ID} & of the entity that is looking for the node. \\
+\hline
+{\em The} & direction represented by the D\+I\+R\+E\+C\+T\+I\+O\+N\+::\+V\+AL enum. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 110 of file Grid\+Node\+Helper.\+cpp.
+
+\index{Grid\+Node\+Helper@{Grid\+Node\+Helper}!get\+\_\+resident@{get\+\_\+resident}}
+\index{get\+\_\+resident@{get\+\_\+resident}!Grid\+Node\+Helper@{Grid\+Node\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+resident(\+Entity\+System \&, tdt\+::uint)}{get_resident(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Grid\+Node\+Helper\+::get\+\_\+resident (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_grid_node_helper_ab29ec60ab1c7c43111d57b1259cb1800}{}\label{namespace_grid_node_helper_ab29ec60ab1c7c43111d57b1259cb1800}
+
+
+Returns the resident of a given node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the node. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 90 of file Grid\+Node\+Helper.\+cpp.
+
+\index{Grid\+Node\+Helper@{Grid\+Node\+Helper}!is\+\_\+free@{is\+\_\+free}}
+\index{is\+\_\+free@{is\+\_\+free}!Grid\+Node\+Helper@{Grid\+Node\+Helper}}
+\subsubsection[{\texorpdfstring{is\+\_\+free(\+Entity\+System \&, tdt\+::uint)}{is_free(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Grid\+Node\+Helper\+::is\+\_\+free (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_grid_node_helper_ab64d037379fcb1f93b5bf3e0ba1f76a0}{}\label{namespace_grid_node_helper_ab64d037379fcb1f93b5bf3e0ba1f76a0}
+
+
+Returns true if the given node is free (duh...), false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the node. \\
+\hline
+{\em ID} & of the node. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 18 of file Grid\+Node\+Helper.\+cpp.
+
+\index{Grid\+Node\+Helper@{Grid\+Node\+Helper}!set\+\_\+free@{set\+\_\+free}}
+\index{set\+\_\+free@{set\+\_\+free}!Grid\+Node\+Helper@{Grid\+Node\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+free(\+Entity\+System \&, tdt\+::uint, bool)}{set_free(EntitySystem &, tdt::uint, bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void Grid\+Node\+Helper\+::set\+\_\+free (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{bool}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_grid_node_helper_a1386a023e1fb1035589754a9da510b8f}{}\label{namespace_grid_node_helper_a1386a023e1fb1035589754a9da510b8f}
+
+
+Sets the free status of a given node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the node. \\
+\hline
+{\em ID} & of the node. \\
+\hline
+{\em True} & for free, false for not-\/so-\/free. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 46 of file Grid\+Node\+Helper.\+cpp.
+
+\index{Grid\+Node\+Helper@{Grid\+Node\+Helper}!set\+\_\+free\+\_\+selected@{set\+\_\+free\+\_\+selected}}
+\index{set\+\_\+free\+\_\+selected@{set\+\_\+free\+\_\+selected}!Grid\+Node\+Helper@{Grid\+Node\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+free\+\_\+selected(\+Entity\+System \&, Selection\+Box \&, bool)}{set_free_selected(EntitySystem &, SelectionBox &, bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void Grid\+Node\+Helper\+::set\+\_\+free\+\_\+selected (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{{\bf Selection\+Box} \&}]{box, }
+\item[{bool}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_grid_node_helper_a4c968313ca4245cf456a5e10faa48e5a}{}\label{namespace_grid_node_helper_a4c968313ca4245cf456a5e10faa48e5a}
+
+
+Applies the Grid\+System\+::set\+\_\+free method to all currently selected nodes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the nodes. \\
+\hline
+{\em Reference} & to the selection box that selected the nodes. \\
+\hline
+{\em True} & for free, false for not-\/so-\/free. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 62 of file Grid\+Node\+Helper.\+cpp.
+
+\index{Grid\+Node\+Helper@{Grid\+Node\+Helper}!set\+\_\+portal\+\_\+neighbour@{set\+\_\+portal\+\_\+neighbour}}
+\index{set\+\_\+portal\+\_\+neighbour@{set\+\_\+portal\+\_\+neighbour}!Grid\+Node\+Helper@{Grid\+Node\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+portal\+\_\+neighbour(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_portal_neighbour(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Grid\+Node\+Helper\+::set\+\_\+portal\+\_\+neighbour (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{portal}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_grid_node_helper_a2671c9661ef2c8c4d8a3fc16a6894462}{}\label{namespace_grid_node_helper_a2671c9661ef2c8c4d8a3fc16a6894462}
+
+
+Sets the portal node linked to this node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the node. \\
+\hline
+{\em ID} & of this node. \\
+\hline
+{\em ID} & of the portal node. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 125 of file Grid\+Node\+Helper.\+cpp.
+
+\index{Grid\+Node\+Helper@{Grid\+Node\+Helper}!set\+\_\+resident@{set\+\_\+resident}}
+\index{set\+\_\+resident@{set\+\_\+resident}!Grid\+Node\+Helper@{Grid\+Node\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+resident(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_resident(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Grid\+Node\+Helper\+::set\+\_\+resident (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_grid_node_helper_ae89edc87fa9b8ef8aad4ad5eb891c2af}{}\label{namespace_grid_node_helper_ae89edc87fa9b8ef8aad4ad5eb891c2af}
+
+
+Sets the resident of a given node. 
+
+(Resident is an entity that is causing the node to be not free -\/ like a wall, building etc.) 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & containing the node and the resident. \\
+\hline
+{\em ID} & of the node. \\
+\hline
+{\em ID} & of the resident. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 77 of file Grid\+Node\+Helper.\+cpp.
+

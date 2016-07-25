@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['damage_5feffect',['DAMAGE_EFFECT',['../structutil_1_1effect_1_1_d_a_m_a_g_e___e_f_f_e_c_t.html#a364947d50bd41ce12e61677daa1e665d',1,'util::effect::DAMAGE_EFFECT']]],
+  ['deactivate_5fcurrent_5fspell',['deactivate_current_spell',['../class_spell_casting_window.html#a69be5be89e7db88045e4f2101e99c723',1,'SpellCastingWindow']]],
+  ['debuff',['debuff',['../namespace_health_helper.html#afb6e9defd5d23971b24a675125fb1c18',1,'HealthHelper']]],
+  ['dec_5fselection',['dec_selection',['../class_builder_window.html#a648d7e9097ccaf913c047ab5a6654049',1,'BuilderWindow::dec_selection()'],['../class_spell_casting_window.html#a53b66d15a7bfc705e895f004bd20d190',1,'SpellCastingWindow::dec_selection()']]],
+  ['decrease',['decrease',['../namespace_experience_value_helper.html#ab153780809e66479564032f39744bcf6',1,'ExperienceValueHelper']]],
+  ['decrement',['decrement',['../namespace_counter_helper.html#af3707a7ff26096d8318e5371fb476bc2',1,'CounterHelper']]],
+  ['delete_5fcomponent',['delete_component',['../class_entity_system.html#ad10b62b1ac279603a3cfca317ed9e079',1,'EntitySystem::delete_component(tdt::uint id)'],['../class_entity_system.html#ae60c40dddce4f87862e3973b7869b684',1,'EntitySystem::delete_component(tdt::uint, int)']]],
+  ['delete_5fcomponent_5fnow',['delete_component_now',['../class_entity_system.html#ad52fb0d17a2fbd056ffd455b6a1171c7',1,'EntitySystem::delete_component_now(tdt::uint id)'],['../class_entity_system.html#a99ae4bc51a7e97da9bb8ebb56443b70e',1,'EntitySystem::delete_component_now(tdt::uint, int)']]],
+  ['delete_5fentities',['delete_entities',['../class_entity_system.html#add914f62bb89bd8cbbd53d46dbd26875',1,'EntitySystem']]],
+  ['delete_5fgraphics',['delete_graphics',['../class_grid_system.html#acce98eec795358ddf184934db96c04b2',1,'GridSystem']]],
+  ['delete_5fpossible_5fevent',['delete_possible_event',['../namespace_event_handler_helper.html#a96395d97dd12c6233d319781c1468732',1,'EventHandlerHelper']]],
+  ['delete_5fpossible_5ftask',['delete_possible_task',['../namespace_task_handler_helper.html#a4e71f207fd3766e5f90386e37a92bc3f',1,'TaskHandlerHelper']]],
+  ['destroy',['destroy',['../classutil_1_1_entity_destroyer.html#ae6df56bd2fc643398bf1de3155d0c71a',1,'util::EntityDestroyer::destroy()'],['../namespace_destructor_helper.html#a93b8f71a2769c231679141fcef275bdb',1,'DestructorHelper::destroy()']]],
+  ['destroy_5fentity',['destroy_entity',['../class_entity_system.html#a4ecd6127995602d98736cd1cf5799c11',1,'EntitySystem']]],
+  ['dir_5fto',['dir_to',['../namespace_movement_helper.html#ac54475c4d0d6bcba6439b1ebd865dd26',1,'MovementHelper']]],
+  ['distribute_5fto_5fadjacent_5ffree_5fnodes',['distribute_to_adjacent_free_nodes',['../class_grid.html#adbc7f36dcab8375df8365de3506e7fcc',1,'Grid']]],
+  ['dummy_5funlock',['dummy_unlock',['../class_research_window.html#a6c77d878fea0275317a1d6fca0a43208',1,'ResearchWindow']]]
+];

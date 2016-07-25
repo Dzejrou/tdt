@@ -1,0 +1,314 @@
+\hypertarget{class_input_system}{}\section{Input\+System Class Reference}
+\label{class_input_system}\index{Input\+System@{Input\+System}}
+
+
+\hyperlink{class_system}{System} handling entities controlled by the player\textquotesingle{}s keyboard input and changing the game\textquotesingle{}s view mode (between 1st and 3rd person).  
+
+
+
+
+{\ttfamily \#include $<$Input\+System.\+hpp$>$}
+
+Inheritance diagram for Input\+System\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_input_system}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_input_system_aada2a62cbb74e5fdf669f6fb6ac4d933}{Input\+System} (\hyperlink{class_entity_system}{Entity\+System} \&, O\+I\+S\+::\+Keyboard \&, Ogre\+::\+Camera \&)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_input_system_a0d4dcf75be69044e88b17653925d35b7}{$\sim$\+Input\+System} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_input_system_a6ee8dd556fa9352321197412b186c0c1}{update} (tdt\+::real) override
+\begin{DoxyCompactList}\small\item\em Handles the input for the entity that is currently in the first person mode. \end{DoxyCompactList}\item 
+bool \hyperlink{class_input_system_a6b551b82243b363066b6c309f95d8b4f}{is\+\_\+first\+\_\+person} () const 
+\begin{DoxyCompactList}\small\item\em Returns true if the game is in the first person mode, returns false otherwise. \end{DoxyCompactList}\item 
+void \hyperlink{class_input_system_a1784a34e02a24ef38712e5f3ef501581}{set\+\_\+first\+\_\+person} (bool, tdt\+::uint=0)
+\begin{DoxyCompactList}\small\item\em Changes the first person mode status for an entity and also loads an \hyperlink{struct_input_component}{Input\+Component} for it if it does not have it but has an \hyperlink{struct_a_i_component}{A\+I\+Component} holding information about it\textquotesingle{}s input\+\_\+handler method. \end{DoxyCompactList}\item 
+void \hyperlink{class_input_system_acec0ff323d487f721998975e4dc24959}{rebind} (int, int)
+\begin{DoxyCompactList}\small\item\em Rebinds a given key with an O\+IS key number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_entity_system}{Entity\+System} \& \hyperlink{class_input_system_ad7cd4d1cc1598f0d72c8531ba190ed94}{entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the game\textquotesingle{}s entity system. \end{DoxyCompactList}\item 
+bool \hyperlink{class_input_system_a3c7bdb083dc27e80b9d20f6f8fcedb79}{first\+\_\+person\+\_\+}
+\begin{DoxyCompactList}\small\item\em Determines if the first person view is turned on. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_input_system_ab6760a6b3b09cc28e564eac23ea4fd53}{first\+\_\+person\+\_\+id\+\_\+}
+\begin{DoxyCompactList}\small\item\em If the first person view is turned on, this holds ID of the entity being controlled. \end{DoxyCompactList}\item 
+O\+I\+S\+::\+Keyboard \& \hyperlink{class_input_system_a7b1e5fc521e98e9a4b0684fb1a9711c9}{keyboard\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the keyboard being used. \end{DoxyCompactList}\item 
+int \hyperlink{class_input_system_a28f6fccea67986967559e39cf0215c8b}{K\+E\+Y\+\_\+\+UP}
+\begin{DoxyCompactList}\small\item\em Current keybindings, allow rebinding. \end{DoxyCompactList}\item 
+int {\bfseries K\+E\+Y\+\_\+\+D\+O\+WN}\hypertarget{class_input_system_a450bfb7fffc6ccb8cb846b5d4380f906}{}\label{class_input_system_a450bfb7fffc6ccb8cb846b5d4380f906}
+
+\item 
+int {\bfseries K\+E\+Y\+\_\+\+L\+E\+FT}\hypertarget{class_input_system_aa78b74b66edcafd58f65205eff0f320f}{}\label{class_input_system_aa78b74b66edcafd58f65205eff0f320f}
+
+\item 
+int {\bfseries K\+E\+Y\+\_\+\+R\+I\+G\+HT}\hypertarget{class_input_system_a556ac5ca7ba4ac40ff868b3c1effbdb3}{}\label{class_input_system_a556ac5ca7ba4ac40ff868b3c1effbdb3}
+
+\item 
+Ogre\+::\+Camera \& \hyperlink{class_input_system_a7725c6f5b40f31c3bd89c55a44641cb7}{cam\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the game\textquotesingle{}s main camera. \end{DoxyCompactList}\item 
+Ogre\+::\+Vector3 \hyperlink{class_input_system_a06dc8cddfde4ecde07008cdb5bd4458e}{cam\+\_\+position\+\_\+}
+\begin{DoxyCompactList}\small\item\em Backup of the camera info for easy restoring once the game leaves the first person view. \end{DoxyCompactList}\item 
+Ogre\+::\+Quaternion {\bfseries cam\+\_\+orientation\+\_\+}\hypertarget{class_input_system_a76936e44fc531e9b448fdfae587bb7d0}{}\label{class_input_system_a76936e44fc531e9b448fdfae587bb7d0}
+
+\item 
+std\+::unique\+\_\+ptr$<$ \hyperlink{struct_a_i_component}{A\+I\+Component} $>$ \hyperlink{class_input_system_a4db625dcec72e55ecc0c4b0b52f5263a}{ai\+\_\+backup\+\_\+}
+\begin{DoxyCompactList}\small\item\em Backup of the AI component when entering first person view. \end{DoxyCompactList}\item 
+std\+::unique\+\_\+ptr$<$ \hyperlink{struct_task_handler_component}{Task\+Handler\+Component} $>$ \hyperlink{class_input_system_af5cf64f0c19712f6f792cfd75d247ad1}{task\+\_\+backup\+\_\+}
+\begin{DoxyCompactList}\small\item\em Backup of the task component when entering first person view. \end{DoxyCompactList}\item 
+bool \hyperlink{class_input_system_a549e0c521082a6ff97c2b9349d000cb0}{delete\+\_\+input\+\_\+}
+\begin{DoxyCompactList}\small\item\em Determines if the \hyperlink{struct_input_component}{Input\+Component} of the entity being controlled in the first person view should be deleted once the game changes back to third person view. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_system}{System} handling entities controlled by the player\textquotesingle{}s keyboard input and changing the game\textquotesingle{}s view mode (between 1st and 3rd person). 
+
+Definition at line 16 of file Input\+System.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Input\+System@{Input\+System}!Input\+System@{Input\+System}}
+\index{Input\+System@{Input\+System}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{Input\+System(\+Entity\+System \&, O\+I\+S\+::\+Keyboard \&, Ogre\+::\+Camera \&)}{InputSystem(EntitySystem &, OIS::Keyboard &, Ogre::Camera &)}}]{\setlength{\rightskip}{0pt plus 5cm}Input\+System\+::\+Input\+System (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{O\+I\+S\+::\+Keyboard \&}]{key, }
+\item[{Ogre\+::\+Camera \&}]{cam}
+\end{DoxyParamCaption}
+)}\hypertarget{class_input_system_aada2a62cbb74e5fdf669f6fb6ac4d933}{}\label{class_input_system_aada2a62cbb74e5fdf669f6fb6ac4d933}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the game\textquotesingle{}s \hyperlink{class_entity_system}{Entity\+System} instance. \\
+\hline
+{\em Reference} & to the keyboard being used. \\
+\hline
+{\em Reference} & to the camera for it\textquotesingle{}s manipulation during the 1st person mode. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 5 of file Input\+System.\+cpp.
+
+\index{Input\+System@{Input\+System}!````~Input\+System@{$\sim$\+Input\+System}}
+\index{````~Input\+System@{$\sim$\+Input\+System}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{$\sim$\+Input\+System()=default}{~InputSystem()=default}}]{\setlength{\rightskip}{0pt plus 5cm}Input\+System\+::$\sim$\+Input\+System (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{class_input_system_a0d4dcf75be69044e88b17653925d35b7}{}\label{class_input_system_a0d4dcf75be69044e88b17653925d35b7}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\index{Input\+System@{Input\+System}!is\+\_\+first\+\_\+person@{is\+\_\+first\+\_\+person}}
+\index{is\+\_\+first\+\_\+person@{is\+\_\+first\+\_\+person}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{is\+\_\+first\+\_\+person() const }{is_first_person() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Input\+System\+::is\+\_\+first\+\_\+person (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_input_system_a6b551b82243b363066b6c309f95d8b4f}{}\label{class_input_system_a6b551b82243b363066b6c309f95d8b4f}
+
+
+Returns true if the game is in the first person mode, returns false otherwise. 
+
+
+
+Definition at line 56 of file Input\+System.\+cpp.
+
+\index{Input\+System@{Input\+System}!rebind@{rebind}}
+\index{rebind@{rebind}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{rebind(int, int)}{rebind(int, int)}}]{\setlength{\rightskip}{0pt plus 5cm}void Input\+System\+::rebind (
+\begin{DoxyParamCaption}
+\item[{int}]{key, }
+\item[{int}]{new\+\_\+key}
+\end{DoxyParamCaption}
+)}\hypertarget{class_input_system_acec0ff323d487f721998975e4dc24959}{}\label{class_input_system_acec0ff323d487f721998975e4dc24959}
+
+
+Rebinds a given key with an O\+IS key number. 
+
+Use O\+I\+S\+::\+K\+C\+\_\+W, O\+I\+S\+::\+K\+C\+\_\+S, O\+I\+S\+::\+K\+C\+\_\+A and O\+I\+S\+::\+K\+C\+\_\+D to determine which key should be rebinded. 
+\begin{DoxyParams}{Parameters}
+{\em Key} & to be rebinded. \\
+\hline
+{\em The} & new key. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 160 of file Input\+System.\+cpp.
+
+\index{Input\+System@{Input\+System}!set\+\_\+first\+\_\+person@{set\+\_\+first\+\_\+person}}
+\index{set\+\_\+first\+\_\+person@{set\+\_\+first\+\_\+person}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+first\+\_\+person(bool, tdt\+::uint=0)}{set_first_person(bool, tdt::uint=0)}}]{\setlength{\rightskip}{0pt plus 5cm}void Input\+System\+::set\+\_\+first\+\_\+person (
+\begin{DoxyParamCaption}
+\item[{bool}]{on\+\_\+off, }
+\item[{tdt\+::uint}]{id = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_input_system_a1784a34e02a24ef38712e5f3ef501581}{}\label{class_input_system_a1784a34e02a24ef38712e5f3ef501581}
+
+
+Changes the first person mode status for an entity and also loads an \hyperlink{struct_input_component}{Input\+Component} for it if it does not have it but has an \hyperlink{struct_a_i_component}{A\+I\+Component} holding information about it\textquotesingle{}s input\+\_\+handler method. 
+
+(Backups the \hyperlink{struct_a_i_component}{A\+I\+Component} in such cases and restores it when the entity leaves first person mode.) 
+
+Definition at line 61 of file Input\+System.\+cpp.
+
+\index{Input\+System@{Input\+System}!update@{update}}
+\index{update@{update}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{update(tdt\+::real) override}{update(tdt::real) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Input\+System\+::update (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{delta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_input_system_a6ee8dd556fa9352321197412b186c0c1}{}\label{class_input_system_a6ee8dd556fa9352321197412b186c0c1}
+
+
+Handles the input for the entity that is currently in the first person mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Time} & since the last frame. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_system_a6d54c9bd38eb43d620a1451cb0925472}{System}.
+
+
+
+Definition at line 12 of file Input\+System.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Input\+System@{Input\+System}!ai\+\_\+backup\+\_\+@{ai\+\_\+backup\+\_\+}}
+\index{ai\+\_\+backup\+\_\+@{ai\+\_\+backup\+\_\+}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{ai\+\_\+backup\+\_\+}{ai_backup_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::unique\+\_\+ptr$<${\bf A\+I\+Component}$>$ Input\+System\+::ai\+\_\+backup\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_input_system_a4db625dcec72e55ecc0c4b0b52f5263a}{}\label{class_input_system_a4db625dcec72e55ecc0c4b0b52f5263a}
+
+
+Backup of the AI component when entering first person view. 
+
+
+
+Definition at line 101 of file Input\+System.\+hpp.
+
+\index{Input\+System@{Input\+System}!cam\+\_\+@{cam\+\_\+}}
+\index{cam\+\_\+@{cam\+\_\+}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{cam\+\_\+}{cam_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Camera\& Input\+System\+::cam\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_input_system_a7725c6f5b40f31c3bd89c55a44641cb7}{}\label{class_input_system_a7725c6f5b40f31c3bd89c55a44641cb7}
+
+
+Reference to the game\textquotesingle{}s main camera. 
+
+
+
+Definition at line 89 of file Input\+System.\+hpp.
+
+\index{Input\+System@{Input\+System}!cam\+\_\+position\+\_\+@{cam\+\_\+position\+\_\+}}
+\index{cam\+\_\+position\+\_\+@{cam\+\_\+position\+\_\+}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{cam\+\_\+position\+\_\+}{cam_position_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Vector3 Input\+System\+::cam\+\_\+position\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_input_system_a06dc8cddfde4ecde07008cdb5bd4458e}{}\label{class_input_system_a06dc8cddfde4ecde07008cdb5bd4458e}
+
+
+Backup of the camera info for easy restoring once the game leaves the first person view. 
+
+
+
+Definition at line 95 of file Input\+System.\+hpp.
+
+\index{Input\+System@{Input\+System}!delete\+\_\+input\+\_\+@{delete\+\_\+input\+\_\+}}
+\index{delete\+\_\+input\+\_\+@{delete\+\_\+input\+\_\+}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{delete\+\_\+input\+\_\+}{delete_input_}}]{\setlength{\rightskip}{0pt plus 5cm}bool Input\+System\+::delete\+\_\+input\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_input_system_a549e0c521082a6ff97c2b9349d000cb0}{}\label{class_input_system_a549e0c521082a6ff97c2b9349d000cb0}
+
+
+Determines if the \hyperlink{struct_input_component}{Input\+Component} of the entity being controlled in the first person view should be deleted once the game changes back to third person view. 
+
+
+
+Definition at line 112 of file Input\+System.\+hpp.
+
+\index{Input\+System@{Input\+System}!entities\+\_\+@{entities\+\_\+}}
+\index{entities\+\_\+@{entities\+\_\+}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{entities\+\_\+}{entities_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+System}\& Input\+System\+::entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_input_system_ad7cd4d1cc1598f0d72c8531ba190ed94}{}\label{class_input_system_ad7cd4d1cc1598f0d72c8531ba190ed94}
+
+
+Reference to the game\textquotesingle{}s entity system. 
+
+
+
+Definition at line 64 of file Input\+System.\+hpp.
+
+\index{Input\+System@{Input\+System}!first\+\_\+person\+\_\+@{first\+\_\+person\+\_\+}}
+\index{first\+\_\+person\+\_\+@{first\+\_\+person\+\_\+}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{first\+\_\+person\+\_\+}{first_person_}}]{\setlength{\rightskip}{0pt plus 5cm}bool Input\+System\+::first\+\_\+person\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_input_system_a3c7bdb083dc27e80b9d20f6f8fcedb79}{}\label{class_input_system_a3c7bdb083dc27e80b9d20f6f8fcedb79}
+
+
+Determines if the first person view is turned on. 
+
+
+
+Definition at line 69 of file Input\+System.\+hpp.
+
+\index{Input\+System@{Input\+System}!first\+\_\+person\+\_\+id\+\_\+@{first\+\_\+person\+\_\+id\+\_\+}}
+\index{first\+\_\+person\+\_\+id\+\_\+@{first\+\_\+person\+\_\+id\+\_\+}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{first\+\_\+person\+\_\+id\+\_\+}{first_person_id_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Input\+System\+::first\+\_\+person\+\_\+id\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_input_system_ab6760a6b3b09cc28e564eac23ea4fd53}{}\label{class_input_system_ab6760a6b3b09cc28e564eac23ea4fd53}
+
+
+If the first person view is turned on, this holds ID of the entity being controlled. 
+
+
+
+Definition at line 74 of file Input\+System.\+hpp.
+
+\index{Input\+System@{Input\+System}!K\+E\+Y\+\_\+\+UP@{K\+E\+Y\+\_\+\+UP}}
+\index{K\+E\+Y\+\_\+\+UP@{K\+E\+Y\+\_\+\+UP}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{K\+E\+Y\+\_\+\+UP}{KEY_UP}}]{\setlength{\rightskip}{0pt plus 5cm}int Input\+System\+::\+K\+E\+Y\+\_\+\+UP\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_input_system_a28f6fccea67986967559e39cf0215c8b}{}\label{class_input_system_a28f6fccea67986967559e39cf0215c8b}
+
+
+Current keybindings, allow rebinding. 
+
+
+
+Definition at line 84 of file Input\+System.\+hpp.
+
+\index{Input\+System@{Input\+System}!keyboard\+\_\+@{keyboard\+\_\+}}
+\index{keyboard\+\_\+@{keyboard\+\_\+}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{keyboard\+\_\+}{keyboard_}}]{\setlength{\rightskip}{0pt plus 5cm}O\+I\+S\+::\+Keyboard\& Input\+System\+::keyboard\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_input_system_a7b1e5fc521e98e9a4b0684fb1a9711c9}{}\label{class_input_system_a7b1e5fc521e98e9a4b0684fb1a9711c9}
+
+
+Reference to the keyboard being used. 
+
+
+
+Definition at line 79 of file Input\+System.\+hpp.
+
+\index{Input\+System@{Input\+System}!task\+\_\+backup\+\_\+@{task\+\_\+backup\+\_\+}}
+\index{task\+\_\+backup\+\_\+@{task\+\_\+backup\+\_\+}!Input\+System@{Input\+System}}
+\subsubsection[{\texorpdfstring{task\+\_\+backup\+\_\+}{task_backup_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::unique\+\_\+ptr$<${\bf Task\+Handler\+Component}$>$ Input\+System\+::task\+\_\+backup\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_input_system_af5cf64f0c19712f6f792cfd75d247ad1}{}\label{class_input_system_af5cf64f0c19712f6f792cfd75d247ad1}
+
+
+Backup of the task component when entering first person view. 
+
+
+
+Definition at line 106 of file Input\+System.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+systems/Input\+System.\+hpp\item 
+systems/Input\+System.\+cpp\end{DoxyCompactItemize}

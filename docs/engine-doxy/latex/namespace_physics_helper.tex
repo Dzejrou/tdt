@@ -1,0 +1,316 @@
+\hypertarget{namespace_physics_helper}{}\section{Physics\+Helper Namespace Reference}
+\label{namespace_physics_helper}\index{Physics\+Helper@{Physics\+Helper}}
+
+
+Auxiliary namespace containing functions that help with the management of the physics component.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespace_physics_helper_ac7b2843c00462968c9f5fcf010d0f838}{set\+\_\+solid} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, bool)
+\begin{DoxyCompactList}\small\item\em Changes the solid state of a given entity. \end{DoxyCompactList}\item 
+bool \hyperlink{namespace_physics_helper_a5bd7a98d8eac3b64c9d6592eb74b9bb6}{is\+\_\+solid} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns true if a given entity is solid, false otherwise. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_physics_helper_a931ac2a0cebb6abefd027eb2c2b7def0}{set\+\_\+position} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, const Ogre\+::\+Vector3 \&)
+\begin{DoxyCompactList}\small\item\em Sets the position of a given entity. \end{DoxyCompactList}\item 
+const Ogre\+::\+Vector3 \& \hyperlink{namespace_physics_helper_a79d0f5020624c761028cd083b664b61a}{get\+\_\+position} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the position of a given entity. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_physics_helper_a50a726c54c9c958f7f5cead892e661cb}{set\+\_\+half\+\_\+height} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Sets the half height of a given entity (which is used to balance the fact that some models do not have their center on the level of their feet). \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{namespace_physics_helper_a41efe27005d026afab0f3f2887a24960}{get\+\_\+half\+\_\+height} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the half height of a given entity (which is used to balance the fact that some models do not have their center on the level of their feet). \end{DoxyCompactList}\item 
+void \hyperlink{namespace_physics_helper_a1343e6dbfbbc58aa0d9f25463a65a00e}{move\+\_\+to} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, Ogre\+::\+Vector3)
+\begin{DoxyCompactList}\small\item\em Moves a given entity to a given point in space (absolute movement). \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{namespace_physics_helper_a2924661b8158a64fb8ff63ad18ad9572}{get\+\_\+distance} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the distance between two given entities. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{namespace_physics_helper_ab4f7051401a2973dce3159f5df34ae02}{get\+\_\+angle} (Ogre\+::\+Vector3, Ogre\+::\+Vector3)
+\begin{DoxyCompactList}\small\item\em Returns the size of the angle bewteen two given vectors as tdt\+::real which can then be used in Ogre\+::\+Radian constructor for conversion to Radians. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_physics_helper_ae2f1210782c892156de43d333891f154}{set\+\_\+2d\+\_\+position} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, Ogre\+::\+Vector2)
+\begin{DoxyCompactList}\small\item\em Sets the position of a given entity disregarding it\textquotesingle{}s Y coordinate. \end{DoxyCompactList}\item 
+Ogre\+::\+Vector2 \hyperlink{namespace_physics_helper_a54090fc8781d4df5a587c14aba933461}{get\+\_\+2d\+\_\+position} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the X and Z coordinates of a given entity\textquotesingle{}s position. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary namespace containing functions that help with the management of the physics component. 
+
+\subsection{Function Documentation}
+\index{Physics\+Helper@{Physics\+Helper}!get\+\_\+2d\+\_\+position@{get\+\_\+2d\+\_\+position}}
+\index{get\+\_\+2d\+\_\+position@{get\+\_\+2d\+\_\+position}!Physics\+Helper@{Physics\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+2d\+\_\+position(\+Entity\+System \&, tdt\+::uint)}{get_2d_position(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Vector2 Physics\+Helper\+::get\+\_\+2d\+\_\+position (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_physics_helper_a54090fc8781d4df5a587c14aba933461}{}\label{namespace_physics_helper_a54090fc8781d4df5a587c14aba933461}
+
+
+Returns the X and Z coordinates of a given entity\textquotesingle{}s position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Cannot use const reference like in the usual get\+\_\+position function because this method creates a proxy Vector2 which cannot be passed as an lvalue reference due to it being a temporary object. 
+\end{DoxyNote}
+
+
+Definition at line 108 of file Physics\+Helper.\+cpp.
+
+\index{Physics\+Helper@{Physics\+Helper}!get\+\_\+angle@{get\+\_\+angle}}
+\index{get\+\_\+angle@{get\+\_\+angle}!Physics\+Helper@{Physics\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+angle(\+Ogre\+::\+Vector3, Ogre\+::\+Vector3)}{get_angle(Ogre::Vector3, Ogre::Vector3)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Physics\+Helper\+::get\+\_\+angle (
+\begin{DoxyParamCaption}
+\item[{Ogre\+::\+Vector3}]{v1, }
+\item[{Ogre\+::\+Vector3}]{v2}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_physics_helper_ab4f7051401a2973dce3159f5df34ae02}{}\label{namespace_physics_helper_ab4f7051401a2973dce3159f5df34ae02}
+
+
+Returns the size of the angle bewteen two given vectors as tdt\+::real which can then be used in Ogre\+::\+Radian constructor for conversion to Radians. 
+
+(The reason for this is that Lua does not have the notion of radians and as such using floating point numbers is easier.) 
+\begin{DoxyParams}{Parameters}
+{\em Vector} & \#1. \\
+\hline
+{\em Vector} & \#2. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 88 of file Physics\+Helper.\+cpp.
+
+\index{Physics\+Helper@{Physics\+Helper}!get\+\_\+distance@{get\+\_\+distance}}
+\index{get\+\_\+distance@{get\+\_\+distance}!Physics\+Helper@{Physics\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+distance(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{get_distance(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Physics\+Helper\+::get\+\_\+distance (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id1, }
+\item[{tdt\+::uint}]{id2}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_physics_helper_a2924661b8158a64fb8ff63ad18ad9572}{}\label{namespace_physics_helper_a2924661b8158a64fb8ff63ad18ad9572}
+
+
+Returns the distance between two given entities. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the first entity. \\
+\hline
+{\em ID} & of the second entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 73 of file Physics\+Helper.\+cpp.
+
+\index{Physics\+Helper@{Physics\+Helper}!get\+\_\+half\+\_\+height@{get\+\_\+half\+\_\+height}}
+\index{get\+\_\+half\+\_\+height@{get\+\_\+half\+\_\+height}!Physics\+Helper@{Physics\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+half\+\_\+height(\+Entity\+System \&, tdt\+::uint)}{get_half_height(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Physics\+Helper\+::get\+\_\+half\+\_\+height (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_physics_helper_a41efe27005d026afab0f3f2887a24960}{}\label{namespace_physics_helper_a41efe27005d026afab0f3f2887a24960}
+
+
+Returns the half height of a given entity (which is used to balance the fact that some models do not have their center on the level of their feet). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 51 of file Physics\+Helper.\+cpp.
+
+\index{Physics\+Helper@{Physics\+Helper}!get\+\_\+position@{get\+\_\+position}}
+\index{get\+\_\+position@{get\+\_\+position}!Physics\+Helper@{Physics\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+position(\+Entity\+System \&, tdt\+::uint)}{get_position(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}const Ogre\+::\+Vector3 \& Physics\+Helper\+::get\+\_\+position (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_physics_helper_a79d0f5020624c761028cd083b664b61a}{}\label{namespace_physics_helper_a79d0f5020624c761028cd083b664b61a}
+
+
+Returns the position of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. Parma\+: ID of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 34 of file Physics\+Helper.\+cpp.
+
+\index{Physics\+Helper@{Physics\+Helper}!is\+\_\+solid@{is\+\_\+solid}}
+\index{is\+\_\+solid@{is\+\_\+solid}!Physics\+Helper@{Physics\+Helper}}
+\subsubsection[{\texorpdfstring{is\+\_\+solid(\+Entity\+System \&, tdt\+::uint)}{is_solid(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Physics\+Helper\+::is\+\_\+solid (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_physics_helper_a5bd7a98d8eac3b64c9d6592eb74b9bb6}{}\label{namespace_physics_helper_a5bd7a98d8eac3b64c9d6592eb74b9bb6}
+
+
+Returns true if a given entity is solid, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 13 of file Physics\+Helper.\+cpp.
+
+\index{Physics\+Helper@{Physics\+Helper}!move\+\_\+to@{move\+\_\+to}}
+\index{move\+\_\+to@{move\+\_\+to}!Physics\+Helper@{Physics\+Helper}}
+\subsubsection[{\texorpdfstring{move\+\_\+to(\+Entity\+System \&, tdt\+::uint, Ogre\+::\+Vector3)}{move_to(EntitySystem &, tdt::uint, Ogre::Vector3)}}]{\setlength{\rightskip}{0pt plus 5cm}void Physics\+Helper\+::move\+\_\+to (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{Ogre\+::\+Vector3}]{pos}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_physics_helper_a1343e6dbfbbc58aa0d9f25463a65a00e}{}\label{namespace_physics_helper_a1343e6dbfbbc58aa0d9f25463a65a00e}
+
+
+Moves a given entity to a given point in space (absolute movement). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Target} & coordinate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The difference with set\+\_\+position is that this function also sets the position of the scene node this entity is attached to (if such node exists) and thus moves the entity\textquotesingle{}s model as well. 
+\end{DoxyNote}
+
+
+Definition at line 60 of file Physics\+Helper.\+cpp.
+
+\index{Physics\+Helper@{Physics\+Helper}!set\+\_\+2d\+\_\+position@{set\+\_\+2d\+\_\+position}}
+\index{set\+\_\+2d\+\_\+position@{set\+\_\+2d\+\_\+position}!Physics\+Helper@{Physics\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+2d\+\_\+position(\+Entity\+System \&, tdt\+::uint, Ogre\+::\+Vector2)}{set_2d_position(EntitySystem &, tdt::uint, Ogre::Vector2)}}]{\setlength{\rightskip}{0pt plus 5cm}void Physics\+Helper\+::set\+\_\+2d\+\_\+position (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{Ogre\+::\+Vector2}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_physics_helper_ae2f1210782c892156de43d333891f154}{}\label{namespace_physics_helper_ae2f1210782c892156de43d333891f154}
+
+
+Sets the position of a given entity disregarding it\textquotesingle{}s Y coordinate. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new position (vector2 containing the x and z coordinates.) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 93 of file Physics\+Helper.\+cpp.
+
+\index{Physics\+Helper@{Physics\+Helper}!set\+\_\+half\+\_\+height@{set\+\_\+half\+\_\+height}}
+\index{set\+\_\+half\+\_\+height@{set\+\_\+half\+\_\+height}!Physics\+Helper@{Physics\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+half\+\_\+height(\+Entity\+System \&, tdt\+::uint, tdt\+::real)}{set_half_height(EntitySystem &, tdt::uint, tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Physics\+Helper\+::set\+\_\+half\+\_\+height (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::real}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_physics_helper_a50a726c54c9c958f7f5cead892e661cb}{}\label{namespace_physics_helper_a50a726c54c9c958f7f5cead892e661cb}
+
+
+Sets the half height of a given entity (which is used to balance the fact that some models do not have their center on the level of their feet). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new half height value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 44 of file Physics\+Helper.\+cpp.
+
+\index{Physics\+Helper@{Physics\+Helper}!set\+\_\+position@{set\+\_\+position}}
+\index{set\+\_\+position@{set\+\_\+position}!Physics\+Helper@{Physics\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+position(\+Entity\+System \&, tdt\+::uint, const Ogre\+::\+Vector3 \&)}{set_position(EntitySystem &, tdt::uint, const Ogre::Vector3 &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Physics\+Helper\+::set\+\_\+position (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{const Ogre\+::\+Vector3 \&}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_physics_helper_a931ac2a0cebb6abefd027eb2c2b7def0}{}\label{namespace_physics_helper_a931ac2a0cebb6abefd027eb2c2b7def0}
+
+
+Sets the position of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new position. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The difference with move\+\_\+to is that this function does not set the position of the scene node this entity is attached to and thus does not move the entity\textquotesingle{}s model as well. 
+\end{DoxyNote}
+
+
+Definition at line 22 of file Physics\+Helper.\+cpp.
+
+\index{Physics\+Helper@{Physics\+Helper}!set\+\_\+solid@{set\+\_\+solid}}
+\index{set\+\_\+solid@{set\+\_\+solid}!Physics\+Helper@{Physics\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+solid(\+Entity\+System \&, tdt\+::uint, bool)}{set_solid(EntitySystem &, tdt::uint, bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void Physics\+Helper\+::set\+\_\+solid (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{bool}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_physics_helper_ac7b2843c00462968c9f5fcf010d0f838}{}\label{namespace_physics_helper_ac7b2843c00462968c9f5fcf010d0f838}
+
+
+Changes the solid state of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em True} & for solid, false for non-\/solid. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 6 of file Physics\+Helper.\+cpp.
+

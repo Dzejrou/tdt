@@ -1,0 +1,65 @@
+\hypertarget{struct_task_handler_component}{}\section{Task\+Handler\+Component Struct Reference}
+\label{struct_task_handler_component}\index{Task\+Handler\+Component@{Task\+Handler\+Component}}
+
+
+Task queue and register of possible tasks, every entity that is able to actually do something on it\textquotesingle{}s own should have it.  
+
+
+
+
+{\ttfamily \#include $<$Components.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Task\+Handler\+Component} (std\+::string \&\&b=\char`\"{}E\+R\+R\+OR\char`\"{})\hypertarget{struct_task_handler_component_a6e2e537bd2a20dd39e82671725531647}{}\label{struct_task_handler_component_a6e2e537bd2a20dd39e82671725531647}
+
+\item 
+{\bfseries Task\+Handler\+Component} (const \hyperlink{struct_task_handler_component}{Task\+Handler\+Component} \&)=default\hypertarget{struct_task_handler_component_a90f2e87a272be1ad40912cb628c917aa}{}\label{struct_task_handler_component_a90f2e87a272be1ad40912cb628c917aa}
+
+\item 
+{\bfseries Task\+Handler\+Component} (\hyperlink{struct_task_handler_component}{Task\+Handler\+Component} \&\&)=default\hypertarget{struct_task_handler_component_a8578d55c4499bf925c7e5d35d7c774d4}{}\label{struct_task_handler_component_a8578d55c4499bf925c7e5d35d7c774d4}
+
+\item 
+\hyperlink{struct_task_handler_component}{Task\+Handler\+Component} \& {\bfseries operator=} (const \hyperlink{struct_task_handler_component}{Task\+Handler\+Component} \&)=default\hypertarget{struct_task_handler_component_aa4187b1d9fbba8bddae9be31be6c234a}{}\label{struct_task_handler_component_aa4187b1d9fbba8bddae9be31be6c234a}
+
+\item 
+\hyperlink{struct_task_handler_component}{Task\+Handler\+Component} \& {\bfseries operator=} (\hyperlink{struct_task_handler_component}{Task\+Handler\+Component} \&\&)=default\hypertarget{struct_task_handler_component_acdc159bc139d71cf2ce26c247520234f}{}\label{struct_task_handler_component_acdc159bc139d71cf2ce26c247520234f}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+tdt\+::uint {\bfseries curr\+\_\+task}\hypertarget{struct_task_handler_component_a63aefaaa68be4e2f46fa142acb1bd4f8}{}\label{struct_task_handler_component_a63aefaaa68be4e2f46fa142acb1bd4f8}
+
+\item 
+std\+::bitset$<$(int) T\+A\+S\+K\+\_\+\+T\+Y\+P\+E\+::\+C\+O\+U\+NT $>$ {\bfseries possible\+\_\+tasks}\hypertarget{struct_task_handler_component_ae4ece22f8aa6b800915ce49743c5bb21}{}\label{struct_task_handler_component_ae4ece22f8aa6b800915ce49743c5bb21}
+
+\item 
+std\+::deque$<$ tdt\+::uint $>$ {\bfseries task\+\_\+queue}\hypertarget{struct_task_handler_component_a9754b7c65f6992afa1e5ade63d28f626}{}\label{struct_task_handler_component_a9754b7c65f6992afa1e5ade63d28f626}
+
+\item 
+bool {\bfseries busy}\hypertarget{struct_task_handler_component_a6481b2a8188abc40d618a50cb37e7164}{}\label{struct_task_handler_component_a6481b2a8188abc40d618a50cb37e7164}
+
+\item 
+std\+::string {\bfseries blueprint}\hypertarget{struct_task_handler_component_a0530d5bca650606f819e614fe2dab3a8}{}\label{struct_task_handler_component_a0530d5bca650606f819e614fe2dab3a8}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr int {\bfseries type} = 16\hypertarget{struct_task_handler_component_a12e6522dc9c13999683e1f624fc27dd0}{}\label{struct_task_handler_component_a12e6522dc9c13999683e1f624fc27dd0}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Task queue and register of possible tasks, every entity that is able to actually do something on it\textquotesingle{}s own should have it. 
+
+Definition at line 415 of file Components.\+hpp.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Components.\+hpp\end{DoxyCompactItemize}

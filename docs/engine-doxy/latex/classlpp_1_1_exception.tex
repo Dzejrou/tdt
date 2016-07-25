@@ -1,0 +1,139 @@
+\hypertarget{classlpp_1_1_exception}{}\section{lpp\+:\+:Exception Class Reference}
+\label{classlpp_1_1_exception}\index{lpp\+::\+Exception@{lpp\+::\+Exception}}
+
+
+\hyperlink{classlpp_1_1_exception}{Exception} class used to throw exception from the \hyperlink{classlpp_1_1_script}{Script} class.  
+
+
+
+
+{\ttfamily \#include $<$Lpp\+Script.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classlpp_1_1_exception_a1ff116cf88d7b05c3584877648ca82ab}{Exception} (const std\+::string \&msg=\char`\"{}NO M\+SG\char`\"{}, Script\+::state L=nullptr)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{classlpp_1_1_exception_ac20670138a33c7785532349e9bb6504b}{what} () const 
+\begin{DoxyCompactList}\small\item\em Returns the message of this exception. \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{classlpp_1_1_exception_a3a02de1c4c93591ccfc6baeb71298d79}{what\+\_\+lua} () const 
+\begin{DoxyCompactList}\small\item\em Returns the Lua error message if possible. \end{DoxyCompactList}\item 
+bool \hyperlink{classlpp_1_1_exception_a0286545c71695a14ec1d30242e54afbd}{has\+\_\+lua\+\_\+state} () const 
+\begin{DoxyCompactList}\small\item\em Returns true if a Lua state is captured by this exception. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{classlpp_1_1_exception_a6e7e0df55bd44c48f72ed1d3289a54e3}{msg\+\_\+}
+\begin{DoxyCompactList}\small\item\em Message the exception was called with. \end{DoxyCompactList}\item 
+Script\+::state \hyperlink{classlpp_1_1_exception_a0384a7b078e9ad4ded648a100955a013}{L\+\_\+}
+\begin{DoxyCompactList}\small\item\em Pointer to the Lua state, used for stack manipulation (like lua error retrieval). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classlpp_1_1_exception}{Exception} class used to throw exception from the \hyperlink{classlpp_1_1_script}{Script} class. 
+
+Definition at line 266 of file Lpp\+Script.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{lpp\+::\+Exception@{lpp\+::\+Exception}!Exception@{Exception}}
+\index{Exception@{Exception}!lpp\+::\+Exception@{lpp\+::\+Exception}}
+\subsubsection[{\texorpdfstring{Exception(const std\+::string \&msg=""N\+O M\+SG"", Script\+::state L=nullptr)}{Exception(const std::string &msg="NO MSG", Script::state L=nullptr)}}]{\setlength{\rightskip}{0pt plus 5cm}lpp\+::\+Exception\+::\+Exception (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{msg = {\ttfamily \char`\"{}NO~MSG\char`\"{}}, }
+\item[{Script\+::state}]{L = {\ttfamily nullptr}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlpp_1_1_exception_a1ff116cf88d7b05c3584877648ca82ab}{}\label{classlpp_1_1_exception_a1ff116cf88d7b05c3584877648ca82ab}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Message} & of the exception. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 273 of file Lpp\+Script.\+hpp.
+
+
+
+\subsection{Member Function Documentation}
+\index{lpp\+::\+Exception@{lpp\+::\+Exception}!has\+\_\+lua\+\_\+state@{has\+\_\+lua\+\_\+state}}
+\index{has\+\_\+lua\+\_\+state@{has\+\_\+lua\+\_\+state}!lpp\+::\+Exception@{lpp\+::\+Exception}}
+\subsubsection[{\texorpdfstring{has\+\_\+lua\+\_\+state() const }{has_lua_state() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool lpp\+::\+Exception\+::has\+\_\+lua\+\_\+state (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classlpp_1_1_exception_a0286545c71695a14ec1d30242e54afbd}{}\label{classlpp_1_1_exception_a0286545c71695a14ec1d30242e54afbd}
+
+
+Returns true if a Lua state is captured by this exception. 
+
+
+
+Definition at line 128 of file Lpp\+Script.\+cpp.
+
+\index{lpp\+::\+Exception@{lpp\+::\+Exception}!what@{what}}
+\index{what@{what}!lpp\+::\+Exception@{lpp\+::\+Exception}}
+\subsubsection[{\texorpdfstring{what() const }{what() const }}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ lpp\+::\+Exception\+::what (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classlpp_1_1_exception_ac20670138a33c7785532349e9bb6504b}{}\label{classlpp_1_1_exception_ac20670138a33c7785532349e9bb6504b}
+
+
+Returns the message of this exception. 
+
+\hyperlink{classlpp_1_1_exception}{lpp\+::\+Exception} definitions\+: 
+
+Definition at line 114 of file Lpp\+Script.\+cpp.
+
+\index{lpp\+::\+Exception@{lpp\+::\+Exception}!what\+\_\+lua@{what\+\_\+lua}}
+\index{what\+\_\+lua@{what\+\_\+lua}!lpp\+::\+Exception@{lpp\+::\+Exception}}
+\subsubsection[{\texorpdfstring{what\+\_\+lua() const }{what_lua() const }}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ lpp\+::\+Exception\+::what\+\_\+lua (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classlpp_1_1_exception_a3a02de1c4c93591ccfc6baeb71298d79}{}\label{classlpp_1_1_exception_a3a02de1c4c93591ccfc6baeb71298d79}
+
+
+Returns the Lua error message if possible. 
+
+
+
+Definition at line 119 of file Lpp\+Script.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{lpp\+::\+Exception@{lpp\+::\+Exception}!L\+\_\+@{L\+\_\+}}
+\index{L\+\_\+@{L\+\_\+}!lpp\+::\+Exception@{lpp\+::\+Exception}}
+\subsubsection[{\texorpdfstring{L\+\_\+}{L_}}]{\setlength{\rightskip}{0pt plus 5cm}Script\+::state lpp\+::\+Exception\+::\+L\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classlpp_1_1_exception_a0384a7b078e9ad4ded648a100955a013}{}\label{classlpp_1_1_exception_a0384a7b078e9ad4ded648a100955a013}
+
+
+Pointer to the Lua state, used for stack manipulation (like lua error retrieval). 
+
+
+
+Definition at line 301 of file Lpp\+Script.\+hpp.
+
+\index{lpp\+::\+Exception@{lpp\+::\+Exception}!msg\+\_\+@{msg\+\_\+}}
+\index{msg\+\_\+@{msg\+\_\+}!lpp\+::\+Exception@{lpp\+::\+Exception}}
+\subsubsection[{\texorpdfstring{msg\+\_\+}{msg_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string lpp\+::\+Exception\+::msg\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classlpp_1_1_exception_a6e7e0df55bd44c48f72ed1d3289a54e3}{}\label{classlpp_1_1_exception_a6e7e0df55bd44c48f72ed1d3289a54e3}
+
+
+Message the exception was called with. 
+
+
+
+Definition at line 296 of file Lpp\+Script.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lppscript/Lpp\+Script.\+hpp\item 
+lppscript/Lpp\+Script.\+cpp\end{DoxyCompactItemize}

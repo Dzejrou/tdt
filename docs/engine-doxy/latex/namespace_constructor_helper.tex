@@ -1,0 +1,94 @@
+\hypertarget{namespace_constructor_helper}{}\section{Constructor\+Helper Namespace Reference}
+\label{namespace_constructor_helper}\index{Constructor\+Helper@{Constructor\+Helper}}
+
+
+Namespace containing auxiliary functions that help with constructor component management.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespace_constructor_helper_abe8fa54810e2315996a8b58aa11e735e}{set\+\_\+blueprint} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Sets the name of the blueprint table that handles the construction of a given entity. \end{DoxyCompactList}\item 
+const std\+::string \& \hyperlink{namespace_constructor_helper_a428bb253f4eb6b7ae0204956c9e27cd3}{get\+\_\+blueprint} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the name of the blueprint table that handles the construction of a given entity. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_constructor_helper_a6aada249839e2d79d57220b10edf50f6}{call} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Calls the blueprint table that handles the construction of a given entity. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Namespace containing auxiliary functions that help with constructor component management. 
+
+\subsection{Function Documentation}
+\index{Constructor\+Helper@{Constructor\+Helper}!call@{call}}
+\index{call@{call}!Constructor\+Helper@{Constructor\+Helper}}
+\subsubsection[{\texorpdfstring{call(\+Entity\+System \&, tdt\+::uint)}{call(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Constructor\+Helper\+::call (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_constructor_helper_a6aada249839e2d79d57220b10edf50f6}{}\label{namespace_constructor_helper_a6aada249839e2d79d57220b10edf50f6}
+
+
+Calls the blueprint table that handles the construction of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 22 of file Constructor\+Helper.\+cpp.
+
+\index{Constructor\+Helper@{Constructor\+Helper}!get\+\_\+blueprint@{get\+\_\+blueprint}}
+\index{get\+\_\+blueprint@{get\+\_\+blueprint}!Constructor\+Helper@{Constructor\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+blueprint(\+Entity\+System \&, tdt\+::uint)}{get_blueprint(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string \& Constructor\+Helper\+::get\+\_\+blueprint (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_constructor_helper_a428bb253f4eb6b7ae0204956c9e27cd3}{}\label{namespace_constructor_helper_a428bb253f4eb6b7ae0204956c9e27cd3}
+
+
+Returns the name of the blueprint table that handles the construction of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 13 of file Constructor\+Helper.\+cpp.
+
+\index{Constructor\+Helper@{Constructor\+Helper}!set\+\_\+blueprint@{set\+\_\+blueprint}}
+\index{set\+\_\+blueprint@{set\+\_\+blueprint}!Constructor\+Helper@{Constructor\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+blueprint(\+Entity\+System \&, tdt\+::uint, const std\+::string \&)}{set_blueprint(EntitySystem &, tdt::uint, const std::string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Constructor\+Helper\+::set\+\_\+blueprint (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{const std\+::string \&}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_constructor_helper_abe8fa54810e2315996a8b58aa11e735e}{}\label{namespace_constructor_helper_abe8fa54810e2315996a8b58aa11e735e}
+
+
+Sets the name of the blueprint table that handles the construction of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new blueprint name. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 6 of file Constructor\+Helper.\+cpp.
+

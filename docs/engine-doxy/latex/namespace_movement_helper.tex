@@ -1,0 +1,273 @@
+\hypertarget{namespace_movement_helper}{}\section{Movement\+Helper Namespace Reference}
+\label{namespace_movement_helper}\index{Movement\+Helper@{Movement\+Helper}}
+
+
+Auxiliary namespace containing functions that help with the management of the movement component.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+tdt\+::real \hyperlink{namespace_movement_helper_a78caca6696da7c8469be594c10566efe}{get\+\_\+speed\+\_\+modifier} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the speed modifier of a given entity. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_movement_helper_aa8e68ccec1414da99fbe633167c825f5}{set\+\_\+speed\+\_\+modifier} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Changes the speed modifier of a given entity to a given value. \end{DoxyCompactList}\item 
+Ogre\+::\+Vector3 \hyperlink{namespace_movement_helper_ac54475c4d0d6bcba6439b1ebd865dd26}{dir\+\_\+to} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the direction from a given entity to another given entity. \end{DoxyCompactList}\item 
+Ogre\+::\+Vector3 \hyperlink{namespace_movement_helper_a9ede25ceb75fc35bce47b0341d6cf949}{get\+\_\+dir} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the direction a given entity is facing. \end{DoxyCompactList}\item 
+Ogre\+::\+Vector3 \hyperlink{namespace_movement_helper_a09d364fb83957990a2210fd7f5ba1189}{get\+\_\+dir\+\_\+back} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the opposite direction to the direction a given entity is facing. \end{DoxyCompactList}\item 
+Ogre\+::\+Vector3 \hyperlink{namespace_movement_helper_a425937ac7ab27c2af1dcedde7c4ef9c5}{get\+\_\+dir\+\_\+left} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the direction perpendicular to the direction a given entity is facing. \end{DoxyCompactList}\item 
+Ogre\+::\+Vector3 \hyperlink{namespace_movement_helper_a7f2606d99ff65fa8492259e65ae55235}{get\+\_\+dir\+\_\+right} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the direction perpendicular to the direction a given entity is facing. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_movement_helper_a5322a9ccdb02a4d9f60c2f100de0ff78}{set\+\_\+original\+\_\+speed} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Sets the original value of a given entity\textquotesingle{}s speed. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{namespace_movement_helper_a2a49d8de5516509bfa3bafebb8889b72}{get\+\_\+original\+\_\+speed} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the original speed of a given entity. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_movement_helper_a197b8899790247c8e5c6cd15e635cbaf}{reset\+\_\+speed} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the speed of a given entity to it\textquotesingle{}s original value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary namespace containing functions that help with the management of the movement component. 
+
+\subsection{Function Documentation}
+\index{Movement\+Helper@{Movement\+Helper}!dir\+\_\+to@{dir\+\_\+to}}
+\index{dir\+\_\+to@{dir\+\_\+to}!Movement\+Helper@{Movement\+Helper}}
+\subsubsection[{\texorpdfstring{dir\+\_\+to(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{dir_to(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Vector3 Movement\+Helper\+::dir\+\_\+to (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id1, }
+\item[{tdt\+::uint}]{id2}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_movement_helper_ac54475c4d0d6bcba6439b1ebd865dd26}{}\label{namespace_movement_helper_ac54475c4d0d6bcba6439b1ebd865dd26}
+
+
+Returns the direction from a given entity to another given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entity. \\
+\hline
+{\em ID} & of the first entity. \\
+\hline
+{\em ID} & of the second entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 21 of file Movement\+Helper.\+cpp.
+
+\index{Movement\+Helper@{Movement\+Helper}!get\+\_\+dir@{get\+\_\+dir}}
+\index{get\+\_\+dir@{get\+\_\+dir}!Movement\+Helper@{Movement\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+dir(\+Entity\+System \&, tdt\+::uint)}{get_dir(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Vector3 Movement\+Helper\+::get\+\_\+dir (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_movement_helper_a9ede25ceb75fc35bce47b0341d6cf949}{}\label{namespace_movement_helper_a9ede25ceb75fc35bce47b0341d6cf949}
+
+
+Returns the direction a given entity is facing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 34 of file Movement\+Helper.\+cpp.
+
+\index{Movement\+Helper@{Movement\+Helper}!get\+\_\+dir\+\_\+back@{get\+\_\+dir\+\_\+back}}
+\index{get\+\_\+dir\+\_\+back@{get\+\_\+dir\+\_\+back}!Movement\+Helper@{Movement\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+dir\+\_\+back(\+Entity\+System \&, tdt\+::uint)}{get_dir_back(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Vector3 Movement\+Helper\+::get\+\_\+dir\+\_\+back (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_movement_helper_a09d364fb83957990a2210fd7f5ba1189}{}\label{namespace_movement_helper_a09d364fb83957990a2210fd7f5ba1189}
+
+
+Returns the opposite direction to the direction a given entity is facing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 43 of file Movement\+Helper.\+cpp.
+
+\index{Movement\+Helper@{Movement\+Helper}!get\+\_\+dir\+\_\+left@{get\+\_\+dir\+\_\+left}}
+\index{get\+\_\+dir\+\_\+left@{get\+\_\+dir\+\_\+left}!Movement\+Helper@{Movement\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+dir\+\_\+left(\+Entity\+System \&, tdt\+::uint)}{get_dir_left(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Vector3 Movement\+Helper\+::get\+\_\+dir\+\_\+left (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_movement_helper_a425937ac7ab27c2af1dcedde7c4ef9c5}{}\label{namespace_movement_helper_a425937ac7ab27c2af1dcedde7c4ef9c5}
+
+
+Returns the direction perpendicular to the direction a given entity is facing. 
+
+(To the left.) 
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 52 of file Movement\+Helper.\+cpp.
+
+\index{Movement\+Helper@{Movement\+Helper}!get\+\_\+dir\+\_\+right@{get\+\_\+dir\+\_\+right}}
+\index{get\+\_\+dir\+\_\+right@{get\+\_\+dir\+\_\+right}!Movement\+Helper@{Movement\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+dir\+\_\+right(\+Entity\+System \&, tdt\+::uint)}{get_dir_right(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Vector3 Movement\+Helper\+::get\+\_\+dir\+\_\+right (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_movement_helper_a7f2606d99ff65fa8492259e65ae55235}{}\label{namespace_movement_helper_a7f2606d99ff65fa8492259e65ae55235}
+
+
+Returns the direction perpendicular to the direction a given entity is facing. 
+
+(To the right.) 
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 61 of file Movement\+Helper.\+cpp.
+
+\index{Movement\+Helper@{Movement\+Helper}!get\+\_\+original\+\_\+speed@{get\+\_\+original\+\_\+speed}}
+\index{get\+\_\+original\+\_\+speed@{get\+\_\+original\+\_\+speed}!Movement\+Helper@{Movement\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+original\+\_\+speed(\+Entity\+System \&, tdt\+::uint)}{get_original_speed(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Movement\+Helper\+::get\+\_\+original\+\_\+speed (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_movement_helper_a2a49d8de5516509bfa3bafebb8889b72}{}\label{namespace_movement_helper_a2a49d8de5516509bfa3bafebb8889b72}
+
+
+Returns the original speed of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 77 of file Movement\+Helper.\+cpp.
+
+\index{Movement\+Helper@{Movement\+Helper}!get\+\_\+speed\+\_\+modifier@{get\+\_\+speed\+\_\+modifier}}
+\index{get\+\_\+speed\+\_\+modifier@{get\+\_\+speed\+\_\+modifier}!Movement\+Helper@{Movement\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+speed\+\_\+modifier(\+Entity\+System \&, tdt\+::uint)}{get_speed_modifier(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Movement\+Helper\+::get\+\_\+speed\+\_\+modifier (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_movement_helper_a78caca6696da7c8469be594c10566efe}{}\label{namespace_movement_helper_a78caca6696da7c8469be594c10566efe}
+
+
+Returns the speed modifier of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 5 of file Movement\+Helper.\+cpp.
+
+\index{Movement\+Helper@{Movement\+Helper}!reset\+\_\+speed@{reset\+\_\+speed}}
+\index{reset\+\_\+speed@{reset\+\_\+speed}!Movement\+Helper@{Movement\+Helper}}
+\subsubsection[{\texorpdfstring{reset\+\_\+speed(\+Entity\+System \&, tdt\+::uint)}{reset_speed(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Movement\+Helper\+::reset\+\_\+speed (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_movement_helper_a197b8899790247c8e5c6cd15e635cbaf}{}\label{namespace_movement_helper_a197b8899790247c8e5c6cd15e635cbaf}
+
+
+Sets the speed of a given entity to it\textquotesingle{}s original value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 86 of file Movement\+Helper.\+cpp.
+
+\index{Movement\+Helper@{Movement\+Helper}!set\+\_\+original\+\_\+speed@{set\+\_\+original\+\_\+speed}}
+\index{set\+\_\+original\+\_\+speed@{set\+\_\+original\+\_\+speed}!Movement\+Helper@{Movement\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+original\+\_\+speed(\+Entity\+System \&, tdt\+::uint, tdt\+::real)}{set_original_speed(EntitySystem &, tdt::uint, tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Movement\+Helper\+::set\+\_\+original\+\_\+speed (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::real}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_movement_helper_a5322a9ccdb02a4d9f60c2f100de0ff78}{}\label{namespace_movement_helper_a5322a9ccdb02a4d9f60c2f100de0ff78}
+
+
+Sets the original value of a given entity\textquotesingle{}s speed. 
+
+(Used for serialization.) 
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 70 of file Movement\+Helper.\+cpp.
+
+\index{Movement\+Helper@{Movement\+Helper}!set\+\_\+speed\+\_\+modifier@{set\+\_\+speed\+\_\+modifier}}
+\index{set\+\_\+speed\+\_\+modifier@{set\+\_\+speed\+\_\+modifier}!Movement\+Helper@{Movement\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+speed\+\_\+modifier(\+Entity\+System \&, tdt\+::uint, tdt\+::real)}{set_speed_modifier(EntitySystem &, tdt::uint, tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Movement\+Helper\+::set\+\_\+speed\+\_\+modifier (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::real}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_movement_helper_aa8e68ccec1414da99fbe633167c825f5}{}\label{namespace_movement_helper_aa8e68ccec1414da99fbe633167c825f5}
+
+
+Changes the speed modifier of a given entity to a given value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em New} & speed value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 14 of file Movement\+Helper.\+cpp.
+

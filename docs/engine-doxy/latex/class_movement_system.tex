@@ -1,0 +1,221 @@
+\hypertarget{class_movement_system}{}\section{Movement\+System Class Reference}
+\label{class_movement_system}\index{Movement\+System@{Movement\+System}}
+
+
+\hyperlink{class_system}{System} handling movement related updates and containing movement \& physics related methods.  
+
+
+
+
+{\ttfamily \#include $<$Movement\+System.\+hpp$>$}
+
+Inheritance diagram for Movement\+System\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_movement_system}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_movement_system_ac79c2f7549bf24bb08b020e4bd0928a0}{Movement\+System} (\hyperlink{class_entity_system}{Entity\+System} \&)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_movement_system_a7389ab211f0da0cf859570d23ffb70fa}{$\sim$\+Movement\+System} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_movement_system_a005915a7fff5eaf8f1e644e07ccda9e4}{update} (Ogre\+::\+Real)
+\begin{DoxyCompactList}\small\item\em Updates the movement system. \end{DoxyCompactList}\item 
+bool \hyperlink{class_movement_system_ae986dc2fb886b40fac2ab97a1c21d934}{can\+\_\+move\+\_\+to} (std\+::size\+\_\+t, Ogre\+::\+Vector3)
+\begin{DoxyCompactList}\small\item\em Returns true if a given entity can move to a given point in space, false otherwise. \end{DoxyCompactList}\item 
+bool \hyperlink{class_movement_system_a223e95da80379c936d01790ca449a0de}{checked\+\_\+move} (std\+::size\+\_\+t, Ogre\+::\+Vector3)
+\begin{DoxyCompactList}\small\item\em Sets a given entity to move in a given direction, returns true if such movement is possible and false otherwise. \end{DoxyCompactList}\item 
+bool \hyperlink{class_movement_system_a7cd808c936ad925fc5b15d76e9d52afd}{move} (std\+::size\+\_\+t, Ogre\+::\+Vector3)
+\begin{DoxyCompactList}\small\item\em Sets a given entity to move in a given direction, returns true if such movement is possible and false otherwise. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_entity_system}{Entity\+System} \& \hyperlink{class_movement_system_a373d446bb2c853079f63437629d6044b}{entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the game\textquotesingle{}s entity system. \end{DoxyCompactList}\item 
+Ogre\+::\+Real \hyperlink{class_movement_system_aca59e8025a42f269c245d0ecbcab396c}{last\+\_\+delta\+\_\+}
+\begin{DoxyCompactList}\small\item\em Time between the last frame and this frame, used so that lua calls to the move functions still use the time of this frame. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_system}{System} handling movement related updates and containing movement \& physics related methods. 
+
+Definition at line 10 of file Movement\+System.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Movement\+System@{Movement\+System}!Movement\+System@{Movement\+System}}
+\index{Movement\+System@{Movement\+System}!Movement\+System@{Movement\+System}}
+\subsubsection[{\texorpdfstring{Movement\+System(\+Entity\+System \&)}{MovementSystem(EntitySystem &)}}]{\setlength{\rightskip}{0pt plus 5cm}Movement\+System\+::\+Movement\+System (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents}
+\end{DoxyParamCaption}
+)}\hypertarget{class_movement_system_ac79c2f7549bf24bb08b020e4bd0928a0}{}\label{class_movement_system_ac79c2f7549bf24bb08b020e4bd0928a0}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the game\textquotesingle{}s entity system. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 7 of file Movement\+System.\+cpp.
+
+\index{Movement\+System@{Movement\+System}!````~Movement\+System@{$\sim$\+Movement\+System}}
+\index{````~Movement\+System@{$\sim$\+Movement\+System}!Movement\+System@{Movement\+System}}
+\subsubsection[{\texorpdfstring{$\sim$\+Movement\+System()}{~MovementSystem()}}]{\setlength{\rightskip}{0pt plus 5cm}Movement\+System\+::$\sim$\+Movement\+System (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_movement_system_a7389ab211f0da0cf859570d23ffb70fa}{}\label{class_movement_system_a7389ab211f0da0cf859570d23ffb70fa}
+
+
+Destructor. 
+
+
+
+Definition at line 22 of file Movement\+System.\+hpp.
+
+
+
+\subsection{Member Function Documentation}
+\index{Movement\+System@{Movement\+System}!can\+\_\+move\+\_\+to@{can\+\_\+move\+\_\+to}}
+\index{can\+\_\+move\+\_\+to@{can\+\_\+move\+\_\+to}!Movement\+System@{Movement\+System}}
+\subsubsection[{\texorpdfstring{can\+\_\+move\+\_\+to(std\+::size\+\_\+t, Ogre\+::\+Vector3)}{can_move_to(std::size_t, Ogre::Vector3)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Movement\+System\+::can\+\_\+move\+\_\+to (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{id, }
+\item[{Ogre\+::\+Vector3}]{pos}
+\end{DoxyParamCaption}
+)}\hypertarget{class_movement_system_ae986dc2fb886b40fac2ab97a1c21d934}{}\label{class_movement_system_ae986dc2fb886b40fac2ab97a1c21d934}
+
+
+Returns true if a given entity can move to a given point in space, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+{\em Target} & coordinate. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 49 of file Movement\+System.\+cpp.
+
+\index{Movement\+System@{Movement\+System}!checked\+\_\+move@{checked\+\_\+move}}
+\index{checked\+\_\+move@{checked\+\_\+move}!Movement\+System@{Movement\+System}}
+\subsubsection[{\texorpdfstring{checked\+\_\+move(std\+::size\+\_\+t, Ogre\+::\+Vector3)}{checked_move(std::size_t, Ogre::Vector3)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Movement\+System\+::checked\+\_\+move (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{id, }
+\item[{Ogre\+::\+Vector3}]{dir\+\_\+vector}
+\end{DoxyParamCaption}
+)}\hypertarget{class_movement_system_a223e95da80379c936d01790ca449a0de}{}\label{class_movement_system_a223e95da80379c936d01790ca449a0de}
+
+
+Sets a given entity to move in a given direction, returns true if such movement is possible and false otherwise. 
+
+The move will then be applied in the update method. 
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+{\em Directional} & vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Every vector passed to this method should be normalised and the length of the move will be increased by the entity\textquotesingle{}s speed modifier. This is not enforced though. 
+
+Checks for collisions. 
+\end{DoxyNote}
+
+
+Definition at line 85 of file Movement\+System.\+cpp.
+
+\index{Movement\+System@{Movement\+System}!move@{move}}
+\index{move@{move}!Movement\+System@{Movement\+System}}
+\subsubsection[{\texorpdfstring{move(std\+::size\+\_\+t, Ogre\+::\+Vector3)}{move(std::size_t, Ogre::Vector3)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Movement\+System\+::move (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{id, }
+\item[{Ogre\+::\+Vector3}]{dir\+\_\+vector}
+\end{DoxyParamCaption}
+)}\hypertarget{class_movement_system_a7cd808c936ad925fc5b15d76e9d52afd}{}\label{class_movement_system_a7cd808c936ad925fc5b15d76e9d52afd}
+
+
+Sets a given entity to move in a given direction, returns true if such movement is possible and false otherwise. 
+
+The move will then be applied in the update method. 
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the entity. \\
+\hline
+{\em Directional} & vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Every vector passed to this method should be normalised and the length of the move will be increased by the entity\textquotesingle{}s speed modifier. This is not enforced though. 
+
+Does not check for collisions. 
+\end{DoxyNote}
+
+
+Definition at line 110 of file Movement\+System.\+cpp.
+
+\index{Movement\+System@{Movement\+System}!update@{update}}
+\index{update@{update}!Movement\+System@{Movement\+System}}
+\subsubsection[{\texorpdfstring{update(\+Ogre\+::\+Real)}{update(Ogre::Real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Movement\+System\+::update (
+\begin{DoxyParamCaption}
+\item[{Ogre\+::\+Real}]{delta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_movement_system_a005915a7fff5eaf8f1e644e07ccda9e4}{}\label{class_movement_system_a005915a7fff5eaf8f1e644e07ccda9e4}
+
+
+Updates the movement system. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Time} & since the last frame. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_system_a6d54c9bd38eb43d620a1451cb0925472}{System}.
+
+
+
+Definition at line 11 of file Movement\+System.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Movement\+System@{Movement\+System}!entities\+\_\+@{entities\+\_\+}}
+\index{entities\+\_\+@{entities\+\_\+}!Movement\+System@{Movement\+System}}
+\subsubsection[{\texorpdfstring{entities\+\_\+}{entities_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+System}\& Movement\+System\+::entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_movement_system_a373d446bb2c853079f63437629d6044b}{}\label{class_movement_system_a373d446bb2c853079f63437629d6044b}
+
+
+Reference to the game\textquotesingle{}s entity system. 
+
+
+
+Definition at line 63 of file Movement\+System.\+hpp.
+
+\index{Movement\+System@{Movement\+System}!last\+\_\+delta\+\_\+@{last\+\_\+delta\+\_\+}}
+\index{last\+\_\+delta\+\_\+@{last\+\_\+delta\+\_\+}!Movement\+System@{Movement\+System}}
+\subsubsection[{\texorpdfstring{last\+\_\+delta\+\_\+}{last_delta_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Real Movement\+System\+::last\+\_\+delta\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_movement_system_aca59e8025a42f269c245d0ecbcab396c}{}\label{class_movement_system_aca59e8025a42f269c245d0ecbcab396c}
+
+
+Time between the last frame and this frame, used so that lua calls to the move functions still use the time of this frame. 
+
+
+
+Definition at line 69 of file Movement\+System.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+systems/Movement\+System.\+hpp\item 
+systems/Movement\+System.\+cpp\end{DoxyCompactItemize}

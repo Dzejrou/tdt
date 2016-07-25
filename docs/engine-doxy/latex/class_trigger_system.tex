@@ -1,0 +1,174 @@
+\hypertarget{class_trigger_system}{}\section{Trigger\+System Class Reference}
+\label{class_trigger_system}\index{Trigger\+System@{Trigger\+System}}
+
+
+Handles triggers by checking if an entity is standing in their radius when they are off cooldowns.  
+
+
+
+
+{\ttfamily \#include $<$Trigger\+System.\+hpp$>$}
+
+Inheritance diagram for Trigger\+System\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_trigger_system}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_trigger_system_ac7e83dc3b48c6f0759834752dd896a99}{Trigger\+System} (\hyperlink{class_entity_system}{Entity\+System} \&)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_trigger_system_a7c897416114b31de2c7371243f6213db}{$\sim$\+Trigger\+System} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_trigger_system_ac85976839b1316705e1a493fb40c3ef2}{update} (tdt\+::real) override
+\begin{DoxyCompactList}\small\item\em Checks if any entities have been triggered and performs their associated actions if they were. \end{DoxyCompactList}\item 
+void \hyperlink{class_trigger_system_a7813aca92f90b5fdf6dd24e9a664a420}{set\+\_\+check\+\_\+period} (tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Sets the time period between trigger checks. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_trigger_system_a0161788568894de9f99f362249174b97}{get\+\_\+check\+\_\+period} () const 
+\begin{DoxyCompactList}\small\item\em Returns the time period between trigger checks. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_entity_system}{Entity\+System} \& \hyperlink{class_trigger_system_a0edd666bdf0821155829c2b3d22b1344}{entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Entity system containing the entities this system works with. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_trigger_system_aba660b6e6bc34da77baa397ffa6d5065}{check\+\_\+timer\+\_\+}
+\begin{DoxyCompactList}\small\item\em Allow for dynamic time periods between trigger checks. \end{DoxyCompactList}\item 
+tdt\+::real {\bfseries check\+\_\+period\+\_\+}\hypertarget{class_trigger_system_ac46bbc9d22bb38fd16b34cb83bd10157}{}\label{class_trigger_system_ac46bbc9d22bb38fd16b34cb83bd10157}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Handles triggers by checking if an entity is standing in their radius when they are off cooldowns. 
+
+Definition at line 11 of file Trigger\+System.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Trigger\+System@{Trigger\+System}!Trigger\+System@{Trigger\+System}}
+\index{Trigger\+System@{Trigger\+System}!Trigger\+System@{Trigger\+System}}
+\subsubsection[{\texorpdfstring{Trigger\+System(\+Entity\+System \&)}{TriggerSystem(EntitySystem &)}}]{\setlength{\rightskip}{0pt plus 5cm}Trigger\+System\+::\+Trigger\+System (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents}
+\end{DoxyParamCaption}
+)}\hypertarget{class_trigger_system_ac7e83dc3b48c6f0759834752dd896a99}{}\label{class_trigger_system_ac7e83dc3b48c6f0759834752dd896a99}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system containing entities this system works with. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 6 of file Trigger\+System.\+cpp.
+
+\index{Trigger\+System@{Trigger\+System}!````~Trigger\+System@{$\sim$\+Trigger\+System}}
+\index{````~Trigger\+System@{$\sim$\+Trigger\+System}!Trigger\+System@{Trigger\+System}}
+\subsubsection[{\texorpdfstring{$\sim$\+Trigger\+System()=default}{~TriggerSystem()=default}}]{\setlength{\rightskip}{0pt plus 5cm}Trigger\+System\+::$\sim$\+Trigger\+System (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{class_trigger_system_a7c897416114b31de2c7371243f6213db}{}\label{class_trigger_system_a7c897416114b31de2c7371243f6213db}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\index{Trigger\+System@{Trigger\+System}!get\+\_\+check\+\_\+period@{get\+\_\+check\+\_\+period}}
+\index{get\+\_\+check\+\_\+period@{get\+\_\+check\+\_\+period}!Trigger\+System@{Trigger\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+check\+\_\+period() const }{get_check_period() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Trigger\+System\+::get\+\_\+check\+\_\+period (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_trigger_system_a0161788568894de9f99f362249174b97}{}\label{class_trigger_system_a0161788568894de9f99f362249174b97}
+
+
+Returns the time period between trigger checks. 
+
+
+
+Definition at line 65 of file Trigger\+System.\+cpp.
+
+\index{Trigger\+System@{Trigger\+System}!set\+\_\+check\+\_\+period@{set\+\_\+check\+\_\+period}}
+\index{set\+\_\+check\+\_\+period@{set\+\_\+check\+\_\+period}!Trigger\+System@{Trigger\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+check\+\_\+period(tdt\+::real)}{set_check_period(tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Trigger\+System\+::set\+\_\+check\+\_\+period (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_trigger_system_a7813aca92f90b5fdf6dd24e9a664a420}{}\label{class_trigger_system_a7813aca92f90b5fdf6dd24e9a664a420}
+
+
+Sets the time period between trigger checks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new time period. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 60 of file Trigger\+System.\+cpp.
+
+\index{Trigger\+System@{Trigger\+System}!update@{update}}
+\index{update@{update}!Trigger\+System@{Trigger\+System}}
+\subsubsection[{\texorpdfstring{update(tdt\+::real) override}{update(tdt::real) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Trigger\+System\+::update (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{delta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_trigger_system_ac85976839b1316705e1a493fb40c3ef2}{}\label{class_trigger_system_ac85976839b1316705e1a493fb40c3ef2}
+
+
+Checks if any entities have been triggered and performs their associated actions if they were. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Time} & since the last frame. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_system_a6d54c9bd38eb43d620a1451cb0925472}{System}.
+
+
+
+Definition at line 10 of file Trigger\+System.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Trigger\+System@{Trigger\+System}!check\+\_\+timer\+\_\+@{check\+\_\+timer\+\_\+}}
+\index{check\+\_\+timer\+\_\+@{check\+\_\+timer\+\_\+}!Trigger\+System@{Trigger\+System}}
+\subsubsection[{\texorpdfstring{check\+\_\+timer\+\_\+}{check_timer_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Trigger\+System\+::check\+\_\+timer\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_trigger_system_aba660b6e6bc34da77baa397ffa6d5065}{}\label{class_trigger_system_aba660b6e6bc34da77baa397ffa6d5065}
+
+
+Allow for dynamic time periods between trigger checks. 
+
+
+
+Definition at line 53 of file Trigger\+System.\+hpp.
+
+\index{Trigger\+System@{Trigger\+System}!entities\+\_\+@{entities\+\_\+}}
+\index{entities\+\_\+@{entities\+\_\+}!Trigger\+System@{Trigger\+System}}
+\subsubsection[{\texorpdfstring{entities\+\_\+}{entities_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+System}\& Trigger\+System\+::entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_trigger_system_a0edd666bdf0821155829c2b3d22b1344}{}\label{class_trigger_system_a0edd666bdf0821155829c2b3d22b1344}
+
+
+Entity system containing the entities this system works with. 
+
+
+
+Definition at line 48 of file Trigger\+System.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+systems/Trigger\+System.\+hpp\item 
+systems/Trigger\+System.\+cpp\end{DoxyCompactItemize}

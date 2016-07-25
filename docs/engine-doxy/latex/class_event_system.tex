@@ -1,0 +1,245 @@
+\hypertarget{class_event_system}{}\section{Event\+System Class Reference}
+\label{class_event_system}\index{Event\+System@{Event\+System}}
+Inheritance diagram for Event\+System\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_event_system}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_event_system_ae91be44668c9249f29574330794877a6}{Event\+System} (\hyperlink{class_entity_system}{Entity\+System} \&)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_event_system_aaaa3ccbd5dfadfb47d49fd33a2fbc952}{$\sim$\+Event\+System} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_event_system_a1410963080a61fdbafc406100dc17d8d}{update} (tdt\+::real) override
+\begin{DoxyCompactList}\small\item\em Checks for handlers of all active events and if needed, handles them. \end{DoxyCompactList}\item 
+void \hyperlink{class_event_system_a1659caf05f63eaedd1513186574f4292}{set\+\_\+update\+\_\+period} (tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Sets the time it takes before an update is performed (in seconds). \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_event_system_a1eef89ae00d5f8653c7efe6abeaa40b0}{get\+\_\+update\+\_\+period} () const 
+\begin{DoxyCompactList}\small\item\em Returns the time it takes before an update is performed (in seconds). \end{DoxyCompactList}\item 
+void \hyperlink{class_event_system_a52087f3b87b190e9cc98cd70b5cbd02d}{set\+\_\+update\+\_\+time\+\_\+multiplier} (tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Sets the value by which the frame time is multiplied before it\textquotesingle{}s added to the update timer. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_event_system_ac988bff372a77468dac5fa9b5d9c99ff}{get\+\_\+update\+\_\+time\+\_\+multiplier} () const 
+\begin{DoxyCompactList}\small\item\em Returns the value by which the frame time is multiplied before it\textquotesingle{}s added to the update timer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_event_system_aab07d98ea555a11e8cbc6b340371c6ef}{handle\+\_\+event\+\_\+} (tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Handles a given event by a given entity that can handle it, returns true if the event will be destroyed after this call (single handler event), false if the event persist (multi handler event). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_entity_system}{Entity\+System} \& \hyperlink{class_event_system_ae68ff7a957934b312a0fa66f52d364c0}{entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Entity system that has entities this system will manage. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_event_system_ae2c07675de523ca6157d766f83447d19}{update\+\_\+period\+\_\+}
+\begin{DoxyCompactList}\small\item\em Allow for less frequent updates, since per frame updates are quite unnecessary and resource wasting. \end{DoxyCompactList}\item 
+tdt\+::real {\bfseries curr\+\_\+update\+\_\+time\+\_\+}\hypertarget{class_event_system_a122c5df0161e22b46184d6e324d5eb4e}{}\label{class_event_system_a122c5df0161e22b46184d6e324d5eb4e}
+
+\item 
+tdt\+::real \hyperlink{class_event_system_a28113a32ef8e7f3a415251b815ac7d0f}{update\+\_\+time\+\_\+multiplier\+\_\+}
+\begin{DoxyCompactList}\small\item\em Allows to speed up/slow down the update timer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 7 of file Event\+System.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Event\+System@{Event\+System}!Event\+System@{Event\+System}}
+\index{Event\+System@{Event\+System}!Event\+System@{Event\+System}}
+\subsubsection[{\texorpdfstring{Event\+System(\+Entity\+System \&)}{EventSystem(EntitySystem &)}}]{\setlength{\rightskip}{0pt plus 5cm}Event\+System\+::\+Event\+System (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents}
+\end{DoxyParamCaption}
+)}\hypertarget{class_event_system_ae91be44668c9249f29574330794877a6}{}\label{class_event_system_ae91be44668c9249f29574330794877a6}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system that has entities this system will manage. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 6 of file Event\+System.\+cpp.
+
+\index{Event\+System@{Event\+System}!````~Event\+System@{$\sim$\+Event\+System}}
+\index{````~Event\+System@{$\sim$\+Event\+System}!Event\+System@{Event\+System}}
+\subsubsection[{\texorpdfstring{$\sim$\+Event\+System()=default}{~EventSystem()=default}}]{\setlength{\rightskip}{0pt plus 5cm}Event\+System\+::$\sim$\+Event\+System (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{class_event_system_aaaa3ccbd5dfadfb47d49fd33a2fbc952}{}\label{class_event_system_aaaa3ccbd5dfadfb47d49fd33a2fbc952}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\index{Event\+System@{Event\+System}!get\+\_\+update\+\_\+period@{get\+\_\+update\+\_\+period}}
+\index{get\+\_\+update\+\_\+period@{get\+\_\+update\+\_\+period}!Event\+System@{Event\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+update\+\_\+period() const }{get_update_period() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Event\+System\+::get\+\_\+update\+\_\+period (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_event_system_a1eef89ae00d5f8653c7efe6abeaa40b0}{}\label{class_event_system_a1eef89ae00d5f8653c7efe6abeaa40b0}
+
+
+Returns the time it takes before an update is performed (in seconds). 
+
+
+
+Definition at line 63 of file Event\+System.\+cpp.
+
+\index{Event\+System@{Event\+System}!get\+\_\+update\+\_\+time\+\_\+multiplier@{get\+\_\+update\+\_\+time\+\_\+multiplier}}
+\index{get\+\_\+update\+\_\+time\+\_\+multiplier@{get\+\_\+update\+\_\+time\+\_\+multiplier}!Event\+System@{Event\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+update\+\_\+time\+\_\+multiplier() const }{get_update_time_multiplier() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Event\+System\+::get\+\_\+update\+\_\+time\+\_\+multiplier (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_event_system_ac988bff372a77468dac5fa9b5d9c99ff}{}\label{class_event_system_ac988bff372a77468dac5fa9b5d9c99ff}
+
+
+Returns the value by which the frame time is multiplied before it\textquotesingle{}s added to the update timer. 
+
+
+
+Definition at line 73 of file Event\+System.\+cpp.
+
+\index{Event\+System@{Event\+System}!handle\+\_\+event\+\_\+@{handle\+\_\+event\+\_\+}}
+\index{handle\+\_\+event\+\_\+@{handle\+\_\+event\+\_\+}!Event\+System@{Event\+System}}
+\subsubsection[{\texorpdfstring{handle\+\_\+event\+\_\+(tdt\+::uint, tdt\+::uint)}{handle_event_(tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Event\+System\+::handle\+\_\+event\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{handler, }
+\item[{tdt\+::uint}]{evt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_event_system_aab07d98ea555a11e8cbc6b340371c6ef}{}\label{class_event_system_aab07d98ea555a11e8cbc6b340371c6ef}
+
+
+Handles a given event by a given entity that can handle it, returns true if the event will be destroyed after this call (single handler event), false if the event persist (multi handler event). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the handler. \\
+\hline
+{\em ID} & of the event. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 78 of file Event\+System.\+cpp.
+
+\index{Event\+System@{Event\+System}!set\+\_\+update\+\_\+period@{set\+\_\+update\+\_\+period}}
+\index{set\+\_\+update\+\_\+period@{set\+\_\+update\+\_\+period}!Event\+System@{Event\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+update\+\_\+period(tdt\+::real)}{set_update_period(tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Event\+System\+::set\+\_\+update\+\_\+period (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_event_system_a1659caf05f63eaedd1513186574f4292}{}\label{class_event_system_a1659caf05f63eaedd1513186574f4292}
+
+
+Sets the time it takes before an update is performed (in seconds). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new update time period. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 58 of file Event\+System.\+cpp.
+
+\index{Event\+System@{Event\+System}!set\+\_\+update\+\_\+time\+\_\+multiplier@{set\+\_\+update\+\_\+time\+\_\+multiplier}}
+\index{set\+\_\+update\+\_\+time\+\_\+multiplier@{set\+\_\+update\+\_\+time\+\_\+multiplier}!Event\+System@{Event\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+update\+\_\+time\+\_\+multiplier(tdt\+::real)}{set_update_time_multiplier(tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Event\+System\+::set\+\_\+update\+\_\+time\+\_\+multiplier (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_event_system_a52087f3b87b190e9cc98cd70b5cbd02d}{}\label{class_event_system_a52087f3b87b190e9cc98cd70b5cbd02d}
+
+
+Sets the value by which the frame time is multiplied before it\textquotesingle{}s added to the update timer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new multiplier value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 68 of file Event\+System.\+cpp.
+
+\index{Event\+System@{Event\+System}!update@{update}}
+\index{update@{update}!Event\+System@{Event\+System}}
+\subsubsection[{\texorpdfstring{update(tdt\+::real) override}{update(tdt::real) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Event\+System\+::update (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{delta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_event_system_a1410963080a61fdbafc406100dc17d8d}{}\label{class_event_system_a1410963080a61fdbafc406100dc17d8d}
+
+
+Checks for handlers of all active events and if needed, handles them. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Time} & since last frame. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_system_a6d54c9bd38eb43d620a1451cb0925472}{System}.
+
+
+
+Definition at line 11 of file Event\+System.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Event\+System@{Event\+System}!entities\+\_\+@{entities\+\_\+}}
+\index{entities\+\_\+@{entities\+\_\+}!Event\+System@{Event\+System}}
+\subsubsection[{\texorpdfstring{entities\+\_\+}{entities_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+System}\& Event\+System\+::entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_event_system_ae68ff7a957934b312a0fa66f52d364c0}{}\label{class_event_system_ae68ff7a957934b312a0fa66f52d364c0}
+
+
+Entity system that has entities this system will manage. 
+
+
+
+Definition at line 67 of file Event\+System.\+hpp.
+
+\index{Event\+System@{Event\+System}!update\+\_\+period\+\_\+@{update\+\_\+period\+\_\+}}
+\index{update\+\_\+period\+\_\+@{update\+\_\+period\+\_\+}!Event\+System@{Event\+System}}
+\subsubsection[{\texorpdfstring{update\+\_\+period\+\_\+}{update_period_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Event\+System\+::update\+\_\+period\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_event_system_ae2c07675de523ca6157d766f83447d19}{}\label{class_event_system_ae2c07675de523ca6157d766f83447d19}
+
+
+Allow for less frequent updates, since per frame updates are quite unnecessary and resource wasting. 
+
+
+
+Definition at line 73 of file Event\+System.\+hpp.
+
+\index{Event\+System@{Event\+System}!update\+\_\+time\+\_\+multiplier\+\_\+@{update\+\_\+time\+\_\+multiplier\+\_\+}}
+\index{update\+\_\+time\+\_\+multiplier\+\_\+@{update\+\_\+time\+\_\+multiplier\+\_\+}!Event\+System@{Event\+System}}
+\subsubsection[{\texorpdfstring{update\+\_\+time\+\_\+multiplier\+\_\+}{update_time_multiplier_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Event\+System\+::update\+\_\+time\+\_\+multiplier\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_event_system_a28113a32ef8e7f3a415251b815ac7d0f}{}\label{class_event_system_a28113a32ef8e7f3a415251b815ac7d0f}
+
+
+Allows to speed up/slow down the update timer. 
+
+
+
+Definition at line 78 of file Event\+System.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+systems/Event\+System.\+hpp\item 
+systems/Event\+System.\+cpp\end{DoxyCompactItemize}

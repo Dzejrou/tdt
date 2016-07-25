@@ -1,0 +1,253 @@
+\hypertarget{namespace_time_helper}{}\section{Time\+Helper Namespace Reference}
+\label{namespace_time_helper}\index{Time\+Helper@{Time\+Helper}}
+
+
+Auxiliary namespace containing functions that help with the management of the time component.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+tdt\+::real \hyperlink{namespace_time_helper_a15eab267c80aa38315ffe39aa7d2a429}{get\+\_\+curr\+\_\+time} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the time that has passed since the timer started. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_time_helper_a4cafe865b0edb09354faa68d44f9ca9c}{advance\+\_\+curr\+\_\+time} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Adds a given time value to a given timer. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_time_helper_ade17d2a03be5d9be7801c6d07cbf6878}{max\+\_\+curr\+\_\+time} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Completes a given timer (by maxing it\textquotesingle{}s current time). \end{DoxyCompactList}\item 
+void \hyperlink{namespace_time_helper_ae6205e873a275707a830487f263efe45}{set\+\_\+time\+\_\+limit} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Sets the time a given timer requires for completion. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{namespace_time_helper_a8850fb15e18686713be8609142b92f67}{get\+\_\+time\+\_\+limit} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the time a given timer requires for completion. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_time_helper_a547454bfc4b8be7ca3cb41b9818dd23a}{set\+\_\+target} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the ID of the event a given timer starts/ends. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_time_helper_af962eb68dc7ab712bc19437908003960}{get\+\_\+target} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the ID of the event a given timer starts/ends. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_time_helper_a1970e363bd595ec6fecaff6b3bae74f5}{set\+\_\+type} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, T\+I\+M\+E\+\_\+\+E\+V\+E\+NT)
+\begin{DoxyCompactList}\small\item\em Sets the type of a given timer. \end{DoxyCompactList}\item 
+T\+I\+M\+E\+\_\+\+E\+V\+E\+NT \hyperlink{namespace_time_helper_acb059da1811b33e9a6e1016f3861fade}{get\+\_\+type} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the type of a given timer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary namespace containing functions that help with the management of the time component. 
+
+\subsection{Function Documentation}
+\index{Time\+Helper@{Time\+Helper}!advance\+\_\+curr\+\_\+time@{advance\+\_\+curr\+\_\+time}}
+\index{advance\+\_\+curr\+\_\+time@{advance\+\_\+curr\+\_\+time}!Time\+Helper@{Time\+Helper}}
+\subsubsection[{\texorpdfstring{advance\+\_\+curr\+\_\+time(\+Entity\+System \&, tdt\+::uint, tdt\+::real)}{advance_curr_time(EntitySystem &, tdt::uint, tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Time\+Helper\+::advance\+\_\+curr\+\_\+time (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::real}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_time_helper_a4cafe865b0edb09354faa68d44f9ca9c}{}\label{namespace_time_helper_a4cafe865b0edb09354faa68d44f9ca9c}
+
+
+Adds a given time value to a given timer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system which contains the timer. \\
+\hline
+{\em ID} & of the timer. \\
+\hline
+{\em Time} & to add. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 14 of file Time\+Helper.\+cpp.
+
+\index{Time\+Helper@{Time\+Helper}!get\+\_\+curr\+\_\+time@{get\+\_\+curr\+\_\+time}}
+\index{get\+\_\+curr\+\_\+time@{get\+\_\+curr\+\_\+time}!Time\+Helper@{Time\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+curr\+\_\+time(\+Entity\+System \&, tdt\+::uint)}{get_curr_time(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Time\+Helper\+::get\+\_\+curr\+\_\+time (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_time_helper_a15eab267c80aa38315ffe39aa7d2a429}{}\label{namespace_time_helper_a15eab267c80aa38315ffe39aa7d2a429}
+
+
+Returns the time that has passed since the timer started. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system which contains the timer. \\
+\hline
+{\em ID} & of th entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 5 of file Time\+Helper.\+cpp.
+
+\index{Time\+Helper@{Time\+Helper}!get\+\_\+target@{get\+\_\+target}}
+\index{get\+\_\+target@{get\+\_\+target}!Time\+Helper@{Time\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+target(\+Entity\+System \&, tdt\+::uint)}{get_target(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Time\+Helper\+::get\+\_\+target (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_time_helper_af962eb68dc7ab712bc19437908003960}{}\label{namespace_time_helper_af962eb68dc7ab712bc19437908003960}
+
+
+Returns the ID of the event a given timer starts/ends. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system which contains the timer. \\
+\hline
+{\em ID} & of the timer. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 51 of file Time\+Helper.\+cpp.
+
+\index{Time\+Helper@{Time\+Helper}!get\+\_\+time\+\_\+limit@{get\+\_\+time\+\_\+limit}}
+\index{get\+\_\+time\+\_\+limit@{get\+\_\+time\+\_\+limit}!Time\+Helper@{Time\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+time\+\_\+limit(\+Entity\+System \&, tdt\+::uint)}{get_time_limit(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Time\+Helper\+::get\+\_\+time\+\_\+limit (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_time_helper_a8850fb15e18686713be8609142b92f67}{}\label{namespace_time_helper_a8850fb15e18686713be8609142b92f67}
+
+
+Returns the time a given timer requires for completion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system which contains the timer. \\
+\hline
+{\em ID} & of the timer. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 35 of file Time\+Helper.\+cpp.
+
+\index{Time\+Helper@{Time\+Helper}!get\+\_\+type@{get\+\_\+type}}
+\index{get\+\_\+type@{get\+\_\+type}!Time\+Helper@{Time\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+type(\+Entity\+System \&, tdt\+::uint)}{get_type(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}T\+I\+M\+E\+\_\+\+E\+V\+E\+NT Time\+Helper\+::get\+\_\+type (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_time_helper_acb059da1811b33e9a6e1016f3861fade}{}\label{namespace_time_helper_acb059da1811b33e9a6e1016f3861fade}
+
+
+Returns the type of a given timer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system which contains the timer. \\
+\hline
+{\em ID} & of the timer. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 67 of file Time\+Helper.\+cpp.
+
+\index{Time\+Helper@{Time\+Helper}!max\+\_\+curr\+\_\+time@{max\+\_\+curr\+\_\+time}}
+\index{max\+\_\+curr\+\_\+time@{max\+\_\+curr\+\_\+time}!Time\+Helper@{Time\+Helper}}
+\subsubsection[{\texorpdfstring{max\+\_\+curr\+\_\+time(\+Entity\+System \&, tdt\+::uint)}{max_curr_time(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Time\+Helper\+::max\+\_\+curr\+\_\+time (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_time_helper_ade17d2a03be5d9be7801c6d07cbf6878}{}\label{namespace_time_helper_ade17d2a03be5d9be7801c6d07cbf6878}
+
+
+Completes a given timer (by maxing it\textquotesingle{}s current time). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system which contains the timer. \\
+\hline
+{\em ID} & of the timer. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 21 of file Time\+Helper.\+cpp.
+
+\index{Time\+Helper@{Time\+Helper}!set\+\_\+target@{set\+\_\+target}}
+\index{set\+\_\+target@{set\+\_\+target}!Time\+Helper@{Time\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+target(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_target(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Time\+Helper\+::set\+\_\+target (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_time_helper_a547454bfc4b8be7ca3cb41b9818dd23a}{}\label{namespace_time_helper_a547454bfc4b8be7ca3cb41b9818dd23a}
+
+
+Sets the ID of the event a given timer starts/ends. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system which contains the timer. \\
+\hline
+{\em ID} & of the timer. \\
+\hline
+{\em ID} & of the event. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 44 of file Time\+Helper.\+cpp.
+
+\index{Time\+Helper@{Time\+Helper}!set\+\_\+time\+\_\+limit@{set\+\_\+time\+\_\+limit}}
+\index{set\+\_\+time\+\_\+limit@{set\+\_\+time\+\_\+limit}!Time\+Helper@{Time\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+time\+\_\+limit(\+Entity\+System \&, tdt\+::uint, tdt\+::real)}{set_time_limit(EntitySystem &, tdt::uint, tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Time\+Helper\+::set\+\_\+time\+\_\+limit (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::real}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_time_helper_ae6205e873a275707a830487f263efe45}{}\label{namespace_time_helper_ae6205e873a275707a830487f263efe45}
+
+
+Sets the time a given timer requires for completion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system which contains the timer. \\
+\hline
+{\em ID} & of the timer. \\
+\hline
+{\em The} & new time limit. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 28 of file Time\+Helper.\+cpp.
+
+\index{Time\+Helper@{Time\+Helper}!set\+\_\+type@{set\+\_\+type}}
+\index{set\+\_\+type@{set\+\_\+type}!Time\+Helper@{Time\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+type(\+Entity\+System \&, tdt\+::uint, T\+I\+M\+E\+\_\+\+E\+V\+E\+N\+T)}{set_type(EntitySystem &, tdt::uint, TIME_EVENT)}}]{\setlength{\rightskip}{0pt plus 5cm}void Time\+Helper\+::set\+\_\+type (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{T\+I\+M\+E\+\_\+\+E\+V\+E\+NT}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_time_helper_a1970e363bd595ec6fecaff6b3bae74f5}{}\label{namespace_time_helper_a1970e363bd595ec6fecaff6b3bae74f5}
+
+
+Sets the type of a given timer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system which contains the timer. \\
+\hline
+{\em ID} & of the timer. \\
+\hline
+{\em The} & new type. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 60 of file Time\+Helper.\+cpp.
+

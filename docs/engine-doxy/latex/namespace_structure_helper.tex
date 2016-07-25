@@ -1,0 +1,178 @@
+\hypertarget{namespace_structure_helper}{}\section{Structure\+Helper Namespace Reference}
+\label{namespace_structure_helper}\index{Structure\+Helper@{Structure\+Helper}}
+
+
+Auxiliary namespace containing the functions that help with the management of the structure component.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespace_structure_helper_a29babcdb58f58e5fd14fbae255cb53f1}{add\+\_\+residences} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, const std\+::vector$<$ tdt\+::uint $>$ \&)
+\begin{DoxyCompactList}\small\item\em Adds the members of a given vector (containing node I\+Ds) as residences of a given entity (that has a structure component). \end{DoxyCompactList}\item 
+void \hyperlink{namespace_structure_helper_a924a6f654ea8afebbcb83bbfd3af30a1}{add\+\_\+residence} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Adds a single node as a residence to the residence list of a given entity. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_structure_helper_ab3acfb0dbeda0b16b5f2fcb3e548eee6}{set\+\_\+radius} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the radius of the area a given structure occupies. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_structure_helper_a0317c12cf1560dcf490857e6f1a10688}{get\+\_\+radius} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the radius of a structure (amount of grid nodes from the centre of the structure to one of the sides -\/ not including the centre). \end{DoxyCompactList}\item 
+void \hyperlink{namespace_structure_helper_a24e5ceb53378a5433d7da2139ac8d532}{set\+\_\+walk\+\_\+through} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, bool)
+\begin{DoxyCompactList}\small\item\em Sets the walk through field of a structure, causing it to either block or allow pathfinding. \end{DoxyCompactList}\item 
+bool \hyperlink{namespace_structure_helper_a6af8f2540792992aa980e5158f9877c2}{is\+\_\+walk\+\_\+through} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns true if pathfinding is possible through the structure, false otherwise. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary namespace containing the functions that help with the management of the structure component. 
+
+\subsection{Function Documentation}
+\index{Structure\+Helper@{Structure\+Helper}!add\+\_\+residence@{add\+\_\+residence}}
+\index{add\+\_\+residence@{add\+\_\+residence}!Structure\+Helper@{Structure\+Helper}}
+\subsubsection[{\texorpdfstring{add\+\_\+residence(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{add_residence(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Structure\+Helper\+::add\+\_\+residence (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{ent\+\_\+id, }
+\item[{tdt\+::uint}]{node\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_structure_helper_a924a6f654ea8afebbcb83bbfd3af30a1}{}\label{namespace_structure_helper_a924a6f654ea8afebbcb83bbfd3af30a1}
+
+
+Adds a single node as a residence to the residence list of a given entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the structure. \\
+\hline
+{\em ID} & of the residence. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 15 of file Structure\+Helper.\+cpp.
+
+\index{Structure\+Helper@{Structure\+Helper}!add\+\_\+residences@{add\+\_\+residences}}
+\index{add\+\_\+residences@{add\+\_\+residences}!Structure\+Helper@{Structure\+Helper}}
+\subsubsection[{\texorpdfstring{add\+\_\+residences(\+Entity\+System \&, tdt\+::uint, const std\+::vector$<$ tdt\+::uint $>$ \&)}{add_residences(EntitySystem &, tdt::uint, const std::vector< tdt::uint > &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Structure\+Helper\+::add\+\_\+residences (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{ent\+\_\+id, }
+\item[{const std\+::vector$<$ tdt\+::uint $>$ \&}]{residences}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_structure_helper_a29babcdb58f58e5fd14fbae255cb53f1}{}\label{namespace_structure_helper_a29babcdb58f58e5fd14fbae255cb53f1}
+
+
+Adds the members of a given vector (containing node I\+Ds) as residences of a given entity (that has a structure component). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Vector} & containing the I\+Ds of the new residences (nodes the entity is on). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 5 of file Structure\+Helper.\+cpp.
+
+\index{Structure\+Helper@{Structure\+Helper}!get\+\_\+radius@{get\+\_\+radius}}
+\index{get\+\_\+radius@{get\+\_\+radius}!Structure\+Helper@{Structure\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+radius(\+Entity\+System \&, tdt\+::uint)}{get_radius(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Structure\+Helper\+::get\+\_\+radius (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_structure_helper_a0317c12cf1560dcf490857e6f1a10688}{}\label{namespace_structure_helper_a0317c12cf1560dcf490857e6f1a10688}
+
+
+Returns the radius of a structure (amount of grid nodes from the centre of the structure to one of the sides -\/ not including the centre). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 29 of file Structure\+Helper.\+cpp.
+
+\index{Structure\+Helper@{Structure\+Helper}!is\+\_\+walk\+\_\+through@{is\+\_\+walk\+\_\+through}}
+\index{is\+\_\+walk\+\_\+through@{is\+\_\+walk\+\_\+through}!Structure\+Helper@{Structure\+Helper}}
+\subsubsection[{\texorpdfstring{is\+\_\+walk\+\_\+through(\+Entity\+System \&, tdt\+::uint)}{is_walk_through(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Structure\+Helper\+::is\+\_\+walk\+\_\+through (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_structure_helper_a6af8f2540792992aa980e5158f9877c2}{}\label{namespace_structure_helper_a6af8f2540792992aa980e5158f9877c2}
+
+
+Returns true if pathfinding is possible through the structure, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the structure. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 45 of file Structure\+Helper.\+cpp.
+
+\index{Structure\+Helper@{Structure\+Helper}!set\+\_\+radius@{set\+\_\+radius}}
+\index{set\+\_\+radius@{set\+\_\+radius}!Structure\+Helper@{Structure\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+radius(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_radius(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Structure\+Helper\+::set\+\_\+radius (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{radius}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_structure_helper_ab3acfb0dbeda0b16b5f2fcb3e548eee6}{}\label{namespace_structure_helper_ab3acfb0dbeda0b16b5f2fcb3e548eee6}
+
+
+Sets the radius of the area a given structure occupies. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the entity (which has a structure component). \\
+\hline
+{\em The} & new radius. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 22 of file Structure\+Helper.\+cpp.
+
+\index{Structure\+Helper@{Structure\+Helper}!set\+\_\+walk\+\_\+through@{set\+\_\+walk\+\_\+through}}
+\index{set\+\_\+walk\+\_\+through@{set\+\_\+walk\+\_\+through}!Structure\+Helper@{Structure\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+walk\+\_\+through(\+Entity\+System \&, tdt\+::uint, bool)}{set_walk_through(EntitySystem &, tdt::uint, bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void Structure\+Helper\+::set\+\_\+walk\+\_\+through (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{bool}]{on\+\_\+off}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_structure_helper_a24e5ceb53378a5433d7da2139ac8d532}{}\label{namespace_structure_helper_a24e5ceb53378a5433d7da2139ac8d532}
+
+
+Sets the walk through field of a structure, causing it to either block or allow pathfinding. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the structure. \\
+\hline
+{\em True} & for walkable, false for not walkable. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 38 of file Structure\+Helper.\+cpp.
+

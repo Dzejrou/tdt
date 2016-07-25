@@ -1,0 +1,26 @@
+var class_options_window =
+[
+    [ "ActionFuncPtr", "class_options_window.html#a5f01e3cb1c649c429ff4e8f3cfeda350", null ],
+    [ "OptionsWindow", "class_options_window.html#a83990c03d2fec467c1131d7961f59e25", null ],
+    [ "~OptionsWindow", "class_options_window.html#a4937f89a05eedf7bc9122b8df37ff805", null ],
+    [ "add_start_parameters", "class_options_window.html#ac629faa5a25c78141897ab2f53ec9bb4", null ],
+    [ "apply_", "class_options_window.html#a4bde7704e95b5ee4fb80bbf2b325c16b", null ],
+    [ "get_key_bind_name_", "class_options_window.html#a949bdb318ae5834f72eb906076941842", null ],
+    [ "init_", "class_options_window.html#a88bfc1401a1113e4ab4afdb8af106682", null ],
+    [ "key_pressed", "class_options_window.html#a35feca3b435b2205f72138f65d20cf5d", null ],
+    [ "set_key_bind", "class_options_window.html#af171624435787e543e9dcb64b5bce39e", null ],
+    [ "update_font_of_window_", "class_options_window.html#acfebf79f3daf208868565b185634e641", null ],
+    [ "update_fonts_", "class_options_window.html#ab1629d4e6c35737a8e7588d1ce99fb5d", null ],
+    [ "update_labels_", "class_options_window.html#a357e35144c8067c54cd12907dd11417b", null ],
+    [ "actions_", "class_options_window.html#a343bc2c957774fb3de4ba8ea8fbef3df", null ],
+    [ "currently_binded_action_", "class_options_window.html#a62f3d533394c12986766deb0e73794c2", null ],
+    [ "fullscreen_", "class_options_window.html#a536d5e2d5cc3f8c419836e1e5ff80423", null ],
+    [ "height_", "class_options_window.html#aa2b6e26908f2ee947a997d76de66cc6f", null ],
+    [ "key_binds_", "class_options_window.html#a1727e50166ba8b67f5f97f6213e0f80d", null ],
+    [ "key_names_", "class_options_window.html#a65c8541c815655feaa458edb01738213", null ],
+    [ "render_window_", "class_options_window.html#a9c6b55b36d1f57ea60885cf0a59291ca", null ],
+    [ "renderer_", "class_options_window.html#aa46c54f3e0956dce55fb370324d91772", null ],
+    [ "resolutions_", "class_options_window.html#ae7e2ff101e41b90c0063b78710b85639", null ],
+    [ "view_", "class_options_window.html#a8c3609894e71264da13b88129d0a1f70", null ],
+    [ "width_", "class_options_window.html#ab5b2b96bd284265c5a49b145493e8ead", null ]
+];

@@ -1,0 +1,97 @@
+\hypertarget{classlevel__generators_1_1_random_level_generator}{}\section{level\+\_\+generators\+:\+:Random\+Level\+Generator Class Reference}
+\label{classlevel__generators_1_1_random_level_generator}\index{level\+\_\+generators\+::\+Random\+Level\+Generator@{level\+\_\+generators\+::\+Random\+Level\+Generator}}
+
+
+Level generator that uses simple R\+NG approach (counts the number of gold neighbours and increases the chance to spawn a gold deposit if needed).  
+
+
+
+
+{\ttfamily \#include $<$Level\+Generators.\+hpp$>$}
+
+Inheritance diagram for level\+\_\+generators\+:\+:Random\+Level\+Generator\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlevel__generators_1_1_random_level_generator}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classlevel__generators_1_1_random_level_generator_ae599a19573e7ac5ffb0c4834754df933}{Random\+Level\+Generator} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classlevel__generators_1_1_random_level_generator_a085098cd10565bd3f9c6b13f68fcc1cb}{generate} (tdt\+::uint, tdt\+::uint, \hyperlink{class_wave_system}{Wave\+System} \&) override
+\begin{DoxyCompactList}\small\item\em Generates a level with the given dimensions using an R\+NG approach. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Level generator that uses simple R\+NG approach (counts the number of gold neighbours and increases the chance to spawn a gold deposit if needed). 
+
+Definition at line 60 of file Level\+Generators.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{level\+\_\+generators\+::\+Random\+Level\+Generator@{level\+\_\+generators\+::\+Random\+Level\+Generator}!Random\+Level\+Generator@{Random\+Level\+Generator}}
+\index{Random\+Level\+Generator@{Random\+Level\+Generator}!level\+\_\+generators\+::\+Random\+Level\+Generator@{level\+\_\+generators\+::\+Random\+Level\+Generator}}
+\subsubsection[{\texorpdfstring{Random\+Level\+Generator(\+Entity\+System \&, tdt\+::uint)}{RandomLevelGenerator(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}level\+\_\+generators\+::\+Random\+Level\+Generator\+::\+Random\+Level\+Generator (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{c}
+\end{DoxyParamCaption}
+)}\hypertarget{classlevel__generators_1_1_random_level_generator_ae599a19573e7ac5ffb0c4834754df933}{}\label{classlevel__generators_1_1_random_level_generator_ae599a19573e7ac5ffb0c4834754df933}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & system that contains the level\textquotesingle{}s entities. \\
+\hline
+{\em Number} & of iterations done while generating. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 14 of file Level\+Generators.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\index{level\+\_\+generators\+::\+Random\+Level\+Generator@{level\+\_\+generators\+::\+Random\+Level\+Generator}!generate@{generate}}
+\index{generate@{generate}!level\+\_\+generators\+::\+Random\+Level\+Generator@{level\+\_\+generators\+::\+Random\+Level\+Generator}}
+\subsubsection[{\texorpdfstring{generate(tdt\+::uint, tdt\+::uint, Wave\+System \&) override}{generate(tdt::uint, tdt::uint, WaveSystem &) override}}]{\setlength{\rightskip}{0pt plus 5cm}void level\+\_\+generators\+::\+Random\+Level\+Generator\+::generate (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{width, }
+\item[{tdt\+::uint}]{height, }
+\item[{{\bf Wave\+System} \&}]{wsystem}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{classlevel__generators_1_1_random_level_generator_a085098cd10565bd3f9c6b13f68fcc1cb}{}\label{classlevel__generators_1_1_random_level_generator_a085098cd10565bd3f9c6b13f68fcc1cb}
+
+
+Generates a level with the given dimensions using an R\+NG approach. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Width} & of the level. \\
+\hline
+{\em Height} & of the level. \\
+\hline
+{\em Wave} & system that will have it\textquotesingle{}s spawn nodes set. \\
+\hline
+\end{DoxyParams}
+0 == free space 1 == wall 2 == gold deposit 3 == border 4 == walkway 5 == light source 6 == throne 7 == vault 8 == mine
+
+Implements \hyperlink{classlevel__generators_1_1_level_generator_af5c177ea2e5b14b983c47c8c169c5ac7}{level\+\_\+generators\+::\+Level\+Generator}.
+
+
+
+Definition at line 18 of file Level\+Generators.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+tools/Level\+Generators.\+hpp\item 
+tools/Level\+Generators.\+cpp\end{DoxyCompactItemize}

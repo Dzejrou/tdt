@@ -1,0 +1,153 @@
+\hypertarget{class_ray_caster}{}\section{Ray\+Caster Class Reference}
+\label{class_ray_caster}\index{Ray\+Caster@{Ray\+Caster}}
+
+
+Manages polygon precise raycasting used with half walls that have empty spaces in their bounding boxes.  
+
+
+
+
+{\ttfamily \#include $<$Ray\+Caster.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ray_caster_a216827ccaf7a65fc6e25953fe015d9bc}{Ray\+Caster} (Ogre\+::\+Scene\+Manager \&)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+std\+::pair$<$ bool, tdt\+::real $>$ \hyperlink{class_ray_caster_a5af376ca167daa1e997a73f96bdbcbde}{cast} (const Ogre\+::\+Vector3 \&, const Ogre\+::\+Vector3 \&, const std\+::string \&=\char`\"{}\char`\"{}) const 
+\begin{DoxyCompactList}\small\item\em Casts a ray that checks for polygon level collisions on it\textquotesingle{}s way. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_ray_caster_a6c098462b63c0cdac3cc1a3ea4609bfb}{get\+\_\+info} (const Ogre\+::\+Entity \&, tdt\+::uint \&, tdt\+::uint \&, std\+::vector$<$ Ogre\+::\+Vector3 $>$ \&, std\+::vector$<$ tdt\+::uint $>$ \&, const Ogre\+::\+Vector3 \&, const Ogre\+::\+Quaternion \&, const Ogre\+::\+Vector3 \&) const 
+\begin{DoxyCompactList}\small\item\em Returns information about vertices of an entity by modifying it\textquotesingle{}s size\+\_\+t and vector parameters. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Ogre\+::\+Ray\+Scene\+Query $\ast$ \hyperlink{class_ray_caster_ab086a0e4d34aa835c2a5289ee786832e}{query\+\_\+}
+\begin{DoxyCompactList}\small\item\em Query used for the collision ray cast. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Manages polygon precise raycasting used with half walls that have empty spaces in their bounding boxes. 
+
+\begin{DoxyNote}{Note}
+Strongly inspired by \href{http://www.ogre3d.org/tikiwiki/Raycasting+to+the+polygon+level}{\tt http\+://www.\+ogre3d.\+org/tikiwiki/\+Raycasting+to+the+polygon+level} from the official Ogre3D wiki, big thanks to all contributors. 
+\end{DoxyNote}
+
+
+Definition at line 14 of file Ray\+Caster.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Ray\+Caster@{Ray\+Caster}!Ray\+Caster@{Ray\+Caster}}
+\index{Ray\+Caster@{Ray\+Caster}!Ray\+Caster@{Ray\+Caster}}
+\subsubsection[{\texorpdfstring{Ray\+Caster(\+Ogre\+::\+Scene\+Manager \&)}{RayCaster(Ogre::SceneManager &)}}]{\setlength{\rightskip}{0pt plus 5cm}Ray\+Caster\+::\+Ray\+Caster (
+\begin{DoxyParamCaption}
+\item[{Ogre\+::\+Scene\+Manager \&}]{mgr}
+\end{DoxyParamCaption}
+)}\hypertarget{class_ray_caster_a216827ccaf7a65fc6e25953fe015d9bc}{}\label{class_ray_caster_a216827ccaf7a65fc6e25953fe015d9bc}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Scene} & manager that is used to create the ray query. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 6 of file Ray\+Caster.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\index{Ray\+Caster@{Ray\+Caster}!cast@{cast}}
+\index{cast@{cast}!Ray\+Caster@{Ray\+Caster}}
+\subsubsection[{\texorpdfstring{cast(const Ogre\+::\+Vector3 \&, const Ogre\+::\+Vector3 \&, const std\+::string \&="""") const }{cast(const Ogre::Vector3 &, const Ogre::Vector3 &, const std::string &="") const }}]{\setlength{\rightskip}{0pt plus 5cm}std\+::pair$<$ bool, tdt\+::real $>$ Ray\+Caster\+::cast (
+\begin{DoxyParamCaption}
+\item[{const Ogre\+::\+Vector3 \&}]{start, }
+\item[{const Ogre\+::\+Vector3 \&}]{dir, }
+\item[{const std\+::string \&}]{target = {\ttfamily \char`\"{}\char`\"{}}}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_ray_caster_a5af376ca167daa1e997a73f96bdbcbde}{}\label{class_ray_caster_a5af376ca167daa1e997a73f96bdbcbde}
+
+
+Casts a ray that checks for polygon level collisions on it\textquotesingle{}s way. 
+
+Returns a pair of a bool, signaling whether a hit was made and a distance to the place of the collision, if any occured. 
+\begin{DoxyParams}{Parameters}
+{\em Starting} & position of the ray. \\
+\hline
+{\em Direction} & of the ray. \\
+\hline
+{\em Name} & of the entity to be ignored (the target) if it\textquotesingle{}s a wall. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 13 of file Ray\+Caster.\+cpp.
+
+\index{Ray\+Caster@{Ray\+Caster}!get\+\_\+info@{get\+\_\+info}}
+\index{get\+\_\+info@{get\+\_\+info}!Ray\+Caster@{Ray\+Caster}}
+\subsubsection[{\texorpdfstring{get\+\_\+info(const Ogre\+::\+Entity \&, tdt\+::uint \&, tdt\+::uint \&, std\+::vector$<$ Ogre\+::\+Vector3 $>$ \&, std\+::vector$<$ tdt\+::uint $>$ \&, const Ogre\+::\+Vector3 \&, const Ogre\+::\+Quaternion \&, const Ogre\+::\+Vector3 \&) const }{get_info(const Ogre::Entity &, tdt::uint &, tdt::uint &, std::vector< Ogre::Vector3 > &, std::vector< tdt::uint > &, const Ogre::Vector3 &, const Ogre::Quaternion &, const Ogre::Vector3 &) const }}]{\setlength{\rightskip}{0pt plus 5cm}void Ray\+Caster\+::get\+\_\+info (
+\begin{DoxyParamCaption}
+\item[{const Ogre\+::\+Entity \&}]{ent, }
+\item[{tdt\+::uint \&}]{v\+\_\+count, }
+\item[{tdt\+::uint \&}]{i\+\_\+count, }
+\item[{std\+::vector$<$ Ogre\+::\+Vector3 $>$ \&}]{verts, }
+\item[{std\+::vector$<$ tdt\+::uint $>$ \&}]{inds, }
+\item[{const Ogre\+::\+Vector3 \&}]{position, }
+\item[{const Ogre\+::\+Quaternion \&}]{orientation, }
+\item[{const Ogre\+::\+Vector3 \&}]{scale}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_ray_caster_a6c098462b63c0cdac3cc1a3ea4609bfb}{}\label{class_ray_caster_a6c098462b63c0cdac3cc1a3ea4609bfb}
+
+
+Returns information about vertices of an entity by modifying it\textquotesingle{}s size\+\_\+t and vector parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Entity} & to be checked. \\
+\hline
+{\em Number} & of vertices, will be set inside the function. \\
+\hline
+{\em Number} & of indices, will be set inside the function. \\
+\hline
+{\em Vector} & of vertex point positions, will be filled inside the function. \\
+\hline
+{\em Vector} & of indices of the vertex points inside the vertex vector above. \\
+\hline
+{\em Position} & of the entity. \\
+\hline
+{\em Orientation} & of the entity. \\
+\hline
+{\em Scale} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 73 of file Ray\+Caster.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Ray\+Caster@{Ray\+Caster}!query\+\_\+@{query\+\_\+}}
+\index{query\+\_\+@{query\+\_\+}!Ray\+Caster@{Ray\+Caster}}
+\subsubsection[{\texorpdfstring{query\+\_\+}{query_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Ray\+Scene\+Query$\ast$ Ray\+Caster\+::query\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_ray_caster_ab086a0e4d34aa835c2a5289ee786832e}{}\label{class_ray_caster_ab086a0e4d34aa835c2a5289ee786832e}
+
+
+Query used for the collision ray cast. 
+
+
+
+Definition at line 38 of file Ray\+Caster.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+tools/Ray\+Caster.\+hpp\item 
+tools/Ray\+Caster.\+cpp\end{DoxyCompactItemize}

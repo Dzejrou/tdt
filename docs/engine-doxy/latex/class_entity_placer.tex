@@ -1,0 +1,392 @@
+\hypertarget{class_entity_placer}{}\section{Entity\+Placer Class Reference}
+\label{class_entity_placer}\index{Entity\+Placer@{Entity\+Placer}}
+
+
+Class allowing the player/developer to place entities on the ground.  
+
+
+
+
+{\ttfamily \#include $<$Entity\+Placer.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_entity_placer_ab2ee072da3a1584b8ffbe6f1d299dcc7}{Entity\+Placer} (\hyperlink{class_entity_system}{Entity\+System} \&, \hyperlink{class_grid_system}{Grid\+System} \&, Ogre\+::\+Scene\+Manager \&)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_entity_placer_aa95644c347070f209bc01dc2f2391851}{$\sim$\+Entity\+Placer} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_placer_af8870b8ce74e91a02f7675a3c8a2a692}{set\+\_\+current\+\_\+entity\+\_\+table} (const std\+::string \&, bool=false)
+\begin{DoxyCompactList}\small\item\em Checks if a given entity blueprint contains a graphics component and if so, sets it as the currently placed entity by creating a dummy entity following the cursor. \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_placer_a0314d1d228bff8b317b89481aa92c361}{update\+\_\+position} (const Ogre\+::\+Vector3 \&)
+\begin{DoxyCompactList}\small\item\em Called every frame when the entity placer is active, adjusts the dummy entity\textquotesingle{}s position to the cursor\textquotesingle{}s. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_entity_placer_a29dd8e6e72ae7b0816be797e22392260}{place} ()
+\begin{DoxyCompactList}\small\item\em Creates a new entity from the blueprint table at the mouse cursor\textquotesingle{}s current position and informs the developer in the developer console. \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_placer_a751003cd67901a18fae7d888394cf360}{set\+\_\+visible} (bool)
+\begin{DoxyCompactList}\small\item\em Sets the visibility status of the placer (and it\textquotesingle{}s dummy entity). \end{DoxyCompactList}\item 
+bool \hyperlink{class_entity_placer_aefbb8b16e6f7336b999231ebb021ba52}{is\+\_\+visible} () const 
+\begin{DoxyCompactList}\small\item\em Returns true if the placer is currently active (and thus the dummy entity visible), false otherwise. \end{DoxyCompactList}\item 
+void \hyperlink{class_entity_placer_ae207c65665d039caa6a16c8fcb15219a}{toggle\+\_\+placing\+\_\+when\+\_\+game\+\_\+paused} ()
+\begin{DoxyCompactList}\small\item\em Toggles (=negates) the flag for entity placing while the game is paused. \end{DoxyCompactList}\item 
+bool \hyperlink{class_entity_placer_afe268719c2c4e17bc30713452cead93d}{can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused} () const 
+\begin{DoxyCompactList}\small\item\em Returns true if the placer can place entities when the game is paused, false otherwise. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_entity_system}{Entity\+System} \& \hyperlink{class_entity_placer_ae9fd5bc815ebbfd3edaeda50c3514db6}{entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the game\textquotesingle{}s entity system. \end{DoxyCompactList}\item 
+\hyperlink{class_grid_system}{Grid\+System} \& \hyperlink{class_entity_placer_ab83d8094255391c2ad998dad77420510}{grid\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the game\textquotesingle{}s grid system. \end{DoxyCompactList}\item 
+Ogre\+::\+Vector3 \hyperlink{class_entity_placer_a27b04e112365310f41af57bc764fc595}{curr\+\_\+position\+\_\+}
+\begin{DoxyCompactList}\small\item\em Current position of the dummy entity (used to avoid the need to pass the position again on the actual placement cal). \end{DoxyCompactList}\item 
+Ogre\+::\+Scene\+Node $\ast$ \hyperlink{class_entity_placer_a6e7d6a22bb82c701ef9a1be971de9205}{placing\+\_\+node\+\_\+}
+\begin{DoxyCompactList}\small\item\em Pointer to the scene node the dummy entity is attached to. \end{DoxyCompactList}\item 
+bool \hyperlink{class_entity_placer_ad54b47813b660f962dcd04378ebf3ecd}{visible\+\_\+}
+\begin{DoxyCompactList}\small\item\em The placer\textquotesingle{}s visibility (and active) status. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{class_entity_placer_a51c07b2b7a1a2e66334fd961aea2bff4}{table\+\_\+name\+\_\+}
+\begin{DoxyCompactList}\small\item\em Name of the blueprint of the currently placed entity. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_entity_placer_a72d45d5edaff74b58a898a7ad1b518fc}{half\+\_\+height\+\_\+}
+\begin{DoxyCompactList}\small\item\em Used to correctly place the newly created entity on the ground. \end{DoxyCompactList}\item 
+bool \hyperlink{class_entity_placer_af3edb9c35afa51723737c9995bdd2f84}{placing\+\_\+structure\+\_\+}
+\begin{DoxyCompactList}\small\item\em Determines if a structure (wall, building etc.) is being placed, this will make the dummy entity to snap to the grid nodes. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_entity_placer_a329869555fb8492752f6deccf1678a98}{structure\+\_\+radius\+\_\+}
+\begin{DoxyCompactList}\small\item\em Radius of the placed structure (if it\textquotesingle{}s covering more than one node). \end{DoxyCompactList}\item 
+Ogre\+::\+Scene\+Manager \& \hyperlink{class_entity_placer_ad80a74a9b6ee426c6050b825d3c78aea}{mgr\+\_\+}
+\begin{DoxyCompactList}\small\item\em Scene manager used to hold the dummy node and manipulate models. \end{DoxyCompactList}\item 
+Ogre\+::\+Entity $\ast$ \hyperlink{class_entity_placer_ae0452120158b3f88eba7b913257f185a}{ent\+\_\+}
+\begin{DoxyCompactList}\small\item\em Entity representing the mesh of the placed object. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_entity_placer_a936cda73ed84004f4c7b339481c6124b}{price\+\_\+}
+\begin{DoxyCompactList}\small\item\em Price of the currently placed entity. \end{DoxyCompactList}\item 
+bool \hyperlink{class_entity_placer_a9c038f93f3f2d94e322b050a1eafef6e}{can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused\+\_\+} \{false\}
+\begin{DoxyCompactList}\small\item\em Used for debugging, allows to place spawners when the game is paused and this their production is halted. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class allowing the player/developer to place entities on the ground. 
+
+(Mainly used by the \hyperlink{class_entity_creator}{Entity\+Creator} class, but can be invoked by \char`\"{}game.\+place\+\_\+entity(\+T\+A\+B\+L\+E)\char`\"{} where T\+A\+B\+LE is the name of the desired entity\textquotesingle{}s blueprint) 
+
+Definition at line 15 of file Entity\+Placer.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Entity\+Placer@{Entity\+Placer}!Entity\+Placer@{Entity\+Placer}}
+\index{Entity\+Placer@{Entity\+Placer}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{Entity\+Placer(\+Entity\+System \&, Grid\+System \&, Ogre\+::\+Scene\+Manager \&)}{EntityPlacer(EntitySystem &, GridSystem &, Ogre::SceneManager &)}}]{\setlength{\rightskip}{0pt plus 5cm}Entity\+Placer\+::\+Entity\+Placer (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{{\bf Grid\+System} \&}]{grid, }
+\item[{Ogre\+::\+Scene\+Manager \&}]{mgr}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_placer_ab2ee072da3a1584b8ffbe6f1d299dcc7}{}\label{class_entity_placer_ab2ee072da3a1584b8ffbe6f1d299dcc7}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the game\textquotesingle{}s entity system. \\
+\hline
+{\em Reference} & to the game\textquotesingle{}s grid system, used for node snapping when placing structures (i.\+e. walls, buildings...). \\
+\hline
+{\em Scene} & manager that will hold the dummy node. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 8 of file Entity\+Placer.\+cpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!````~Entity\+Placer@{$\sim$\+Entity\+Placer}}
+\index{````~Entity\+Placer@{$\sim$\+Entity\+Placer}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{$\sim$\+Entity\+Placer()}{~EntityPlacer()}}]{\setlength{\rightskip}{0pt plus 5cm}Entity\+Placer\+::$\sim$\+Entity\+Placer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_placer_aa95644c347070f209bc01dc2f2391851}{}\label{class_entity_placer_aa95644c347070f209bc01dc2f2391851}
+
+
+Destructor. 
+
+
+
+Definition at line 15 of file Entity\+Placer.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\index{Entity\+Placer@{Entity\+Placer}!can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused@{can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused}}
+\index{can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused@{can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused() const }{can_place_when_game_paused() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Entity\+Placer\+::can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_entity_placer_afe268719c2c4e17bc30713452cead93d}{}\label{class_entity_placer_afe268719c2c4e17bc30713452cead93d}
+
+
+Returns true if the placer can place entities when the game is paused, false otherwise. 
+
+
+
+Definition at line 154 of file Entity\+Placer.\+cpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!is\+\_\+visible@{is\+\_\+visible}}
+\index{is\+\_\+visible@{is\+\_\+visible}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{is\+\_\+visible() const }{is_visible() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Entity\+Placer\+::is\+\_\+visible (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_entity_placer_aefbb8b16e6f7336b999231ebb021ba52}{}\label{class_entity_placer_aefbb8b16e6f7336b999231ebb021ba52}
+
+
+Returns true if the placer is currently active (and thus the dummy entity visible), false otherwise. 
+
+
+
+Definition at line 144 of file Entity\+Placer.\+cpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!place@{place}}
+\index{place@{place}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{place()}{place()}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Entity\+Placer\+::place (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_placer_a29dd8e6e72ae7b0816be797e22392260}{}\label{class_entity_placer_a29dd8e6e72ae7b0816be797e22392260}
+
+
+Creates a new entity from the blueprint table at the mouse cursor\textquotesingle{}s current position and informs the developer in the developer console. 
+
+
+
+Definition at line 96 of file Entity\+Placer.\+cpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!set\+\_\+current\+\_\+entity\+\_\+table@{set\+\_\+current\+\_\+entity\+\_\+table}}
+\index{set\+\_\+current\+\_\+entity\+\_\+table@{set\+\_\+current\+\_\+entity\+\_\+table}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{set\+\_\+current\+\_\+entity\+\_\+table(const std\+::string \&, bool=false)}{set_current_entity_table(const std::string &, bool=false)}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+Placer\+::set\+\_\+current\+\_\+entity\+\_\+table (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{table\+\_\+name, }
+\item[{bool}]{use\+\_\+price = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_placer_af8870b8ce74e91a02f7675a3c8a2a692}{}\label{class_entity_placer_af8870b8ce74e91a02f7675a3c8a2a692}
+
+
+Checks if a given entity blueprint contains a graphics component and if so, sets it as the currently placed entity by creating a dummy entity following the cursor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Name} & of the blueprint table (describing the placed entity). \\
+\hline
+{\em If} & true, the cost of the entity will be subtracted from the player\textquotesingle{}s gold and the entity won\textquotesingle{}t be placed if the player does not have sufficient funds. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 22 of file Entity\+Placer.\+cpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!set\+\_\+visible@{set\+\_\+visible}}
+\index{set\+\_\+visible@{set\+\_\+visible}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{set\+\_\+visible(bool)}{set_visible(bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+Placer\+::set\+\_\+visible (
+\begin{DoxyParamCaption}
+\item[{bool}]{on\+\_\+off}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_placer_a751003cd67901a18fae7d888394cf360}{}\label{class_entity_placer_a751003cd67901a18fae7d888394cf360}
+
+
+Sets the visibility status of the placer (and it\textquotesingle{}s dummy entity). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new visibility status. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 135 of file Entity\+Placer.\+cpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!toggle\+\_\+placing\+\_\+when\+\_\+game\+\_\+paused@{toggle\+\_\+placing\+\_\+when\+\_\+game\+\_\+paused}}
+\index{toggle\+\_\+placing\+\_\+when\+\_\+game\+\_\+paused@{toggle\+\_\+placing\+\_\+when\+\_\+game\+\_\+paused}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{toggle\+\_\+placing\+\_\+when\+\_\+game\+\_\+paused()}{toggle_placing_when_game_paused()}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+Placer\+::toggle\+\_\+placing\+\_\+when\+\_\+game\+\_\+paused (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_placer_ae207c65665d039caa6a16c8fcb15219a}{}\label{class_entity_placer_ae207c65665d039caa6a16c8fcb15219a}
+
+
+Toggles (=negates) the flag for entity placing while the game is paused. 
+
+
+
+Definition at line 149 of file Entity\+Placer.\+cpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!update\+\_\+position@{update\+\_\+position}}
+\index{update\+\_\+position@{update\+\_\+position}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{update\+\_\+position(const Ogre\+::\+Vector3 \&)}{update_position(const Ogre::Vector3 &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+Placer\+::update\+\_\+position (
+\begin{DoxyParamCaption}
+\item[{const Ogre\+::\+Vector3 \&}]{pos}
+\end{DoxyParamCaption}
+)}\hypertarget{class_entity_placer_a0314d1d228bff8b317b89481aa92c361}{}\label{class_entity_placer_a0314d1d228bff8b317b89481aa92c361}
+
+
+Called every frame when the entity placer is active, adjusts the dummy entity\textquotesingle{}s position to the cursor\textquotesingle{}s. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Position} & of the mouse cursor (recieved from \hyperlink{class_game_a215e7330ada9260773a74ad0347dd638}{Game\+::get\+\_\+mouse\+\_\+click\+\_\+position}). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 73 of file Entity\+Placer.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Entity\+Placer@{Entity\+Placer}!can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused\+\_\+@{can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused\+\_\+}}
+\index{can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused\+\_\+@{can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused\+\_\+}{can_place_when_game_paused_}}]{\setlength{\rightskip}{0pt plus 5cm}bool Entity\+Placer\+::can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused\+\_\+ \{false\}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_a9c038f93f3f2d94e322b050a1eafef6e}{}\label{class_entity_placer_a9c038f93f3f2d94e322b050a1eafef6e}
+
+
+Used for debugging, allows to place spawners when the game is paused and this their production is halted. 
+
+
+
+Definition at line 150 of file Entity\+Placer.\+hpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!curr\+\_\+position\+\_\+@{curr\+\_\+position\+\_\+}}
+\index{curr\+\_\+position\+\_\+@{curr\+\_\+position\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{curr\+\_\+position\+\_\+}{curr_position_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Vector3 Entity\+Placer\+::curr\+\_\+position\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_a27b04e112365310f41af57bc764fc595}{}\label{class_entity_placer_a27b04e112365310f41af57bc764fc595}
+
+
+Current position of the dummy entity (used to avoid the need to pass the position again on the actual placement cal). 
+
+
+
+Definition at line 95 of file Entity\+Placer.\+hpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!ent\+\_\+@{ent\+\_\+}}
+\index{ent\+\_\+@{ent\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{ent\+\_\+}{ent_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Entity$\ast$ Entity\+Placer\+::ent\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_ae0452120158b3f88eba7b913257f185a}{}\label{class_entity_placer_ae0452120158b3f88eba7b913257f185a}
+
+
+Entity representing the mesh of the placed object. 
+
+
+
+Definition at line 139 of file Entity\+Placer.\+hpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!entities\+\_\+@{entities\+\_\+}}
+\index{entities\+\_\+@{entities\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{entities\+\_\+}{entities_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+System}\& Entity\+Placer\+::entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_ae9fd5bc815ebbfd3edaeda50c3514db6}{}\label{class_entity_placer_ae9fd5bc815ebbfd3edaeda50c3514db6}
+
+
+Reference to the game\textquotesingle{}s entity system. 
+
+(Used to create entities as well as checking the loaded tables.) 
+
+Definition at line 83 of file Entity\+Placer.\+hpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!grid\+\_\+@{grid\+\_\+}}
+\index{grid\+\_\+@{grid\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{grid\+\_\+}{grid_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Grid\+System}\& Entity\+Placer\+::grid\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_ab83d8094255391c2ad998dad77420510}{}\label{class_entity_placer_ab83d8094255391c2ad998dad77420510}
+
+
+Reference to the game\textquotesingle{}s grid system. 
+
+(Used for node snapping when placing structures). 
+
+Definition at line 89 of file Entity\+Placer.\+hpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!half\+\_\+height\+\_\+@{half\+\_\+height\+\_\+}}
+\index{half\+\_\+height\+\_\+@{half\+\_\+height\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{half\+\_\+height\+\_\+}{half_height_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Entity\+Placer\+::half\+\_\+height\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_a72d45d5edaff74b58a898a7ad1b518fc}{}\label{class_entity_placer_a72d45d5edaff74b58a898a7ad1b518fc}
+
+
+Used to correctly place the newly created entity on the ground. 
+
+(The mouse cursor position is at 0 Y coordinate, but the entity might need to be higher due to it\textquotesingle{}s central point not being at the bottom of the model.) 
+
+Definition at line 118 of file Entity\+Placer.\+hpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!mgr\+\_\+@{mgr\+\_\+}}
+\index{mgr\+\_\+@{mgr\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{mgr\+\_\+}{mgr_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Scene\+Manager\& Entity\+Placer\+::mgr\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_ad80a74a9b6ee426c6050b825d3c78aea}{}\label{class_entity_placer_ad80a74a9b6ee426c6050b825d3c78aea}
+
+
+Scene manager used to hold the dummy node and manipulate models. 
+
+
+
+Definition at line 134 of file Entity\+Placer.\+hpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!placing\+\_\+node\+\_\+@{placing\+\_\+node\+\_\+}}
+\index{placing\+\_\+node\+\_\+@{placing\+\_\+node\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{placing\+\_\+node\+\_\+}{placing_node_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Scene\+Node$\ast$ Entity\+Placer\+::placing\+\_\+node\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_a6e7d6a22bb82c701ef9a1be971de9205}{}\label{class_entity_placer_a6e7d6a22bb82c701ef9a1be971de9205}
+
+
+Pointer to the scene node the dummy entity is attached to. 
+
+
+
+Definition at line 100 of file Entity\+Placer.\+hpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!placing\+\_\+structure\+\_\+@{placing\+\_\+structure\+\_\+}}
+\index{placing\+\_\+structure\+\_\+@{placing\+\_\+structure\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{placing\+\_\+structure\+\_\+}{placing_structure_}}]{\setlength{\rightskip}{0pt plus 5cm}bool Entity\+Placer\+::placing\+\_\+structure\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_af3edb9c35afa51723737c9995bdd2f84}{}\label{class_entity_placer_af3edb9c35afa51723737c9995bdd2f84}
+
+
+Determines if a structure (wall, building etc.) is being placed, this will make the dummy entity to snap to the grid nodes. 
+
+
+
+Definition at line 124 of file Entity\+Placer.\+hpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!price\+\_\+@{price\+\_\+}}
+\index{price\+\_\+@{price\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{price\+\_\+}{price_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Entity\+Placer\+::price\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_a936cda73ed84004f4c7b339481c6124b}{}\label{class_entity_placer_a936cda73ed84004f4c7b339481c6124b}
+
+
+Price of the currently placed entity. 
+
+
+
+Definition at line 144 of file Entity\+Placer.\+hpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!structure\+\_\+radius\+\_\+@{structure\+\_\+radius\+\_\+}}
+\index{structure\+\_\+radius\+\_\+@{structure\+\_\+radius\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{structure\+\_\+radius\+\_\+}{structure_radius_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Entity\+Placer\+::structure\+\_\+radius\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_a329869555fb8492752f6deccf1678a98}{}\label{class_entity_placer_a329869555fb8492752f6deccf1678a98}
+
+
+Radius of the placed structure (if it\textquotesingle{}s covering more than one node). 
+
+
+
+Definition at line 129 of file Entity\+Placer.\+hpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!table\+\_\+name\+\_\+@{table\+\_\+name\+\_\+}}
+\index{table\+\_\+name\+\_\+@{table\+\_\+name\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{table\+\_\+name\+\_\+}{table_name_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Entity\+Placer\+::table\+\_\+name\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_a51c07b2b7a1a2e66334fd961aea2bff4}{}\label{class_entity_placer_a51c07b2b7a1a2e66334fd961aea2bff4}
+
+
+Name of the blueprint of the currently placed entity. 
+
+
+
+Definition at line 110 of file Entity\+Placer.\+hpp.
+
+\index{Entity\+Placer@{Entity\+Placer}!visible\+\_\+@{visible\+\_\+}}
+\index{visible\+\_\+@{visible\+\_\+}!Entity\+Placer@{Entity\+Placer}}
+\subsubsection[{\texorpdfstring{visible\+\_\+}{visible_}}]{\setlength{\rightskip}{0pt plus 5cm}bool Entity\+Placer\+::visible\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_entity_placer_ad54b47813b660f962dcd04378ebf3ecd}{}\label{class_entity_placer_ad54b47813b660f962dcd04378ebf3ecd}
+
+
+The placer\textquotesingle{}s visibility (and active) status. 
+
+
+
+Definition at line 105 of file Entity\+Placer.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+tools/Entity\+Placer.\+hpp\item 
+tools/Entity\+Placer.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,1064 @@
+\hypertarget{class_wave_system}{}\section{Wave\+System Class Reference}
+\label{class_wave_system}\index{Wave\+System@{Wave\+System}}
+
+
+This system creates the entities attacking the player\textquotesingle{}s dungeon in a similar fashion to tower defense games.  
+
+
+
+
+{\ttfamily \#include $<$Wave\+System.\+hpp$>$}
+
+Inheritance diagram for Wave\+System\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_wave_system}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_wave_system_a29290eac1f7d107ca891e9ee08192630}{Wave\+System} (\hyperlink{class_entity_system}{Entity\+System} \&)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_wave_system_aef0ccfc8165a323ef94c38e707de7eb2}{$\sim$\+Wave\+System} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a98df4388628f2618db5c2aa18ce67c11}{update} (tdt\+::real) override
+\begin{DoxyCompactList}\small\item\em Updates all necessary timers and checks if a wave has arrived and if so, spawns it. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_ae145f693f33074fb68273d23bb9fd36c}{set\+\_\+countdown\+\_\+window} (C\+E\+G\+U\+I\+::\+Window $\ast$)
+\begin{DoxyCompactList}\small\item\em Saves pointer to the window that is used to show the countdown to the next wave. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a8ac386c12cc0458e7faf05dcc96da02b}{next\+\_\+wave} ()
+\begin{DoxyCompactList}\small\item\em Finnishes the wave countdown, causing a wave to be spawned on the next update call. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_aab24fdbbbfb06ac094a5cc54d221a9fd}{advance\+\_\+wave\+\_\+countdown} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Advances the countdown by a given amount of time. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_aa14e5872f96047435b548954fbabdcd6}{wave\+\_\+entity\+\_\+died} ()
+\begin{DoxyCompactList}\small\item\em Registers a death of an entity that belongs to the current wave (called by it\textquotesingle{}s destructor). \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a89b2ca21abdcb03249b30f11e07bedaa}{start} ()
+\begin{DoxyCompactList}\small\item\em Starts (and initializes) the wave system. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a4e92e26fc773d507bf7cb7d75d4c4ddd}{pause} (bool)
+\begin{DoxyCompactList}\small\item\em Changes the state of the system. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a4ed4f0b470bbeff062535a7a7b0d26a5}{set\+\_\+entity\+\_\+total} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the total number of entities the wave is gonna have. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_wave_system_aa563d934ce6552ff5184d8deadd1a2c2}{get\+\_\+entity\+\_\+total} () const 
+\begin{DoxyCompactList}\small\item\em Returns the total number of entities the wave is gonna have. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a78d88369731c166b2769bde431593e08}{set\+\_\+wave\+\_\+count} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the number of waves before the system stops. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_wave_system_af0ca06c6dda78b2ad0a85ce71f3c60a3}{get\+\_\+wave\+\_\+count} () const 
+\begin{DoxyCompactList}\small\item\em Returns the total number of waves the system has. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a50b83a5cd977a4f834044b7613bfc3d2}{add\+\_\+spawn\+\_\+node} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Adds a grid node to the spawn list. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_ab818eaa3d2058bb1f6c1cf917ffb6dec}{clear\+\_\+spawn\+\_\+nodes} ()
+\begin{DoxyCompactList}\small\item\em Removes any registered spawn nodes. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_acd6966753dd5d2e99d7c29069308c38b}{set\+\_\+spawn\+\_\+cooldown} (tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Sets the delay between spawns (if \# of spawn nodes is smaller than \# of wave entities). \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_wave_system_a9496f6b821617e2554634c5866ea0be6}{get\+\_\+spawn\+\_\+cooldown} () const 
+\begin{DoxyCompactList}\small\item\em Returns the delay between spawns. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a619c6572a4926d37af744d382be38bef}{update\+\_\+label\+\_\+text} ()
+\begin{DoxyCompactList}\small\item\em Updates the countdown window\textquotesingle{}s text. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_af231cca40f1e32e3fa4f9f38b92a760d}{add\+\_\+entity\+\_\+blueprint} (const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Adds a blueprint table for a new wave entity. \end{DoxyCompactList}\item 
+const std\+::vector$<$ std\+::string $>$ \& \hyperlink{class_wave_system_a9f7d4f3574df6e75384d0eef48d8a011}{get\+\_\+entity\+\_\+blueprints} () const 
+\begin{DoxyCompactList}\small\item\em Returns a vector of all entities in the wave. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_ab983f35629a29a6b7fe407001c14b0be}{set\+\_\+wave\+\_\+table} (const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Sets the table this system is using to create waves. \end{DoxyCompactList}\item 
+const std\+::string \& \hyperlink{class_wave_system_aa5d62ed61dc416829d052f225eb8f4a7}{get\+\_\+wave\+\_\+table} () const 
+\begin{DoxyCompactList}\small\item\em Returns the table this system is using to create waves. \end{DoxyCompactList}\item 
+const std\+::vector$<$ tdt\+::uint $>$ \& \hyperlink{class_wave_system_a22da39953a79e71915e15c2515b07550}{get\+\_\+spawning\+\_\+nodes} () const 
+\begin{DoxyCompactList}\small\item\em Returns a vector of nodes that are marked as spawners for the wave. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a91988914db2f2d6bf3ce4e6efbc6c00a}{set\+\_\+curr\+\_\+wave\+\_\+number} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the number of the current wave. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_wave_system_a7bf5631871f34d83341b5ec881906ba7}{get\+\_\+curr\+\_\+wave\+\_\+number} () const 
+\begin{DoxyCompactList}\small\item\em Returns the number of the current wave. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_aa02519f3d7c79a5d020ceaf7ad82b341}{set\+\_\+countdown\+\_\+value} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the time remaining before the next wave. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_wave_system_af667048a9cd9373137eaef4837eb344e}{get\+\_\+countdown\+\_\+value} () const 
+\begin{DoxyCompactList}\small\item\em Returns the time remaining before the next wave. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a3431e72c157cc75d1ad720b2992fe563}{set\+\_\+state} (W\+A\+V\+E\+\_\+\+S\+T\+A\+TE)
+\begin{DoxyCompactList}\small\item\em Changes the state of the wave system. \end{DoxyCompactList}\item 
+W\+A\+V\+E\+\_\+\+S\+T\+A\+TE \hyperlink{class_wave_system_a82da4bcf0e5afd20c2ae984234b4679d}{get\+\_\+state} () const 
+\begin{DoxyCompactList}\small\item\em Returns the state of the wave system. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a3980c6abc389500169aa32932e300e46}{set\+\_\+spawn\+\_\+timer} (tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Sets the time on the spawn timer, which causes the next spawn batch to appear when it reaches the spawn cooldown value. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_wave_system_a70f7ec41e60ce75caffd2fd98e627d28}{get\+\_\+spawn\+\_\+timer} () const 
+\begin{DoxyCompactList}\small\item\em Returns the time on the spawn timer, which causes the next spawn batch to appear when it reaches the spawn cooldown value. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_ac359a846058fb5f45e34eca64438dfc9}{set\+\_\+wave\+\_\+entities} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the number of entities the current wave has alive. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_wave_system_a6e446d9424066896680103a7c2a22c06}{get\+\_\+wave\+\_\+entities} () const 
+\begin{DoxyCompactList}\small\item\em Returns the number of entities the current wave has alive. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a54052c43df7a6e7be869b705c27641c7}{set\+\_\+entities\+\_\+spawned} (tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the number of entities already spawned in this wave. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_wave_system_a5ba8e7f51331db297c3fb8ff317021eb}{get\+\_\+entities\+\_\+spawned} () const 
+\begin{DoxyCompactList}\small\item\em Returns the number of entities already spawned in this wave. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a64ee44c82e52e02ac332608a1f54febc}{clear\+\_\+entity\+\_\+blueprints} ()
+\begin{DoxyCompactList}\small\item\em Clears any entity blueprints that were gonna be used in the next wave. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a6068d7406fbaf4a2aa18e1b5e13a79a7}{set\+\_\+endless\+\_\+mode} (bool)
+\begin{DoxyCompactList}\small\item\em Sets the endless flag (true -\/$>$ last wave repeats). \end{DoxyCompactList}\item 
+bool \hyperlink{class_wave_system_ab12aad00426af3a0b67d6ff2c6387b47}{get\+\_\+endless\+\_\+mode} () const 
+\begin{DoxyCompactList}\small\item\em Returns the endless flag (true -\/$>$ last wave repeats). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_wave_system_afa2eb918f42c322630c5ed1f0c3d3355}{start\+\_\+wave} ()
+\begin{DoxyCompactList}\small\item\em Starts the current wave. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_a1f600d9b4fb4646bef2aa2dccc8809ac}{end\+\_\+wave} ()
+\begin{DoxyCompactList}\small\item\em Ends the current wave. \end{DoxyCompactList}\item 
+void \hyperlink{class_wave_system_af0a6a8cbcc4663d5ada8b6dd7d77b972}{spawn} ()
+\begin{DoxyCompactList}\small\item\em Spawns the next batch of entities. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+W\+A\+V\+E\+\_\+\+S\+T\+A\+TE \hyperlink{class_wave_system_add90dfd41a5917d398623fcea26fb269}{state\+\_\+}
+\begin{DoxyCompactList}\small\item\em The current state of the system. \end{DoxyCompactList}\item 
+\hyperlink{class_entity_system}{Entity\+System} \& \hyperlink{class_wave_system_a8f590c5b9cf0cd5f7fdc5afee19dd389}{entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Entity system in which the wave entities will be created. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_wave_system_a10aa7985fe118508460c7c9498c94a69}{curr\+\_\+wave\+\_\+number\+\_\+}
+\begin{DoxyCompactList}\small\item\em Number of the current wave. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_wave_system_af0ea0ae6d2397d9cb0d69cd19eca3177}{wave\+\_\+count\+\_\+}
+\begin{DoxyCompactList}\small\item\em Total number of waves. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_wave_system_a378035c7325464436bce4235678dfe42}{wave\+\_\+entities\+\_\+}
+\begin{DoxyCompactList}\small\item\em Number of entities in the current wave that are spawned and still alive. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_wave_system_ab25df374df710d5fca47d39a39859f66}{entities\+\_\+spawned\+\_\+}
+\begin{DoxyCompactList}\small\item\em Number of entities that were already spawned during this wave. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_wave_system_a222d726e4ea7d49ffe856c5ded840938}{entities\+\_\+total\+\_\+}
+\begin{DoxyCompactList}\small\item\em Total number of entities in the current wave. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{class_wave_system_ae70ca36a66a8df6d356539c7e0cc0e19}{next\+\_\+wave\+\_\+countdown\+\_\+}
+\begin{DoxyCompactList}\small\item\em Time in seconds till the next wave starts. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_wave_system_a9d249d2778d8f7a618274bcc6b8ed3aa}{second\+\_\+timer\+\_\+}
+\begin{DoxyCompactList}\small\item\em Auxiliary timer that is used to measure seconds. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{class_wave_system_a1c1cc583c1285417a68295bed7272fe3}{label\+\_\+text\+\_\+}
+\begin{DoxyCompactList}\small\item\em Text that is displayed in the countdown window. \end{DoxyCompactList}\item 
+C\+E\+G\+U\+I\+::\+Window $\ast$ \hyperlink{class_wave_system_ab945c8a6f6608420128bc1e0c101cb09}{window\+\_\+}
+\begin{DoxyCompactList}\small\item\em Pointer to the countdown window. \end{DoxyCompactList}\item 
+\hyperlink{classlpp_1_1_script}{lpp\+::\+Script} \& \hyperlink{class_wave_system_a0a4f867a7e8179bb77235e4d66bdc67e}{script\+\_\+}
+\begin{DoxyCompactList}\small\item\em Reference to the script engine for easier use. \end{DoxyCompactList}\item 
+std\+::vector$<$ tdt\+::uint $>$ \hyperlink{class_wave_system_a28ea2af56b6debb00a1fd780b8ace530}{spawning\+\_\+nodes\+\_\+}
+\begin{DoxyCompactList}\small\item\em Nodes that are used for entity spawning. \end{DoxyCompactList}\item 
+tdt\+::real \hyperlink{class_wave_system_ada44d4ac39d896951051bb1e983a0f1b}{spawn\+\_\+timer\+\_\+}
+\begin{DoxyCompactList}\small\item\em Timers used for entity spawning. \end{DoxyCompactList}\item 
+tdt\+::real {\bfseries spawn\+\_\+cooldown\+\_\+}\hypertarget{class_wave_system_aa13206e3d5916cfb9062adec8cb99bcd}{}\label{class_wave_system_aa13206e3d5916cfb9062adec8cb99bcd}
+
+\item 
+std\+::string \hyperlink{class_wave_system_a98c198bf1c005e3861c22c28eee0f791}{wave\+\_\+table\+\_\+}
+\begin{DoxyCompactList}\small\item\em Name of the table containing init, wstart and wend functions that define a wave system. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \hyperlink{class_wave_system_a454da77779387bb1f4da83a22880b061}{entity\+\_\+blueprints\+\_\+}
+\begin{DoxyCompactList}\small\item\em Entities that are gonna be spawned. \end{DoxyCompactList}\item 
+bool \hyperlink{class_wave_system_a9d79eb962ae15b6b77517f5f9a4b16a6}{endless\+\_\+mode\+\_\+}
+\begin{DoxyCompactList}\small\item\em If true, the current wave keeps repeating. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This system creates the entities attacking the player\textquotesingle{}s dungeon in a similar fashion to tower defense games. 
+
+\begin{DoxyNote}{Note}
+This systems contains a large number of setters/getters (while most of other systems do not). This is because this system has to be fully serialized when saving the game to save the game\textquotesingle{}s progress. 
+\end{DoxyNote}
+
+
+Definition at line 25 of file Wave\+System.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Wave\+System@{Wave\+System}!Wave\+System@{Wave\+System}}
+\index{Wave\+System@{Wave\+System}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{Wave\+System(\+Entity\+System \&)}{WaveSystem(EntitySystem &)}}]{\setlength{\rightskip}{0pt plus 5cm}Wave\+System\+::\+Wave\+System (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a29290eac1f7d107ca891e9ee08192630}{}\label{class_wave_system_a29290eac1f7d107ca891e9ee08192630}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & in which wave entities will be created. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 7 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!````~Wave\+System@{$\sim$\+Wave\+System}}
+\index{````~Wave\+System@{$\sim$\+Wave\+System}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{$\sim$\+Wave\+System()=default}{~WaveSystem()=default}}]{\setlength{\rightskip}{0pt plus 5cm}Wave\+System\+::$\sim$\+Wave\+System (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{class_wave_system_aef0ccfc8165a323ef94c38e707de7eb2}{}\label{class_wave_system_aef0ccfc8165a323ef94c38e707de7eb2}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\index{Wave\+System@{Wave\+System}!add\+\_\+entity\+\_\+blueprint@{add\+\_\+entity\+\_\+blueprint}}
+\index{add\+\_\+entity\+\_\+blueprint@{add\+\_\+entity\+\_\+blueprint}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{add\+\_\+entity\+\_\+blueprint(const std\+::string \&)}{add_entity_blueprint(const std::string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::add\+\_\+entity\+\_\+blueprint (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_af231cca40f1e32e3fa4f9f38b92a760d}{}\label{class_wave_system_af231cca40f1e32e3fa4f9f38b92a760d}
+
+
+Adds a blueprint table for a new wave entity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Name} & of the blueprint table. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 169 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!add\+\_\+spawn\+\_\+node@{add\+\_\+spawn\+\_\+node}}
+\index{add\+\_\+spawn\+\_\+node@{add\+\_\+spawn\+\_\+node}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{add\+\_\+spawn\+\_\+node(tdt\+::uint)}{add_spawn_node(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::add\+\_\+spawn\+\_\+node (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a50b83a5cd977a4f834044b7613bfc3d2}{}\label{class_wave_system_a50b83a5cd977a4f834044b7613bfc3d2}
+
+
+Adds a grid node to the spawn list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & of the node. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 117 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!advance\+\_\+wave\+\_\+countdown@{advance\+\_\+wave\+\_\+countdown}}
+\index{advance\+\_\+wave\+\_\+countdown@{advance\+\_\+wave\+\_\+countdown}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{advance\+\_\+wave\+\_\+countdown(tdt\+::uint)}{advance_wave_countdown(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::advance\+\_\+wave\+\_\+countdown (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_aab24fdbbbfb06ac094a5cc54d221a9fd}{}\label{class_wave_system_aab24fdbbbfb06ac094a5cc54d221a9fd}
+
+
+Advances the countdown by a given amount of time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Number} & of seconds to subtract from the countdown. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 64 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!clear\+\_\+entity\+\_\+blueprints@{clear\+\_\+entity\+\_\+blueprints}}
+\index{clear\+\_\+entity\+\_\+blueprints@{clear\+\_\+entity\+\_\+blueprints}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{clear\+\_\+entity\+\_\+blueprints()}{clear_entity_blueprints()}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::clear\+\_\+entity\+\_\+blueprints (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a64ee44c82e52e02ac332608a1f54febc}{}\label{class_wave_system_a64ee44c82e52e02ac332608a1f54febc}
+
+
+Clears any entity blueprints that were gonna be used in the next wave. 
+
+
+
+Definition at line 254 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!clear\+\_\+spawn\+\_\+nodes@{clear\+\_\+spawn\+\_\+nodes}}
+\index{clear\+\_\+spawn\+\_\+nodes@{clear\+\_\+spawn\+\_\+nodes}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{clear\+\_\+spawn\+\_\+nodes()}{clear_spawn_nodes()}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::clear\+\_\+spawn\+\_\+nodes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_ab818eaa3d2058bb1f6c1cf917ffb6dec}{}\label{class_wave_system_ab818eaa3d2058bb1f6c1cf917ffb6dec}
+
+
+Removes any registered spawn nodes. 
+
+
+
+Definition at line 122 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!end\+\_\+wave@{end\+\_\+wave}}
+\index{end\+\_\+wave@{end\+\_\+wave}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{end\+\_\+wave()}{end_wave()}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::end\+\_\+wave (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_a1f600d9b4fb4646bef2aa2dccc8809ac}{}\label{class_wave_system_a1f600d9b4fb4646bef2aa2dccc8809ac}
+
+
+Ends the current wave. 
+
+
+
+Definition at line 280 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+countdown\+\_\+value@{get\+\_\+countdown\+\_\+value}}
+\index{get\+\_\+countdown\+\_\+value@{get\+\_\+countdown\+\_\+value}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+countdown\+\_\+value() const }{get_countdown_value() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Wave\+System\+::get\+\_\+countdown\+\_\+value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_af667048a9cd9373137eaef4837eb344e}{}\label{class_wave_system_af667048a9cd9373137eaef4837eb344e}
+
+
+Returns the time remaining before the next wave. 
+
+
+
+Definition at line 209 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+curr\+\_\+wave\+\_\+number@{get\+\_\+curr\+\_\+wave\+\_\+number}}
+\index{get\+\_\+curr\+\_\+wave\+\_\+number@{get\+\_\+curr\+\_\+wave\+\_\+number}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+curr\+\_\+wave\+\_\+number() const }{get_curr_wave_number() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Wave\+System\+::get\+\_\+curr\+\_\+wave\+\_\+number (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_a7bf5631871f34d83341b5ec881906ba7}{}\label{class_wave_system_a7bf5631871f34d83341b5ec881906ba7}
+
+
+Returns the number of the current wave. 
+
+
+
+Definition at line 199 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+endless\+\_\+mode@{get\+\_\+endless\+\_\+mode}}
+\index{get\+\_\+endless\+\_\+mode@{get\+\_\+endless\+\_\+mode}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+endless\+\_\+mode() const }{get_endless_mode() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Wave\+System\+::get\+\_\+endless\+\_\+mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_ab12aad00426af3a0b67d6ff2c6387b47}{}\label{class_wave_system_ab12aad00426af3a0b67d6ff2c6387b47}
+
+
+Returns the endless flag (true -\/$>$ last wave repeats). 
+
+
+
+Definition at line 264 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+entities\+\_\+spawned@{get\+\_\+entities\+\_\+spawned}}
+\index{get\+\_\+entities\+\_\+spawned@{get\+\_\+entities\+\_\+spawned}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+entities\+\_\+spawned() const }{get_entities_spawned() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Wave\+System\+::get\+\_\+entities\+\_\+spawned (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_a5ba8e7f51331db297c3fb8ff317021eb}{}\label{class_wave_system_a5ba8e7f51331db297c3fb8ff317021eb}
+
+
+Returns the number of entities already spawned in this wave. 
+
+
+
+Definition at line 249 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+entity\+\_\+blueprints@{get\+\_\+entity\+\_\+blueprints}}
+\index{get\+\_\+entity\+\_\+blueprints@{get\+\_\+entity\+\_\+blueprints}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+entity\+\_\+blueprints() const }{get_entity_blueprints() const }}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::vector$<$ std\+::string $>$ \& Wave\+System\+::get\+\_\+entity\+\_\+blueprints (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_a9f7d4f3574df6e75384d0eef48d8a011}{}\label{class_wave_system_a9f7d4f3574df6e75384d0eef48d8a011}
+
+
+Returns a vector of all entities in the wave. 
+
+
+
+Definition at line 174 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+entity\+\_\+total@{get\+\_\+entity\+\_\+total}}
+\index{get\+\_\+entity\+\_\+total@{get\+\_\+entity\+\_\+total}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+entity\+\_\+total() const }{get_entity_total() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Wave\+System\+::get\+\_\+entity\+\_\+total (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_aa563d934ce6552ff5184d8deadd1a2c2}{}\label{class_wave_system_aa563d934ce6552ff5184d8deadd1a2c2}
+
+
+Returns the total number of entities the wave is gonna have. 
+
+
+
+Definition at line 102 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+spawn\+\_\+cooldown@{get\+\_\+spawn\+\_\+cooldown}}
+\index{get\+\_\+spawn\+\_\+cooldown@{get\+\_\+spawn\+\_\+cooldown}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+spawn\+\_\+cooldown() const }{get_spawn_cooldown() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Wave\+System\+::get\+\_\+spawn\+\_\+cooldown (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_a9496f6b821617e2554634c5866ea0be6}{}\label{class_wave_system_a9496f6b821617e2554634c5866ea0be6}
+
+
+Returns the delay between spawns. 
+
+
+
+Definition at line 132 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+spawn\+\_\+timer@{get\+\_\+spawn\+\_\+timer}}
+\index{get\+\_\+spawn\+\_\+timer@{get\+\_\+spawn\+\_\+timer}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+spawn\+\_\+timer() const }{get_spawn_timer() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Wave\+System\+::get\+\_\+spawn\+\_\+timer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_a70f7ec41e60ce75caffd2fd98e627d28}{}\label{class_wave_system_a70f7ec41e60ce75caffd2fd98e627d28}
+
+
+Returns the time on the spawn timer, which causes the next spawn batch to appear when it reaches the spawn cooldown value. 
+
+
+
+Definition at line 229 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+spawning\+\_\+nodes@{get\+\_\+spawning\+\_\+nodes}}
+\index{get\+\_\+spawning\+\_\+nodes@{get\+\_\+spawning\+\_\+nodes}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+spawning\+\_\+nodes() const }{get_spawning_nodes() const }}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::vector$<$ tdt\+::uint $>$ \& Wave\+System\+::get\+\_\+spawning\+\_\+nodes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_a22da39953a79e71915e15c2515b07550}{}\label{class_wave_system_a22da39953a79e71915e15c2515b07550}
+
+
+Returns a vector of nodes that are marked as spawners for the wave. 
+
+
+
+Definition at line 189 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+state@{get\+\_\+state}}
+\index{get\+\_\+state@{get\+\_\+state}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+state() const }{get_state() const }}]{\setlength{\rightskip}{0pt plus 5cm}W\+A\+V\+E\+\_\+\+S\+T\+A\+TE Wave\+System\+::get\+\_\+state (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_a82da4bcf0e5afd20c2ae984234b4679d}{}\label{class_wave_system_a82da4bcf0e5afd20c2ae984234b4679d}
+
+
+Returns the state of the wave system. 
+
+
+
+Definition at line 219 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+wave\+\_\+count@{get\+\_\+wave\+\_\+count}}
+\index{get\+\_\+wave\+\_\+count@{get\+\_\+wave\+\_\+count}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+wave\+\_\+count() const }{get_wave_count() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Wave\+System\+::get\+\_\+wave\+\_\+count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_af0ca06c6dda78b2ad0a85ce71f3c60a3}{}\label{class_wave_system_af0ca06c6dda78b2ad0a85ce71f3c60a3}
+
+
+Returns the total number of waves the system has. 
+
+
+
+Definition at line 112 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+wave\+\_\+entities@{get\+\_\+wave\+\_\+entities}}
+\index{get\+\_\+wave\+\_\+entities@{get\+\_\+wave\+\_\+entities}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+wave\+\_\+entities() const }{get_wave_entities() const }}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Wave\+System\+::get\+\_\+wave\+\_\+entities (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_a6e446d9424066896680103a7c2a22c06}{}\label{class_wave_system_a6e446d9424066896680103a7c2a22c06}
+
+
+Returns the number of entities the current wave has alive. 
+
+
+
+Definition at line 239 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!get\+\_\+wave\+\_\+table@{get\+\_\+wave\+\_\+table}}
+\index{get\+\_\+wave\+\_\+table@{get\+\_\+wave\+\_\+table}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{get\+\_\+wave\+\_\+table() const }{get_wave_table() const }}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string \& Wave\+System\+::get\+\_\+wave\+\_\+table (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_wave_system_aa5d62ed61dc416829d052f225eb8f4a7}{}\label{class_wave_system_aa5d62ed61dc416829d052f225eb8f4a7}
+
+
+Returns the table this system is using to create waves. 
+
+
+
+Definition at line 184 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!next\+\_\+wave@{next\+\_\+wave}}
+\index{next\+\_\+wave@{next\+\_\+wave}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{next\+\_\+wave()}{next_wave()}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::next\+\_\+wave (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a8ac386c12cc0458e7faf05dcc96da02b}{}\label{class_wave_system_a8ac386c12cc0458e7faf05dcc96da02b}
+
+
+Finnishes the wave countdown, causing a wave to be spawned on the next update call. 
+
+
+
+Definition at line 59 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!pause@{pause}}
+\index{pause@{pause}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{pause(bool)}{pause(bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::pause (
+\begin{DoxyParamCaption}
+\item[{bool}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a4e92e26fc773d507bf7cb7d75d4c4ddd}{}\label{class_wave_system_a4e92e26fc773d507bf7cb7d75d4c4ddd}
+
+
+Changes the state of the system. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em If} & true, the wave countdown gets paused, if false, the wave countdown gets resumed. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 89 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!set\+\_\+countdown\+\_\+value@{set\+\_\+countdown\+\_\+value}}
+\index{set\+\_\+countdown\+\_\+value@{set\+\_\+countdown\+\_\+value}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+countdown\+\_\+value(tdt\+::uint)}{set_countdown_value(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::set\+\_\+countdown\+\_\+value (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_aa02519f3d7c79a5d020ceaf7ad82b341}{}\label{class_wave_system_aa02519f3d7c79a5d020ceaf7ad82b341}
+
+
+Sets the time remaining before the next wave. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new countdown time value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 204 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!set\+\_\+countdown\+\_\+window@{set\+\_\+countdown\+\_\+window}}
+\index{set\+\_\+countdown\+\_\+window@{set\+\_\+countdown\+\_\+window}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+countdown\+\_\+window(\+C\+E\+G\+U\+I\+::\+Window $\ast$)}{set_countdown_window(CEGUI::Window *)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::set\+\_\+countdown\+\_\+window (
+\begin{DoxyParamCaption}
+\item[{C\+E\+G\+U\+I\+::\+Window $\ast$}]{win}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_ae145f693f33074fb68273d23bb9fd36c}{}\label{class_wave_system_ae145f693f33074fb68273d23bb9fd36c}
+
+
+Saves pointer to the window that is used to show the countdown to the next wave. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new window. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 52 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!set\+\_\+curr\+\_\+wave\+\_\+number@{set\+\_\+curr\+\_\+wave\+\_\+number}}
+\index{set\+\_\+curr\+\_\+wave\+\_\+number@{set\+\_\+curr\+\_\+wave\+\_\+number}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+curr\+\_\+wave\+\_\+number(tdt\+::uint)}{set_curr_wave_number(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::set\+\_\+curr\+\_\+wave\+\_\+number (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a91988914db2f2d6bf3ce4e6efbc6c00a}{}\label{class_wave_system_a91988914db2f2d6bf3ce4e6efbc6c00a}
+
+
+Sets the number of the current wave. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new wave number. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 194 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!set\+\_\+endless\+\_\+mode@{set\+\_\+endless\+\_\+mode}}
+\index{set\+\_\+endless\+\_\+mode@{set\+\_\+endless\+\_\+mode}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+endless\+\_\+mode(bool)}{set_endless_mode(bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::set\+\_\+endless\+\_\+mode (
+\begin{DoxyParamCaption}
+\item[{bool}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a6068d7406fbaf4a2aa18e1b5e13a79a7}{}\label{class_wave_system_a6068d7406fbaf4a2aa18e1b5e13a79a7}
+
+
+Sets the endless flag (true -\/$>$ last wave repeats). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em If} & true, endless mode is turned on, otherwise it\textquotesingle{}s turned off. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 259 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!set\+\_\+entities\+\_\+spawned@{set\+\_\+entities\+\_\+spawned}}
+\index{set\+\_\+entities\+\_\+spawned@{set\+\_\+entities\+\_\+spawned}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+entities\+\_\+spawned(tdt\+::uint)}{set_entities_spawned(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::set\+\_\+entities\+\_\+spawned (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a54052c43df7a6e7be869b705c27641c7}{}\label{class_wave_system_a54052c43df7a6e7be869b705c27641c7}
+
+
+Sets the number of entities already spawned in this wave. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new entity count. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 244 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!set\+\_\+entity\+\_\+total@{set\+\_\+entity\+\_\+total}}
+\index{set\+\_\+entity\+\_\+total@{set\+\_\+entity\+\_\+total}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+entity\+\_\+total(tdt\+::uint)}{set_entity_total(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::set\+\_\+entity\+\_\+total (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a4ed4f0b470bbeff062535a7a7b0d26a5}{}\label{class_wave_system_a4ed4f0b470bbeff062535a7a7b0d26a5}
+
+
+Sets the total number of entities the wave is gonna have. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new number of entities. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 97 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!set\+\_\+spawn\+\_\+cooldown@{set\+\_\+spawn\+\_\+cooldown}}
+\index{set\+\_\+spawn\+\_\+cooldown@{set\+\_\+spawn\+\_\+cooldown}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+spawn\+\_\+cooldown(tdt\+::real)}{set_spawn_cooldown(tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::set\+\_\+spawn\+\_\+cooldown (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_acd6966753dd5d2e99d7c29069308c38b}{}\label{class_wave_system_acd6966753dd5d2e99d7c29069308c38b}
+
+
+Sets the delay between spawns (if \# of spawn nodes is smaller than \# of wave entities). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new spawn cooldown. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 127 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!set\+\_\+spawn\+\_\+timer@{set\+\_\+spawn\+\_\+timer}}
+\index{set\+\_\+spawn\+\_\+timer@{set\+\_\+spawn\+\_\+timer}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+spawn\+\_\+timer(tdt\+::real)}{set_spawn_timer(tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::set\+\_\+spawn\+\_\+timer (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a3980c6abc389500169aa32932e300e46}{}\label{class_wave_system_a3980c6abc389500169aa32932e300e46}
+
+
+Sets the time on the spawn timer, which causes the next spawn batch to appear when it reaches the spawn cooldown value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new spawn timer value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 224 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!set\+\_\+state@{set\+\_\+state}}
+\index{set\+\_\+state@{set\+\_\+state}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+state(\+W\+A\+V\+E\+\_\+\+S\+T\+A\+T\+E)}{set_state(WAVE_STATE)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::set\+\_\+state (
+\begin{DoxyParamCaption}
+\item[{W\+A\+V\+E\+\_\+\+S\+T\+A\+TE}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a3431e72c157cc75d1ad720b2992fe563}{}\label{class_wave_system_a3431e72c157cc75d1ad720b2992fe563}
+
+
+Changes the state of the wave system. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new state. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 214 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!set\+\_\+wave\+\_\+count@{set\+\_\+wave\+\_\+count}}
+\index{set\+\_\+wave\+\_\+count@{set\+\_\+wave\+\_\+count}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+wave\+\_\+count(tdt\+::uint)}{set_wave_count(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::set\+\_\+wave\+\_\+count (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a78d88369731c166b2769bde431593e08}{}\label{class_wave_system_a78d88369731c166b2769bde431593e08}
+
+
+Sets the number of waves before the system stops. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & new number of waves. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 107 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!set\+\_\+wave\+\_\+entities@{set\+\_\+wave\+\_\+entities}}
+\index{set\+\_\+wave\+\_\+entities@{set\+\_\+wave\+\_\+entities}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+wave\+\_\+entities(tdt\+::uint)}{set_wave_entities(tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::set\+\_\+wave\+\_\+entities (
+\begin{DoxyParamCaption}
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_ac359a846058fb5f45e34eca64438dfc9}{}\label{class_wave_system_ac359a846058fb5f45e34eca64438dfc9}
+
+
+Sets the number of entities the current wave has alive. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & enw number of entities. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 234 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!set\+\_\+wave\+\_\+table@{set\+\_\+wave\+\_\+table}}
+\index{set\+\_\+wave\+\_\+table@{set\+\_\+wave\+\_\+table}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{set\+\_\+wave\+\_\+table(const std\+::string \&)}{set_wave_table(const std::string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::set\+\_\+wave\+\_\+table (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_ab983f35629a29a6b7fe407001c14b0be}{}\label{class_wave_system_ab983f35629a29a6b7fe407001c14b0be}
+
+
+Sets the table this system is using to create waves. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Name} & of the new wave table. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 179 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!spawn@{spawn}}
+\index{spawn@{spawn}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{spawn()}{spawn()}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::spawn (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_af0a6a8cbcc4663d5ada8b6dd7d77b972}{}\label{class_wave_system_af0a6a8cbcc4663d5ada8b6dd7d77b972}
+
+
+Spawns the next batch of entities. 
+
+
+
+Definition at line 293 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!start@{start}}
+\index{start@{start}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{start()}{start()}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a89b2ca21abdcb03249b30f11e07bedaa}{}\label{class_wave_system_a89b2ca21abdcb03249b30f11e07bedaa}
+
+
+Starts (and initializes) the wave system. 
+
+
+
+Definition at line 81 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!start\+\_\+wave@{start\+\_\+wave}}
+\index{start\+\_\+wave@{start\+\_\+wave}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{start\+\_\+wave()}{start_wave()}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::start\+\_\+wave (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_afa2eb918f42c322630c5ed1f0c3d3355}{}\label{class_wave_system_afa2eb918f42c322630c5ed1f0c3d3355}
+
+
+Starts the current wave. 
+
+
+
+Definition at line 269 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!update@{update}}
+\index{update@{update}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{update(tdt\+::real) override}{update(tdt::real) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::update (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{delta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_wave_system_a98df4388628f2618db5c2aa18ce67c11}{}\label{class_wave_system_a98df4388628f2618db5c2aa18ce67c11}
+
+
+Updates all necessary timers and checks if a wave has arrived and if so, spawns it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Time} & since last frame. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_system_a6d54c9bd38eb43d620a1451cb0925472}{System}.
+
+
+
+Definition at line 15 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!update\+\_\+label\+\_\+text@{update\+\_\+label\+\_\+text}}
+\index{update\+\_\+label\+\_\+text@{update\+\_\+label\+\_\+text}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{update\+\_\+label\+\_\+text()}{update_label_text()}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::update\+\_\+label\+\_\+text (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_a619c6572a4926d37af744d382be38bef}{}\label{class_wave_system_a619c6572a4926d37af744d382be38bef}
+
+
+Updates the countdown window\textquotesingle{}s text. 
+
+
+
+Definition at line 137 of file Wave\+System.\+cpp.
+
+\index{Wave\+System@{Wave\+System}!wave\+\_\+entity\+\_\+died@{wave\+\_\+entity\+\_\+died}}
+\index{wave\+\_\+entity\+\_\+died@{wave\+\_\+entity\+\_\+died}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{wave\+\_\+entity\+\_\+died()}{wave_entity_died()}}]{\setlength{\rightskip}{0pt plus 5cm}void Wave\+System\+::wave\+\_\+entity\+\_\+died (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_wave_system_aa14e5872f96047435b548954fbabdcd6}{}\label{class_wave_system_aa14e5872f96047435b548954fbabdcd6}
+
+
+Registers a death of an entity that belongs to the current wave (called by it\textquotesingle{}s destructor). 
+
+
+
+Definition at line 72 of file Wave\+System.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Wave\+System@{Wave\+System}!curr\+\_\+wave\+\_\+number\+\_\+@{curr\+\_\+wave\+\_\+number\+\_\+}}
+\index{curr\+\_\+wave\+\_\+number\+\_\+@{curr\+\_\+wave\+\_\+number\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{curr\+\_\+wave\+\_\+number\+\_\+}{curr_wave_number_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Wave\+System\+::curr\+\_\+wave\+\_\+number\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_a10aa7985fe118508460c7c9498c94a69}{}\label{class_wave_system_a10aa7985fe118508460c7c9498c94a69}
+
+
+Number of the current wave. 
+
+
+
+Definition at line 278 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!endless\+\_\+mode\+\_\+@{endless\+\_\+mode\+\_\+}}
+\index{endless\+\_\+mode\+\_\+@{endless\+\_\+mode\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{endless\+\_\+mode\+\_\+}{endless_mode_}}]{\setlength{\rightskip}{0pt plus 5cm}bool Wave\+System\+::endless\+\_\+mode\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_a9d79eb962ae15b6b77517f5f9a4b16a6}{}\label{class_wave_system_a9d79eb962ae15b6b77517f5f9a4b16a6}
+
+
+If true, the current wave keeps repeating. 
+
+
+
+Definition at line 351 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!entities\+\_\+@{entities\+\_\+}}
+\index{entities\+\_\+@{entities\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{entities\+\_\+}{entities_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\+System}\& Wave\+System\+::entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_a8f590c5b9cf0cd5f7fdc5afee19dd389}{}\label{class_wave_system_a8f590c5b9cf0cd5f7fdc5afee19dd389}
+
+
+Entity system in which the wave entities will be created. 
+
+
+
+Definition at line 273 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!entities\+\_\+spawned\+\_\+@{entities\+\_\+spawned\+\_\+}}
+\index{entities\+\_\+spawned\+\_\+@{entities\+\_\+spawned\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{entities\+\_\+spawned\+\_\+}{entities_spawned_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Wave\+System\+::entities\+\_\+spawned\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_ab25df374df710d5fca47d39a39859f66}{}\label{class_wave_system_ab25df374df710d5fca47d39a39859f66}
+
+
+Number of entities that were already spawned during this wave. 
+
+
+
+Definition at line 295 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!entities\+\_\+total\+\_\+@{entities\+\_\+total\+\_\+}}
+\index{entities\+\_\+total\+\_\+@{entities\+\_\+total\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{entities\+\_\+total\+\_\+}{entities_total_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Wave\+System\+::entities\+\_\+total\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_a222d726e4ea7d49ffe856c5ded840938}{}\label{class_wave_system_a222d726e4ea7d49ffe856c5ded840938}
+
+
+Total number of entities in the current wave. 
+
+
+
+Definition at line 300 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!entity\+\_\+blueprints\+\_\+@{entity\+\_\+blueprints\+\_\+}}
+\index{entity\+\_\+blueprints\+\_\+@{entity\+\_\+blueprints\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{entity\+\_\+blueprints\+\_\+}{entity_blueprints_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$std\+::string$>$ Wave\+System\+::entity\+\_\+blueprints\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_a454da77779387bb1f4da83a22880b061}{}\label{class_wave_system_a454da77779387bb1f4da83a22880b061}
+
+
+Entities that are gonna be spawned. 
+
+
+
+Definition at line 346 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!label\+\_\+text\+\_\+@{label\+\_\+text\+\_\+}}
+\index{label\+\_\+text\+\_\+@{label\+\_\+text\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{label\+\_\+text\+\_\+}{label_text_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Wave\+System\+::label\+\_\+text\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_a1c1cc583c1285417a68295bed7272fe3}{}\label{class_wave_system_a1c1cc583c1285417a68295bed7272fe3}
+
+
+Text that is displayed in the countdown window. 
+
+
+
+Definition at line 315 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!next\+\_\+wave\+\_\+countdown\+\_\+@{next\+\_\+wave\+\_\+countdown\+\_\+}}
+\index{next\+\_\+wave\+\_\+countdown\+\_\+@{next\+\_\+wave\+\_\+countdown\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{next\+\_\+wave\+\_\+countdown\+\_\+}{next_wave_countdown_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Wave\+System\+::next\+\_\+wave\+\_\+countdown\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_ae70ca36a66a8df6d356539c7e0cc0e19}{}\label{class_wave_system_ae70ca36a66a8df6d356539c7e0cc0e19}
+
+
+Time in seconds till the next wave starts. 
+
+
+
+Definition at line 305 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!script\+\_\+@{script\+\_\+}}
+\index{script\+\_\+@{script\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{script\+\_\+}{script_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf lpp\+::\+Script}\& Wave\+System\+::script\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_a0a4f867a7e8179bb77235e4d66bdc67e}{}\label{class_wave_system_a0a4f867a7e8179bb77235e4d66bdc67e}
+
+
+Reference to the script engine for easier use. 
+
+
+
+Definition at line 325 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!second\+\_\+timer\+\_\+@{second\+\_\+timer\+\_\+}}
+\index{second\+\_\+timer\+\_\+@{second\+\_\+timer\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{second\+\_\+timer\+\_\+}{second_timer_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Wave\+System\+::second\+\_\+timer\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_a9d249d2778d8f7a618274bcc6b8ed3aa}{}\label{class_wave_system_a9d249d2778d8f7a618274bcc6b8ed3aa}
+
+
+Auxiliary timer that is used to measure seconds. 
+
+
+
+Definition at line 310 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!spawn\+\_\+timer\+\_\+@{spawn\+\_\+timer\+\_\+}}
+\index{spawn\+\_\+timer\+\_\+@{spawn\+\_\+timer\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{spawn\+\_\+timer\+\_\+}{spawn_timer_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Wave\+System\+::spawn\+\_\+timer\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_ada44d4ac39d896951051bb1e983a0f1b}{}\label{class_wave_system_ada44d4ac39d896951051bb1e983a0f1b}
+
+
+Timers used for entity spawning. 
+
+
+
+Definition at line 335 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!spawning\+\_\+nodes\+\_\+@{spawning\+\_\+nodes\+\_\+}}
+\index{spawning\+\_\+nodes\+\_\+@{spawning\+\_\+nodes\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{spawning\+\_\+nodes\+\_\+}{spawning_nodes_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$tdt\+::uint$>$ Wave\+System\+::spawning\+\_\+nodes\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_a28ea2af56b6debb00a1fd780b8ace530}{}\label{class_wave_system_a28ea2af56b6debb00a1fd780b8ace530}
+
+
+Nodes that are used for entity spawning. 
+
+
+
+Definition at line 330 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!state\+\_\+@{state\+\_\+}}
+\index{state\+\_\+@{state\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{state\+\_\+}{state_}}]{\setlength{\rightskip}{0pt plus 5cm}W\+A\+V\+E\+\_\+\+S\+T\+A\+TE Wave\+System\+::state\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_add90dfd41a5917d398623fcea26fb269}{}\label{class_wave_system_add90dfd41a5917d398623fcea26fb269}
+
+
+The current state of the system. 
+
+
+
+Definition at line 268 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!wave\+\_\+count\+\_\+@{wave\+\_\+count\+\_\+}}
+\index{wave\+\_\+count\+\_\+@{wave\+\_\+count\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{wave\+\_\+count\+\_\+}{wave_count_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Wave\+System\+::wave\+\_\+count\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_af0ea0ae6d2397d9cb0d69cd19eca3177}{}\label{class_wave_system_af0ea0ae6d2397d9cb0d69cd19eca3177}
+
+
+Total number of waves. 
+
+
+
+Definition at line 283 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!wave\+\_\+entities\+\_\+@{wave\+\_\+entities\+\_\+}}
+\index{wave\+\_\+entities\+\_\+@{wave\+\_\+entities\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{wave\+\_\+entities\+\_\+}{wave_entities_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Wave\+System\+::wave\+\_\+entities\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_a378035c7325464436bce4235678dfe42}{}\label{class_wave_system_a378035c7325464436bce4235678dfe42}
+
+
+Number of entities in the current wave that are spawned and still alive. 
+
+
+
+Definition at line 289 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!wave\+\_\+table\+\_\+@{wave\+\_\+table\+\_\+}}
+\index{wave\+\_\+table\+\_\+@{wave\+\_\+table\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{wave\+\_\+table\+\_\+}{wave_table_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Wave\+System\+::wave\+\_\+table\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_a98c198bf1c005e3861c22c28eee0f791}{}\label{class_wave_system_a98c198bf1c005e3861c22c28eee0f791}
+
+
+Name of the table containing init, wstart and wend functions that define a wave system. 
+
+
+
+Definition at line 341 of file Wave\+System.\+hpp.
+
+\index{Wave\+System@{Wave\+System}!window\+\_\+@{window\+\_\+}}
+\index{window\+\_\+@{window\+\_\+}!Wave\+System@{Wave\+System}}
+\subsubsection[{\texorpdfstring{window\+\_\+}{window_}}]{\setlength{\rightskip}{0pt plus 5cm}C\+E\+G\+U\+I\+::\+Window$\ast$ Wave\+System\+::window\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_wave_system_ab945c8a6f6608420128bc1e0c101cb09}{}\label{class_wave_system_ab945c8a6f6608420128bc1e0c101cb09}
+
+
+Pointer to the countdown window. 
+
+
+
+Definition at line 320 of file Wave\+System.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+systems/Wave\+System.\+hpp\item 
+systems/Wave\+System.\+cpp\end{DoxyCompactItemize}

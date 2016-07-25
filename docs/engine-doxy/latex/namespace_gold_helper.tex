@@ -1,0 +1,237 @@
+\hypertarget{namespace_gold_helper}{}\section{Gold\+Helper Namespace Reference}
+\label{namespace_gold_helper}\index{Gold\+Helper@{Gold\+Helper}}
+
+
+Auxiliary namespace containing functions that help with the management of the gold component.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespace_gold_helper_a973b2005568ffa99421d01e980e6b90f}{set\+\_\+curr\+\_\+gold} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the gold value a given entity has, does not check if the new value is smalled than the limit, use add\+\_\+gold if that\textquotesingle{}s needed. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_gold_helper_aee202a957ac4274a62f9644f43791705}{get\+\_\+curr\+\_\+gold} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the gold value a given entity has. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_gold_helper_a63284175620f00f2fdcb14cead8455e6}{set\+\_\+max\+\_\+gold} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the limit of gold that a given entity can have. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_gold_helper_af8397b479f7e8668c79269452c3839e6}{get\+\_\+max\+\_\+gold} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the limit of gold that a given entity can have. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_gold_helper_a6822dbb7c34a8864adb6e98c0365ddbf}{add\+\_\+gold} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Adds a given gold value to a given entity up to it\textquotesingle{}s gold limit, returns the amount of gold that superceeded the gold limit and thus wasn\textquotesingle{}t added. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_gold_helper_afed4065de2413c093f823034d0176a77}{sub\+\_\+gold} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint, bool=true)
+\begin{DoxyCompactList}\small\item\em Removes a given amount of gold from a given entity, but does not subtract past zero. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_gold_helper_ad6046423f1027a1117f52152cc892a5e}{transfer\+\_\+all\+\_\+gold} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Transfers all gold of an entity to another entity while keeping the (0, max) range in mind. \end{DoxyCompactList}\item 
+bool \hyperlink{namespace_gold_helper_a37dcb7b18baac8d07d5e844f7be51ad9}{gold\+\_\+full} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns true if a given entity\textquotesingle{}s gold storage is full, false otherwise. \end{DoxyCompactList}\item 
+void {\bfseries register\+\_\+transaction\+\_\+} (\hyperlink{class_entity_system}{Entity\+System} \&, \hyperlink{struct_gold_component}{Gold\+Component} \&, tdt\+::uint, tdt\+::uint, bool=true)\hypertarget{namespace_gold_helper_ae4891dda5b43cf756bcfd501380485ea}{}\label{namespace_gold_helper_ae4891dda5b43cf756bcfd501380485ea}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary namespace containing functions that help with the management of the gold component. 
+
+\subsection{Function Documentation}
+\index{Gold\+Helper@{Gold\+Helper}!add\+\_\+gold@{add\+\_\+gold}}
+\index{add\+\_\+gold@{add\+\_\+gold}!Gold\+Helper@{Gold\+Helper}}
+\subsubsection[{\texorpdfstring{add\+\_\+gold(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{add_gold(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Gold\+Helper\+::add\+\_\+gold (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_gold_helper_a6822dbb7c34a8864adb6e98c0365ddbf}{}\label{namespace_gold_helper_a6822dbb7c34a8864adb6e98c0365ddbf}
+
+
+Adds a given gold value to a given entity up to it\textquotesingle{}s gold limit, returns the amount of gold that superceeded the gold limit and thus wasn\textquotesingle{}t added. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Amount} & of gold to add. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 50 of file Gold\+Helper.\+cpp.
+
+\index{Gold\+Helper@{Gold\+Helper}!get\+\_\+curr\+\_\+gold@{get\+\_\+curr\+\_\+gold}}
+\index{get\+\_\+curr\+\_\+gold@{get\+\_\+curr\+\_\+gold}!Gold\+Helper@{Gold\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+curr\+\_\+gold(\+Entity\+System \&, tdt\+::uint)}{get_curr_gold(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Gold\+Helper\+::get\+\_\+curr\+\_\+gold (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_gold_helper_aee202a957ac4274a62f9644f43791705}{}\label{namespace_gold_helper_aee202a957ac4274a62f9644f43791705}
+
+
+Returns the gold value a given entity has. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 22 of file Gold\+Helper.\+cpp.
+
+\index{Gold\+Helper@{Gold\+Helper}!get\+\_\+max\+\_\+gold@{get\+\_\+max\+\_\+gold}}
+\index{get\+\_\+max\+\_\+gold@{get\+\_\+max\+\_\+gold}!Gold\+Helper@{Gold\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+max\+\_\+gold(\+Entity\+System \&, tdt\+::uint)}{get_max_gold(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Gold\+Helper\+::get\+\_\+max\+\_\+gold (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_gold_helper_af8397b479f7e8668c79269452c3839e6}{}\label{namespace_gold_helper_af8397b479f7e8668c79269452c3839e6}
+
+
+Returns the limit of gold that a given entity can have. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 41 of file Gold\+Helper.\+cpp.
+
+\index{Gold\+Helper@{Gold\+Helper}!gold\+\_\+full@{gold\+\_\+full}}
+\index{gold\+\_\+full@{gold\+\_\+full}!Gold\+Helper@{Gold\+Helper}}
+\subsubsection[{\texorpdfstring{gold\+\_\+full(\+Entity\+System \&, tdt\+::uint)}{gold_full(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Gold\+Helper\+::gold\+\_\+full (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_gold_helper_a37dcb7b18baac8d07d5e844f7be51ad9}{}\label{namespace_gold_helper_a37dcb7b18baac8d07d5e844f7be51ad9}
+
+
+Returns true if a given entity\textquotesingle{}s gold storage is full, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 116 of file Gold\+Helper.\+cpp.
+
+\index{Gold\+Helper@{Gold\+Helper}!set\+\_\+curr\+\_\+gold@{set\+\_\+curr\+\_\+gold}}
+\index{set\+\_\+curr\+\_\+gold@{set\+\_\+curr\+\_\+gold}!Gold\+Helper@{Gold\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+curr\+\_\+gold(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_curr_gold(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Gold\+Helper\+::set\+\_\+curr\+\_\+gold (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_gold_helper_a973b2005568ffa99421d01e980e6b90f}{}\label{namespace_gold_helper_a973b2005568ffa99421d01e980e6b90f}
+
+
+Sets the gold value a given entity has, does not check if the new value is smalled than the limit, use add\+\_\+gold if that\textquotesingle{}s needed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new gold value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 8 of file Gold\+Helper.\+cpp.
+
+\index{Gold\+Helper@{Gold\+Helper}!set\+\_\+max\+\_\+gold@{set\+\_\+max\+\_\+gold}}
+\index{set\+\_\+max\+\_\+gold@{set\+\_\+max\+\_\+gold}!Gold\+Helper@{Gold\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+max\+\_\+gold(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_max_gold(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Gold\+Helper\+::set\+\_\+max\+\_\+gold (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_gold_helper_a63284175620f00f2fdcb14cead8455e6}{}\label{namespace_gold_helper_a63284175620f00f2fdcb14cead8455e6}
+
+
+Sets the limit of gold that a given entity can have. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em The} & new limit. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 31 of file Gold\+Helper.\+cpp.
+
+\index{Gold\+Helper@{Gold\+Helper}!sub\+\_\+gold@{sub\+\_\+gold}}
+\index{sub\+\_\+gold@{sub\+\_\+gold}!Gold\+Helper@{Gold\+Helper}}
+\subsubsection[{\texorpdfstring{sub\+\_\+gold(\+Entity\+System \&, tdt\+::uint, tdt\+::uint, bool=true)}{sub_gold(EntitySystem &, tdt::uint, tdt::uint, bool=true)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Gold\+Helper\+::sub\+\_\+gold (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{val, }
+\item[{bool}]{reg = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_gold_helper_afed4065de2413c093f823034d0176a77}{}\label{namespace_gold_helper_afed4065de2413c093f823034d0176a77}
+
+
+Removes a given amount of gold from a given entity, but does not subtract past zero. 
+
+Returns amount of gold that could not be removed (remainder from the given amount after subtracting). 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the entity. \\
+\hline
+{\em Amount} & of gold to subtract. \\
+\hline
+{\em If} & false, the transaction won\textquotesingle{}t be registered (used when called from \hyperlink{class_player}{Player}); \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 70 of file Gold\+Helper.\+cpp.
+
+\index{Gold\+Helper@{Gold\+Helper}!transfer\+\_\+all\+\_\+gold@{transfer\+\_\+all\+\_\+gold}}
+\index{transfer\+\_\+all\+\_\+gold@{transfer\+\_\+all\+\_\+gold}!Gold\+Helper@{Gold\+Helper}}
+\subsubsection[{\texorpdfstring{transfer\+\_\+all\+\_\+gold(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{transfer_all_gold(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Gold\+Helper\+::transfer\+\_\+all\+\_\+gold (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id\+\_\+from, }
+\item[{tdt\+::uint}]{id\+\_\+to}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_gold_helper_ad6046423f1027a1117f52152cc892a5e}{}\label{namespace_gold_helper_ad6046423f1027a1117f52152cc892a5e}
+
+
+Transfers all gold of an entity to another entity while keeping the (0, max) range in mind. 
+
+Returns amount of gold actually transfered. 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_entity_system}{Entity\+System}} & that contains the entity. \\
+\hline
+{\em ID} & of the sender entity. \\
+\hline
+{\em ID} & of the receiver entity. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 88 of file Gold\+Helper.\+cpp.
+

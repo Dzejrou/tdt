@@ -1,0 +1,175 @@
+\hypertarget{namespace_homing_helper}{}\section{Homing\+Helper Namespace Reference}
+\label{namespace_homing_helper}\index{Homing\+Helper@{Homing\+Helper}}
+
+
+Auxiliary namespace containing functions that help with the management of the homing component.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespace_homing_helper_aced9fcb69f01dbe8c8ff01d8a5647d51}{set\+\_\+source} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Sets the ID of the source (entity that shot it) of a given projectile. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_homing_helper_a7bbf067883eeabe3824c811b3624a66c}{get\+\_\+source} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the ID of the entity that shot a given projectile. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_homing_helper_ace08a9c98a75575c38b366c5ee009b9c}{set\+\_\+target} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Changes the target of a given homing projectile. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_homing_helper_a1810438ee55ead125b2f97d38abfbe98}{get\+\_\+target} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the ID of the target of a given homing projectile. \end{DoxyCompactList}\item 
+void \hyperlink{namespace_homing_helper_a03a63a20473d231b183a6b9055170808}{set\+\_\+dmg} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Changes the damage of a given homing projectile. \end{DoxyCompactList}\item 
+tdt\+::uint \hyperlink{namespace_homing_helper_a2f828970c5abde3be002718a03295d14}{get\+\_\+dmg} (\hyperlink{class_entity_system}{Entity\+System} \&, tdt\+::uint)
+\begin{DoxyCompactList}\small\item\em Returns the damage value of a given projectile. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary namespace containing functions that help with the management of the homing component. 
+
+\subsection{Function Documentation}
+\index{Homing\+Helper@{Homing\+Helper}!get\+\_\+dmg@{get\+\_\+dmg}}
+\index{get\+\_\+dmg@{get\+\_\+dmg}!Homing\+Helper@{Homing\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+dmg(\+Entity\+System \&, tdt\+::uint)}{get_dmg(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Homing\+Helper\+::get\+\_\+dmg (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_homing_helper_a2f828970c5abde3be002718a03295d14}{}\label{namespace_homing_helper_a2f828970c5abde3be002718a03295d14}
+
+
+Returns the damage value of a given projectile. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the projectile. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 44 of file Homing\+Helper.\+cpp.
+
+\index{Homing\+Helper@{Homing\+Helper}!get\+\_\+source@{get\+\_\+source}}
+\index{get\+\_\+source@{get\+\_\+source}!Homing\+Helper@{Homing\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+source(\+Entity\+System \&, tdt\+::uint)}{get_source(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Homing\+Helper\+::get\+\_\+source (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_homing_helper_a7bbf067883eeabe3824c811b3624a66c}{}\label{namespace_homing_helper_a7bbf067883eeabe3824c811b3624a66c}
+
+
+Returns the ID of the entity that shot a given projectile. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the projectile. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 12 of file Homing\+Helper.\+cpp.
+
+\index{Homing\+Helper@{Homing\+Helper}!get\+\_\+target@{get\+\_\+target}}
+\index{get\+\_\+target@{get\+\_\+target}!Homing\+Helper@{Homing\+Helper}}
+\subsubsection[{\texorpdfstring{get\+\_\+target(\+Entity\+System \&, tdt\+::uint)}{get_target(EntitySystem &, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::uint Homing\+Helper\+::get\+\_\+target (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_homing_helper_a1810438ee55ead125b2f97d38abfbe98}{}\label{namespace_homing_helper_a1810438ee55ead125b2f97d38abfbe98}
+
+
+Returns the ID of the target of a given homing projectile. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the projectile. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 28 of file Homing\+Helper.\+cpp.
+
+\index{Homing\+Helper@{Homing\+Helper}!set\+\_\+dmg@{set\+\_\+dmg}}
+\index{set\+\_\+dmg@{set\+\_\+dmg}!Homing\+Helper@{Homing\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+dmg(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_dmg(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Homing\+Helper\+::set\+\_\+dmg (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{dmg}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_homing_helper_a03a63a20473d231b183a6b9055170808}{}\label{namespace_homing_helper_a03a63a20473d231b183a6b9055170808}
+
+
+Changes the damage of a given homing projectile. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the projectile. \\
+\hline
+{\em The} & new damage value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 37 of file Homing\+Helper.\+cpp.
+
+\index{Homing\+Helper@{Homing\+Helper}!set\+\_\+source@{set\+\_\+source}}
+\index{set\+\_\+source@{set\+\_\+source}!Homing\+Helper@{Homing\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+source(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_source(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Homing\+Helper\+::set\+\_\+source (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{source}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_homing_helper_aced9fcb69f01dbe8c8ff01d8a5647d51}{}\label{namespace_homing_helper_aced9fcb69f01dbe8c8ff01d8a5647d51}
+
+
+Sets the ID of the source (entity that shot it) of a given projectile. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the projectile. \\
+\hline
+{\em ID} & of the source. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 5 of file Homing\+Helper.\+cpp.
+
+\index{Homing\+Helper@{Homing\+Helper}!set\+\_\+target@{set\+\_\+target}}
+\index{set\+\_\+target@{set\+\_\+target}!Homing\+Helper@{Homing\+Helper}}
+\subsubsection[{\texorpdfstring{set\+\_\+target(\+Entity\+System \&, tdt\+::uint, tdt\+::uint)}{set_target(EntitySystem &, tdt::uint, tdt::uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void Homing\+Helper\+::set\+\_\+target (
+\begin{DoxyParamCaption}
+\item[{{\bf Entity\+System} \&}]{ents, }
+\item[{tdt\+::uint}]{id, }
+\item[{tdt\+::uint}]{target}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_homing_helper_ace08a9c98a75575c38b366c5ee009b9c}{}\label{namespace_homing_helper_ace08a9c98a75575c38b366c5ee009b9c}
+
+
+Changes the target of a given homing projectile. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reference} & to the entity system containing components. \\
+\hline
+{\em ID} & of the projectile. \\
+\hline
+{\em ID} & of the target. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 21 of file Homing\+Helper.\+cpp.
+

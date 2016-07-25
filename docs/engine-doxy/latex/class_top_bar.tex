@@ -1,0 +1,160 @@
+\hypertarget{class_top_bar}{}\section{Top\+Bar Class Reference}
+\label{class_top_bar}\index{Top\+Bar@{Top\+Bar}}
+
+
+Class representing an info bar on the top of the screen displaying the name of the game, player\textquotesingle{}s gold, mana, units and the current time.  
+
+
+
+
+{\ttfamily \#include $<$Top\+Bar.\+hpp$>$}
+
+Inheritance diagram for Top\+Bar\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_top_bar}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_top_bar_a63a533082a600995f786866cc49b1430}{Top\+Bar} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_top_bar_a7094a6ca99beead40e96a29d1a5d0db3}{$\sim$\+Top\+Bar} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_top_bar_a8641f2accd0f13d2262669914582cb69}{update\+\_\+time} (tdt\+::real)
+\begin{DoxyCompactList}\small\item\em Updates the current time on the top bar if a second passed since the last time update. \end{DoxyCompactList}\item 
+void \hyperlink{class_top_bar_a3d83b2b0b1b91e30a275bfb1f7256dba}{update\+\_\+label} (const std\+::string \&, const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Sets the given label\textquotesingle{}s text to the given string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_top_bar_a5e3a678d8c38ee488def54f9d2ce49f0}{init\+\_\+} () override
+\begin{DoxyCompactList}\small\item\em Initializes the top bar. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+tdt\+::real \hyperlink{class_top_bar_a0b1cc703a118cec101c50ba9b5fccba8}{tdelta\+\_\+}
+\begin{DoxyCompactList}\small\item\em Time since the last \char`\"{}\+Current Time\char`\"{} update. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Class representing an info bar on the top of the screen displaying the name of the game, player\textquotesingle{}s gold, mana, units and the current time. 
+
+Definition at line 12 of file Top\+Bar.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Top\+Bar@{Top\+Bar}!Top\+Bar@{Top\+Bar}}
+\index{Top\+Bar@{Top\+Bar}!Top\+Bar@{Top\+Bar}}
+\subsubsection[{\texorpdfstring{Top\+Bar()}{TopBar()}}]{\setlength{\rightskip}{0pt plus 5cm}Top\+Bar\+::\+Top\+Bar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_top_bar_a63a533082a600995f786866cc49b1430}{}\label{class_top_bar_a63a533082a600995f786866cc49b1430}
+
+
+Constructor. 
+
+
+
+Definition at line 5 of file Top\+Bar.\+cpp.
+
+\index{Top\+Bar@{Top\+Bar}!````~Top\+Bar@{$\sim$\+Top\+Bar}}
+\index{````~Top\+Bar@{$\sim$\+Top\+Bar}!Top\+Bar@{Top\+Bar}}
+\subsubsection[{\texorpdfstring{$\sim$\+Top\+Bar()=default}{~TopBar()=default}}]{\setlength{\rightskip}{0pt plus 5cm}Top\+Bar\+::$\sim$\+Top\+Bar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{class_top_bar_a7094a6ca99beead40e96a29d1a5d0db3}{}\label{class_top_bar_a7094a6ca99beead40e96a29d1a5d0db3}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\index{Top\+Bar@{Top\+Bar}!init\+\_\+@{init\+\_\+}}
+\index{init\+\_\+@{init\+\_\+}!Top\+Bar@{Top\+Bar}}
+\subsubsection[{\texorpdfstring{init\+\_\+() override}{init_() override}}]{\setlength{\rightskip}{0pt plus 5cm}void Top\+Bar\+::init\+\_\+ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{class_top_bar_a5e3a678d8c38ee488def54f9d2ce49f0}{}\label{class_top_bar_a5e3a678d8c38ee488def54f9d2ce49f0}
+
+
+Initializes the top bar. 
+
+
+
+Implements \hyperlink{class_g_u_i_window_a2a7c011363f401a57a26cc7c7652bdfd}{G\+U\+I\+Window}.
+
+
+
+Definition at line 28 of file Top\+Bar.\+cpp.
+
+\index{Top\+Bar@{Top\+Bar}!update\+\_\+label@{update\+\_\+label}}
+\index{update\+\_\+label@{update\+\_\+label}!Top\+Bar@{Top\+Bar}}
+\subsubsection[{\texorpdfstring{update\+\_\+label(const std\+::string \&, const std\+::string \&)}{update_label(const std::string &, const std::string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Top\+Bar\+::update\+\_\+label (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{label, }
+\item[{const std\+::string \&}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{class_top_bar_a3d83b2b0b1b91e30a275bfb1f7256dba}{}\label{class_top_bar_a3d83b2b0b1b91e30a275bfb1f7256dba}
+
+
+Sets the given label\textquotesingle{}s text to the given string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Label} & to change. \\
+\hline
+{\em New} & text. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 23 of file Top\+Bar.\+cpp.
+
+\index{Top\+Bar@{Top\+Bar}!update\+\_\+time@{update\+\_\+time}}
+\index{update\+\_\+time@{update\+\_\+time}!Top\+Bar@{Top\+Bar}}
+\subsubsection[{\texorpdfstring{update\+\_\+time(tdt\+::real)}{update_time(tdt::real)}}]{\setlength{\rightskip}{0pt plus 5cm}void Top\+Bar\+::update\+\_\+time (
+\begin{DoxyParamCaption}
+\item[{tdt\+::real}]{delta}
+\end{DoxyParamCaption}
+)}\hypertarget{class_top_bar_a8641f2accd0f13d2262669914582cb69}{}\label{class_top_bar_a8641f2accd0f13d2262669914582cb69}
+
+
+Updates the current time on the top bar if a second passed since the last time update. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Time} & since the last frame. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 9 of file Top\+Bar.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Top\+Bar@{Top\+Bar}!tdelta\+\_\+@{tdelta\+\_\+}}
+\index{tdelta\+\_\+@{tdelta\+\_\+}!Top\+Bar@{Top\+Bar}}
+\subsubsection[{\texorpdfstring{tdelta\+\_\+}{tdelta_}}]{\setlength{\rightskip}{0pt plus 5cm}tdt\+::real Top\+Bar\+::tdelta\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_top_bar_a0b1cc703a118cec101c50ba9b5fccba8}{}\label{class_top_bar_a0b1cc703a118cec101c50ba9b5fccba8}
+
+
+Time since the last \char`\"{}\+Current Time\char`\"{} update. 
+
+
+
+Definition at line 49 of file Top\+Bar.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+gui/Top\+Bar.\+hpp\item 
+gui/Top\+Bar.\+cpp\end{DoxyCompactItemize}

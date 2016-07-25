@@ -1,0 +1,1573 @@
+\hypertarget{class_lua_interface}{}\section{Lua\+Interface Class Reference}
+\label{class_lua_interface}\index{Lua\+Interface@{Lua\+Interface}}
+
+
+Class that creates an interface between engine (C++) and logic (Lua) code.  
+
+
+
+
+{\ttfamily \#include $<$Lua\+Interface.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_lua_interface_a10d0df765a9d8c8282c18a5ce43d0f9e}{Lua\+Interface} ()=delete
+\begin{DoxyCompactList}\small\item\em This is a static class, so all constructors are deleted. \end{DoxyCompactList}\item 
+{\bfseries Lua\+Interface} (const \hyperlink{class_lua_interface}{Lua\+Interface} \&)=delete\hypertarget{class_lua_interface_a925145fb427267abcff404742e1df805}{}\label{class_lua_interface_a925145fb427267abcff404742e1df805}
+
+\item 
+{\bfseries Lua\+Interface} (\hyperlink{class_lua_interface}{Lua\+Interface} \&\&)=delete\hypertarget{class_lua_interface_ad7b50588c30ea8c133539efd4f532180}{}\label{class_lua_interface_ad7b50588c30ea8c133539efd4f532180}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_lua_interface_ac9fa6b609503a1db2c44b7f27f8d1090}{init} (\hyperlink{class_game}{Game} $\ast$)
+\begin{DoxyCompactList}\small\item\em Sets the lua\+\_\+this pointer and registers all C++ A\+PI functions to Lua. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{class_lua_interface_aac8cc7f5beeb8ffe8d637abc7a1d3600}{lua\+\_\+get\+\_\+avg\+\_\+fps} (lpp\+::\+Script\+::state)
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+fps} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a29f3c1ffa0a902adac4e67d3385d5af4}{}\label{class_lua_interface_a29f3c1ffa0a902adac4e67d3385d5af4}
+
+\item 
+static int {\bfseries lua\+\_\+print} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a51e679ea9a576d2aeefedd1c959f45d7}{}\label{class_lua_interface_a51e679ea9a576d2aeefedd1c959f45d7}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+game\+\_\+state} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5aa5fff6b89dd6be1beac175957eb80d}{}\label{class_lua_interface_a5aa5fff6b89dd6be1beac175957eb80d}
+
+\item 
+static int {\bfseries lua\+\_\+toggle\+\_\+bounding\+\_\+boxes} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac37363a7902485c77456c3272c3d812d}{}\label{class_lua_interface_ac37363a7902485c77456c3272c3d812d}
+
+\item 
+static int {\bfseries lua\+\_\+toggle\+\_\+camera\+\_\+free\+\_\+mode} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_af4efc25e6844f768fa5b0334c8f54d40}{}\label{class_lua_interface_af4efc25e6844f768fa5b0334c8f54d40}
+
+\item 
+static int {\bfseries lua\+\_\+toggle\+\_\+entity\+\_\+creator} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab9590bfdd7bdd79dc84295ce4c1e4bd9}{}\label{class_lua_interface_ab9590bfdd7bdd79dc84295ce4c1e4bd9}
+
+\item 
+static int {\bfseries lua\+\_\+list\+\_\+selected} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a27826f52870ace0f8a7fb2e94815ed14}{}\label{class_lua_interface_a27826f52870ace0f8a7fb2e94815ed14}
+
+\item 
+static int {\bfseries lua\+\_\+destroy\+\_\+selected} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae67e86128e80404fa6a4876db465ae75}{}\label{class_lua_interface_ae67e86128e80404fa6a4876db465ae75}
+
+\item 
+static int {\bfseries lua\+\_\+kill\+\_\+selected} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad3ef59891e0aba8fb768ae372c45742d}{}\label{class_lua_interface_ad3ef59891e0aba8fb768ae372c45742d}
+
+\item 
+static int {\bfseries lua\+\_\+list\+\_\+components\+\_\+of} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a542d175e198d07aedc7138f898bc83fd}{}\label{class_lua_interface_a542d175e198d07aedc7138f898bc83fd}
+
+\item 
+static int {\bfseries lua\+\_\+load} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7deaf3615eb31fd09a1ddacd461ee93a}{}\label{class_lua_interface_a7deaf3615eb31fd09a1ddacd461ee93a}
+
+\item 
+static int {\bfseries lua\+\_\+reload\+\_\+all} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a708acacbb59eb74133655687fb91fb7a}{}\label{class_lua_interface_a708acacbb59eb74133655687fb91fb7a}
+
+\item 
+static int {\bfseries lua\+\_\+save\+\_\+game} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7f7a0ba475425b5b58e95e1618c1bda7}{}\label{class_lua_interface_a7f7a0ba475425b5b58e95e1618c1bda7}
+
+\item 
+static int {\bfseries lua\+\_\+load\+\_\+game} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a57b4d9d83f74827e07aa1e32c7483dc4}{}\label{class_lua_interface_a57b4d9d83f74827e07aa1e32c7483dc4}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+cursor\+\_\+position} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa6ce840b4264593baa5567a9eaa9a9dd}{}\label{class_lua_interface_aa6ce840b4264593baa5567a9eaa9a9dd}
+
+\item 
+static int {\bfseries lua\+\_\+can\+\_\+place\+\_\+when\+\_\+game\+\_\+paused} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2ea3dfb29a9cf844908713e2a0cec5d9}{}\label{class_lua_interface_a2ea3dfb29a9cf844908713e2a0cec5d9}
+
+\item 
+static int {\bfseries lua\+\_\+toggle\+\_\+placing\+\_\+when\+\_\+game\+\_\+paused} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a59a4852b61dd0af2665185bca1755f59}{}\label{class_lua_interface_a59a4852b61dd0af2665185bca1755f59}
+
+\item 
+static int {\bfseries lua\+\_\+new\+\_\+game} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a75ef98d36684c3eb6741ebc1f9cf8dec}{}\label{class_lua_interface_a75ef98d36684c3eb6741ebc1f9cf8dec}
+
+\item 
+static int {\bfseries lua\+\_\+create\+\_\+empty\+\_\+level} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a32b89eaa09197ca9783b4ba7a7358b0a}{}\label{class_lua_interface_a32b89eaa09197ca9783b4ba7a7358b0a}
+
+\item 
+static int {\bfseries lua\+\_\+reset\+\_\+unlocks} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac3cef8a0fa0e32992f909511ff4ace76}{}\label{class_lua_interface_ac3cef8a0fa0e32992f909511ff4ace76}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+random} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_af86a3e370385e95f7da5e92996b511f6}{}\label{class_lua_interface_af86a3e370385e95f7da5e92996b511f6}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+key\+\_\+bind} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a29eade8a630409d8a905d45613ad154e}{}\label{class_lua_interface_a29eade8a630409d8a905d45613ad154e}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+first\+\_\+selected} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7f95a569cf02e3e8af912f7467792b2e}{}\label{class_lua_interface_a7f95a569cf02e3e8af912f7467792b2e}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+enemies} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad16b0e337997f766ca7bbd1aac579379}{}\label{class_lua_interface_ad16b0e337997f766ca7bbd1aac579379}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+friends} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3a7cae862d7bbd8b50673c64aeb1a351}{}\label{class_lua_interface_a3a7cae862d7bbd8b50673c64aeb1a351}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+throne\+\_\+id} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a32c2aa6a6af54e6aa68fccb798b3e74f}{}\label{class_lua_interface_a32c2aa6a6af54e6aa68fccb798b3e74f}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+throne\+\_\+id} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9eaf35a68a3087989121f36474d4b0fe}{}\label{class_lua_interface_a9eaf35a68a3087989121f36474d4b0fe}
+
+\item 
+static int {\bfseries lua\+\_\+command\+\_\+to\+\_\+mine} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3cd1be7ff7b06294f6a66efbfeee7071}{}\label{class_lua_interface_a3cd1be7ff7b06294f6a66efbfeee7071}
+
+\item 
+static int {\bfseries lua\+\_\+command\+\_\+to\+\_\+attack} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a1fb505ff6b59e9bfa5ab87807d75bae6}{}\label{class_lua_interface_a1fb505ff6b59e9bfa5ab87807d75bae6}
+
+\item 
+static int {\bfseries lua\+\_\+command\+\_\+to\+\_\+reposition} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad520a98ea394025d5332210a9c3e1471}{}\label{class_lua_interface_ad520a98ea394025d5332210a9c3e1471}
+
+\item 
+static int {\bfseries lua\+\_\+command\+\_\+to\+\_\+return\+\_\+gold} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a27d683ce4a5b270413c99344a4078c40}{}\label{class_lua_interface_a27d683ce4a5b270413c99344a4078c40}
+
+\item 
+static int {\bfseries lua\+\_\+command\+\_\+to\+\_\+fall\+\_\+back} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa22a3fb04f40b166b45b930825a90bbc}{}\label{class_lua_interface_aa22a3fb04f40b166b45b930825a90bbc}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+enum\+\_\+direction} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a983b36d571294e832c237119daa65187}{}\label{class_lua_interface_a983b36d571294e832c237119daa65187}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+node\+\_\+in\+\_\+dir} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a83d576d5113c1cf8cc0f9e298962e3d1}{}\label{class_lua_interface_a83d576d5113c1cf8cc0f9e298962e3d1}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+mesh} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_abef84137aa944683616cd1e96db814de}{}\label{class_lua_interface_abef84137aa944683616cd1e96db814de}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+material} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a1d34ae0354dc0003a043524188f1b7fd}{}\label{class_lua_interface_a1d34ae0354dc0003a043524188f1b7fd}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a62f2408b5220f1430583ea24c66795dc}{}\label{class_lua_interface_a62f2408b5220f1430583ea24c66795dc}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+manual\+\_\+scaling} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aaabaca1e0e0e47bdfd46fcd9e36856ba}{}\label{class_lua_interface_aaabaca1e0e0e47bdfd46fcd9e36856ba}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+scale} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4360b8ff9e75c3a7e92ae9f9a1a2e1b5}{}\label{class_lua_interface_a4360b8ff9e75c3a7e92ae9f9a1a2e1b5}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+mesh} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a632c2b39769e0244e9bd126d25748a92}{}\label{class_lua_interface_a632c2b39769e0244e9bd126d25748a92}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+material} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5d660da25de2858d3abb0639a5d25d75}{}\label{class_lua_interface_a5d660da25de2858d3abb0639a5d25d75}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae212219772ccdfaf006f2cba25dbd1e7}{}\label{class_lua_interface_ae212219772ccdfaf006f2cba25dbd1e7}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+manual\+\_\+scaling} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aaed92af55d5246374cc1e7665ede65a6}{}\label{class_lua_interface_aaed92af55d5246374cc1e7665ede65a6}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+scale} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a09d071df6cc205bcdfc04f1807ff91c1}{}\label{class_lua_interface_a09d071df6cc205bcdfc04f1807ff91c1}
+
+\item 
+static int {\bfseries lua\+\_\+look\+\_\+at} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae0e5fc2143433b20576d0fc47279a359}{}\label{class_lua_interface_ae0e5fc2143433b20576d0fc47279a359}
+
+\item 
+static int {\bfseries lua\+\_\+rotate\+\_\+x} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac8c9f911e8ddc4902ed3d41e2530c8da}{}\label{class_lua_interface_ac8c9f911e8ddc4902ed3d41e2530c8da}
+
+\item 
+static int {\bfseries lua\+\_\+rotate\+\_\+y} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_abc3f532f0802ba656ece252e56142578}{}\label{class_lua_interface_abc3f532f0802ba656ece252e56142578}
+
+\item 
+static int {\bfseries lua\+\_\+rotate\+\_\+z} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad00da18e4a3b7b98da92bcbc7527a5a9}{}\label{class_lua_interface_ad00da18e4a3b7b98da92bcbc7527a5a9}
+
+\item 
+static int {\bfseries lua\+\_\+collide} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_acb350433726bf138654859e47ed0b61d}{}\label{class_lua_interface_acb350433726bf138654859e47ed0b61d}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+query\+\_\+flags} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae89bb41fe0a89d1e982d738ca37d0e2f}{}\label{class_lua_interface_ae89bb41fe0a89d1e982d738ca37d0e2f}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+query\+\_\+flags} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a327bbe9908924a7ba9b52d8b3d8b4db9}{}\label{class_lua_interface_a327bbe9908924a7ba9b52d8b3d8b4db9}
+
+\item 
+static int {\bfseries lua\+\_\+apply\+\_\+scale} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0076f346a0e9332c5dc3ddf51a2a4fb4}{}\label{class_lua_interface_a0076f346a0e9332c5dc3ddf51a2a4fb4}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+graphics\+\_\+update\+\_\+period} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a92b69210a24971e45ca568ece9acd97e}{}\label{class_lua_interface_a92b69210a24971e45ca568ece9acd97e}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+graphics\+\_\+update\+\_\+period} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_adfdacd064355d32d549f0c740dd5b9b1}{}\label{class_lua_interface_adfdacd064355d32d549f0c740dd5b9b1}
+
+\item 
+static int {\bfseries lua\+\_\+create\+\_\+entity} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab8f4dce13baedf367d30f3c9dedfd316}{}\label{class_lua_interface_ab8f4dce13baedf367d30f3c9dedfd316}
+
+\item 
+static int {\bfseries lua\+\_\+destroy\+\_\+entity} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac83678419e517cef89d8d56f7a8a63aa}{}\label{class_lua_interface_ac83678419e517cef89d8d56f7a8a63aa}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+component} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a18c4f1aa91500373316671fa7bbb5d63}{}\label{class_lua_interface_a18c4f1aa91500373316671fa7bbb5d63}
+
+\item 
+static int {\bfseries lua\+\_\+delete\+\_\+component} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a41188b14d825bf0d70fa760c85f9c35e}{}\label{class_lua_interface_a41188b14d825bf0d70fa760c85f9c35e}
+
+\item 
+static int {\bfseries lua\+\_\+init\+\_\+graphics\+\_\+component} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9fad9366996084ea04a1e2d952b6873e}{}\label{class_lua_interface_a9fad9366996084ea04a1e2d952b6873e}
+
+\item 
+static int {\bfseries lua\+\_\+list\+\_\+entity\+\_\+tables} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad6b7bf47fb111bc9ff938c781ca865e9}{}\label{class_lua_interface_ad6b7bf47fb111bc9ff938c781ca865e9}
+
+\item 
+static int {\bfseries lua\+\_\+place\+\_\+entity} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0a5dfe7bf03ab6cd75eb14949d3eb468}{}\label{class_lua_interface_a0a5dfe7bf03ab6cd75eb14949d3eb468}
+
+\item 
+static int {\bfseries lua\+\_\+register\+\_\+entity} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa384e8c91dabe9e2468f1860ccc53846}{}\label{class_lua_interface_aa384e8c91dabe9e2468f1860ccc53846}
+
+\item 
+static int {\bfseries lua\+\_\+exists} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac99d5676231b062222ff952e502a4d43}{}\label{class_lua_interface_ac99d5676231b062222ff952e502a4d43}
+
+\item 
+static int {\bfseries lua\+\_\+kill\+\_\+entity} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aefc61abe07e0392c9c4e2181919e4dab}{}\label{class_lua_interface_aefc61abe07e0392c9c4e2181919e4dab}
+
+\item 
+static int {\bfseries lua\+\_\+has\+\_\+component} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2170bf2c65bd3e62e96904014b3cd70d}{}\label{class_lua_interface_a2170bf2c65bd3e62e96904014b3cd70d}
+
+\item 
+static int {\bfseries lua\+\_\+entity\+\_\+reset\+\_\+state} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae37b7ef3833f90fcd8c020fe60890c25}{}\label{class_lua_interface_ae37b7ef3833f90fcd8c020fe60890c25}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+position} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aefc3e8bff6f801e5f0bc9095ab36a1d7}{}\label{class_lua_interface_aefc3e8bff6f801e5f0bc9095ab36a1d7}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+position} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aafce323aed4cb7812223c7514a278a9e}{}\label{class_lua_interface_aafce323aed4cb7812223c7514a278a9e}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+solid} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_acf250c6d57963d3ecaa6843935a0cf42}{}\label{class_lua_interface_acf250c6d57963d3ecaa6843935a0cf42}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+solid} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a53f9c214c7701e798fa576bbcf0c7282}{}\label{class_lua_interface_a53f9c214c7701e798fa576bbcf0c7282}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+half\+\_\+height} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a242c16b37985033584b2d27f078e5286}{}\label{class_lua_interface_a242c16b37985033584b2d27f078e5286}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+half\+\_\+height} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4f9a1d037368ade8d01d3e75ad6f0a8e}{}\label{class_lua_interface_a4f9a1d037368ade8d01d3e75ad6f0a8e}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+distance} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aee8b34891c132406b0084eb46c030fe6}{}\label{class_lua_interface_aee8b34891c132406b0084eb46c030fe6}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+angle} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad43d07ca18cb16adbbf21ef7147287b2}{}\label{class_lua_interface_ad43d07ca18cb16adbbf21ef7147287b2}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+angle\+\_\+between} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0beafae08167a8f52334b3e15e2b6a3d}{}\label{class_lua_interface_a0beafae08167a8f52334b3e15e2b6a3d}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+2d\+\_\+position} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a555f3f8a2d56a74cec828b2055898ccd}{}\label{class_lua_interface_a555f3f8a2d56a74cec828b2055898ccd}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+2d\+\_\+position} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6e41d032effbd554d64414d3dd7e2144}{}\label{class_lua_interface_a6e41d032effbd554d64414d3dd7e2144}
+
+\item 
+static int {\bfseries lua\+\_\+move\+\_\+to} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a416cfc49e8fb7b619523e2464b3d2247}{}\label{class_lua_interface_a416cfc49e8fb7b619523e2464b3d2247}
+
+\item 
+static int {\bfseries lua\+\_\+move} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa89c14401cec0c13691a4132a3bc4805}{}\label{class_lua_interface_aa89c14401cec0c13691a4132a3bc4805}
+
+\item 
+static int {\bfseries lua\+\_\+can\+\_\+move\+\_\+to} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_afe542bef2f9a2cac68331367755c01e9}{}\label{class_lua_interface_afe542bef2f9a2cac68331367755c01e9}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+speed\+\_\+modifier} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae3832a3801f2913d076977ece409c7f9}{}\label{class_lua_interface_ae3832a3801f2913d076977ece409c7f9}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+speed\+\_\+modifier} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a8039f318d7e9387d7c397da28f276363}{}\label{class_lua_interface_a8039f318d7e9387d7c397da28f276363}
+
+\item 
+static int {\bfseries lua\+\_\+dir\+\_\+to} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab486d6477d30c6215dac967fb845c6f5}{}\label{class_lua_interface_ab486d6477d30c6215dac967fb845c6f5}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+dir} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0979d3529a810cc3ae0037f485de1ef9}{}\label{class_lua_interface_a0979d3529a810cc3ae0037f485de1ef9}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+dir\+\_\+back} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0ddd472cb4d8e12b4ca3c06190da771e}{}\label{class_lua_interface_a0ddd472cb4d8e12b4ca3c06190da771e}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+dir\+\_\+left} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aae9697d7bc54bd645b63c5266349c425}{}\label{class_lua_interface_aae9697d7bc54bd645b63c5266349c425}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+dir\+\_\+right} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aea3c5b084e1c25ace5987075436c20dc}{}\label{class_lua_interface_aea3c5b084e1c25ace5987075436c20dc}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+original\+\_\+speed} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a844ff6f3d8bffdd65ee683d7168e4f69}{}\label{class_lua_interface_a844ff6f3d8bffdd65ee683d7168e4f69}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+original\+\_\+speed} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa944c5d44e61f190387427a783f43c67}{}\label{class_lua_interface_aa944c5d44e61f190387427a783f43c67}
+
+\item 
+static int {\bfseries lua\+\_\+reset\+\_\+speed} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a27d1a256d8f109a3c2a8e8c9fe238197}{}\label{class_lua_interface_a27d1a256d8f109a3c2a8e8c9fe238197}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+health} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab11df5c58d755d2bf8cd734ae5bc648d}{}\label{class_lua_interface_ab11df5c58d755d2bf8cd734ae5bc648d}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+health} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a794384097ccad9238955169968950865}{}\label{class_lua_interface_a794384097ccad9238955169968950865}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+health} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4346f44e911eecde71181001e50074ff}{}\label{class_lua_interface_a4346f44e911eecde71181001e50074ff}
+
+\item 
+static int {\bfseries lua\+\_\+sub\+\_\+health} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a84b6da379622f86cc28cb206b626c52f}{}\label{class_lua_interface_a84b6da379622f86cc28cb206b626c52f}
+
+\item 
+static int {\bfseries lua\+\_\+heal} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad7004c9fb0a6d705c2fbe148db010056}{}\label{class_lua_interface_ad7004c9fb0a6d705c2fbe148db010056}
+
+\item 
+static int {\bfseries lua\+\_\+buff} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a83fa745d1a8a4b37eb80cd620ba49102}{}\label{class_lua_interface_a83fa745d1a8a4b37eb80cd620ba49102}
+
+\item 
+static int {\bfseries lua\+\_\+debuff} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a589aacc0dd3ab254915d32c6fd530520}{}\label{class_lua_interface_a589aacc0dd3ab254915d32c6fd530520}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+defense} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa4e98b8245acb3e5be05b2f526c83682}{}\label{class_lua_interface_aa4e98b8245acb3e5be05b2f526c83682}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+defense} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7211d7b12324092ef32f9cb14ff3d72d}{}\label{class_lua_interface_a7211d7b12324092ef32f9cb14ff3d72d}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+defense} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7c7fe01034e38333da9e96ab27625aca}{}\label{class_lua_interface_a7c7fe01034e38333da9e96ab27625aca}
+
+\item 
+static int {\bfseries lua\+\_\+sub\+\_\+defense} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aec8dc930ccea985b6b6eab74e101c396}{}\label{class_lua_interface_aec8dc930ccea985b6b6eab74e101c396}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+regen} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae24fc32788fa5ddd329240717c2d763b}{}\label{class_lua_interface_ae24fc32788fa5ddd329240717c2d763b}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+regen} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a67d8abc04d23f6a67b741ec03cf31716}{}\label{class_lua_interface_a67d8abc04d23f6a67b741ec03cf31716}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+alive} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ada0a566f805f2cf2285e240ecf3219d4}{}\label{class_lua_interface_ada0a566f805f2cf2285e240ecf3219d4}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+alive} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a35fb2e692ac8a723821dc377013ec316}{}\label{class_lua_interface_a35fb2e692ac8a723821dc377013ec316}
+
+\item 
+static int {\bfseries lua\+\_\+ubercharge} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_adea2627139d989f31c6e5dd6ca96c744}{}\label{class_lua_interface_adea2627139d989f31c6e5dd6ca96c744}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+regen\+\_\+period} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad67c7c1b2e202ab16d977cd37b905bea}{}\label{class_lua_interface_ad67c7c1b2e202ab16d977cd37b905bea}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+regen\+\_\+period} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae0dcd4a82349af550b8fdba73572fa21}{}\label{class_lua_interface_ae0dcd4a82349af550b8fdba73572fa21}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a81784ffcdeee3f2046e8aa83a69c469e}{}\label{class_lua_interface_a81784ffcdeee3f2046e8aa83a69c469e}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+state} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a01ab99505ea106844e503229453dc061}{}\label{class_lua_interface_a01ab99505ea106844e503229453dc061}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+faction} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa3bf4d724ab422195a87dee6fa47b8f5}{}\label{class_lua_interface_aa3bf4d724ab422195a87dee6fa47b8f5}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a35e1b50a4806759079274c119ab4422f}{}\label{class_lua_interface_a35e1b50a4806759079274c119ab4422f}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+state} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_af0cbeb5800d07f17a83be567ce3b2441}{}\label{class_lua_interface_af0cbeb5800d07f17a83be567ce3b2441}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+faction} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a707dc7a21fee45ae0c93e6ab0d3518b3}{}\label{class_lua_interface_a707dc7a21fee45ae0c93e6ab0d3518b3}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+update\+\_\+period} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a980557a657424ffa05c755b48ad82261}{}\label{class_lua_interface_a980557a657424ffa05c755b48ad82261}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+update\+\_\+period} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6ec45ebaf5512a324fa0c3ce3d9ec76b}{}\label{class_lua_interface_a6ec45ebaf5512a324fa0c3ce3d9ec76b}
+
+\item 
+static int {\bfseries lua\+\_\+force\+\_\+update} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a32651720c29e160c4bff1dd7420124a3}{}\label{class_lua_interface_a32651720c29e160c4bff1dd7420124a3}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+faction\+\_\+name} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a261164b8db5fd91bdf8ef50a5a0e6a98}{}\label{class_lua_interface_a261164b8db5fd91bdf8ef50a5a0e6a98}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+input\+\_\+handler} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a79366e9b2486a2c90393de15d736a1a7}{}\label{class_lua_interface_a79366e9b2486a2c90393de15d736a1a7}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+input\+\_\+handler} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad224f775da0c188cfea3b263a8b92c0f}{}\label{class_lua_interface_ad224f775da0c188cfea3b263a8b92c0f}
+
+\item 
+static int {\bfseries lua\+\_\+toggle\+\_\+first\+\_\+person} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2a4853c99a71497966719c02b35ddae4}{}\label{class_lua_interface_a2a4853c99a71497966719c02b35ddae4}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+node} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a715ace611a7febd5cd76d58cf21c701c}{}\label{class_lua_interface_a715ace611a7febd5cd76d58cf21c701c}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+node} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6a532f8e34760f99f584afce19e5c77c}{}\label{class_lua_interface_a6a532f8e34760f99f584afce19e5c77c}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+node\+\_\+from\+\_\+position} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a83548dc56a7de2d491d97f2e7aba70dd}{}\label{class_lua_interface_a83548dc56a7de2d491d97f2e7aba70dd}
+
+\item 
+static int {\bfseries lua\+\_\+create\+\_\+grid\+\_\+graphics} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a42d30ddb1ebd92661b8fd44a81793c13}{}\label{class_lua_interface_a42d30ddb1ebd92661b8fd44a81793c13}
+
+\item 
+static int {\bfseries lua\+\_\+delete\+\_\+grid\+\_\+graphics} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3328be00237263d8d205d982b0b0af02}{}\label{class_lua_interface_a3328be00237263d8d205d982b0b0af02}
+
+\item 
+static int {\bfseries lua\+\_\+toggle\+\_\+grid\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a924e81c305fc851909b767dfb11e0ccb}{}\label{class_lua_interface_a924e81c305fc851909b767dfb11e0ccb}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+free} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9ee8bd45691f1d8e59e345ef09da92e9}{}\label{class_lua_interface_a9ee8bd45691f1d8e59e345ef09da92e9}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+free} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab5231ccc2a7ac626c5a1f4263a58a2fc}{}\label{class_lua_interface_ab5231ccc2a7ac626c5a1f4263a58a2fc}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+free\+\_\+selected} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab0133636fa8e7a5bb6002c0c3647c61f}{}\label{class_lua_interface_ab0133636fa8e7a5bb6002c0c3647c61f}
+
+\item 
+static int {\bfseries lua\+\_\+pathfind} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a30da98013804d88f57cb2ba90328d95a}{}\label{class_lua_interface_a30da98013804d88f57cb2ba90328d95a}
+
+\item 
+static int {\bfseries lua\+\_\+pop\+\_\+first\+\_\+path\+\_\+node} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9555021373b2d62497bbfc3588c0482e}{}\label{class_lua_interface_a9555021373b2d62497bbfc3588c0482e}
+
+\item 
+static int {\bfseries lua\+\_\+pop\+\_\+last\+\_\+path\+\_\+node} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae43ba25d7eef092eee288a9e72050217}{}\label{class_lua_interface_ae43ba25d7eef092eee288a9e72050217}
+
+\item 
+static int {\bfseries lua\+\_\+path\+\_\+queue\+\_\+empty} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a416c19157e87027938a479fd32ff8ba1}{}\label{class_lua_interface_a416c19157e87027938a479fd32ff8ba1}
+
+\item 
+static int {\bfseries lua\+\_\+clear\+\_\+path} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4a8fc168f3459fb5bf2e215e8d7ccf11}{}\label{class_lua_interface_a4a8fc168f3459fb5bf2e215e8d7ccf11}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+pathfinding\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9bada61e30e90909e7ad1a9c4a4d89c4}{}\label{class_lua_interface_a9bada61e30e90909e7ad1a9c4a4d89c4}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+pathfinding\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0f1921f0b9f32755b4f13e552fff114e}{}\label{class_lua_interface_a0f1921f0b9f32755b4f13e552fff114e}
+
+\item 
+static int {\bfseries lua\+\_\+create\+\_\+graph} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_adbadc8aa461ebdacc7157616945a337a}{}\label{class_lua_interface_adbadc8aa461ebdacc7157616945a337a}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+resident} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a508a1bf98b0a7858d94c3d8508b8ec1e}{}\label{class_lua_interface_a508a1bf98b0a7858d94c3d8508b8ec1e}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+resident} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_afccc1d3f54e742ae03a00d1122d4f3d4}{}\label{class_lua_interface_afccc1d3f54e742ae03a00d1122d4f3d4}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+residences} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5ab0aa576b72ecb2c5c8e3d3ee0581f1}{}\label{class_lua_interface_a5ab0aa576b72ecb2c5c8e3d3ee0581f1}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+residence} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a10945721639d41f40eb491527bac96c5}{}\label{class_lua_interface_a10945721639d41f40eb491527bac96c5}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+radius} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aabbc59e14ac27a56109a85be29f4bb35}{}\label{class_lua_interface_aabbc59e14ac27a56109a85be29f4bb35}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+walk\+\_\+through} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a47ead731655af1ce33519f92667daf43}{}\label{class_lua_interface_a47ead731655af1ce33519f92667daf43}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+walk\+\_\+throuth} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab39a1407244b62d9abbbbe49570dd303}{}\label{class_lua_interface_ab39a1407244b62d9abbbbe49570dd303}
+
+\item 
+static int {\bfseries lua\+\_\+place\+\_\+at\+\_\+random\+\_\+free\+\_\+node} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac2e21719b40a3c50df8a9b1771355c68}{}\label{class_lua_interface_ac2e21719b40a3c50df8a9b1771355c68}
+
+\item 
+static int {\bfseries lua\+\_\+distribute\+\_\+to\+\_\+adjacent\+\_\+free\+\_\+nodes} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad6082bc7210da368ac5cf11448b0abb3}{}\label{class_lua_interface_ad6082bc7210da368ac5cf11448b0abb3}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+random\+\_\+free\+\_\+node} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a04f2f2bf343b982ef51331a124b5afde}{}\label{class_lua_interface_a04f2f2bf343b982ef51331a124b5afde}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+portal\+\_\+neighbour} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_addf5d84a18d681765986b04d58551967}{}\label{class_lua_interface_addf5d84a18d681765986b04d58551967}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+next\+\_\+pathfinding\+\_\+node} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a16e72abf5790718980748059bde8ebcd}{}\label{class_lua_interface_a16e72abf5790718980748059bde8ebcd}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+target\+\_\+pathfinding\+\_\+node} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a39a0f270ce4c84cfa87d1a8ec589f3b7}{}\label{class_lua_interface_a39a0f270ce4c84cfa87d1a8ec589f3b7}
+
+\item 
+static int {\bfseries lua\+\_\+pathfinding\+\_\+skip\+\_\+next\+\_\+node} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a75b8a75e4d172634f8858b59c52c83b7}{}\label{class_lua_interface_a75b8a75e4d172634f8858b59c52c83b7}
+
+\item 
+static int {\bfseries lua\+\_\+pathfinding\+\_\+after\+\_\+next\+\_\+node} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aec484d92fe1ca1c3aeb67cdf9f32ed44}{}\label{class_lua_interface_aec484d92fe1ca1c3aeb67cdf9f32ed44}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+task} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_af4c18565b133c05f84cdad0be3eb81ad}{}\label{class_lua_interface_af4c18565b133c05f84cdad0be3eb81ad}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+priority\+\_\+task} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a8a7bce346f98995326e1c29076799efe}{}\label{class_lua_interface_a8a7bce346f98995326e1c29076799efe}
+
+\item 
+static int {\bfseries lua\+\_\+cancel\+\_\+task} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7d78dd61700d78e39eb95975bb3a0f9a}{}\label{class_lua_interface_a7d78dd61700d78e39eb95975bb3a0f9a}
+
+\item 
+static int {\bfseries lua\+\_\+create\+\_\+task} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0391d2a2c8061fc1f8448e5f484b0492}{}\label{class_lua_interface_a0391d2a2c8061fc1f8448e5f484b0492}
+
+\item 
+static int {\bfseries lua\+\_\+list\+\_\+tasks\+\_\+of} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a90bfe30210dde8c841045d9de5b92f89}{}\label{class_lua_interface_a90bfe30210dde8c841045d9de5b92f89}
+
+\item 
+static int {\bfseries lua\+\_\+task\+\_\+possible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a280f732152edaf3a0f4940888443a375}{}\label{class_lua_interface_a280f732152edaf3a0f4940888443a375}
+
+\item 
+static int {\bfseries lua\+\_\+task\+\_\+type\+\_\+possibe} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5356e669d2b94156b955bc7a17b734e6}{}\label{class_lua_interface_a5356e669d2b94156b955bc7a17b734e6}
+
+\item 
+static int {\bfseries lua\+\_\+clear\+\_\+task\+\_\+queue} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a97f82727ebaee2f68634a404714b8c78}{}\label{class_lua_interface_a97f82727ebaee2f68634a404714b8c78}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+task\+\_\+source} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_acc625800144a6aacf15919d26371d18c}{}\label{class_lua_interface_acc625800144a6aacf15919d26371d18c}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+task\+\_\+source} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a486a243014b793fed38a9152c48b31f1}{}\label{class_lua_interface_a486a243014b793fed38a9152c48b31f1}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+task\+\_\+target} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad2cbfacd6e4c5a82836e410bb618e278}{}\label{class_lua_interface_ad2cbfacd6e4c5a82836e410bb618e278}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+task\+\_\+target} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a44e16a62072e54924172321c59cc2a17}{}\label{class_lua_interface_a44e16a62072e54924172321c59cc2a17}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+task\+\_\+type} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac6c652bb845747b94dc5f63082cc1fda}{}\label{class_lua_interface_ac6c652bb845747b94dc5f63082cc1fda}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+task\+\_\+type} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a134f237e3f129ef9d264a3d9e85216a8}{}\label{class_lua_interface_a134f237e3f129ef9d264a3d9e85216a8}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+possible\+\_\+task} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac047d11b145e549e989e2a60bcbe824b}{}\label{class_lua_interface_ac047d11b145e549e989e2a60bcbe824b}
+
+\item 
+static int {\bfseries lua\+\_\+delete\+\_\+possible\+\_\+task} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6b063889179a458123434aa187d5c2d3}{}\label{class_lua_interface_a6b063889179a458123434aa187d5c2d3}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+task\+\_\+handling\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_af2c15f7025f62c3dc048bf85cb67d424}{}\label{class_lua_interface_af2c15f7025f62c3dc048bf85cb67d424}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+task\+\_\+handling\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a922cb3786dab2df027a9af69d871c0de}{}\label{class_lua_interface_a922cb3786dab2df027a9af69d871c0de}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+task\+\_\+complete} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_abf0f161bea0e965b98604eb68e3f7ea2}{}\label{class_lua_interface_abf0f161bea0e965b98604eb68e3f7ea2}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+task\+\_\+complete} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_acd332d00ba62ee1dd1b06ee05b929c57}{}\label{class_lua_interface_acd332d00ba62ee1dd1b06ee05b929c57}
+
+\item 
+static int {\bfseries lua\+\_\+task\+\_\+clear} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aebf69dd72070f53d1294b8bd54eb4b9c}{}\label{class_lua_interface_aebf69dd72070f53d1294b8bd54eb4b9c}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+combat\+\_\+target} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae3fe0160f6897946823bfdfa7aa9b171}{}\label{class_lua_interface_ae3fe0160f6897946823bfdfa7aa9b171}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+combat\+\_\+target} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad9ba6b4c249fd59c278f58c297fc4ba9}{}\label{class_lua_interface_ad9ba6b4c249fd59c278f58c297fc4ba9}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+range} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae15db6cc12cd8d517955a63845986723}{}\label{class_lua_interface_ae15db6cc12cd8d517955a63845986723}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+range} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0aeaf4fd88698fc6f2a1ad78977df00a}{}\label{class_lua_interface_a0aeaf4fd88698fc6f2a1ad78977df00a}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+dmg\+\_\+range} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aacc98cba3df44e28951e442ea848a424}{}\label{class_lua_interface_aacc98cba3df44e28951e442ea848a424}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+dmg\+\_\+range} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_af6a3b405c1a1613013b7c02a385ff559}{}\label{class_lua_interface_af6a3b405c1a1613013b7c02a385ff559}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+dmg} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_abff45ed95bbf096223b624b7f2fb785c}{}\label{class_lua_interface_abff45ed95bbf096223b624b7f2fb785c}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7e5d131d40785a1baf4d4d72409a9053}{}\label{class_lua_interface_a7e5d131d40785a1baf4d4d72409a9053}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7e44d375fe35d074c6e683d0c575a2a4}{}\label{class_lua_interface_a7e44d375fe35d074c6e683d0c575a2a4}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+atk\+\_\+type} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a27c8f09c3815ee53f99ba111f09302f0}{}\label{class_lua_interface_a27c8f09c3815ee53f99ba111f09302f0}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+atk\+\_\+type} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7ea627c8ffb11d5ab782e75dd10307c0}{}\label{class_lua_interface_a7ea627c8ffb11d5ab782e75dd10307c0}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+homing\+\_\+source} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9b0c4937b7cae1632f463d96d5cd28f2}{}\label{class_lua_interface_a9b0c4937b7cae1632f463d96d5cd28f2}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+homing\+\_\+source} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae60bb0854a7b381917d40d58b601d878}{}\label{class_lua_interface_ae60bb0854a7b381917d40d58b601d878}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+homing\+\_\+target} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae4a6ffada13b6c9728f2ecc7ff651fc4}{}\label{class_lua_interface_ae4a6ffada13b6c9728f2ecc7ff651fc4}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+homing\+\_\+target} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a14f054fde7343964b7a5b32bbfb1facc}{}\label{class_lua_interface_a14f054fde7343964b7a5b32bbfb1facc}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+homing\+\_\+dmg} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6cc737712c02047deec3478c5efdf789}{}\label{class_lua_interface_a6cc737712c02047deec3478c5efdf789}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+homing\+\_\+dmg} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2733df56a6d03f25d10ffade31315167}{}\label{class_lua_interface_a2733df56a6d03f25d10ffade31315167}
+
+\item 
+static int {\bfseries lua\+\_\+closest\+\_\+enemy\+\_\+in\+\_\+sight} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa4934af8edb7debfe08c82f78c734d3b}{}\label{class_lua_interface_aa4934af8edb7debfe08c82f78c734d3b}
+
+\item 
+static int {\bfseries lua\+\_\+closest\+\_\+friendly\+\_\+in\+\_\+sight} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab8ae4a74f77157cfe1a27738e5859ea3}{}\label{class_lua_interface_ab8ae4a74f77157cfe1a27738e5859ea3}
+
+\item 
+static int {\bfseries lua\+\_\+closest\+\_\+enemy} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad51a84c921d73a2d8e758e4e10644411}{}\label{class_lua_interface_ad51a84c921d73a2d8e758e4e10644411}
+
+\item 
+static int {\bfseries lua\+\_\+closest\+\_\+friendly} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_acf55dc64db6c601845bb2a90bee13cdf}{}\label{class_lua_interface_acf55dc64db6c601845bb2a90bee13cdf}
+
+\item 
+static int {\bfseries lua\+\_\+closest\+\_\+enemy\+\_\+in\+\_\+sight\+\_\+thats\+\_\+not} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab826975a30a95cb206c04534cd97dfee}{}\label{class_lua_interface_ab826975a30a95cb206c04534cd97dfee}
+
+\item 
+static int {\bfseries lua\+\_\+closest\+\_\+friendly\+\_\+in\+\_\+sight\+\_\+thats\+\_\+not} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae433baf30d9387feab209e0736520a84}{}\label{class_lua_interface_ae433baf30d9387feab209e0736520a84}
+
+\item 
+static int {\bfseries lua\+\_\+closest\+\_\+enemy\+\_\+thats\+\_\+not} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4140d12283dded7b4a4d6c16a0539681}{}\label{class_lua_interface_a4140d12283dded7b4a4d6c16a0539681}
+
+\item 
+static int {\bfseries lua\+\_\+closest\+\_\+friendly\+\_\+thats\+\_\+not} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a11c1bd3f3526cb0369ad798624124cdc}{}\label{class_lua_interface_a11c1bd3f3526cb0369ad798624124cdc}
+
+\item 
+static int {\bfseries lua\+\_\+in\+\_\+sight} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7a318be9c3175f38343aed4e96ab1ddd}{}\label{class_lua_interface_a7a318be9c3175f38343aed4e96ab1ddd}
+
+\item 
+static int {\bfseries lua\+\_\+run\+\_\+away\+\_\+from} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_acfa9c02f909e3a0a1e359729e4d9d9a2}{}\label{class_lua_interface_acfa9c02f909e3a0a1e359729e4d9d9a2}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+max\+\_\+run\+\_\+away\+\_\+attempts} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aee1979efa69cbf0529ce22b8299c4611}{}\label{class_lua_interface_aee1979efa69cbf0529ce22b8299c4611}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+max\+\_\+run\+\_\+away\+\_\+attempts} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a35b0eeeda887d10ccf2269fa065a08d7}{}\label{class_lua_interface_a35b0eeeda887d10ccf2269fa065a08d7}
+
+\item 
+static int {\bfseries lua\+\_\+apply\+\_\+heal\+\_\+to\+\_\+entities\+\_\+in\+\_\+range} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aedd2da5368ad870f203bd935e429c716}{}\label{class_lua_interface_aedd2da5368ad870f203bd935e429c716}
+
+\item 
+static int {\bfseries lua\+\_\+apply\+\_\+damage\+\_\+to\+\_\+entities\+\_\+in\+\_\+range} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a97ec4f46ec4d53b618e98be49531ed47}{}\label{class_lua_interface_a97ec4f46ec4d53b618e98be49531ed47}
+
+\item 
+static int {\bfseries lua\+\_\+apply\+\_\+slow\+\_\+to\+\_\+entities\+\_\+in\+\_\+range} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a94d0e9595530d7211c41bf9b2a1ff038}{}\label{class_lua_interface_a94d0e9595530d7211c41bf9b2a1ff038}
+
+\item 
+static int {\bfseries lua\+\_\+apply\+\_\+freeze\+\_\+to\+\_\+entities\+\_\+in\+\_\+range} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5f27f95233f28fff6a52d862fac95e52}{}\label{class_lua_interface_a5f27f95233f28fff6a52d862fac95e52}
+
+\item 
+static int {\bfseries lua\+\_\+in\+\_\+range} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_acdbad02a31adadf8c139e21df13c8449}{}\label{class_lua_interface_acdbad02a31adadf8c139e21df13c8449}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+projectile\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a97930128422ba709f1635253c98f6516}{}\label{class_lua_interface_a97930128422ba709f1635253c98f6516}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+projectile\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a815a49f45b25a381a9fe68cdcb0d7a00}{}\label{class_lua_interface_a815a49f45b25a381a9fe68cdcb0d7a00}
+
+\item 
+static int {\bfseries lua\+\_\+apply\+\_\+slow\+\_\+to} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a1c026c5e2599a0dd41b4765180de42e0}{}\label{class_lua_interface_a1c026c5e2599a0dd41b4765180de42e0}
+
+\item 
+static int {\bfseries lua\+\_\+apply\+\_\+freeze\+\_\+to} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4c595bd5e69d487da17b4750144e3522}{}\label{class_lua_interface_a4c595bd5e69d487da17b4750144e3522}
+
+\item 
+static int {\bfseries lua\+\_\+enemy\+\_\+in\+\_\+range} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab6d49d882926e1987a0ac1964904a3cc}{}\label{class_lua_interface_ab6d49d882926e1987a0ac1964904a3cc}
+
+\item 
+static int {\bfseries lua\+\_\+closest\+\_\+friendly\+\_\+structure} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a09f85c87099f7d43a1d712e04da88bf8}{}\label{class_lua_interface_a09f85c87099f7d43a1d712e04da88bf8}
+
+\item 
+static int {\bfseries lua\+\_\+closest\+\_\+enemy\+\_\+structure} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a1c94a3eb66206163eecc2d15dc6379af}{}\label{class_lua_interface_a1c94a3eb66206163eecc2d15dc6379af}
+
+\item 
+static int {\bfseries lua\+\_\+closest\+\_\+friendly\+\_\+structure\+\_\+in\+\_\+sight} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3da0573f72698c422671ced20bde9575}{}\label{class_lua_interface_a3da0573f72698c422671ced20bde9575}
+
+\item 
+static int {\bfseries lua\+\_\+closest\+\_\+enemy\+\_\+structure\+\_\+in\+\_\+sight} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae0109461341de76547397311d25c4cf8}{}\label{class_lua_interface_ae0109461341de76547397311d25c4cf8}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+production\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad7b9ff4cc392ef2825f69f24337709d8}{}\label{class_lua_interface_ad7b9ff4cc392ef2825f69f24337709d8}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+production\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5db0cfa20e19f72b5fbc084cb9566b0e}{}\label{class_lua_interface_a5db0cfa20e19f72b5fbc084cb9566b0e}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+production\+\_\+limit} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a69d5f44e78f9d42d21a2f182efcb54b9}{}\label{class_lua_interface_a69d5f44e78f9d42d21a2f182efcb54b9}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+production\+\_\+limit} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a8a361328be7e5109fe7857411d04d36a}{}\label{class_lua_interface_a8a361328be7e5109fe7857411d04d36a}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+production\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a104f59381e0d739820beff4ad1c0bd48}{}\label{class_lua_interface_a104f59381e0d739820beff4ad1c0bd48}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+production\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a28f9e2308cab674bd4dc821b070071db}{}\label{class_lua_interface_a28f9e2308cab674bd4dc821b070071db}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+production\+\_\+progress} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a51a87fb74f00c6ab1136a52537e5a607}{}\label{class_lua_interface_a51a87fb74f00c6ab1136a52537e5a607}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+production\+\_\+progress} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa7a3b3c7eed4438647000bf4e9a74c5e}{}\label{class_lua_interface_aa7a3b3c7eed4438647000bf4e9a74c5e}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+production\+\_\+count} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4d2bbb7da495d23f606e875f38920d69}{}\label{class_lua_interface_a4d2bbb7da495d23f606e875f38920d69}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+production\+\_\+count} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_af0a6c2e14e82c46763fc60a4c4fdce4d}{}\label{class_lua_interface_af0a6c2e14e82c46763fc60a4c4fdce4d}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+producer} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a842a0f5701b234fa7c60e0e5546c47c9}{}\label{class_lua_interface_a842a0f5701b234fa7c60e0e5546c47c9}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+producer} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a356f0e4722e8fecf9155cc9eec47f6eb}{}\label{class_lua_interface_a356f0e4722e8fecf9155cc9eec47f6eb}
+
+\item 
+static int {\bfseries lua\+\_\+instant\+\_\+production} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a148bc954dff85a1ca3e365858a9b2173}{}\label{class_lua_interface_a148bc954dff85a1ca3e365858a9b2173}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+production\+\_\+multiplier} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4bc37a2834832ec288a0e08b2faac376}{}\label{class_lua_interface_a4bc37a2834832ec288a0e08b2faac376}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+production\+\_\+multiplier} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2833f134243f47e33bab8c2aaef7d32c}{}\label{class_lua_interface_a2833f134243f47e33bab8c2aaef7d32c}
+
+\item 
+static int {\bfseries lua\+\_\+double\+\_\+production} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3bc07e0e4fed946358f9536b44577831}{}\label{class_lua_interface_a3bc07e0e4fed946358f9536b44577831}
+
+\item 
+static int {\bfseries lua\+\_\+increase\+\_\+production} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6e68682ad7d914b44017cc275b250a19}{}\label{class_lua_interface_a6e68682ad7d914b44017cc275b250a19}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+curr\+\_\+time} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a268d69c29f702861a0e10c61ce845b68}{}\label{class_lua_interface_a268d69c29f702861a0e10c61ce845b68}
+
+\item 
+static int {\bfseries lua\+\_\+advance\+\_\+curr\+\_\+time} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_acdbfed26e47ee72982d6fdc31668062a}{}\label{class_lua_interface_acdbfed26e47ee72982d6fdc31668062a}
+
+\item 
+static int {\bfseries lua\+\_\+max\+\_\+curr\+\_\+time} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a31e57f836ab6338fbe980a79277d3754}{}\label{class_lua_interface_a31e57f836ab6338fbe980a79277d3754}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+time\+\_\+limit} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3e34bb9c8dfb23ca2cd17a3d2c023dac}{}\label{class_lua_interface_a3e34bb9c8dfb23ca2cd17a3d2c023dac}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+time\+\_\+limit} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2c62c05a23264df8d6a674f336e24d6c}{}\label{class_lua_interface_a2c62c05a23264df8d6a674f336e24d6c}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+timer\+\_\+target} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9936ac9245f9afbd0f92d83a88df1ee6}{}\label{class_lua_interface_a9936ac9245f9afbd0f92d83a88df1ee6}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+timer\+\_\+target} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9582a37f9ce095702d8cacbdec6b63f7}{}\label{class_lua_interface_a9582a37f9ce095702d8cacbdec6b63f7}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+timer\+\_\+type} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab21236291b53d374b9e72473afb0bb01}{}\label{class_lua_interface_ab21236291b53d374b9e72473afb0bb01}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+timer\+\_\+type} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_acbb769fbc0ff8f0faf5b1def506bab41}{}\label{class_lua_interface_acbb769fbc0ff8f0faf5b1def506bab41}
+
+\item 
+static int {\bfseries lua\+\_\+advance\+\_\+all\+\_\+timers} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4920754882402b60a0327307176971d6}{}\label{class_lua_interface_a4920754882402b60a0327307176971d6}
+
+\item 
+static int {\bfseries lua\+\_\+advance\+\_\+all\+\_\+timers\+\_\+of\+\_\+type} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4d60e78d081e3e5e7dd5defe5d59d213}{}\label{class_lua_interface_a4d60e78d081e3e5e7dd5defe5d59d213}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+timer\+\_\+multiplier} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5fddeb114bbd19c707704c746eff7549}{}\label{class_lua_interface_a5fddeb114bbd19c707704c746eff7549}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+timer\+\_\+multiplier} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a72ff27ac4fda2ba21207188d6179a916}{}\label{class_lua_interface_a72ff27ac4fda2ba21207188d6179a916}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+event\+\_\+type} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_adefc8a0dc0684c598112c00f4d20e015}{}\label{class_lua_interface_adefc8a0dc0684c598112c00f4d20e015}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+event\+\_\+type} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac35a4d6b6350f8cd9b9ca6eabebc8a12}{}\label{class_lua_interface_ac35a4d6b6350f8cd9b9ca6eabebc8a12}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+event\+\_\+target} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9b72fdefdafc1ee8f034e014cc9e7714}{}\label{class_lua_interface_a9b72fdefdafc1ee8f034e014cc9e7714}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+event\+\_\+target} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a629912db45db49a5ca77b1948fd818a1}{}\label{class_lua_interface_a629912db45db49a5ca77b1948fd818a1}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+event\+\_\+radius} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a76dc4ba80fe69d6b2fd0dac83adcf447}{}\label{class_lua_interface_a76dc4ba80fe69d6b2fd0dac83adcf447}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+event\+\_\+radius} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a21471660024742c779915145d72190e7}{}\label{class_lua_interface_a21471660024742c779915145d72190e7}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+event\+\_\+active} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab2f6ae631d7816670f80de79a2d61961}{}\label{class_lua_interface_ab2f6ae631d7816670f80de79a2d61961}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+event\+\_\+active} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2bac0f6397866257bf8ba997c31235b3}{}\label{class_lua_interface_a2bac0f6397866257bf8ba997c31235b3}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+handler\+\_\+of\+\_\+event} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad59c80d46879535b6741a9cebe835bcf}{}\label{class_lua_interface_ad59c80d46879535b6741a9cebe835bcf}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+handler\+\_\+of\+\_\+event} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0d77c6d5d2482d476791285e2be43989}{}\label{class_lua_interface_a0d77c6d5d2482d476791285e2be43989}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+event\+\_\+handler} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac3816c41e63b3b6f174e2bfe4eea00e4}{}\label{class_lua_interface_ac3816c41e63b3b6f174e2bfe4eea00e4}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+event\+\_\+handler} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a878bd4c78f7c9752498e1a9a3ab6539d}{}\label{class_lua_interface_a878bd4c78f7c9752498e1a9a3ab6539d}
+
+\item 
+static int {\bfseries lua\+\_\+can\+\_\+handle\+\_\+event} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae92ae75bebf9d00e00addc8c99607d84}{}\label{class_lua_interface_ae92ae75bebf9d00e00addc8c99607d84}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+possible\+\_\+event} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2eafd8fba78387e52b9fccae33a15ea9}{}\label{class_lua_interface_a2eafd8fba78387e52b9fccae33a15ea9}
+
+\item 
+static int {\bfseries lua\+\_\+delete\+\_\+possible\+\_\+event} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a036a39d5ba92aa1b081837333e94757a}{}\label{class_lua_interface_a036a39d5ba92aa1b081837333e94757a}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+event\+\_\+update\+\_\+period} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a101cbb65d5b565d7ccc9582f75b5378b}{}\label{class_lua_interface_a101cbb65d5b565d7ccc9582f75b5378b}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+event\+\_\+update\+\_\+period} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_afe37dd0c710c25892c2fb9a21b7276d3}{}\label{class_lua_interface_afe37dd0c710c25892c2fb9a21b7276d3}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+event\+\_\+update\+\_\+multiplier} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_abdb58fb58b5ee0432149e73ff61854d2}{}\label{class_lua_interface_abdb58fb58b5ee0432149e73ff61854d2}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+event\+\_\+update\+\_\+multiplier} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac029e97a3397f6577d5202f1781f24b4}{}\label{class_lua_interface_ac029e97a3397f6577d5202f1781f24b4}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+destructor\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa2acbc1710028efc5ac4595cea797b47}{}\label{class_lua_interface_aa2acbc1710028efc5ac4595cea797b47}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+destructor\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a8321bad41f3f6eb51031381ce3e704ef}{}\label{class_lua_interface_a8321bad41f3f6eb51031381ce3e704ef}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+curr\+\_\+gold} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad071c198052431ccac3d1d01502eb650}{}\label{class_lua_interface_ad071c198052431ccac3d1d01502eb650}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+curr\+\_\+gold} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad1122b461301f3fe65d449a3a58964ba}{}\label{class_lua_interface_ad1122b461301f3fe65d449a3a58964ba}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+max\+\_\+gold} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a72ab2d36291af1722cfa0db36133065b}{}\label{class_lua_interface_a72ab2d36291af1722cfa0db36133065b}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+max\+\_\+gold} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ade6342959e71c1f4a47f66283b2cf309}{}\label{class_lua_interface_ade6342959e71c1f4a47f66283b2cf309}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+gold} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5b47fff914ee6df76bdfe5c761f47de2}{}\label{class_lua_interface_a5b47fff914ee6df76bdfe5c761f47de2}
+
+\item 
+static int {\bfseries lua\+\_\+sub\+\_\+gold} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0c79eaab00009793eeb7bdad8f2fab9e}{}\label{class_lua_interface_a0c79eaab00009793eeb7bdad8f2fab9e}
+
+\item 
+static int {\bfseries lua\+\_\+transfer\+\_\+all\+\_\+gold} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7c7bf6dc34f43c456c291e5cedd3ec81}{}\label{class_lua_interface_a7c7bf6dc34f43c456c291e5cedd3ec81}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+closest\+\_\+gold\+\_\+deposit} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a12a37c2d362101031bc60734c2a63a46}{}\label{class_lua_interface_a12a37c2d362101031bc60734c2a63a46}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+closest\+\_\+gold\+\_\+deposit\+\_\+in\+\_\+sight} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a97269a536e7f1bccc006afbed3abfb1f}{}\label{class_lua_interface_a97269a536e7f1bccc006afbed3abfb1f}
+
+\item 
+static int {\bfseries lua\+\_\+gold\+\_\+full} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_af9f077ba6f9ca36d22ccc7f18500b23c}{}\label{class_lua_interface_af9f077ba6f9ca36d22ccc7f18500b23c}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+gold\+\_\+vault} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4e348f1fdf2ad0e708b0a833089c16ae}{}\label{class_lua_interface_a4e348f1fdf2ad0e708b0a833089c16ae}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+closest\+\_\+gold\+\_\+vault} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7c5c59a657122c3fa928516f64f74002}{}\label{class_lua_interface_a7c5c59a657122c3fa928516f64f74002}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+closest\+\_\+gold\+\_\+vault\+\_\+in\+\_\+sight} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2c7d31ed417832f59e077d9a4d2dcd03}{}\label{class_lua_interface_a2c7d31ed417832f59e077d9a4d2dcd03}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+closest\+\_\+free\+\_\+gold\+\_\+vault} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_acb73fceca675dd244a6595f6a6e60477}{}\label{class_lua_interface_acb73fceca675dd244a6595f6a6e60477}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+closest\+\_\+free\+\_\+gold\+\_\+vault\+\_\+in\+\_\+sight} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_abe1d9e9e052d5a20c73a7f101a38e67d}{}\label{class_lua_interface_abe1d9e9e052d5a20c73a7f101a38e67d}
+
+\item 
+static int {\bfseries lua\+\_\+exists\+\_\+free\+\_\+gold\+\_\+vault} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa37ce101e388eac88c973c5f3a9c95a8}{}\label{class_lua_interface_aa37ce101e388eac88c973c5f3a9c95a8}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+gui\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa939c0fc34ea8e2f5c74265cbf65bdc3}{}\label{class_lua_interface_aa939c0fc34ea8e2f5c74265cbf65bdc3}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+gui\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9d3db96fde3d612babb415fed8a90d4a}{}\label{class_lua_interface_a9d3db96fde3d612babb415fed8a90d4a}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+window\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab36481229d27b9517f6de03e87477ba2}{}\label{class_lua_interface_ab36481229d27b9517f6de03e87477ba2}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+window\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4317501b9787dac8b939cb7f7e69f614}{}\label{class_lua_interface_a4317501b9787dac8b939cb7f7e69f614}
+
+\item 
+static int {\bfseries lua\+\_\+show\+\_\+save\+\_\+dialog} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad1b4e058570031254dd4723e580b5000}{}\label{class_lua_interface_ad1b4e058570031254dd4723e580b5000}
+
+\item 
+static int {\bfseries lua\+\_\+show\+\_\+load\+\_\+dialog} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a90d8da940b5131634578c415641025eb}{}\label{class_lua_interface_a90d8da940b5131634578c415641025eb}
+
+\item 
+static int {\bfseries lua\+\_\+clear\+\_\+log} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_add5ca19699ca60b9bac9a83d91a36740}{}\label{class_lua_interface_add5ca19699ca60b9bac9a83d91a36740}
+
+\item 
+static int {\bfseries lua\+\_\+print\+\_\+to\+\_\+log} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0c3a74e86ea961cdd7ddab5b56f562d3}{}\label{class_lua_interface_a0c3a74e86ea961cdd7ddab5b56f562d3}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+log\+\_\+history} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_afbce58059a82b5a7822da586282d630b}{}\label{class_lua_interface_afbce58059a82b5a7822da586282d630b}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+log\+\_\+history} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6d3e725b2559b70e7ad4a9c21dac0d1b}{}\label{class_lua_interface_a6d3e725b2559b70e7ad4a9c21dac0d1b}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+log\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_add6a8ef9980e6088797569b67fe8a783}{}\label{class_lua_interface_add6a8ef9980e6088797569b67fe8a783}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+log\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aae598e398403b7129dd0effcbb37d6f9}{}\label{class_lua_interface_aae598e398403b7129dd0effcbb37d6f9}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+tracked\+\_\+entity} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a54666f50dfd34d1b1c6a51bee6343daa}{}\label{class_lua_interface_a54666f50dfd34d1b1c6a51bee6343daa}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+tracked\+\_\+entity} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9b9891a38ec0bc0503cebe1f2e333f8a}{}\label{class_lua_interface_a9b9891a38ec0bc0503cebe1f2e333f8a}
+
+\item 
+static int {\bfseries lua\+\_\+update\+\_\+tracking} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7a08f92bf41456af480dcdb6019e8f74}{}\label{class_lua_interface_a7a08f92bf41456af480dcdb6019e8f74}
+
+\item 
+static int {\bfseries lua\+\_\+clear\+\_\+entity\+\_\+tracker} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_af4c95492902e26014fe780d09a70869a}{}\label{class_lua_interface_af4c95492902e26014fe780d09a70869a}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+tracker\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa19b4d1c37c8e3d9d723301c030de2e5}{}\label{class_lua_interface_aa19b4d1c37c8e3d9d723301c030de2e5}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+tracker\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a44a0828abb73105cf860d908d7427624}{}\label{class_lua_interface_a44a0828abb73105cf860d908d7427624}
+
+\item 
+static int {\bfseries lua\+\_\+console\+\_\+scroll\+\_\+down} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7b8dd4cc95bab4352fcc425794deb3f2}{}\label{class_lua_interface_a7b8dd4cc95bab4352fcc425794deb3f2}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+console\+\_\+history} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_afda3df01ed4314003f230750f2b431b1}{}\label{class_lua_interface_afda3df01ed4314003f230750f2b431b1}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+console\+\_\+history} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5f6814864b53bd95d20f35a599d3793c}{}\label{class_lua_interface_a5f6814864b53bd95d20f35a599d3793c}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+console\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a59221dc3ac32a19810a35660ca129e0d}{}\label{class_lua_interface_a59221dc3ac32a19810a35660ca129e0d}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+console\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad71fc0cba99e5c08a775fde2436d1b56}{}\label{class_lua_interface_ad71fc0cba99e5c08a775fde2436d1b56}
+
+\item 
+static int {\bfseries lua\+\_\+clear\+\_\+console} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a716e417710b0ce21b9920fdd4fc82d68}{}\label{class_lua_interface_a716e417710b0ce21b9920fdd4fc82d68}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+builder\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac33827c5459952fe83fdc7c8ac9b019d}{}\label{class_lua_interface_ac33827c5459952fe83fdc7c8ac9b019d}
+
+\item 
+static int {\bfseries lua\+\_\+is\+\_\+builder\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac25f5d29393cbf400ce2292af2578b80}{}\label{class_lua_interface_ac25f5d29393cbf400ce2292af2578b80}
+
+\item 
+static int {\bfseries lua\+\_\+register\+\_\+building} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3ab5ddbefc72049ad4e8081f98510e7f}{}\label{class_lua_interface_a3ab5ddbefc72049ad4e8081f98510e7f}
+
+\item 
+static int {\bfseries lua\+\_\+research\+\_\+show} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5f4f5f57a0153fdcf869e0162fa68661}{}\label{class_lua_interface_a5f4f5f57a0153fdcf869e0162fa68661}
+
+\item 
+static int {\bfseries lua\+\_\+free\+\_\+research} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a39de4d8133e003f78e248c1c1b067fa7}{}\label{class_lua_interface_a39de4d8133e003f78e248c1c1b067fa7}
+
+\item 
+static int {\bfseries lua\+\_\+research\+\_\+all} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae1e9901ce83d05d895e15ebd9f870f59}{}\label{class_lua_interface_ae1e9901ce83d05d895e15ebd9f870f59}
+
+\item 
+static int {\bfseries lua\+\_\+dummy\+\_\+unlock} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2bc524aa9267fdff3b60a82bd0a1612a}{}\label{class_lua_interface_a2bc524aa9267fdff3b60a82bd0a1612a}
+
+\item 
+static int {\bfseries lua\+\_\+research\+\_\+reset} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4c3e1549dec1930376db2a6bf7cd206b}{}\label{class_lua_interface_a4c3e1549dec1930376db2a6bf7cd206b}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+player\+\_\+gold} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_add74c7ab51055d169d9038c952c1db8a}{}\label{class_lua_interface_add74c7ab51055d169d9038c952c1db8a}
+
+\item 
+static int {\bfseries lua\+\_\+sub\+\_\+player\+\_\+gold} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a09084ca46d2f10f23c6e6ad1fca6c862}{}\label{class_lua_interface_a09084ca46d2f10f23c6e6ad1fca6c862}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+player\+\_\+mana} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae53e0b9adaf1b6044601fcf41d5433f9}{}\label{class_lua_interface_ae53e0b9adaf1b6044601fcf41d5433f9}
+
+\item 
+static int {\bfseries lua\+\_\+sub\+\_\+player\+\_\+mana} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa70677feb2885f84f85be89d5bf14fbf}{}\label{class_lua_interface_aa70677feb2885f84f85be89d5bf14fbf}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+player\+\_\+max\+\_\+units} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a03c7161314e4c848062fa3d95e0e7eb0}{}\label{class_lua_interface_a03c7161314e4c848062fa3d95e0e7eb0}
+
+\item 
+static int {\bfseries lua\+\_\+sub\+\_\+player\+\_\+max\+\_\+units} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a89acffaf0ff8e78a9ca845072a3417e8}{}\label{class_lua_interface_a89acffaf0ff8e78a9ca845072a3417e8}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+player\+\_\+curr\+\_\+units} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4979edafed4f7cb20d73d5aeee80def1}{}\label{class_lua_interface_a4979edafed4f7cb20d73d5aeee80def1}
+
+\item 
+static int {\bfseries lua\+\_\+sub\+\_\+player\+\_\+curr\+\_\+units} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_addb1d5db4d04c80752ace4ef7a010b0d}{}\label{class_lua_interface_addb1d5db4d04c80752ace4ef7a010b0d}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+player\+\_\+gold} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5abf544661b26908794eeb511772cf9b}{}\label{class_lua_interface_a5abf544661b26908794eeb511772cf9b}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+player\+\_\+mana} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa3939950ae6cfc3b45115f440bfd290d}{}\label{class_lua_interface_aa3939950ae6cfc3b45115f440bfd290d}
+
+\item 
+static int {\bfseries lua\+\_\+player\+\_\+reset} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a1d8d26a4f46a2d91856e11efbe8076db}{}\label{class_lua_interface_a1d8d26a4f46a2d91856e11efbe8076db}
+
+\item 
+static int {\bfseries lua\+\_\+nulify\+\_\+player\+\_\+stats} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6d51975d8c88e24f5c0ad89965ae8758}{}\label{class_lua_interface_a6d51975d8c88e24f5c0ad89965ae8758}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+player\+\_\+max\+\_\+mana} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a50a8fcd9b22eba4fd808e13a673fe898}{}\label{class_lua_interface_a50a8fcd9b22eba4fd808e13a673fe898}
+
+\item 
+static int {\bfseries lua\+\_\+sub\+\_\+player\+\_\+max\+\_\+mana} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad2ad746cbf223bd06349dfab1320207c}{}\label{class_lua_interface_ad2ad746cbf223bd06349dfab1320207c}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+player\+\_\+max\+\_\+mana} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a65d049c5048af5ce0586e92b1c97863c}{}\label{class_lua_interface_a65d049c5048af5ce0586e92b1c97863c}
+
+\item 
+static int {\bfseries lua\+\_\+add\+\_\+player\+\_\+mana\+\_\+regen} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6fdf838f910868e113ac05dcbed31f7a}{}\label{class_lua_interface_a6fdf838f910868e113ac05dcbed31f7a}
+
+\item 
+static int {\bfseries lua\+\_\+sub\+\_\+player\+\_\+mana\+\_\+regen} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a1c9d8debc4d54769c55b2632149cf185}{}\label{class_lua_interface_a1c9d8debc4d54769c55b2632149cf185}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+player\+\_\+mana\+\_\+regen} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0aa2921c00ef4344a6c14e4d28bd773a}{}\label{class_lua_interface_a0aa2921c00ef4344a6c14e4d28bd773a}
+
+\item 
+static int {\bfseries lua\+\_\+set\+\_\+price} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3268d5bd954ac2e1fcc5ce624a32bdfe}{}\label{class_lua_interface_a3268d5bd954ac2e1fcc5ce624a32bdfe}
+
+\item 
+static int {\bfseries lua\+\_\+get\+\_\+price} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a32c5fc22d72cf2bd892b9579380ea34a}{}\label{class_lua_interface_a32c5fc22d72cf2bd892b9579380ea34a}
+
+\item 
+static int {\bfseries lua\+\_\+register\+\_\+spell} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9600935976d0e1c8d77ad7d61a49f3b9}{}\label{class_lua_interface_a9600935976d0e1c8d77ad7d61a49f3b9}
+
+\item 
+static int {\bfseries lua\+\_\+spellcaster\+\_\+set\+\_\+type} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7550a0c9071e0b9856c997cc75189f5a}{}\label{class_lua_interface_a7550a0c9071e0b9856c997cc75189f5a}
+
+\item 
+static int {\bfseries lua\+\_\+spellcaster\+\_\+get\+\_\+type} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6f282e11b7b48c4e0096dfa7522c8e33}{}\label{class_lua_interface_a6f282e11b7b48c4e0096dfa7522c8e33}
+
+\item 
+static int {\bfseries lua\+\_\+spellcaster\+\_\+set\+\_\+spell} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_af337d131f30466fe0bd8f7d6cafc611c}{}\label{class_lua_interface_af337d131f30466fe0bd8f7d6cafc611c}
+
+\item 
+static int {\bfseries lua\+\_\+spellcaster\+\_\+get\+\_\+spell} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5e2af4a049f11b17439226937d46f4a2}{}\label{class_lua_interface_a5e2af4a049f11b17439226937d46f4a2}
+
+\item 
+static int {\bfseries lua\+\_\+spellcaster\+\_\+get\+\_\+last\+\_\+type} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad9f9d9de4171abf88571bfff8ef90bca}{}\label{class_lua_interface_ad9f9d9de4171abf88571bfff8ef90bca}
+
+\item 
+static int {\bfseries lua\+\_\+spellcaster\+\_\+get\+\_\+last\+\_\+spell} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad829cb92899ec4487d45ea39a2ff9044}{}\label{class_lua_interface_ad829cb92899ec4487d45ea39a2ff9044}
+
+\item 
+static int {\bfseries lua\+\_\+spellcaster\+\_\+set\+\_\+last\+\_\+spell\+\_\+id} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7d92ebe99b5915d62864b7b2fc5c252b}{}\label{class_lua_interface_a7d92ebe99b5915d62864b7b2fc5c252b}
+
+\item 
+static int {\bfseries lua\+\_\+spellcaster\+\_\+get\+\_\+last\+\_\+spell\+\_\+id} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_abddb6d892c29a04f9a50a20abda9caf8}{}\label{class_lua_interface_abddb6d892c29a04f9a50a20abda9caf8}
+
+\item 
+static int {\bfseries lua\+\_\+spellcaster\+\_\+is\+\_\+casting} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aec24cb6d682b1f8f48aedc6bc459376d}{}\label{class_lua_interface_aec24cb6d682b1f8f48aedc6bc459376d}
+
+\item 
+static int {\bfseries lua\+\_\+spellcaster\+\_\+stop\+\_\+casting} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a8a56254140b1bef1f5756384de47a5f3}{}\label{class_lua_interface_a8a56254140b1bef1f5756384de47a5f3}
+
+\item 
+static int {\bfseries lua\+\_\+align\+\_\+set\+\_\+material} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a21b3c10debc0fa319ed50d9d30ee10ed}{}\label{class_lua_interface_a21b3c10debc0fa319ed50d9d30ee10ed}
+
+\item 
+static int {\bfseries lua\+\_\+align\+\_\+get\+\_\+material} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a13ca13ff52b851237c278f97fc70dd65}{}\label{class_lua_interface_a13ca13ff52b851237c278f97fc70dd65}
+
+\item 
+static int {\bfseries lua\+\_\+align\+\_\+set\+\_\+mesh} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2700617ac7a7654268626beba836f33c}{}\label{class_lua_interface_a2700617ac7a7654268626beba836f33c}
+
+\item 
+static int {\bfseries lua\+\_\+align\+\_\+get\+\_\+mesh} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a06bfdc9d62b997d73da3630eab52bc64}{}\label{class_lua_interface_a06bfdc9d62b997d73da3630eab52bc64}
+
+\item 
+static int {\bfseries lua\+\_\+align\+\_\+set\+\_\+position\+\_\+offset} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a72c56871c0cf9f3b1213e1c2c547f4a9}{}\label{class_lua_interface_a72c56871c0cf9f3b1213e1c2c547f4a9}
+
+\item 
+static int {\bfseries lua\+\_\+align\+\_\+get\+\_\+position\+\_\+offset} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_adcf691107a8f63d578f36c94cb07c084}{}\label{class_lua_interface_adcf691107a8f63d578f36c94cb07c084}
+
+\item 
+static int {\bfseries lua\+\_\+align\+\_\+set\+\_\+scale} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a990118118b4e6d155cadbb1155ad2286}{}\label{class_lua_interface_a990118118b4e6d155cadbb1155ad2286}
+
+\item 
+static int {\bfseries lua\+\_\+align\+\_\+get\+\_\+scale} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9448935b5e3295afc7b4d47f5d6fa7f5}{}\label{class_lua_interface_a9448935b5e3295afc7b4d47f5d6fa7f5}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+crystal\+\_\+set\+\_\+cap} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0a4064f262ecd42c1eb382267daae55a}{}\label{class_lua_interface_a0a4064f262ecd42c1eb382267daae55a}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+crystal\+\_\+get\+\_\+cap} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a364cd99d2b1fb5fc2914be510413961b}{}\label{class_lua_interface_a364cd99d2b1fb5fc2914be510413961b}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+crystal\+\_\+set\+\_\+regen} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a797176694d5ebaaf6f6689237f5b4cb7}{}\label{class_lua_interface_a797176694d5ebaaf6f6689237f5b4cb7}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+crystal\+\_\+get\+\_\+regen} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a8473d3fec136fcd06833dade3913d70f}{}\label{class_lua_interface_a8473d3fec136fcd06833dade3913d70f}
+
+\item 
+static int {\bfseries lua\+\_\+on\+\_\+hit\+\_\+set\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a07af02c5a0c20be9cc89299dd5c6bebf}{}\label{class_lua_interface_a07af02c5a0c20be9cc89299dd5c6bebf}
+
+\item 
+static int {\bfseries lua\+\_\+on\+\_\+hit\+\_\+get\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4a70c1c9bac02dcb0c0ae831987a6f25}{}\label{class_lua_interface_a4a70c1c9bac02dcb0c0ae831987a6f25}
+
+\item 
+static int {\bfseries lua\+\_\+on\+\_\+hit\+\_\+call} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0c587e313063c6081eeae5dc633f4f6c}{}\label{class_lua_interface_a0c587e313063c6081eeae5dc633f4f6c}
+
+\item 
+static int {\bfseries lua\+\_\+on\+\_\+hit\+\_\+set\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2402f3548b9a21a0627715440aa7733b}{}\label{class_lua_interface_a2402f3548b9a21a0627715440aa7733b}
+
+\item 
+static int {\bfseries lua\+\_\+on\+\_\+hit\+\_\+get\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac2e07e5d6c98ea1d6e2cc2aaa17f2d9c}{}\label{class_lua_interface_ac2e07e5d6c98ea1d6e2cc2aaa17f2d9c}
+
+\item 
+static int {\bfseries lua\+\_\+constructor\+\_\+set\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae7336ad73451f6edec9d9fd483b30d00}{}\label{class_lua_interface_ae7336ad73451f6edec9d9fd483b30d00}
+
+\item 
+static int {\bfseries lua\+\_\+constructor\+\_\+get\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a093093da6be205e1bab9bd6326c51735}{}\label{class_lua_interface_a093093da6be205e1bab9bd6326c51735}
+
+\item 
+static int {\bfseries lua\+\_\+constructor\+\_\+call} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad0fc02e1fdeb1a4affdd4263e8b60078}{}\label{class_lua_interface_ad0fc02e1fdeb1a4affdd4263e8b60078}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+set\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a17942236b658b13cc8efd63358b389c1}{}\label{class_lua_interface_a17942236b658b13cc8efd63358b389c1}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+get\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a92390ca8833f8bb6c8f59e0ba9125b96}{}\label{class_lua_interface_a92390ca8833f8bb6c8f59e0ba9125b96}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+set\+\_\+linked\+\_\+entity} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a427b6de440d11b7eaad5c7314b7b335d}{}\label{class_lua_interface_a427b6de440d11b7eaad5c7314b7b335d}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+get\+\_\+linked\+\_\+entity} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac099cec8a47cc79d26ef223bd7b78f4d}{}\label{class_lua_interface_ac099cec8a47cc79d26ef223bd7b78f4d}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+set\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9a62dd9aa394cd5dbbc08f55e83668ad}{}\label{class_lua_interface_a9a62dd9aa394cd5dbbc08f55e83668ad}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+get\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa174f2f4d91c7d4b90f05507a8931242}{}\label{class_lua_interface_aa174f2f4d91c7d4b90f05507a8931242}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+trigger} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a178e0b35463bce47ebde917450a76bd1}{}\label{class_lua_interface_a178e0b35463bce47ebde917450a76bd1}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+set\+\_\+check\+\_\+period} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac4bb365e6604e45057d0787379a1d95c}{}\label{class_lua_interface_ac4bb365e6604e45057d0787379a1d95c}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+get\+\_\+check\+\_\+period} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a49dce501a5e47dbfe9ac60f56cba6b6f}{}\label{class_lua_interface_a49dce501a5e47dbfe9ac60f56cba6b6f}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+can\+\_\+be\+\_\+triggered\+\_\+by} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a71008771b7bde71d6b1f6a66ae09e6b7}{}\label{class_lua_interface_a71008771b7bde71d6b1f6a66ae09e6b7}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+reset\+\_\+timer} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3dfed826e2f6b23e88ec09a72229eac2}{}\label{class_lua_interface_a3dfed826e2f6b23e88ec09a72229eac2}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+set\+\_\+radius} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad97ff458c1631d5259d9261acc0fe9ba}{}\label{class_lua_interface_ad97ff458c1631d5259d9261acc0fe9ba}
+
+\item 
+static int {\bfseries lua\+\_\+trigger\+\_\+get\+\_\+radius} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae1b1aa393f1c843fbf221a19831644ca}{}\label{class_lua_interface_ae1b1aa393f1c843fbf221a19831644ca}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+set\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aebfe0a9e97077b997e2d7f7645474518}{}\label{class_lua_interface_aebfe0a9e97077b997e2d7f7645474518}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+get\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a21ce49765b04313f6883a7de0207b6c3}{}\label{class_lua_interface_a21ce49765b04313f6883a7de0207b6c3}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+set\+\_\+experience} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_adb3aba47fbd9119ee0a02dea9b5be8ee}{}\label{class_lua_interface_adb3aba47fbd9119ee0a02dea9b5be8ee}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+get\+\_\+experience} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_abc90ffb1920626c9d92d9906dd826328}{}\label{class_lua_interface_abc90ffb1920626c9d92d9906dd826328}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+add\+\_\+experience} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa64612d8542c196f18e7b29b437e56d1}{}\label{class_lua_interface_aa64612d8542c196f18e7b29b437e56d1}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+set\+\_\+exp\+\_\+needed} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a1b6be0c0a8b739e909b937302674ad76}{}\label{class_lua_interface_a1b6be0c0a8b739e909b937302674ad76}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+get\+\_\+exp\+\_\+needed} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad531cbb2eaf9d074d6ca87befce11ad7}{}\label{class_lua_interface_ad531cbb2eaf9d074d6ca87befce11ad7}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+set\+\_\+level} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a28cb016d26ec6f2f1f4fcdbb1dd86a64}{}\label{class_lua_interface_a28cb016d26ec6f2f1f4fcdbb1dd86a64}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+get\+\_\+level} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7515970dc0b44403b98fd724873ef27b}{}\label{class_lua_interface_a7515970dc0b44403b98fd724873ef27b}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+set\+\_\+level\+\_\+cap} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aede17ebdeae9177248b3bec997deed98}{}\label{class_lua_interface_aede17ebdeae9177248b3bec997deed98}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+get\+\_\+level\+\_\+cap} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa6e664faebad82d945754873ab779400}{}\label{class_lua_interface_aa6e664faebad82d945754873ab779400}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+can\+\_\+level\+\_\+up} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac76c8ce5e1aa39eb0ec5e9a77d2f34e7}{}\label{class_lua_interface_ac76c8ce5e1aa39eb0ec5e9a77d2f34e7}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+upgrade} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aade9702647e974473c3a97fd72bf6303}{}\label{class_lua_interface_aade9702647e974473c3a97fd72bf6303}
+
+\item 
+static int {\bfseries lua\+\_\+upgrade\+\_\+all\+\_\+level\+\_\+up} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae73455fe17eae26007e682241d6fb689}{}\label{class_lua_interface_ae73455fe17eae26007e682241d6fb689}
+
+\item 
+static int {\bfseries lua\+\_\+notification\+\_\+set\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a028cbc1d878224f785ac9436aac9506e}{}\label{class_lua_interface_a028cbc1d878224f785ac9436aac9506e}
+
+\item 
+static int {\bfseries lua\+\_\+notification\+\_\+get\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a65377d88ac6485a56f56c9d83ad544c6}{}\label{class_lua_interface_a65377d88ac6485a56f56c9d83ad544c6}
+
+\item 
+static int {\bfseries lua\+\_\+notification\+\_\+reset} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4718f44ce52147a1d0087e91ec0afea4}{}\label{class_lua_interface_a4718f44ce52147a1d0087e91ec0afea4}
+
+\item 
+static int {\bfseries lua\+\_\+notification\+\_\+notify} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad11bc4a086c029057453bd3784fc7462}{}\label{class_lua_interface_ad11bc4a086c029057453bd3784fc7462}
+
+\item 
+static int {\bfseries lua\+\_\+notification\+\_\+get\+\_\+curr\+\_\+time} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aef4b747c227d4e515c1d848043b2a9b1}{}\label{class_lua_interface_aef4b747c227d4e515c1d848043b2a9b1}
+
+\item 
+static int {\bfseries lua\+\_\+notification\+\_\+advance\+\_\+curr\+\_\+time} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a670ace809680aa413a77b6e3221aeab1}{}\label{class_lua_interface_a670ace809680aa413a77b6e3221aeab1}
+
+\item 
+static int {\bfseries lua\+\_\+explosion\+\_\+set\+\_\+delta} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a464cc4f2499e9ef4b044d1425d1a8d6b}{}\label{class_lua_interface_a464cc4f2499e9ef4b044d1425d1a8d6b}
+
+\item 
+static int {\bfseries lua\+\_\+explosion\+\_\+get\+\_\+delta} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aaf352df035e2b7196c726671c2e008bd}{}\label{class_lua_interface_aaf352df035e2b7196c726671c2e008bd}
+
+\item 
+static int {\bfseries lua\+\_\+explosion\+\_\+set\+\_\+max\+\_\+radius} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a1724cf48f812f9a05e4412e6ece4c35f}{}\label{class_lua_interface_a1724cf48f812f9a05e4412e6ece4c35f}
+
+\item 
+static int {\bfseries lua\+\_\+explosion\+\_\+get\+\_\+max\+\_\+radius} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_af0b50f861dcf65a7aa91b7714134ef72}{}\label{class_lua_interface_af0b50f861dcf65a7aa91b7714134ef72}
+
+\item 
+static int {\bfseries lua\+\_\+explosion\+\_\+get\+\_\+curr\+\_\+radius} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9a66ac62f506a704576c15077fab7d29}{}\label{class_lua_interface_a9a66ac62f506a704576c15077fab7d29}
+
+\item 
+static int {\bfseries lua\+\_\+explosion\+\_\+increase\+\_\+curr\+\_\+radius} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6e84455dc5bb2b23814dc33bcebf9475}{}\label{class_lua_interface_a6e84455dc5bb2b23814dc33bcebf9475}
+
+\item 
+static int {\bfseries lua\+\_\+lls\+\_\+set\+\_\+max\+\_\+time} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a14358b547c667f4d36a062212bdccd52}{}\label{class_lua_interface_a14358b547c667f4d36a062212bdccd52}
+
+\item 
+static int {\bfseries lua\+\_\+lls\+\_\+get\+\_\+max\+\_\+time} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a94ebc6bf558ce2669b23b13a419f0632}{}\label{class_lua_interface_a94ebc6bf558ce2669b23b13a419f0632}
+
+\item 
+static int {\bfseries lua\+\_\+lls\+\_\+get\+\_\+curr\+\_\+time} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a41c533d054f58e1755abab3938f9d441}{}\label{class_lua_interface_a41c533d054f58e1755abab3938f9d441}
+
+\item 
+static int {\bfseries lua\+\_\+lls\+\_\+advance\+\_\+curr\+\_\+time} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0d6e5fb1321d113ecc27e2022d6a50b5}{}\label{class_lua_interface_a0d6e5fb1321d113ecc27e2022d6a50b5}
+
+\item 
+static int {\bfseries lua\+\_\+name\+\_\+set} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a46cbe8a6930104586ed7a5d65276d45d}{}\label{class_lua_interface_a46cbe8a6930104586ed7a5d65276d45d}
+
+\item 
+static int {\bfseries lua\+\_\+name\+\_\+get} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2b288ddb0b3e85c54d963c32bb4ae0ab}{}\label{class_lua_interface_a2b288ddb0b3e85c54d963c32bb4ae0ab}
+
+\item 
+static int {\bfseries lua\+\_\+exp\+\_\+val\+\_\+set} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6e46abfa244986c3c578f44fef783b0b}{}\label{class_lua_interface_a6e46abfa244986c3c578f44fef783b0b}
+
+\item 
+static int {\bfseries lua\+\_\+exp\+\_\+val\+\_\+get} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a85a7ef9826ccf41d6370bc401951b2c3}{}\label{class_lua_interface_a85a7ef9826ccf41d6370bc401951b2c3}
+
+\item 
+static int {\bfseries lua\+\_\+exp\+\_\+val\+\_\+inc} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa03e9a4fcde2b82263af0f5cf6189699}{}\label{class_lua_interface_aa03e9a4fcde2b82263af0f5cf6189699}
+
+\item 
+static int {\bfseries lua\+\_\+exp\+\_\+val\+\_\+dec} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae83e1919ecf5939f262881fc45751041}{}\label{class_lua_interface_ae83e1919ecf5939f262881fc45751041}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+set\+\_\+regen\+\_\+period} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7d3970489610f699bdfdf02770ecbaa3}{}\label{class_lua_interface_a7d3970489610f699bdfdf02770ecbaa3}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+get\+\_\+regen\+\_\+period} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a944009ddffe0bcd3b58ebddde6938e38}{}\label{class_lua_interface_a944009ddffe0bcd3b58ebddde6938e38}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+next\+\_\+wave} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ada2750b1d7931d2fae044ecbba18cd0f}{}\label{class_lua_interface_ada2750b1d7931d2fae044ecbba18cd0f}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+advance\+\_\+countdown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a81e99172f69ced4dde4ad1cbff155051}{}\label{class_lua_interface_a81e99172f69ced4dde4ad1cbff155051}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+entity\+\_\+died} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3a440b9226f1ef34d1146d5e47150c14}{}\label{class_lua_interface_a3a440b9226f1ef34d1146d5e47150c14}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+start} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_acb07a9592f9227e0faf1ca01514a6a4e}{}\label{class_lua_interface_acb07a9592f9227e0faf1ca01514a6a4e}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+pause} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a10824b692f08b0258b2f35ec6f4f428c}{}\label{class_lua_interface_a10824b692f08b0258b2f35ec6f4f428c}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+set\+\_\+entity\+\_\+total} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a1f6c20ec27cd2d263ac24a0b54aeb826}{}\label{class_lua_interface_a1f6c20ec27cd2d263ac24a0b54aeb826}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+get\+\_\+entity\+\_\+total} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2a11be6a967bec73285f6ba4eaa0fb45}{}\label{class_lua_interface_a2a11be6a967bec73285f6ba4eaa0fb45}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+set\+\_\+wave\+\_\+count} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a21b9535825623e7b8ce89a5be3033e35}{}\label{class_lua_interface_a21b9535825623e7b8ce89a5be3033e35}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+get\+\_\+wave\+\_\+count} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3ed8eee294e4a5a4131aceaac8a58546}{}\label{class_lua_interface_a3ed8eee294e4a5a4131aceaac8a58546}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+add\+\_\+spawn\+\_\+node} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_abf705541517f4d7c84fe89b6e86411fe}{}\label{class_lua_interface_abf705541517f4d7c84fe89b6e86411fe}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+clear\+\_\+spawn\+\_\+nodes} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_acf861a9fc32675e59b9ab32f2da0179b}{}\label{class_lua_interface_acf861a9fc32675e59b9ab32f2da0179b}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+set\+\_\+spawn\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6576771d2b9b41c27c7721c46f354d04}{}\label{class_lua_interface_a6576771d2b9b41c27c7721c46f354d04}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+get\+\_\+spawn\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad0a1911eff538cfc976ee25fbb1c0cae}{}\label{class_lua_interface_ad0a1911eff538cfc976ee25fbb1c0cae}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+add\+\_\+entity\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4d75d252a0bbbe1d453ca3f93fc97215}{}\label{class_lua_interface_a4d75d252a0bbbe1d453ca3f93fc97215}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+set\+\_\+table} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa2cba470c23edf2c26b778ed3ad98b1f}{}\label{class_lua_interface_aa2cba470c23edf2c26b778ed3ad98b1f}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+get\+\_\+table} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad74a7d71e9df17cb1786667e5e4ca7d7}{}\label{class_lua_interface_ad74a7d71e9df17cb1786667e5e4ca7d7}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+set\+\_\+curr\+\_\+wave\+\_\+number} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a269cb92f3cf98d650d924d8e98c38c70}{}\label{class_lua_interface_a269cb92f3cf98d650d924d8e98c38c70}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+get\+\_\+curr\+\_\+wave\+\_\+number} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ad8a4a09fbb6f9aca1514566bfa1d80dc}{}\label{class_lua_interface_ad8a4a09fbb6f9aca1514566bfa1d80dc}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+set\+\_\+countdown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a8ebca9806ddef73b31451a0a90d8adaa}{}\label{class_lua_interface_a8ebca9806ddef73b31451a0a90d8adaa}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+get\+\_\+countdown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_afddd21d8b21d0c2e9da79bccfb245675}{}\label{class_lua_interface_afddd21d8b21d0c2e9da79bccfb245675}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+set\+\_\+state} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2614bfea167d768d190d4f5f384d9e75}{}\label{class_lua_interface_a2614bfea167d768d190d4f5f384d9e75}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+get\+\_\+state} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a0a05b9c8eeae45a7144dc297ebe1b000}{}\label{class_lua_interface_a0a05b9c8eeae45a7144dc297ebe1b000}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+update\+\_\+label\+\_\+text} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae7f19bbe9dc2caa29a212c56a64743c6}{}\label{class_lua_interface_ae7f19bbe9dc2caa29a212c56a64743c6}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+set\+\_\+spawn\+\_\+timer} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4dc7d652e3759b25ae77f379ae2efb38}{}\label{class_lua_interface_a4dc7d652e3759b25ae77f379ae2efb38}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+get\+\_\+spawn\+\_\+timer} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a35c0f637496e485d5927dfc743ec8f20}{}\label{class_lua_interface_a35c0f637496e485d5927dfc743ec8f20}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+set\+\_\+wave\+\_\+entities} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa97447f751bc3a787b1f478280b0eb7b}{}\label{class_lua_interface_aa97447f751bc3a787b1f478280b0eb7b}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+get\+\_\+wave\+\_\+entities} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a08bd76d9debea1d264e3681b5507120c}{}\label{class_lua_interface_a08bd76d9debea1d264e3681b5507120c}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+set\+\_\+entities\+\_\+spawned} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a80f4d6a793054c1dfa3266f7c15a5779}{}\label{class_lua_interface_a80f4d6a793054c1dfa3266f7c15a5779}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+get\+\_\+entities\+\_\+spawned} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7486e1047d6069df072b987af60f929c}{}\label{class_lua_interface_a7486e1047d6069df072b987af60f929c}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+clear\+\_\+entity\+\_\+blueprints} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a1bd060333074ba2c05d1ad11fd3eeecb}{}\label{class_lua_interface_a1bd060333074ba2c05d1ad11fd3eeecb}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+list} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa48da30de7f6e0fbdf514ac9bd6436ef}{}\label{class_lua_interface_aa48da30de7f6e0fbdf514ac9bd6436ef}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+set\+\_\+endless\+\_\+mode} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab1ee8da6b81cfd9e9f657e3dd0b80cd2}{}\label{class_lua_interface_ab1ee8da6b81cfd9e9f657e3dd0b80cd2}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+get\+\_\+endless\+\_\+mode} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ab8618bf05a35a6c463e5dabeef875352}{}\label{class_lua_interface_ab8618bf05a35a6c463e5dabeef875352}
+
+\item 
+static int {\bfseries lua\+\_\+wave\+\_\+turn\+\_\+endless\+\_\+on} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a64e08cf8a2c20902183a59d6baf0f2d1}{}\label{class_lua_interface_a64e08cf8a2c20902183a59d6baf0f2d1}
+
+\item 
+static int {\bfseries lua\+\_\+msg\+\_\+to\+\_\+plr\+\_\+show} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a719dac641aa400bc1f0c317802c7dced}{}\label{class_lua_interface_a719dac641aa400bc1f0c317802c7dced}
+
+\item 
+static int {\bfseries lua\+\_\+msg\+\_\+to\+\_\+plr\+\_\+show\+\_\+ok} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7eb8260252c99036c5d4f7db7b836223}{}\label{class_lua_interface_a7eb8260252c99036c5d4f7db7b836223}
+
+\item 
+static int {\bfseries lua\+\_\+msg\+\_\+to\+\_\+plr\+\_\+show\+\_\+yes\+\_\+no} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_afde770fe4ed188c8c81f32968818eeaf}{}\label{class_lua_interface_afde770fe4ed188c8c81f32968818eeaf}
+
+\item 
+static int {\bfseries lua\+\_\+msg\+\_\+set\+\_\+butt\+\_\+label} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3cff1cf8a6a233ec736dd5be72ad8c72}{}\label{class_lua_interface_a3cff1cf8a6a233ec736dd5be72ad8c72}
+
+\item 
+static int {\bfseries lua\+\_\+msg\+\_\+reset\+\_\+butt\+\_\+labels} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_abeb94529bfb0c55b93ac61e54b22609c}{}\label{class_lua_interface_abeb94529bfb0c55b93ac61e54b22609c}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+add} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a2ed91b2e42f55a55a396c1d5d9b4fb0d}{}\label{class_lua_interface_a2ed91b2e42f55a55a396c1d5d9b4fb0d}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+sub} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a18c5cd03731a800b25954cdba42c48de}{}\label{class_lua_interface_a18c5cd03731a800b25954cdba42c48de}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+set} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_abc1a441c3420471383bbb755c2dd3bb2}{}\label{class_lua_interface_abc1a441c3420471383bbb755c2dd3bb2}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+get} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a7b62b7011f1cc6ca48e5a93650753bd8}{}\label{class_lua_interface_a7b62b7011f1cc6ca48e5a93650753bd8}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+set\+\_\+max} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a63b5aa3556139155f14872db6e28b7b7}{}\label{class_lua_interface_a63b5aa3556139155f14872db6e28b7b7}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+get\+\_\+max} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a26301028c9fd888d977f83e484e80deb}{}\label{class_lua_interface_a26301028c9fd888d977f83e484e80deb}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+set\+\_\+regen} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a5edbdc0c95ee8a421db1d155e7577fc5}{}\label{class_lua_interface_a5edbdc0c95ee8a421db1d155e7577fc5}
+
+\item 
+static int {\bfseries lua\+\_\+mana\+\_\+get\+\_\+regen} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_afd51960dd4c5bb29dce7d3998b20588f}{}\label{class_lua_interface_afd51960dd4c5bb29dce7d3998b20588f}
+
+\item 
+static int {\bfseries lua\+\_\+ent\+\_\+spell\+\_\+set\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a287f6429d21817a7eba610c6a0b9675f}{}\label{class_lua_interface_a287f6429d21817a7eba610c6a0b9675f}
+
+\item 
+static int {\bfseries lua\+\_\+ent\+\_\+spell\+\_\+get\+\_\+blueprint} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a3f70412b7383826e418ec7aab82ff6ac}{}\label{class_lua_interface_a3f70412b7383826e418ec7aab82ff6ac}
+
+\item 
+static int {\bfseries lua\+\_\+ent\+\_\+spell\+\_\+set\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aa609cb55206d0c75778733454165d519}{}\label{class_lua_interface_aa609cb55206d0c75778733454165d519}
+
+\item 
+static int {\bfseries lua\+\_\+ent\+\_\+spell\+\_\+get\+\_\+cooldown} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a6a7c34bcf405c752f16a7188280cd4d0}{}\label{class_lua_interface_a6a7c34bcf405c752f16a7188280cd4d0}
+
+\item 
+static int {\bfseries lua\+\_\+ent\+\_\+spell\+\_\+advance\+\_\+curr\+\_\+time} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a4c8afa4f9edda627bfa52eb798dfc259}{}\label{class_lua_interface_a4c8afa4f9edda627bfa52eb798dfc259}
+
+\item 
+static int {\bfseries lua\+\_\+ent\+\_\+spell\+\_\+set\+\_\+curr\+\_\+time} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aeeb2523f2e6644fb492bc5487753f5bb}{}\label{class_lua_interface_aeeb2523f2e6644fb492bc5487753f5bb}
+
+\item 
+static int {\bfseries lua\+\_\+ent\+\_\+spell\+\_\+get\+\_\+curr\+\_\+time} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a9e7805649c2c52212bf238ebd2e701d3}{}\label{class_lua_interface_a9e7805649c2c52212bf238ebd2e701d3}
+
+\item 
+static int {\bfseries lua\+\_\+ent\+\_\+spell\+\_\+cast} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aaa825a6b69d04c2c5a9452b92152361f}{}\label{class_lua_interface_aaa825a6b69d04c2c5a9452b92152361f}
+
+\item 
+static int {\bfseries lua\+\_\+light\+\_\+set\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a1accd629ac896d7caa655be8f2fe1d15}{}\label{class_lua_interface_a1accd629ac896d7caa655be8f2fe1d15}
+
+\item 
+static int {\bfseries lua\+\_\+light\+\_\+toggle\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a80ae7cdf247b9db05bfbab4da33d028e}{}\label{class_lua_interface_a80ae7cdf247b9db05bfbab4da33d028e}
+
+\item 
+static int {\bfseries lua\+\_\+light\+\_\+is\+\_\+visible} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a021cfadb2ab0f4c9f90e4e4f197dad8c}{}\label{class_lua_interface_a021cfadb2ab0f4c9f90e4e4f197dad8c}
+
+\item 
+static int {\bfseries lua\+\_\+light\+\_\+init} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a8a6442501ea5a6e4c0605054b1b73dd8}{}\label{class_lua_interface_a8a6442501ea5a6e4c0605054b1b73dd8}
+
+\item 
+static int {\bfseries lua\+\_\+command\+\_\+set} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a42484f2837f2f469cbc44f1621605178}{}\label{class_lua_interface_a42484f2837f2f469cbc44f1621605178}
+
+\item 
+static int {\bfseries lua\+\_\+command\+\_\+test} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ae2e08f3fb8d637e6115e366624310461}{}\label{class_lua_interface_ae2e08f3fb8d637e6115e366624310461}
+
+\item 
+static int {\bfseries lua\+\_\+counter\+\_\+increment} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_ac4c368f65e86d0d50f10cff69ffdf415}{}\label{class_lua_interface_ac4c368f65e86d0d50f10cff69ffdf415}
+
+\item 
+static int {\bfseries lua\+\_\+counter\+\_\+decrement} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_aef309bd3f4c5d26a15d98fbd79b83b7b}{}\label{class_lua_interface_aef309bd3f4c5d26a15d98fbd79b83b7b}
+
+\item 
+static int {\bfseries lua\+\_\+counter\+\_\+set\+\_\+curr\+\_\+value} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a58c4a41e2c23a257cbb8b62bfd49eb0e}{}\label{class_lua_interface_a58c4a41e2c23a257cbb8b62bfd49eb0e}
+
+\item 
+static int {\bfseries lua\+\_\+counter\+\_\+get\+\_\+curr\+\_\+value} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a843fb71e867279a938d3d8df517f04a0}{}\label{class_lua_interface_a843fb71e867279a938d3d8df517f04a0}
+
+\item 
+static int {\bfseries lua\+\_\+counter\+\_\+set\+\_\+max\+\_\+value} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_af6739750155652dd8b178fe359db6bf6}{}\label{class_lua_interface_af6739750155652dd8b178fe359db6bf6}
+
+\item 
+static int {\bfseries lua\+\_\+counter\+\_\+get\+\_\+max\+\_\+value} (lpp\+::\+Script\+::state)\hypertarget{class_lua_interface_a977e3f7288c4b2a36cff79c8e48bcd6f}{}\label{class_lua_interface_a977e3f7288c4b2a36cff79c8e48bcd6f}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_game}{Game} $\ast$ \hyperlink{class_lua_interface_a61b88a98c3d1d3f64161a674cf73a92e}{lua\+\_\+this} \{\}
+\begin{DoxyCompactList}\small\item\em Lua requires all functions registered in it to be static (because it doesn\textquotesingle{}t know anything about C++). \end{DoxyCompactList}\item 
+static \hyperlink{class_entity_system}{Entity\+System} $\ast$ {\bfseries ents} \{\}\hypertarget{class_lua_interface_a4b54b01c1fc8cdd79633b4ec23c7e0cd}{}\label{class_lua_interface_a4b54b01c1fc8cdd79633b4ec23c7e0cd}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class that creates an interface between engine (C++) and logic (Lua) code. 
+
+Definition at line 12 of file Lua\+Interface.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Lua\+Interface@{Lua\+Interface}!Lua\+Interface@{Lua\+Interface}}
+\index{Lua\+Interface@{Lua\+Interface}!Lua\+Interface@{Lua\+Interface}}
+\subsubsection[{\texorpdfstring{Lua\+Interface()=delete}{LuaInterface()=delete}}]{\setlength{\rightskip}{0pt plus 5cm}Lua\+Interface\+::\+Lua\+Interface (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [delete]}}\hypertarget{class_lua_interface_a10d0df765a9d8c8282c18a5ce43d0f9e}{}\label{class_lua_interface_a10d0df765a9d8c8282c18a5ce43d0f9e}
+
+
+This is a static class, so all constructors are deleted. 
+
+
+
+\subsection{Member Function Documentation}
+\index{Lua\+Interface@{Lua\+Interface}!init@{init}}
+\index{init@{init}!Lua\+Interface@{Lua\+Interface}}
+\subsubsection[{\texorpdfstring{init(\+Game $\ast$)}{init(Game *)}}]{\setlength{\rightskip}{0pt plus 5cm}void Lua\+Interface\+::init (
+\begin{DoxyParamCaption}
+\item[{{\bf Game} $\ast$}]{game}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{class_lua_interface_ac9fa6b609503a1db2c44b7f27f8d1090}{}\label{class_lua_interface_ac9fa6b609503a1db2c44b7f27f8d1090}
+
+
+Sets the lua\+\_\+this pointer and registers all C++ A\+PI functions to Lua. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Pointer} & to the game object that provides the game data to Lua. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 44 of file Lua\+Interface.\+cpp.
+
+\index{Lua\+Interface@{Lua\+Interface}!lua\+\_\+get\+\_\+avg\+\_\+fps@{lua\+\_\+get\+\_\+avg\+\_\+fps}}
+\index{lua\+\_\+get\+\_\+avg\+\_\+fps@{lua\+\_\+get\+\_\+avg\+\_\+fps}!Lua\+Interface@{Lua\+Interface}}
+\subsubsection[{\texorpdfstring{lua\+\_\+get\+\_\+avg\+\_\+fps(lpp\+::\+Script\+::state)}{lua_get_avg_fps(lpp::Script::state)}}]{\setlength{\rightskip}{0pt plus 5cm}int Lua\+Interface\+::lua\+\_\+get\+\_\+avg\+\_\+fps (
+\begin{DoxyParamCaption}
+\item[{lpp\+::\+Script\+::state}]{L}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\hypertarget{class_lua_interface_aac8cc7f5beeb8ffe8d637abc7a1d3600}{}\label{class_lua_interface_aac8cc7f5beeb8ffe8d637abc7a1d3600}
+\begin{DoxyNote}{Note}
+Function definitions below act as an interface between C++ and Lua, they all have to have the signature int fname(lpp\+::\+Script\+::state) and return the number of results pushed onto the Lua stack (Lua allows to return multiple results if needed). Important\+: These functions will have their arguments on the stack in R\+E\+V\+E\+R\+S\+ED O\+R\+D\+E\+R! (Because, you know, it\textquotesingle{}s a stack...) 
+\end{DoxyNote}
+
+
+Definition at line 892 of file Lua\+Interface.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\index{Lua\+Interface@{Lua\+Interface}!lua\+\_\+this@{lua\+\_\+this}}
+\index{lua\+\_\+this@{lua\+\_\+this}!Lua\+Interface@{Lua\+Interface}}
+\subsubsection[{\texorpdfstring{lua\+\_\+this}{lua_this}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Game} $\ast$ Lua\+Interface\+::lua\+\_\+this \{\}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\hypertarget{class_lua_interface_a61b88a98c3d1d3f64161a674cf73a92e}{}\label{class_lua_interface_a61b88a98c3d1d3f64161a674cf73a92e}
+
+
+Lua requires all functions registered in it to be static (because it doesn\textquotesingle{}t know anything about C++). 
+
+Static member initialization, will be set in the init method. 
+
+Definition at line 34 of file Lua\+Interface.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Lua\+Interface.\+hpp\item 
+Lua\+Interface.\+cpp\end{DoxyCompactItemize}
