@@ -1,6 +1,11 @@
 # Lua interpreter
 scripts/lua/*
 
+tdt-game/*
+tdt-project/bin/*
+tdt-project/lib/*
+tdt-project/.vs/*
+
 Debug/*
 Release/*
 .vs/*
