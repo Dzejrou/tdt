@@ -1,0 +1,511 @@
+\chapter{Scripter's Documentation}
+
+While we cannot change parts of the engine without recompilation of its source code, we can provide implementation of various parts of the
+game through scripts written in the Lua programming languagei\footnote{To learn about the language, we recommend the Programming in Lua
+book~\cite{PIL}.}. These scripts are mainly used during initialization and for the definition of
+entities, enemy waves, research nodes and spells. In this section we will examine how to write these parts of the game.
+
+A reference documentation for our Lua API can be found in the \texttt{lua-api} directory which is a part of the Attachment~B.
+
+\section{Initialization}
+
+When the game starts, it executes two script files -- \texttt{config.lua} and \texttt{init.lua}. The \texttt{config.lua} contains
+a Lua table \texttt{config} with values used by the engine such as time periods and multipliers, blocks that are used by the default
+level generator and a list of directories that contain scripts that are to be loaded when the game starts. The purpose of each value
+is documented within this script file.
+
+The file \texttt{init.lua} is used mainly to load other script files and user created mods. Additionally, it loads the values stored
+in the configuration file to the engine. We can also use this file for any auxiliary commands we would like to be executed at the
+start of the game -- e.g. for testing purposes.
+
+If we want to modify our game we have two options. Our first option is to edit the already implemented Lua scripts that are located in the
+\texttt{scripts} directory. This also includes creating new files and adding their names to the list of scripts that are to be loaded,
+which can be found in the file \texttt{scripts/core.lua}. Our second option is to create a new scripting module, which is done by creating
+a new directory in the game's root directory\footnote{The directory where the game's executable file is located.}
+and adding this directory to our configuration script. This new directory has to contain a
+script called \texttt{core.lua}, which will be executed by the game at startup. Note that scripting modules are executed precisely in
+the order in which they are listed in the configuration script.
+
+In Listing~\ref{core-lua-ex}, we can see an example of a small \texttt{core.lua} script located in the directory \texttt{some-mod}
+in the game's root directory. It loads two additional scripts using the function \texttt{game.load}, which takes the path
+to a scripts file which is relative to the game's root directory. Additionally, it redefines the function \texttt{game.init\_level},
+which is called whenever the game creates a new empty level but before level generation starts. The important part of this function
+is its return value -- if it is not \texttt{true}, the level generation will not happen. We can use this to write our own level
+generator in Lua, which we would call from inside this function and then we would prevent the level generator written in \cpp by
+returning \texttt{false}.
+
+\begin{listing}[H]
+    \centering
+    \begin{lstlisting}
+-- Scripts that will be loaded.
+local scripts = {"script-1.lua", "script-2.lua"}
+
+-- Path to this module from game root directory.
+local path = "some-mod/"
+
+-- Load the scripts, .. is used for string
+-- concatenation.
+for idx, script in ipairs(scripts) do
+    game.load(path .. script)
+end
+
+-- Redefine the level init function.
+game.init_level = function(width, height)
+    game.print("A new level of some mod created!")
+    game.print("Dimensions: " .. width .. ", " .. height)
+    return true
+end
+
+-- We can execute any Lua code.
+game.print("Some mod loaded!")
+    \end{lstlisting}
+    \caption{An example \texttt{core.lua} script.}
+    \label{core-lua-ex}
+\end{listing}
+
+Scripts loaded in a \texttt{core.lua} script can execute any valid sequence of Lua commands and calls to our modding API, but they
+are mainly used for the definition of new entities, enemy waves, research nodes and spells, which we will now examine.
+
+\section{Entities}
+
+To create a new entity, we need to create a Lua table that defines its components. In Listing~\ref{ent-table-ex1} we can see an example
+of a simple ogre entity. Each entity definition needs to contain a table called \texttt{components}, which is a list of all component
+types this entity has and is used by the game whenever it creates a new instance of this entity. For easier listing of components, the
+file \texttt{scripts/enum.lua} -- which is loaded by default by the \texttt{scripts/core.lua} scripts -- contains an enum table called
+\texttt{component} which contains variables representing the type identifiers of each component.
+
+Once we list all of the components our new entity has, we need to define all of its components that require us to. In the file
+\texttt{components.txt}, which is a part of the Attachment~B, we can find which components need to be defines in the entity definition
+table and what fields do these component tables need to have. Note that the order in which we define component does not matter.
+
+For this particular example entity, we firts define the \texttt{PhysicsComponent}, which represents the physical presence of an entity
+inside of the game world. It has a single field called \texttt{solid}, which should be \texttt{true} for buildings that cannot be
+walked through and \texttt{false} for any other entity. Then we define the \texttt{HealthComponent}, which represents the health of an
+entity and its ability to be damaged and killed. It has three fields that need to be set -- \texttt{max\_hp}, which determines the
+maximum amount of health the entity can have, \texttt{regen} which determines how much health should the entity gain on each regeneration
+period of the health system, and \texttt{defense}, which determines the amount of damage that should be subtracted from incoming damage.
+
+Once we define all of the components of our entity, we can register her in the list of all defined entities using the function
+\texttt{game.entity.register}.
+
+\begin{listing}
+    \centering
+    \begin{lstlisting}
+-- Table defining the ogre entity.
+ogre = {
+    -- List of components the ogre entity has.
+    components = {
+        game.enum.component.physics,
+        game.enum.component.health
+    },
+
+    -- Definition of the physics component.
+    PhysicsComponent = {
+        solid = false
+    },
+
+    -- Definition of the health component.
+    HealthComponent = {
+        max_hp = 1000,
+        regen = 10,
+        defense = 50
+    }
+}
+
+game.entity.register("ogre")
+    \end{lstlisting}
+    \caption{Definition of a simple entity.}
+    \label{ent-table-ex1}
+\end{listing}
+
+\subsection{Blueprints}
+
+Components can also define the behavior of an entity. To implement this, the game contains the concept of \emph{blueprints}. Blueprint
+is a table that contains functions that describe the behavior of an entity of a specific type. Which blueprint is used is defined
+for each component individually, this allows us to combine the behavior of different entity types into a new one without the need
+to create new blueprints.
+
+In Listing~\ref{ent-table-ex2} we can see an implementation of an example healer entity. This entity has three components that describe
+its behavior. \texttt{SpellComponent} describes the ability to cast spells and contains fields \texttt{blueprint}, which determines
+which blueprint is used for spell casting, and \texttt{cooldown}, which determines the minimal time between two consecutive spell casts.
+\texttt{AIComponent} describes the overall behavior the entity performs on every periodic AI update and contains the field
+\texttt{blueprint}, which determines which blueprint is used for these AI updates. \texttt{OnHitComponent} describes how the entity
+reacts when it gets attacked by an enemy and contains fields \texttt{blueprint}, which determines which blueprint is used to find the
+reaction to enemy attacks, and \texttt{cooldown}, which determines the minimal time between two consecutive reactions -- this can be used
+to prevent overflow of the game's log if the entity just notifies the player of the enemy attack.
+
+\begin{listing}[H]
+    \centering
+    \begin{lstlisting}
+cowardly_healer = {
+    components = {
+        game.enum.component.spell,
+        game.enum.component.ai,
+        game.enum.component.on_hit
+    },
+
+    SpellComponent = {
+        blueprint = "healer_blueprint",
+        cooldown = 25.0
+    },
+
+    AIComponent = {
+        blueprint = "healer_blueprint"
+    },
+
+    OnHitComponent = {
+        blueprint = "coward_blueprint",
+        cooldown = 1.0
+    }
+}
+
+game.entity.register("cowardly_healer")
+    \end{lstlisting}
+    \caption{An example of component definitions that use blueprints.}
+    \label{ent-table-ex2}
+\end{listing}
+
+The entity behaves in the same way as a healer does when it casts a spell or has its AI updated, so these two components use the
+\texttt{healer\_blueprint}, the implementation of which can be seen in Listing~\ref{ent-table-ex3}. This blueprint contains the
+implementation of function used by all of the components our \texttt{cowardly\_healer} has, but the \texttt{on\_hit} function
+is not used in this case because a regular healer entity heals itself and continues its normal behavior when it is attacked while this entity
+is too cowardly to continue and simply runs away.
+
+\begin{listing}[H]
+    \centering
+    \begin{lstlisting}
+-- Functions describing the behavior of a healer.
+healer_blueprint = {
+    -- Associated with the spell component.
+    cast = function(id)
+        -- Heal all friends of entity <id> that are nearby.
+    end,
+
+    -- Associated with the ai component.
+    update = function(id)
+        -- If possible, heal friends. Otherwise, attack enemies.
+    end,
+
+    -- Associated with the on hit component.
+    on_hit = function(id, enemy)
+        -- Heal self.
+    end
+}
+    \end{lstlisting}
+    \caption{Implementation of the healer blueprint.}
+    \label{ent-table-ex3}
+\end{listing}
+
+Because of this, our \texttt{cowardly\_healer} uses the \texttt{coward\_blueprint}, the implementation of which can be seen in
+Listing~\ref{ent-table-ex4}, for its \texttt{OnHitComponent}. The \texttt{on\_hit} function of this blueprint then simply forces our
+\texttt{cowardly\_healer} to run away from its attacker whenever it gets attacked.
+
+Since the individual functions may differ in both name and parameters for the different components that use blueprints, this information
+is included in the component description in the file \texttt{components.txt}, which is a part of the Attachment~B.
+
+Note that the implementation of these behavior blueprints is not required. However, because of the way the game operates to support
+blueprints, every of these behavioral function needs to be contained within a Lua table whose name is set in the component's
+\texttt{blueprint} name and has to have the signature that is required when it is a part of a blueprint.
+
+\begin{listing}[H]
+    \centering
+    \begin{lstlisting}
+-- Functions describing the behavior of a coward.
+coward_blueprint = {
+    -- Associated with the on hit component.
+    on_hit = function(id, enemy)
+        -- Run away from entity <enemy>.
+    end
+}
+    \end{lstlisting}
+    \caption{Implementation of the coward blueprint.}
+    \label{ent-table-ex4}
+\end{listing}
+
+\section{Enemy waves}
+
+The \emph{wave table} is a Lua table that defines the composition of enemy waves and delays between them. Each wave table contains the
+\texttt{init} function, which is called whenever a level that uses the table is created. Additionally, it contains a pair of functions
+\texttt{wstart\_X} and \texttt{wend\_X} for each of its waves, where \texttt{X} starts at 0 and gets incremented for each wave.
+
+An example of the \texttt{init} function of a wave table can be seen in Listing~\ref{wave-table-init}. In it, the wave table resets the wave
+composition that was set during any previous wave sequence by calling the function \texttt{game.wave.clear\_entity\_blueprints}
+\footnote{In this case, the term blueprint does not refer to the blueprints we have discussed in the previous section, but to an
+entire entity definition.}. It then sets the number of waves with \texttt{game.wave.set\_wave\_count}, resets the current wave number with
+\texttt{game.wave.set\_curr\_wave\_number} and changes the time before the first wave starts with \texttt{game.wave.set\_countdown}.
+
+\begin{listing}[H]
+    \centering
+    \begin{lstlisting}
+wave = {
+    -- Initializes this wave table.
+    init = function()
+        game.wave.clear_entity_blueprints()
+        game.wave.set_wave_count(2)
+        game.wave.set_curr_wave_number(0)
+        game.wave.set_countdown(300)
+    end
+}
+    \end{lstlisting}
+    \caption{An example of the intialization function in a wave table.}
+    \label{wave-table-init}
+\end{listing}
+
+In Listing~\ref{wave-table-first}, we can see an implementation of the starting and ending function of a first wave within a wave table.
+When the first wave starts, the function \texttt{wstart\_0} is called. The starting functions generally define the composition
+of the wave that is starting using the function \texttt{game.wave.set\_entity\_total}, which tells the wave system how many entities
+comprise this wave so that it knows when to end the wave, and the function \texttt{game.wave.add\_entity\_blueprint}, which creates a new
+member of the wave.
+
+The entities that are part of the wave spawn on specific nodes that were set during level generation. If there are more entities in a wave
+than there are spawning nodes, the wave system only spawns enough entities to cover these nodes at a time. Before it spawns another
+group of entities, it waits a specific time period, which can be set using \texttt{game.wave.set\_spawn\_cooldown}.
+
+Once all entities that belong to the first wave are killed, the \texttt{wend\_0} function is called, which generally only changes the
+time before the next wave. If this time is not changed, the previously set value is used.
+
+\begin{listing}[H]
+    \centering
+    \begin{lstlisting}
+wave = {
+    -- Called when the first wave starts.
+    wstart_0 = function()
+        game.wave.set_entity_total(2)
+        game.wave.add_entity_blueprint("ogre")
+        game.wave.add_entity_blueprint("coward_healer")
+        game.wave.set_spawn_cooldown(10.0)
+    end,
+
+    -- Called when the first wave ends.
+    wend_0 = function()
+        game.wave.set_countdown(180)
+    end
+}
+    \end{lstlisting}
+    \caption{An example of the first wave definition in a wave table.}
+    \label{wave-table-first}
+\end{listing}
+
+Following waves are defined similarly, but note that if we do not call the function \texttt{game.wave.clear\_entity\_blueprints} between
+waves, the entity blueprints of the previous wave are not deleted and will also be included in the next wave. This can be used to create
+growing groups with each wave without the need to re-add the entities.
+
+\begin{listing}[H]
+    \centering
+    \begin{lstlisting}
+wave = {
+    -- Called when the second wave starts.
+    wstart_1 = function()
+        game.wave.set_entity_total(4)
+        game.wave.add_entity_blueprint("ogre")
+        game.wave.add_entity_blueprint("coward_healer")
+        game.wave.set_spawn_cooldown(10.0)
+    end,
+
+    -- Called when the second wave ends.
+    wend_1 = function()
+        game.print("All enemies defeated!")
+        game.print("Now here's even more enemies!")
+        game.wave.turn_endless_mode_on()
+    end
+}
+    \end{lstlisting}
+    \caption{An example of the second wave definition in a wave table.}
+    \label{wave-table-second}
+\end{listing}
+
+In Listing~\ref{wave-table-second} we can se the definition of the second and, in this case, the last wave defined within a wave table.
+Its \texttt{wend} function does not call the blueprint resetting function so the total number of entities is set to four, because the two
+entities from the previous wave also spawn in this wave.
+If we want the wave sequence to repeat its last indefinitely wave once all waves are finnished, we can use the function
+\texttt{game.wave.turn\_endless\_mode\_on} in the last \texttt{wend} function.
+
+\section{Research}
+
+The research nodes in the game are organized to a grid of six rows and seven columns. The game controls these nodes by passing the number
+of the row and of the column the node is located in into three functions. The first of these functions, \texttt{game.gui.research.get\_name}
+is called once at the start of the game and returns the name of the node located at the position passed as its parameters. The second
+function, \texttt{game.gui.research.get\_price}, returns the price of the unlock of the research node and the third of these functions,
+\texttt{game.gui.research.unlock} is called when the player buys the research node and performs the unlock of the node's benefit to the
+player.
+
+The unlocking function does not impose any limitations on the characteristic of the node. It can unlock new spell, new minion, new building
+or perform a one time action that gives the player a bonus of sorts. An example of the research implementation can be found in the
+file \texttt{scripts/research.lua}, but the game does not have any requirements on the implementation besides the functionality of these
+three functions.
+
+Note that the \texttt{game.gui.research} table, which should contain these functions, is already predefined by the game and as such we should
+not overwrite it when we write our research node.
+
+\section{Spells}
+
+Similarly to the definition of a research node, spells are defined by a table that contains three functions and is itself contained within
+the table \texttt{game.spell.spells}. Note that, unlike the research table, this table is not created by the engine but is created in the
+script \texttt{scripts/spells.lua}. This means, that if we create a modification of the game, we can simply add new spell definitions
+to this predefined table, but if we create our own replacement of the \texttt{scripts/spells.lua}, we need to create this table ourselves.
+
+When the player selects a spell, the engine calls the function \texttt{init}, located in the spell table. This function should change the
+player into casting state, often done by setting the type of the currently cast spell. When the player casts a spell that has been
+previously initialized, the engine calls the two remaining function that are in the spell table.
+
+Firstly, it calls \texttt{pay\_mana},
+which is supposed to subtract the mana cost from the player and to return \texttt{true} if the player can cast the spell. If this function
+returns \texttt{false}, the spell casting is interrupted and the player is notified that he has insufficient mana.
+
+Secondly, the engine calls the function \texttt{cast} if the spell casting was not interrupted during the call to \texttt{pay\_mana}. This
+function performs the actual spell cast. When we create a new spell, we can allow the player to use it by calling the function
+\texttt{game.spell.register\_spell}, which accepts the name of the spell table -- without the \texttt{game.spell.spells} prefix -- as its
+parameter, either directly inside a script file or inside a research node. Note that, unlike the previous two functions which have no
+parameters, this function has different parameters for different spell types.
+
+\subsubsection{Targeted spells}
+
+In Listing~\ref{spell-ex-targeted}, we can see an example of one of these spell types -- a targeted spell. This type of spell  affects a
+single currently selected entity. In its \texttt{init} function, it changes the type of the current spell to \texttt{targeted} using
+the function \texttt{game.spell.set\_type}. The \texttt{targeted} type, along with other spell types, is a variable stored in the
+table called \texttt{game.enum.spell\_type}. These enum tables are used in a similar way to \cpp enums that are defined in the source file
+\texttt{Enums.hpp} -- the fields of these tables hold integer values that correspond with the \cpp values.
+
+The \texttt{pay\_mana} function subtracts mana from the player using the function \texttt{game.player.sub\_mana}. This API function returns
+\texttt{true} if the player has enough mana and false otherwise so the returned value can be returned from \texttt{pay\_mana} as well.
+Because the implementation of this function is almost always the same, we will not list it in any of the other spell examples, but it is
+always required regardless of spell type.
+
+The \texttt{cast} function of a targeted spells accept the identifier of the selected entity as its parameter. In this case, it teleports
+the target to a random unobstructed place in the game world and then uses the function \texttt{game.spell.stop\_casting}. This causes the
+spell to be interrupted once it has be cast once, if we want to allow consecutive casts of the same spell, we can simply avoid using this
+API function and let the player to decide when to stop casting.
+
+\begin{listing}[H]
+    \centering
+    \begin{lstlisting}
+-- Teleports the target to a random location.
+game.spell.spells.random_teleport = {
+    -- Initialization, sets the spell type.
+    init = function()
+        game.spell.set_type(game.enum.spell_type.targeted)
+    end,
+
+    -- Subtracts mana from the player and returns true
+    -- if the player had enough, returns false otherwise.
+    pay_mana = function()
+        return game.player.sub_mana(50)
+    end,
+
+    -- Applies the effect of the spell to the targeted
+    -- entity, which has identifier <target>.
+    cast = function(target)
+        game.grid.place_at_random_free_node(target)
+        game.spell.stop_casting()
+    end
+}
+    \end{lstlisting}
+    \caption{An example of a targeted spell.}
+    \label{spell-ex-targeted}
+\end{listing}
+
+\subsubsection{Positional spells}
+
+In Listing~\ref{spell-ex-positional}, we can see an example of a positional spell. This type of spells has an effect at a specific point in
+the game world. The \texttt{cast} function accepts two dimensional coordinates as its parameters, which specify this point with no regard
+to height. It uses the \texttt{game.command.reposition} function, which commands the minion that is closest to the specified position to
+move to the position, and then interrupts the cast to avoid the accidental repositioning of multiple minions.
+
+This type of spells can be used for commands similar to this one, to spawn groups of entities or a single entity. However, since the
+\texttt{init} function only sets the type of the spell and nothing else, the player would not see the single entity that is supposed
+to be spawned following the mouse cursor as is common in many games. For this, the spell type presented in the following section is
+more suitable.
+
+Note that since the spell cannot be seen during cast and is activated when the player clicks somewhere within the game world, it's advised
+to interrupt casting inside the \texttt{cast} function to avoid accidental repeated casts.
+
+\begin{listing}[H]
+    \centering
+    \begin{lstlisting}
+-- Orders the minion that is closest to the area of
+-- the spell cast to move to that area.
+game.spell.spells.order_repositioning = {
+    -- Initialization, sets the spell type.
+    init = function()
+        game.spell.set_type(game.enum.spell_type.positional)
+    end,
+
+    -- Applies the effect of the spell, accepts
+    -- two dimensional coordinates in the game world
+    -- which denote the place where the player cast
+    -- the spell.
+    cast = function(x, y)
+        game.command.reposition(x, y)
+        game.command.stop_casting()
+    end
+}
+    \end{lstlisting}
+    \caption{An example of a positional spell.}
+    \label{spell-ex-positional}
+\end{listing}
+
+\subsubsection{Placing spells}
+
+In Listing~\ref{spell-ex-placing}, we can see an example of a placing spell. This type of spells is used when we want the spell to place a
+new entity into the game world. In the \texttt{init} function, we -- besides setting the spell type -- invoke the entity placer by using
+\texttt{game.entity.place} which accepts the name of an entity defining table as its argument and creates a model of the entity that follows
+the mouse cursor. From this point onward, the placement is
+performed by the engine and the \texttt{cast} function is only called after the entity has been placed and is provided with the identifier
+of the placed entity as its argument so it can manipulate with it.
+
+In this case, we spawn our \texttt{coward\_healer} entity and lower its health. Note that since we did not call
+\texttt{game.spell.stop\_casting}, the placement process will continue until canceled or the player runs out of mana, but unlike positional
+spells, placing spells provide visual hint of the ongoing cast -- the model of the entity that follows the mouse cursor.
+
+\begin{listing}
+    \centering
+    \begin{lstlisting}
+game.spell.spells.spawn_damaged_coward_healer = {
+    -- Initialization, sets the spell type.
+    init = function()
+        game.spell.set_type(game.enum.spell_type.placing)
+        game.entity.place("coward_healer")
+    end,
+
+    -- Does NOT apply the effect of the spell,
+    -- that has been done by the engine.
+    -- This function only manipulates the placed
+    -- entity.
+    cast = function(id)
+        game.health.sub(id, 100)
+    end
+}
+    \end{lstlisting}
+    \caption{An example of a placing spell.}
+    \label{spell-ex-placing}
+\end{listing}
+
+\subsubsection{Global spells}
+
+The last type of spells that we can define are global spells, the example of which can be seen in Listing~\ref{spell-ex-global}. These
+spells serve as Lua functions that are executed when the player casts them. This particular spell increases the amount of gold that the
+player has whenever it is cast using the \texttt{game.player.add\_gold} API function.
+
+These spells are cast on every release of the left mouse button, so the player may accidentally cast these spells multiple times because
+they offer no visual hint of the ongoing cast. Because of this, using \texttt{game.spell.stop\_casting} to interrupt the casting process
+in the \texttt{cast} function is advised.
+
+\begin{listing}
+    \centering
+    \begin{lstlisting}
+    game.spell.spells.cheat = {
+        -- Initialization, sets the spell type.
+        init = function()
+            game.spell.set_type(game.enum.spell_type.global)
+        end,
+        
+        -- Applies the effect of the spell.
+        cast = function()
+            game.player.add_gold(10000)
+            game.spell.stop_casting()
+        end,
+    }
+    \end{lstlisting}
+    \caption{An example of a global spell.}
+    \label{spell-ex-global}
+\end{listing}

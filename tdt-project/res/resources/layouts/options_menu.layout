@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="DefaultWindow" name="OPTIONS" >
+        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        <Property name="Visible" value="false" />
+        <Property name="AlwaysOnTop" value="true" />
+        <Property name="MousePassThroughEnabled" value="true" />
+        <Window type="AlfiskoSkin/FrameWindow" name="FRAME" >
+            <Property name="Area" value="{{0.2,0},{0.1,0},{0.8,0},{0.9,0}}" />
+            <Property name="FrameEnabled" value="false" />
+            <Property name="SizingEnabled" value="false" />
+            <Property name="TitlebarEnabled" value="false" />
+            <Property name="DragMovingEnabled" value="false" />
+            <Property name="CloseButtonEnabled" value="false" />
+            <Property name="AutoRenderingSurface" value="true" />
+            <AutoWindow namePath="__auto_titlebar__" >
+                <Property name="NonClient" value="true" />
+                <Property name="AlwaysOnTop" value="false" />
+                <Property name="DraggingEnabled" value="false" />
+            </AutoWindow>
+            <AutoWindow namePath="__auto_closebutton__" >
+                <Property name="NonClient" value="true" />
+                <Property name="AlwaysOnTop" value="true" />
+            </AutoWindow>
+            <Window type="AlfiskoSkin/Label" name="OPTIONS_LABEL" >
+                <Property name="Area" value="{{0.4,0},{0.05,0},{0.6,0},{0.1,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="OPTIONS" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="RESOLUTION_LABEL" >
+                <Property name="Area" value="{{0.05,0},{0.1,0},{0.35,0},{0.15,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="RESOLUTION (XXXX x XXXX)" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="WINDOW_MODE_LABEL" >
+                <Property name="Area" value="{{0.65,0},{0.1,0},{0.95,0},{0.15,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="WINDOW MODE (WINDOWED)" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="KEY_BINDING_LABEL" >
+                <Property name="Area" value="{{0.4,0},{0.45,0},{0.6,0},{0.5,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="KEY BINDINGS" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Listbox" name="WINDOW_MODE_LISTBOX" >
+                <Property name="Area" value="{{0.65,0},{0.15,0},{0.95,0},{0.45,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_thumb__" >
+                        <Property name="MouseInputPropagationEnabled" value="true" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <Property name="VerticalScrollbar" value="true" />
+                    <AutoWindow namePath="__auto_thumb__" >
+                        <Property name="MouseInputPropagationEnabled" value="true" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="APPLY_BUTTON" >
+                <Property name="Area" value="{{0.4,0},{0.3,0},{0.6,0},{0.4,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="APPLY " />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="SPELL_BUILD_1_LABEL" >
+                <Property name="Area" value="{{0.3,0},{0.5,0},{0.5,0},{0.55,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="SPELL/BUILD #1" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="SPELL_BUILD_2_LABEL" >
+                <Property name="Area" value="{{0.3,0},{0.55,0},{0.5,0},{0.6,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="SPELL/BUILD #2" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="SPELL_BUILD_3_LABEL" >
+                <Property name="Area" value="{{0.3,0},{0.6,0},{0.5,0},{0.65,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="SPELL/BUILD #3" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="SPELL_BUILD_4_LABEL" >
+                <Property name="Area" value="{{0.3,0},{0.65,0},{0.5,0},{0.7,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="SPELL/BUILD #4" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="NEXT_LABEL" >
+                <Property name="Area" value="{{0.3,0},{0.7,0},{0.5,0},{0.75,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NEXT SPELL/BUILD" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="PREV_LABEL" >
+                <Property name="Area" value="{{0.3,0},{0.75,0},{0.5,0},{0.8,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="PREV SPELL/BUILD" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="SPELL_TAB_LABEL" >
+                <Property name="Area" value="{{0.5,0},{0.5,0},{0.7,0},{0.55,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="SPELL TAB" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="BUILD_TAB_LABEL" >
+                <Property name="Area" value="{{0.5,0},{0.55,0},{0.7,0},{0.6,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="BUILD TAB" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="MENU_TAB_LABEL" >
+                <Property name="Area" value="{{0.5,0},{0.6,0},{0.7,0},{0.65,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="MENU TAB" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="RESET_CAMERA_LABEL" >
+                <Property name="Area" value="{{0.5,0},{0.65,0},{0.7,0},{0.7,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="RESET CAMERA" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="QUICK_SAVE_LABEL" >
+                <Property name="Area" value="{{0.5,0},{0.7,0},{0.7,0},{0.75,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="QUICK SAVE" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="QUICK_LOAD_LABEL" >
+                <Property name="Area" value="{{0.5,0},{0.75,0},{0.7,0},{0.8,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="QUICK LOAD" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="SPELL_BUILD_1_BUTTON" >
+                <Property name="Area" value="{{0.1,0},{0.5,0},{0.3,0},{0.55,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NOT SET" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="SPELL_BUILD_2_BUTTON" >
+                <Property name="Area" value="{{0.1,0},{0.55,0},{0.3,0},{0.6,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NOT SET" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="SPELL_BUILD_3_BUTTON" >
+                <Property name="Area" value="{{0.1,0},{0.6,0},{0.3,0},{0.65,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NOT SET" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="SPELL_BUILD_4_BUTTON" >
+                <Property name="Area" value="{{0.1,0},{0.65,0},{0.3,0},{0.7,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NOT SET" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="NEXT_BUTTON" >
+                <Property name="Area" value="{{0.1,0},{0.7,0},{0.3,0},{0.75,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NOT SET" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="PREV_BUTTON" >
+                <Property name="Area" value="{{0.1,0},{0.75,0},{0.3,0},{0.8,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NOT SET" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="SPELL_TAB_BUTTON" >
+                <Property name="Area" value="{{0.7,0},{0.5,0},{0.9,0},{0.55,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NOT SET" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="MENU_TAB_BUTTON" >
+                <Property name="Area" value="{{0.7,0},{0.6,0},{0.9,0},{0.65,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NOT SET" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="BUILD_TAB_BUTTON" >
+                <Property name="Area" value="{{0.7,0},{0.55,0},{0.9,0},{0.6,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NOT SET" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="RESET_CAMERA_BUTTON" >
+                <Property name="Area" value="{{0.7,0},{0.65,0},{0.9,0},{0.7,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NOT SET" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="QUICK_SAVE_BUTTON" >
+                <Property name="Area" value="{{0.7,0},{0.7,0},{0.9,0},{0.75,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NOT SET" />
+            </Window>
+            <Window type="AlfiskoSkin/Button" name="QUICK_LOAD_BUTTON" >
+                <Property name="Area" value="{{0.7,0},{0.75,0},{0.9,0},{0.8,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="Text" value="NOT SET" />
+            </Window>
+            <Window type="AlfiskoSkin/Listbox" name="RESOLUTION_LISTBOX" >
+                <Property name="Area" value="{{0.05,0},{0.15,0},{0.35,0},{0.45,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="AlwaysOnTop" value="true" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_thumb__" >
+                        <Property name="MouseInputPropagationEnabled" value="true" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <Property name="VerticalScrollbar" value="true" />
+                    <AutoWindow namePath="__auto_thumb__" >
+                        <Property name="MouseInputPropagationEnabled" value="true" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="RESOLUTION_SELECTION_LABEL" >
+                <Property name="Area" value="{{0.1,0},{0.45,0},{0.3,0},{0.5,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="AlfiskoSkin/Label" name="WINDOW_MODE_SELECTION_LABEL" >
+                <Property name="Area" value="{{0.7,0},{0.45,0},{0.9,0},{0.5,0}}" />
+                <Property name="Font" value="Inconsolata-10" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>
