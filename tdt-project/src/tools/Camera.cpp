@@ -24,7 +24,7 @@ void Camera::set_direction(const Ogre::Vector3& val)
 		camera_->setDirection(val);
 }
 
-const Ogre::Vector3& Camera::get_direction() const
+const Ogre::Vector3 Camera::get_direction() const
 {
 	return camera_->getDirection();
 }

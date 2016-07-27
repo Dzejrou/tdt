@@ -44,5 +44,29 @@ game.wave.wave_test = {
 
 	wend_2 = function()
 		game.win()
+	end
+}
+
+-- Used in the intro menu background level.
+game.wave.wave_init = {
+	init = function()
+		local w = game.wave
+		w.clear_entity_blueprints()
+		w.set_wave_count(1)
+		w.set_curr_wave_number(0)
+		w.set_countdown(30)
 	end,
+
+	wstart_0 = function()
+		local w = game.wave
+		w.clear_entity_blueprints()
+		w.set_entity_total(2)
+		w.add_entity_blueprint("evil_ogre_warrior")
+		w.add_entity_blueprint("evil_ogre_ice_mage")
+	end,
+	wend_0 = function()
+		local w = game.wave
+		w.set_endless_mode(true)
+		w.set_countdown(15)
+	end
 }

@@ -31,7 +31,7 @@ Game::Game() // TODO: Init systems.
 	: state_{GAME_STATE::INTRO_MENU}, root_{}, window_{},
 	  scene_mgr_{}, main_cam_{}, main_light_{},
 	  main_view_{}, input_{}, keyboard_{}, mouse_{},
-	  renderer_{}, placer_{}, ground_{},
+	  renderer_{}, placer_{}, ground_{}, ground_entity_{},
 	  selection_box_{}, entity_creator_{},
 	  mouse_position_{}, level_generator_{}, spell_caster_{},
 	  throne_id_{Component::NO_ENTITY}

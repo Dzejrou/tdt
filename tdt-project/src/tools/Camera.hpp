@@ -51,7 +51,7 @@ class Camera
 		/**
 		 * \brief Returns the direction the camera is facing.
 		 */
-		const Ogre::Vector3& get_direction() const;
+		const Ogre::Vector3 get_direction() const;
 
 		/**
 		 * \brief Makes the camera to look at a point on the ground.
