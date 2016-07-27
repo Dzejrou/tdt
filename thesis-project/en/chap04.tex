@@ -1,16 +1,19 @@
 \chapter{Scripter's Documentation}
 
 While we cannot change parts of the engine without recompilation of its source code, we can provide implementation of various parts of the
-game through scripts written in the Lua programming languagei\footnote{To learn about the language, we recommend the Programming in Lua
+game through scripts written in the Lua programming language\footnote{To learn about the language, we recommend the Programming in Lua
 book~\cite{PIL}.}. These scripts are mainly used during initialization and for the definition of
 entities, enemy waves, research nodes and spells. In this section we will examine how to write these parts of the game.
 
-A reference documentation for our Lua API can be found in the \texttt{lua-api} directory which is a part of the Attachment~B.
+A reference documentation for our Lua API can be found in the \texttt{lua-api} directory which is a part of the Attachment~B and all
+of the game's scripts can be found in the \texttt{src/scripts} directory which is a part of the Attachment~A.
 
 \section{Initialization}
 
 When the game starts, it executes two script files -- \texttt{config.lua} and \texttt{init.lua}. The \texttt{config.lua} contains
-a Lua table \texttt{config} with values used by the engine such as time periods and multipliers, blocks that are used by the default
+a Lua table\footnote{A table is the only data structure in Lua, it is an associative array of dynamic size that can be indexed
+by any value except for \texttt{nil}, which represents no value.}
+\texttt{config} with values used by the engine such as time periods and multipliers, blocks that are used by the default
 level generator and a list of directories that contain scripts that are to be loaded when the game starts. The purpose of each value
 is documented within this script file.
 
@@ -78,7 +81,7 @@ Once we list all of the components our new entity has, we need to define all of 
 \texttt{components.txt}, which is a part of the Attachment~B, we can find which components need to be defines in the entity definition
 table and what fields do these component tables need to have. Note that the order in which we define component does not matter.
 
-For this particular example entity, we firts define the \texttt{PhysicsComponent}, which represents the physical presence of an entity
+For this particular example entity, we first define the \texttt{PhysicsComponent}, which represents the physical presence of an entity
 inside of the game world. It has a single field called \texttt{solid}, which should be \texttt{true} for buildings that cannot be
 walked through and \texttt{false} for any other entity. Then we define the \texttt{HealthComponent}, which represents the health of an
 entity and its ability to be damaged and killed. It has three fields that need to be set -- \texttt{max\_hp}, which determines the
@@ -317,7 +320,7 @@ wave = {
 In Listing~\ref{wave-table-second} we can se the definition of the second and, in this case, the last wave defined within a wave table.
 Its \texttt{wend} function does not call the blueprint resetting function so the total number of entities is set to four, because the two
 entities from the previous wave also spawn in this wave.
-If we want the wave sequence to repeat its last indefinitely wave once all waves are finnished, we can use the function
+If we want the wave sequence to repeat its last indefinitely wave once all waves are finished, we can use the function
 \texttt{game.wave.turn\_endless\_mode\_on} in the last \texttt{wend} function.
 
 \section{Research}

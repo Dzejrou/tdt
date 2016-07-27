@@ -10,12 +10,13 @@ with either OpenGL~3 or Direct3D 9.
 
 To install the game, we should first move the directory that contains the game's executable file anywhere on our hard disk. Although this is
 an optional step, it allows our game to create new files which allows us to use the save feature of the game. Next, we need to install
-the Visual C++ Redistributable, which can be done by executing the file \texttt{deps/vc\_redist.x86.exe}.
+the Visual C++ Redistributable, which can be done by executing the file \texttt{deps/vc\_redist.x86.exe}, which is a part of the
+Attachment~A.
 
 Once the redistributable is installed, we can start the game by executing the file \texttt{tdt.exe}. If this is the first startup, we will
 see a window that allows us to configure our graphics options, which can be seen in Figure~\ref{ogre-config}. In this window, we need to
 choose either the OpenGL or Direct3D from a drop-down list labeled \emph{Rendering Subsystem}. Once we choose our rendering subsystem, we
-will be offered with various graphical settings we can change in the bottom list labaled \emph{Rendering System Options}. We will now also
+will be offered with various graphical settings we can change in the bottom list labeled \emph{Rendering System Options}. We will now also
 be able to start the game by clicking on the \emph{OK} button.
 
 \begin{figure}[H]
@@ -64,7 +65,7 @@ is used to save and load the game and to show the options, main menu and researc
 changes to the spell bar, which can be used to cast spells, and if we click on the \emph{BUILD} button the tool bar changes to the building
 bar, which can be used to place new buildings. The last button on the top row, \emph{MENU}, returns us to the initial menu bar.
 
-Next to the tool bar is the game log, which shows messages from the game and from the player's minions. These message can for example include
+Next to the tool bar is the game log, which shows messages from the game and from the player's minions. These messages can for example include
 warnings about an attack or notifications about insufficient resources.
 
 The rightmost of these three windows is the entity viewer, which shows information about the currently selected single entity -- note that
@@ -85,7 +86,7 @@ dungeon.
 
 \section{Goal of the game}
 
-In our game, the main goal of the player is to protect its dungeon -- specifically the dungeon throne -- from waves of enemy attackers
+In our game, the main goal of the player is to protect their dungeon -- specifically the dungeon throne -- from waves of enemy attackers
 \footnote{Note that this applies to the game itself, mods are free to change the winning or losing conditions.}.
 If the dungeon throne is destroyed, the player loses. If, on the other hand, the throne survives all of the enemy waves, the player wins.
 
@@ -153,7 +154,7 @@ We can think of the spell tool bar as of a conveyor belt which contains our spel
 button moves it to the right by one spell. Once we locate the spell we would
 like to cast, we can either click on it with the left mouse button or press the key assigned to it -- these four spell buttons correspond
 to key binding actions \emph{SPELL/BUILD 1-4} from left to right. Once we select a spell for casting, a label reading \emph{ACTIVE} will
-appear under the name of the currently casted spell as can be seen below \emph{spawn\_imp} in the figure above. This is because some of
+appear under the name of the currently cast spell as can be seen below \emph{spawn\_imp} in the figure above. This is because some of
 the spells that are in the game do not have any visual effects that would indicate the casting process.
 
 \subsection{Spells}
@@ -165,17 +166,17 @@ and its description.
 \subsubsection{Targeted spells}
 
 To cast a targeted spell, we first need to select an entity that will serve as the target for the spell's effect, which we can do by left
-clicking on the entity in the game world. Once we have a target, we can cast the spell wich will immediately apply its effect to the
+clicking on the entity in the game world. Once we have a target, we can cast the spell which will immediately apply its effect to the
 selected target. Targeted spells are:
 
 \begin{itemize}
-    \item \emph{attack} (0) -- commands the closest combat minion with the smallest amount of assigned tasks to attach the selected
+    \item \emph{attack} (0) -- commands the closest combat minion with the smallest amount of assigned tasks to attack the selected
         entity.\footnote{This spell is actually global in implementation, but its effect is very similar to that of targeted spells
         so it is placed in this list.}
     \item \emph{heal} (10) -- heals a single currently selected friendly entity to full health.
     \item \emph{slow} (20) -- halves the speed of the enemy target for five seconds.
     \item \emph{lightning} (20) -- strikes the enemy target with a bolt of lightning.
-    \item \emph{freeze} (40) -- freezes the enemy target in place for five sconds.
+    \item \emph{freeze} (40) -- freezes the enemy target in place for five seconds.
     \item \emph{chain\_lightning} (60) -- strikes the enemy target with a bolt of lightning that bounces to nearby enemies.
     \item \emph{teleport} (100) -- teleports the enemy target to a random place in the game world.
     \item \emph{destroy\_block} (200) -- destroys a neutral mineable target, e.g. a wall.
@@ -227,8 +228,9 @@ the spell to cast, we can click in the game world with the left mouse button to 
 
 The building tool bar window, which can be seen in Figure~\ref{gui-build}, functions in the exactly same way as the spell tool bar does.
 But buildings, unlike spells, are all placed in the same way -- we simply click on the button representing the building we want to build
-or use one of the key bindings for actions \emph{SPELL/BUILD 1-4} and a model of the building will start to follow the mouse cursor. Once we
-position our mouse cursor on an unobstructed place in the game world we can press the left mouse button to place the building.
+or use one of the key bindings for actions \emph{SPELL/BUILD}~\mbox{\emph{1-4}} and a model of the building will start to follow the mouse
+cursor.
+Once we position our mouse cursor on an unobstructed place in the game world we can press the left mouse button to place the building.
 
 \begin{figure}[H]
     \centering
@@ -245,8 +247,8 @@ in gold noted next to their names in parentheses and their description.
 \begin{itemize}
     \item \emph{wall} (300) -- can be placed to separate rooms and to protect the dungeon.
     \item \emph{mine} (400) -- spawns a single ogre miner, which can mine walls and gold deposits.
-    \item \emph{slow\_trap} (400) -- halves the speed of enemies that step on it for five seconds with a cooldown period
-        \footnote{By \emph{cooldown period} we refer to the amount of time between two applications of the trap's effects.}
+    \item \emph{slow\_trap} (400) -- halves the speed of enemies that step on it for five seconds with a cooldown
+        period\footnote{By \emph{cooldown period} we refer to the amount of time between two applications of the trap's effects.}
         of thirty seconds.
     \item \emph{mana\_crystal} (500) -- increases maximum mana and mana regeneration of the player.
     \item \emph{gold\_vault} (500) -- used to store gold.
@@ -256,7 +258,7 @@ in gold noted next to their names in parentheses and their description.
         of thirty seconds.
     \item \emph{damage\_trap} (600) -- damages enemies that step on it with a cooldown period of thirty seconds.
     \item \emph{kill\_trap} (600) -- kills enemies that step on it with a cooldown period of thirty seconds.
-    \item \emph{freeze\_trap} (800) -- freezes enemies that step on it in place for fice seconds with a cooldown period of thirty seconds.
+    \item \emph{freeze\_trap} (800) -- freezes enemies that step on it in place for five seconds with a cooldown period of thirty seconds.
     \item \emph{barracks} (1000) -- spawns a single ogre warrior, which is a melee combat minion.
     \item \emph{ice\_tower} (1500) -- spawns a single ogre ice mage, which is a ranged combat minion that can cast freezing waves.
     \item \emph{light\_mana\_crystal} (1500) -- used as a source of light which increases maximum mana and mana regeneration of the
@@ -300,7 +302,7 @@ selection and mini menu. \emph{RESET CAMERA} returns the game's view back to the
 \end{figure}
 
 Besides these rebindable actions, the game contains three actions that are used mainly for mod prototyping and testing and cannot be rebound.
-If we press the \emph{Grave} key\footnote{On starndard english, american and czech keyboards, this key is generally located above the
+If we press the \emph{Grave} key\footnote{On standard Brittish, American and Czech keyboards, this key is generally located above the
 \emph{TAB} key and below the \emph{ESC} key and is used to input a semicolon or a tilde.} we will bring up the game's development console,
 which accepts Lua code and can interpret this code with the \emph{EXECUTE} button. If we hold the \emph{Shift} key pressed while we click
 on the \emph{Grave} key, we bring up the entity creator window that lets us to place all entities in the game without any cost. Lastly,

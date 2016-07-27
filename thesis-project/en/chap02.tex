@@ -9,9 +9,9 @@ be used to implement our game.
 \section{Modding Tools}
 
 To satisfy our goals \textbf{(G2)} and \textbf{(G3)}, which require us to provide modding tools to our players that will allow
-them to create easilly installable mods, we now need to decide the form of these tools. They should allow the mod creators
+them to create easily installable mods, we now need to decide the form of these tools. They should allow the mod creators
 to create and modify entities to the extent required by our goal \textbf{(G2.1)} and to alter the game progression as required
-by our goal \textbf{(G2.2)}. Additionally, to satisfy our goal \textbf{(G3)}, the resulting mods should be easilly installable.
+by our goal \textbf{(G2.2)}. Additionally, to satisfy our goal \textbf{(G3)}, the resulting mods should be easily installable.
 
 \subsubsection{Editor}
 
@@ -31,7 +31,7 @@ different aspect of editors and that is changing entities in the game.
 
 In Figure~\ref{sc-editor} we can see an example of such editor.
 It allows its user to select an entity and change its attributes, such as health, placing cost, type, model and the user can even 
-select which predefined abilities and behavior the entity uses. An editor could easilly be used to define the composition of enemy
+select which predefined abilities and behavior the entity uses. An editor could easily be used to define the composition of enemy
 waves and the delays between waves, satisfying our goal \textbf{(G2.2)} and would allow easy mod installation -- as required by our goal
 \textbf{(G3)} -- by producing files that can be placed in the game's directory.
 
@@ -105,7 +105,7 @@ game's wave system and allows the mod creators to modify wave composition and de
 requires the players to place a downloaded script in a directory and register the script in a config file.
 
 Besides making the game modifiable, this approach can avoid long recompilation times because parts of the game that are not performance
-ciritcal can be written in an embedded interpreted language. This can lead to faster development~\cite{GEA}, since recompilation is
+critical can be written in an embedded interpreted language. This can lead to faster development~\cite{GEA}, since recompilation is
 needed only after engine modification. This also allows fast testing and prototyping of new features and mods without the need
 to restart the game as many of these interpreted languages can execute pieces of code passed to them as strings..
 Additionally, using an interpreted language would make the mod creation process easier for non-programmers~\cite{WhyScripting} as
@@ -191,7 +191,7 @@ understand syntax and semantics.
 
 Both of the managed languages that were taken into consideration -- Java and C\# -- provide an easy way to execute code input
 at runtime using either the Java Compiler API~\cite{JavaCompAPI} or the Roslyn sompiler service~\cite{Roslyn} available in C\#.
-Alongside this feature both languages offer the ability to embedd another language throu the use of libraries such as
+Alongside this feature both languages offer the ability to embedd another language through the use of libraries such as
 LuaJ~\cite{LuaJ} or NLua~\cite{NLua}.
 
 The difference of these two languages lies in their environment. The Java Virtual Machine -- often abbreviated as JVM -- provides
@@ -259,7 +259,7 @@ The main advantage it has over Lua is that it is even easier to embedd within \c
 a simple registration of \cpp functions in order to be able to call them.
 
 This advantage is also the main downside of the language, as its \cpp-like syntax is not as easy to understand as Lua's. This means that while
-AngelScript would be easier to embedd into the engine, the modding API wouldn't be as begginer friendly as if it were interfaced
+AngelScript would be easier to embedd into the engine, the modding API wouldn't be as beginner friendly as if it were interfaced
 to Lua. Additionally, there is a smaller amount of games that use AngelScript for scripting-- according to the official
 website~\cite{AngelScriptGames}, only 35 games use AngelScript for scripting. While this amount may be higher than the amount of games
 using Python for scripting, it is much lower than the amount of games that use Lua.
@@ -268,8 +268,8 @@ using Python for scripting, it is much lower than the amount of games that use L
 
 In terms of familiarity of the scripting language, Lua beats both of its competitors as it has been used for far more games and thus
 might be more known by the modding community. Additionally, the significant whitespace of Python and the \cpp-like syntax of AngelScript
-make us believe that Lua's syntax is the most begginer friendly and as such easier to understand by those of our players that are not
-programmers. Lastly, we find both Lua and AngelScript to be more easilly embeddable into \cpp when compared to Python.
+make us believe that Lua's syntax is the most beginner friendly and as such easier to understand by those of our players that are not
+programmers. Lastly, we find both Lua and AngelScript to be more easily embeddable into \cpp when compared to Python.
 
 Because of these reasons, we decided to choose Lua as our scripting language as it seems to be better than its competitors at most
 of our requirements.
@@ -432,7 +432,7 @@ programming by default.
 An interesting characteristic of the ECS is its satisfiability of our last goal -- performance. To store our components,
 we often use some kind of a key value associative container, where the key is the entity identifier and the value is the component.
 If our entity is not a numeric identifier, but a component container, it then contains pointers or references to the components
-stored in this cenral container. Since logically related data -- components of the same type -- are located next to each other
+stored in this central container. Since logically related data -- components of the same type -- are located next to each other
 in memory, we can then use spatial locality of cache to avoid some of the possible cache misses when we operate on components of a specific
 type, because the blocks of memory loaded to cache are less likely to contain data that are irrelevant to the current computation.
 
@@ -456,8 +456,8 @@ in their mods  of our entities, render them to the game window and move them in 
 compatible with models created in Blender~\cite{Blender}, which is fairly popular, has a lot of documentation and is free, which means
 there will not be an additional cost of purchasing a graphics editor license to create models for our game.
 
-Additionally, since our design element \textbf{(E4)} is the combat between our minions and enemies, support for animation
-\footnote{Even though animation was planned for the game, it was not implemented because of time constraints.} would be
+Additionally, since our design element \textbf{(E4)} is the combat between our minions and enemies, support for
+animation\footnote{Even though animation was planned for the game, it was not implemented because of time constraints.} would be
 beneficial so that the combat is visible. Another of our design elements, \textbf{(E5)}, is the participation of the player in combat
 by the use of spells. This feature will require the ability to transform rendered objects to create spell effects such as explosions.
 
@@ -469,7 +469,7 @@ as such will need to be part of one -- or some -- of its components.
 
 \subsubsection{Low level API: OpenGL and DirectX}
 
-Lower level API provides direct acces to the graphics hardware, common examples are OpenGL and DirectX. These interfaces, while
+Lower level API provides direct access to the graphics hardware, common examples are OpenGL and DirectX. These interfaces, while
 extremely flexible, do not support models created in an external application and thus fail to satisfy one of our goals. Additionally,
 if we decided to use one of these interfaces, we would need to implement a lot of functionality -- such as scene representation -- that 
 is already provided to us by a higher level library and thus would prolong the development time of our game. For these reasons, we would
@@ -586,7 +586,7 @@ is the ability easily edit these serialized files and through these edits change
 During a binary serialization, the game state -- in our case the components of entities and some additional information -- gets
 serialized as a sequence of bytes into a binary file. While this option results in generally smaller save files than a text serialization,
 it prohibits modification of the game's mechanics. Additionally, even though this format allows our players to modify the
-serialized game state, these modification would require an application that would parse the save file, allow the user
+serialized game state, these modifications would require an application that would parse the save file, allow the user
 to change the data and then serialize the data again.
 
 \subsection{XML}

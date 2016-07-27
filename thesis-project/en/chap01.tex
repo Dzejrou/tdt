@@ -2,7 +2,7 @@
 
 Until the release of Dungeon Keeper\footnote{Bullfrog Productions, 1997} most well known fantasy 
 video games have allowed the player to play as various heroic characters, raiding dungeons filled
-with evil forces in order to aquire treasures and fame.
+with evil forces in order to acquire treasures and fame.
 In Dungeon Keeper, however, we join the opposite faction and try to defend our own dungeon
 (along with all the treasures hidden in it) from endless hordes of heroes trying to pillage our domain.
 Although we can still play the original Dungeon Keeper today, we cannot change its data or game mechanics
@@ -17,7 +17,7 @@ knowledge never been formally documented by the creators of Dungeon Keeper, we a
 of the genre based on the gameplay of the original game.
 
 In Dungeon Keeper, the player's main goal is to build and protect his own base, called the dungeon. They do so by commanding
-their underlings (often called minions), whom they can command to mine gold, which is a resource they use in order to build new rooms
+their underlings -- often called minions -- whom they can command to mine gold, which is a resource they use in order to build new rooms
 and cast spells (in the game's sequel\footnote{Dungeon Keeper 2, Bullfrog Productions, 1999}, mana was added into the game
 as a secondary resource used for spell casting), which could be researched as the game progressed. They would then use creatures
 spawned in their buildings as well as their own magic powers to fight intruders in order to protect their dungeon. 
@@ -55,7 +55,7 @@ in general), we should try to implement our building model to resemble this one.
 
 The term minion commanding stands for giving your minion tasks such as to move somewhere, attack an enemy or tear down a wall. In
 Dungeon Keeper, most of these commands were implemented as spells -- although mining was done by simply selecting blocks, which
-could unfortunately cause minions to destroy walls the player accidentally selected. To providea unified interface to minion tasks
+could unfortunately cause minions to destroy walls the player accidentally selected. To provide a unified interface to minion tasks
 and to avoid the accidental block destruction, all commands the player can give should be in our game implemented as spells.
 
 
@@ -84,7 +84,7 @@ various minions could study and achieve new advancements for the player after a 
 for different spells and buildings -- was gathered. But this design decision brought a negative element into the game, because once the
 library was destroyed by the heroes, the player was unable to perform additional research and could not even use the ability to cast
 some spells. This is why we are going to use a different approach, called the research tree (or sometimes the technology tree), first used
-in the turn-based stragety game called Sid Meyer's Civilization\footnote{Developed by MPS Labs, 1991}, as pointed out by Tuur Ghys in his
+in the turn-based strategy game called Sid Meyer's Civilization\footnote{Developed by MPS Labs, 1991}, as pointed out by Tuur Ghys in his
 article about technology trees~\cite{ResearchTrees}. This approach 
 separates the research from the events happening in the game and allows the player to research new advancements for a resource (e.g. gold),
 with each new technology, building, creature or spell being able to have prerequisites.
@@ -120,7 +120,7 @@ As a reference, a screenshot of Minecraft can be seen in Figure~\ref{minecraft}.
 \end{figure}
 
 In the screenshot we can see a player standing in the game's world, equipped with an iron sword that can be used for self-defense when the
-player is attacked by enemies or to kill animals in order to aquire food required to restore one's health, standing next to a hill and
+player is attacked by enemies or to kill animals in order to acquire food required to restore one's health, standing next to a hill and
 a couple of trees. Everything in the game is made of \emph{blocks}, which are items that can be placed in the world and
 -- with some exceptions\footnote{E.g. the bedrock block, which covers
 the bottom layer of the world and prevents the player from falling outside of the world's boundaries} -- destroyed so that the player
@@ -179,7 +179,7 @@ the machine.
 \end{figure}
 
 In Figure~\ref{ic-solar}, we can see a simple setup in which a couple of solar panels are connected to an electric furnace and other
-machines via glass fibre cabels. We can also see another interactive block added by the mod -- the battery block. The battery block
+machines via glass fiber cables. We can also see another interactive block added by the mod -- the battery block. The battery block
 stores electricity up to a certain capacity and continues powering the machines even when its electricity input stops, which in the
 case of solar panels can happen during the night.
 
@@ -234,14 +234,14 @@ damage, abilities, spells and most importantly, their overall behavior (i.e. the
 \subsubsection{Team Fortress 2 Map}
 
 Aside from adding items and creatures, entire new games can be created within a modifiable game.
-One of the interactive blocks in Minecraft is command block,
+One of the interactive blocks in Minecraft is the command block,
 which can execute commands in the game's developer console -- e.g. teleport the player to a certain position or give him items --
 when the player right clicks it.
 
 One of the players of the game, called Seth Bling, used this block to create a map which alters the way the game is 
 played~\cite{FutureOfMinecraft}. For example, even though the 
 unmodded game has no concept of character classes, he used the command block to equip the player that clicked on it with a special
-set of tools and weapons, using the command to add items. With multiple of these blocks -- each with a different set of items -- 
+set of tools and weapons, using the command to add items. Multiple of these blocks -- each with a different set of items -- 
 allowed him to emulate classes in the game. Then, using the same block with different setting, he created control points which
 the players could stand on to capture them. Using these control points he was then able to alter the game's winning condition, which
 was originally to kill a specific enemy, to a requirement team of players having all control points in the world under their control.
@@ -296,7 +296,7 @@ composition -- that is, which types of enemies compose the different groups atta
 the waves. Last, but not least, we must not forget that players do not necessarily have to be (and often are not)
 programmers, so our game should provide an easy way to install these modifications.
 
-\section{Competetivness of the game}
+\section{Competitiveness of the game}
 
 We have now investigated the main design elements of Dungeon Keeper and how we are going 
 to implement them in our game. The last thing we have to realize is that since we are trying to satisfy the players of the original

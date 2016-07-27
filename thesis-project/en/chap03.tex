@@ -29,7 +29,15 @@ update of the game. Most of the systems have only the purpose of updating the ga
 manager and provides components to the rest of the systems.
 
 In the following sections we will examine these main modules of the engine as well as various other modules, which mostly serve as tools
-to the main modules.
+to the main modules. The implementation of all of the classes presented in the following sections can be found as a part of the
+Attachment~A in the directory \texttt{src}. In this directory, we can find core source files of the engine as well as subdirectories
+\texttt{systems}, which contains all of the game's systems, \texttt{helpers}, which contains auxiliary functions that can be used to
+manipulate components, \texttt{tools}, which contains classes that are used by the engine for tasks related to some of the games mechanics
+such as pathfinding, entity placement and serialization, and \texttt{gui}, which contains classes that represent the user interface of
+our game.
+
+In addition to the information that is contained within this chapter, we can use the documentation generated from the comments that
+are inside the source code and located in the directory \texttt{engine-doxy}, which is a part of the Attachment~B.
 
 \section{Game}
 
@@ -177,8 +185,8 @@ an iteration over a component container.
 
 \subsection{CombatSystem}
 
-The \texttt{CombatSystem} class performs the update of basic combat between entities -- that is, melee
-\footnote{By melee we refer to close range combat as is common in many games.} and ranged combat excluding spells.
+The \texttt{CombatSystem} class performs the update of basic combat between entities -- that is,
+melee \footnote{By melee we refer to close range combat as is common in many games.} and ranged combat excluding spells.
 During its update, it checks the ability to attack of all entities that currently have an active combat target. This includes checking
 if the target is in sight and in range. If an entity can attack, the system either performs applies its damage to its target if the
 attack is of the melee type or creates a new projectile if the attack is of type ranged.
@@ -344,7 +352,7 @@ The \texttt{Script} singleton class in the namespace \texttt{lpp} is a wrapper f
 interface for communication between \cpp and Lua. It provides functions that allow us, for example, to execute Lua code passed as a string,
 register \cpp functions to Lua, retrieve values from Lua and call Lua functions from \cpp. In addition to this wrapper, the \texttt{lpp}
 namespace contains the \texttt{Exception} class. Besides the conventional \texttt{what} function, which returns a string describing the
-nature of the exception, this class also has the \texttt{lua\_what} function, which returns the text of the Lua error that occured.
+nature of the exception, this class also has the \texttt{lua\_what} function, which returns the text of the Lua error that occurred.
 
 \section{LuaInterface}
 
@@ -387,7 +395,7 @@ int lua_wrapper_of_F(lua_State* L)
 Helpers are auxiliary functions that are used for component manipulation that are placed within a namespace related to a specific component
 -- e.g. the \texttt{HealthHelper} namespace contains functions that manipulate \texttt{HealthComponent}. These functions are mainly in the
 form of a setter, which changes a field of the component after checking the validity of the new value, or getter, which returns the value
-of a gield of the component or a default value if the component does not exist. But the body of these functions is not restricted and they
+of a field of the component or a default value if the component does not exist. But the body of these functions is not restricted and they
 can perform any operation.
 
 The main purpose of these functions is keep the \texttt{LuaInterface} class small, but can be used freely in \cpp as well if we need for
@@ -488,14 +496,8 @@ The Ogre3D library provides only a basic bounding box ray casting, but our walls
 alignment. For this, we used external code from the official Ogre3D website~\cite{Ogre3DRaycasting} in our \texttt{RayCaster} class
 because of the author's limited knowledge of graphics programming. This class is used to check if two entities can see each other by creating
 a ray between two points in the game world which, unlike standard Ogre3D ray casting, takes only actual models into account. The class
-uses this ray to determine if there is a block between the two entities and if so, assumes they cannot seee each other because of this
+uses this ray to determine if there is a block between the two entities and if so, assumes they cannot see each other because of this
 block.
-
-In Figure~\ref{los-problem}, we can see a situation where two ogres stand in front of each other and next to a diagonal wall. Because our
-game world is made of tiles, the walls have the form of a cube and the diagonal wall is simulated using alignment, during which the wall
-changes its model. However, even if the model is not a cube, the bounding box still is and because of this if we use Ogre3D ray casting
-to determine if the two ogres can see each other, the result will be \texttt{false}. But since our \texttt{RayCaster} ray casts to
-the polygon level, its use would yield \texttt{true} as the result.
 
 \begin{figure}[h]
     \centering
@@ -503,6 +505,12 @@ the polygon level, its use would yield \texttt{true} as the result.
     \caption{An example situation where bounding box ray casting would not suffice.}
     \label{los-problem}
 \end{figure}
+
+In Figure~\ref{los-problem}, we can see a situation where two ogres stand in front of each other and next to a diagonal wall. Because our
+game world is made of tiles, the walls have the form of a cube and the diagonal wall is simulated using alignment, during which the wall
+changes its model. However, even if the model is not a cube, the bounding box still is and because of this if we use Ogre3D ray casting
+to determine if the two ogres can see each other, the result will be \texttt{false}. But since our \texttt{RayCaster} ray casts to
+the polygon level, its use would yield \texttt{true} as the result.
 
 \subsubsection{SelectionBox}
 

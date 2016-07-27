@@ -5,9 +5,9 @@ In conclusion, let us verify that  our game conforms all of our goals listed in 
 and implement a 3D dungeon management game using the design elements \textbf{(E1)}~--~\textbf{(E6)} that we defined in Section~1.1:
 
 \begin{enumerate}[label=\textbf{(E\arabic*)}]
-    \item Resource management -- our game contains two resources that the player manages from which one, called gold, must be mined by
-        the player's minions and is used to build new buildings and unlock new research nodes and one, called mana, regenerates by
-        itself and is used for spell casting.
+    \item Resource management -- our game contains two resources that the player manages. The first of these resources, called gold, must
+        be mined by the player's minions and is used to build new buildings and unlock new research nodes. The second, called mana,
+        regenerates by itself and is used for spell casting.
     \item Dungeon building -- the players of our game can order their minions to tear down walls and can place new buildings on
         unobstructed places in the game world. The game contains 18 different building with various purposes, such as minion
         spawning and defending against enemies.
@@ -32,9 +32,18 @@ we believe that from programming and content points of view we managed to satisf
 experience with various minions, spells and buildings and enemies that pose a challenge for our players and create the possibility of a
 loss. Additionally, our goal \textbf{(G1.1)} required our game to be performant and to run above the minimum acceptable framerate,
 defined in Section~1.3 as 25-30 frames per second, which we believe the game has also satisfied, because the framerate we saw during
-tests on various machines -- both older and newer -- almost never dropped below 100.
+tests on various machines almost never dropped below this minimum acceptable framerate. The machines used for testing were:
 
-Another of our goals, \textbf{(G2)}, required us to allow our players to modify our game. These modification were supposed to be able
+\begin{itemize}
+    \item A desktop computer with Intel Core i7-920 processor and Nvidia Corp GeForce 210 graphics card.
+    \item A desktop computer with Intel Core i5-3570 processor and AMD Radeon HD 7770 graphics card.
+    \item A desktop computer with AMD A6-3500 processor and AMD Radeon HD 6530D
+    \item A notebook with Intel Core i7-5500U processor and Intel HD Graphics 5500 graphics card.
+    \item A notebook with AMD Phenom II processor and AMD Radeon HD 6470M graphics card.
+    \item A notebook with AMD A4-6210 processor and AMD Radeon R3 graphics card.
+\end{itemize}
+
+Another of our goals, \textbf{(G2)}, required us to allow our players to modify our game. These modifications were supposed to be able
 to modify and create new entities and spells, to alter the game's progression system and to create custom levels.
 We believe we satisfied this goals because all of the content in the game -- that is, minions, enemies, building, spells, enemy waves and
 others -- are implemented using the game's own modding tools and as such our players possess the same ability to modify the game that
@@ -67,10 +76,12 @@ Following list contains -- in no particular order -- our ideas for possible futu
     \item Better models, materials and textures for entities. The game contains only very simple colored models or models that are distributed
         with Ogre3D. The addition of better graphics would, in our opinion, increase the pleasantness of the game to the human eye.
     \item Animations. These were originally planned to be implemented in the game but were not implemented because of time constraints
-        and a lack of animated models. Similarly to the previous point, we believe that this feature would increase the competetivness
+        and a lack of animated models. Similarly to the previous point, we believe that this feature would increase the competitiveness
         of our game on the video game market.
     \item Special component that would be able to represent components defined in Lua. This feature would further increase the modifiability
         of the game. Additionally, the option to implement new systems that correspond to these components in Lua would be also beneficial.
+    \item A tutorial that would guide new player through the controls and mechanics of the game. This could, for example, be implemented
+        as a special wave table that would use the starting and ending functions of its waves to address the player.
 \end{itemize}
 
 In addition to these possible extensions, we believe that further expansion of the modding API would help greatly to increase the
