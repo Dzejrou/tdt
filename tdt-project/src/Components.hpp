@@ -588,7 +588,7 @@ struct PriceComponent
 struct AlignComponent
 {
 	static constexpr int type = 24;
-	static constexpr int state_count = 5;
+	static constexpr int state_count = 6;
 
 	struct AlignState
 	{

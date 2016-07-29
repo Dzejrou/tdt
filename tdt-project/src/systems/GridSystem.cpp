@@ -3,6 +3,7 @@
 #include <tools/PathfindingAlgorithms.hpp>
 #include <tools/Grid.hpp>
 #include <helpers/Helpers.hpp>
+#include <gui/GUI.hpp>
 #include <set>
 #include <algorithm>
 #include "GridSystem.hpp"
@@ -200,8 +201,8 @@ void GridSystem::update_neighbours_(tdt::uint id)
 		if(right)
 			++active_main_neighbours;
 
-		if(up && down || left && right) // This will act like the block is surrounded.
-			active_main_neighbours = 4;
+		if(active_main_neighbours == 2 && (up && down || left && right)) // Tunnel.
+			active_main_neighbours = 5;
 
 		graph->material = align->states[active_main_neighbours].material;
 		graph->mesh = align->states[active_main_neighbours].mesh;
@@ -221,39 +222,77 @@ void GridSystem::update_neighbours_(tdt::uint id)
 		if(active_main_neighbours == 1)
 		{ // Lean to the neighbour.
 			if(up)
-			{
 				pos.z -= graph->scale.x;
-				graph->node->rotate(Ogre::Vector3{0.f, 1.f, 0.f}, Ogre::Degree{90.f});
-			}
 			else if(down)
-			{
 				pos.z += graph->scale.x;
-				graph->node->rotate(Ogre::Vector3{0.f, 1.f, 0.f}, Ogre::Degree{270.f});
-			}
 			else if(left)
 				pos.x -= graph->scale.z / 2;
-			
 			else if(right)
 				pos.x += graph->scale.z / 2;
 		}
 		else
 			pos += align->states[active_main_neighbours].position_offset;
+
 		phys->half_height = graph->entity->getWorldBoundingBox(true).getHalfSize().y;
 		phys->position.x = pos.x;
-		phys->position.y = phys->half_height;
+		phys->position.y = phys->half_height + pos.y;
 		phys->position.z = pos.z;
 		graph->node->setPosition(phys->position);
 
-		if(active_main_neighbours == 2)
-		{ // Apply correct rotation to the half cube.
-			if(up && left)
-				graph->node->rotate(Ogre::Vector3{0.f, 1.f, 0.f}, Ogre::Degree{90.f});
-			else if(up && right)
-				graph->node->rotate(Ogre::Vector3{0.f, 1.f, 0.f}, Ogre::Degree{0.f});
-			else if(down && left)
-				graph->node->rotate(Ogre::Vector3{0.f, 1.f, 0.f}, Ogre::Degree{180.f});
-			else if(down && right)
-				graph->node->rotate(Ogre::Vector3{0.f, 1.f, 0.f}, Ogre::Degree{270.f});
+		// Rotation for alignment.
+		Ogre::Vector3 rotation_axis_y{0.f, 1.f, 0.f};
+		Ogre::Degree deg0{0.f};
+		Ogre::Degree deg90{90.f};
+		Ogre::Degree deg180{180.f};
+		Ogre::Degree deg270{270.f};
+		switch(active_main_neighbours)
+		{
+			case 0:
+				// No rotation needed.
+				break;
+			case 1:
+				if(left)
+					graph->node->rotate(rotation_axis_y, deg180);
+				else if(up)
+					graph->node->rotate(rotation_axis_y, deg90);
+				else if(right)
+					graph->node->rotate(rotation_axis_y, deg0);
+				else if(down)
+					graph->node->rotate(rotation_axis_y, deg270);
+				break;
+			case 2:
+				if(up && left)
+					graph->node->rotate(rotation_axis_y, deg0);
+				else if(down && left)
+					graph->node->rotate(rotation_axis_y, deg90);
+				else if(down && right)
+					graph->node->rotate(rotation_axis_y, deg180);
+				else if(up && right)
+					graph->node->rotate(rotation_axis_y, deg270);
+				break;
+			case 3:
+				if(up && right && down)
+					graph->node->rotate(rotation_axis_y, deg0);
+				else if(up && left && right)
+					graph->node->rotate(rotation_axis_y, deg90);
+				else if(down && left && up)
+					graph->node->rotate(rotation_axis_y, deg180);
+				else if(down && right && left)
+					graph->node->rotate(rotation_axis_y, deg270);
+				break;
+			case 4:
+				// No rotation needed, only top face used.
+				break;
+			case 5:
+				if(up && down)
+					graph->node->rotate(rotation_axis_y, deg90);
+				if(right && left)
+					graph->node->rotate(rotation_axis_y, deg180);
+				break;
+			default:
+				GUI::instance().get_console().print_text("[ERROR] Wrong neighbour count: " + std::to_string(active_main_neighbours),
+														 Console::RED_TEXT);
+				break;
 		}
 	}
 }
