@@ -51,7 +51,7 @@ basic_wall = {
 
 		state_1 = {
 			material = "colour/brown",
-			mesh = "cube.mesh",
+			mesh = "cube-1.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
 			position_offset_z = 0.0,
@@ -73,7 +73,7 @@ basic_wall = {
 
 		state_3 = {
 			material = "colour/brown",
-			mesh = "cube.mesh",
+			mesh = "cube-3.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
 			position_offset_z = 0.0,
@@ -84,7 +84,18 @@ basic_wall = {
 
 		state_4 = {
 			material = "colour/brown",
-			mesh = "cube.mesh",
+			mesh = "cube-4.mesh",
+			position_offset_x = 0.0,
+			position_offset_y = 50.0,
+			position_offset_z = 0.0,
+			scale_x = 50.0,
+			scale_y = 51.0,
+			scale_z = 50.0
+		},
+
+		state_5 = {
+			material = "colour/brown",
+			mesh = "cube-2-axis.mesh",
 			position_offset_x = 0.0,
 			position_offset_y = 0.0,
 			position_offset_z = 0.0,
@@ -92,7 +103,6 @@ basic_wall = {
 			scale_y = 50.0,
 			scale_z = 50.0
 		}
-
 	},
 
 	ExperienceValueComponent = {

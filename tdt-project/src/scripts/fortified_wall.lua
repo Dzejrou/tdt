@@ -87,13 +87,23 @@ fortified_wall = {
 			material = "colour/dark_brown",
 			mesh = "cube.mesh",
 			position_offset_x = 0.0,
+			position_offset_y = 50.0,
+			position_offset_z = 0.0,
+			scale_x = 50.0,
+			scale_y = 50.0,
+			scale_z = 50.0
+		},
+
+		state_5 = {
+			material = "colour/dark_brown",
+			mesh = "cube-2-axis.mesh",
+			position_offset_x = 0.0,
 			position_offset_y = 0.0,
 			position_offset_z = 0.0,
 			scale_x = 50.0,
 			scale_y = 50.0,
 			scale_z = 50.0
 		}
-
 	},
 
 	PriceComponent = {
