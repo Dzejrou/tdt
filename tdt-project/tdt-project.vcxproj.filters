@@ -303,6 +303,12 @@
     <ClInclude Include="src\Typedefs.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\systems\AnimationSystem.hpp">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\AnimationHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gui\BuilderWindow.cpp">
@@ -544,6 +550,12 @@
     </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\AnimationSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\AnimationHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

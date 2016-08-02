@@ -168,6 +168,7 @@
     <ClInclude Include="src\gui\TopBar.hpp" />
     <ClInclude Include="src\helpers\AIHelper.hpp" />
     <ClInclude Include="src\helpers\AlignHelper.hpp" />
+    <ClInclude Include="src\helpers\AnimationHelper.hpp" />
     <ClInclude Include="src\helpers\CombatHelper.hpp" />
     <ClInclude Include="src\helpers\CommandHelper.hpp" />
     <ClInclude Include="src\helpers\ConstructorHelper.hpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="src\lppscript\LppScript.hpp" />
     <ClInclude Include="src\LuaInterface.hpp" />
     <ClInclude Include="src\systems\AISystem.hpp" />
+    <ClInclude Include="src\systems\AnimationSystem.hpp" />
     <ClInclude Include="src\systems\CombatSystem.hpp" />
     <ClInclude Include="src\systems\EntitySystem.hpp" />
     <ClInclude Include="src\systems\EventSystem.hpp" />
@@ -254,6 +256,7 @@
     <ClCompile Include="src\gui\TopBar.cpp" />
     <ClCompile Include="src\helpers\AIHelper.cpp" />
     <ClCompile Include="src\helpers\AlignHelper.cpp" />
+    <ClCompile Include="src\helpers\AnimationHelper.cpp" />
     <ClCompile Include="src\helpers\CombatHelper.cpp" />
     <ClCompile Include="src\helpers\CommandHelper.cpp" />
     <ClCompile Include="src\helpers\ConstructorHelper.cpp" />
@@ -294,6 +297,7 @@
     <ClCompile Include="src\LuaInterface.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\systems\AISystem.cpp" />
+    <ClCompile Include="src\systems\AnimationSystem.cpp" />
     <ClCompile Include="src\systems\CombatSystem.cpp" />
     <ClCompile Include="src\systems\EntitySystem.cpp" />
     <ClCompile Include="src\systems\EventSystem.cpp" />
