@@ -5,6 +5,7 @@ tdt-game/*
 tdt-project/bin/*
 tdt-project/lib/*
 tdt-project/.vs/*
+tdt-project/res/model-workbench/*
 
 Debug/*
 Release/*
