@@ -93,3 +93,12 @@ enum class WAVE_STATE
 {
 	ACTIVE = 0, WAITING, INACTIVE
 };
+
+namespace ANIMATION_TYPE
+{
+	enum VAL
+	{
+		WALK = 0, IDLE, HIT,
+		COUNT
+	};
+}

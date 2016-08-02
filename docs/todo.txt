@@ -1,0 +1,2 @@
+- add AnimationComponent to the component list
+- add Animation API reference

@@ -318,6 +318,7 @@ class EntitySystem : public System
 		std::map<tdt::uint, CommandComponent> command_{};
 		std::map<tdt::uint, CounterComponent> counter_{};
 		std::map<tdt::uint, PortalComponent> portal_{};
+		std::map<tdt::uint, AnimationComponent> animation_{};
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -596,6 +597,12 @@ inline std::map<tdt::uint, PortalComponent>& EntitySystem::get_component_contain
 	return portal_;
 }
 
+template<>
+inline std::map<tdt::uint, AnimationComponent>& EntitySystem::get_component_container<AnimationComponent>()
+{
+	return animation_;
+}
+
 /**
  * Specializations of the EntitySystem::load_component method.
  * \note Following components can only be created manually and thus don't have load_component specialization.
@@ -828,7 +835,7 @@ inline void EntitySystem::load_component<EventHandlerComponent>(tdt::uint id, co
 
 	auto& comp = res.first->second;
 	auto possible_events = script.get_vector<int>(table_name + ".EventHandlerComponent.possible_events");
-	for(const auto& evt : possible_events)
+	for(auto evt : possible_events)
 		comp.possible_events.set(evt);
 }
 
@@ -1018,7 +1025,7 @@ inline void EntitySystem::load_component<CommandComponent>(tdt::uint id, const s
 	{
 		auto& comp = res.first->second;
 		auto possible_commands = script.get_vector<int>(table_name + ".CommandComponent.possible_commands");
-		for(const auto& command : possible_commands)
+		for(auto command : possible_commands)
 			comp.possible_commands.set(command);
 	}
 }
@@ -1035,6 +1042,20 @@ template<>
 inline void EntitySystem::load_component<PortalComponent>(tdt::uint id, const std::string& table_name)
 {
 	portal_.emplace(id, PortalComponent{});
+}
+
+template<>
+inline void EntitySystem::load_component<AnimationComponent>(tdt::uint id, const std::string& table_name)
+{
+	auto& script = lpp::Script::instance();
+	auto res = animation_.emplace(id, AnimationComponent{});
+	if(res.second)
+	{
+		auto& comp = res.first->second;
+		auto animations = script.get_vector<int>(table_name + ".AnimationComponent.possible_animations");
+		for(auto animation : animations)
+			comp.possible_animations.set(animation);
+	}
 }
 
 /**

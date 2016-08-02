@@ -8,12 +8,13 @@
 #include <memory>
 #include <numeric>
 #include <utility>
+#include <map>
 #include <Enums.hpp>
 #include <Typedefs.hpp>
 
 struct Component
 {
-	static constexpr int count = 40;
+	static constexpr int count = 41;
 	static constexpr tdt::uint NO_ENTITY = std::numeric_limits<tdt::uint>::max();
 };
 
@@ -427,7 +428,7 @@ struct TaskHandlerComponent
 	~TaskHandlerComponent() = default;
 
 	tdt::uint curr_task;
-	std::bitset<(int)TASK_TYPE::COUNT> possible_tasks;
+	std::bitset<(tdt::uint)TASK_TYPE::COUNT> possible_tasks;
 	std::deque<tdt::uint> task_queue;
 	bool busy;
 	std::string blueprint;
@@ -498,7 +499,7 @@ struct EventHandlerComponent
 	~EventHandlerComponent() = default;
 
 	std::string handler;
-	std::bitset<(int)EVENT_TYPE::COUNT> possible_events;
+	std::bitset<(tdt::uint)EVENT_TYPE::COUNT> possible_events;
 };
 
 /**
@@ -867,7 +868,7 @@ struct CommandComponent
 	CommandComponent& operator=(CommandComponent&&) = default;
 	~CommandComponent() = default;
 
-	std::bitset<(int)COMMAND_TYPE::COUNT> possible_commands;
+	std::bitset<(tdt::uint)COMMAND_TYPE::COUNT> possible_commands;
 };
 
 /**
@@ -899,4 +900,25 @@ struct CounterComponent
 struct PortalComponent
 {
 	static constexpr int type = 39;
+};
+
+/**
+ * Tracks the current animation of an entity and is used
+ * for its manipulation.
+ */
+struct AnimationComponent
+{
+	static constexpr int type = 40;
+
+	AnimationComponent()
+		: current_animation{nullptr}, possible_animations{}
+	{ /* DUMMY BODY */ }
+	AnimationComponent(const AnimationComponent&) = default;
+	AnimationComponent(AnimationComponent&&) = default;
+	AnimationComponent& operator=(const AnimationComponent&) = default;
+	AnimationComponent& operator=(AnimationComponent&&) = default;
+	~AnimationComponent() = default;
+
+	Ogre::AnimationState* current_animation;
+	std::bitset<ANIMATION_TYPE::COUNT> possible_animations;
 };
