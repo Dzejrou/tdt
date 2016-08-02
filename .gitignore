@@ -78,3 +78,4 @@ Report20160415-1714.diagsession
 *.diagsession
 tdt-project/deps/vc_redist.x86.exe
 tdt-project/tdt-project.VC.opendb
+*.psd
