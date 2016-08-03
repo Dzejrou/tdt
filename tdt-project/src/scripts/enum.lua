@@ -50,7 +50,14 @@ game.enum = {
 		light = 36,
 		command = 37,
 		counter = 38,
-		portal = 39
+		portal = 39,
+		animation = 40
+	},
+
+	animation = {
+		walk = 0,
+		idle = 1,
+		hit = 2
 	},
 
 	event = {

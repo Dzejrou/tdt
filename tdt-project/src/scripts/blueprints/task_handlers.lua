@@ -117,6 +117,7 @@ default_task_handler = {
 			res = dist < range and game.combat.in_sight(id, target)
 			if res then
 				game.path.clear(id)
+				game.animation.stop(id)
 			end
 		elseif task_type == game.enum.task.kill then
 			res = game.combat.get_target(id) == game.const.no_ent

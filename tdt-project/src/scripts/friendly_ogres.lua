@@ -16,7 +16,8 @@ ogre_miner = {
 		game.enum.component.on_hit,
 		game.enum.component.name,
 		game.enum.component.upgrade,
-		game.enum.component.command
+		game.enum.component.command,
+		game.enum.component.animation
 	},
 
 	PhysicsComponent = {
@@ -30,10 +31,13 @@ ogre_miner = {
 	},
 
 	GraphicsComponent = {
-		mesh = "ogrehead.mesh",
-		material = "NO_MAT",
+		mesh = "humanoid.mesh",
+		material = "colour/blue",
 		visible = true,
-		manual_scaling = false,
+		manual_scaling = true,
+		scale_x = 25.0,
+		scale_y = 30.0,
+		scale_z = 25.0,
 		query_flags = game.enum.entity_type.minion
 	},
 
@@ -112,6 +116,13 @@ ogre_miner = {
 			game.enum.command.mine,
 			game.enum.command.return_gold,
 			game.enum.command.fall_back
+		}
+	},
+
+	AnimationComponent = {
+		possible_animations = {
+			game.enum.animation.walk,
+			game.enum.animation.hit
 		}
 	},
 
