@@ -764,6 +764,16 @@ void LuaInterface::init(Game* game)
 		{nullptr, nullptr}
 	};
 
+	lpp::Script::regs animation_funcs[] = {
+		// Animation.
+		{"play", LuaInterface::lua_animation_play},
+		{"stop", LuaInterface::lua_animation_stop},
+		{"add_possible", LuaInterface::lua_animation_add_possible},
+		{"delete_possible", LuaInterface::lua_animation_delete_possible},
+		{"is_possible", LuaInterface::lua_animation_is_possible},
+		{nullptr, nullptr}
+	};
+
 	auto state = script.get_state();
 	luaL_newlib(state, game_funcs);
 	lua_setglobal(state, "game");
@@ -846,6 +856,8 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "light");
 	luaL_newlib(state, counter_funcs);
 	lua_setfield(state, -2, "counter");
+	luaL_newlib(state, animation_funcs);
+	lua_setfield(state, -2, "animation");
 
 	// GUI subtable has it's own subtables.
 	luaL_newlib(state, gui_funcs);
@@ -5228,6 +5240,57 @@ int LuaInterface::lua_counter_get_max_value(lpp::Script::state L)
 
 	auto res = CounterHelper::get_max_value(*ents, id);
 	lua_pushinteger(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_animation_play(lpp::Script::state L)
+{
+	bool loop    = GET_BOOL(L, -1);
+	int type     = GET_SINT(L, -2);
+	tdt::uint id = GET_UINT(L, -3);
+
+	AnimationHelper::play(*ents, id, (ANIMATION_TYPE::VAL)type, loop);
+
+	return 0;
+}
+
+int LuaInterface::lua_animation_stop(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	AnimationHelper::stop(*ents, id);
+
+	return 0;
+}
+
+int LuaInterface::lua_animation_add_possible(lpp::Script::state L)
+{
+	int type     = GET_SINT(L, -1);
+	tdt::uint id = GET_UINT(L, -2);
+
+	AnimationHelper::add_possible(*ents, id, (ANIMATION_TYPE::VAL)type);
+
+	return 0;
+}
+
+int LuaInterface::lua_animation_delete_possible(lpp::Script::state L)
+{
+	int type     = GET_SINT(L, -1);
+	tdt::uint id = GET_UINT(L, -2);
+
+	AnimationHelper::delete_possible(*ents, id, (ANIMATION_TYPE::VAL)type);
+
+	return 0;
+}
+
+int LuaInterface::lua_animation_is_possible(lpp::Script::state L)
+{
+	int type     = GET_SINT(L, -1);
+	tdt::uint id = GET_UINT(L, -2);
+
+	auto res = AnimationHelper::is_possible(*ents, id, (ANIMATION_TYPE::VAL)type);
+
+	lua_pushboolean(L, res);
 	return 1;
 }
 

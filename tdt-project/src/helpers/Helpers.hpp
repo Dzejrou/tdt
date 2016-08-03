@@ -42,3 +42,4 @@
 #include "CommandHelper.hpp"
 #include "CounterHelper.hpp"
 #include "LightHelper.hpp"
+#include "AnimationHelper.hpp"

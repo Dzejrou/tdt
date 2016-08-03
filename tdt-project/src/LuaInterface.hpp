@@ -611,4 +611,11 @@ class LuaInterface
 		static int lua_counter_get_curr_value(lpp::Script::state);
 		static int lua_counter_set_max_value(lpp::Script::state);
 		static int lua_counter_get_max_value(lpp::Script::state);
+
+		// Animation.
+		static int lua_animation_play(lpp::Script::state);
+		static int lua_animation_stop(lpp::Script::state);
+		static int lua_animation_add_possible(lpp::Script::state);
+		static int lua_animation_delete_possible(lpp::Script::state);
+		static int lua_animation_is_possible(lpp::Script::state);
 };

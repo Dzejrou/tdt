@@ -29,6 +29,7 @@ class GraphicsSystem;
 class TriggerSystem;
 class ManaSpellSystem;
 class WaveSystem;
+class AnimationSystem;
 class Camera;
 class Spellcaster;
 class SelectionBox;
@@ -211,6 +212,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		std::unique_ptr<TriggerSystem> trigger_system_{nullptr};
 		std::unique_ptr<ManaSpellSystem> mana_spell_system_{nullptr};
 		std::unique_ptr<WaveSystem> wave_system_{nullptr};
+		std::unique_ptr<AnimationSystem> animation_system_{nullptr};
 
 		/**
 		 * Used to save the game.

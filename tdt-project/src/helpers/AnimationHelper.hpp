@@ -15,4 +15,29 @@ namespace AnimationHelper
 	 *
 	 */
 	const std::string& get_animation_name(ANIMATION_TYPE::VAL);
+
+	/**
+	 *
+	 */
+	void play(EntitySystem&, tdt::uint, ANIMATION_TYPE::VAL, bool = false);
+
+	/**
+	 *
+	 */
+	void stop(EntitySystem&, tdt::uint);
+
+	/**
+	 *
+	 */
+	void add_possible(EntitySystem&, tdt::uint, ANIMATION_TYPE::VAL);
+
+	/**
+	 *
+	 */
+	void delete_possible(EntitySystem&, tdt::uint, ANIMATION_TYPE::VAL);
+
+	/**
+	 *
+	 */
+	bool is_possible(EntitySystem&, tdt::uint, ANIMATION_TYPE::VAL);
 }

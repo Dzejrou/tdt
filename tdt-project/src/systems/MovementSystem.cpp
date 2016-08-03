@@ -42,6 +42,8 @@ void MovementSystem::update(Ogre::Real delta)
 			path_comp.path_queue.pop_front();
 			if(!path_comp.path_queue.empty())
 				GraphicsHelper::look_at(entities_, ent.first, path_comp.path_queue.front());
+			else
+				AnimationHelper::stop(entities_, ent.first); // Stop movement animation.
 		}
 	}
 }

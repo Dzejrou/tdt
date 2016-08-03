@@ -79,6 +79,7 @@ namespace util
 
 			// In case the entity moves backwards.
 			GraphicsHelper::look_at(ents, id, path_comp->path_queue.front());
+			AnimationHelper::play(ents, id, ANIMATION_TYPE::WALK, true);
 			return true;
 		}
 

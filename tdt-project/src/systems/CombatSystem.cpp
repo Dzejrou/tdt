@@ -81,13 +81,17 @@ void CombatSystem::update(Ogre::Real delta)
 				else if(is_in_range && is_in_sight)
 				{
 					if(on_path) // Enemy came to us, just start attacking!
+					{
+						AnimationHelper::stop(entities_, ent.first);
 						path_comp->path_queue.clear();
+					}
 
 					auto dmg = CombatHelper::get_dmg(ent.second.min_dmg, ent.second.max_dmg);
 					GraphicsHelper::look_at(entities_, ent.first, ent.second.curr_target);
 					switch(ent.second.atk_type)
 					{
 						case ATTACK_TYPE::MELEE:
+							AnimationHelper::play(entities_, ent.first, ANIMATION_TYPE::HIT, false);
 							HealthHelper::sub_health(entities_, ent.second.curr_target, dmg);
 							OnHitHelper::call(entities_, ent.second.curr_target, ent.first);
 							if(HealthHelper::get_health(entities_, ent.second.curr_target) <= 0)
@@ -100,6 +104,7 @@ void CombatSystem::update(Ogre::Real delta)
 							}
 							break;
 						case ATTACK_TYPE::RANGED:
+							AnimationHelper::play(entities_, ent.first, ANIMATION_TYPE::HIT, false);
 							create_homing_projectile(ent.first, ent.second);
 							break;
 					}

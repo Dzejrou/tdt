@@ -14,6 +14,7 @@
 #include <systems/TriggerSystem.hpp>
 #include <systems/ManaSpellSystem.hpp>
 #include <systems/WaveSystem.hpp>
+#include <systems/AnimationSystem.hpp>
 #include <tools/Grid.hpp>
 #include <tools/Player.hpp>
 #include <tools/LevelGenerators.hpp>
@@ -57,6 +58,7 @@ Game::Game() // TODO: Init systems.
 	trigger_system_.reset(new TriggerSystem{*entity_system_});
 	mana_spell_system_.reset(new ManaSpellSystem{*entity_system_});
 	wave_system_.reset(new WaveSystem{*entity_system_});
+	animation_system_.reset(new AnimationSystem{*entity_system_});
 
 	systems_.emplace_back(entity_system_.get());
 	systems_.emplace_back(health_system_.get());
@@ -73,6 +75,7 @@ Game::Game() // TODO: Init systems.
 	systems_.emplace_back(trigger_system_.get());
 	systems_.emplace_back(mana_spell_system_.get());
 	systems_.emplace_back(wave_system_.get());
+	systems_.emplace_back(animation_system_.get());
 
 	selection_box_.reset(new SelectionBox{"MainSelectionBox", *entity_system_,
 						                  *scene_mgr_->createPlaneBoundedVolumeQuery(Ogre::PlaneBoundedVolumeList{}),
