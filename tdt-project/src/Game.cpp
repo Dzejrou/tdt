@@ -360,8 +360,11 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 	auto& gui_cont = CEGUI::System::getSingleton().getDefaultGUIContext();
 	gui_cont.injectMouseMove((float)event.state.X.rel, (float)event.state.Y.rel);
 	if(event.state.Z.rel != 0) // Mouse scroll.
+	{
 		gui_cont.injectMouseWheelChange(event.state.Z.rel / 120.f); // Note: 120.f is a magic number used by MS, might not be
 																	//       cross-platform.
+		GUI::instance().mouse_wheel_scrolled(event.state.Z.rel); // TODO: Add zoom in/out if GUI doesn't eat the event?
+	}
 	auto pos = get_mouse_click_position(event);
 	if(pos.first)
 	{ // Save mouse position, so that it can be retrieved form Lua.
