@@ -543,8 +543,10 @@ void Game::ogre_init()
 
 	// Window init.
 #ifdef _DEBUG
+	root_->initialise(false);
 	window_ = root_->createRenderWindow("The Dungeon Throne", 1920, 1080, false);
 #else
+	window_ = root_->initialise(true, "The Dungeon Throne");
 #endif
 	window_->setVisible(true);
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
