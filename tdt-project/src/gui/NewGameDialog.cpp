@@ -1,5 +1,6 @@
 #include <Game.hpp>
 #include <systems/WaveSystem.hpp>
+#include <lppscript/LppScript.hpp>
 #include "NewGameDialog.hpp"
 #include "Console.hpp"
 #include "GUI.hpp"
@@ -21,7 +22,7 @@ void NewGameDialog::register_scenario(const std::string& scenario, const std::st
 
 const std::string& NewGameDialog::get_selected_scenario_table()
 {
-	static const std::string NO_SCENARIO{"ERROR"};
+	static const std::string NO_SCENARIO{lpp::Script::instance().get<std::string>("game.config.default_wave_table")};
 
 	auto selected = scenario_list_->getFirstSelectedItem();
 	if(selected)
