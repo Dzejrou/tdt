@@ -147,6 +147,13 @@ class GUI
 		bool escape_pressed();
 
 		/**
+		 * \brief Notifies the GUI that the mouse wheel was moved. Returns
+		 *        true if the event has been handled, false otherwise.
+		 * \param Mousewheel relative movement value.
+		 */
+		bool mouse_wheel_scrolled(int);
+
+		/**
 		 * \brief Sets the visibility status of the current tool window.
 		 * \param The new visibility status.
 		 */

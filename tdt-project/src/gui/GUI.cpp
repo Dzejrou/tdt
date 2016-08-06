@@ -451,6 +451,27 @@ bool GUI::escape_pressed()
 	return res;
 }
 
+bool GUI::mouse_wheel_scrolled(int val)
+{
+	if(curr_tool_ == "TOOLS/SPELLS")
+	{
+		if(val < 0)
+			spell_casting_.inc_selection();
+		else
+			spell_casting_.dec_selection();
+	}
+	else if(curr_tool_ == "TOOLS/BUILD")
+	{
+		if(val < 0)
+			builder_.inc_selection();
+		else
+			builder_.dec_selection();
+	}
+	else
+		return false;
+	return true;
+}
+
 void GUI::set_curr_tool_visible(bool val)
 {
 	set_visible(curr_tool_, val);
