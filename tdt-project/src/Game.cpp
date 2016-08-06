@@ -532,40 +532,37 @@ void Game::ogre_init()
 			Ogre::ResourceGroupManager::getSingleton().addResourceLocation(name, loc_type, group);
 		}
 	}
-	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
 	if(!(root_->restoreConfig() || root_->showConfigDialog()))
 	{   // Configuration read failed, end the game.
 		throw std::exception{"[Error] Failed to create or load config file."};
 	}
-	else
-		root_->initialise(false);
 
 	// Window init.
 #ifdef _DEBUG
-	window_ = root_->createRenderWindow("Dungeon Keeper", 1920, 1080, false);
+	window_ = root_->createRenderWindow("The Dungeon Throne", 1920, 1080, false);
 #else
-	window_ = root_->initialise(true, "Dungeon Keeper");
 #endif
 	window_->setVisible(true);
+	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
 	// Scene init.
-	// TODO: Research different types of scene managers!
-	scene_mgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
+	scene_mgr_ = root_->createSceneManager("OctreeSceneManager");
 	auto main_cam = scene_mgr_->createCamera("MainCam");
 	main_cam->setPosition(0, 300, 0);
 	main_cam->lookAt(300, 0, 300);
 	main_cam->setNearClipDistance(5);
 	main_view_ = window_->addViewport(main_cam);
 	main_cam->setAspectRatio(tdt::real(main_view_->getActualWidth()) /
-							  tdt::real(main_view_->getActualHeight()));
-	main_light_ = scene_mgr_->createLight("MainLight");
-	main_light_->setPosition(20, 80, 50);
-	main_light_->setVisible(false); // Currently using Light Crystals.
+							 tdt::real(main_view_->getActualHeight()));
 
 	Ogre::WindowEventUtilities::addWindowEventListener(window_, this);
 	root_->addFrameListener(this);
 	main_cam_->init(main_cam);
+
+	main_light_ = scene_mgr_->createLight("MainLight");
+	main_light_->setPosition(20, 80, 50);
+	main_light_->setVisible(false); // Currently using Light Crystals.
 }
 
 void Game::ois_init()
