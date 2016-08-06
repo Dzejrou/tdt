@@ -70,3 +70,8 @@ game.wave.wave_init = {
 		w.set_countdown(15)
 	end
 }
+
+if game then
+	game.register_scenario("TEST", "game.wave.wave_test")
+	game.register_scenario("INIT", "game.wave.wave_init")
+end
