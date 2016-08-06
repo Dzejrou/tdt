@@ -309,6 +309,9 @@
     <ClInclude Include="src\helpers\AnimationHelper.hpp">
       <Filter>Header Files\helpers</Filter>
     </ClInclude>
+    <ClInclude Include="src\gui\NewGameDialog.hpp">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gui\BuilderWindow.cpp">
@@ -556,6 +559,9 @@
     </ClCompile>
     <ClCompile Include="src\helpers\AnimationHelper.cpp">
       <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\NewGameDialog.cpp">
+      <Filter>Source Files\gui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

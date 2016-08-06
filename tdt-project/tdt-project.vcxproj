@@ -162,6 +162,7 @@
     <ClInclude Include="src\gui\GUI.hpp" />
     <ClInclude Include="src\gui\GUIWindow.hpp" />
     <ClInclude Include="src\gui\MessageToPlayerWindow.hpp" />
+    <ClInclude Include="src\gui\NewGameDialog.hpp" />
     <ClInclude Include="src\gui\OptionsWindow.hpp" />
     <ClInclude Include="src\gui\ResearchWindow.hpp" />
     <ClInclude Include="src\gui\SpellCastingWindow.hpp" />
@@ -250,6 +251,7 @@
     <ClCompile Include="src\gui\GUI.cpp" />
     <ClCompile Include="src\gui\GUIWindow.cpp" />
     <ClCompile Include="src\gui\MessageToPlayerWindow.cpp" />
+    <ClCompile Include="src\gui\NewGameDialog.cpp" />
     <ClCompile Include="src\gui\OptionsWindow.cpp" />
     <ClCompile Include="src\gui\ResearchWindow.cpp" />
     <ClCompile Include="src\gui\SpellCastingWindow.cpp" />

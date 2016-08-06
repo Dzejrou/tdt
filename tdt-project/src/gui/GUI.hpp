@@ -11,6 +11,7 @@
 #include "SpellCastingWindow.hpp"
 #include "MessageToPlayerWindow.hpp"
 #include "OptionsWindow.hpp"
+#include "NewGameDialog.hpp"
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -29,6 +30,7 @@ class GUI
 	friend void action::QUICK_SAVE();
 	friend void action::RESET_CAMERA();
 	friend class OptionsWindow;
+	friend class NewGameDialog;
 	public:
 		/**
 		 * Destructor.
@@ -137,6 +139,11 @@ class GUI
 		 * \brief Returns a reference to the options window.
 		 */
 		OptionsWindow& get_options();
+
+		/**
+		 * \brief Returns a reference to the new game dialog.
+		 */
+		NewGameDialog& get_new_game();
 
 		/**
 		 * \brief Notifies the GUI that the escape key was pressed so that
@@ -264,4 +271,9 @@ class GUI
 		 * key bindings.
 		 */
 		OptionsWindow options_;
+
+		/**
+		 * Provides interface for new level creation.
+		 */
+		NewGameDialog new_game_;
 };

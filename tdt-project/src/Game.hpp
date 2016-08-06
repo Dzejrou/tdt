@@ -44,6 +44,7 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 	friend class GameSerializer;
 	friend class LuaInterface;
 	friend class GUI;
+	friend class NewGameDialog;
 	friend void action::QUICK_LOAD();
 	friend void action::QUICK_SAVE();
 	friend void action::RESET_CAMERA();

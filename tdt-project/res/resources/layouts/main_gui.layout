@@ -896,7 +896,7 @@
                 <Property name="TooltipText" value="(-.-)" />
             </Window>
             <Window type="AlfiskoSkin/FrameWindow" name="NEW_GAME_DIALOG" >
-                <Property name="Area" value="{{0.2,0},{0.3,0},{0.8,0},{0.7,0}}" />
+                <Property name="Area" value="{{0.1,0},{0.3,0},{0.9,0},{0.7,0}}" />
                 <Property name="Visible" value="false" />
                 <Property name="AlwaysOnTop" value="true" />
                 <Property name="SizingEnabled" value="false" />
@@ -914,47 +914,67 @@
                     <Property name="AlwaysOnTop" value="true" />
                 </AutoWindow>
                 <Window type="AlfiskoSkin/Button" name="16x16" >
-                    <Property name="Area" value="{{0.1,0},{0.5,0},{0.4,0},{0.7,0}}" />
+                    <Property name="Area" value="{{0.05,0},{0.5,0},{0.35,0},{0.7,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="Text" value="16x16" />
                 </Window>
                 <Window type="AlfiskoSkin/Button" name="32x32" >
-                    <Property name="Area" value="{{0.6,0},{0.5,0},{0.9,0},{0.7,0}}" />
+                    <Property name="Area" value="{{0.4,0},{0.5,0},{0.7,0},{0.7,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="Text" value="32x32" />
                 </Window>
                 <Window type="AlfiskoSkin/Button" name="64x64" >
-                    <Property name="Area" value="{{0.1,0},{0.75,0},{0.4,0},{0.95,0}}" />
+                    <Property name="Area" value="{{0.05,0},{0.75,0},{0.35,0},{0.95,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="Text" value="64x64" />
                 </Window>
                 <Window type="AlfiskoSkin/Button" name="CREATE" >
-                    <Property name="Area" value="{{0.6,0},{0.75,0},{0.9,0},{0.95,0}}" />
+                    <Property name="Area" value="{{0.4,0},{0.75,0},{0.7,0},{0.95,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="Text" value="CREATE" />
                 </Window>
                 <Window type="AlfiskoSkin/Editbox" name="WIDTH_INPUT" >
-                    <Property name="Area" value="{{0.2,0},{0.25,0},{0.4,0},{0.45,0}}" />
+                    <Property name="Area" value="{{0.15,0},{0.25,0},{0.35,0},{0.45,0}}" />
                 </Window>
                 <Window type="AlfiskoSkin/Editbox" name="HEIGHT_INPUT" >
-                    <Property name="Area" value="{{0.6,0},{0.25,0},{0.8,0},{0.45,0}}" />
+                    <Property name="Area" value="{{0.4,0},{0.25,0},{0.6,0},{0.45,0}}" />
                 </Window>
                 <Window type="AlfiskoSkin/Label" name="DIMENSIONS" >
-                    <Property name="Area" value="{{0.1,0},{0.05,0},{0.9,0},{0.25,0}}" />
+                    <Property name="Area" value="{{0.05,0},{0.05,0},{0.7,0},{0.25,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="Text" value="Dimensions: (10 - 64)" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="AlfiskoSkin/Label" name="WIDTH_LABEL" >
-                    <Property name="Area" value="{{0.05,0},{0.25,0},{0.2,0},{0.45,0}}" />
+                    <Property name="Area" value="{{0.05,0},{0.25,0},{0.15,0},{0.45,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="Text" value="W" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="AlfiskoSkin/Label" name="HEIGHT_LABEL" >
-                    <Property name="Area" value="{{0.8,0},{0.25,0},{0.95,0},{0.45,0}}" />
+                    <Property name="Area" value="{{0.6,0},{0.25,0},{0.7,0},{0.45,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="Text" value="H" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="AlfiskoSkin/Listbox" name="SCENARIO_INPUT" >
+                    <Property name="Area" value="{{0.7,0},{0.2,0},{1,0},{0.95,0}}" />
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="MouseInputPropagationEnabled" value="true" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <Property name="VerticalScrollbar" value="true" />
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="MouseInputPropagationEnabled" value="true" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </Window>
+                <Window type="AlfiskoSkin/Label" name="SCENARIO_LABEL" >
+                    <Property name="Area" value="{{0.7,0},{0,0},{1,0},{0.2,0}}" />
+                    <Property name="Font" value="Inconsolata-10" />
+                    <Property name="Text" value="SCENARIO" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
             </Window>

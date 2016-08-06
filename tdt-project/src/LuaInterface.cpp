@@ -81,6 +81,7 @@ void LuaInterface::init(Game* game)
 		{"get_friends", LuaInterface::lua_get_friends},
 		{"set_throne_id", LuaInterface::lua_set_throne_id},
 		{"get_throne_id", LuaInterface::lua_get_throne_id},
+		{"register_scenario", LuaInterface::lua_register_scenario},
 		{nullptr, nullptr}
 	};
 
@@ -1170,6 +1171,15 @@ int LuaInterface::lua_get_throne_id(lpp::Script::state L)
 	
 	lua_pushinteger(L, res);
 	return 1;
+}
+
+int LuaInterface::lua_register_scenario(lpp::Script::state L)
+{
+	std::string table = GET_STR(L, -1);
+	std::string scenario = GET_STR(L, -2);
+
+	GUI::instance().get_new_game().register_scenario(scenario, table);
+	return 0;
 }
 
 int LuaInterface::lua_command_to_mine(lpp::Script::state L)

@@ -8,7 +8,7 @@ GUI::GUI()
 	: window_{}, curr_tool_{"TOOLS/MENU"}, game_{},
 	  console_{}, tracker_{}, builder_{}, top_bar_{},
 	  research_{}, spell_casting_{}, menu_{}, message_{},
-	  options_{}
+	  options_{}, new_game_{}
 { /* DUMMY BODY */ }
 
 void GUI::init(Game* game)
@@ -28,6 +28,7 @@ void GUI::init(Game* game)
 	top_bar_.init(window_->getChild("TOP_BAR"));
 	spell_casting_.init(window_->getChild("TOOLS/SPELLS"));
 	message_.init(window_->getChild("MESSAGE_TO_PLAYER"));
+	new_game_.init(window_->getChild("MAIN_MENU/NEW_GAME_DIALOG"));
 	
 	/**
 	 * The options menu was stored in it's own separate file
@@ -78,78 +79,6 @@ void GUI::init(Game* game)
 		CEGUI::PushButton::EventClicked,
 		[this](const CEGUI::EventArgs&) -> bool {
 			game_->set_state(GAME_STATE::ENDED);
-			return true;
-		}
-	);
-
-	new_game->getChild("16x16")->subscribeEvent(
-		CEGUI::PushButton::EventClicked,
-		[new_game](const CEGUI::EventArgs&) -> bool {
-			new_game->getChild("WIDTH_INPUT")->setText("16");
-			new_game->getChild("HEIGHT_INPUT")->setText("16");
-			return true;
-		}
-	);
-
-	new_game->getChild("32x32")->subscribeEvent(
-		CEGUI::PushButton::EventClicked,
-		[new_game](const CEGUI::EventArgs&) -> bool {
-			new_game->getChild("WIDTH_INPUT")->setText("32");
-			new_game->getChild("HEIGHT_INPUT")->setText("32");
-			return true;
-		}
-	);
-
-	new_game->getChild("64x64")->subscribeEvent(
-		CEGUI::PushButton::EventClicked,
-		[new_game](const CEGUI::EventArgs&) -> bool {
-			new_game->getChild("WIDTH_INPUT")->setText("64");
-			new_game->getChild("HEIGHT_INPUT")->setText("64");
-			return true;
-		}
-	);
-
-	new_game->getChild("CREATE")->subscribeEvent(
-		CEGUI::PushButton::EventClicked,
-		[this, new_game, menu](const CEGUI::EventArgs&) -> bool {
-			try
-			{
-				// Converts text from edit boxes to uints, sadly no implicit conversion
-				// from CEGUI::String to std::string exists :(.
-				std::size_t w{
-					(std::size_t)std::stoul(new_game->getChild("WIDTH_INPUT")->getText().c_str())
-				};
-				std::size_t h{
-					(std::size_t)std::stoul(new_game->getChild("HEIGHT_INPUT")->getText().c_str())
-				};
-
-				if(w >= 10 && w <= 64 && h >= 10 && h <= 64)
-					game_->new_game(w, h);
-				else
-					throw std::out_of_range{"(" + std::to_string(w) + ", " + std::to_string(h) + ") != (10, 64)"};
-			}
-			catch(std::invalid_argument&)
-			{
-				log_.set_visible(true);
-				log_.print("\\[ERROR\\] Invalid new game dimensions.");
-				return false;
-			}
-			catch(std::out_of_range&)
-			{
-				log_.set_visible(true);
-				log_.print("\\[ERROR\\] Game dimensions out of range.");
-				return false;
-			}
-
-			new_game->getChild("WIDTH_INPUT")->setText("");
-			new_game->getChild("HEIGHT_INPUT")->setText("");
-			new_game->setVisible(false);
-			menu->setVisible(false);
-			window_->getChild("TOOLS")->setVisible(true);
-			window_->getChild("ENTITY_VIEW")->setVisible(true);
-			window_->getChild("GAME_LOG")->setVisible(true);
-			window_->getChild("NEXT_WAVE")->setVisible(true);
-			game_->set_state(GAME_STATE::RUNNING);
 			return true;
 		}
 	);
@@ -409,6 +338,11 @@ MessageToPlayerWindow& GUI::get_message()
 OptionsWindow& GUI::get_options()
 {
 	return options_;
+}
+
+NewGameDialog& GUI::get_new_game()
+{
+	return new_game_;
 }
 
 bool GUI::escape_pressed()

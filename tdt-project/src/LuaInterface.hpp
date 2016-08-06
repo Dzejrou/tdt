@@ -63,6 +63,7 @@ class LuaInterface
 		static int lua_get_friends(lpp::Script::state);
 		static int lua_set_throne_id(lpp::Script::state);
 		static int lua_get_throne_id(lpp::Script::state);
+		static int lua_register_scenario(lpp::Script::state);
 		
 		// Command.
 		static int lua_command_to_mine(lpp::Script::state);
