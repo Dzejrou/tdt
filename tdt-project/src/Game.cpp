@@ -112,7 +112,7 @@ Game::~Game()
 
 void Game::run()
 {
-	scene_mgr_->setAmbientLight(Ogre::ColourValue::White);
+	scene_mgr_->setAmbientLight(Ogre::ColourValue{0.5f, 0.5f, 0.5f, 0.5f});
 
 	game_serializer_->load_game(*this, "intro_dummy_level");
 	root_->startRendering();
@@ -560,7 +560,6 @@ void Game::ogre_init()
 	// Scene init.
 	scene_mgr_ = root_->createSceneManager("OctreeSceneManager");
 	auto main_cam = scene_mgr_->createCamera("MainCam");
-	scene_mgr_->getRootSceneNode()->createChildSceneNode("camera_parent")->attachObject(main_cam);
 	main_cam->setPosition(0.f, 300.f, 0.f);
 	main_cam->lookAt(300.f, 0.f, 300.f);
 	main_cam->setNearClipDistance(5);
