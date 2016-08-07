@@ -137,12 +137,14 @@ class Camera
 		void yaw(const Ogre::Degree&);
 
 		/**
-		 *
+		 * \brief Rotates the camera around the point it looks at when the mouse wheel is rotated.
+		 * \param Value of the mouse wheel rotation.
 		 */
 		void rotate(int);
 
 		/**
-		 *
+		 * \brief Zooms the camera in or out depending on the mouse wheel rotation.
+		 * \param Value of the mouse wheel rotation.
 		 */
 		void zoom(int);
 
@@ -189,16 +191,6 @@ class Camera
 		 * Zoom boundaries.
 		 */
 		const int zoom_min_, zoom_max_;
-
-		/**
-		 * Node used for rotation.
-		 */
-		Ogre::SceneNode* parent_node_;
-
-		/**
-		 * Node used for translation.
-		 */
-		Ogre::SceneNode* child_node_;
 
 		/**
 		 * Delta time saved in the last update.
