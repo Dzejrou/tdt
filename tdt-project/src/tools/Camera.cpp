@@ -3,8 +3,7 @@
 Camera::Camera()
 	: camera_{}, start_{}, free_mode_{false}, movement_direction_{0.f, 0.f, 0.f},
 	  speed_{}, height_{}, zoom_{}, zoom_min_{-15}, zoom_max_{25},
-	  parent_node_{}, child_node_{}, last_delta_{}, zoom_modifier_{15.f},
-	  target_{}
+	  last_delta_{}, zoom_modifier_{15.f}, target_{}
 { /* DUMMY BODY */ }
 
 void Camera::init(Ogre::Camera* cam, const Ogre::Vector3& target)
@@ -27,7 +26,7 @@ void Camera::set_position(const Ogre::Vector2& val)
 		auto diff = new_pos - camera_->getPosition();
 		camera_->setPosition(new_pos);
 		target_ += diff;
-		camera_->lookAt(diff);
+		camera_->lookAt(target_);
 	}
 }
 
@@ -66,6 +65,7 @@ void Camera::reset()
 	camera_->lookAt(std::get<1>(start_));
 	movement_direction_ = Ogre::Vector3{0.f, 0.f, 0.f};
 	speed_ = 500.f;
+	target_ = std::get<1>(start_);
 }
 
 void Camera::set_start(const Ogre::Vector2& position, const Ogre::Vector2& center, tdt::real height)
