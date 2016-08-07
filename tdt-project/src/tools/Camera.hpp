@@ -18,7 +18,7 @@ class Camera
 		/**
 		 * Constructor.
 		 */
-		Camera() = default;
+		Camera();
 
 		/**
 		 * Destructor.
@@ -28,8 +28,9 @@ class Camera
 		/**
 		 * \brief Initializes the wrapper with a camera object.
 		 * \param Camera to be wrapped.
+		 * \param Point the camera is looking at.
 		 */
-		void init(Ogre::Camera*);
+		void init(Ogre::Camera*, const Ogre::Vector3&);
 
 		/**
 		 * \brief Sets the 2D position of the camera (X and Z axes).
@@ -51,7 +52,7 @@ class Camera
 		/**
 		 * \brief Returns the direction the camera is facing.
 		 */
-		const Ogre::Vector3 get_direction() const;
+		Ogre::Vector3 get_direction() const;
 
 		/**
 		 * \brief Makes the camera to look at a point on the ground.
@@ -135,6 +136,16 @@ class Camera
 		 */
 		void yaw(const Ogre::Degree&);
 
+		/**
+		 *
+		 */
+		void rotate(int);
+
+		/**
+		 *
+		 */
+		void zoom(int);
+
 	private:
 		/**
 		 * Ogre camera that is wrapped.
@@ -168,4 +179,39 @@ class Camera
 		 * is disabled.
 		 */
 		tdt::real height_;
+
+		/**
+		 * Current zoom level.
+		 */
+		int zoom_;
+
+		/**
+		 * Zoom boundaries.
+		 */
+		const int zoom_min_, zoom_max_;
+
+		/**
+		 * Node used for rotation.
+		 */
+		Ogre::SceneNode* parent_node_;
+
+		/**
+		 * Node used for translation.
+		 */
+		Ogre::SceneNode* child_node_;
+
+		/**
+		 * Delta time saved in the last update.
+		 */
+		tdt::real last_delta_;
+
+		/**
+		 * Speed modifier for zooming in and out. (Normal speed is too slow.)
+		 */
+		tdt::real zoom_modifier_;
+
+		/**
+		 * Point in the game world the camera is looking at.
+		 */
+		Ogre::Vector3 target_;
 };

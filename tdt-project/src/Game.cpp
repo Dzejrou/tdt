@@ -112,7 +112,7 @@ Game::~Game()
 
 void Game::run()
 {
-	scene_mgr_->setAmbientLight(Ogre::ColourValue(.5, .5, .5));
+	scene_mgr_->setAmbientLight(Ogre::ColourValue::White);
 
 	game_serializer_->load_game(*this, "intro_dummy_level");
 	root_->startRendering();
@@ -144,7 +144,8 @@ void Game::update(tdt::real delta)
 			main_cam_->move(DIRECTION::LEFT, delta);
 		else if(pos.d_x > width - 10.f)
 			main_cam_->move(DIRECTION::RIGHT, delta);
-		else if(pos.d_y < 10.f)
+
+		if(pos.d_y < 10.f)
 			main_cam_->move(DIRECTION::DOWN, delta);
 		else if(pos.d_y > height - 10.f)
 			main_cam_->move(DIRECTION::UP, delta);
@@ -363,7 +364,12 @@ bool Game::mouseMoved(const OIS::MouseEvent& event)
 	{
 		gui_cont.injectMouseWheelChange(event.state.Z.rel / 120.f); // Note: 120.f is a magic number used by MS, might not be
 																	//       cross-platform.
-		GUI::instance().mouse_wheel_scrolled(event.state.Z.rel); // TODO: Add zoom in/out if GUI doesn't eat the event?
+		if(keyboard_->isModifierDown(OIS::Keyboard::Modifier::Shift))
+			main_cam_->rotate(event.state.Z.rel);
+		else if(keyboard_->isModifierDown(OIS::Keyboard::Modifier::Ctrl))
+			main_cam_->zoom(event.state.Z.rel);
+		else
+			GUI::instance().mouse_wheel_scrolled(event.state.Z.rel);
 	}
 	auto pos = get_mouse_click_position(event);
 	if(pos.first)
@@ -554,8 +560,9 @@ void Game::ogre_init()
 	// Scene init.
 	scene_mgr_ = root_->createSceneManager("OctreeSceneManager");
 	auto main_cam = scene_mgr_->createCamera("MainCam");
-	main_cam->setPosition(0, 300, 0);
-	main_cam->lookAt(300, 0, 300);
+	scene_mgr_->getRootSceneNode()->createChildSceneNode("camera_parent")->attachObject(main_cam);
+	main_cam->setPosition(0.f, 300.f, 0.f);
+	main_cam->lookAt(300.f, 0.f, 300.f);
 	main_cam->setNearClipDistance(5);
 	main_view_ = window_->addViewport(main_cam);
 	main_cam->setAspectRatio(tdt::real(main_view_->getActualWidth()) /
@@ -563,7 +570,7 @@ void Game::ogre_init()
 
 	Ogre::WindowEventUtilities::addWindowEventListener(window_, this);
 	root_->addFrameListener(this);
-	main_cam_->init(main_cam);
+	main_cam_->init(main_cam, Ogre::Vector3{300.f, 0.f, 300.f});
 
 	main_light_ = scene_mgr_->createLight("MainLight");
 	main_light_->setPosition(20, 80, 50);
