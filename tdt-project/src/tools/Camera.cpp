@@ -11,11 +11,6 @@ void Camera::init(Ogre::Camera* cam, const Ogre::Vector3& target)
 	camera_ = cam;
 	target_ = target;
 	reset();
-
-	parent_node_ = camera_->getParentSceneNode();
-	child_node_ = parent_node_->createChildSceneNode("camera_child");
-	parent_node_->detachObject(camera_);
-	//child_node_->attachObject(camera_);
 }
 
 void Camera::set_position(const Ogre::Vector2& val)
