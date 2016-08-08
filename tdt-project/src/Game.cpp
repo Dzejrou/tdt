@@ -112,7 +112,7 @@ Game::~Game()
 
 void Game::run()
 {
-	scene_mgr_->setAmbientLight(Ogre::ColourValue{.3f, .3f, .3f});
+	scene_mgr_->setAmbientLight(Ogre::ColourValue{.8f, .8f, .8f});
 
 	game_serializer_->load_game(*this, "intro_dummy_level");
 	root_->startRendering();
