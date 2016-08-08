@@ -12,6 +12,7 @@ Debug/*
 Release/*
 .vs/*
 *~
+*.exe
 
 
 # Windows image file caches
