@@ -978,6 +978,11 @@
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
             </Window>
+            <Window type="AlfiskoSkin/Button" name="TESTING_MODE" >
+                <Property name="Area" value="{{0.01,0},{0.89,0},{0.36,0},{0.99,0}}" />
+                <Property name="Text" value="TESTING MODE" />
+                <Property name="Visible" value="false" />
+            </Window>
         </Window>
         <Window type="AlfiskoSkin/FrameWindow" name="NEXT_WAVE" >
             <Property name="Area" value="{{0.75,0},{0.675,0},{0.95,0},{0.725,0}}" />

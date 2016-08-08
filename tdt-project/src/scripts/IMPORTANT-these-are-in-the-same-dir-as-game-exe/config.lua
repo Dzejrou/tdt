@@ -63,5 +63,9 @@ game.config = {
 	default_light_table = "light_crystal",
 	default_throne_table = "dungeon_throne",
 	default_vault_table = "gold_vault",
-	default_mine_table = "mine"
+	default_mine_table = "mine",
+
+	-- If true, the game will offer the testing mode button in the
+	-- main menu
+	testing_mode = true
 }

@@ -892,6 +892,10 @@ void LuaInterface::init(Game* game)
 	script.set("game.enum.input.key_down", OIS::KC_S);
 	script.set("game.enum.input.key_left", OIS::KC_A);
 	script.set("game.enum.input.key_right", OIS::KC_D);
+
+	auto testing = lpp::Script::instance().get<bool>("game.config.testing_mode");
+	if(testing)
+		GUI::instance().get_window("MAIN_MENU/TESTING_MODE")->setVisible(true);
 }
 
 /**

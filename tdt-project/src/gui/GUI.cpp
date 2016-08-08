@@ -83,6 +83,25 @@ void GUI::init(Game* game)
 		}
 	);
 
+	auto testing_butt = menu->getChild("TESTING_MODE");
+	testing_butt->subscribeEvent(
+		CEGUI::PushButton::EventClicked,
+		[this, menu](const CEGUI::EventArgs&) -> bool {
+			game_->create_empty_level(32, 32);
+			lpp::Script::instance().execute(
+				"game.utils.testing_stats()"
+				"game.gui.research.research_all()"
+			);
+			menu->setVisible(false);
+			window_->getChild("TOOLS")->setVisible(true);
+			window_->getChild("ENTITY_VIEW")->setVisible(true);
+			window_->getChild("GAME_LOG")->setVisible(true);
+			window_->getChild("NEXT_WAVE")->setVisible(true);
+			game_->set_state(GAME_STATE::RUNNING);
+			return true;
+		}
+	);
+
 	/**
 	 * TOOL SELECTION
 	 */
