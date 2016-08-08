@@ -619,4 +619,18 @@ class LuaInterface
 		static int lua_animation_add_possible(lpp::Script::state);
 		static int lua_animation_delete_possible(lpp::Script::state);
 		static int lua_animation_is_possible(lpp::Script::state);
+
+		// Selection.
+		static int lua_selection_set_blueprint(lpp::Script::state);
+		static int lua_selection_get_blueprint(lpp::Script::state);
+		static int lua_selection_set_material(lpp::Script::state);
+		static int lua_selection_get_material(lpp::Script::state);
+		static int lua_selection_select(lpp::Script::state);
+		static int lua_selection_deselect(lpp::Script::state);
+		static int lua_selection_set_scale(lpp::Script::state);
+		static int lua_selection_get_scale(lpp::Script::state);
+		static int lua_selection_set_marker_type(lpp::Script::state);
+		static int lua_selection_get_marker_type(lpp::Script::state);
+		static int lua_selection_set_rotation(lpp::Script::state);
+		static int lua_selection_get_rotation(lpp::Script::state);
 };

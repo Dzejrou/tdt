@@ -1,5 +1,6 @@
 #include <gui/GUI.hpp>
 #include <systems/EntitySystem.hpp>
+#include <helpers/SelectionHelper.hpp>
 #include "SelectionBox.hpp"
 
 SelectionBox::SelectionBox(const Ogre::String& name, EntitySystem& ents,
@@ -59,16 +60,25 @@ std::vector<tdt::uint>& SelectionBox::get_selected_entities()
 	return selected_entities_;
 }
 
-void SelectionBox::select_object(Ogre::MovableObject& obj)
+void SelectionBox::select_object(Ogre::MovableObject& obj, bool single)
 {
 	// Since it was found by Ogre, it has GraphicsComponent.
 	for(auto& ent : entities_.get_component_container<GraphicsComponent>())
 	{
 		if(ent.second.entity == &obj)
 		{
-			selected_entities_.emplace_back(ent.first);
-			ent.second.node->showBoundingBox(true);
-			break;
+			if(std::find(selected_entities_.begin(), selected_entities_.end(), ent.first) != selected_entities_.end())
+			{
+				SelectionHelper::deselect(entities_, ent.first);
+
+				auto start = std::remove(selected_entities_.begin(), selected_entities_.end(), ent.first);
+				selected_entities_.erase(start, selected_entities_.end());
+			}
+			else if(SelectionHelper::select(entities_, ent.first, single))
+			{
+				selected_entities_.emplace_back(ent.first);
+				break;
+			}
 		}
 	}
 }
@@ -76,11 +86,7 @@ void SelectionBox::select_object(Ogre::MovableObject& obj)
 void SelectionBox::clear_selected_entities()
 {
 	for(auto& ent : selected_entities_)
-	{
-		auto comp = entities_.get_component<GraphicsComponent>(ent);
-		if(comp)
-			comp->node->showBoundingBox(false);
-	}
+		SelectionHelper::deselect(entities_, ent);
 
 	selected_entities_.clear();
 }
@@ -104,7 +110,7 @@ void SelectionBox::execute_selection(const Ogre::Vector2& end, Ogre::Camera& cam
 
 	if((right - left) * (bott - top) < 0.0001)
 	{
-		execute_single_selection(cam);
+		execute_single_selection(cam, !append);
 		return;
 	}
 
@@ -116,7 +122,7 @@ void SelectionBox::execute_selection(const Ogre::Vector2& end, Ogre::Camera& cam
 
 	for(const auto& movable : result.movables)
 	{
-		select_object(*movable);
+		select_object(*movable, false);
 	}
 }
 
@@ -141,7 +147,7 @@ void SelectionBox::extend_to(const Ogre::Vector2& end)
 	set_corners(start_, end);
 }
 
-void SelectionBox::execute_single_selection(Ogre::Camera& cam)
+void SelectionBox::execute_single_selection(Ogre::Camera& cam, bool single)
 {
 	auto mouse_ray = cam.getCameraToViewportRay(start_.x, start_.y);
 	ray_query_.setRay(mouse_ray);
@@ -152,7 +158,7 @@ void SelectionBox::execute_single_selection(Ogre::Camera& cam)
 	{
 		if(obj.movable && obj.movable->getName() != cam.getName())
 		{ // Select closest movable object that isn't the camera itself.
-			select_object(*obj.movable);
+			select_object(*obj.movable, single);
 			break;
 		}
 	}

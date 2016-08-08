@@ -43,3 +43,4 @@
 #include "CounterHelper.hpp"
 #include "LightHelper.hpp"
 #include "AnimationHelper.hpp"
+#include "SelectionHelper.hpp"

@@ -102,3 +102,8 @@ namespace ANIMATION_TYPE
 		COUNT
 	};
 }
+
+enum class SELECTION_MARKER_TYPE
+{
+	CIRCLE = 0, SQUARE, HALF_SQUARE
+};

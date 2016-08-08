@@ -16,6 +16,7 @@ class SelectionBox : public Ogre::ManualObject
 		/**
 		 * Constructor.
 		 * \param Name of this object (passed to ManualObject constructor - hence the type).
+		 * \param Reference to the game's entity system, which is used for selection circle display.
 		 * \param Reference to a volume query used for multi selection.
 		 * \param Reference to a ray query used for single selection.
 		 * \param Reference to the game's main scene manager.
@@ -56,8 +57,9 @@ class SelectionBox : public Ogre::ManualObject
 		/**
 		 * \brief Adds a given object to the vector of selected entities.
 		 * \param Reference to the object from which the entity ID will be deduced.
+		 * \param True if the selected object is the only object selected, false otherwise.
 		 */
-		void select_object(Ogre::MovableObject&);
+		void select_object(Ogre::MovableObject&, bool);
 
 		/**
 		 * \brief Deselects all currently selected entities.
@@ -105,8 +107,9 @@ class SelectionBox : public Ogre::ManualObject
 		 *        box is two small (i.e. a single click) and performs a ray query selecting
 		 *        a single closest entity under the player's cursor.
 		 * \param Reference to the game's main camera.
+		 * \param True if the selected object is the only object selected, false otherwise.
 		 */
-		void execute_single_selection(Ogre::Camera&);
+		void execute_single_selection(Ogre::Camera&, bool);
 
 		/**
 		 * Currently selected entities.

@@ -14,7 +14,7 @@
 
 struct Component
 {
-	static constexpr int count = 41;
+	static constexpr int count = 42;
 	static constexpr tdt::uint NO_ENTITY = std::numeric_limits<tdt::uint>::max();
 };
 
@@ -921,4 +921,30 @@ struct AnimationComponent
 
 	Ogre::AnimationState* current_animation;
 	std::bitset<ANIMATION_TYPE::COUNT> possible_animations;
+};
+
+/**
+ * Allows an entity to be selected and determines the material of
+ * the selection circle and select/deselect handler blueprint.
+ */
+struct SelectionComponent
+{
+	static constexpr int type = 41;
+
+	SelectionComponent(std::string&& b = "ERROR", std::string&& m = "NO_MAT",
+					   Ogre::Vector3 s = Ogre::Vector3{}, SELECTION_MARKER_TYPE t = SELECTION_MARKER_TYPE::CIRCLE)
+		: blueprint{std::move(b)}, material{std::move(m)}, entity{nullptr}, scale{s}, marker_type{t}, rotation{}
+	{ /* DUMMY BODY */ }
+	SelectionComponent(const SelectionComponent&) = default;
+	SelectionComponent(SelectionComponent&&) = default;
+	SelectionComponent& operator=(const SelectionComponent&) = default;
+	SelectionComponent& operator=(SelectionComponent&&) = default;
+	~SelectionComponent() = default;
+
+	std::string blueprint;
+	std::string material;
+	Ogre::Vector3 scale;
+	Ogre::Entity* entity;
+	SELECTION_MARKER_TYPE marker_type;
+	Ogre::Degree rotation;
 };

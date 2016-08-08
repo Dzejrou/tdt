@@ -1,3 +1,5 @@
 - add AnimationComponent to the component list
 - add Animation API reference
 - add game.register_scenario to the API reference
+- add SelectionComponent to the component list
+- add selection API reference

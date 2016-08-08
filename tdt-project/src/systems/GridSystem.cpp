@@ -294,5 +294,17 @@ void GridSystem::update_neighbours_(tdt::uint id)
 														 Console::RED_TEXT);
 				break;
 		}
+
+		auto sel = entities_.get_component<SelectionComponent>(comp->resident);
+		if(sel && sel->marker_type == SELECTION_MARKER_TYPE::SQUARE && active_main_neighbours == 2)
+		{
+			sel->marker_type = SELECTION_MARKER_TYPE::HALF_SQUARE;
+			sel->rotation = deg90; // Needed to overcome the orientation difference of those models.
+		}
+		else if(sel && sel->marker_type == SELECTION_MARKER_TYPE::HALF_SQUARE && active_main_neighbours != 2)
+		{
+			sel->marker_type = SELECTION_MARKER_TYPE::SQUARE;
+			sel->rotation = deg0;
+		}
 	}
 }

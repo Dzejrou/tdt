@@ -200,6 +200,7 @@
     <ClInclude Include="src\helpers\PriceHelper.hpp" />
     <ClInclude Include="src\helpers\ProductHelper.hpp" />
     <ClInclude Include="src\helpers\ProductionHelper.hpp" />
+    <ClInclude Include="src\helpers\SelectionHelper.hpp" />
     <ClInclude Include="src\helpers\SpellHelper.hpp" />
     <ClInclude Include="src\helpers\StructureHelper.hpp" />
     <ClInclude Include="src\helpers\TaskHandlerHelper.hpp" />
@@ -288,6 +289,7 @@
     <ClCompile Include="src\helpers\PriceHelper.cpp" />
     <ClCompile Include="src\helpers\ProductHelper.cpp" />
     <ClCompile Include="src\helpers\ProductionHelper.cpp" />
+    <ClCompile Include="src\helpers\SelectionHelper.cpp" />
     <ClCompile Include="src\helpers\SpellHelper.cpp" />
     <ClCompile Include="src\helpers\StructureHelper.cpp" />
     <ClCompile Include="src\helpers\TaskHandlerHelper.cpp" />

@@ -775,6 +775,23 @@ void LuaInterface::init(Game* game)
 		{nullptr, nullptr}
 	};
 
+	lpp::Script::regs selection_funcs[] = {
+		// Selection.
+		{"set_blueprint", LuaInterface::lua_selection_set_blueprint},
+		{"get_blueprint", LuaInterface::lua_selection_get_blueprint},
+		{"set_material", LuaInterface::lua_selection_set_material},
+		{"get_material", LuaInterface::lua_selection_get_material},
+		{"select", LuaInterface::lua_selection_select},
+		{"deselect", LuaInterface::lua_selection_deselect},
+		{"set_scale", LuaInterface::lua_selection_set_scale},
+		{"get_scale", LuaInterface::lua_selection_get_scale},
+		{"set_marker_type", LuaInterface::lua_selection_set_marker_type},
+		{"get_marker_type", LuaInterface::lua_selection_get_marker_type},
+		{"set_rotation", LuaInterface::lua_selection_set_rotation},
+		{"get_rotation", LuaInterface::lua_selection_get_rotation},
+		{nullptr, nullptr}
+	};
+
 	auto state = script.get_state();
 	luaL_newlib(state, game_funcs);
 	lua_setglobal(state, "game");
@@ -859,6 +876,8 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "counter");
 	luaL_newlib(state, animation_funcs);
 	lua_setfield(state, -2, "animation");
+	luaL_newlib(state, selection_funcs);
+	lua_setfield(state, -2, "selection");
 
 	// GUI subtable has it's own subtables.
 	luaL_newlib(state, gui_funcs);
@@ -5305,6 +5324,131 @@ int LuaInterface::lua_animation_is_possible(lpp::Script::state L)
 	auto res = AnimationHelper::is_possible(*ents, id, (ANIMATION_TYPE::VAL)type);
 
 	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_selection_set_blueprint(lpp::Script::state L)
+{
+	std::string blueprint = GET_STR(L, -1);
+	tdt::uint id          = GET_UINT(L, -2);
+
+	SelectionHelper::set_blueprint(*ents, id, blueprint);
+
+	return 0;
+}
+
+int LuaInterface::lua_selection_get_blueprint(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	auto& res = SelectionHelper::get_blueprint(*ents, id);
+
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_selection_set_material(lpp::Script::state L)
+{
+	std::string material = GET_STR(L, -1);
+	tdt::uint id         = GET_UINT(L, -2);
+
+	SelectionHelper::set_material(*ents, id, material);
+
+	return 0;
+}
+
+int LuaInterface::lua_selection_get_material(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	auto& res = SelectionHelper::get_material(*ents, id);
+
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_selection_select(lpp::Script::state L)
+{
+	bool first   = GET_BOOL(L, -1);
+	tdt::uint id = GET_UINT(L, -2);
+
+	auto res = SelectionHelper::select(*ents, id, first);
+
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_selection_deselect(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	auto res = SelectionHelper::deselect(*ents, id);
+
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_selection_set_scale(lpp::Script::state L)
+{
+	tdt::real z  = GET_REAL(L, -1);
+	tdt::real y  = GET_REAL(L, -2);
+	tdt::real x  = GET_REAL(L, -3);
+	tdt::uint id = GET_UINT(L, -4);
+
+	SelectionHelper::set_scale(*ents, id, Ogre::Vector3{x, y, z});
+
+	return 0;
+}
+
+int LuaInterface::lua_selection_get_scale(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	auto res = SelectionHelper::get_scale(*ents, id);
+
+	lua_pushnumber(L, res.x);
+	lua_pushnumber(L, res.y);
+	lua_pushnumber(L, res.z);
+	return 3;
+}
+
+int LuaInterface::lua_selection_set_marker_type(lpp::Script::state L)
+{
+	auto val     = (SELECTION_MARKER_TYPE)GET_SINT(L, -1);
+	tdt::uint id = GET_UINT(L, -2);
+
+	SelectionHelper::set_marker_type(*ents, id, val);
+
+	return 0;
+}
+
+int LuaInterface::lua_selection_get_marker_type(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	auto res = SelectionHelper::get_marker_type(*ents, id);
+
+	lua_pushinteger(L, (int)res);
+	return 1;
+}
+
+int LuaInterface::lua_selection_set_rotation(lpp::Script::state L)
+{
+	tdt::real val = GET_REAL(L, -1);
+	tdt::uint id  = GET_UINT(L, -2);
+
+	SelectionHelper::set_rotation(*ents, id, Ogre::Degree{val});
+
+	return 0;
+}
+
+int LuaInterface::lua_selection_get_rotation(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	auto res = SelectionHelper::get_rotation(*ents, id);
+
+	lua_pushnumber(L, res.valueDegrees());
 	return 1;
 }
 

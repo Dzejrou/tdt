@@ -205,7 +205,13 @@ class EntitySystem : public System
 		 * Used in helpers when no component exists and we still need to return
 		 * the blueprint name (in this case the ERROR blueprint) by reference.
 		 */
-		std::string NO_BLUEPRINT{"ERROR"};
+		const std::string NO_BLUEPRINT{"ERROR"};
+
+		/**
+		 * Used in helpers when no component exists and we still need to return
+		 * the material name by reference.
+		 */
+		const std::string NO_MATERIAL{"NO_MAT"};
 
 		/**
 		 * Used in when translating the faction enum to a string in the FactionHelper.
@@ -319,6 +325,7 @@ class EntitySystem : public System
 		std::map<tdt::uint, CounterComponent> counter_{};
 		std::map<tdt::uint, PortalComponent> portal_{};
 		std::map<tdt::uint, AnimationComponent> animation_{};
+		std::map<tdt::uint, SelectionComponent> selection_{};
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -601,6 +608,12 @@ template<>
 inline std::map<tdt::uint, AnimationComponent>& EntitySystem::get_component_container<AnimationComponent>()
 {
 	return animation_;
+}
+
+template<>
+inline std::map<tdt::uint, SelectionComponent>& EntitySystem::get_component_container<SelectionComponent>()
+{
+	return selection_;
 }
 
 /**
@@ -1058,6 +1071,21 @@ inline void EntitySystem::load_component<AnimationComponent>(tdt::uint id, const
 	}
 }
 
+template<>
+inline void EntitySystem::load_component<SelectionComponent>(tdt::uint id, const std::string& table_name)
+{
+	auto& script = lpp::Script::instance();
+	auto blueprint = script.get<std::string>(table_name + ".SelectionComponent.blueprint");
+	auto material = script.get<std::string>(table_name + ".SelectionComponent.material");
+	auto x = script.get<tdt::real>(table_name + ".SelectionComponent.scale_x");
+	auto y = script.get<tdt::real>(table_name + ".SelectionComponent.scale_y");
+	auto z = script.get<tdt::real>(table_name + ".SelectionComponent.scale_z");
+	auto marker = script.get<int>(table_name + ".SelectionComponent.marker_type");
+	selection_.emplace(id, SelectionComponent{std::move(blueprint),
+					   std::move(material), Ogre::Vector3{x, y, z},
+					   (SELECTION_MARKER_TYPE)marker});
+}
+
 /**
  * Specializations of the EntitySystem::clean_up_component method.
  */
@@ -1193,4 +1221,18 @@ inline void EntitySystem::clean_up_component<LightComponent>(tdt::uint id)
 	auto comp = get_component<LightComponent>(id);
 	if(comp && comp->light)
 		scene_.destroyLight(comp->light);
+}
+
+template<>
+inline void EntitySystem::clean_up_component<SelectionComponent>(tdt::uint id)
+{
+	auto comp = get_component<SelectionComponent>(id);
+	if(comp && comp->entity)
+	{
+		auto parent = comp->entity->getParentSceneNode();
+		if(parent)
+			parent->detachObject(comp->entity);
+		scene_.destroyEntity(comp->entity);
+		comp->entity = nullptr;
+	}
 }

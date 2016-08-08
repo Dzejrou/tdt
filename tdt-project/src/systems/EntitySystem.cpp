@@ -235,6 +235,7 @@ void EntitySystem::init_function_arrays()
 	loaders_[CounterComponent::type] = &EntitySystem::load_component<CounterComponent>;
 	loaders_[PortalComponent::type] = &EntitySystem::load_component<PortalComponent>;
 	loaders_[AnimationComponent::type] = &EntitySystem::load_component<AnimationComponent>;
+	loaders_[SelectionComponent::type] = &EntitySystem::load_component<SelectionComponent>;
 
 	adders_[PhysicsComponent::type] = &EntitySystem::add_component<PhysicsComponent>;
 	adders_[HealthComponent::type] = &EntitySystem::add_component<HealthComponent>;
@@ -277,6 +278,7 @@ void EntitySystem::init_function_arrays()
 	adders_[CounterComponent::type] = &EntitySystem::add_component<CounterComponent>;
 	adders_[PortalComponent::type] = &EntitySystem::add_component<PortalComponent>;
 	adders_[AnimationComponent::type] = &EntitySystem::add_component<AnimationComponent>;
+	adders_[SelectionComponent::type] = &EntitySystem::add_component<SelectionComponent>;
 
 	deleters_[PhysicsComponent::type] = &EntitySystem::delete_component<PhysicsComponent>;
 	deleters_[HealthComponent::type] = &EntitySystem::delete_component<HealthComponent>;
@@ -319,6 +321,7 @@ void EntitySystem::init_function_arrays()
 	deleters_[CounterComponent::type] = &EntitySystem::delete_component<CounterComponent>;
 	deleters_[PortalComponent::type] = &EntitySystem::delete_component<PortalComponent>;
 	deleters_[AnimationComponent::type] = &EntitySystem::delete_component<AnimationComponent>;
+	deleters_[SelectionComponent::type] = &EntitySystem::delete_component<SelectionComponent>;
 
 	immediate_deleters_[PhysicsComponent::type] = &EntitySystem::delete_component_now<PhysicsComponent>;
 	immediate_deleters_[HealthComponent::type] = &EntitySystem::delete_component_now<HealthComponent>;
@@ -361,6 +364,7 @@ void EntitySystem::init_function_arrays()
 	immediate_deleters_[CounterComponent::type] = &EntitySystem::delete_component_now<CounterComponent>;
 	immediate_deleters_[PortalComponent::type] = &EntitySystem::delete_component_now<PortalComponent>;
 	immediate_deleters_[AnimationComponent::type] = &EntitySystem::delete_component_now<AnimationComponent>;
+	immediate_deleters_[SelectionComponent::type] = &EntitySystem::delete_component_now<SelectionComponent>;
 }
 
 bool EntitySystem::has_component(tdt::uint id, tdt::uint comp) const

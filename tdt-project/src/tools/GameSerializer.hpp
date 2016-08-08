@@ -664,3 +664,35 @@ inline void GameSerializer::save_component<PortalComponent>(tdt::uint id, const 
 {
 	save_components_.emplace_back("game.entity.add_component(" + tbl_name + ", game.enum.component.portal)\n");
 }
+
+template<>
+inline void GameSerializer::save_component<AnimationComponent>(tdt::uint id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<AnimationComponent>(id);
+	std::string comm{
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.animation)\n"
+	};
+
+	for(tdt::uint i = 0; i < comp->possible_animations.size(); ++i)
+	{
+		comm.append("game.command.set(" + tbl_name + ", " + std::to_string(i) + ", "
+					+ (comp->possible_animations.test(i) ? "true" : "false") + ")\n");
+	}
+
+	save_components_.emplace_back(std::move(comm));
+}
+
+template<>
+inline void GameSerializer::save_component<SelectionComponent>(tdt::uint id, const std::string& tbl_name)
+{
+	auto comp = entities_.get_component<SelectionComponent>(id);
+	save_components_.emplace_back(
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.selection)\n"
+		+ "game.selection.set_blueprint(" + std::to_string(id) + ", '" + comp->blueprint + "')\n"
+		+ "game.selection.set_material(" + std::to_string(id) + ", '" + comp->material + "')\n"
+		+ "game.selection.set_scale(" + std::to_string(id) + ", " + std::to_string(comp->scale.x)
+		+ ", " + std::to_string(comp->scale.y) + ", " + std::to_string(comp->scale.z) + ")\n"
+		+ "game.selection.set_marker_type(" + std::to_string(id) + ", " + std::to_string((int)comp->marker_type) + ")\n"
+		+ "game.selection.set_rotation(" + std::to_string(id) + ", " + std::to_string(comp->rotation.valueDegrees()) + ")\n"
+	);
+}
