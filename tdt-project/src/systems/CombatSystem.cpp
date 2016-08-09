@@ -128,20 +128,20 @@ void CombatSystem::update(Ogre::Real delta)
 		auto mov_comp = entities_.get_component<MovementComponent>(ent.first);
 		auto phys_comp = entities_.get_component<PhysicsComponent>(ent.first);
 		auto graph_comp = entities_.get_component<GraphicsComponent>(ent.first);
-		auto enemy_graph_comp = entities_.get_component<GraphicsComponent>(ent.second.target);
+		auto enemy_phys_comp = entities_.get_component<PhysicsComponent>(ent.second.target);
 
-		if(mov_comp && phys_comp && graph_comp && enemy_graph_comp &&
-		   graph_comp->node && graph_comp->entity && enemy_graph_comp->entity)
+		if(mov_comp && phys_comp && graph_comp && enemy_phys_comp &&
+		   graph_comp->node && graph_comp->entity)
 		{ // Moves the homing projectile in the target's direction and checks if hit occured.
 			auto& pos = phys_comp->position;
-			auto enemy_pos = enemy_graph_comp->node->getPosition();
-			auto dir = enemy_pos - pos;
+			auto dir = enemy_phys_comp->position - pos;
 			dir.normalise();
 
 			pos += dir * mov_comp->speed_modifier;
 			graph_comp->node->setPosition(pos);
+			auto radius = graph_comp->entity->getWorldBoundingSphere(true).getRadius();
 
-			if(graph_comp->entity->getWorldBoundingBox(true).intersects(enemy_graph_comp->entity->getWorldBoundingBox(true)))
+			if(pos.squaredDistance(enemy_phys_comp->position) < radius * radius)
 			{ // That's a hit.
 				HealthHelper::sub_health(entities_, ent.second.target, ent.second.dmg);
 				OnHitHelper::call(entities_, ent.second.target, ent.second.source);
