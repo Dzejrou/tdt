@@ -1,12 +1,16 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include <gui/GUI.hpp>
 #include <gui/EntityTracker.hpp>
 #include "HealthHelper.hpp"
 
+static tdt::cache::HealthCache cache{Component::NO_ENTITY, nullptr};
+
 void HealthHelper::set_health(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 	{
 		if(val == 0)
@@ -21,7 +25,8 @@ void HealthHelper::set_health(EntitySystem& ents, tdt::uint id, tdt::uint val)
 
 tdt::uint HealthHelper::get_health(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 		return comp->curr_hp;
 	else
@@ -30,7 +35,8 @@ tdt::uint HealthHelper::get_health(EntitySystem& ents, tdt::uint id)
 
 void HealthHelper::add_health(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 	{
 		comp->curr_hp = (comp->curr_hp + val >= comp->max_hp ? comp->max_hp : comp->curr_hp + val);
@@ -43,7 +49,8 @@ void HealthHelper::add_health(EntitySystem& ents, tdt::uint id, tdt::uint val)
 
 void HealthHelper::sub_health(EntitySystem& ents, tdt::uint id, tdt::uint val, bool ignore_armor)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 	{
 		if(!ignore_armor)
@@ -65,7 +72,8 @@ void HealthHelper::sub_health(EntitySystem& ents, tdt::uint id, tdt::uint val, b
 
 void HealthHelper::heal(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 	{
 		comp->curr_hp = comp->max_hp;
@@ -78,7 +86,8 @@ void HealthHelper::heal(EntitySystem& ents, tdt::uint id)
 
 void HealthHelper::buff(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 	{
 		comp->max_hp += val;
@@ -92,7 +101,8 @@ void HealthHelper::buff(EntitySystem& ents, tdt::uint id, tdt::uint val)
 
 void HealthHelper::debuff(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 	{
 		if(comp->curr_hp <= val)
@@ -114,14 +124,16 @@ void HealthHelper::debuff(EntitySystem& ents, tdt::uint id, tdt::uint val)
 
 void HealthHelper::set_regen(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 		comp->regen = val;
 }
 
 tdt::uint HealthHelper::get_regen(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 		return comp->regen;
 	else
@@ -130,14 +142,16 @@ tdt::uint HealthHelper::get_regen(EntitySystem& ents, tdt::uint id)
 
 void HealthHelper::set_alive(EntitySystem& ents, tdt::uint id, bool val)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 		comp->alive = val;
 }
 
 bool HealthHelper::is_alive(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 		return comp->alive;
 	else
@@ -146,14 +160,16 @@ bool HealthHelper::is_alive(EntitySystem& ents, tdt::uint id)
 
 void HealthHelper::set_defense(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 		comp->defense = val;
 }
 
 tdt::uint HealthHelper::get_defense(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 		return comp->defense;
 	else
@@ -162,14 +178,16 @@ tdt::uint HealthHelper::get_defense(EntitySystem& ents, tdt::uint id)
 
 void HealthHelper::add_defense(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 		comp->defense += val;
 }
 
 void HealthHelper::sub_defense(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
 	{
 		if(comp->defense < val)
@@ -181,9 +199,10 @@ void HealthHelper::sub_defense(EntitySystem& ents, tdt::uint id, tdt::uint val)
 
 void HealthHelper::ubercharge(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<HealthComponent>(id);
+	HealthComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HealthComponent);
 	if(comp)
-	{ // Note: Component::NO_ENTITY should be typedef'd to the maximal value of size_t.
+	{
 		comp->curr_hp = Component::NO_ENTITY;
 		comp->max_hp = Component::NO_ENTITY;
 		comp->defense = Component::NO_ENTITY;

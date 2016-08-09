@@ -1,18 +1,23 @@
 #include <numeric>
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include "PhysicsHelper.hpp"
 
+static tdt::cache::PhysicsCache cache{Component::NO_ENTITY, nullptr};
+
 void PhysicsHelper::set_solid(EntitySystem& ents, tdt::uint id, bool val)
 {
-	auto comp = ents.get_component<PhysicsComponent>(id);
+	PhysicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, PhysicsComponent);
 	if(comp)
 		comp->solid = val;
 }
 
 bool PhysicsHelper::is_solid(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<PhysicsComponent>(id);
+	PhysicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, PhysicsComponent);
 	if(comp)
 		return comp->solid;
 	else
@@ -21,7 +26,8 @@ bool PhysicsHelper::is_solid(EntitySystem& ents, tdt::uint id)
 
 void PhysicsHelper::set_position(EntitySystem& ents, tdt::uint id, const Ogre::Vector3& val)
 {
-	auto comp = ents.get_component<PhysicsComponent>(id);
+	PhysicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, PhysicsComponent);
 	if(comp)
 	{
 		comp->position = val;
@@ -32,9 +38,11 @@ void PhysicsHelper::set_position(EntitySystem& ents, tdt::uint id, const Ogre::V
 }
 
 const Ogre::Vector3& PhysicsHelper::get_position(EntitySystem& ents, tdt::uint id)
-{
+{ // TODO: Create a static class with constants.
 	static Ogre::Vector3 NO_POSITION{-1.f, -1.f, -1.f};
-	auto comp = ents.get_component<PhysicsComponent>(id);
+
+	PhysicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, PhysicsComponent);
 	if(comp)
 		return comp->position;
 	else
@@ -43,14 +51,16 @@ const Ogre::Vector3& PhysicsHelper::get_position(EntitySystem& ents, tdt::uint i
 
 void PhysicsHelper::set_half_height(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
-	auto comp = ents.get_component<PhysicsComponent>(id);
+	PhysicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, PhysicsComponent);
 	if(comp)
 		comp->half_height = val;
 }
 
 tdt::real PhysicsHelper::get_half_height(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<PhysicsComponent>(id);
+	PhysicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, PhysicsComponent);
 	if(comp)
 		return comp->half_height;
 	else
@@ -59,10 +69,11 @@ tdt::real PhysicsHelper::get_half_height(EntitySystem& ents, tdt::uint id)
 
 void PhysicsHelper::move_to(EntitySystem& ents, tdt::uint id, Ogre::Vector3 pos)
 {
-	auto phys_comp = ents.get_component<PhysicsComponent>(id);
-	if(phys_comp)
+	PhysicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, PhysicsComponent);
+	if(comp)
 	{
-		phys_comp->position = pos;
+		comp->position = pos;
 
 		auto graph_comp = ents.get_component<GraphicsComponent>(id);
 		if(graph_comp)
@@ -72,7 +83,8 @@ void PhysicsHelper::move_to(EntitySystem& ents, tdt::uint id, Ogre::Vector3 pos)
 
 tdt::real PhysicsHelper::get_distance(EntitySystem& ents, tdt::uint id1, tdt::uint id2)
 {
-	auto comp1 = ents.get_component<PhysicsComponent>(id1);
+	PhysicsComponent* comp1{nullptr};
+	GET_COMPONENT(id1, ents, comp1, PhysicsComponent);
 	auto comp2 = ents.get_component<PhysicsComponent>(id2);
 	if(comp1 && comp2)
 	{
@@ -92,7 +104,8 @@ tdt::real PhysicsHelper::get_angle(Ogre::Vector3 v1, Ogre::Vector3 v2)
 
 void PhysicsHelper::set_2d_position(EntitySystem& ents, tdt::uint id, Ogre::Vector2 val)
 {
-	auto comp = ents.get_component<PhysicsComponent>(id);
+	PhysicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, PhysicsComponent);
 	if(comp)
 	{
 		comp->position.x = val.x;
@@ -107,7 +120,8 @@ void PhysicsHelper::set_2d_position(EntitySystem& ents, tdt::uint id, Ogre::Vect
 
 Ogre::Vector2 PhysicsHelper::get_2d_position(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<PhysicsComponent>(id);
+	PhysicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, PhysicsComponent);
 	if(comp)
 		return Ogre::Vector2{comp->position.x, comp->position.z};
 	else

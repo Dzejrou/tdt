@@ -1,18 +1,23 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include <lppscript/LppScript.hpp>
 #include "ConstructorHelper.hpp"
 
+static tdt::cache::ConstructorCache cache{Component::NO_ENTITY, nullptr};
+
 void ConstructorHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {
-	auto comp = ents.get_component<ConstructorComponent>(id);
+	ConstructorComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ConstructorComponent);
 	if(comp)
 		comp->blueprint = val;
 }
 
 const std::string& ConstructorHelper::get_blueprint(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<ConstructorComponent>(id);
+	ConstructorComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ConstructorComponent);
 	if(comp)
 		return comp->blueprint;
 	else
@@ -21,7 +26,8 @@ const std::string& ConstructorHelper::get_blueprint(EntitySystem& ents, tdt::uin
 
 void ConstructorHelper::call(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<ConstructorComponent>(id);
+	ConstructorComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ConstructorComponent);
 	if(comp)
 		lpp::Script::instance().call<void, tdt::uint>(comp->blueprint + ".construct", id);
 }

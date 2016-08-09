@@ -1,35 +1,40 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include "AIHelper.hpp"
 
+static tdt::cache::AICache cache{Component::NO_ENTITY, nullptr};
+
 void AIHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {
-	auto comp = ents.get_component<AIComponent>(id);
+	AIComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, AIComponent);
 	if(comp)
 		comp->blueprint = val;
 }
 
 const std::string & AIHelper::get_blueprint(EntitySystem& ents, tdt::uint id)
 {
-	static const std::string NO_BLUEPRINT{"ERROR"};
-
-	auto comp = ents.get_component<AIComponent>(id);
+	AIComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, AIComponent);
 	if(comp)
 		return comp->blueprint;
 	else
-		return NO_BLUEPRINT;
+		return ents.NO_BLUEPRINT;
 }
 
 void AIHelper::set_state(EntitySystem& ents, tdt::uint id, ENTITY_STATE::VAL val)
 {
-	auto comp = ents.get_component<AIComponent>(id);
+	AIComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, AIComponent);
 	if(comp)
 		comp->state = val;
 }
 
 ENTITY_STATE::VAL AIHelper::get_state(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<AIComponent>(id);
+	AIComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, AIComponent);
 	if(comp)
 		return comp->state;
 	else

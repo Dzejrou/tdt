@@ -1,17 +1,22 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include "HomingHelper.hpp"
 
+static tdt::cache::HomingCache cache{Component::NO_ENTITY, nullptr};
+
 void HomingHelper::set_source(EntitySystem& ents, tdt::uint id, tdt::uint source)
 {
-	auto comp = ents.get_component<HomingComponent>(id);
+	HomingComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HomingComponent);
 	if(comp)
 		comp->source = source;
 }
 
 tdt::uint HomingHelper::get_source(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<HomingComponent>(id);
+	HomingComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HomingComponent);
 	if(comp)
 		return comp->source;
 	else
@@ -20,14 +25,16 @@ tdt::uint HomingHelper::get_source(EntitySystem& ents, tdt::uint id)
 
 void HomingHelper::set_target(EntitySystem& ents, tdt::uint id, tdt::uint target)
 {
-	auto comp = ents.get_component<HomingComponent>(id);
+	HomingComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HomingComponent);
 	if(comp)
 		comp->target = target;
 }
 
 tdt::uint HomingHelper::get_target(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<HomingComponent>(id);
+	HomingComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HomingComponent);
 	if(comp)
 		return comp->target;
 	else
@@ -36,14 +43,16 @@ tdt::uint HomingHelper::get_target(EntitySystem& ents, tdt::uint id)
 
 void HomingHelper::set_dmg(EntitySystem& ents, tdt::uint id, tdt::uint dmg)
 {
-	auto comp = ents.get_component<HomingComponent>(id);
+	HomingComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HomingComponent);
 	if(comp)
 		comp->dmg = dmg;
 }
 
 tdt::uint HomingHelper::get_dmg(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<HomingComponent>(id);
+	HomingComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, HomingComponent);
 	if(comp)
 		return comp->dmg;
 	else

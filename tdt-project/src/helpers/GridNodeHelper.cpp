@@ -1,14 +1,19 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include <tools/Grid.hpp>
 #include <tools/SelectionBox.hpp>
 #include <tools/Util.hpp>
 #include "GridNodeHelper.hpp"
 
+static tdt::cache::GridNodeCache cache{Component::NO_ENTITY, nullptr};
+
 const std::array<tdt::uint, GridNodeComponent::neighbour_count>& GridNodeHelper::get_neighbours(EntitySystem& ents, tdt::uint id)
 {
 	static std::array<tdt::uint, GridNodeComponent::neighbour_count> NO_NEIGHBOURS{};
-	auto comp = ents.get_component<GridNodeComponent>(id);
+
+	GridNodeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GridNodeComponent);
 	if(comp)
 		return comp->neighbours;
 	else
@@ -17,7 +22,8 @@ const std::array<tdt::uint, GridNodeComponent::neighbour_count>& GridNodeHelper:
 
 bool GridNodeHelper::is_free(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<GridNodeComponent>(id);
+	GridNodeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GridNodeComponent);
 	if(comp)
 		return comp->free;
 	else
@@ -45,7 +51,8 @@ bool GridNodeHelper::area_free(EntitySystem& ents, tdt::uint center, tdt::uint r
 
 void GridNodeHelper::set_free(EntitySystem& ents, tdt::uint id, bool val)
 {
-	auto comp = ents.get_component<GridNodeComponent>(id);
+	GridNodeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GridNodeComponent);
 	if(comp)
 	{
 			comp->free = val;
@@ -67,7 +74,8 @@ void GridNodeHelper::set_free_selected(EntitySystem& ents, SelectionBox& box, bo
 
 std::tuple<tdt::uint, tdt::uint> GridNodeHelper::get_board_coords(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<GridNodeComponent>(id);
+	GridNodeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GridNodeComponent);
 	if(comp)
 		return std::make_tuple(comp->x, comp->y);
 	else 
@@ -76,7 +84,8 @@ std::tuple<tdt::uint, tdt::uint> GridNodeHelper::get_board_coords(EntitySystem& 
 
 void GridNodeHelper::set_resident(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<GridNodeComponent>(id);
+	GridNodeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GridNodeComponent);
 	if(comp)
 	{
 		if(comp->resident == Component::NO_ENTITY)
@@ -89,7 +98,8 @@ void GridNodeHelper::set_resident(EntitySystem& ents, tdt::uint id, tdt::uint va
 
 tdt::uint GridNodeHelper::get_resident(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<GridNodeComponent>(id);
+	GridNodeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GridNodeComponent);
 	if(comp)
 		return comp->resident;
 	else
@@ -115,7 +125,8 @@ tdt::uint GridNodeHelper::get_node_in_dir(EntitySystem& ents, tdt::uint id, int 
 	if(dir == DIRECTION::NONE)
 		return node;
 	
-	auto comp = ents.get_component<GridNodeComponent>(node);
+	GridNodeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GridNodeComponent);
 	if(comp)
 		return comp->neighbours[dir];
 	else
@@ -124,7 +135,8 @@ tdt::uint GridNodeHelper::get_node_in_dir(EntitySystem& ents, tdt::uint id, int 
 
 void GridNodeHelper::set_portal_neighbour(EntitySystem& ents, tdt::uint id, tdt::uint portal)
 {
-	auto comp = ents.get_component<GridNodeComponent>(id);
+	GridNodeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GridNodeComponent);
 	if(comp)
 		comp->neighbours[DIRECTION::PORTAL] = portal;
 }

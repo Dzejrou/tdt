@@ -1,17 +1,22 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include "ProductHelper.hpp"
 
+static tdt::cache::ProductCache cache{Component::NO_ENTITY, nullptr};
+
 void ProductHelper::set_producer(EntitySystem& ents, tdt::uint id, tdt::uint producer)
 {
-	auto comp = ents.get_component<ProductComponent>(id);
+	ProductComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ProductComponent);
 	if(comp)
 		comp->producer = producer;
 }
 
 tdt::uint ProductHelper::get_producer(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<ProductComponent>(id);
+	ProductComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ProductComponent);
 	if(comp)
 		return comp->producer;
 	else

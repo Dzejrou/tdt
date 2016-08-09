@@ -1,18 +1,23 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include <lppscript/LppScript.hpp>
 #include "SpellHelper.hpp"
 
+static tdt::cache::SpellCache cache{Component::NO_ENTITY, nullptr};
+
 void SpellHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {
-	auto comp = ents.get_component<SpellComponent>(id);
+	SpellComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SpellComponent);
 	if(comp)
 		comp->blueprint = val;
 }
 
 const std::string& SpellHelper::get_blueprint(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<SpellComponent>(id);
+	SpellComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SpellComponent);
 	if(comp)
 		return comp->blueprint;
 	else
@@ -21,14 +26,16 @@ const std::string& SpellHelper::get_blueprint(EntitySystem& ents, tdt::uint id)
 
 void SpellHelper::set_cooldown(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
-	auto comp = ents.get_component<SpellComponent>(id);
+	SpellComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SpellComponent);
 	if(comp)
 		comp->cooldown = val;
 }
 
 tdt::real SpellHelper::get_cooldown(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<SpellComponent>(id);
+	SpellComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SpellComponent);
 	if(comp)
 		return comp->cooldown;
 	else
@@ -37,21 +44,24 @@ tdt::real SpellHelper::get_cooldown(EntitySystem& ents, tdt::uint id)
 
 void SpellHelper::advance_curr_time(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
-	auto comp = ents.get_component<SpellComponent>(id);
+	SpellComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SpellComponent);
 	if(comp)
 		comp->cd_time += val;
 }
 
 void SpellHelper::set_curr_time(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
-	auto comp = ents.get_component<SpellComponent>(id);
+	SpellComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SpellComponent);
 	if(comp)
 		comp->cd_time = val;
 }
 
 tdt::real SpellHelper::get_curr_time(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<SpellComponent>(id);
+	SpellComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SpellComponent);
 	if(comp)
 		return comp->cd_time;
 	else
@@ -60,7 +70,8 @@ tdt::real SpellHelper::get_curr_time(EntitySystem& ents, tdt::uint id)
 
 void SpellHelper::cast(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<SpellComponent>(id);
+	SpellComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SpellComponent);
 	if(comp)
 		lpp::Script::instance().call<void, tdt::uint>(comp->blueprint + ".cast", id);
 }

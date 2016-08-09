@@ -1,11 +1,15 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include <tools/Player.hpp>
 #include "ManaCrystalHelper.hpp"
 
+static tdt::cache::ManaCrystalCache cache{Component::NO_ENTITY, nullptr};
+
 void ManaCrystalHelper::set_capacity(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<ManaCrystalComponent>(id);
+	ManaCrystalComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ManaCrystalComponent);
 	if(comp)
 	{
 		if(comp->cap_increase < val)
@@ -18,7 +22,8 @@ void ManaCrystalHelper::set_capacity(EntitySystem& ents, tdt::uint id, tdt::uint
 
 tdt::uint ManaCrystalHelper::get_capacity(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<ManaCrystalComponent>(id);
+	ManaCrystalComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ManaCrystalComponent);
 	if(comp)
 		return comp->cap_increase;
 	else
@@ -27,7 +32,8 @@ tdt::uint ManaCrystalHelper::get_capacity(EntitySystem& ents, tdt::uint id)
 
 void ManaCrystalHelper::set_regen(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<ManaCrystalComponent>(id);
+	ManaCrystalComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ManaCrystalComponent);
 	if(comp)
 	{
 		if(comp->regen_increase < val)
@@ -40,7 +46,8 @@ void ManaCrystalHelper::set_regen(EntitySystem& ents, tdt::uint id, tdt::uint va
 
 tdt::uint ManaCrystalHelper::get_regen(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<ManaCrystalComponent>(id);
+	ManaCrystalComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ManaCrystalComponent);
 	if(comp)
 		return comp->regen_increase;
 	else

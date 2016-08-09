@@ -1,22 +1,25 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include <lppscript/LppScript.hpp>
 #include "PathfindingHelper.hpp"
 
+static tdt::cache::PathfindingCache cache{Component::NO_ENTITY, nullptr};
+
 const std::string& PathfindingHelper::get_pathpfinding_blueprint(EntitySystem& ents, tdt::uint id)
 {
-	static const std::string NO_BLUEPRINT{"ERROR"};
-
-	auto comp = ents.get_component<PathfindingComponent>(id);
+	PathfindingComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, PathfindingComponent);
 	if(comp)
 		return comp->blueprint;
 	else
-		return NO_BLUEPRINT;
+		return ents.NO_BLUEPRINT;
 }
 
 void PathfindingHelper::set_pathfinding_blueprint(EntitySystem& ents, tdt::uint id, const std::string& blueprint)
 {
-	auto comp = ents.get_component<PathfindingComponent>(id);
+	PathfindingComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, PathfindingComponent);
 	if(comp)
 		comp->blueprint = blueprint;
 }
@@ -25,7 +28,8 @@ std::deque<tdt::uint>& PathfindingHelper::get_path(EntitySystem& ents, tdt::uint
 {
 	static std::deque<tdt::uint> NO_PATH{};
 
-	auto comp = ents.get_component<PathfindingComponent>(id);
+	PathfindingComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, PathfindingComponent);
 	if(comp)
 		return comp->path_queue;
 	else
