@@ -98,7 +98,7 @@ namespace ANIMATION_TYPE
 {
 	enum VAL
 	{
-		WALK = 0, IDLE, HIT,
+		WALK = 0, IDLE, HIT, ACTIVATE, DEACTIVATE,
 		COUNT
 	};
 }

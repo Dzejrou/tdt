@@ -10,6 +10,8 @@ const std::string& AnimationHelper::get_animation_name(ANIMATION_TYPE::VAL anima
 		{ANIMATION_TYPE::WALK, "walk"},
 		{ANIMATION_TYPE::IDLE, "idle"},
 		{ANIMATION_TYPE::HIT, "hit"},
+		{ANIMATION_TYPE::ACTIVATE, "activate"},
+		{ANIMATION_TYPE::DEACTIVATE, "deactivate"}
 	};
 
 	static const std::string NO_ANIMATION{"ERROR"}; // Not looped and short.
