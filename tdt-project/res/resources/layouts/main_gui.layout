@@ -263,13 +263,13 @@
                     <Property name="AlwaysOnTop" value="true" />
                 </AutoWindow>
                 <Window type="AlfiskoSkin/Label" name="ID_LABEL" >
-                    <Property name="Area" value="{{0,0},{0,0},{0.2,0},{0.2,0}}" />
+                    <Property name="Area" value="{{0.5,0},{0.2,0},{0.7,0},{0.4,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="Text" value="ID: " />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="AlfiskoSkin/Label" name="ID_VALUE" >
-                    <Property name="Area" value="{{0.2,0},{0,0},{0.5,0},{0.2,0}}" />
+                    <Property name="Area" value="{{0.7,0},{0.2,0},{1,0},{0.4,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
@@ -341,7 +341,7 @@
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="AlfiskoSkin/Label" name="NAME_VALUE" >
-                    <Property name="Area" value="{{0.2,0},{0.2,0},{1,0},{0.4,0}}" />
+                    <Property name="Area" value="{{0.2,0},{0.2,0},{0.5,0},{0.4,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
@@ -366,6 +366,18 @@
                     <Property name="Area" value="{{0.5,0},{0,0},{0.75,0},{0.2,0}}" />
                     <Property name="Font" value="Inconsolata-10" />
                     <Property name="Text" value="50G -&gt; 10EXP" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="ACTIVATE" >
+                    <Property name="Area" value="{{0.25,0},{0,0},{0.5,0},{0.2,0}}" />
+                    <Property name="Font" value="Inconsolata-10" />
+                    <Property name="Text" value="ACTIVATE" />
+                    <Property name="Visible" value="false" />
+                </Window>
+                <Window type="AlfiskoSkin/Button" name="DEACTIVATE" >
+                    <Property name="Area" value="{{0.25,0},{0,0},{0.5,0},{0.2,0}}" />
+                    <Property name="Font" value="Inconsolata-10" />
+                    <Property name="Text" value="DEACTIVATE" />
                     <Property name="Visible" value="false" />
                 </Window>
             </Window>
