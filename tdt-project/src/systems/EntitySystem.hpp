@@ -326,6 +326,7 @@ class EntitySystem : public System
 		std::map<tdt::uint, PortalComponent> portal_{};
 		std::map<tdt::uint, AnimationComponent> animation_{};
 		std::map<tdt::uint, SelectionComponent> selection_{};
+		std::map<tdt::uint, DummyAlignComponent> dummy_align_{};
 
 		/**
 		 * Reference to the game's scene manager used to create nodes and entities.
@@ -614,6 +615,12 @@ template<>
 inline std::map<tdt::uint, SelectionComponent>& EntitySystem::get_component_container<SelectionComponent>()
 {
 	return selection_;
+}
+
+template<>
+inline std::map<tdt::uint, DummyAlignComponent>& EntitySystem::get_component_container<DummyAlignComponent>()
+{
+	return dummy_align_;
 }
 
 /**
@@ -1084,6 +1091,12 @@ inline void EntitySystem::load_component<SelectionComponent>(tdt::uint id, const
 	selection_.emplace(id, SelectionComponent{std::move(blueprint),
 					   std::move(material), Ogre::Vector3{x, y, z},
 					   (SELECTION_MARKER_TYPE)marker});
+}
+
+template<>
+inline void EntitySystem::load_component<DummyAlignComponent>(tdt::uint id, const std::string& table_name)
+{
+	dummy_align_.emplace(id, DummyAlignComponent{});
 }
 
 /**
