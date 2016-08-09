@@ -183,15 +183,24 @@ void GridSystem::update_neighbours_(tdt::uint id)
 		auto& neigh = comp->neighbours;
 		int active_main_neighbours{0}; // Main neighbours: UP, DOWN, LEFT, RIGHT.
 		
-		// Only align to other blocks with align component.
+		// Only align to other blocks with align or dummy align components.
+		auto resident_up = GridNodeHelper::get_resident(entities_, neigh[DIRECTION::UP]);
+		auto resident_down = GridNodeHelper::get_resident(entities_, neigh[DIRECTION::DOWN]);
+		auto resident_left = GridNodeHelper::get_resident(entities_, neigh[DIRECTION::LEFT]);
+		auto resident_right = GridNodeHelper::get_resident(entities_, neigh[DIRECTION::RIGHT]);
+
 		bool up = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::UP])
-			      && entities_.has_component<AlignComponent>(GridNodeHelper::get_resident(entities_, neigh[DIRECTION::UP]));
+			      && (entities_.has_component<AlignComponent>(resident_up)
+				  || entities_.has_component<DummyAlignComponent>(resident_up));
 		bool down = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::DOWN])
-			      && entities_.has_component<AlignComponent>(GridNodeHelper::get_resident(entities_, neigh[DIRECTION::DOWN]));
+			      && (entities_.has_component<AlignComponent>(resident_down)
+				  || entities_.has_component<DummyAlignComponent>(resident_down));
 		bool left = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::LEFT])
-			      && entities_.has_component<AlignComponent>(GridNodeHelper::get_resident(entities_, neigh[DIRECTION::LEFT]));
+			      && (entities_.has_component<AlignComponent>(resident_left)
+				  || entities_.has_component<DummyAlignComponent>(resident_left));
 		bool right = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::RIGHT])
-			      && entities_.has_component<AlignComponent>(GridNodeHelper::get_resident(entities_, neigh[DIRECTION::RIGHT]));
+			      && (entities_.has_component<AlignComponent>(resident_right)
+				  || entities_.has_component<DummyAlignComponent>(resident_right));
 		if(up)
 			++active_main_neighbours;
 		if(down)
