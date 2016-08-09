@@ -1,17 +1,22 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include "TaskHelper.hpp"
 
+static tdt::cache::TaskCache cache{Component::NO_ENTITY, nullptr};
+
 void TaskHelper::set_task_source(EntitySystem& ents, tdt::uint id, tdt::uint source)
 {
-	auto comp = ents.get_component<TaskComponent>(id);
+	TaskComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TaskComponent);
 	if(comp)
 		comp->source = source;
 }
 
 tdt::uint TaskHelper::get_task_source(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<TaskComponent>(id);
+	TaskComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TaskComponent);
 	if(comp)
 		return comp->source;
 	else
@@ -20,14 +25,16 @@ tdt::uint TaskHelper::get_task_source(EntitySystem& ents, tdt::uint id)
 
 void TaskHelper::set_task_target(EntitySystem& ents, tdt::uint id, tdt::uint target)
 {
-	auto comp = ents.get_component<TaskComponent>(id);
+	TaskComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TaskComponent);
 	if(comp)
 		comp->target = target;
 }
 
 tdt::uint TaskHelper::get_task_target(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<TaskComponent>(id);
+	TaskComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TaskComponent);
 	if(comp)
 		return comp->target;
 	else
@@ -36,14 +43,16 @@ tdt::uint TaskHelper::get_task_target(EntitySystem& ents, tdt::uint id)
 
 void TaskHelper::set_task_type(EntitySystem& ents, tdt::uint id, TASK_TYPE type)
 {
-	auto comp = ents.get_component<TaskComponent>(id);
+	TaskComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TaskComponent);
 	if(comp)
 		comp->task_type = type;
 }
 
 TASK_TYPE TaskHelper::get_task_type(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<TaskComponent>(id);
+	TaskComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TaskComponent);
 	if(comp)
 		return comp->task_type;
 	else
@@ -53,7 +62,8 @@ TASK_TYPE TaskHelper::get_task_type(EntitySystem& ents, tdt::uint id)
 void TaskHelper::add_task(EntitySystem& ents, tdt::uint ent_id, tdt::uint task_id, bool priority)
 {
 	auto comp1 = ents.get_component<TaskHandlerComponent>(ent_id);
-	auto comp2 = ents.get_component<TaskComponent>(task_id);
+	TaskComponent* comp2{nullptr};
+	GET_COMPONENT(task_id, ents, comp2, TaskComponent);
 	if(comp1 && comp2)
 	{
 		// Make sure the entity can handle this task.
@@ -81,8 +91,9 @@ tdt::uint TaskHelper::create_task(EntitySystem& ents, tdt::uint target, TASK_TYP
 {
 	tdt::uint id = ents.create_entity();
 	ents.add_component<TaskComponent>(id);
-	auto comp = ents.get_component<TaskComponent>(id);
 
+	TaskComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TaskComponent);
 	if(comp)
 	{
 		comp->target = target;
@@ -92,9 +103,10 @@ tdt::uint TaskHelper::create_task(EntitySystem& ents, tdt::uint target, TASK_TYP
 	return id;
 }
 
-void TaskHelper::cancel_task(EntitySystem& ents, tdt::uint task_id)
+void TaskHelper::cancel_task(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<TaskComponent>(task_id);
+	TaskComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TaskComponent);
 	if(comp)
 	{
 		auto handler = ents.get_component<TaskHandlerComponent>(comp->source);
@@ -102,26 +114,28 @@ void TaskHelper::cancel_task(EntitySystem& ents, tdt::uint task_id)
 		{
 			for(auto& task : handler->task_queue)
 			{
-				if(task == task_id)
+				if(task == id)
 					task = Component::NO_ENTITY;
 			}
-			if(handler->curr_task == task_id)
+			if(handler->curr_task == id)
 				handler->curr_task = Component::NO_ENTITY;
 		}
-		DestructorHelper::destroy(ents, task_id);
+		DestructorHelper::destroy(ents, id);
 	}
 }
 
 void TaskHelper::set_complete(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<TaskComponent>(id);
+	TaskComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TaskComponent);
 	if(comp)
 		comp->complete = true;
 }
 
 bool TaskHelper::is_complete(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<TaskComponent>(id);
+	TaskComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TaskComponent);
 	if(comp)
 		return comp->complete;
 	else

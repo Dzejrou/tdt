@@ -1,24 +1,30 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include "LightHelper.hpp"
 
+static tdt::cache::LightCache cache{Component::NO_ENTITY, nullptr};
+
 void LightHelper::set_visible(EntitySystem& ents, tdt::uint id, bool val)
 {
-	auto comp = ents.get_component<LightComponent>(id);
+	LightComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, LightComponent);
 	if(comp && comp->light)
 		comp->light->setVisible(val);
 }
 
 void LightHelper::toggle_visible(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<LightComponent>(id);
+	LightComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, LightComponent);
 	if(comp && comp->light)
 		comp->light->setVisible(!comp->light->isVisible());
 }
 
 bool LightHelper::is_visible(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<LightComponent>(id);
+	LightComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, LightComponent);
 	if(comp && comp->light)
 		return comp->light->isVisible();
 	else
@@ -27,7 +33,8 @@ bool LightHelper::is_visible(EntitySystem& ents, tdt::uint id)
 
 void LightHelper::init(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<LightComponent>(id);
+	LightComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, LightComponent);
 	if(comp && !comp->light) // comp->light == true -> already initialized.
 	{
 		comp->light = ents.get_scene_manager().createLight("entity_" + std::to_string(id) + "_light");

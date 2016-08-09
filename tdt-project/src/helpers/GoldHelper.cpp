@@ -1,13 +1,17 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include <gui/GUI.hpp>
 #include <helpers/FactionHelper.hpp>
 #include <tools/Player.hpp>
 #include "GoldHelper.hpp"
 
+static tdt::cache::GoldCache cache{Component::NO_ENTITY, nullptr};
+
 void GoldHelper::set_curr_gold(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<GoldComponent>(id);
+	GoldComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GoldComponent);
 	if(comp)
 	{
 		// Stats used for transaction registering.
@@ -21,7 +25,8 @@ void GoldHelper::set_curr_gold(EntitySystem& ents, tdt::uint id, tdt::uint val)
 
 tdt::uint GoldHelper::get_curr_gold(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<GoldComponent>(id);
+	GoldComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GoldComponent);
 	if(comp)
 		return comp->curr_amount;
 	else
@@ -30,7 +35,8 @@ tdt::uint GoldHelper::get_curr_gold(EntitySystem& ents, tdt::uint id)
 
 void GoldHelper::set_max_gold(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<GoldComponent>(id);
+	GoldComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GoldComponent);
 	if(comp)
 	{
 		comp->max_amount = val;
@@ -40,7 +46,8 @@ void GoldHelper::set_max_gold(EntitySystem& ents, tdt::uint id, tdt::uint val)
 
 tdt::uint GoldHelper::get_max_gold(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<GoldComponent>(id);
+	GoldComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GoldComponent);
 	if(comp)
 		return comp->max_amount;
 	else
@@ -49,7 +56,8 @@ tdt::uint GoldHelper::get_max_gold(EntitySystem& ents, tdt::uint id)
 
 tdt::uint GoldHelper::add_gold(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<GoldComponent>(id);
+	GoldComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GoldComponent);
 	if(comp)
 	{
 		tdt::uint rem{};
@@ -69,7 +77,8 @@ tdt::uint GoldHelper::add_gold(EntitySystem& ents, tdt::uint id, tdt::uint val)
 
 tdt::uint GoldHelper::sub_gold(EntitySystem& ents, tdt::uint id, tdt::uint val, bool reg)
 {
-	auto comp = ents.get_component<GoldComponent>(id);
+	GoldComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GoldComponent);
 	if(comp)
 	{
 		bool has_enough = comp->curr_amount >= val;
@@ -115,7 +124,8 @@ tdt::uint GoldHelper::transfer_all_gold(EntitySystem& ents, tdt::uint id_from, t
 
 bool GoldHelper::gold_full(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<GoldComponent>(id);
+	GoldComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GoldComponent);
 	if(comp)
 		return comp->curr_amount >= comp->max_amount;
 	else

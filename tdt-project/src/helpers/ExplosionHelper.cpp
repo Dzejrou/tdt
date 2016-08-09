@@ -1,17 +1,22 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include "ExplosionHelper.hpp"
 
+static tdt::cache::ExplosionCache cache{Component::NO_ENTITY, nullptr};
+
 void ExplosionHelper::set_delta(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
-	auto comp = ents.get_component<ExplosionComponent>(id);
+	ExplosionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ExplosionComponent);
 	if(comp)
 		comp->delta = val;
 }
 
 tdt::real ExplosionHelper::get_delta(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<ExplosionComponent>(id);
+	ExplosionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ExplosionComponent);
 	if(comp)
 		return comp->delta;
 	else
@@ -20,14 +25,16 @@ tdt::real ExplosionHelper::get_delta(EntitySystem& ents, tdt::uint id)
 
 void ExplosionHelper::set_max_radius(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
-	auto comp = ents.get_component<ExplosionComponent>(id);
+	ExplosionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ExplosionComponent);
 	if(comp)
 		comp->max_radius = val;
 }
 
 tdt::real ExplosionHelper::get_max_radius(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<ExplosionComponent>(id);
+	ExplosionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ExplosionComponent);
 	if(comp)
 		return comp->max_radius;
 	else
@@ -36,7 +43,8 @@ tdt::real ExplosionHelper::get_max_radius(EntitySystem& ents, tdt::uint id)
 
 tdt::real ExplosionHelper::get_curr_radius(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<ExplosionComponent>(id);
+	ExplosionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ExplosionComponent);
 	if(comp)
 		return comp->curr_radius;
 	else
@@ -45,7 +53,8 @@ tdt::real ExplosionHelper::get_curr_radius(EntitySystem& ents, tdt::uint id)
 
 void ExplosionHelper::increase_curr_radius(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
-	auto comp = ents.get_component<ExplosionComponent>(id);
+	ExplosionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, ExplosionComponent);
 	if(comp)
 		comp->curr_radius += val;
 }

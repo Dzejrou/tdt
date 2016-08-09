@@ -4,18 +4,24 @@
 #include <gui/GUI.hpp>
 #include <helpers/Helpers.hpp>
 #include <systems/CombatSystem.hpp>
+#include <Components.hpp>
+#include <Cache.hpp>
 #include "CommandHelper.hpp"
+
+static tdt::cache::CommandCache cache{Component::NO_ENTITY, nullptr};
 
 void CommandHelper::set_command(EntitySystem& ents, tdt::uint id, COMMAND_TYPE command, bool val)
 {
-	auto comp = ents.get_component<CommandComponent>(id);
+	CommandComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, CommandComponent);
 	if(comp)
 		comp->possible_commands.set((tdt::uint)command, val);
 }
 
 bool CommandHelper::test_command(EntitySystem& ents, tdt::uint id, COMMAND_TYPE command)
 {
-	auto comp = ents.get_component<CommandComponent>(id);
+	CommandComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, CommandComponent);
 	if(comp)
 		return comp->possible_commands.test((tdt::uint)command);
 	else

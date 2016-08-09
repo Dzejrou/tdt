@@ -1,8 +1,11 @@
 #include <map>
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include <gui/gui.hpp>
 #include "AnimationHelper.hpp"
+
+static tdt::cache::AnimationCache cache{Component::NO_ENTITY, nullptr};
 
 const std::string& AnimationHelper::get_animation_name(ANIMATION_TYPE::VAL animation)
 {
@@ -25,7 +28,9 @@ const std::string& AnimationHelper::get_animation_name(ANIMATION_TYPE::VAL anima
 
 void AnimationHelper::play(EntitySystem& ents, tdt::uint id, ANIMATION_TYPE::VAL type, bool loop)
 {
-	auto animation = ents.get_component<AnimationComponent>(id);
+	AnimationComponent* animation{nullptr};
+	GET_COMPONENT(id, ents, animation, AnimationComponent);
+
 	auto graphics = ents.get_component<GraphicsComponent>(id);
 
 	if(animation && graphics && graphics->entity && animation->possible_animations.test(type))
@@ -54,7 +59,8 @@ void AnimationHelper::play(EntitySystem& ents, tdt::uint id, ANIMATION_TYPE::VAL
 
 void AnimationHelper::stop(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<AnimationComponent>(id);
+	AnimationComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, AnimationComponent);
 	if(comp && comp->current_animation)
 	{
 		comp->current_animation->setWeight(0.f);
@@ -65,21 +71,24 @@ void AnimationHelper::stop(EntitySystem& ents, tdt::uint id)
 
 void AnimationHelper::add_possible(EntitySystem& ents, tdt::uint id, ANIMATION_TYPE::VAL type)
 {
-	auto comp = ents.get_component<AnimationComponent>(id);
+	AnimationComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, AnimationComponent);
 	if(comp)
 		comp->possible_animations.set(type, true);
 }
 
 void AnimationHelper::delete_possible(EntitySystem& ents, tdt::uint id, ANIMATION_TYPE::VAL type)
 {
-	auto comp = ents.get_component<AnimationComponent>(id);
+	AnimationComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, AnimationComponent);
 	if(comp)
 		comp->possible_animations.set(type, false);
 }
 
 bool AnimationHelper::is_possible(EntitySystem& ents, tdt::uint id, ANIMATION_TYPE::VAL type)
 {
-	auto comp = ents.get_component<AnimationComponent>(id);
+	AnimationComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, AnimationComponent);
 	if(comp)
 		return comp->possible_animations.test(type);
 	else

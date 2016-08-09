@@ -1,17 +1,23 @@
+#include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include <lppscript/LppScript.hpp>
 #include "SelectionHelper.hpp"
 
+static tdt::cache::SelectionCache cache{Component::NO_ENTITY, nullptr};
+
 void SelectionHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& blueprint)
 {
-	auto comp = ents.get_component<SelectionComponent>(id);
+	SelectionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SelectionComponent);
 	if(comp)
 		comp->blueprint = blueprint;
 }
 
 const std::string& SelectionHelper::get_blueprint(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<SelectionComponent>(id);
+	SelectionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SelectionComponent);
 	if(comp)
 		return comp->blueprint;
 	else
@@ -20,14 +26,16 @@ const std::string& SelectionHelper::get_blueprint(EntitySystem& ents, tdt::uint 
 
 void SelectionHelper::set_material(EntitySystem& ents, tdt::uint id, const std::string& material)
 {
-	auto comp = ents.get_component<SelectionComponent>(id);
+	SelectionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SelectionComponent);
 	if(comp)
 		comp->material = material;
 }
 
 const std::string& SelectionHelper::get_material(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<SelectionComponent>(id);
+	SelectionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SelectionComponent);
 	if(comp)
 		return comp->material;
 	else
@@ -36,7 +44,8 @@ const std::string& SelectionHelper::get_material(EntitySystem& ents, tdt::uint i
 
 bool SelectionHelper::select(EntitySystem& ents, tdt::uint id, bool single)
 {
-	auto comp = ents.get_component<SelectionComponent>(id);
+	SelectionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SelectionComponent);
 	if(comp)
 	{
 		if(comp->blueprint != "ERROR")
@@ -85,7 +94,8 @@ bool SelectionHelper::select(EntitySystem& ents, tdt::uint id, bool single)
 
 bool SelectionHelper::deselect(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<SelectionComponent>(id);
+	SelectionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SelectionComponent);
 	if(comp)
 	{
 		if(comp->blueprint != "ERROR")
@@ -114,7 +124,8 @@ bool SelectionHelper::deselect(EntitySystem& ents, tdt::uint id)
 
 void SelectionHelper::set_scale(EntitySystem& ents, tdt::uint id, Ogre::Vector3 val)
 {
-	auto comp = ents.get_component<SelectionComponent>(id);
+	SelectionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SelectionComponent);
 	if(comp)
 	{
 		comp->scale = val;
@@ -125,7 +136,8 @@ void SelectionHelper::set_scale(EntitySystem& ents, tdt::uint id, Ogre::Vector3 
 
 Ogre::Vector3 SelectionHelper::get_scale(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<SelectionComponent>(id);
+	SelectionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SelectionComponent);
 	if(comp)
 		return comp->scale;
 	else
@@ -134,14 +146,16 @@ Ogre::Vector3 SelectionHelper::get_scale(EntitySystem& ents, tdt::uint id)
 
 void SelectionHelper::set_marker_type(EntitySystem& ents, tdt::uint id, SELECTION_MARKER_TYPE type)
 {
-	auto comp = ents.get_component<SelectionComponent>(id);
+	SelectionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SelectionComponent);
 	if(comp)
 		comp->marker_type = type;
 }
 
 SELECTION_MARKER_TYPE SelectionHelper::get_marker_type(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<SelectionComponent>(id);
+	SelectionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SelectionComponent);
 	if(comp)
 		return comp->marker_type;
 	else
@@ -150,14 +164,16 @@ SELECTION_MARKER_TYPE SelectionHelper::get_marker_type(EntitySystem& ents, tdt::
 
 void SelectionHelper::set_rotation(EntitySystem& ents, tdt::uint id, Ogre::Degree val)
 {
-	auto comp = ents.get_component<SelectionComponent>(id);
+	SelectionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SelectionComponent);
 	if(comp)
 		comp->rotation = val;
 }
 
 Ogre::Degree SelectionHelper::get_rotation(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<SelectionComponent>(id);
+	SelectionComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, SelectionComponent);
 	if(comp)
 		return comp->rotation;
 	else

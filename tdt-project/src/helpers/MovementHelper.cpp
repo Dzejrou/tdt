@@ -1,10 +1,14 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include "MovementHelper.hpp"
 
+static tdt::cache::MovementCache cache{Component::NO_ENTITY, nullptr};
+
 tdt::real MovementHelper::get_speed_modifier(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<MovementComponent>(id);
+	MovementComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, MovementComponent);
 	if(comp)
 		return comp->speed_modifier;
 	else
@@ -13,7 +17,8 @@ tdt::real MovementHelper::get_speed_modifier(EntitySystem& ents, tdt::uint id)
 
 void MovementHelper::set_speed_modifier(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
-	auto comp = ents.get_component<MovementComponent>(id);
+	MovementComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, MovementComponent);
 	if(comp)
 		comp->speed_modifier = val;
 }
@@ -69,14 +74,16 @@ Ogre::Vector3 MovementHelper::get_dir_right(EntitySystem& ents, tdt::uint id)
 
 void MovementHelper::set_original_speed(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
-	auto comp = ents.get_component<MovementComponent>(id);
+	MovementComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, MovementComponent);
 	if(comp)
 		comp->original_speed = val;
 }
 
 tdt::real MovementHelper::get_original_speed(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<MovementComponent>(id);
+	MovementComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, MovementComponent);
 	if(comp)
 		return comp->original_speed;
 	else
@@ -85,7 +92,8 @@ tdt::real MovementHelper::get_original_speed(EntitySystem& ents, tdt::uint id)
 
 void MovementHelper::reset_speed(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<MovementComponent>(id);
+	MovementComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, MovementComponent);
 	if(comp)
 		comp->speed_modifier = comp->original_speed;
 }

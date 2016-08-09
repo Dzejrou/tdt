@@ -1,10 +1,14 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include "CounterHelper.hpp"
 
+static tdt::cache::CounterCache cache{Component::NO_ENTITY, nullptr};
+
 bool CounterHelper::increment(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<CounterComponent>(id);
+	CounterComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, CounterComponent);
 	if(comp)
 	{
 		++comp->curr_value;
@@ -16,7 +20,8 @@ bool CounterHelper::increment(EntitySystem& ents, tdt::uint id)
 
 bool CounterHelper::decrement(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<CounterComponent>(id);
+	CounterComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, CounterComponent);
 	if(comp && comp->curr_value > 0)
 	{
 		--comp->curr_value;
@@ -28,14 +33,16 @@ bool CounterHelper::decrement(EntitySystem& ents, tdt::uint id)
 
 void CounterHelper::set_curr_value(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<CounterComponent>(id);
+	CounterComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, CounterComponent);
 	if(comp)
 		comp->curr_value = val;
 }
 
 tdt::uint CounterHelper::get_curr_value(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<CounterComponent>(id);
+	CounterComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, CounterComponent);
 	if(comp)
 		return comp->curr_value;
 	else
@@ -44,14 +51,16 @@ tdt::uint CounterHelper::get_curr_value(EntitySystem& ents, tdt::uint id)
 
 void CounterHelper::set_max_value(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<CounterComponent>(id);
+	CounterComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, CounterComponent);
 	if(comp)
 		comp->max_value = val;
 }
 
 tdt::uint CounterHelper::get_max_value(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<CounterComponent>(id);
+	CounterComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, CounterComponent);
 	if(comp)
 		return comp->max_value;
 	else

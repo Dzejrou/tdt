@@ -1,10 +1,14 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include "GraphicsHelper.hpp"
 
+static tdt::cache::GraphicsCache cache{Component::NO_ENTITY, nullptr};
+
 void GraphicsHelper::set_mesh(EntitySystem& ents, tdt::uint id, const std::string& mesh)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp)
 		comp->mesh = mesh;
 }
@@ -13,7 +17,8 @@ const std::string& GraphicsHelper::get_mesh(EntitySystem& ents, tdt::uint id)
 {
 	static const std::string NO_MESH{"cube.mesh"};
 
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp)
 		return comp->mesh;
 	else
@@ -22,7 +27,8 @@ const std::string& GraphicsHelper::get_mesh(EntitySystem& ents, tdt::uint id)
 
 void GraphicsHelper::set_material(EntitySystem& ents, tdt::uint id, const std::string& material)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp)
 	{
 		comp->material = material;
@@ -35,7 +41,8 @@ const std::string& GraphicsHelper::get_material(EntitySystem& ents, tdt::uint id
 {
 	static const std::string NO_MATERIAL{"colour/pink"};
 
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp)
 		return comp->material;
 	else
@@ -44,7 +51,8 @@ const std::string& GraphicsHelper::get_material(EntitySystem& ents, tdt::uint id
 
 void GraphicsHelper::set_visible(EntitySystem& ents, tdt::uint id, bool val)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp)
 	{
 		comp->visible = val;
@@ -55,7 +63,8 @@ void GraphicsHelper::set_visible(EntitySystem& ents, tdt::uint id, bool val)
 
 bool GraphicsHelper::is_visible(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp)
 		return comp->visible;
 	else
@@ -64,14 +73,16 @@ bool GraphicsHelper::is_visible(EntitySystem& ents, tdt::uint id)
 
 void GraphicsHelper::set_manual_scaling(EntitySystem& ents, tdt::uint id, bool val)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp)
 		comp->manual_scaling = val;
 }
 
 bool GraphicsHelper::get_manual_scaling(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp)
 		return comp->manual_scaling;
 	else
@@ -80,7 +91,8 @@ bool GraphicsHelper::get_manual_scaling(EntitySystem& ents, tdt::uint id)
 
 void GraphicsHelper::set_scale(EntitySystem& ents, tdt::uint id, const Ogre::Vector3& val)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp)
 		comp->scale = val;
 }
@@ -89,7 +101,8 @@ const Ogre::Vector3& GraphicsHelper::get_scale(EntitySystem& ents, tdt::uint id)
 {
 	static const Ogre::Vector3 NO_SCALE{0.f, 0.f, 0.f};
 
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp)
 		return comp->scale;
 	else
@@ -98,7 +111,8 @@ const Ogre::Vector3& GraphicsHelper::get_scale(EntitySystem& ents, tdt::uint id)
 
 void GraphicsHelper::look_at(EntitySystem& ents, tdt::uint id1, tdt::uint id2)
 {
-	auto comp1 = ents.get_component<GraphicsComponent>(id1);
+	GraphicsComponent* comp1{nullptr};
+	GET_COMPONENT(id1, ents, comp1, GraphicsComponent);
 	auto comp2 = ents.get_component<PhysicsComponent>(id2);
 	if(comp1 && comp2)
 	{
@@ -113,7 +127,8 @@ void GraphicsHelper::look_at(EntitySystem& ents, tdt::uint id1, tdt::uint id2)
 
 void GraphicsHelper::rotate(EntitySystem& ents, tdt::uint id, Ogre::Real delta, PLANE plane)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp)
 	{
 		Ogre::Vector3 plane_vector{0.f, 0.f, 0.f};
@@ -135,7 +150,8 @@ void GraphicsHelper::rotate(EntitySystem& ents, tdt::uint id, Ogre::Real delta, 
 
 const Ogre::AxisAlignedBox& GraphicsHelper::get_bounds(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp)
 		return comp->entity->getWorldBoundingBox();
 	else
@@ -149,7 +165,8 @@ bool GraphicsHelper::collide(EntitySystem& ents, tdt::uint id1, tdt::uint id2)
 
 void GraphicsHelper::init_graphics_component(EntitySystem& ents, Ogre::SceneManager& scene, tdt::uint id)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 
 	if(!comp)
 		return;
@@ -194,14 +211,16 @@ void GraphicsHelper::init_graphics_component(EntitySystem& ents, Ogre::SceneMana
 
 void GraphicsHelper::set_query_flags(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp && comp->entity)
 		comp->entity->setQueryFlags(val);
 }
 
 tdt::uint GraphicsHelper::get_query_flags(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp && comp->entity)
 		return comp->entity->getQueryFlags();
 	else
@@ -210,7 +229,8 @@ tdt::uint GraphicsHelper::get_query_flags(EntitySystem& ents, tdt::uint id)
 
 void GraphicsHelper::apply_scale(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<GraphicsComponent>(id);
+	GraphicsComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, GraphicsComponent);
 	if(comp && comp->manual_scaling && comp->node)
 		comp->node->setScale(comp->scale);
 }

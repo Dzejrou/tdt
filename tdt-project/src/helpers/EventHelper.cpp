@@ -1,17 +1,22 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include "EventHelper.hpp"
 
+static tdt::cache::EventCache cache{Component::NO_ENTITY, nullptr};
+
 void EventHelper::set_event_type(EntitySystem& ents, std::size_t id, EVENT_TYPE val)
 {
-	auto comp = ents.get_component<EventComponent>(id);
+	EventComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, EventComponent);
 	if(comp)
 		comp->event_type = val;
 }
 
 EVENT_TYPE EventHelper::get_event_type(EntitySystem& ents, std::size_t id)
 {
-	auto comp = ents.get_component<EventComponent>(id);
+	EventComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, EventComponent);
 	if(comp)
 		return comp->event_type;
 	else
@@ -20,14 +25,16 @@ EVENT_TYPE EventHelper::get_event_type(EntitySystem& ents, std::size_t id)
 
 void EventHelper::set_target(EntitySystem& ents, std::size_t id, std::size_t val)
 {
-	auto comp = ents.get_component<EventComponent>(id);
+	EventComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, EventComponent);
 	if(comp)
 		comp->target = val;
 }
 
 std::size_t EventHelper::get_target(EntitySystem& ents, std::size_t id)
 {
-	auto comp = ents.get_component<EventComponent>(id);
+	EventComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, EventComponent);
 	if(comp)
 		return comp->target;
 	else
@@ -36,14 +43,16 @@ std::size_t EventHelper::get_target(EntitySystem& ents, std::size_t id)
 
 void EventHelper::set_radius(EntitySystem& ents, std::size_t id, Ogre::Real val)
 {
-	auto comp = ents.get_component<EventComponent>(id);
+	EventComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, EventComponent);
 	if(comp)
 		comp->radius = val;
 }
 
 Ogre::Real EventHelper::get_radius(EntitySystem& ents, std::size_t id)
 {
-	auto comp = ents.get_component<EventComponent>(id);
+	EventComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, EventComponent);
 	if(comp)
 		return comp->radius;
 	else
@@ -52,14 +61,16 @@ Ogre::Real EventHelper::get_radius(EntitySystem& ents, std::size_t id)
 
 void EventHelper::set_active(EntitySystem& ents, std::size_t id, bool val)
 {
-	auto comp = ents.get_component<EventComponent>(id);
+	EventComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, EventComponent);
 	if(comp)
 		comp->active = val;
 }
 
 bool EventHelper::is_active(EntitySystem& ents, std::size_t id)
 {
-	auto comp = ents.get_component<EventComponent>(id);
+	EventComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, EventComponent);
 	if(comp)
 		return comp->active;
 	else
@@ -68,14 +79,16 @@ bool EventHelper::is_active(EntitySystem& ents, std::size_t id)
 
 void EventHelper::set_event_handler(EntitySystem& ents, std::size_t id, std::size_t val)
 {
-	auto comp = ents.get_component<EventComponent>(id);
+	EventComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, EventComponent);
 	if(comp)
 		comp->handler = val;
 }
 
 std::size_t EventHelper::get_event_handler(EntitySystem& ents, std::size_t id)
 {
-	auto comp = ents.get_component<EventComponent>(id);
+	EventComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, EventComponent);
 	if(comp)
 		return comp->handler;
 	else
