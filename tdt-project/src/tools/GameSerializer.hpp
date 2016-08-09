@@ -696,3 +696,9 @@ inline void GameSerializer::save_component<SelectionComponent>(tdt::uint id, con
 		+ "game.selection.set_rotation(" + std::to_string(id) + ", " + std::to_string(comp->rotation.valueDegrees()) + ")\n"
 	);
 }
+
+template<>
+inline void GameSerializer::save_component<DummyAlignComponent>(tdt::uint id, const std::string& tbl_name)
+{
+	save_components_.emplace_back("game.entity.add_component(" + tbl_name + ", game.enum.component.dummy_align)\n");
+}

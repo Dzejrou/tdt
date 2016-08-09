@@ -61,6 +61,7 @@ GameSerializer::GameSerializer(EntitySystem& ents)
 	serializers_[PortalComponent::type] = &GameSerializer::save_component<PortalComponent>;
 	serializers_[AnimationComponent::type] = &GameSerializer::save_component<AnimationComponent>;
 	serializers_[SelectionComponent::type] = &GameSerializer::save_component<SelectionComponent>;
+	serializers_[DummyAlignComponent::type] = &GameSerializer::save_component<DummyAlignComponent>;
 }
 
 void GameSerializer::save_game(Game& game, const std::string& fname)
