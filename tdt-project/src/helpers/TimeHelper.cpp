@@ -1,10 +1,14 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include "TimeHelper.hpp"
 
+static tdt::cache::TimeCache cache{Component::NO_ENTITY, nullptr};
+
 tdt::real TimeHelper::get_curr_time(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<TimeComponent>(id);
+	TimeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TimeComponent);
 	if(comp)
 		return comp->curr_time;
 	else
@@ -13,28 +17,32 @@ tdt::real TimeHelper::get_curr_time(EntitySystem& ents, tdt::uint id)
 
 void TimeHelper::advance_curr_time(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
-	auto comp = ents.get_component<TimeComponent>(id);
+	TimeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TimeComponent);
 	if(comp)
 		comp->curr_time += val;
 }
 
 void TimeHelper::max_curr_time(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<TimeComponent>(id);
+	TimeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TimeComponent);
 	if(comp)
 		comp->curr_time = comp->time_limit;
 }
 
 void TimeHelper::set_time_limit(EntitySystem& ents, tdt::uint id, tdt::real val)
 {
-	auto comp = ents.get_component<TimeComponent>(id);
+	TimeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TimeComponent);
 	if(comp)
 		comp->time_limit = val;
 }
 
 tdt::real TimeHelper::get_time_limit(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<TimeComponent>(id);
+	TimeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TimeComponent);
 	if(comp)
 		return comp->time_limit;
 	else
@@ -43,14 +51,16 @@ tdt::real TimeHelper::get_time_limit(EntitySystem& ents, tdt::uint id)
 
 void TimeHelper::set_target(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<TimeComponent>(id);
+	TimeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TimeComponent);
 	if(comp)
 		comp->target = val;
 }
 
 tdt::uint TimeHelper::get_target(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<TimeComponent>(id);
+	TimeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TimeComponent);
 	if(comp)
 		return comp->target;
 	else
@@ -59,14 +69,16 @@ tdt::uint TimeHelper::get_target(EntitySystem& ents, tdt::uint id)
 
 void TimeHelper::set_type(EntitySystem& ents, tdt::uint id, TIME_EVENT val)
 {
-	auto comp = ents.get_component<TimeComponent>(id);
+	TimeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TimeComponent);
 	if(comp)
 		comp->event_type = val;
 }
 
 TIME_EVENT TimeHelper::get_type(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<TimeComponent>(id);
+	TimeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, TimeComponent);
 	if(comp)
 		return comp->event_type;
 	else

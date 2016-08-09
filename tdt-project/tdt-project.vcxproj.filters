@@ -315,6 +315,9 @@
     <ClInclude Include="src\helpers\SelectionHelper.hpp">
       <Filter>Header Files\helpers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Cache.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gui\BuilderWindow.cpp">

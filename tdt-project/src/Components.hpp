@@ -14,7 +14,7 @@
 
 struct Component
 {
-	static constexpr int count = 42;
+	static constexpr int count = 43;
 	static constexpr tdt::uint NO_ENTITY = std::numeric_limits<tdt::uint>::max();
 };
 
@@ -947,4 +947,12 @@ struct SelectionComponent
 	Ogre::Entity* entity;
 	SELECTION_MARKER_TYPE marker_type;
 	Ogre::Degree rotation;
+};
+
+/**
+ * Used to affect the alignment of others, but does not align itself.
+ */
+struct DummyAlignComponent
+{
+	static constexpr int type = 42;
 };

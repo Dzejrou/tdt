@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Cache.hpp" />
     <ClInclude Include="src\Components.hpp" />
     <ClInclude Include="src\Enums.hpp" />
     <ClInclude Include="src\Game.hpp" />

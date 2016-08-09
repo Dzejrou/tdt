@@ -1,19 +1,24 @@
 #include <Components.hpp>
+#include <Cache.hpp>
 #include <systems/EntitySystem.hpp>
 #include <lppscript/LppScript.hpp>
-#include<gui/GUI.hpp>
+#include <gui/GUI.hpp>
 #include "UpgradeHelper.hpp"
+
+static tdt::cache::UpgradeCache cache{Component::NO_ENTITY, nullptr};
 
 void UpgradeHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp)
 		comp->blueprint = val;
 }
 
 const std::string& UpgradeHelper::get_blueprint(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp)
 		return comp->blueprint;
 	else
@@ -22,7 +27,8 @@ const std::string& UpgradeHelper::get_blueprint(EntitySystem& ents, tdt::uint id
 
 tdt::uint UpgradeHelper::set_experience(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp)
 	{
 		tdt::uint remainder{};
@@ -49,7 +55,8 @@ tdt::uint UpgradeHelper::set_experience(EntitySystem& ents, tdt::uint id, tdt::u
 
 tdt::uint UpgradeHelper::get_experience(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp)
 		return comp->experience;
 	else
@@ -58,7 +65,8 @@ tdt::uint UpgradeHelper::get_experience(EntitySystem& ents, tdt::uint id)
 
 tdt::uint UpgradeHelper::add_experience(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp)
 	{
 		tdt::uint remainder{};
@@ -85,7 +93,8 @@ tdt::uint UpgradeHelper::add_experience(EntitySystem& ents, tdt::uint id, tdt::u
 
 void UpgradeHelper::set_exp_needed(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp)
 	{
 		comp->exp_needed = val;
@@ -105,7 +114,8 @@ void UpgradeHelper::set_exp_needed(EntitySystem& ents, tdt::uint id, tdt::uint v
 
 tdt::uint UpgradeHelper::get_exp_needed(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp)
 		return comp->exp_needed;
 	else
@@ -114,7 +124,8 @@ tdt::uint UpgradeHelper::get_exp_needed(EntitySystem& ents, tdt::uint id)
 
 void UpgradeHelper::set_level(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp)
 	{
 		comp->level = (val > comp->level_cap ? comp->level_cap : val);
@@ -127,7 +138,8 @@ void UpgradeHelper::set_level(EntitySystem& ents, tdt::uint id, tdt::uint val)
 
 tdt::uint UpgradeHelper::get_level(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp)
 		return comp->level;
 	else
@@ -136,7 +148,8 @@ tdt::uint UpgradeHelper::get_level(EntitySystem& ents, tdt::uint id)
 
 void UpgradeHelper::set_level_cap(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp)
 	{
 		comp->level_cap = val;
@@ -149,7 +162,8 @@ void UpgradeHelper::set_level_cap(EntitySystem& ents, tdt::uint id, tdt::uint va
 
 tdt::uint UpgradeHelper::get_level_cap(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp)
 		return comp->level_cap;
 	else
@@ -158,7 +172,8 @@ tdt::uint UpgradeHelper::get_level_cap(EntitySystem& ents, tdt::uint id)
 
 bool UpgradeHelper::can_level_up(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp)
 		return comp->experience >= comp->exp_needed && comp->level < comp->level_cap;
 	else
@@ -167,7 +182,8 @@ bool UpgradeHelper::can_level_up(EntitySystem& ents, tdt::uint id)
 
 void UpgradeHelper::upgrade(EntitySystem& ents, tdt::uint id)
 {
-	auto comp = ents.get_component<UpgradeComponent>(id);
+	UpgradeComponent* comp{nullptr};
+	GET_COMPONENT(id, ents, comp, UpgradeComponent);
 	if(comp && comp->level < comp->level_cap && comp->experience >= comp->exp_needed)
 	{
 		comp->experience = 0;
