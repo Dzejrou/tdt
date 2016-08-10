@@ -4,7 +4,9 @@
 #include <lppscript/LppScript.hpp>
 #include "SpellHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::SpellCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void SpellHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {

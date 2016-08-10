@@ -4,7 +4,9 @@
 #include <lppscript/LppScript.hpp>
 #include "TriggerHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::TriggerCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void TriggerHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {

@@ -4,7 +4,9 @@
 #include <lppscript/LppScript.hpp>
 #include "SelectionHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::SelectionCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void SelectionHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& blueprint)
 {

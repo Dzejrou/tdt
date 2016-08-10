@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "ProductionHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::ProductionCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void ProductionHelper::set_production_blueprint(EntitySystem& ents, tdt::uint id, const std::string& blueprint)
 {

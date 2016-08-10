@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "TaskHandlerHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::TaskHandlerCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 std::deque<tdt::uint>& TaskHandlerHelper::get_task_queue(EntitySystem& ents, tdt::uint id)
 {

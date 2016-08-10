@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "TaskHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::TaskCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void TaskHelper::set_task_source(EntitySystem& ents, tdt::uint id, tdt::uint source)
 {

@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "TimeHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::TimeCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 tdt::real TimeHelper::get_curr_time(EntitySystem& ents, tdt::uint id)
 {

@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "StructureHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::StructureCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void StructureHelper::add_residences(EntitySystem& ents, tdt::uint id, const std::vector<tdt::uint>& residences)
 {
