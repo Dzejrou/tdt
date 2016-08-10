@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "PriceHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::PriceCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void PriceHelper::set_price(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {

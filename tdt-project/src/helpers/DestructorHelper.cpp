@@ -5,7 +5,9 @@
 #include <lppscript/LppScript.hpp>
 #include "DestructorHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::DestructorCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void DestructorHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {

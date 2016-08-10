@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "ExplosionHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::ExplosionCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void ExplosionHelper::set_delta(EntitySystem& ents, tdt::uint id, tdt::real val)
 {

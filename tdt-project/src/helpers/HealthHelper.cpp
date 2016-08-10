@@ -5,7 +5,9 @@
 #include <gui/EntityTracker.hpp>
 #include "HealthHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::HealthCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void HealthHelper::set_health(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {

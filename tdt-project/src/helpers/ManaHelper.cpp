@@ -4,7 +4,9 @@
 #include <gui/GUI.hpp>
 #include "ManaHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::ManaCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void ManaHelper::add_mana(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {

@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "GraphicsHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::GraphicsCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void GraphicsHelper::set_mesh(EntitySystem& ents, tdt::uint id, const std::string& mesh)
 {

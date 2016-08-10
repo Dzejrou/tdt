@@ -6,7 +6,9 @@
 #include <numeric>
 #include "CombatHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::CombatCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void CombatHelper::set_target(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {

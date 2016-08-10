@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "CounterHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::CounterCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 bool CounterHelper::increment(EntitySystem& ents, tdt::uint id)
 {

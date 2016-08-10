@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "FactionHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::FactionCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void FactionHelper::set_faction(EntitySystem& ents, tdt::uint id, FACTION val)
 {

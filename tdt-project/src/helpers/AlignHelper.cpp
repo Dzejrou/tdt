@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "AlignHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::AlignCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void AlignHelper::set_material(EntitySystem& ents, tdt::uint id, tdt::uint state, const std::string& val)
 {

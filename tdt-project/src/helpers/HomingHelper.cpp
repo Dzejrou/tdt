@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "HomingHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::HomingCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void HomingHelper::set_source(EntitySystem& ents, tdt::uint id, tdt::uint source)
 {

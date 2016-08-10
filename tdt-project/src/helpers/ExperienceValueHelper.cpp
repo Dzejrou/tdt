@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "ExperienceValueHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::ExperienceValueCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void ExperienceValueHelper::set(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {

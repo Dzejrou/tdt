@@ -4,7 +4,9 @@
 #include <lppscript/LppScript.hpp>
 #include "ConstructorHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::ConstructorCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void ConstructorHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {

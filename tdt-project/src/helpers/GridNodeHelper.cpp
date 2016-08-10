@@ -6,7 +6,9 @@
 #include <tools/Util.hpp>
 #include "GridNodeHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::GridNodeCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 const std::array<tdt::uint, GridNodeComponent::neighbour_count>& GridNodeHelper::get_neighbours(EntitySystem& ents, tdt::uint id)
 {

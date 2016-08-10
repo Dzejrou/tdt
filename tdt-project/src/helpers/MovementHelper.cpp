@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "MovementHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::MovementCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 tdt::real MovementHelper::get_speed_modifier(EntitySystem& ents, tdt::uint id)
 {

@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "NameHelper.hpp"
 
+#if CACHE_ALLOWED
 static tdt::cache::NameCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void NameHelper::set_name(EntitySystem& ents, tdt::uint id, const std::string& val)
 { // Note: No need to update the entity viewer as this is only used during load or testing.

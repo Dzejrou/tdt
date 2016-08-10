@@ -4,7 +4,9 @@
 #include <systems/EntitySystem.hpp>
 #include "PhysicsHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::PhysicsCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void PhysicsHelper::set_solid(EntitySystem& ents, tdt::uint id, bool val)
 {

@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "LimitedLifeSpanHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::LimitedLifeSpanCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void LimitedLifeSpanHelper::set_max_time(EntitySystem& ents, tdt::uint id, tdt::real val)
 {

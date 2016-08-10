@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "EventHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::EventCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void EventHelper::set_event_type(EntitySystem& ents, std::size_t id, EVENT_TYPE val)
 {

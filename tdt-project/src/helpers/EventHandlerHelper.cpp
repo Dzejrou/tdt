@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "EventHandlerHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::EventHandlerCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void EventHandlerHelper::set_handler(EntitySystem& ents, std::size_t id, const std::string& val)
 {

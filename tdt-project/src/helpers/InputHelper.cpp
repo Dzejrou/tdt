@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "InputHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::InputCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void InputHelper::set_input_handler(EntitySystem& ents, tdt::uint id, const std::string& handler)
 {

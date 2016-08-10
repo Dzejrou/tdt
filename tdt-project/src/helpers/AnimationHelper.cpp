@@ -5,7 +5,9 @@
 #include <gui/gui.hpp>
 #include "AnimationHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::AnimationCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 const std::string& AnimationHelper::get_animation_name(ANIMATION_TYPE::VAL animation)
 {

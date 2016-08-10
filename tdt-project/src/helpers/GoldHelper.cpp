@@ -6,7 +6,9 @@
 #include <tools/Player.hpp>
 #include "GoldHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::GoldCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void GoldHelper::set_curr_gold(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {

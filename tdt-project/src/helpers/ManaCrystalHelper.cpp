@@ -4,7 +4,9 @@
 #include <tools/Player.hpp>
 #include "ManaCrystalHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::ManaCrystalCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void ManaCrystalHelper::set_capacity(EntitySystem& ents, tdt::uint id, tdt::uint val)
 {

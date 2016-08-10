@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "LightHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::LightCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void LightHelper::set_visible(EntitySystem& ents, tdt::uint id, bool val)
 {

@@ -3,7 +3,9 @@
 #include <systems/EntitySystem.hpp>
 #include "AIHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::AICache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void AIHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {

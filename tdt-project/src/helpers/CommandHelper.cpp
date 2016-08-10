@@ -8,7 +8,9 @@
 #include <Cache.hpp>
 #include "CommandHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::CommandCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void CommandHelper::set_command(EntitySystem& ents, tdt::uint id, COMMAND_TYPE command, bool val)
 {

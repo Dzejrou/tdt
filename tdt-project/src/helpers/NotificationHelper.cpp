@@ -4,7 +4,9 @@
 #include <gui/GUI.hpp>
 #include "NotificationHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::NotificationCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void NotificationHelper::set_cooldown(EntitySystem& ents, tdt::uint id, tdt::real val)
 {

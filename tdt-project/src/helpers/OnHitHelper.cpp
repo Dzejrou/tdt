@@ -4,7 +4,9 @@
 #include <lppscript/LppScript.hpp>
 #include "OnHitHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::OnHitCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 void OnHitHelper::set_blueprint(EntitySystem& ents, tdt::uint id, const std::string& val)
 {

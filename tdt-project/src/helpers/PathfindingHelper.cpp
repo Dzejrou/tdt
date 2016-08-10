@@ -4,7 +4,9 @@
 #include <lppscript/LppScript.hpp>
 #include "PathfindingHelper.hpp"
 
+#if CACHE_ALLOWED == 1
 static tdt::cache::PathfindingCache cache{Component::NO_ENTITY, nullptr};
+#endif
 
 const std::string& PathfindingHelper::get_pathpfinding_blueprint(EntitySystem& ents, tdt::uint id)
 {

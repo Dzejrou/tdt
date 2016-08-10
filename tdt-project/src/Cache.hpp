@@ -4,6 +4,23 @@
 #include <Typedefs.hpp>
 #include <Components.hpp>
 
+#define CACHE_ALLOWED 1
+
+#if CACHE_ALLOWED == 1
+/**
+ * This macro is used in helpers to load a component either from cache or an entity system.
+ * Note that this requires a variable "cache" of type *Cache where * is equal to the name of the component
+ * (as seen above).
+ */
+#define GET_COMPONENT(ID, ENTS, COMP, TYPE) if(cache.first == ID) COMP = cache.second; else { COMP = ENTS.get_component<TYPE>(ID); cache.first = ID; cache.second = COMP; }
+#else
+/**
+ * This macro has the exact same functionality as the old component loading and is used
+ * for simple activation/deactivation of the cache.
+ */
+#define GET_COMPONENT(ID, ENTS, COMP, TYPE) COMP = ENTS.get_component<TYPE>(ID);
+#endif
+
 namespace tdt
 {
 	namespace cache
@@ -50,10 +67,3 @@ namespace tdt
 		using UpgradeCache         = std::pair<tdt::uint, UpgradeComponent*>;
 	}
 }
-
-/**
- * This macro is used in helpers to load a component either from cache or an entity system.
- * Note that this requires a variable "cache" of type *Cache where * is equal to the name of the component
- * (as seen above).
- */
-#define GET_COMPONENT(ID, ENTS, COMP, TYPE) if(cache.first == ID) COMP = cache.second; else { COMP = ENTS.get_component<TYPE>(ID); cache.first = ID; cache.second = COMP; }
