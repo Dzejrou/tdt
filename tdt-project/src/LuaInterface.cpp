@@ -772,6 +772,8 @@ void LuaInterface::init(Game* game)
 		{"add_possible", LuaInterface::lua_animation_add_possible},
 		{"delete_possible", LuaInterface::lua_animation_delete_possible},
 		{"is_possible", LuaInterface::lua_animation_is_possible},
+		{"set_stop", LuaInterface::lua_animation_set_stop},
+		{"get_stop", LuaInterface::lua_animation_get_stop},
 		{nullptr, nullptr}
 	};
 
@@ -5278,11 +5280,12 @@ int LuaInterface::lua_counter_get_max_value(lpp::Script::state L)
 
 int LuaInterface::lua_animation_play(lpp::Script::state L)
 {
-	bool loop    = GET_BOOL(L, -1);
-	int type     = GET_SINT(L, -2);
-	tdt::uint id = GET_UINT(L, -3);
+	bool stop    = GET_BOOL(L, -1);
+	bool loop    = GET_BOOL(L, -2);
+	int type     = GET_SINT(L, -3);
+	tdt::uint id = GET_UINT(L, -4);
 
-	AnimationHelper::play(*ents, id, (ANIMATION_TYPE::VAL)type, loop);
+	AnimationHelper::play(*ents, id, (ANIMATION_TYPE::VAL)type, loop, stop);
 
 	return 0;
 }
@@ -5322,6 +5325,26 @@ int LuaInterface::lua_animation_is_possible(lpp::Script::state L)
 	tdt::uint id = GET_UINT(L, -2);
 
 	auto res = AnimationHelper::is_possible(*ents, id, (ANIMATION_TYPE::VAL)type);
+
+	lua_pushboolean(L, res);
+	return 1;
+}
+
+int LuaInterface::lua_animation_set_stop(lpp::Script::state L)
+{
+	bool val     = GET_BOOL(L, -1);
+	tdt::uint id = GET_UINT(L, -2);
+
+	AnimationHelper::set_stop_current_animation(*ents, id, val);
+	
+	return 0;
+}
+
+int LuaInterface::lua_animation_get_stop(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	auto res = AnimationHelper::get_stop_current_animation(*ents, id);
 
 	lua_pushboolean(L, res);
 	return 1;

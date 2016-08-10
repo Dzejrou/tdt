@@ -619,6 +619,8 @@ class LuaInterface
 		static int lua_animation_add_possible(lpp::Script::state);
 		static int lua_animation_delete_possible(lpp::Script::state);
 		static int lua_animation_is_possible(lpp::Script::state);
+		static int lua_animation_set_stop(lpp::Script::state);
+		static int lua_animation_get_stop(lpp::Script::state);
 
 		// Selection.
 		static int lua_selection_set_blueprint(lpp::Script::state);

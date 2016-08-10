@@ -19,7 +19,7 @@ const std::string& AnimationHelper::get_animation_name(ANIMATION_TYPE::VAL anima
 		{ANIMATION_TYPE::DEACTIVATE, "deactivate"}
 	};
 
-	static const std::string NO_ANIMATION{"ERROR"}; // Not looped and short.
+	static const std::string NO_ANIMATION{"hit"}; // Not looped and short.
 
 	auto res = ANIMATIONS.find(animation);
 	if(res != ANIMATIONS.end())
@@ -28,7 +28,7 @@ const std::string& AnimationHelper::get_animation_name(ANIMATION_TYPE::VAL anima
 		return NO_ANIMATION;
 }
 
-void AnimationHelper::play(EntitySystem& ents, tdt::uint id, ANIMATION_TYPE::VAL type, bool loop)
+void AnimationHelper::play(EntitySystem& ents, tdt::uint id, ANIMATION_TYPE::VAL type, bool loop, bool stop)
 {
 	AnimationComponent* animation{nullptr};
 	GET_COMPONENT(id, ents, animation, AnimationComponent);
@@ -54,6 +54,7 @@ void AnimationHelper::play(EntitySystem& ents, tdt::uint id, ANIMATION_TYPE::VAL
 				animation->current_animation->setTimePosition(0.f);
 				animation->current_animation->setEnabled(true);
 				animation->current_animation->setLoop(loop);
+				animation->stop_current_animation = stop;
 			}
 		}
 	}
@@ -93,6 +94,24 @@ bool AnimationHelper::is_possible(EntitySystem& ents, tdt::uint id, ANIMATION_TY
 	GET_COMPONENT(id, ents, comp, AnimationComponent);
 	if(comp)
 		return comp->possible_animations.test(type);
+	else
+		return false;
+}
+
+void AnimationHelper::set_stop_current_animation(EntitySystem& ents, tdt::uint id, bool val)
+{
+	AnimationComponent* comp;
+	GET_COMPONENT(id, ents, comp, AnimationComponent);
+	if(comp)
+		comp->stop_current_animation = val;
+}
+
+bool AnimationHelper::get_stop_current_animation(EntitySystem& ents, tdt::uint id)
+{
+	AnimationComponent* comp;
+	GET_COMPONENT(id, ents, comp, AnimationComponent);
+	if(comp)
+		return comp->stop_current_animation;
 	else
 		return false;
 }

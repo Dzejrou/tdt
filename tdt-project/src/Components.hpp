@@ -911,7 +911,7 @@ struct AnimationComponent
 	static constexpr int type = 40;
 
 	AnimationComponent()
-		: current_animation{nullptr}, possible_animations{}
+		: current_animation{nullptr}, possible_animations{}, stop_current_animation{true}
 	{ /* DUMMY BODY */ }
 	AnimationComponent(const AnimationComponent&) = default;
 	AnimationComponent(AnimationComponent&&) = default;
@@ -921,6 +921,7 @@ struct AnimationComponent
 
 	Ogre::AnimationState* current_animation;
 	std::bitset<ANIMATION_TYPE::COUNT> possible_animations;
+	bool stop_current_animation;
 };
 
 /**

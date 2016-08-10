@@ -19,7 +19,7 @@ namespace AnimationHelper
 	/**
 	 *
 	 */
-	void play(EntitySystem&, tdt::uint, ANIMATION_TYPE::VAL, bool = false);
+	void play(EntitySystem&, tdt::uint, ANIMATION_TYPE::VAL, bool = false, bool = true);
 
 	/**
 	 *
@@ -40,4 +40,14 @@ namespace AnimationHelper
 	 *
 	 */
 	bool is_possible(EntitySystem&, tdt::uint, ANIMATION_TYPE::VAL);
+
+	/**
+	 *
+	 */
+	void set_stop_current_animation(EntitySystem&, tdt::uint, bool);
+
+	/**
+	 *
+	 */
+	bool get_stop_current_animation(EntitySystem&, tdt::uint);
 }

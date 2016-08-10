@@ -670,7 +670,8 @@ inline void GameSerializer::save_component<AnimationComponent>(tdt::uint id, con
 {
 	auto comp = entities_.get_component<AnimationComponent>(id);
 	std::string comm{
-		  "game.entity.add_component(" + tbl_name + ", game.enum.component.animation)\n"
+		    "game.entity.add_component(" + tbl_name + ", game.enum.component.animation)\n"
+		  + "game.animation.set_stop(" + std::to_string(id) + ", " + std::to_string(comp->stop_current_animation) + ")\n"
 	};
 
 	for(tdt::uint i = 0; i < comp->possible_animations.size(); ++i)
