@@ -13,6 +13,8 @@ void EntityTracker::set_tracked_entity(tdt::uint id, EntitySystem& ents)
 	curr_tracked_entity_ = id;
 	auto view = window_->getChild("FRAME");
 	view->getChild("UPGRADE")->setVisible(false);
+	view->getChild("ACTIVATE")->setVisible(false);
+	view->getChild("DEACTIVATE")->setVisible(false);
 	view->getChild("GOLD_TO_EXP")->setVisible(false);
 	if(id == Component::NO_ENTITY)
 		clear();
@@ -53,6 +55,15 @@ void EntityTracker::set_tracked_entity(tdt::uint id, EntitySystem& ents)
 		auto gold = ents.get_component<GoldComponent>(id);
 		if(gold)
 			update_tracking("GOLD_VALUE", std::to_string(gold->curr_amount) + " / " + std::to_string(gold->max_amount));
+
+		auto activation = ents.get_component<ActivationComponent>(id);
+		if(activation)
+		{
+			if(activation->activated)
+				view->getChild("DEACTIVATE")->setVisible(true);
+			else
+				view->getChild("ACTIVATE")->setVisible(true);
+		}
 	}
 }
 
@@ -80,6 +91,8 @@ void EntityTracker::clear()
 	view->getChild("GOLD_VALUE")->setText("0 / 0");
 	view->getChild("DELETE")->setVisible(false);
 	view->getChild("UPGRADE")->setVisible(false);
+	view->getChild("ACTIVATE")->setVisible(false);
+	view->getChild("DEACTIVATE")->setVisible(false);
 	view->getChild("GOLD_TO_EXP")->setVisible(false);
 	curr_tracked_entity_ = Component::NO_ENTITY;
 }
@@ -125,6 +138,28 @@ void EntityTracker::init_upgrade_butt(EntitySystem* ents)
 		[ents, this](const CEGUI::EventArgs&) -> bool {
 			Player::instance().add_gold(PriceHelper::get_price(*ents, curr_tracked_entity_) / 4);
 			DestructorHelper::destroy(*ents, curr_tracked_entity_, false);
+			return true;
+		}
+	);
+
+	// Activates an entity with an activation component.
+	window_->getChild("FRAME/ACTIVATE")->subscribeEvent(
+		CEGUI::PushButton::EventClicked,
+		[ents, this](const CEGUI::EventArgs&) -> bool {
+			ActivationHelper::activate(*ents, curr_tracked_entity_);
+			window_->getChild("FRAME/DEACTIVATE")->setVisible(true);
+			window_->getChild("FRAME/ACTIVATE")->setVisible(false);
+			return true;
+		}
+	);
+
+	// Deactivates an entity with an activation component.
+	window_->getChild("FRAME/DEACTIVATE")->subscribeEvent(
+		CEGUI::PushButton::EventClicked,
+		[ents, this](const CEGUI::EventArgs&) -> bool {
+			ActivationHelper::deactivate(*ents, curr_tracked_entity_);
+			window_->getChild("FRAME/ACTIVATE")->setVisible(true);
+			window_->getChild("FRAME/DEACTIVATE")->setVisible(false);
 			return true;
 		}
 	);
