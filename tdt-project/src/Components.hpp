@@ -967,6 +967,8 @@ struct ActivationComponent
 {
 	static constexpr int type = 43;
 
+	ActivationComponent(std::string&& b = "ERROR", bool a = false)
+		: blueprint{b}, activated{a}
 	{ /* DUMMY BODY */ }
 	ActivationComponent(const ActivationComponent&) = default;
 	ActivationComponent(ActivationComponent&&) = default;
