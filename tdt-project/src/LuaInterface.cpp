@@ -794,6 +794,16 @@ void LuaInterface::init(Game* game)
 		{nullptr, nullptr}
 	};
 
+	lpp::Script::regs activation_funcs[] = {
+		// Activation.
+		{"set_blueprint", LuaInterface::lua_activation_set_blueprint},
+		{"get_blueprint", LuaInterface::lua_activation_get_blueprint},
+		{"activate", LuaInterface::lua_activation_activate},
+		{"deactivate", LuaInterface::lua_activation_deactivate},
+		{"is_activated", LuaInterface::lua_activation_is_activated},
+		{nullptr, nullptr}
+	};
+
 	auto state = script.get_state();
 	luaL_newlib(state, game_funcs);
 	lua_setglobal(state, "game");
@@ -880,6 +890,8 @@ void LuaInterface::init(Game* game)
 	lua_setfield(state, -2, "animation");
 	luaL_newlib(state, selection_funcs);
 	lua_setfield(state, -2, "selection");
+	luaL_newlib(state, activation_funcs);
+	lua_setfield(state, -2, "activation");
 
 	// GUI subtable has it's own subtables.
 	luaL_newlib(state, gui_funcs);
@@ -5472,6 +5484,54 @@ int LuaInterface::lua_selection_get_rotation(lpp::Script::state L)
 	auto res = SelectionHelper::get_rotation(*ents, id);
 
 	lua_pushnumber(L, res.valueDegrees());
+	return 1;
+}
+
+int LuaInterface::lua_activation_set_blueprint(lpp::Script::state L)
+{
+	std::string val = GET_STR(L, -1);
+	tdt::uint id    = GET_UINT(L, -2);
+
+	ActivationHelper::set_blueprint(*ents, id, val);
+
+	return 0;
+}
+
+int LuaInterface::lua_activation_get_blueprint(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	auto& res = ActivationHelper::get_blueprint(*ents, id);
+
+	lua_pushstring(L, res.c_str());
+	return 1;
+}
+
+int LuaInterface::lua_activation_activate(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	ActivationHelper::activate(*ents, id);
+
+	return 0;
+}
+
+int LuaInterface::lua_activation_deactivate(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	ActivationHelper::deactivate(*ents, id);
+
+	return 0;
+}
+
+int LuaInterface::lua_activation_is_activated(lpp::Script::state L)
+{
+	tdt::uint id = GET_UINT(L, -1);
+
+	auto res = ActivationHelper::is_activated(*ents, id);
+	
+	lua_pushboolean(L, res);
 	return 1;
 }
 

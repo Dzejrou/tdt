@@ -25,6 +25,7 @@ namespace tdt
 {
 	namespace cache
 	{
+		using ActivationCache      = std::pair<tdt::uint, ActivationComponent*>;
 		using AICache              = std::pair<tdt::uint, AIComponent*>;
 		using AlignCache           = std::pair<tdt::uint, AlignComponent*>;
 		using AnimationCache       = std::pair<tdt::uint, AnimationComponent*>;

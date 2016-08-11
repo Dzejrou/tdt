@@ -169,6 +169,7 @@
     <ClInclude Include="src\gui\ResearchWindow.hpp" />
     <ClInclude Include="src\gui\SpellCastingWindow.hpp" />
     <ClInclude Include="src\gui\TopBar.hpp" />
+    <ClInclude Include="src\helpers\ActivationHelper.hpp" />
     <ClInclude Include="src\helpers\AIHelper.hpp" />
     <ClInclude Include="src\helpers\AlignHelper.hpp" />
     <ClInclude Include="src\helpers\AnimationHelper.hpp" />
@@ -259,6 +260,7 @@
     <ClCompile Include="src\gui\ResearchWindow.cpp" />
     <ClCompile Include="src\gui\SpellCastingWindow.cpp" />
     <ClCompile Include="src\gui\TopBar.cpp" />
+    <ClCompile Include="src\helpers\ActivationHelper.cpp" />
     <ClCompile Include="src\helpers\AIHelper.cpp" />
     <ClCompile Include="src\helpers\AlignHelper.cpp" />
     <ClCompile Include="src\helpers\AnimationHelper.cpp" />

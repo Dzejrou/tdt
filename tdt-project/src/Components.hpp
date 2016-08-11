@@ -14,7 +14,7 @@
 
 struct Component
 {
-	static constexpr int count = 43;
+	static constexpr int count = 44;
 	static constexpr tdt::uint NO_ENTITY = std::numeric_limits<tdt::uint>::max();
 };
 
@@ -956,4 +956,24 @@ struct SelectionComponent
 struct DummyAlignComponent
 {
 	static constexpr int type = 42;
+};
+
+/**
+ * Allows an entity to be in two states - activated and deactivated - and
+ * the player to switch between the two states of an entity using a button in
+ * the entity viewer.
+ */
+struct ActivationComponent
+{
+	static constexpr int type = 43;
+
+	{ /* DUMMY BODY */ }
+	ActivationComponent(const ActivationComponent&) = default;
+	ActivationComponent(ActivationComponent&&) = default;
+	ActivationComponent& operator=(const ActivationComponent&) = default;
+	ActivationComponent& operator=(ActivationComponent&&) = default;
+	~ActivationComponent() = default;
+
+	std::string blueprint;
+	bool activated;
 };

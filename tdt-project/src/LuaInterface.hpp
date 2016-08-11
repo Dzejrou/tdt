@@ -635,4 +635,11 @@ class LuaInterface
 		static int lua_selection_get_marker_type(lpp::Script::state);
 		static int lua_selection_set_rotation(lpp::Script::state);
 		static int lua_selection_get_rotation(lpp::Script::state);
+
+		// Activation.
+		static int lua_activation_set_blueprint(lpp::Script::state);
+		static int lua_activation_get_blueprint(lpp::Script::state);
+		static int lua_activation_activate(lpp::Script::state);
+		static int lua_activation_deactivate(lpp::Script::state);
+		static int lua_activation_is_activated(lpp::Script::state);
 };

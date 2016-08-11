@@ -703,3 +703,14 @@ inline void GameSerializer::save_component<DummyAlignComponent>(tdt::uint id, co
 {
 	save_components_.emplace_back("game.entity.add_component(" + tbl_name + ", game.enum.component.dummy_align)\n");
 }
+
+template<>
+inline void GameSerializer::save_component<ActivationComponent>(tdt::uint id, const std::string& tbl_name)
+{ // TODO: Call activate/deactivate here or at the end of the save script so that all entities are already present?
+	auto comp = entities_.get_component<ActivationComponent>(id);
+	save_components_.emplace_back(
+		  "game.entity.add_component(" + tbl_name + ", game.enum.component.activation)\n"
+		+ "game.activation.set_blueprint(" + tbl_name + ", '" + comp->blueprint + "')\n"
+		+ "game.activation." + (comp->activated ? "activate" : "deactivate") + "(" + tbl_name + ")\n"
+	);
+}

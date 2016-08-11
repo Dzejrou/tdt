@@ -44,3 +44,4 @@
 #include "LightHelper.hpp"
 #include "AnimationHelper.hpp"
 #include "SelectionHelper.hpp"
+#include "ActivationHelper.hpp"

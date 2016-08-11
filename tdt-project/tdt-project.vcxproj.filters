@@ -318,6 +318,9 @@
     <ClInclude Include="src\Cache.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\helpers\ActivationHelper.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gui\BuilderWindow.cpp">
@@ -570,6 +573,9 @@
       <Filter>Source Files\gui</Filter>
     </ClCompile>
     <ClCompile Include="src\helpers\SelectionHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\ActivationHelper.cpp">
       <Filter>Source Files\helpers</Filter>
     </ClCompile>
   </ItemGroup>
