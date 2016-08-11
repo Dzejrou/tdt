@@ -678,6 +678,10 @@ inline void EntitySystem::load_component<GraphicsComponent>(tdt::uint id, const 
 	comp.node->attachObject(comp.entity);
 	comp.entity->setQueryFlags(1);
 
+#if NO_SHADOWS == 1
+	comp.entity->setCastShadows(false);
+#endif
+
 	if(!script.get<bool>(table_name + ".GraphicsComponent.visible"))
 	{
 		comp.visible = false;

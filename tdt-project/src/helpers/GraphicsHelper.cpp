@@ -187,6 +187,10 @@ void GraphicsHelper::init_graphics_component(EntitySystem& ents, Ogre::SceneMana
 	comp->node->attachObject(comp->entity);
 	comp->node->setVisible(comp->visible);
 
+#if NO_SHADOWS == 1
+	comp->entity->setCastShadows(false);
+#endif
+
 	if(comp->manual_scaling)
 		comp->node->setScale(comp->scale);
 

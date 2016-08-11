@@ -23,3 +23,4 @@ namespace tdt
  */
 #define DEFERRED_SHADING_ALLOWED 1
 #define CACHE_ALLOWED 1
+#define NO_SHADOWS 1
