@@ -220,8 +220,9 @@ void GridSystem::update_neighbours_(tdt::uint id)
 
 		auto& mesh = align->states[active_main_neighbours].mesh;
 		if(dummy)
-			mesh = mesh.substr(0, mesh.size() - 4) + "_full.mesh";
-		graph->mesh = mesh;
+			graph->mesh = mesh.substr(0, mesh.size() - 5) + "_full.mesh";
+		else
+			graph->mesh = mesh;
 
 		graph->node->setScale(graph->scale);
 		graph->node->detachObject(graph->entity);
