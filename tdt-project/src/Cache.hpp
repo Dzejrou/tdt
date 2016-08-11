@@ -4,7 +4,7 @@
 #include <Typedefs.hpp>
 #include <Components.hpp>
 
-#define CACHE_ALLOWED 1
+#define CACHE_ALLOWED 0
 
 #if CACHE_ALLOWED == 1
 /**
