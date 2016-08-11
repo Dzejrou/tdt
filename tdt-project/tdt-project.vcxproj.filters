@@ -43,6 +43,12 @@
     <Filter Include="Source Files\tools">
       <UniqueIdentifier>{4336bbb9-5b1d-49b7-b981-1ea516f4bdb4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\tools\deferred_shading">
+      <UniqueIdentifier>{487d4222-8404-4079-adb8-53745fabc8d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tools\deferred_shading">
+      <UniqueIdentifier>{c37a8bdd-4259-47be-b257-6c7a89ecc1d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gui\BuilderWindow.hpp">
@@ -321,6 +327,42 @@
     <ClInclude Include="src\helpers\ActivationHelper.hpp">
       <Filter>Header Files\helpers</Filter>
     </ClInclude>
+    <ClInclude Include="src\tools\deferred_shading\AmbientLight.h">
+      <Filter>Header Files\tools\deferred_shading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\deferred_shading\DeferredLightCP.h">
+      <Filter>Header Files\tools\deferred_shading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\deferred_shading\DeferredShading.h">
+      <Filter>Header Files\tools\deferred_shading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\deferred_shading\DLight.h">
+      <Filter>Header Files\tools\deferred_shading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\deferred_shading\GBufferMaterialGenerator.h">
+      <Filter>Header Files\tools\deferred_shading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\deferred_shading\GBufferSchemeHandler.h">
+      <Filter>Header Files\tools\deferred_shading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\deferred_shading\GeomUtils.h">
+      <Filter>Header Files\tools\deferred_shading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\deferred_shading\LightMaterialGenerator.h">
+      <Filter>Header Files\tools\deferred_shading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\deferred_shading\ListenerFactoryLogic.h">
+      <Filter>Header Files\tools\deferred_shading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\deferred_shading\MaterialGenerator.h">
+      <Filter>Header Files\tools\deferred_shading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\deferred_shading\NullSchemeHandler.h">
+      <Filter>Header Files\tools\deferred_shading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools\deferred_shading\SSAOLogic.h">
+      <Filter>Header Files\tools\deferred_shading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gui\BuilderWindow.cpp">
@@ -577,6 +619,36 @@
     </ClCompile>
     <ClCompile Include="src\helpers\ActivationHelper.cpp">
       <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\deferred_shading\AmbientLight.cpp">
+      <Filter>Source Files\tools\deferred_shading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\deferred_shading\DeferredLightCP.cpp">
+      <Filter>Source Files\tools\deferred_shading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\deferred_shading\DeferredShading.cpp">
+      <Filter>Source Files\tools\deferred_shading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\deferred_shading\DLight.cpp">
+      <Filter>Source Files\tools\deferred_shading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\deferred_shading\GBufferMaterialGenerator.cpp">
+      <Filter>Source Files\tools\deferred_shading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\deferred_shading\GBufferSchemeHandler.cpp">
+      <Filter>Source Files\tools\deferred_shading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\deferred_shading\GeomUtils.cpp">
+      <Filter>Source Files\tools\deferred_shading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\deferred_shading\LightMaterialGenerator.cpp">
+      <Filter>Source Files\tools\deferred_shading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\deferred_shading\MaterialGenerator.cpp">
+      <Filter>Source Files\tools\deferred_shading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\deferred_shading\SSAOLogic.cpp">
+      <Filter>Source Files\tools\deferred_shading</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
