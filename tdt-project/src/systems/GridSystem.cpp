@@ -189,18 +189,20 @@ void GridSystem::update_neighbours_(tdt::uint id)
 		auto resident_left = GridNodeHelper::get_resident(entities_, neigh[DIRECTION::LEFT]);
 		auto resident_right = GridNodeHelper::get_resident(entities_, neigh[DIRECTION::RIGHT]);
 
+		bool dummy_up = entities_.has_component<DummyAlignComponent>(resident_up);
+		bool dummy_down = entities_.has_component<DummyAlignComponent>(resident_down);
+		bool dummy_left = entities_.has_component<DummyAlignComponent>(resident_left);
+		bool dummy_right = entities_.has_component<DummyAlignComponent>(resident_right);
+		bool dummy = dummy_up || dummy_down || dummy_left || dummy_right;
+
 		bool up = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::UP])
-			      && (entities_.has_component<AlignComponent>(resident_up)
-				  || entities_.has_component<DummyAlignComponent>(resident_up));
+			      && (entities_.has_component<AlignComponent>(resident_up) || dummy_up);
 		bool down = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::DOWN])
-			      && (entities_.has_component<AlignComponent>(resident_down)
-				  || entities_.has_component<DummyAlignComponent>(resident_down));
+			      && (entities_.has_component<AlignComponent>(resident_down) || dummy_down);
 		bool left = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::LEFT])
-			      && (entities_.has_component<AlignComponent>(resident_left)
-				  || entities_.has_component<DummyAlignComponent>(resident_left));
+			      && (entities_.has_component<AlignComponent>(resident_left) || dummy_left);
 		bool right = !GridNodeHelper::is_free(entities_, neigh[DIRECTION::RIGHT])
-			      && (entities_.has_component<AlignComponent>(resident_right)
-				  || entities_.has_component<DummyAlignComponent>(resident_right));
+			      && (entities_.has_component<AlignComponent>(resident_right) || dummy_right);
 		if(up)
 			++active_main_neighbours;
 		if(down)
@@ -214,8 +216,12 @@ void GridSystem::update_neighbours_(tdt::uint id)
 			active_main_neighbours = 5;
 
 		graph->material = align->states[active_main_neighbours].material;
-		graph->mesh = align->states[active_main_neighbours].mesh;
 		graph->scale = align->states[active_main_neighbours].scale;
+
+		auto& mesh = align->states[active_main_neighbours].mesh;
+		if(dummy)
+			mesh = mesh.substr(0, mesh.size() - 4) + "_full.mesh";
+		graph->mesh = mesh;
 
 		graph->node->setScale(graph->scale);
 		graph->node->detachObject(graph->entity);

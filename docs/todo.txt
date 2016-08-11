@@ -3,3 +3,4 @@
 - add game.register_scenario to the API reference
 - add SelectionComponent to the component list
 - add selection API reference
+- add info about the _full meshes used with DummyAlignComponent
