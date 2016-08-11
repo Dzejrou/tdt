@@ -17,3 +17,9 @@ namespace tdt
 #	define REAL_ZERO 0.0
 #endif
 }
+
+/**
+ * Some auxiliary macros and defines:
+ */
+#define DEFERRED_SHADING_ALLOWED 1
+#define CACHE_ALLOWED 1

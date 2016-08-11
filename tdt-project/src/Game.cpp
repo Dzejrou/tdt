@@ -23,6 +23,7 @@
 #include <tools/SelectionBox.hpp>
 #include <tools/EntityPlacer.hpp>
 #include <tools/GameSerializer.hpp>
+#include <tools/deferred_shading/DeferredShading.h>
 #include <gui/GUI.hpp>
 #include <gui/EntityCreator.hpp>
 #include "Game.hpp"
@@ -35,7 +36,7 @@ Game::Game() // TODO: Init systems.
 	  renderer_{}, placer_{}, ground_{}, ground_entity_{},
 	  selection_box_{}, entity_creator_{},
 	  mouse_position_{}, level_generator_{}, spell_caster_{},
-	  throne_id_{Component::NO_ENTITY}
+	  throne_id_{Component::NO_ENTITY}, ds_system_{}
 {
 	main_cam_.reset(new Camera{});
 	ogre_init();
@@ -102,6 +103,11 @@ Game::Game() // TODO: Init systems.
 
 	create_empty_level(16, 16); // In case initial load fails.
 	main_cam_->look_at(Grid::instance().get_center_position(*entity_system_));
+
+	ds_system_.reset(new DeferredShadingSystem{main_view_, scene_mgr_, main_cam_->camera_});
+#if DEFERRED_SHADING_ALLOWED == 1
+	ds_system_->initialize();
+#endif
 }
 
 Game::~Game()
@@ -300,6 +306,14 @@ bool Game::keyPressed(const OIS::KeyEvent& event)
 		case OIS::KC_NUMPAD0:
 			toggle_camera_free_mode();
 			return true;
+#if DEFERRED_SHADING_ALLOWED == 1
+		case OIS::KC_F10:
+			ds_system_->setActive(true);
+			return true;
+		case OIS::KC_F11:
+			ds_system_->setActive(false);
+			return true;
+#endif
 	}
 
 	// Pass to CEGUI.

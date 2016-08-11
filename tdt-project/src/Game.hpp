@@ -37,6 +37,7 @@ class GameSerializer;
 class EntityPlacer;
 class EntityCreator;
 class LevelGenerator;
+class DeferredShadingSystem;
 
 class Game : public Ogre::FrameListener, public OIS::KeyListener,
 			 public OIS::MouseListener, public Ogre::WindowEventListener
@@ -295,4 +296,9 @@ class Game : public Ogre::FrameListener, public OIS::KeyListener,
 		 * the game.
 		 */
 		tdt::uint throne_id_;
+
+		/**
+		 * Manages deferred shading.
+		 */
+		std::unique_ptr<DeferredShadingSystem> ds_system_;
 };
