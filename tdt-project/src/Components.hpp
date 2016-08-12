@@ -951,7 +951,10 @@ struct SelectionComponent
 };
 
 /**
- * Used to affect the alignment of others, but does not align itself.
+ * An entity with this component causes others to align to it, but also forces them
+ * to use the full meshes (name.mesh -> name_full.mesh) which are supposed to render all
+ * of their faces. This is used e.g. for doors to avoid empty faces on the neighbour
+ * blocks.
  */
 struct DummyAlignComponent
 {
